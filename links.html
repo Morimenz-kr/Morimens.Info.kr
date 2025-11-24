@@ -74,7 +74,6 @@
         const listEl = document.getElementById('links-list');
 
         try {
-            // 데이터 병렬 로드
             const [manifestRes, linksRes] = await Promise.all([
                 fetch('data/character_manifest.json'),
                 fetch('data/resource_links.json')
@@ -85,10 +84,9 @@
             const manifest = await manifestRes.json();
             const linksDB = await linksRes.json();
 
-            let targetItems = [];
+            let targetItems = []; 
             let pageTitleHTML = "";
 
-            // 1. 카테고리/캐릭터 판별 로직
             if (category === 'character' && charId) {
                 const charData = manifest.find(c => String(c.id) === String(charId));
                 if (charData) {
@@ -105,20 +103,17 @@
             }
 
             titleEl.innerHTML = pageTitleHTML;
-            listEl.innerHTML = ''; // 스켈레톤 제거
+            listEl.innerHTML = ''; 
 
             if (targetItems.length === 0) {
                 listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
                 return;
             }
 
-            // 🚩🚩🚩 [핵심 로직] 타입 체크 (String vs Object) 🚩🚩🚩
             targetItems.forEach(item => {
                 if (typeof item === 'string') {
-                    // [느림] 기존 방식: URL 문자열이면 API 호출
                     createLinkCardFromAPI(item, listEl);
                 } else {
-                    // [빠름] 신규 방식: JSON 객체면 즉시 생성 (여기로 들어와야 정상!)
                     createLinkCardInstant(item, listEl);
                 }
             });
@@ -130,33 +125,46 @@
         }
     });
 
-    // --- A. 즉시 렌더링 함수 (수동 데이터 사용) ---
+    // 🚩 이미지 프록시 처리 함수 (핵심!)
+    function getProxyImage(url) {
+        if (!url) return 'images/default_thumb.webp';
+        // 아카라이브(namu.la)나 디시 등 외부 이미지는 wsrv.nl 프록시를 태움
+        if (url.includes('http') && (url.includes('namu.la') || url.includes('arca.live') || url.includes('dcinside'))) {
+            return `https://wsrv.nl/?url=${encodeURIComponent(url)}&w=400&output=webp`;
+        }
+        return url;
+    }
+
+    // --- A. 즉시 렌더링 함수 ---
     function createLinkCardInstant(data, container) {
         const domain = new URL(data.url).hostname;
+        // 프록시 적용된 이미지 URL 가져오기
+        const safeImage = getProxyImage(data.image);
+
         const html = `
-                <a href="${data.url}" target="_blank" class="notion-bookmark">
-                    <div class="bookmark-content">
-                        <div>
-                            <div class="bookmark-title">${data.title}</div>
-                            <div class="bookmark-desc">${data.desc || ''}</div>
-                        </div>
-                        <div class="bookmark-url">
-                            <img src="https://www.google.com/s2/favicons?domain=${domain}" width="14" height="14" style="margin-right:4px;">
-                            ${domain} (Instant)
-                        </div>
+            <a href="${data.url}" target="_blank" class="notion-bookmark">
+                <div class="bookmark-content">
+                    <div>
+                        <div class="bookmark-title">${data.title}</div>
+                        <div class="bookmark-desc">${data.desc || ''}</div>
                     </div>
-                    <div class="bookmark-image">
-                        <img src="${data.image || 'images/default_thumb.webp'}" alt="썸네일" onerror="this.src='https://via.placeholder.com/200x130/333?text=No+Image'">
+                    <div class="bookmark-url">
+                        <img src="https://www.google.com/s2/favicons?domain=${domain}" width="14" height="14" style="margin-right:4px;">
+                        ${domain}
                     </div>
-                </a>`;
+                </div>
+                <div class="bookmark-image">
+                    <img src="${safeImage}" alt="썸네일" loading="lazy" 
+                         onerror="this.src='https://via.placeholder.com/200x130/333?text=No+Image'">
+                </div>
+            </a>`;
         container.insertAdjacentHTML('beforeend', html);
     }
 
-    // --- B. API 로딩 함수 (URL만 있을 때) ---
+    // --- B. API 로딩 함수 ---
     async function createLinkCardFromAPI(url, container) {
-        // 스켈레톤 생성
         const cardWrap = document.createElement('div');
-        cardWrap.className = 'skeleton skeleton-card';
+        cardWrap.className = 'skeleton skeleton-card'; 
         cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
         container.appendChild(cardWrap);
 
@@ -167,36 +175,40 @@
 
             if (json.status === 'success') {
                 const data = json.data;
-                cardWrap.className = 'notion-bookmark';
-                cardWrap.innerHTML = '';
+                const safeImage = getProxyImage(data.image?.url); // 여기도 프록시 적용
 
+                cardWrap.className = 'notion-bookmark';
+                cardWrap.innerHTML = ''; 
+                
                 const linkEl = document.createElement('a');
                 linkEl.href = url;
                 linkEl.target = "_blank";
                 linkEl.className = "notion-bookmark";
                 linkEl.style.width = "100%";
                 linkEl.innerHTML = `
-                        <div class="bookmark-content">
-                            <div>
-                                <div class="bookmark-title">${data.title || url}</div>
-                                <div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div>
-                            </div>
-                            <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
+                    <div class="bookmark-content">
+                        <div>
+                            <div class="bookmark-title">${data.title || url}</div>
+                            <div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div>
                         </div>
-                        <div class="bookmark-image">
-                            <img src="${data.image?.url || 'images/default_thumb.webp'}" alt="썸네일" onerror="this.src='https://via.placeholder.com/200x130/333?text=No+Image'">
-                        </div>`;
-
+                        <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
+                    </div>
+                    <div class="bookmark-image">
+                        <img src="${safeImage}" alt="썸네일" loading="lazy"
+                             onerror="this.src='https://via.placeholder.com/200x130/333?text=No+Image'">
+                    </div>`;
+                
                 container.replaceChild(linkEl, cardWrap);
             } else { throw new Error("API Fail"); }
         } catch (e) {
             cardWrap.className = 'notion-bookmark';
             cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:20px; color:#fff; text-decoration:none; width:100%; display:block;">
-                    <div style="font-weight:bold; margin-bottom:5px;">${url}</div>
-                    <div style="font-size:0.8em; color:#aaa;">(정보를 불러오지 못했습니다. 클릭하여 이동)</div>
-                </a>`;
+                <div style="font-weight:bold; margin-bottom:5px;">${url}</div>
+                <div style="font-size:0.8em; color:#aaa;">(정보 로드 실패 - 클릭해서 이동)</div>
+            </a>`;
         }
     }
 </script>
 </body>
+
 </html>
