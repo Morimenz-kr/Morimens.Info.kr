@@ -1,0 +1,50 @@
+body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #333; color: #eee; }
+.container { max-width: 1200px; margin: 0 auto; }
+h1 { text-align: center; color: #fff; margin-bottom: 30px; }
+.controls-container { display: flex; justify-content: space-between; margin-bottom: 25px; flex-wrap: wrap; }
+.search-bar { width: 300px; padding: 10px; border-radius: 5px; border: 1px solid #555; background-color: #444; color: #eee; box-sizing: border-box; }
+.filter-container { display: flex; gap: 10px; }
+.filter-container select { padding: 10px 8px; background-color: #555; color: #eee; border: 1px solid #666; border-radius: 5px; font-weight: bold; cursor: pointer; }
+.filter-container select:focus { outline: 1px solid #fff; }
+.character-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+.character-card { background-color: #444; border-radius: 10px; overflow: hidden; text-align: center; padding-bottom: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); position: relative; transition: background-color 0.2s ease; }
+.character-card:hover { background-color: #555; }
+.character-card img { width: 100%; height: 200px; object-fit: cover; display: block; margin-bottom: 10px; }
+.character-card .relems-tag { position: absolute; top: 10px; left: 10px; padding: 3px 8px; border-radius: 5px; font-size: 0.8em; font-weight: bold; color: #fff; }
+.relems-tag.chaos { background-color: #8B8000; }
+.relems-tag.aequor { background-color: #005A8C; }
+.relems-tag.caro { background-color: #8C0000; }
+.relems-tag.ultra { background-color: #5A008C; }
+.character-card h3 { margin: 10px 0 5px; font-size: 1.2em; color: #fff; }
+.character-card p { font-size: 0.9em; color: #bbb; margin: 0; }
+.character-card.hidden { display: none; }
+a.card-link { text-decoration: none; color: inherit; }
+
+/* 필터링을 위해 display: none; 대신 사용할 클래스 (기존 코드 개선) */
+a.card-link.hidden {
+    display: none;
+}
+
+/* 🚩 뒤로가기 링크 스타일 추가 🚩 */
+.back-link {
+    display: inline-block;
+    /* 텍스트 색상 및 꾸밈: 기존 디자인과 어울리도록 하얀색 계열 */
+    color: #eee;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 25px; /* h1 위의 여백과 맞추기 위해 25px로 설정 */
+    padding: 8px 15px;
+
+    /* 배경색(#333)보다 약간 밝은 테두리 */
+    border: 1px solid #666;
+    border-radius: 5px;
+    background-color: #444; /* 카드 배경과 동일하게 설정하여 통일감 부여 */
+
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.back-link:hover {
+    background-color: #555; /* 카드 hover와 동일하게 설정 */
+    border-color: #eee; /* 마우스 오버 시 강조 */
+}

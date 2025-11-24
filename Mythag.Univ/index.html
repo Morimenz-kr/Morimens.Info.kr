@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>망각전야 (Morimens)</title>
+    <style>
+        /* --- 기본 리셋 및 폰트 --- */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #ecf0f1;
+            margin: 0;
+            text-align: center;
+
+            /* 배경 이미지 설정 */
+            background-image: url('images/background.webp');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        /* --- 배경 오버레이 --- */
+        .background-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            z-index: 1;
+        }
+
+        /* --- 메인 컨테이너 --- */
+        .landing-container {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 900px;
+            width: 90%;
+            background: transparent;
+        }
+
+        h1 {
+            color: #ebf0f2;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* --- 3x3 그리드 메뉴 --- */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 600px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .menu-wrapper {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+
+        .menu-wrapper:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            aspect-ratio: 1 / 0.45;
+            background: #333333;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            font-size: 2.5em;
+            transition: background 0.2s, box-shadow 0.2s;
+            border: 1px solid #444;
+        }
+
+        .menu-wrapper:hover .menu-item {
+            background: #444444;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+            border-color: #666;
+        }
+
+        .menu-label {
+            margin-top: 12px;
+            font-size: 1em;
+            font-weight: bold;
+            color: #bdc3c7;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body>
+
+<div class="background-overlay"></div>
+
+<div class="landing-container">
+    <h1>망각전야 (Morimens)</h1>
+
+    <div class="menu-grid">
+
+        <a href="list.html" class="menu-wrapper">
+            <div class="menu-item">⭐</div>
+            <p class="menu-label">각성체 정보</p>
+        </a>
+
+        <a href="links.html?category=dreamdive" class="menu-wrapper">
+            <div class="menu-item">🌊</div>
+            <p class="menu-label">환몽심잠 정보</p>
+        </a>
+
+        <a href="links.html?category=weapon" class="menu-wrapper">
+            <div class="menu-item">🗡️</div>
+            <p class="menu-label">융재금구 정보</p>
+        </a>
+
+        <a href="links.html?category=system" class="menu-wrapper">
+            <div class="menu-item">⚙️</div>
+            <p class="menu-label">시스템 정보</p>
+        </a>
+
+        <a href="links.html?category=covenant" class="menu-wrapper">
+            <div class="menu-item">📜</div>
+            <p class="menu-label">비밀계약 정보</p>
+        </a>
+
+        <a href="links.html?category=myeongryun" class="menu-wrapper">
+            <div class="menu-item">🔘</div>
+            <p class="menu-label">명륜 정보</p>
+        </a>
+
+        <a href="links.html?category=code" class="menu-wrapper">
+            <div class="menu-item">🎟️</div>
+            <p class="menu-label">교환 코드</p>
+        </a>
+
+        <a href="links.html?category=newbie" class="menu-wrapper">
+            <div class="menu-item">🐣</div>
+            <p class="menu-label">뉴비 팁</p>
+        </a>
+
+        <a href="links.html?category=etc" class="menu-wrapper">
+            <div class="menu-item">🎸</div>
+            <p class="menu-label">기타</p>
+        </a>
+
+    </div>
+
+    <p style="margin-top: 40px; font-size: 0.85em; color: #7f8c8d;">
+        * 각 메뉴 클릭 시 관련 공략/정보 리스트 페이지로 이동합니다.
+    </p>
+</div>
+
+</body>
+</html>

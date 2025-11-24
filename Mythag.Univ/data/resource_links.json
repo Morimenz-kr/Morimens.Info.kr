@@ -1,0 +1,126 @@
+{
+  "categories": {
+    "newbie": {
+      "title": "🐣 뉴비 필독 가이드",
+      "links": [
+        "https://arca.live/b/forgettingeve/154753659?category=%EC%A0%95%EB%B3%B4&p=1"
+      ]
+    },
+    "system": {
+      "title": "⚙️ 시스템 정보",
+      "links": 
+      [
+        "https://arca.live/b/forgettingeve/154442648?category=%EC%A0%95%EB%B3%B4&p=1",
+        "https://arca.live/b/forgettingeve/154038461?category=%EC%A0%95%EB%B3%B4&p=1"
+      ]
+    },
+    "weapon": {
+      "title": "🗡️ 융재금구 정보",
+      "links": 
+      [
+        "https://arca.live/b/forgettingeve/154367395?category=%EC%A0%95%EB%B3%B4&p=1",
+        "https://arca.live/b/forgettingeve/154667440?category=%EC%A0%95%EB%B3%B4&p=1"
+      ]
+    },
+    "dreamdive": {
+      "title": "🌊 환몽심잠 공략",
+      "links": [
+        {
+          "url": "https://arca.live/b/forgettingeve/154110515?category=%EC%A0%95%EB%B3%B4&target=all&keyword=%ED%99%98%EB%AA%BD&p=1",
+          "title": "신규 업데이트된 환몽심잠 리뷰 및 공략 - 망각전야 채널",
+          "desc": "이번에 환몽심잠이 새롭게 바뀌었는데총평해보면, 뉴비/유입은 입문 난이도가 쉬워졌고 기존 유저들은 랭킹에 대한 스트레스가 사라짐랭킹은 이제 그냥 자기 만족의 영역일듯 싶음다만, 노가다는 좀 더 심해졌다라고 봐야할듯1.",
+          "image": "https://ac-p3.namu.la/20251118sac/0aaa71b4abdffe6d4a46373b841e67c5e73465117ca6507bc4d543939673e3b5.png?expires=1763995653&key=jaFvtTMevqpflIyfVnVruQ"
+        }
+      ]
+    },
+    "myeongryun": {
+      "title": "🔘 명륜 정보",
+      "links": [
+        "https://arca.live/b/forgettingeve/154435655?category=%EC%A0%95%EB%B3%B4&p=1",
+        "https://arca.live/b/forgettingeve/154406368?category=%EC%A0%95%EB%B3%B4&p=1"
+      ]
+    },
+    "covenant": {
+      "title": "📜 비밀계약 정보",
+      "links": 
+      [
+        "https://arca.live/b/forgettingeve/150930875?category=%EC%A0%95%EB%B3%B4&target=all&keyword=%EB%B9%84%EB%B0%80&p=1"
+      ]
+    },
+    "code": {
+      "title": "🎟️ 교환코드 모음",
+      "links": 
+      [
+        "https://arca.live/b/forgettingeve/137266252"
+      ]
+    },
+    "etc": {
+      "title": "🎸 기타 유용한 정보",
+      "links": []
+    }
+  },
+  "characters": {
+    "24": [],
+    "nymphaea": [],
+    "nautila": [],
+    "ryker": [],
+    "lily": [],
+    "doll_inferno": [],
+    "alva": [],
+    "karen": [],
+    "kathigu-ra": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/154601726",
+        "title": "카티구라 별로라고요..? 운영 가이드 가져왔어 - 망각전야 채널",
+        "desc": "https://arca.live/b/forgettingeve/154524191카티구라 좋아서 다들 행복할줄알았는데 곡소리나길래 한번 써볼게나도 뉴비때 초한에 전무3돌하고 너무좋아서 2부 다밀고 풀풀한거였는데뉴비형들입",
+        "image": "https://ac-p3.namu.la/20251028sac/09923ee5d92341a7e5eea93b4b163f95e0989bb904524812d19d01a1480df521.png?expires=1763997511&key=72jZPlWb6N0HIWpI6V9SJQ"
+      }
+    ],
+    "tawil": [],
+    "pandia": [],
+    "hameln": [],
+    "goliath": [],
+    "corposant": [],
+    "murphy": [],
+    "miryam": [],
+    "sanga": [],
+    "celeste": [],
+    "aurita": [],
+    "caecus": [],
+    "Murphy_Fauxborn": [
+      "https://arca.live/b/morimens/108770463"
+    ],
+    "tulu": [],
+    "faros": [],
+    "doresain": [],
+    "leigh": [],
+    "salvador": [],
+    "sorel": [],
+    "agrippa": [],
+    "aigis": [],
+    "uvhash": [],
+    "thais": [],
+    "faint": [],
+    "pickman": [],
+    "helot_catena": [],
+    "helot": [],
+    "dafoodil": [],
+    "liz": [],
+    "winkle": [],
+    "erica": [],
+    "horla": [],
+    "wanda": [],
+    "jenkin": [],
+    "castor": [],
+    "casiah": ["https://arca.live/b/forgettingeve/154632500?category=%EC%A0%95%EB%B3%B4&p=1"],
+    "clementine": [],
+    "tinct": [],
+    "pollux": [],
+    "doll": [],
+    "ramona": [],
+    "lotan": [],
+    "ogier": [],
+    "ramona_timeworn": []
+  }
+}

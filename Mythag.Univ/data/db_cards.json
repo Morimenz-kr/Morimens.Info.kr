@@ -1,0 +1,225 @@
+{
+  "cards": [
+    {
+      "id": "tawil_strike",
+      "name": "타격",
+      "cost": 1,
+      "type": "명령",
+      "ui_type": "basic",
+      "description": "공격력 n%점의 피해를 입힌다. 타비는 n점의 광기를 획득한다.",
+      "breakthrough_effect": "[돌파 3] 타비는 3% 크리티컬 확률과 크리티컬 데미지를 얻으며, 최대 30%까지 증가한다.",
+      "levels": [
+        { "level": "Lv.1", "damage": "10%", "energy": 5 },
+        { "level": "Lv.2", "damage": "12%", "energy": 6 },
+        { "level": "Lv.3", "damage": "14%", "energy": 7 },
+        { "level": "Lv.4", "damage": "16%", "energy": 8 },
+        { "level": "Lv.5", "damage": "18%", "energy": 9 },
+        { "level": "Lv.6", "damage": "20%", "energy": 10 }
+      ]
+    },
+    {
+      "id": "tawil_defense",
+      "name": "방어",
+      "cost": 1,
+      "type": "명령",
+      "ui_type": "basic",
+      "description": "방어력 n%점의 방어막을 획득한다. 타비는 n점의 광기를 획득한다.",
+      "breakthrough_effect": "[돌파 3] 타비는 3% 크리티컬 확률과 크리티컬 데미지를 얻으며, 최대 30%까지 증가한다.",
+      "levels": [
+        { "level": "Lv.1", "shield": "10%", "energy": 5 },
+        { "level": "Lv.2", "shield": "12%", "energy": 6 },
+        { "level": "Lv.3", "shield": "14%", "energy": 7 },
+        { "level": "Lv.4", "shield": "16%", "energy": 8 },
+        { "level": "Lv.5", "shield": "18%", "energy": 9 },
+        { "level": "Lv.6", "shield": "20%", "energy": 10 }
+      ]
+    },
+    {
+      "id": "tawil_skill1_tome",
+      "name": "만물을 꿰뚫는 이치",
+      "cost": null,
+      "type": "명령",
+      "ui_type": "basic",
+      "description": "손패에 있을 때, 드로우 덱 맨 위의 카드가 명령 카드라면 그 카드의 복제로 변한다. (돌파 1 | 산출력 소모 -1.) 사용 후 원래 상태로 돌아가고, n점의 광기를 얻는다.",
+      "levels": [
+        { "level": "Lv.1", "energy": 5 },
+        { "level": "Lv.2", "energy": 6 },
+        { "level": "Lv.3", "energy": 7 },
+        { "level": "Lv.4", "energy": 8 },
+        { "level": "Lv.5", "energy": 9 },
+        { "level": "Lv.6", "energy": 10 }
+      ]
+    },
+    {
+      "id": "tawil_skill2_wings",
+      "name": "시공을 가르는 날개",
+      "cost": 2,
+      "type": "명령",
+      "ui_type": "basic",
+      "description": "공격력 n% 힘을 얻는다. (돌파 1 | '<link id=\"tawil_insight\">영감</link>' 1장을 손패에 추가한다.) '<link id=\"tawil_twin_wings\">쌍익이 처음 펼쳐지다</link>' 1장을 드로우 덱에 섞는다. <b>[보존]</b>.",
+      "derives_cards": ["tawil_insight", "tawil_twin_wings"],
+      "levels": [
+        { "level": "Lv.1", "strength": "3%" },
+        { "level": "Lv.2", "strength": "3.6%" },
+        { "level": "Lv.3", "strength": "4.2%" },
+        { "level": "Lv.4", "strength": "4.8%" },
+        { "level": "Lv.5", "strength": "5.4%" },
+        { "level": "Lv.6", "strength": "6%" }
+      ]
+    },
+    {
+      "id": "tawil_rouse_gate",
+      "name": "은열쇠의 문을 통과하다",
+      "cost": 1,
+      "type": "영지 각성",
+      "ui_type": "rouse",
+      "description": "타비는 n점의 광기를 획득한다. <b>영지 각성:</b> '<link id=\"tawil_silver_key_dawn\">은열쇠 새벽빛</link>' 1장을 손패에 추가한다. 타비가 산출력을 소모할 때 얻는 은열쇠 에너지가 50% 증가한다. <b>[보존]</b>.",
+      "derives_cards": ["tawil_silver_key_dawn"],
+      "levels": [
+        { "level": "Lv.1", "energy": 25 },
+        { "level": "Lv.2", "energy": 30 },
+        { "level": "Lv.3", "energy": 35 },
+        { "level": "Lv.4", "energy": 40 },
+        { "level": "Lv.5", "energy": 45 },
+        { "level": "Lv.6", "energy": 50 }
+      ]
+    },
+    {
+      "id": "tawil_exalt_convergence",
+      "name": "만물귀일",
+      "cost_energy": 100,
+      "type": "광기 폭발",
+      "description": "n점 은열쇠 에너지를 획득한다. 현재 계약의 스킬 카드 중 5장을 <b>[발견]</b>하여, 최대 3장을 선택해 손패에 추가하고 타비의 카드로 간주한다. 이 카드들에 <b>[소모]</b>, <b>[보존]</b>, <b>[돌파 2 | [예비1]]</b>을 부여한다. 다음에 사용하는 타비의 명령 카드는 효과가 2회 발동한다.",
+      "levels": [
+        { "level": "Lv.1", "key_energy": 100 },
+        { "level": "Lv.2", "key_energy": 120 },
+        { "level": "Lv.3", "key_energy": 140 },
+        { "level": "Lv.4", "key_energy": 160 },
+        { "level": "Lv.5", "key_energy": 180 },
+        { "level": "Lv.6", "key_energy": 200 }
+      ]
+    },
+    {
+      "id": "tawil_overexalt_radiance",
+      "name": "무한한 수억 광휘",
+      "cost_energy": 200,
+      "type": "초한 폭발",
+      "description": "타비의 데미지, 방어막, 생명 회복이 임시로 35% 증가한다. <b>[발견]</b>하는 스킬 카드 수가 5장에서 10장으로 변경되고, 즉시 3 산출력을 얻는다."
+    },
+    {
+      "id": "tawil_insight",
+      "name": "영감",
+      "cost": 0,
+      "type": "파생 카드",
+      "image": "images/Insight.webp",
+      "description": "1 산출력을 획득하고, 1장의 카드를 뽑습니다. <b>[소모]</b>. <b>[보존]</b>"
+    },
+    {
+      "id": "tawil_silver_key_dawn",
+      "name": "은열쇠의 새벽빛",
+      "cost": 0,
+      "type": "파생 카드",
+      "image": "images/Tawil-SilverKeyDawn.webp",
+      "description": "해금된 3개의 랜덤 키오링 중 1개를 즉시 릴리스하여 2번 활성화합니다. <b>[소모]</b>. <b>[보존]</b>"
+    },
+    {
+      "id": "tawil_twin_wings",
+      "name": "쌍익이 처음 펼쳐지다",
+      "cost": 2,
+      "type": "파생 명령",
+      "image": "images/Tawil-TwinWings.webp",
+      "description": "산출력이 부족할 때 500 은열쇠 에너지를 소모하여 사용할 수 있다. 공격력 n% 데미지를 2회 입히고, 타비는 n점 광기를 얻는다. 카드 1장을 뽑는다. '<link id=\"tawil_four_wings\">사익이 서서히 자라나다</link>' 1장을 드로우 덱에 섞는다. <b>[소모]</b>.",
+      "derives_cards": ["tawil_four_wings"],
+      "levels": [
+        { "level": "Lv.1", "damage": "25%", "energy": 10 },
+        { "level": "Lv.2", "damage": "28%", "energy": 12 },
+        { "level": "Lv.3", "damage": "31%", "energy": 14 },
+        { "level": "Lv.4", "damage": "34%", "energy": 16 },
+        { "level": "Lv.5", "damage": "37%", "energy": 18 },
+        { "level": "Lv.6", "damage": "40%", "energy": 20 }
+      ]
+    },
+    {
+      "id": "tawil_four_wings",
+      "name": "사익이 서서히 자라나다",
+      "cost": 2,
+      "type": "파생 명령",
+      "image": "images/Tawil-FourWings.webp",
+      "description": "산출력이 부족할 때 500 은열쇠 에너지를 소모하여 사용할 수 있다. 공격력 n% 데미지를 4회 입히고, 카드 1장을 뽑는다. 각 피해마다 대상으로부터 임시로 공격력 n% 힘을 흡수한다. '<link id=\"tawil_six_wings\">육익 만개</link>' 1장을 드로우 덱에 섞는다. <b>[소모]</b>.",
+      "derives_cards": ["tawil_six_wings"],
+      "levels": [
+        { "level": "Lv.1", "damage": "30%", "str_steal": "6.25%" },
+        { "level": "Lv.2", "damage": "34%", "str_steal": "7%" },
+        { "level": "Lv.3", "damage": "38%", "str_steal": "7.75%" },
+        { "level": "Lv.4", "damage": "42%", "str_steal": "8.5%" },
+        { "level": "Lv.5", "damage": "46%", "str_steal": "9.25%" },
+        { "level": "Lv.6", "damage": "50%", "str_steal": "10%" }
+      ]
+    },
+    {
+      "id": "tawil_six_wings",
+      "name": "육익 만개",
+      "cost": 2,
+      "type": "파생 명령",
+      "image": "images/Tawil-SixWings.webp",
+      "description": "산출력이 부족할 때 500 은열쇠 에너지를 소모하여 사용할 수 있다. 공격력 n% 관통 피해[관통피해]를 6회 입힌다. 6가지 '추억' 중 하나를 선택하여 효과를 발동할 수 있으며, 해당 '추억'은 이번 탐색 중 재선택 불가. <b>소모[소모]</b>.",
+      "derives_cards": ["common_mem_reply", "common_mem_heart", "common_mem_mead", "common_mem_judgment", "common_mem_veil", "common_mem_light"],
+      "levels": [
+        { "level": "Lv.1", "damage": "35%" },
+        { "level": "Lv.2", "damage": "40%" },
+        { "level": "Lv.3", "damage": "45%" },
+        { "level": "Lv.4", "damage": "50%" },
+        { "level": "Lv.5", "damage": "55%" },
+        { "level": "Lv.6", "damage": "60%" }
+      ]
+    },
+    {
+      "id": "common_mem_reply",
+      "name": "친절한 답례",
+      "cost": 0,
+      "type": "공용 파생(추억)",
+      "image": "images/Tawil-ReturnGift.webp",
+      "description": "각성체 1명을 선택하여 60점 광기를 획득한다."
+    },
+    {
+      "id": "common_mem_heart",
+      "name": "변이의 심장",
+      "cost": 0,
+      "type": "공용 파생(추억)",
+      "image": "images/Tawil-MutatedHealth.webp",
+      "description": "모든 손패를 버리고, 버린 카드 수 +3장의 카드를 뽑는다."
+    },
+    {
+      "id": "common_mem_mead",
+      "name": "꿀 술",
+      "cost": 0,
+      "type": "공용 파생(추억)",
+      "image": "images/Tawil-HoneyMead.webp",
+      "description": "1스택의 임시 [장벽]을 획득한다."
+    },
+    {
+      "id": "common_mem_judgment",
+      "name": "대행자의 재단",
+      "cost": 0,
+      "type": "공용 파생(추억)",
+      "image": "images/Tawil-Verdict.webp",
+      "description": "마지막 줄의 적에게 목표의 최대 생명 15%의 [고정피해]를 입히며, 이 피해는 자신 최대 생명의 300% 미만으로 떨어지지 않는다."
+    },
+    {
+      "id": "common_mem_veil",
+      "name": "유토피아의 장막",
+      "cost": 0,
+      "type": "공용 파생(추억)",
+      "image": "images/Tawil-UtopianVeil.webp",
+      "description": "은열쇠 3개를 확인하고 1개를 즉시 발동한다."
+    },
+    {
+      "id": "common_mem_light",
+      "name": "극야의 미광",
+      "cost": 0,
+      "type": "공용 파생(추억)",
+      "image": "images/Tawil-PolarDusk.webp",
+      "description": "드로우 덱 또는 버린 패에서 카드 1장을 선택해 손패로 가져오고, 그 카드의 산출력 소모를 0으로 한다."
+    }
+  ]
+}

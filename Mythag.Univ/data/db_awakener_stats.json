@@ -1,0 +1,71 @@
+{
+  "tawil": {
+    "base_stats": [
+      { "stat": "체력", "value": 32 },
+      { "stat": "공격", "value": 32 },
+      { "stat": "방어", "value": 32 },
+      { "stat": "계약 숙련", "value": 2 },
+      { "stat": "은열쇠 충전 레벨", "value": 17.4 },
+      { "stat": "크리티컬 확률", "value": "5%" },
+      { "stat": "크리티컬 데미지", "value": "50%" }
+    ],
+    "level_growth": [
+      { "level": 10, "hp": 45, "atk": 45, "def": 45, "covenant_mastery": 4, "key_charge": 19.8 },
+      { "level": 20, "hp": 60, "atk": 60, "def": 60, "covenant_mastery": 6, "key_charge": 22.2 },
+      { "level": 30, "hp": 75, "atk": 75, "def": 75, "covenant_mastery": 8, "key_charge": 24.6 },
+      { "level": 40, "hp": 90, "atk": 90, "def": 90, "covenant_mastery": 10, "key_charge": 27.0 },
+      { "level": 50, "hp": 105, "atk": 105, "def": 105 },
+      { "level": 60, "hp": 120, "atk": 120, "def": 120, "covenant_mastery": 12, "key_charge": 29.4 },
+      { "level": 70, "hp": 135, "atk": 135, "def": 135 },
+      { "level": 80, "hp": 150, "atk": 150, "def": 150 },
+      { "level": 90, "hp": 165, "atk": 165, "def": 165 }
+    ],
+    "breakthroughs": [
+      {
+        "name": "무한한 지혜",
+        "description": "'만물의 이치'가 변화한 명령 카드의 산출력 소모 -1. '시공을 가르는 날개'에 [영감] 1장을 손패에 추가한다."
+      },
+      {
+        "name": "전지전능",
+        "description": "'만물귀일' 발견한 카드가 [예비1]을 획득한다."
+      },
+      {
+        "name": "존재하지 않는 존재",
+        "description": "기본 '타격'과 '방어'는 타비가 3% 크리티컬 확률과 크리티컬 데미지를 얻으며, 최대 30%까지 증가한다. 탐색 중 처음으로 [죽음저항]이 발동하면, '과거의 메아리' 1장을 손패에 추가한다."
+      }
+    ],
+    "awakening_path": [
+      { "level": 1, "covenant_mastery": "+2", "key_charge": "+2.4", "etc": "" },
+      { "level": 2, "covenant_mastery": "+4", "key_charge": "+4.8", "etc": "" },
+      { "level": 3, "covenant_mastery": "+6", "key_charge": "+7.2", "etc": "" },
+      { "level": 4, "covenant_mastery": "+8", "key_charge": "+9.6", "etc": "'무한한 수역 광휘' 해금" },
+      { "level": 5, "covenant_mastery": "+10", "key_charge": "+12.0", "etc": "" },
+      { "level": 6, "covenant_mastery": "+12", "key_charge": "+14.4", "etc": "" },
+      { "level": 7, "covenant_mastery": "+14", "key_charge": "+16.8", "etc": "" },
+      { "level": 8, "covenant_mastery": "+16", "key_charge": "+19.2", "etc": "레벨 상한 +0 -> +5" },
+      { "level": 9, "covenant_mastery": "+18", "key_charge": "+21.6", "etc": "" },
+      { "level": 10, "covenant_mastery": "+20", "key_charge": "+24.0", "etc": "" },
+      { "level": 11, "covenant_mastery": "+22", "key_charge": "+26.4", "etc": "" },
+      { "level": 12, "covenant_mastery": "+24", "key_charge": "+28.8", "etc": "레벨 상한 +5 -> +10" }
+    ],
+    "talents": [
+      {
+        "name": "광기의 예고",
+        "level_range": "Lv. 1 ~ 12",
+        "description": "탐색 시작 후, 5 ~ 60 광기를 획득한다."
+      },
+      {
+        "name": "영형 적성",
+        "level_range": "Lv. 1 ~ 10",
+        "description": "이 특성은 [별의 장] 단계에서만 효과를 발휘한다.\n이 각성체의 체력, 공격, 방어가 3 ~ 30% 증가하고, 이 각성체가 처음으로 영지 각성을 사용한 후 50 ~ 500 포인트 은열쇠 에너지를 얻는다.\n타비가 원래 다른 각성체 소속인 카드를 사용하면, 해당 각성체가 이번 턴에 주는 최종 피해, 방어막, 생명 회복이 15 ~ 25% 증가한다. 이 효과는 중첩되지 않는다."
+      }
+    ]
+  },
+  "nautila": {
+    "base_stats": [],
+    "level_growth": [],
+    "breakthroughs": [],
+    "awakening_path": [],
+    "talents": []
+  }
+}

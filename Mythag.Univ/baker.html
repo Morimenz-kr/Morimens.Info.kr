@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>링크 데이터 베이커 (Editor Tool)</title>
+    <style>
+        /* 개발자 감성 다크 모드 */
+        body { background-color: #1e1e1e; color: #d4d4d4; font-family: 'Consolas', 'Monaco', monospace; padding: 30px; }
+        .container { max-width: 900px; margin: 0 auto; }
+
+        h1 { color: #ffc107; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        p { color: #888; }
+
+        /* 입력창 */
+        textarea {
+            width: 100%; height: 150px;
+            background-color: #252526; color: #d4d4d4;
+            border: 1px solid #444; padding: 15px;
+            border-radius: 5px; font-size: 14px; outline: none; resize: vertical;
+        }
+        textarea:focus { border-color: #007acc; }
+
+        /* 버튼들 */
+        .btn-group { margin-top: 15px; display: flex; gap: 10px; }
+        button {
+            padding: 12px 24px; border: none; border-radius: 4px;
+            font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.2s;
+        }
+        .btn-bake { background-color: #0e639c; color: white; }
+        .btn-bake:hover { background-color: #1177bb; }
+        .btn-copy { background-color: #333; color: white; }
+        .btn-copy:hover { background-color: #444; }
+
+        /* 결과창 */
+        .output-area { margin-top: 30px; position: relative; }
+        pre {
+            background-color: #1e1e1e; border: 1px solid #444;
+            padding: 20px; border-radius: 5px; overflow-x: auto;
+            color: #ce9178; /* JSON String Color */
+            white-space: pre-wrap;
+        }
+
+        .status { margin-top: 10px; font-weight: bold; color: #4caf50; min-height: 24px; }
+        .error { color: #f44336; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🍞 Data Baker Tool</h1>
+    <p>1. 공략 URL들을 한 줄에 하나씩 붙여넣으세요. (짧은 주소, 긴 주소 상관없음)</p>
+
+    <textarea id="inputUrls" placeholder="https://arca.live/b/morimens/12345&#10;https://game.naver.com/lounge/Morimens/board/detail/67890"></textarea>
+
+    <div class="btn-group">
+        <button class="btn-bake" onclick="bakeLinks()">🔥 데이터 굽기 (Bake)</button>
+        <button class="btn-copy" onclick="copyToClipboard()">📋 결과 복사</button>
+    </div>
+
+    <div id="status" class="status"></div>
+
+    <div class="output-area">
+        <p>▼ 아래 생성된 JSON 코드를 복사해서 <b>resource_links.json</b>의 대괄호 [ ] 안에 넣으세요.</p>
+        <pre id="outputResult">// 결과가 여기에 나타납니다.</pre>
+    </div>
+</div>
+
+<script>
+    async function bakeLinks() {
+        const input = document.getElementById('inputUrls').value.trim();
+        const statusEl = document.getElementById('status');
+        const outputEl = document.getElementById('outputResult');
+
+        if (!input) {
+            statusEl.innerHTML = "<span class='error'>❌ URL을 입력해주세요!</span>";
+            return;
+        }
+
+        const urls = input.split('\n').filter(line => line.trim() !== '');
+        let bakedResults = [];
+        let successCount = 0;
+
+        statusEl.textContent = `⏳ 총 ${urls.length}개의 링크 정보를 수집 중... (Microlink API)`;
+
+        // 병렬 처리 (Promise.all) - 속도 빠름
+        const tasks = urls.map(async (url) => {
+            const cleanUrl = url.trim();
+            try {
+                // 무료 API 호출
+                const res = await fetch(`https://api.microlink.io?url=${encodeURIComponent(cleanUrl)}`);
+                const json = await res.json();
+
+                if (json.status === 'success') {
+                    const data = json.data;
+                    successCount++;
+                    return {
+                        url: cleanUrl,
+                        title: data.title || cleanUrl, // 제목 없으면 URL로 대체
+                        desc: data.description || "",   // 설명 없으면 빈칸
+                        image: data.image?.url || ""    // 이미지 없으면 빈칸
+                    };
+                } else {
+                    throw new Error("API Fail");
+                }
+            } catch (e) {
+                // 실패 시 URL만 반환 (링크는 살림)
+                console.warn("실패한 URL:", cleanUrl);
+                return cleanUrl;
+            }
+        });
+
+        // 모든 요청이 끝날 때까지 대기
+        const results = await Promise.all(tasks);
+
+        // JSON 포맷팅 (보기 좋게 들여쓰기 4칸)
+        // 배열의 대괄호 [ ] 는 제거하고 내용물만 보여줌 (붙여넣기 편하게)
+        const jsonString = JSON.stringify(results, null, 4);
+        const contentOnly = jsonString.substring(1, jsonString.length - 1).trim();
+
+        // 마지막에 쉼표가 없으면 추가해줄 수도 있지만, 일단 원본 유지
+        outputEl.textContent = contentOnly;
+
+        statusEl.innerHTML = `✅ 변환 완료! (성공: ${successCount} / 전체: ${urls.length})`;
+    }
+
+    function copyToClipboard() {
+        const text = document.getElementById('outputResult').textContent;
+        if(!text || text.startsWith("//")) return;
+
+        navigator.clipboard.writeText(text).then(() => {
+            alert("클립보드에 복사되었습니다! resource_links.json에 붙여넣으세요.");
+        });
+    }
+</script>
+</body>
+</html>

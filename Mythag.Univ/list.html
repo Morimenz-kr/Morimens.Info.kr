@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>망각전야 (MORIMENS) - 캐릭터 공략</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<div class="container">
+    <a href="index.html" class="back-link">
+        돌아가기
+    </a>
+
+    <h1>망각전야 (MORIMENS)</h1>
+    <div class="controls-container">
+        <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색...">
+        <div class="filter-container">
+            <select id="relems-filter">
+                <option value="all">계역 (전체)</option>
+                <option value="chaos">혼돈</option>
+                <option value="aequor">심해</option>
+                <option value="caro">혈육</option>
+                <option value="ultra">초차원</option>
+            </select>
+            <select id="grade-filter">
+                <option value="all">등급 (전체)</option>
+                <option value="ssr">SSR</option>
+                <option value="sr">SR</option>
+            </select>
+            <select id="class-filter">
+                <option value="all">클래스 (전체)</option>
+                <option value="assault">데미지형</option>
+                <option value="warden">방어형</option>
+                <option value="chorus">보조형</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="character-grid" id="character-grid">
+    </div>
+</div>
+
+<script src="js/index.js"></script>
+</body>
+</html>
