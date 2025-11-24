@@ -19,7 +19,7 @@
   { "id": "celeste", "name": "살레스트", "image_thumb": "images/Celeste-thumb.webp", "relems": "aequor", "class": "chorus", "grade": "ssr" },
   { "id": "aurita", "name": "오레타", "image_thumb": "images/Aurita-thumb.webp", "relems": "aequor", "class": "assault", "grade": "ssr" },
   { "id": "caecus", "name": "카이커스", "image_thumb": "images/Caecus-thumb.webp", "relems": "aequor", "class": "warden", "grade": "ssr" },
-  { "id": "Murphy_Fauxborn", "name": "탄망 · 머피", "image_thumb": "images/Murphy-thumb.webp", "relems": "aequor", "class": "chorus", "grade": "ssr" },
+  { "id": "Murphy_Fauxborn", "name": "탄망 · 머피", "image_thumb": "images/Merphy_Fauxborn-thumb.webp", "relems": "aequor", "class": "chorus", "grade": "ssr" },
   { "id": "tulu", "name": "툴루", "image_thumb": "images/Tulu-thumb.webp", "relems": "aequor", "class": "assault", "grade": "ssr" },
   { "id": "faros", "name": "파로스", "image_thumb": "images/Faros-thumb.webp", "relems": "aequor", "class": "chorus", "grade": "ssr" },
   { "id": "doresain", "name": "도어세인", "image_thumb": "images/Doresain-thumb.webp", "relems": "caro", "class": "assault", "grade": "ssr" },
