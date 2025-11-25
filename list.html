@@ -2,17 +2,220 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>망각전야 (MORIMENS) - 캐릭터 공략</title>
+    <title>망각전야 (MORIMENS) - 캐릭터 목록</title>
     <link rel="stylesheet" href="css/index.css">
+    <style>
+        /* --- 📱 모바일 & 공통 디자인 오버라이드 --- */
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: #1a1a1a;
+            color: #ecf0f1;
+            margin: 0; padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* 헤더 영역 */
+        .header-area {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.2em;
+            margin: 10px 0 30px;
+            color: #fff;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        /* 뒤로가기 버튼 */
+        .back-link {
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: #333;
+            color: #ccc;
+            text-decoration: none;
+            border-radius: 8px;
+            border: 1px solid #444;
+            font-size: 0.9em;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+        }
+        .back-link:hover { background-color: #444; color: #fff; border-color: #ffc107; }
+
+        /* --- 검색 & 필터 --- */
+        .controls-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background-color: #252525;
+            color: #fff;
+            font-size: 1em;
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 8px;
+        }
+
+        select {
+            padding: 12px;
+            background-color: #333;
+            color: #eee;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* --- 🖥️ PC 그리드 (자동 채움) --- */
+        .character-grid {
+            display: grid;
+            /* 화면이 넓으면 한 줄에 여러 개, 좁아지면 줄어듦 (최소 너비 160px 유지) */
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+        }
+
+        /* 카드 스타일 */
+        .card-link { text-decoration: none; color: inherit; display: block; }
+
+        .character-card {
+            background-color: #2a2a2a;
+            border-radius: 12px;
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.2s, background 0.2s;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .character-card:hover {
+            transform: translateY(-5px);
+            background-color: #333;
+            border-color: #555;
+        }
+
+        .character-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1.1;
+            object-fit: cover;
+            border-bottom: 1px solid #333;
+            margin-bottom: 10px;
+        }
+
+        .character-card h3 {
+            margin: 5px 0;
+            font-size: 1.1em;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 5px;
+        }
+
+        .character-card p {
+            font-size: 0.85em;
+            color: #888;
+            margin: 0;
+        }
+
+        /* 태그 스타일 */
+        .relems-tag {
+            position: absolute;
+            top: 8px; left: 8px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .relems-tag.chaos { background-color: #8B8000; }
+        .relems-tag.aequor { background-color: #005A8C; }
+        .relems-tag.caro { background-color: #8C0000; }
+        .relems-tag.ultra { background-color: #5A008C; }
+
+        .hidden { display: none !important; }
+
+
+        /* --- 📱 모바일 전용 최적화 (2열 강제) --- */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header-area {
+                text-align: left;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                margin: 0;
+            }
+
+            .back-link {
+                margin: 0;
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+
+            /* 검색창과 필터 세로 배치 */
+            .controls-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .filter-container {
+                justify-content: space-between;
+            }
+
+            select {
+                flex: 1;
+                font-size: 0.9em;
+                padding: 10px;
+            }
+
+            /* 🔥 핵심: 모바일에서는 무조건 2열(한 줄에 2개)로 고정 */
+            .character-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .character-card h3 { font-size: 1em; }
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-    <a href="index.html" class="back-link">
-        돌아가기
-    </a>
 
-    <h1>망각전야 (MORIMENS)</h1>
+    <div class="header-area">
+        <a href="index.html" class="back-link">⬅ 돌아가기</a>
+        <h1>캐릭터 목록</h1>
+    </div>
+
     <div class="controls-container">
         <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색...">
         <div class="filter-container">
@@ -30,9 +233,9 @@
             </select>
             <select id="class-filter">
                 <option value="all">클래스 (전체)</option>
-                <option value="assault">데미지형</option>
-                <option value="warden">방어형</option>
-                <option value="chorus">보조형</option>
+                <option value="assault">데미지</option>
+                <option value="warden">방어</option>
+                <option value="chorus">보조</option>
             </select>
         </div>
     </div>
