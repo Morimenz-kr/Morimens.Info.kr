@@ -267,7 +267,7 @@
 
     // [기능] 이미지 프록시 변환기
     function getProxyImage(url) {
-        if (!url) return 'images/morimens Icon.webp';
+        if (!url) return 'images/smile_Ramona.webp';
         url = url.trim();
         if (url.startsWith('//')) { url = 'https:' + url; }
         if (url.includes('namu.la') || url.includes('arca.live') || url.includes('dcinside')) {
@@ -314,7 +314,7 @@
                     </div>
                     <div class="bookmark-image">
                         <img src="${safeImage}" alt="썸네일" loading="lazy" 
-                             onerror="this.onerror=null; this.src='images/morimens Icon.webp';">
+                             onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
                     </div>
                 </a>`;
             container.insertAdjacentHTML('beforeend', html);
