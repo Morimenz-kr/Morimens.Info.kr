@@ -68,22 +68,23 @@
 </div>
 
 <script>
+    // 🚩 URL을 먼저 정의하여 안정성 확보
+    const referrerUrl = document.referrer || window.location.href;
+
+    // 🚩 JS 변수들을 최상위에 정의
     const urlInput = document.querySelector('#page-url-input');
     const form = document.getElementById('report-form');
     const formStatus = document.getElementById('form-status');
 
-    // 1. URL 필드 자동 채우기
-    const referrerUrl = document.referrer || window.location.href;
-
-    // 2. 🔥 NULL 체크 및 값 할당
+    // 1. 값 할당 (Null 체크)
     if (urlInput) {
         urlInput.value = referrerUrl;
     } else {
-        // 이 로그가 뜨면 IDE나 브라우저의 근본적인 문제일 가능성이 높습니다.
-        console.error("Critical JS Error: Input element for page URL not found.");
+        // 이 로그가 뜨면 IDE의 근본적인 문제일 가능성이 높습니다.
+        console.error("Critical: Cannot find #page-url-input element.");
     }
 
-    // 3. 폼 제출 이벤트 핸들러
+    // 2. 폼 제출 이벤트 핸들러
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         formStatus.style.display = 'block';
@@ -96,7 +97,7 @@
 
         const DISCORD_ENDPOINT = e.target.action;
 
-        // 4. 디스코드 Webhook Payload (JSON) 구조
+        // 3. 디스코드 Webhook Payload (JSON) 구조
         const payload = {
             username: "Morimens Wiki Reporter",
             embeds: [{
