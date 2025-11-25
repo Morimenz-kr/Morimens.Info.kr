@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버그/링크 제보 - 망각전야</title>
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        /* --- 폼 전용 스타일 --- */
+        body { background-color: #1a1a1a; color: #eee; font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 50px auto; padding: 20px; background-color: #2c2c2c; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        h2 { color: #ffc107; border-bottom: 2px solid #444; padding-bottom: 10px; margin-top: 0; }
+        label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; }
+        input[type="email"], textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            background-color: #383838;
+            color: #eee;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        textarea { resize: vertical; min-height: 150px; }
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: #0056b3; }
+        .back-button {
+            display: inline-block; padding: 8px 15px; background-color: #444; color: #fff; text-decoration: none; border-radius: 5px; margin-bottom: 20px;
+        }
+        /* JS status text */
+        #form-status { margin-top: 15px; color:#ffc107; text-align:center; display: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="javascript:history.back()" class="back-button">&larr; 이전으로 돌아가기</a>
+    <h2>🚨 링크 및 버그 제보</h2>
+    <p style="color:#aaa; font-size:0.9em;">문제가 있는 캐릭터 페이지와 내용을 자세히 적어주세요. (Discord로 즉시 알림이 전송됩니다)</p>
+
+    <form id="report-form" action="https://discordapp.com/api/webhooks/1442726767222718554/i3QtvZ6-giYqwtlheMm3ugxcJoVsoVYmExBPX2n-uEoFHpWwmGqaaO_f6gnlBNXCZYas" method="POST">
+
+        <label for="email">연락 가능한 이메일 주소</label>
+        <input type="email" id="email" name="_replyto" placeholder="제보자님의 이메일 주소" required>
+
+        <label for="page-url">제보 페이지 주소 (자동 입력)</label>
+        <input type="text" id="page-url-input" name="page-url" readonly style="background:#333; color:#ffc107;">
+
+        <label for="message">상세 내용 및 제보 (필수)</label>
+        <textarea id="message" name="message" required placeholder="예: '카티구라' 페이지의 2번째 링크가 404 에러가 납니다."></textarea>
+
+        <input type="hidden" name="_subject" value="[Morimens Wiki] 깨진 링크 제보 접수">
+        <button type="submit">제보 보내기</button>
+        <p id="form-status"></p>
+    </form>
+</div>
+
+<script>
+    const urlInput = document.querySelector('#page-url-input');
+    const form = document.getElementById('report-form');
+    const formStatus = document.getElementById('form-status');
+
+    // 1. URL 필드 자동 채우기
+    const referrerUrl = document.referrer || window.location.href;
+
+    // 2. 🔥 NULL 체크 및 값 할당
+    if (urlInput) {
+        urlInput.value = referrerUrl;
+    } else {
+        // 이 로그가 뜨면 IDE나 브라우저의 근본적인 문제일 가능성이 높습니다.
+        console.error("Critical JS Error: Input element for page URL not found.");
+    }
+
+    // 3. 폼 제출 이벤트 핸들러
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        formStatus.style.display = 'block';
+        formStatus.textContent = '제보를 전송 중입니다...';
+
+        const data = new FormData(e.target);
+        const reporterEmail = data.get('_replyto') || '제보자 없음';
+        const pageUrl = data.get('page-url');
+        const message = data.get('message');
+
+        const DISCORD_ENDPOINT = e.target.action;
+
+        // 4. 디스코드 Webhook Payload (JSON) 구조
+        const payload = {
+            username: "Morimens Wiki Reporter",
+            embeds: [{
+                title: "🚨 신규 깨진 링크 제보 접수",
+                color: 15777040,
+                fields: [
+                    { name: "제보자 이메일", value: reporterEmail, inline: false },
+                    { name: "제보 페이지", value: `[확인하기](${pageUrl})`, inline: false },
+                    { name: "상세 내용", value: message, inline: false },
+                ],
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const response = await fetch(DISCORD_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                formStatus.textContent = "✅ 제보가 성공적으로 전송되었습니다! 디스코드로 알림이 갔습니다.";
+                form.reset();
+                if (urlInput) urlInput.value = pageUrl;
+            } else {
+                formStatus.textContent = `❌ 전송 실패: Discord Webhook 오류 (상태 코드: ${response.status})`;
+            }
+        } catch (error) {
+            formStatus.textContent = "❌ 네트워크 오류가 발생했습니다. 인터넷 연결을 확인해주세요.";
+        }
+    });
+</script>
+</body>
+</html>

@@ -61,7 +61,9 @@
 
         <div class="report-section">
             <p>혹시 연결되지 않는 링크가 있나요?</p>
-            <a href="mailto:admin@example.com?subject=[망각전야] 링크 제보" class="report-btn">🚨 깨진 링크 제보하기</a>
+            <a href="report.html" class="report-btn">
+                🚨 깨진 링크 제보하기
+            </a>
         </div>
     </div>
 </div>
@@ -131,6 +133,16 @@
             console.error(error);
             titleEl.textContent = "오류 발생";
             listEl.innerHTML = `<p style="text-align:center;">데이터를 불러오지 못했습니다.<br><small>${error.message}</small></p>`;
+        }
+
+        const reportBtn = document.querySelector('.report-btn');
+        if (reportBtn) {
+            const currentPageUrl = window.location.href;
+            const initialHref = reportBtn.getAttribute('href');
+
+            // 현재 페이지 주소를 URL 인코딩하여 이메일 본문(body)에 추가
+            // %0A는 줄바꿈 문자입니다.
+            reportBtn.href = `${initialHref}%0A%0A--- 제보 위치 ---%0A${encodeURIComponent(currentPageUrl)}`;
         }
     });
 
