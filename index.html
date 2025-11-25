@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -14,21 +13,24 @@
     <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
 
     <style>
-        /* --- 1. 기본 설정 --- */
+        /* --- 1. 기본 설정 (스크롤 허용) --- */
         * { box-sizing: border-box; }
 
         body {
             font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
             margin: 0; padding: 0;
-            width: 100vw; height: 100vh;
-            overflow: hidden;
+            width: 100%;
+            min-height: 100vh; /* 최소 높이만 지정 (내용 많으면 늘어남) */
+            /* overflow: hidden; <-- 삭제! (스크롤 허용) */
+
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center; /* 세로 중앙 정렬 */
             background-color: #1a1a1a;
             color: #ecf0f1;
         }
 
+        /* 배경 고정 (GPU 가속) */
         .bg-image {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
@@ -42,60 +44,71 @@
             background-color: rgba(0, 0, 0, 0.75); z-index: 1;
         }
 
-        /* --- 2. 메인 레이아웃 --- */
+        /* --- 2. 메인 레이아웃 (밀집형 배치) --- */
         .landing-container {
             position: relative; z-index: 2;
-            width: 100%; max-width: 800px; height: 100%;
-            padding: 40px 20px 20px 20px;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
+            width: 100%; max-width: 800px;
+            /* height: 100%; <-- 삭제 (강제 늘리기 방지) */
+
+            padding: 40px 20px; /* 적당한 여백 */
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            /* 🔥 태블릿 여백 문제 해결: 요소 사이 간격을 고정 (Vertical Layout Group Spacing) */
+            gap: 25px;
         }
 
+        /* (1) 타이틀 */
         header {
             flex: 0 0 auto; width: 100%; text-align: center;
-            margin-bottom: 40px;
+            /* margin-bottom 제거 -> gap으로 통합 관리 */
         }
         h1 {
-            margin: 0; color: #fff; font-size: 2.2em;
+            margin: 0;
+            color: #fff; font-size: 2.2em;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5); word-break: keep-all;
         }
 
-        /* --- 3. 배너 슬라이더 --- */
+        /* (2) 배너 슬라이더 */
         .banner-container {
-            flex: 0 0 auto; position: relative;
-            width: 100%; height: 140px;
-            border-radius: 12px; overflow: hidden;
-            margin-bottom: 20px;
+            flex: 0 0 auto;
+            position: relative;
+            width: 100%;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: 1px solid #555;
         }
 
-        .banner-track {
-            display: flex; width: 100%; height: 100%;
-            /* transition은 JS에서 제어 */
-        }
+        .banner-track { display: flex; width: 100%; height: 100%; } /* transition은 JS 제어 */
 
         .banner-slide {
             min-width: 100%; height: 100%;
             display: flex; justify-content: center; align-items: center;
             text-decoration: none; color: white;
-            background-size: cover; background-position: center;
             position: relative;
+            overflow: hidden;
         }
+        /* 이미지 오버레이 스타일 */
         .banner-slide img {
             width: 100%; height: 100%; object-fit: cover; display: block;
-            filter: brightness(0.7); transition: filter 0.2s;
+            filter: brightness(0.6); transition: filter 0.2s;
         }
-        .banner-slide:hover img { filter: brightness(0.9); }
+        .banner-slide:hover img { filter: brightness(0.8); }
 
         .banner-content {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             z-index: 2; text-align: center; width: 100%;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8); pointer-events: none;
         }
         .banner-tag { background: #ffc107; color: #000; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.9em; margin-right: 8px; vertical-align: middle; }
         .banner-text { font-size: 1.4em; font-weight: bold; color: #fff; vertical-align: middle; }
 
+        /* 화살표 */
         .arrow {
             position: absolute; top: 0; bottom: 0; width: 50px;
             background: none; border: none; cursor: pointer; z-index: 20;
@@ -103,48 +116,42 @@
             transition: background 0.2s;
         }
         .arrow:hover { background: rgba(0,0,0,0.2); }
-        .arrow svg {
-            width: 40px; height: 40px; stroke: rgba(255, 255, 255, 0.6);
-            transition: stroke 0.2s, transform 0.2s;
-        }
+        .arrow svg { width: 40px; height: 40px; stroke: rgba(255, 255, 255, 0.6); transition: stroke 0.2s, transform 0.2s; }
         .arrow:hover svg { stroke: #ffc107; transform: scale(1.1); }
-        .arrow.left { left: 0; right: auto; }
-        .arrow.right { right: 0; left: auto; }
+        .arrow.left { left: 0; }
+        .arrow.right { right: 0; }
 
         .dots-container {
             position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
             display: flex; gap: 8px; z-index: 10;
         }
-        .dot {
-            width: 8px; height: 8px; background: rgba(255,255,255,0.5);
-            border-radius: 50%; cursor: pointer; transition: all 0.3s;
-        }
+        .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
         .dot.active { background: #fff; transform: scale(1.2); width: 20px; border-radius: 4px; }
 
-        /* --- 4. 메뉴 그리드 --- */
+        /* (3) 메뉴 그리드 Wrapper */
         .menu-grid-wrapper {
-            flex: 1; width: 100%;
+            width: 100%;
             display: flex; flex-direction: column; justify-content: center;
-            min-height: 0;
+            /* flex: 1 제거 -> 내용물 크기만큼만 차지하게 */
         }
 
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            width: 100%; height: 100%;
-            max-height: 500px;
+            width: 100%;
+            /* height: 100% 제거, max-height 제거 -> 내용물에 맞춰 늘어나도록 */
         }
 
         .menu-wrapper {
             text-decoration: none; color: inherit;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            height: 100%;
         }
 
         .menu-item {
             display: flex; justify-content: center; align-items: center;
-            width: 100%; height: 100%;
+            width: 100%;
+            aspect-ratio: 1.6 / 1; /* 비율 유지 */
             background: #333; border-radius: 12px; font-size: 2.2em;
             border: 1px solid #444; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             transition: background 0.2s, transform 0.2s;
@@ -156,33 +163,34 @@
             white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* 푸터 */
+        /* (4) 푸터 */
         footer {
             flex: 0 0 auto; width: 100%; text-align: center;
-            padding-top: 15px; font-size: 0.8em; color: #888;
+            font-size: 0.8em; color: #888;
+            /* margin-top은 부모의 gap으로 처리됨 */
         }
         .patch-link { color: #999; text-decoration: underline; cursor: pointer; }
 
-        /* --- 모바일 최적화 --- */
+        /* --- 📱 모바일 최적화 --- */
         @media (max-width: 600px) {
-            .landing-container { padding: 25px 15px 15px 15px; }
-            header { margin-bottom: 25px; }
+            .landing-container { padding: 20px 15px; gap: 15px; }
             h1 { font-size: 1.8em; }
 
             .menu-grid {
                 grid-template-columns: repeat(2, 1fr);
-                grid-template-rows: repeat(5, 1fr);
                 gap: 10px;
             }
-            .menu-item { font-size: 1.8em; border-radius: 10px; }
+            .menu-item { font-size: 1.8em; border-radius: 10px; aspect-ratio: 2 / 1; }
             .menu-label { font-size: 0.9em; }
+
             .menu-wrapper:last-child { grid-column: span 2; }
+            .menu-wrapper:last-child .menu-item { aspect-ratio: 4.2 / 1; }
 
             .banner-container { height: 120px; }
             .arrow svg { width: 30px; height: 30px; }
         }
 
-        /* 패치노트 모달 */
+        /* 패치노트 모달 스타일 (유지) */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
         .modal-overlay.show { display: flex; }
         .modal-content { width: 90%; max-width: 500px; background-color: #222; border-radius: 12px; padding: 20px; border: 1px solid #444; max-height: 80vh; display: flex; flex-direction: column; text-align: left; }
@@ -208,11 +216,11 @@
     <div class="banner-container">
         <div class="banner-track" id="banner-track">
 
-            <a href="#" onclick="return false;" class="banner-slide">
+            <a href="https://cafe.naver.com/morimens" target="_blank" class="banner-slide">
                 <img src="images/banner_test.png" alt="배너1">
                 <div class="banner-content">
-                    <span class="banner-tag">NOTICE</span>
-                    <span class="banner-text">배너 테스트 중입니다</span>
+                    <span class="banner-tag">OFFICIAL</span>
+                    <span class="banner-text">공식 카페 바로가기 ☕</span>
                 </div>
             </a>
 
@@ -220,7 +228,7 @@
                 <img src="images/banner_test.png" alt="배너2">
                 <div class="banner-content">
                     <span class="banner-tag" style="background:#4b6cb7; color:#fff;">EVENT</span>
-                    <span class="banner-text">배너 테스트 중입니다</span>
+                    <span class="banner-text">두 번째 배너입니다</span>
                 </div>
             </a>
 
@@ -228,7 +236,7 @@
                 <img src="images/banner_test.png" alt="배너3">
                 <div class="banner-content">
                     <span class="banner-tag" style="background:#93291E; color:#fff;">UPDATE</span>
-                    <span class="banner-text">배너 테스트 중입니다</span>
+                    <span class="banner-text">세 번째 배너입니다</span>
                 </div>
             </a>
 
@@ -278,7 +286,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- 배너 슬라이더 로직 (무한 롤링) ---
+        // --- 배너 슬라이더 로직 (무한 롤링 & 타이머 리셋) ---
         const track = document.getElementById('banner-track');
         const originalSlides = Array.from(track.children);
         const nextBtn = document.getElementById('next-btn');
@@ -384,14 +392,12 @@
                 });
                 listContent.innerHTML = html.replace(/<hr[^>]*>(?=[^<]*$)/, '');
 
-                // 🔥 [핵심] 데이터 로드 성공 시 푸터 텍스트 업데이트
                 if(data.length > 0) {
                     openBtn.textContent = `Patch Notes ${data[0].version}`;
                 }
             } catch (e) { listContent.innerHTML = '로드 실패'; }
         }
 
-        // 🔥 페이지 로드 시 즉시 실행 (버전 정보 가져오기)
         loadPatchNotes();
 
         openBtn.addEventListener('click', () => { modal.classList.add('show'); });

@@ -177,7 +177,7 @@
         <div class="report-section">
             <p>혹시 연결되지 않는 링크가 있나요?</p>
             <a href="#" id="open-report-modal" class="report-btn">
-                🚨 깨진 링크 제보하기
+                🚨 버그/피드백 제보하기
             </a>
         </div>
     </div>
@@ -186,12 +186,12 @@
 <div id="report-modal" class="modal-overlay">
     <div class="modal-content">
         <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
-        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. (Discord로 즉시 알림 전송)</p>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
 
         <form id="bug-report-form" action="https://discordapp.com/api/webhooks/1442726767222718554/i3QtvZ6-giYqwtlheMm3ugxcJoVsoVYmExBPX2n-uEoFHpWwmGqaaO_f6gnlBNXCZYas" method="POST">
 
             <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
-            <input type="email" id="reporter-email" name="_replyto" class="form-input" placeholder="답변을 원하시면 작성해주세요.">
+            <input type="text" id="reporter-email" name="_replyto" class="form-input" placeholder="패치노트에 언급을 원하시면 적어주세요.">
 
             <label for="report-message" class="form-field-label">제보할 내용 (버그 or 피드백) (필수)</label>
             <textarea id="report-message" name="message" class="form-textarea" required
