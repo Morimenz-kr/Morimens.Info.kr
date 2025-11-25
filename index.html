@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>망각전야 (Morimens)</title>
+
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://morimenz-kr.github.io/Morimens.Info.kr/">
@@ -13,16 +15,18 @@
     <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
 
     <style>
-        /* --- 1. 기본 설정 (스크롤 허용) --- */
+        /* --- 1. 기본 설정 --- */
         * { box-sizing: border-box; }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh; /* 최소 높이 */
+            margin: 0; padding: 0;
+            overflow-x: hidden; /* 가로 스크롤 방지 */
+        }
 
         body {
             font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
-            margin: 0; padding: 0;
-            width: 100%;
-            min-height: 100vh; /* 최소 높이만 지정 (내용 많으면 늘어남) */
-            /* overflow: hidden; <-- 삭제! (스크롤 허용) */
-
             display: flex;
             justify-content: center;
             align-items: center; /* 세로 중앙 정렬 */
@@ -30,70 +34,57 @@
             color: #ecf0f1;
         }
 
-        /* 배경 고정 (GPU 가속) */
+        /* 🔥 배경 고정 레이어 (모바일 완벽 대응) */
         .bg-image {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
             z-index: -1;
             background-image: url('images/background.webp');
             background-size: cover;
-            background-position: center;
-            will-change: transform; transform: translateZ(0);
+            background-position: center center;
+            background-repeat: no-repeat;
+            will-change: transform;
+            transform: translateZ(0);
+            height: 100vh;
+            min-height: -webkit-fill-available; /* iOS Safari 대응 */
         }
         .background-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background-color: rgba(0, 0, 0, 0.75); z-index: 1;
         }
 
-        /* --- 2. 메인 레이아웃 (밀집형 배치) --- */
+        /* --- 2. 메인 레이아웃 --- */
         .landing-container {
             position: relative; z-index: 2;
             width: 100%; max-width: 800px;
-            /* height: 100%; <-- 삭제 (강제 늘리기 방지) */
-
-            padding: 40px 20px; /* 적당한 여백 */
-
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-
-            /* 🔥 태블릿 여백 문제 해결: 요소 사이 간격을 고정 (Vertical Layout Group Spacing) */
+            padding: 40px 20px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
             gap: 25px;
         }
 
-        /* (1) 타이틀 */
-        header {
-            flex: 0 0 auto; width: 100%; text-align: center;
-            /* margin-bottom 제거 -> gap으로 통합 관리 */
-        }
+        header { flex: 0 0 auto; width: 100%; text-align: center; }
         h1 {
-            margin: 0;
-            color: #fff; font-size: 2.2em;
+            margin: 0; color: #fff; font-size: 2.2em;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5); word-break: keep-all;
         }
 
-        /* (2) 배너 슬라이더 */
+        /* --- 3. 배너 슬라이더 --- */
         .banner-container {
-            flex: 0 0 auto;
-            position: relative;
-            width: 100%;
-            height: 140px;
-            border-radius: 12px;
-            overflow: hidden;
+            flex: 0 0 auto; position: relative;
+            width: 100%; height: 140px;
+            border-radius: 12px; overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: 1px solid #555;
         }
 
-        .banner-track { display: flex; width: 100%; height: 100%; } /* transition은 JS 제어 */
+        .banner-track { display: flex; width: 100%; height: 100%; }
 
         .banner-slide {
             min-width: 100%; height: 100%;
             display: flex; justify-content: center; align-items: center;
-            text-decoration: none; color: white;
-            position: relative;
-            overflow: hidden;
+            text-decoration: none; color: white; position: relative; overflow: hidden;
         }
-        /* 이미지 오버레이 스타일 */
         .banner-slide img {
             width: 100%; height: 100%; object-fit: cover; display: block;
             filter: brightness(0.6); transition: filter 0.2s;
@@ -108,7 +99,6 @@
         .banner-tag { background: #ffc107; color: #000; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.9em; margin-right: 8px; vertical-align: middle; }
         .banner-text { font-size: 1.4em; font-weight: bold; color: #fff; vertical-align: middle; }
 
-        /* 화살표 */
         .arrow {
             position: absolute; top: 0; bottom: 0; width: 50px;
             background: none; border: none; cursor: pointer; z-index: 20;
@@ -128,19 +118,14 @@
         .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.5); border-radius: 50%; cursor: pointer; transition: all 0.3s; }
         .dot.active { background: #fff; transform: scale(1.2); width: 20px; border-radius: 4px; }
 
-        /* (3) 메뉴 그리드 Wrapper */
+        /* --- 4. 메뉴 그리드 --- */
         .menu-grid-wrapper {
-            width: 100%;
-            display: flex; flex-direction: column; justify-content: center;
-            /* flex: 1 제거 -> 내용물 크기만큼만 차지하게 */
+            width: 100%; display: flex; flex-direction: column; justify-content: center;
         }
 
         .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            width: 100%;
-            /* height: 100% 제거, max-height 제거 -> 내용물에 맞춰 늘어나도록 */
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; width: 100%;
         }
 
         .menu-wrapper {
@@ -150,8 +135,7 @@
 
         .menu-item {
             display: flex; justify-content: center; align-items: center;
-            width: 100%;
-            aspect-ratio: 1.6 / 1; /* 비율 유지 */
+            width: 100%; aspect-ratio: 1.6 / 1;
             background: #333; border-radius: 12px; font-size: 2.2em;
             border: 1px solid #444; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             transition: background 0.2s, transform 0.2s;
@@ -163,11 +147,10 @@
             white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* (4) 푸터 */
+        /* 푸터 */
         footer {
             flex: 0 0 auto; width: 100%; text-align: center;
             font-size: 0.8em; color: #888;
-            /* margin-top은 부모의 gap으로 처리됨 */
         }
         .patch-link { color: #999; text-decoration: underline; cursor: pointer; }
 
@@ -176,10 +159,7 @@
             .landing-container { padding: 20px 15px; gap: 15px; }
             h1 { font-size: 1.8em; }
 
-            .menu-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
+            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .menu-item { font-size: 1.8em; border-radius: 10px; aspect-ratio: 2 / 1; }
             .menu-label { font-size: 0.9em; }
 
@@ -190,7 +170,7 @@
             .arrow svg { width: 30px; height: 30px; }
         }
 
-        /* 패치노트 모달 스타일 (유지) */
+        /* 패치노트 모달 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
         .modal-overlay.show { display: flex; }
         .modal-content { width: 90%; max-width: 500px; background-color: #222; border-radius: 12px; padding: 20px; border: 1px solid #444; max-height: 80vh; display: flex; flex-direction: column; text-align: left; }
@@ -216,30 +196,14 @@
     <div class="banner-container">
         <div class="banner-track" id="banner-track">
 
-            <a href="https://cafe.naver.com/morimens" target="_blank" class="banner-slide">
-                <img src="images/banner_test.png" alt="배너1">
-                <div class="banner-content">
-                    <span class="banner-tag">OFFICIAL</span>
-                    <span class="banner-text">공식 카페 바로가기 ☕</span>
-                </div>
+            <a href="https://www.youtube.com/@morimensofficial" target="_blank" class="banner-slide">
+                <img src="images/banner_youtube.png" alt="유튜브 배너">
             </a>
 
-            <a href="#" onclick="return false;" class="banner-slide">
-                <img src="images/banner_test.png" alt="배너2">
-                <div class="banner-content">
-                    <span class="banner-tag" style="background:#4b6cb7; color:#fff;">EVENT</span>
-                    <span class="banner-text">두 번째 배너입니다</span>
-                </div>
+            <a href="https://discord.com/invite/VJhuUdHxmc/" target="_blank" class="banner-slide">
+                <img src="images/Banner_Discord.png" alt="디스코드 배너">
             </a>
-
-            <a href="#" onclick="return false;" class="banner-slide">
-                <img src="images/banner_test.png" alt="배너3">
-                <div class="banner-content">
-                    <span class="banner-tag" style="background:#93291E; color:#fff;">UPDATE</span>
-                    <span class="banner-text">세 번째 배너입니다</span>
-                </div>
-            </a>
-
+            
         </div>
 
         <button class="arrow left" id="prev-btn">
@@ -286,7 +250,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // --- 배너 슬라이더 로직 (무한 롤링 & 타이머 리셋) ---
+        // --- 배너 슬라이더 로직 ---
         const track = document.getElementById('banner-track');
         const originalSlides = Array.from(track.children);
         const nextBtn = document.getElementById('next-btn');
