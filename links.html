@@ -23,6 +23,32 @@
         .report-section { margin-top: 40px; padding-top: 20px; border-top: 1px solid #444; text-align: center; color: #777; font-size: 0.9em; }
         .report-btn { display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #333; color: #ccc; text-decoration: none; border-radius: 20px; border: 1px solid #555; transition: all 0.2s; }
         .report-btn:hover { background-color: #444; color: #fff; border-color: #ffc107; }
+        .text-link-box {
+            display: block;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 12px; /* 라운드 박스 크기 키움 */
+            padding: 20px;
+            margin-bottom: 12px;
+
+            /* 🔥 핵심: 글 전체 중앙 정렬 */
+            text-align: center;
+            color: #fff; /* 전체 글씨 색 흰색으로 설정 */
+
+            transition: background-color 0.2s;
+            font-size: 1.1em;
+            line-height: 1.6; /* 코드 목록 가독성 높이기 */
+        }
+
+        .code-warning-text {
+            font-size: 0.85em;
+            color: #999; /* 밝은 회색 */
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 8px 15px;
+            background-color: #333; /* 어두운 배경 */
+            border-radius: 8px;
+        }
     </style>
 </head>
 <body>
@@ -64,21 +90,17 @@
             let targetItems = [];
             let pageTitleHTML = "";
 
-            // 카테고리/캐릭터 판별 로직
+            // 타이틀 및 타겟 아이템 설정
             if (category === 'character' && charId) {
                 const charData = manifest.find(c => String(c.id) === String(charId));
                 if (charData) {
                     pageTitleHTML = `<img src="${charData.image_thumb}" class="title-thumb" alt=""> ${charData.name} 공략 모음`;
                     targetItems = linksDB.characters[charId] || [];
-                } else {
-                    pageTitleHTML = "알 수 없는 캐릭터";
-                }
+                } else { pageTitleHTML = "알 수 없는 캐릭터"; }
             } else if (category && linksDB.categories[category]) {
                 pageTitleHTML = linksDB.categories[category].title;
                 targetItems = linksDB.categories[category].links || [];
-            } else {
-                pageTitleHTML = "잘못된 접근";
-            }
+            } else { pageTitleHTML = "잘못된 접근"; }
 
             titleEl.innerHTML = pageTitleHTML;
             listEl.innerHTML = '';
@@ -88,12 +110,22 @@
                 return;
             }
 
-            targetItems.forEach(item => {
-                // 객체 데이터만 처리 (문자열은 API 속도 문제로 일단 제외)
-                if (typeof item === 'object') {
-                    createLinkCardInstant(item, listEl);
-                }
-            });
+            // 🚩🚩🚩 메인 렌더링 루프: 카테고리별 분기 처리 🚩🚩🚩
+            if (category === 'code') {
+                // 교환코드: 텍스트 전용 렌더러 호출 (이미지 없음)
+                renderCodeLinks(targetItems, listEl);
+            } else {
+                // 일반: 이미지 카드 렌더링
+                targetItems.forEach(item => {
+                    if (typeof item === 'string') {
+                        // 문자열(URL)이면 API 호출 (느림 - 개발 시에만 사용 권장)
+                        createLinkCardFromAPI(item, listEl);
+                    } else {
+                        // 객체(Object)면 즉시 생성 (빠름)
+                        createLinkCardInstant(item, listEl);
+                    }
+                });
+            }
 
         } catch (error) {
             console.error(error);
@@ -102,31 +134,71 @@
         }
     });
 
-    // 🚩 [핵심 1] 프록시 서버 변경 (wsrv.nl -> images.weserv.nl 풀도메인 사용)
+    // -----------------------------------------------------
+    // 🚩 [핵심] 이미지 프록시 변환기
+    // -----------------------------------------------------
     function getProxyImage(url) {
-        if (!url) return 'images/smile_Ramona.webp'; // 이미지 없으면 로컬 기본 이미지 반환
-
+        if (!url) return 'images/morimens Icon.webp';
         url = url.trim();
 
-        // 프로토콜 없는 주소(//) 보정
+        // 1. 프로토콜(//) 보정
         if (url.startsWith('//')) {
             url = 'https:' + url;
         }
 
-        // 아카라이브, 디시 등은 프록시 사용
+        // 2. 외부 이미지는 프록시 서버 사용 (Hotlink Protection 우회)
         if (url.includes('namu.la') || url.includes('arca.live') || url.includes('dcinside')) {
-            // n=-1 옵션: 에러 발생 시 리다이렉트 하지 않음
             return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=400&output=webp&n=-1`;
         }
 
         return url;
     }
 
-    // 🚩 [핵심 2] 에러 발생 시 로컬 이미지로 대체 (onerror 수정)
+    // -----------------------------------------------------
+    // 🚩 [기능] 텍스트 전용 카드 렌더러 (교환 코드용)
+    // -----------------------------------------------------
+    async function renderCodeLinks(urls, container) {
+
+        // 1. 경고 문구 삽입
+        const warningHtml = '<div class="code-warning-text">만료된 교환 코드가 있을 수 있습니다.</div>';
+        container.insertAdjacentHTML('beforebegin', warningHtml);
+
+        // 2. 모든 코드를 담을 단 하나의 박스를 생성
+        const codeBox = document.createElement('div');
+        codeBox.className = 'text-link-box';
+
+        let codeContentHTML = '';
+
+        // 3. 배열을 순회하며 코드를 HTML 형식으로 정리
+        urls.forEach(item => {
+            let codeLine = '';
+
+            if (typeof item === 'object') {
+                // 구조화된 데이터일 경우 (title과 desc를 한 줄로 합침)
+                codeLine = `<b>${item.title}</b>: ${item.desc || item.url || ''}`;
+            } else {
+                // 단순 문자열(raw code)일 경우
+                codeLine = item;
+            }
+
+            // 각 코드를 별도의 줄로 만들어 codeContent에 추가
+            codeContentHTML += `<div style="margin: 5px 0;">${codeLine}</div>`;
+        });
+
+        // 4. 박스에 모든 코드를 주입
+        codeBox.innerHTML = codeContentHTML;
+
+        // 5. 최종 박스를 컨테이너에 삽입
+        container.appendChild(codeBox);
+    }
+
+    // -----------------------------------------------------
+    // 🚩 [기능] 즉시 렌더링 함수 (베이킹된 데이터용)
+    // -----------------------------------------------------
     function createLinkCardInstant(data, container) {
         try {
             const domain = new URL(data.url).hostname;
-            const safeImage = getProxyImage(data.image);
+            const safeImage = getProxyImage(data.image); // 프록시 적용
 
             const html = `
                 <a href="${data.url}" target="_blank" class="notion-bookmark">
@@ -142,12 +214,63 @@
                     </div>
                     <div class="bookmark-image">
                         <img src="${safeImage}" alt="썸네일" loading="lazy" 
-                             onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
+                             onerror="this.onerror=null; this.src='images/morimens Icon.webp';">
                     </div>
                 </a>`;
             container.insertAdjacentHTML('beforeend', html);
         } catch (e) {
             console.error("카드 생성 에러:", e);
+        }
+    }
+
+    // -----------------------------------------------------
+    // 🚩 [기능] API 로딩 함수 (느림 - String URL 용)
+    // -----------------------------------------------------
+    async function createLinkCardFromAPI(url, container) {
+        // 이 함수는 느려서 사용을 권장하지 않지만, 구조상 포함됩니다.
+        const cardWrap = document.createElement('div');
+        cardWrap.className = 'skeleton skeleton-card';
+        cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
+        container.appendChild(cardWrap);
+
+        try {
+            const apiUrl = `https://api.microlink.io?url=${encodeURIComponent(url)}`;
+            const res = await fetch(apiUrl);
+            const json = await await res.json();
+
+            if (json.status === 'success') {
+                const data = json.data;
+                const safeImage = getProxyImage(data.image?.url);
+
+                cardWrap.className = 'notion-bookmark';
+                cardWrap.innerHTML = '';
+
+                const linkEl = document.createElement('a');
+                linkEl.href = url;
+                linkEl.target = "_blank";
+                linkEl.className = "notion-bookmark";
+                linkEl.style.width = "100%";
+                linkEl.innerHTML = `
+                    <div class="bookmark-content">
+                        <div>
+                            <div class="bookmark-title">${data.title || url}</div>
+                            <div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div>
+                        </div>
+                        <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
+                    </div>
+                    <div class="bookmark-image">
+                        <img src="${safeImage}" alt="썸네일" loading="lazy"
+                             onerror="this.onerror=null; this.src='images/morimens Icon.webp';">
+                    </div>`;
+
+                container.replaceChild(linkEl, cardWrap);
+            } else { throw new Error("API Fail"); }
+        } catch (e) {
+            cardWrap.className = 'notion-bookmark';
+            cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:20px; color:#fff; text-decoration:none; width:100%; display:block;">
+                <div style="font-weight:bold; margin-bottom:5px;">${url}</div>
+                <div style="font-size:0.8em; color:#aaa;">(정보 로드 실패 - 콘솔 확인)</div>
+            </a>`;
         }
     }
 </script>
