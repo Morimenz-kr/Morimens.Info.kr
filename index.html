@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>망각전야 (Morimens)</title>
 
     <meta property="og:type" content="website">
@@ -17,155 +17,182 @@
         * { box-sizing: border-box; }
 
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+            margin: 0; padding: 0;
+            width: 100vw; height: 100vh;
+            overflow: hidden;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            background-color: #1a1a1a;
             color: #ecf0f1;
-            margin: 0;
-            text-align: center;
         }
+
         .bg-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh; /* vh 단위 사용 */
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             background-image: url('images/background.webp');
             background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-
-            /* 🔥 핵심: 모바일 브라우저의 렌더링 엔진에 힌트 제공 */
-            will-change: transform;
-            transform: translateZ(0); /* GPU 가속 활성화 */
+            background-position: center;
+            will-change: transform; transform: translateZ(0);
         }
         .background-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.75); z-index: 1;
         }
 
-        /* 메인 컨테이너 */
+        /* --- 2. 메인 레이아웃 --- */
         .landing-container {
             position: relative; z-index: 2;
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 900px;
-            width: 90%;
-            flex: 1; /* 푸터를 바닥으로 밀기 위해 */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
- 
-        h1 {
-            color: #fff;
-            /* 🔥 수정됨: 여백을 20px -> 40px로 늘림 */
-            margin-bottom: 60px;
-            font-size: 2.5em;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            word-break: keep-all;
+            width: 100%; max-width: 800px; height: 100%;
+            padding: 40px 20px 20px 20px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
         }
 
-        /* 그리드 메뉴 */
+        header {
+            flex: 0 0 auto; width: 100%; text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            margin: 0; color: #fff; font-size: 2.2em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5); word-break: keep-all;
+        }
+
+        /* --- 3. 배너 슬라이더 --- */
+        .banner-container {
+            flex: 0 0 auto; position: relative;
+            width: 100%; height: 140px;
+            border-radius: 12px; overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            border: 1px solid #555;
+        }
+
+        .banner-track {
+            display: flex; width: 100%; height: 100%;
+            /* transition은 JS에서 제어 */
+        }
+
+        .banner-slide {
+            min-width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            text-decoration: none; color: white;
+            background-size: cover; background-position: center;
+            position: relative;
+        }
+        .banner-slide img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            filter: brightness(0.7); transition: filter 0.2s;
+        }
+        .banner-slide:hover img { filter: brightness(0.9); }
+
+        .banner-content {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 2; text-align: center; width: 100%;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+        .banner-tag { background: #ffc107; color: #000; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.9em; margin-right: 8px; vertical-align: middle; }
+        .banner-text { font-size: 1.4em; font-weight: bold; color: #fff; vertical-align: middle; }
+
+        .arrow {
+            position: absolute; top: 0; bottom: 0; width: 50px;
+            background: none; border: none; cursor: pointer; z-index: 20;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .arrow:hover { background: rgba(0,0,0,0.2); }
+        .arrow svg {
+            width: 40px; height: 40px; stroke: rgba(255, 255, 255, 0.6);
+            transition: stroke 0.2s, transform 0.2s;
+        }
+        .arrow:hover svg { stroke: #ffc107; transform: scale(1.1); }
+        .arrow.left { left: 0; right: auto; }
+        .arrow.right { right: 0; left: auto; }
+
+        .dots-container {
+            position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 8px; z-index: 10;
+        }
+        .dot {
+            width: 8px; height: 8px; background: rgba(255,255,255,0.5);
+            border-radius: 50%; cursor: pointer; transition: all 0.3s;
+        }
+        .dot.active { background: #fff; transform: scale(1.2); width: 20px; border-radius: 4px; }
+
+        /* --- 4. 메뉴 그리드 --- */
+        .menu-grid-wrapper {
+            flex: 1; width: 100%;
+            display: flex; flex-direction: column; justify-content: center;
+            min-height: 0;
+        }
+
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            width: 100%;
+            width: 100%; height: 100%;
+            max-height: 500px;
         }
 
         .menu-wrapper {
             text-decoration: none; color: inherit;
-            display: flex; flex-direction: column; align-items: center;
-            transition: transform 0.2s;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            height: 100%;
         }
-        .menu-wrapper:hover { transform: translateY(-5px); }
 
         .menu-item {
             display: flex; justify-content: center; align-items: center;
-            width: 100%;
-            aspect-ratio: 1.6 / 0.8;
-            background: #333; border-radius: 12px; font-size: 2.5em;
+            width: 100%; height: 100%;
+            background: #333; border-radius: 12px; font-size: 2.2em;
             border: 1px solid #444; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: all 0.2s;
+            transition: background 0.2s, transform 0.2s;
         }
-        .menu-wrapper:hover .menu-item { background: #444; border-color: #666; }
+        .menu-wrapper:hover .menu-item { background: #444; border-color: #666; transform: scale(0.98); }
 
-        .menu-label { margin-top: 10px; font-weight: bold; color: #ccc; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
-
-        /* --- 📱 모바일 최적화 --- */
-        @media (max-width: 600px) {
-            .landing-container { padding: 15px; width: 96%; }
-
-            h1 {
-                font-size: 1.8em;
-                /* 🔥 수정됨: 모바일에서도 여백을 25px -> 35px로 확보 */
-                margin-bottom: 35px;
-            }
-
-            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-            .menu-item { aspect-ratio: 2 / 1; font-size: 2em; border-radius: 10px; }
-            .menu-label { font-size: 0.9em; margin-top: 5px; }
-            .menu-wrapper:last-child { grid-column: span 2; }
-            .menu-wrapper:last-child .menu-item { aspect-ratio: 4.2 / 1; }
+        .menu-label {
+            margin-top: 8px; font-size: 1.0em; font-weight: bold; color: #ccc;
+            white-space: nowrap; text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* --- 📜 푸터 & 패치노트 스타일 --- */
+        /* 푸터 */
         footer {
-            position: relative; z-index: 2;
-            padding: 20px; width: 100%;
-            font-size: 0.85em; color: #777;
+            flex: 0 0 auto; width: 100%; text-align: center;
+            padding-top: 15px; font-size: 0.8em; color: #888;
         }
-        .patch-link {
-            color: #999; text-decoration: underline; cursor: pointer; font-weight: bold;
+        .patch-link { color: #999; text-decoration: underline; cursor: pointer; }
+
+        /* --- 모바일 최적화 --- */
+        @media (max-width: 600px) {
+            .landing-container { padding: 25px 15px 15px 15px; }
+            header { margin-bottom: 25px; }
+            h1 { font-size: 1.8em; }
+
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(5, 1fr);
+                gap: 10px;
+            }
+            .menu-item { font-size: 1.8em; border-radius: 10px; }
+            .menu-label { font-size: 0.9em; }
+            .menu-wrapper:last-child { grid-column: span 2; }
+
+            .banner-container { height: 120px; }
+            .arrow svg { width: 30px; height: 30px; }
         }
-        .patch-link:hover { color: #ffc107; }
 
         /* 패치노트 모달 */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.85); z-index: 1000;
-            justify-content: center; align-items: center;
-        }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
         .modal-overlay.show { display: flex; }
-
-        .modal-content {
-            width: 90%; max-width: 500px; background-color: #222; border-radius: 12px;
-            padding: 25px; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
-            border: 1px solid #444;
-            max-height: 80vh; /* 화면 높이의 80%까지만 */
-            display: flex; flex-direction: column;
-        }
-
-        .modal-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 10px;
-        }
-        .modal-header h2 { margin: 0; font-size: 1.3em; color: #ffc107; }
-        .close-btn {
-            background: none; border: none; color: #aaa; font-size: 1.5em; cursor: pointer;
-        }
-        .close-btn:hover { color: #fff; }
-
-        /* 스크롤 영역 */
-        .patch-list {
-            overflow-y: auto; /* 내용 많으면 스크롤 */
-            padding-right: 5px;
-            text-align: left;
-        }
-        /* 스크롤바 커스텀 */
-        .patch-list::-webkit-scrollbar { width: 6px; }
-        .patch-list::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
-        .patch-list::-webkit-scrollbar-track { background: #333; }
-
-        .patch-item { margin-bottom: 20px; }
-        .patch-ver { font-size: 1.1em; color: #eee; font-weight: bold; }
+        .modal-content { width: 90%; max-width: 500px; background-color: #222; border-radius: 12px; padding: 20px; border: 1px solid #444; max-height: 80vh; display: flex; flex-direction: column; text-align: left; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 10px; }
+        .modal-header h2 { margin: 0; font-size: 1.2em; color: #ffc107; }
+        .close-btn { background: none; border: none; color: #aaa; font-size: 1.5em; cursor: pointer; }
+        .patch-list { overflow-y: auto; padding-right: 5px; }
+        .patch-item { margin-bottom: 15px; }
+        .patch-ver { font-weight: bold; color: #eee; }
         .patch-date { font-size: 0.8em; color: #777; margin-left: 5px; }
-        .patch-desc { margin: 5px 0 0 0; padding-left: 15px; color: #ccc; font-size: 0.9em; line-height: 1.6; }
-        .patch-desc li { margin-bottom: 3px; }
+        .patch-desc { margin: 5px 0 0 0; padding-left: 15px; color: #ccc; font-size: 0.85em; }
     </style>
 </head>
 <body>
@@ -173,27 +200,68 @@
 <div class="background-overlay"></div>
 
 <div class="landing-container">
-    <h1>망각전야 (Morimens)</h1>
+    <header>
+        <h1>망각전야 (Morimens)</h1>
+    </header>
 
-    <div class="menu-grid">
-        <a href="list.html" class="menu-wrapper"><div class="menu-item">⭐</div><p class="menu-label">각성체 정보</p></a>
-        <a href="links.html?category=dreamdive" class="menu-wrapper"><div class="menu-item">🌊</div><p class="menu-label">환몽심잠 정보</p></a>
-        <a href="links.html?category=weapon" class="menu-wrapper"><div class="menu-item">🗡️</div><p class="menu-label">융재금구 정보</p></a>
-        <a href="links.html?category=system" class="menu-wrapper"><div class="menu-item">⚙️</div><p class="menu-label">시스템 정보</p></a>
-        <a href="links.html?category=covenant" class="menu-wrapper"><div class="menu-item">📜</div><p class="menu-label">비밀계약 정보</p></a>
-        <a href="links.html?category=myeongryun" class="menu-wrapper"><div class="menu-item">🔘</div><p class="menu-label">명륜 정보</p></a>
-        <a href="links.html?category=code" class="menu-wrapper"><div class="menu-item">🎟️</div><p class="menu-label">교환 코드</p></a>
-        <a href="links.html?category=newbie" class="menu-wrapper"><div class="menu-item">🐣</div><p class="menu-label">뉴비 팁</p></a>
-        <a href="links.html?category=etc" class="menu-wrapper"><div class="menu-item">🎸</div><p class="menu-label">기타</p></a>
+    <div class="banner-container">
+        <div class="banner-track" id="banner-track">
+
+            <a href="#" onclick="return false;" class="banner-slide">
+                <img src="images/banner_test.png" alt="배너1">
+                <div class="banner-content">
+                    <span class="banner-tag">NOTICE</span>
+                    <span class="banner-text">배너 테스트 중입니다</span>
+                </div>
+            </a>
+
+            <a href="#" onclick="return false;" class="banner-slide">
+                <img src="images/banner_test.png" alt="배너2">
+                <div class="banner-content">
+                    <span class="banner-tag" style="background:#4b6cb7; color:#fff;">EVENT</span>
+                    <span class="banner-text">배너 테스트 중입니다</span>
+                </div>
+            </a>
+
+            <a href="#" onclick="return false;" class="banner-slide">
+                <img src="images/banner_test.png" alt="배너3">
+                <div class="banner-content">
+                    <span class="banner-tag" style="background:#93291E; color:#fff;">UPDATE</span>
+                    <span class="banner-text">배너 테스트 중입니다</span>
+                </div>
+            </a>
+
+        </div>
+
+        <button class="arrow left" id="prev-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="arrow right" id="next-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+
+        <div class="dots-container" id="dots-container"></div>
     </div>
-</div>
 
-<footer>
-    <p>
+    <div class="menu-grid-wrapper">
+        <div class="menu-grid">
+            <a href="list.html" class="menu-wrapper"><div class="menu-item">⭐</div><p class="menu-label">각성체 정보</p></a>
+            <a href="links.html?category=dreamdive" class="menu-wrapper"><div class="menu-item">🌊</div><p class="menu-label">환몽심잠 정보</p></a>
+            <a href="links.html?category=weapon" class="menu-wrapper"><div class="menu-item">🗡️</div><p class="menu-label">융재금구 정보</p></a>
+            <a href="links.html?category=system" class="menu-wrapper"><div class="menu-item">⚙️</div><p class="menu-label">시스템 정보</p></a>
+            <a href="links.html?category=covenant" class="menu-wrapper"><div class="menu-item">📜</div><p class="menu-label">비밀계약 정보</p></a>
+            <a href="links.html?category=myeongryun" class="menu-wrapper"><div class="menu-item">🔘</div><p class="menu-label">명륜 정보</p></a>
+            <a href="links.html?category=code" class="menu-wrapper"><div class="menu-item">🎟️</div><p class="menu-label">교환 코드</p></a>
+            <a href="links.html?category=newbie" class="menu-wrapper"><div class="menu-item">🐣</div><p class="menu-label">뉴비 팁</p></a>
+            <a href="links.html?category=etc" class="menu-wrapper"><div class="menu-item">🎸</div><p class="menu-label">기타</p></a>
+        </div>
+    </div>
+
+    <footer>
         &copy; 2025 Morimens Fan Wiki |
-        <span id="open-patch-modal" class="patch-link">Update Log (v1.0.2)</span>
-    </p>
-</footer>
+        <span id="open-patch-modal" class="patch-link">Patch Notes</span>
+    </footer>
+</div>
 
 <div id="patch-modal" class="modal-overlay">
     <div class="modal-content">
@@ -209,60 +277,125 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // --- 배너 슬라이더 로직 (무한 롤링) ---
+        const track = document.getElementById('banner-track');
+        const originalSlides = Array.from(track.children);
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const dotsContainer = document.getElementById('dots-container');
+
+        const slideCount = originalSlides.length;
+        let currentIndex = 1;
+        let autoSlideInterval;
+        let isTransitioning = false;
+
+        const firstClone = originalSlides[0].cloneNode(true);
+        const lastClone = originalSlides[slideCount - 1].cloneNode(true);
+
+        track.appendChild(firstClone);
+        track.insertBefore(lastClone, originalSlides[0]);
+
+        track.style.transform = `translateX(-100%)`;
+
+        originalSlides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                resetTimer();
+                moveToSlide(idx + 1);
+            });
+            dotsContainer.appendChild(dot);
+        });
+        const dots = Array.from(dotsContainer.children);
+
+        function updateDots(index) {
+            let realIndex = index - 1;
+            if (realIndex < 0) realIndex = slideCount - 1;
+            if (realIndex >= slideCount) realIndex = 0;
+
+            dots.forEach(d => d.classList.remove('active'));
+            dots[realIndex].classList.add('active');
+        }
+
+        function moveToSlide(index) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            track.style.transition = 'transform 0.5s ease-in-out';
+            track.style.transform = `translateX(-${index * 100}%)`;
+            currentIndex = index;
+            updateDots(currentIndex);
+        }
+
+        track.addEventListener('transitionend', () => {
+            isTransitioning = false;
+            if (currentIndex === slideCount + 1) {
+                track.style.transition = 'none';
+                currentIndex = 1;
+                track.style.transform = `translateX(-100%)`;
+            }
+            if (currentIndex === 0) {
+                track.style.transition = 'none';
+                currentIndex = slideCount;
+                track.style.transform = `translateX(-${slideCount * 100}%)`;
+            }
+        });
+
+        function resetTimer() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(() => moveToSlide(currentIndex + 1), 5000);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            resetTimer();
+            moveToSlide(currentIndex + 1);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            resetTimer();
+            moveToSlide(currentIndex - 1);
+        });
+
+        resetTimer();
+
+        const bannerContainer = document.querySelector('.banner-container');
+        bannerContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+        bannerContainer.addEventListener('mouseleave', () => resetTimer());
+
+
+        // --- 패치노트 로직 ---
         const modal = document.getElementById('patch-modal');
         const openBtn = document.getElementById('open-patch-modal');
         const closeBtn = document.getElementById('close-patch-modal');
         const listContent = document.getElementById('patch-list-content');
 
-        // 패치노트 데이터 로드 함수
         async function loadPatchNotes() {
             try {
-                const ts = new Date().getTime(); // 캐시 방지
+                const ts = new Date().getTime();
                 const res = await fetch(`data/patch_notes.json?t=${ts}`);
                 if(!res.ok) throw new Error('Load failed');
                 const data = await res.json();
-
                 let html = '';
                 data.forEach(item => {
-                    let changesHtml = '';
-                    item.changes.forEach(change => {
-                        changesHtml += `<li>${change}</li>`;
-                    });
-
-                    html += `
-                            <div class="patch-item">
-                                <span class="patch-ver">${item.version}</span>
-                                <span class="patch-date">${item.date}</span>
-                                <ul class="patch-desc">${changesHtml}</ul>
-                            </div>
-                            <hr style="border-color:#333; opacity:0.5;">
-                        `;
+                    let changesHtml = item.changes.map(c => `<li>${c}</li>`).join('');
+                    html += `<div class="patch-item"><span class="patch-ver">${item.version}</span><span class="patch-date">${item.date}</span><ul class="patch-desc">${changesHtml}</ul></div><hr style="border-color:#333; opacity:0.5;">`;
                 });
-
                 listContent.innerHTML = html.replace(/<hr[^>]*>(?=[^<]*$)/, '');
 
+                // 🔥 [핵심] 데이터 로드 성공 시 푸터 텍스트 업데이트
                 if(data.length > 0) {
-                    openBtn.textContent = `Update Log (${data[0].version})`;
+                    openBtn.textContent = `Patch Notes ${data[0].version}`;
                 }
-
-            } catch (e) {
-                listContent.innerHTML = '<p style="text-align:center; color:#ff5555;">패치 내역을 불러오지 못했습니다.</p>';
-            }
+            } catch (e) { listContent.innerHTML = '로드 실패'; }
         }
 
-        // 모달 열기
-        openBtn.addEventListener('click', () => {
-            modal.classList.add('show');
-            loadPatchNotes();
-        });
+        // 🔥 페이지 로드 시 즉시 실행 (버전 정보 가져오기)
+        loadPatchNotes();
 
-        // 모달 닫기
+        openBtn.addEventListener('click', () => { modal.classList.add('show'); });
         closeBtn.addEventListener('click', () => modal.classList.remove('show'));
-
-        // 배경 클릭 닫기
-        modal.addEventListener('click', (e) => {
-            if(e.target === modal) modal.classList.remove('show');
-        });
+        modal.addEventListener('click', (e) => { if(e.target === modal) modal.classList.remove('show'); });
     });
 </script>
 </body>
