@@ -6,11 +6,11 @@
     <title>망각전야 (Morimens)</title>
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://morimenz-kr.github.io/Morimens-info.kr/">
+    <meta property="og:url" content="https://morimenz-kr.github.io/Morimens.Info.kr/">
     <meta property="og:title" content="망각전야 (Morimens) 종합 가이드">
     <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 망각전야의 모든 정보를 한눈에 확인하세요.">
     <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
-    <link rel="stylesheet" href="...">
+
     <style>
         /* --- 1. 박스 모델 초기화 --- */
         * { box-sizing: border-box; }
@@ -25,27 +25,25 @@
             color: #ecf0f1;
             margin: 0;
             text-align: center;
+            /* 🔥 중요: body에 있던 배경 설정을 모두 지움 */
         }
 
+        /* 🔥 1. 배경 이미지 고정 레이어 (Fixed Canvas) */
         .bg-image {
-            position: fixed; /* 화면에 못 박기 (Fixed Update) */
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* 맨 뒤로 보내기 (Sorting Order -1) */
-
+            position: fixed; /* 화면에 못 박기 */
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; /* 맨 뒤로 보냄 */
             background-image: url('images/background.webp');
             background-size: cover;
             background-position: center;
         }
 
-        /* (기존) 배경 어둡게 까는 오버레이 */
+        /* 2. 어둡게 까는 오버레이 */
         .background-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.75);
-            z-index: 1; /* 배경보다 앞, 콘텐츠보다 뒤 */
+            z-index: 1;
         }
 
         /* 메인 콘텐츠 컨테이너 */
@@ -62,13 +60,13 @@
             margin-bottom: 20px;
             font-size: 2.5em;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-            word-break: keep-all; /* 모바일 줄바꿈 방지 */
+            word-break: keep-all;
         }
 
         /* --- 3. 그리드 설정 (PC 기본: 3열) --- */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* PC는 3칸씩 */
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             width: 100%;
         }
@@ -84,8 +82,7 @@
         .menu-item {
             display: flex; justify-content: center; align-items: center;
             width: 100%;
-            /* PC에서는 적당한 카드 비율 (1.6 : 1) */
-            aspect-ratio: 1.3 / 0.8;
+            aspect-ratio: 1.6 / 0.8;
             background: #333;
             border-radius: 12px;
             font-size: 2.5em;
@@ -103,42 +100,41 @@
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
-        /* --- 📱 모바일 최적화 (Canvas Scaler 역할) --- */
+        /* --- 📱 모바일 최적화 --- */
         @media (max-width: 600px) {
             .landing-container {
-                padding: 15px; /* 패딩을 줄여서 화면을 넓게 씀 */
+                padding: 15px;
                 width: 96%;
             }
 
             h1 { font-size: 1.8em; margin-bottom: 25px; }
 
             .menu-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2열로 변경 */
-                gap: 12px; /* 간격 좁힘 */
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
             }
 
-            /* 버튼을 모바일 앱처럼 납작하게 만듦 (공간 절약) */
             .menu-item {
-                aspect-ratio: 2 / 1; /* 가로로 더 길게 */
-                font-size: 2em;      /* 아이콘 크기 축소 */
+                aspect-ratio: 2 / 1;
+                font-size: 2em;
                 border-radius: 10px;
             }
 
             .menu-label { font-size: 0.9em; margin-top: 5px; }
 
-            /* 🔥 대칭 맞추기: 마지막 9번째 아이템(기타) 꽉 채우기 */
+            /* 마지막 9번째 아이템 꽉 채우기 */
             .menu-wrapper:last-child {
-                grid-column: span 2; /* 2칸을 혼자 다 씀 */
+                grid-column: span 2;
             }
 
-            /* 마지막 아이템은 너무 납작해지지 않게 비율 조정 */
             .menu-wrapper:last-child .menu-item {
-                aspect-ratio: 4.2 / 1; /* 아주 가로로 길게 */
+                aspect-ratio: 4.2 / 1;
             }
         }
     </style>
 </head>
 <body>
+<div class="bg-image"></div>
 
 <div class="background-overlay"></div>
 
@@ -146,52 +142,42 @@
     <h1>망각전야 (Morimens)</h1>
 
     <div class="menu-grid">
-
         <a href="list.html" class="menu-wrapper">
             <div class="menu-item">⭐</div>
             <p class="menu-label">각성체 정보</p>
         </a>
-
         <a href="links.html?category=dreamdive" class="menu-wrapper">
             <div class="menu-item">🌊</div>
             <p class="menu-label">환몽심잠 정보</p>
         </a>
-
         <a href="links.html?category=weapon" class="menu-wrapper">
             <div class="menu-item">🗡️</div>
             <p class="menu-label">융재금구 정보</p>
         </a>
-
         <a href="links.html?category=system" class="menu-wrapper">
             <div class="menu-item">⚙️</div>
             <p class="menu-label">시스템 정보</p>
         </a>
-
         <a href="links.html?category=covenant" class="menu-wrapper">
             <div class="menu-item">📜</div>
             <p class="menu-label">비밀계약 정보</p>
         </a>
-
         <a href="links.html?category=myeongryun" class="menu-wrapper">
             <div class="menu-item">🔘</div>
             <p class="menu-label">명륜 정보</p>
         </a>
-
         <a href="links.html?category=code" class="menu-wrapper">
             <div class="menu-item">🎟️</div>
             <p class="menu-label">교환 코드</p>
         </a>
-
         <a href="links.html?category=newbie" class="menu-wrapper">
             <div class="menu-item">🐣</div>
             <p class="menu-label">뉴비 팁</p>
         </a>
-
         <a href="links.html?category=etc" class="menu-wrapper">
             <div class="menu-item">🎸</div>
             <p class="menu-label">기타</p>
         </a>
-
     </div>
 
     <p style="margin-top: 40px; font-size: 0.85em; color: #7f8c8d;">
