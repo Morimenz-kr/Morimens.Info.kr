@@ -20,7 +20,7 @@
 
         html, body {
             width: 100%;
-            min-height: 100vh; /* 최소 높이 */
+            min-height: 100vh; /* 최소 높이: 뷰포트 높이와 동일 (스크롤 방지 기본) */
             margin: 0; padding: 0;
             overflow-x: hidden; /* 가로 스크롤 방지 */
         }
@@ -29,7 +29,8 @@
             font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
             display: flex;
             justify-content: center;
-            align-items: center; /* 세로 중앙 정렬 */
+            /* 콘텐츠를 세로 중앙에 배치하여, 화면 높이보다 낮을 경우 스크롤을 막고 공간을 균등하게 분배합니다. */
+            align-items: center;
             background-color: #1a1a1a;
             color: #ecf0f1;
         }
@@ -57,13 +58,20 @@
         .landing-container {
             position: relative; z-index: 2;
             width: 100%; max-width: 800px;
-            padding: 40px 20px;
+            /* PC: 상단 여백 40px 유지. 하단 여백은 Fixed Footer 공간 확보를 위해 충분히 늘림 (80px) */
+            padding: 40px 20px 80px;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            gap: 25px;
+            gap: 0; /* 개별 요소의 margin으로 간격을 제어합니다. */
         }
 
-        header { flex: 0 0 auto; width: 100%; text-align: center; }
+        header {
+            flex: 0 0 auto;
+            width: 100%;
+            text-align: center;
+            /* 🚩 PC: 타이틀 상단 여백(40px)과 동일하게 하단 여백을 40px로 설정합니다. */
+            margin-bottom: 40px;
+        }
         h1 {
             margin: 0; color: #fff; font-size: 2.2em;
             text-shadow: 0 2px 4px rgba(0,0,0,0.5); word-break: keep-all;
@@ -76,6 +84,8 @@
             border-radius: 12px; overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: 1px solid #555;
+            /* 🚩 PC: 배너와 그리드 사이의 여백을 45px로 확대합니다. (기존 30px) */
+            margin-bottom: 45px;
         }
 
         .banner-track { display: flex; width: 100%; height: 100%; }
@@ -124,7 +134,8 @@
         }
 
         .menu-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
+            /* 4열 그리드로 변경 */
+            display: grid; grid-template-columns: repeat(4, 1fr);
             gap: 15px; width: 100%;
         }
 
@@ -135,7 +146,7 @@
 
         .menu-item {
             display: flex; justify-content: center; align-items: center;
-            width: 100%; aspect-ratio: 1.6 / 1;
+            width: 100%; aspect-ratio: 1.6 / 0.8; /* 1.6 : 0.8 비율 유지 */
             background: #333; border-radius: 12px; font-size: 2.2em;
             border: 1px solid #444; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             transition: background 0.2s, transform 0.2s;
@@ -149,25 +160,51 @@
 
         /* 푸터 */
         footer {
-            flex: 0 0 auto; width: 100%; text-align: center;
+            /* 푸터를 화면 하단 중앙에 고정하고 띄웁니다. */
+            position: fixed;
+            bottom: 10px; /* 하단에서 10px 띄웁니다. */
+            left: 50%; /* 중앙 정렬을 위한 기준점 */
+            transform: translateX(-50%); /* 중앙 정렬 */
+            z-index: 10;
+
+            flex: 0 0 auto; width: 100%; max-width: 800px;
+            text-align: center;
             font-size: 0.8em; color: #888;
+            padding: 0 20px;
         }
         .patch-link { color: #999; text-decoration: underline; cursor: pointer; }
 
-        /* --- 📱 모바일 최적화 --- */
+        /* --- 📱 모바일 최적화 (4열 -> 3열로 변경) --- */
         @media (max-width: 600px) {
-            .landing-container { padding: 20px 15px; gap: 15px; }
+            .landing-container {
+                /* 모바일: 상단 여백 20px 유지. 하단 패딩은 Fixed Footer 공간 확보를 위해 60px */
+                padding: 20px 15px 60px;
+                gap: 0;
+            }
+            header {
+                font-size: 1.8em;
+                /* 🚩 모바일: 타이틀 상단 여백(20px)과 동일하게 하단 여백을 20px로 설정합니다. */
+                margin-bottom: 20px;
+            }
             h1 { font-size: 1.8em; }
 
-            .menu-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-            .menu-item { font-size: 1.8em; border-radius: 10px; aspect-ratio: 2 / 1; }
+            .banner-container {
+                height: 120px;
+                /* 🚩 모바일: 배너와 그리드 여백을 25px로 확대합니다. (기존 15px) */
+                margin-bottom: 25px;
+            }
+
+            .menu-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .menu-item { font-size: 1.8em; border-radius: 10px; aspect-ratio: 1.6 / 0.8; }
             .menu-label { font-size: 0.9em; }
 
-            .menu-wrapper:last-child { grid-column: span 2; }
-            .menu-wrapper:last-child .menu-item { aspect-ratio: 4.2 / 1; }
-
-            .banner-container { height: 120px; }
             .arrow svg { width: 30px; height: 30px; }
+
+            /* 모바일 푸터 */
+            footer {
+                bottom: 5px; /* 모바일에서는 하단 여백을 5px로 줄입니다. */
+                font-size: 0.75em;
+            }
         }
 
         /* 패치노트 모달 */
@@ -203,7 +240,7 @@
             <a href="https://discord.com/invite/VJhuUdHxmc/" target="_blank" class="banner-slide">
                 <img src="images/Banner_Discord.png" alt="디스코드 배너">
             </a>
-            
+
         </div>
 
         <button class="arrow left" id="prev-btn">
@@ -219,11 +256,16 @@
     <div class="menu-grid-wrapper">
         <div class="menu-grid">
             <a href="list.html" class="menu-wrapper"><div class="menu-item">⭐</div><p class="menu-label">각성체 정보</p></a>
+            <a href="links.html?category=faction" class="menu-wrapper"><div class="menu-item">🎭</div><p class="menu-label">계역별 정보</p></a>
             <a href="links.html?category=dreamdive" class="menu-wrapper"><div class="menu-item">🌊</div><p class="menu-label">환몽심잠 정보</p></a>
             <a href="links.html?category=weapon" class="menu-wrapper"><div class="menu-item">🗡️</div><p class="menu-label">융재금구 정보</p></a>
+
             <a href="links.html?category=system" class="menu-wrapper"><div class="menu-item">⚙️</div><p class="menu-label">시스템 정보</p></a>
             <a href="links.html?category=covenant" class="menu-wrapper"><div class="menu-item">📜</div><p class="menu-label">비밀계약 정보</p></a>
             <a href="links.html?category=myeongryun" class="menu-wrapper"><div class="menu-item">🔘</div><p class="menu-label">명륜 정보</p></a>
+            <a href="links.html?category=silverkey" class="menu-wrapper"><div class="menu-item">🔑</div><p class="menu-label">은열쇠 정보</p></a>
+
+            <a href="links.html?category=chess" class="menu-wrapper"><div class="menu-item">♟️</div><p class="menu-label">페이즈 체스</p></a>
             <a href="links.html?category=code" class="menu-wrapper"><div class="menu-item">🎟️</div><p class="menu-label">교환 코드</p></a>
             <a href="links.html?category=newbie" class="menu-wrapper"><div class="menu-item">🐣</div><p class="menu-label">뉴비 팁</p></a>
             <a href="links.html?category=etc" class="menu-wrapper"><div class="menu-item">🎸</div><p class="menu-label">기타</p></a>

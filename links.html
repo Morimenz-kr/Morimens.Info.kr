@@ -123,9 +123,14 @@
 
         .bookmark-image {
             width: 120px;
+            height: 120px; /* 🚩 1:1 비율 고정 */
             background-color: #111; flex-shrink: 0;
         }
-        .bookmark-image img { width: 100%; height: 100%; object-fit: cover; }
+        .bookmark-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         .bookmark-url {
             font-size: 0.75em; color: #666; margin-top: 8px;
@@ -198,7 +203,10 @@
             /* 🔥 [수정] 모바일에서도 최소한의 여백(15px) 확보 */
             .container { padding: 15px; }
 
-            .bookmark-image { width: 100px; }
+            .bookmark-image {
+                width: 100px;
+                height: 100px; /* 🚩 1:1 비율 고정 */
+            }
             .bookmark-content { padding: 10px 12px; }
             .bookmark-title { font-size: 1em; }
         }

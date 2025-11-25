@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/data/patch_notes.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/patch_notes.json" afterDir="false" />
-    </list>
+    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,7 +52,7 @@
       <option name="presentableId" value="Default" />
       <updated>1764032879973</updated>
       <workItem from="1764032881368" duration="10522000" />
-      <workItem from="1764043830268" duration="24433000" />
+      <workItem from="1764043830268" duration="24542000" />
     </task>
     <servers />
   </component>
