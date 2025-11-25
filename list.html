@@ -22,33 +22,58 @@
             padding: 20px;
         }
 
-        /* 헤더 영역 */
+        /* --- 헤더 영역 (수정됨) --- */
         .header-area {
-            text-align: center;
-            margin-bottom: 30px;
+            position: relative; /* 기준점 */
+            display: flex;
+            align-items: center;
+            justify-content: center; /* 중앙 정렬 */
+            margin-bottom: 20px;
+            min-height: 50px;
+            /* padding은 제거 (내부 요소가 알아서 처리) */
         }
 
         h1 {
-            font-size: 2.2em;
-            margin: 10px 0 30px;
+            font-size: 1.5em; /* 모바일에 맞게 폰트 크기 조정 */
+            margin: 0;
             color: #fff;
             text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            text-align: center;
+
+            /* 🔥 핵심 수정: 양옆에 버튼이 들어올 공간(Safe Zone)을 강제로 확보 */
+            /* 왼쪽 80px, 오른쪽 80px은 글자가 절대 침범하지 않음 */
+            padding: 0 80px;
+            width: 100%;
+            word-break: keep-all;
+            line-height: 1.2;
         }
 
-        /* 뒤로가기 버튼 */
+        /* 뒤로가기 버튼 (왼쪽 고정) */
         .back-link {
-            display: inline-block;
-            padding: 8px 16px;
+            position: absolute; /* 절대 위치 */
+            left: 0;            /* 왼쪽 벽에 붙임 */
+            top: 50%;
+            transform: translateY(-50%); /* 세로 중앙 */
+
+            display: flex; /* 아이콘/텍스트 정렬 */
+            align-items: center;
+            justify-content: center;
+
+            padding: 8px 12px;
             background-color: #333;
             color: #ccc;
             text-decoration: none;
             border-radius: 8px;
             border: 1px solid #444;
-            font-size: 0.9em;
+            font-size: 0.85em;
+            font-weight: bold;
             transition: all 0.2s;
-            margin-bottom: 10px;
+            z-index: 10; /* 타이틀보다 위에 오도록 */
+            white-space: nowrap; /* 버튼 글자 줄바꿈 방지 */
         }
         .back-link:hover { background-color: #444; color: #fff; border-color: #ffc107; }
+
+        /* 모바일 미디어 쿼리 내부의 h1 설정은 삭제하거나 위 코드로 통합됨 */
 
         /* --- 검색 & 필터 --- */
         .controls-container {
