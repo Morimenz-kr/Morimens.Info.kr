@@ -7,26 +7,57 @@
     <title>정보 모음 - 망각전야</title>
     <link rel="stylesheet" href="css/index.css">
     <style>
-        /* --- 1. 기존 스타일 및 추가 스타일 (생략) --- */
+        /* --- 1. 공통 스타일 (기존 유지) --- */
         .link-container { max-width: 800px; margin: 0 auto; padding: 20px; }
         .category-title { color: #ffc107; border-bottom: 2px solid #555; padding-bottom: 15px; margin-bottom: 30px; font-size: 1.8em; text-align: left; display: flex; align-items: center; gap: 10px; }
         .title-thumb { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 2px solid #555; }
-        .notion-bookmark { display: flex; background-color: #2a2a2a; border: 1px solid #444; border-radius: 6px; text-decoration: none; color: #eee; margin-bottom: 16px; transition: all 0.2s; height: 130px; overflow: hidden; }
-        .notion-bookmark:hover { background-color: #353535; border-color: #888; transform: translateY(-2px); }
-        .bookmark-content { flex: 1; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }
-        .bookmark-title { font-size: 1.1em; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; margin-bottom: 5px; }
-        .bookmark-desc { font-size: 0.9em; color: #aaa; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
-        .bookmark-url { font-size: 0.75em; color: #666; margin-top: 8px; display: flex; align-items: center; gap: 5px; }
-        .bookmark-image { width: 200px; background-color: #111; flex-shrink: 0; }
-        .bookmark-image img { width: 100%; height: 100%; object-fit: cover; }
         .no-data { text-align: center; padding: 50px; color: #777; border: 2px dashed #444; border-radius: 10px; }
         .report-section { margin-top: 40px; padding-top: 20px; border-top: 1px solid #444; text-align: center; color: #777; font-size: 0.9em; }
         .report-btn { display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #333; color: #ccc; text-decoration: none; border-radius: 20px; border: 1px solid #555; transition: all 0.2s; cursor: pointer; }
         .report-btn:hover { background-color: #444; color: #fff; border-color: #ffc107; }
+
+        /* 텍스트 박스 스타일 */
         .text-link-box { display: block; background-color: #2a2a2a; border: 1px solid #444; border-radius: 12px; padding: 20px; margin-bottom: 12px; text-align: center; color: #fff; font-size: 1.1em; line-height: 1.6; }
         .code-warning-text { font-size: 0.85em; color: #999; text-align: center; margin-bottom: 15px; padding: 8px 15px; background-color: #333; border-radius: 8px; }
 
-        /* --- 2. 모달/폼 스타일 (새로 추가) --- */
+        /* --- 2. 카드 스타일 (모바일 최적화) --- */
+        .notion-bookmark {
+            display: flex; background-color: #2a2a2a; border: 1px solid #444; border-radius: 6px;
+            text-decoration: none; color: #eee; margin-bottom: 16px; transition: all 0.2s;
+            height: auto; /* 🔥 높이 자동 조절 */
+            min-height: 100px;
+            overflow: hidden;
+        }
+        .notion-bookmark:hover { background-color: #353535; border-color: #888; transform: translateY(-2px); }
+
+        .bookmark-content {
+            flex: 1; padding: 12px 16px; /* 상하 패딩 줄임 */
+            display: flex; flex-direction: column; justify-content: space-between;
+            min-width: 0;
+        }
+
+        .bookmark-title {
+            font-size: 1.1em; font-weight: bold;
+            white-space: normal; /* 🔥 제목이 여러 줄로 표시되도록 (핵심) */
+            overflow: hidden; text-overflow: ellipsis;
+            color: #fff; margin-bottom: 5px;
+            line-height: 1.3;
+        }
+
+        .bookmark-desc {
+            font-size: 0.9em; color: #aaa;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+            overflow: hidden; line-height: 1.3;
+        }
+
+        .bookmark-image {
+            width: 120px; /* 🔥 썸네일 너비 축소 (제목 공간 확보) */
+            background-color: #111; flex-shrink: 0;
+        }
+        .bookmark-image img { width: 100%; height: 100%; object-fit: cover; }
+        .bookmark-url { font-size: 0.75em; color: #666; margin-top: 8px; display: flex; align-items: center; gap: 5px; }
+
+        /* --- 3. 모달/폼 스타일 --- */
         .modal-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center; align-items: center;
@@ -51,6 +82,13 @@
             font-weight: bold; cursor: pointer; transition: background-color 0.2s;
         }
         .form-submit-btn:hover { background-color: #0056b3; }
+
+        /* 모바일에서 썸네일 추가 축소 */
+        @media (max-width: 600px) {
+            .bookmark-image { width: 100px; }
+            .bookmark-content { padding: 10px 12px; }
+            .bookmark-title { font-size: 1em; }
+        }
     </style>
 </head>
 <body>
@@ -109,13 +147,11 @@
 
         // --- 1. 데이터 로드 및 렌더링 (기존 로직 유지) ---
         try {
-            // 캐시 방지용 타임스탬프
             const ts = new Date().getTime();
             const [manifestRes, linksRes] = await Promise.all([
                 fetch(`data/character_manifest.json?t=${ts}`),
                 fetch(`data/resource_links.json?t=${ts}`)
             ]);
-            // ... (JSON 로드 및 targetItems 설정 로직 생략, 기존과 동일) ...
 
             if(!manifestRes.ok || !linksRes.ok) throw new Error("JSON 파일 로드 실패");
 
@@ -140,7 +176,6 @@
 
             if (targetItems.length === 0) {
                 listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
-                // return; // 비어 있어도 모달 버튼은 보여줘야 함
             }
 
             // 렌더링 시작 (이미지/텍스트 카드)
@@ -188,7 +223,7 @@
             const data = new FormData(e.target);
             const reporterEmail = data.get('_replyto') || 'N/A';
             const message = data.get('message');
-            const sourceUrl = data.get('report_source_url'); // 숨겨진 필드에서 URL 가져옴
+            const sourceUrl = data.get('report_source_url');
 
             const DISCORD_ENDPOINT = e.target.action;
 
@@ -231,7 +266,7 @@
     // --- (기존 유틸리티 함수 유지) ---
 
     // [기능] 이미지 프록시 변환기
-    function getProxyImage(url) { /* ... 기존 로직 ... */
+    function getProxyImage(url) {
         if (!url) return 'images/morimens Icon.webp';
         url = url.trim();
         if (url.startsWith('//')) { url = 'https:' + url; }
@@ -242,8 +277,7 @@
     }
 
     // [기능] 텍스트 전용 카드 렌더러 (교환 코드용)
-    async function renderCodeLinks(urls, container) { /* ... 기존 로직 ... */
-        // ... (기존 로직) ...
+    async function renderCodeLinks(urls, container) {
         const warningHtml = '<div class="code-warning-text">만료된 교환 코드가 있을 수 있습니다.</div>';
         container.insertAdjacentHTML('beforebegin', warningHtml);
         const codeBox = document.createElement('div');
@@ -261,7 +295,7 @@
     }
 
     // [기능] 즉시 렌더링 함수 (베이킹된 데이터용)
-    function createLinkCardInstant(data, container) { /* ... 기존 로직 ... */
+    function createLinkCardInstant(data, container) {
         try {
             const domain = new URL(data.url).hostname;
             const safeImage = getProxyImage(data.image);
@@ -290,7 +324,52 @@
     }
 
     // [기능] API 로딩 함수 (느림 - String URL 용)
-    async function createLinkCardFromAPI(url, container) { /* ... 기존 로직 ... */
-        // 이 함수는 길어서 최종본에는 포함하지 않겠습니다. (사용 빈도 낮음)
+    async function createLinkCardFromAPI(url, container) {
+        const cardWrap = document.createElement('div');
+        cardWrap.className = 'skeleton skeleton-card';
+        cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
+        container.appendChild(cardWrap);
+
+        try {
+            const apiUrl = `https://api.microlink.io?url=${encodeURIComponent(url)}`;
+            const res = await fetch(apiUrl);
+            const json = await await res.json();
+
+            if (json.status === 'success') {
+                const data = json.data;
+                const safeImage = getProxyImage(data.image?.url);
+
+                cardWrap.className = 'notion-bookmark';
+                cardWrap.innerHTML = '';
+
+                const linkEl = document.createElement('a');
+                linkEl.href = url;
+                linkEl.target = "_blank";
+                linkEl.className = "notion-bookmark";
+                linkEl.style.width = "100%";
+                linkEl.innerHTML = `
+                    <div class="bookmark-content">
+                        <div>
+                            <div class="bookmark-title">${data.title || url}</div>
+                            <div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div>
+                        </div>
+                        <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
+                    </div>
+                    <div class="bookmark-image">
+                        <img src="${safeImage}" alt="썸네일" loading="lazy"
+                             onerror="this.onerror=null; this.src='images/morimens Icon.webp';">
+                    </div>`;
+
+                container.replaceChild(linkEl, cardWrap);
+            } else { throw new Error("API Fail"); }
+        } catch (e) {
+            cardWrap.className = 'notion-bookmark';
+            cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:20px; color:#fff; text-decoration:none; width:100%; display:block;">
+                <div style="font-weight:bold; margin-bottom:5px;">${url}</div>
+                <div style="font-size:0.8em; color:#aaa;">(정보 로드 실패 - 콘솔 확인)</div>
+            </a>`;
+        }
     }
 </script>
+</body>
+</html>
