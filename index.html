@@ -84,7 +84,7 @@
             border-radius: 12px; overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             border: 1px solid #555;
-            /* 🚩 PC: 배너와 그리드 사이의 여백을 45px로 확대합니다. (기존 30px) */
+            /* 🚩 PC: 배너와 그리드 사이의 여백을 45px로 확대합니다. */
             margin-bottom: 45px;
         }
 
@@ -147,7 +147,8 @@
         .menu-item {
             display: flex; justify-content: center; align-items: center;
             width: 100%; aspect-ratio: 1.6 / 0.8; /* 1.6 : 0.8 비율 유지 */
-            background: #333; border-radius: 12px; font-size: 2.2em;
+            background: #333; border-radius: 12px;
+            font-size: 2.2em; /* PC 아이콘 크기 */
             border: 1px solid #444; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             transition: background 0.2s, transform 0.2s;
         }
@@ -182,20 +183,28 @@
                 gap: 0;
             }
             header {
-                font-size: 1.8em;
+                font-size: 1.6em;
                 /* 🚩 모바일: 타이틀 상단 여백(20px)과 동일하게 하단 여백을 20px로 설정합니다. */
                 margin-bottom: 20px;
             }
-            h1 { font-size: 1.8em; }
+
+            /* 🚩 타이틀(h1) 크기를 1.5em으로 줄여 모바일 화면에 더 비례하도록 조정 */
+            h1 { font-size: 1.5em; }
 
             .banner-container {
                 height: 120px;
-                /* 🚩 모바일: 배너와 그리드 여백을 25px로 확대합니다. (기존 15px) */
-                margin-bottom: 25px;
+                /* 🚩 모바일: 배너와 그리드 여백을 25px로 확대합니다. */
+                margin-bottom: 30px;
             }
 
             .menu-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
-            .menu-item { font-size: 1.8em; border-radius: 10px; aspect-ratio: 1.6 / 0.8; }
+
+            .menu-item {
+                /* 🚩 모바일 메뉴 아이콘(이모지) 크기를 1.4em으로 줄여 버튼 크기에 비례하도록 조정 */
+                font-size: 1.6em;
+                border-radius: 10px;
+                aspect-ratio: 1.6 / 0.8;
+            }
             .menu-label { font-size: 0.9em; }
 
             .arrow svg { width: 30px; height: 30px; }
