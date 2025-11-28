@@ -800,7 +800,15 @@
       }
     ],
     "tulu": [],
-    "faros": [],
+    "faros": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/155131006",
+        "title": "파로스 캐릭터 정보",
+        "desc": "오...오... 잘록한 허리어?부끄...내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함리모리아 ?레모리아 ?레무리아 ?",
+        "image": "https://ac-p1.namu.la/20251127sac/189ac8a0565c91970cd98f0495c325309f2cccb6dfc65950ca9ccba3b9fba63c.png?expires=1764292171&key=1wZx0YsNf1xbp47uoTSY7Q"
+      }
+    ],
     "doresain": [],
     "leigh": [],
     "salvador": [],
