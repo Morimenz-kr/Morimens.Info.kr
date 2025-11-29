@@ -198,9 +198,18 @@
                         });
 
                         if (response.ok) {
-                            modalStatus.textContent = "✅ 제보가 성공적으로 전송되었습니다! 감사합니다.";
-                            reportForm.reset();
-                            setTimeout(() => modal.classList.remove('show'), 3000);
+                            if (modalStatus) {
+                                modalStatus.textContent = "✅ 제보가 성공적으로 전송되었습니다! 감사합니다.";
+                            }
+                            form.reset();
+                            // 성공 메시지를 2초 동안 보여준 후 모달 닫기
+                            setTimeout(() => {
+                                document.getElementById('report-modal').classList.remove('show');
+                                if (modalStatus) {
+                                    modalStatus.style.display = 'none';
+                                    modalStatus.textContent = '제보를 전송 중입니다...'; // 다음 사용을 위해 초기화
+                                }
+                            }, 2000);
                         } else {
                             modalStatus.textContent = `❌ 전송 실패: Webhook 오류 (상태 코드: ${response.status})`;
                         }
@@ -301,34 +310,89 @@
             }
         }
 
-        // Discord Webhook 전송 함수
+        // 모달 열기 및 초기화 함수
+        function openReportModal() {
+            const modal = document.getElementById('report-modal');
+            const modalStatus = document.getElementById('modal-form-status');
+            const sourceUrlInput = document.getElementById('report-source-url');
+
+            // 상태 초기화
+            if (modalStatus) {
+                modalStatus.style.display = 'none';
+                modalStatus.textContent = '제보를 전송 중입니다...';
+            }
+
+            // 현재 URL 자동 입력
+            if (sourceUrlInput) {
+                sourceUrlInput.value = window.location.href;
+            }
+
+            // 모달 열기
+            modal.classList.add('show');
+        }
+
+        // Discord Webhook 전송 함수 (Embed 형식)
         async function sendToDiscord(event) {
             event.preventDefault();
             const form = event.target;
             const formData = new FormData(form);
+            const modalStatus = document.getElementById('modal-form-status');
+
+            if (modalStatus) {
+                modalStatus.style.display = 'block';
+                modalStatus.textContent = '제보를 전송 중입니다...';
+            }
+
+            const reporterEmail = formData.get('_replyto') || 'N/A';
+            const message = formData.get('message');
+            const sourceUrl = formData.get('report_source_url') || window.location.href;
 
             const payload = {
-                content: `**버그 신고**\n출처 URL: ${formData.get('source_url')}\n내용: ${formData.get('content')}`
+                username: "Morimens Wiki Reporter",
+                embeds: [{
+                    title: "🚨 신규 버그/피드백 제보 접수",
+                    color: 15777040,
+                    fields: [
+                        { name: "제보자 닉네임", value: reporterEmail, inline: false },
+                        { name: "제보 페이지", value: `[링크](${sourceUrl})`, inline: false },
+                        { name: "상세 내용", value: message, inline: false },
+                    ],
+                    timestamp: new Date().toISOString()
+                }]
             };
 
             try {
-                await fetch(CONFIG.DISCORD_WEBHOOK_URL, {
+                const response = await fetch(CONFIG.DISCORD_WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
-                alert('신고가 접수되었습니다!');
-                document.getElementById('report-modal').classList.remove('show');
+
+                // Discord Webhook은 204 No Content 응답을 주므로 response 체크 불가
+                // fetch가 성공하면 전송된 것으로 간주
+                if (modalStatus) {
+                    modalStatus.textContent = "✅ 제보가 성공적으로 전송되었습니다! 감사합니다.";
+                }
                 form.reset();
+                // 성공 메시지를 2초 동안 보여준 후 모달 닫기
+                setTimeout(() => {
+                    document.getElementById('report-modal').classList.remove('show');
+                    if (modalStatus) {
+                        modalStatus.style.display = 'none';
+                        modalStatus.textContent = '제보를 전송 중입니다...';
+                    }
+                }, 2000);
             } catch (error) {
-                alert('전송 실패: ' + error.message);
+                const errorMsg = '❌ 네트워크 오류가 발생했습니다.';
+                if (modalStatus) {
+                    modalStatus.textContent = errorMsg;
+                }
             }
         }
     </script>
 
     <!-- Floating 신고 버튼 -->
-    <button class="floating-report-btn" onclick="document.getElementById('report-modal').classList.add('show')"
-        title="버그 신고">
+    <button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
         🚨
     </button>
 </body>
