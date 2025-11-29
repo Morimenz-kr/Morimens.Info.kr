@@ -1,0 +1,389 @@
+/* ============================================
+   반응형 스타일 (Responsive Design)
+   모든 페이지에 적용되는 반응형 미디어 쿼리
+   ============================================ */
+
+/* =============================================
+   브레이크포인트:
+   - 모바일 소형: ~ 480px
+   - 모바일 일반: 481px ~ 600px  
+   - 태블릿 세로: 601px ~ 768px
+   - 태블릿 가로: 769px ~ 1024px
+   - PC: 1025px ~
+   ============================================= */
+
+/* --- 모바일 소형 (~ 480px) --- */
+@media (max-width: 480px) {
+
+    /* 공통 */
+    .container {
+        padding: 15px;
+    }
+
+    /* Landing (index.html) */
+    .landing-container {
+        padding: 20px 15px 60px;
+    }
+
+    header h1 {
+        font-size: 1.4em;
+    }
+
+    header {
+        margin-bottom: 20px;
+    }
+
+    .banner-container {
+        height: 100px;
+        margin-bottom: 25px;
+    }
+
+    .banner-text {
+        font-size: 1.1em;
+    }
+
+    .banner-tag {
+        font-size: 0.75em;
+        padding: 3px 6px;
+    }
+
+    .arrow svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    /* 메뉴 그리드: 2열 */
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .menu-item {
+        font-size: 1.8em;
+        border-radius: 10px;
+    }
+
+    .menu-label {
+        font-size: 0.85em;
+    }
+
+    footer {
+        bottom: 5px;
+        font-size: 0.7em;
+    }
+
+    /* List (list.html) */
+    .header-area h1 {
+        font-size: 1.3em;
+        padding: 0 70px;
+    }
+
+    .header-area .back-link {
+        padding: 6px 10px;
+        font-size: 0.75em;
+    }
+
+    .controls-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-container {
+        justify-content: space-between;
+    }
+
+    select {
+        flex: 1;
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .character-card h3 {
+        font-size: 0.95em;
+    }
+
+    /* Links (links.html) - 🔧 120px 유지 */
+    .notion-bookmark {
+        height: 120px;
+    }
+
+    .bookmark-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .bookmark-content {
+        padding: 8px 10px;
+    }
+
+    .bookmark-title {
+        font-size: 0.95em;
+    }
+
+    .bookmark-desc {
+        font-size: 0.85em;
+    }
+
+    .category-title {
+        font-size: 1.4em;
+    }
+
+    /* Detail (detail.html) - 모바일 레이아웃 */
+    .detail-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .char-profile,
+    .char-data {
+        flex-basis: 100%;
+    }
+
+    .data-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-tabs .tab-link {
+        font-size: 0.95em;
+        padding: 8px 12px;
+    }
+
+    .skill-card-builder {
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        aspect-ratio: 300 / 465;
+    }
+
+    .team-cards-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+/* --- 모바일 일반 (481px ~ 600px) --- */
+@media (min-width: 481px) and (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    .landing-container {
+        padding: 20px 15px 60px;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    header {
+        margin-bottom: 20px;
+    }
+
+    .banner-container {
+        height: 120px;
+        margin-bottom: 30px;
+    }
+
+    .arrow svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* 메뉴 그리드: 3열 */
+    .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .menu-item {
+        font-size: 1.4em;
+        border-radius: 10px;
+    }
+
+    .menu-label {
+        font-size: 0.9em;
+    }
+
+    footer {
+        bottom: 5px;
+        font-size: 0.75em;
+    }
+
+    /* List */
+    .header-area h1 {
+        font-size: 1.4em;
+    }
+
+    .controls-container {
+        flex-direction: column;
+    }
+
+    .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    /* Links - 🔧 120px 유지 */
+    .notion-bookmark {
+        height: 120px;
+    }
+
+    .bookmark-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Detail */
+    .detail-layout {
+        flex-direction: column;
+    }
+
+    .team-cards-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* --- 태블릿 세로 (601px ~ 768px) --- */
+@media (min-width: 601px) and (max-width: 768px) {
+
+    /* 메뉴 그리드: 3열 */
+    .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .menu-item {
+        font-size: 1.8em;
+    }
+
+    .banner-container {
+        height: 130px;
+    }
+
+    /* List */
+    .character-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    /* Links - 🔧 120px 유지 */
+    .notion-bookmark {
+        height: 120px;
+    }
+
+    .bookmark-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Detail */
+    .detail-layout {
+        flex-direction: column;
+    }
+
+    .team-cards-wrapper {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- 태블릿 가로 (769px ~ 1024px) --- */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    /* 메뉴 그리드: 4열 */
+    .menu-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .menu-item {
+        font-size: 2em;
+    }
+
+    /* List */
+    .character-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+    }
+
+    /* Detail */
+    .team-cards-wrapper {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- PC (1025px ~) --- */
+@media (min-width: 1025px) {
+
+    /* 메뉴 그리드: 4열 */
+    .menu-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* List - auto-fill로 자동 조정 */
+    .character-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    /* Detail */
+    .team-cards-wrapper {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* --- 공통 터치 디바이스 최적화 --- */
+@media (hover: none) and (pointer: coarse) {
+
+    /* 터치 타겟 크기 증가 */
+    .menu-item {
+        min-height: 60px;
+    }
+
+    button,
+    a.back-link,
+    .menu-wrapper {
+        min-height: 44px;
+        /* iOS 권장 최소 터치 영역 */
+    }
+
+    /* 호버 효과 비활성화 (터치 기기에서는 불필요) */
+    .character-card:hover,
+    .notion-bookmark:hover,
+    .menu-wrapper:hover .menu-item {
+        transform: none;
+    }
+}
+
+/* --- 다크모드 지원 (선택적) --- */
+@media (prefers-color-scheme: dark) {
+    /* 기본이 이미 다크모드이므로 추가 조정 불필요 */
+    /* 필요시 라이트모드 사용자를 위한 스타일 추가 가능 */
+}
+
+/* --- 인쇄 스타일 (선택적) --- */
+@media print {
+
+    .bg-image,
+    .background-overlay,
+    footer,
+    .back-link,
+    .arrow,
+    .dots-container {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+}

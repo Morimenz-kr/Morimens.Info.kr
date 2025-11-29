@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
     <meta charset="UTF-8">
@@ -13,430 +14,242 @@
     <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 망각전야의 모든 정보를 한눈에 확인하세요.">
     <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
 
-    <link rel="stylesheet" href="css/index.css">
-    <style>
-        /* --- 1. 공통 레이아웃 --- */
-        * { box-sizing: border-box; }
-
-        /* 배경색: 짙은 회색 통일 */
-        body {
-            background-color: #1a1a1a;
-            color: #ecf0f1;
-            margin: 0; padding: 0;
-            font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
-        }
-
-        /* 🔥 [수정] 전체 컨테이너 여백 추가 (벽에 붙음 방지) */
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px; /* PC 기본 여백 */
-        }
-
-        /* 🔥 [수정] 뒤로가기 버튼 스타일 (각성체 정보 페이지와 통일) */
-        .back-link {
-            display: inline-flex; /* 아이콘 정렬 용이 */
-            align-items: center;
-            justify-content: center;
-
-            padding: 8px 14px; /* 버튼 내부 여백 */
-            margin-bottom: 20px; /* 아래 콘텐츠와 간격 */
-
-            background-color: #333;
-            color: #ccc;
-            text-decoration: none;
-
-            border: 1px solid #444;
-            border-radius: 8px; /* 둥근 모서리 */
-            font-size: 0.9em;   /* 글자 크기 적당히 작게 */
-            font-weight: bold;
-
-            transition: all 0.2s ease;
-        }
-
-        .back-link:hover {
-            background-color: #444;
-            color: #fff;
-            border-color: #ffc107; /* 호버 시 강조 */
-            transform: translateY(-2px);
-        }
-
-        .link-container { max-width: 800px; margin: 0 auto; padding: 0 10px; }
-
-        .category-title {
-            color: #ffc107; border-bottom: 2px solid #555; padding-bottom: 15px; margin-bottom: 30px;
-            font-size: 1.8em; text-align: left; display: flex; align-items: center; gap: 10px;
-        }
-
-        .title-thumb {
-            width: 50px; height: 50px; border-radius: 8px; object-fit: cover; border: 2px solid #555;
-        }
-
-        .no-data {
-            text-align: center; padding: 50px; color: #777; border: 2px dashed #444; border-radius: 10px;
-        }
-
-        /* 제보 버튼 섹션 */
-        .report-section {
-            margin-top: 40px; padding-top: 20px; border-top: 1px solid #444;
-            text-align: center; color: #777; font-size: 0.9em;
-        }
-
-        .report-btn {
-            display: inline-block; margin-top: 10px; padding: 8px 16px;
-            background-color: #333; color: #ccc; text-decoration: none; border-radius: 20px;
-            border: 1px solid #555; transition: all 0.2s; cursor: pointer;
-        }
-        .report-btn:hover { background-color: #444; color: #fff; border-color: #ffc107; }
-
-        /* --- 2. 링크 카드 스타일 (모바일 최적화) --- */
-        .notion-bookmark {
-            display: flex; background-color: #2a2a2a; border: 1px solid #444; border-radius: 6px;
-            text-decoration: none; color: #eee; margin-bottom: 16px; transition: all 0.2s;
-            height: auto;
-            min-height: 100px;
-            overflow: hidden;
-        }
-        .notion-bookmark:hover { background-color: #353535; border-color: #888; transform: translateY(-2px); }
-
-        .bookmark-content {
-            flex: 1; padding: 12px 16px;
-            display: flex; flex-direction: column; justify-content: space-between;
-            min-width: 0;
-        }
-
-        .bookmark-title {
-            font-size: 1.1em; font-weight: bold;
-            white-space: normal;
-            overflow: hidden; text-overflow: ellipsis;
-            color: #fff; margin-bottom: 5px;
-            line-height: 1.3;
-        }
-
-        .bookmark-desc {
-            font-size: 0.9em; color: #aaa;
-            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-            overflow: hidden; line-height: 1.3;
-        }
-
-        .bookmark-image {
-            width: 120px;
-            height: 120px; /* 🚩 1:1 비율 고정 */
-            background-color: #111; flex-shrink: 0;
-        }
-        .bookmark-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .bookmark-url {
-            font-size: 0.75em; color: #666; margin-top: 8px;
-            display: flex; align-items: center; gap: 5px;
-        }
-
-        /* --- 3. 교환 코드 (텍스트 박스) 스타일 --- */
-        .text-link-box {
-            display: block;
-            background-color: #2a2a2a;
-            border: 1px solid #444;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 12px;
-            text-align: center;
-            color: #bbb;
-            font-size: 1.1em;
-            line-height: 1.6;
-        }
-
-        .code-warning-text {
-            font-size: 0.85em; color: #999; text-align: center;
-            margin-bottom: 15px; padding: 8px 15px; background-color: #333; border-radius: 8px;
-        }
-
-        .code-line {
-            padding: 10px; margin: 5px 0; border-bottom: 1px dashed #444;
-            cursor: pointer; transition: all 0.2s ease; word-break: break-all;
-        }
-        .code-line:hover { background-color: rgba(255, 255, 255, 0.05); color: #fff; }
-        .code-line:last-child { border-bottom: none; }
-
-        .code-line.copied {
-            color: #ffc107 !important; transform: scale(0.98); background-color: transparent;
-        }
-
-        /* --- 4. 제보 모달 폼 스타일 --- */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.85); z-index: 1000;
-            justify-content: center; align-items: center;
-        }
-        .modal-overlay.show { display: flex; }
-
-        .modal-content {
-            width: 90%; max-width: 500px; background-color: #2c2c2c; border-radius: 12px;
-            padding: 30px; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
-            animation: fadeIn 0.3s ease-out;
-        }
-        @keyframes fadeIn { 0% {opacity: 0; transform: translateY(-20px);} 100% {opacity: 1; transform: translateY(0);} }
-
-        .form-title { color: #ffc107; border-bottom: 2px solid #444; padding-bottom: 10px; margin-top: 0; }
-        .form-field-label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; color: #ccc; }
-
-        .form-input, .form-textarea {
-            width: 100%; padding: 12px; border: 1px solid #555; border-radius: 6px;
-            background-color: #383838; color: #eee; font-size: 1em; box-sizing: border-box;
-        }
-        .form-textarea { min-height: 120px; resize: vertical; }
-
-        .form-submit-btn {
-            display: block; width: 100%; padding: 12px; margin-top: 20px;
-            background-color: #007bff; color: white; border: none; border-radius: 6px;
-            font-weight: bold; cursor: pointer; transition: background-color 0.2s;
-        }
-        .form-submit-btn:hover { background-color: #0056b3; }
-
-        /* --- 5. 반응형 (모바일) --- */
-        @media (max-width: 600px) {
-            /* 🔥 [수정] 모바일에서도 최소한의 여백(15px) 확보 */
-            .container { padding: 15px; }
-
-            .bookmark-image {
-                width: 100px;
-                height: 100px; /* 🚩 1:1 비율 고정 */
-            }
-            .bookmark-content { padding: 10px 12px; }
-            .bookmark-title { font-size: 1em; }
-        }
-    </style>
+    <!-- CSS 파일 연결 -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/pages/links.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
+
 <body>
 
-<div class="container" style="position: relative; z-index: 2;">
-    <a href="javascript:history.back()" class="back-link">⬅ 뒤로가기</a>
+    <div class="container" style="position: relative; z-index: 2;">
+        <a href="javascript:history.back()" class="back-link">⬅ 뒤로가기</a>
 
-    <div class="link-container">
-        <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
-        <div id="links-list"></div>
+        <div class="link-container">
+            <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
+            <div id="links-list"></div>
 
-        <div class="report-section">
-            <p>혹시 연결되지 않는 링크가 있나요?</p>
-            <a href="#" id="open-report-modal" class="report-btn">
-                🚨 버그/피드백 제보하기
-            </a>
+            <div class="report-section">
+                <p>혹시 연결되지 않는 링크가 있나요?</p>
+                <a href="#" id="open-report-modal" class="report-btn">
+                    🚨 버그/피드백 제보하기
+                </a>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="report-modal" class="modal-overlay">
-    <div class="modal-content">
-        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
-        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+    <div id="report-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+            <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
 
-        <form id="bug-report-form" action="https://discordapp.com/api/webhooks/1442726767222718554/i3QtvZ6-giYqwtlheMm3ugxcJoVsoVYmExBPX2n-uEoFHpWwmGqaaO_f6gnlBNXCZYas" method="POST">
+            <form id="bug-report-form"
+                action="https://discordapp.com/api/webhooks/1442726767222718554/i3QtvZ6-giYqwtlheMm3ugxcJoVsoVYmExBPX2n-uEoFHpWwmGqaaO_f6gnlBNXCZYas"
+                method="POST">
 
-            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
-            <input type="text" id="reporter-email" name="_replyto" class="form-input" placeholder="패치노트에 언급을 원하시면 적어주세요.">
+                <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+                <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                    placeholder="패치노트에 언급을 원하시면 적어주세요.">
 
-            <label for="report-message" class="form-field-label">제보할 내용 (버그 or 피드백) (필수)</label>
-            <textarea id="report-message" name="message" class="form-textarea" required
-                      placeholder="제보하실 내용을 적어주세요."></textarea>
+                <label for="report-message" class="form-field-label">제보할 내용 (버그 or 피드백) (필수)</label>
+                <textarea id="report-message" name="message" class="form-textarea" required
+                    placeholder="제보하실 내용을 적어주세요."></textarea>
 
-            <input type="hidden" name="report_source_url" id="report-source-url">
-            <input type="hidden" name="_subject" value="[Morimens Wiki] 버그/피드백 접수">
+                <input type="hidden" name="report_source_url" id="report-source-url">
+                <input type="hidden" name="_subject" value="[Morimens Wiki] 버그/피드백 접수">
 
-            <button type="submit" class="form-submit-btn">제보 보내기</button>
-            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
-        </form>
+                <button type="submit" class="form-submit-btn">제보 보내기</button>
+                <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송
+                    중...</p>
+            </form>
 
+        </div>
     </div>
-</div>
 
-<script>
-    // 🚩 전역 복사 함수
-    function copyCodeToClipboard(text, element) {
-        if (!navigator.clipboard) {
-            alert("⚠️ 이 브라우저는 클립보드 복사를 지원하지 않습니다.");
-            return;
+    <script>
+        // 🚩 전역 복사 함수
+        function copyCodeToClipboard(text, element) {
+            if (!navigator.clipboard) {
+                alert("⚠️ 이 브라우저는 클립보드 복사를 지원하지 않습니다.");
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                element.classList.add('copied');
+                const originalText = element.innerHTML;
+                element.innerHTML = '✅ 복사 완료!';
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                    element.innerHTML = originalText;
+                }, 800);
+            }).catch(err => {
+                console.error('클립보드 복사 실패:', err);
+                alert('복사 실패! 콘솔을 확인해주세요.');
+            });
         }
-        navigator.clipboard.writeText(text).then(() => {
-            element.classList.add('copied');
-            const originalText = element.innerHTML;
-            element.innerHTML = '✅ 복사 완료!';
-            setTimeout(() => {
-                element.classList.remove('copied');
-                element.innerHTML = originalText;
-            }, 800);
-        }).catch(err => {
-            console.error('클립보드 복사 실패:', err);
-            alert('복사 실패! 콘솔을 확인해주세요.');
-        });
-    }
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category');
-        const charId = urlParams.get('id');
-        const titleEl = document.getElementById('page-title');
-        const listEl = document.getElementById('links-list');
-        const modal = document.getElementById('report-modal');
-        const openModalBtn = document.getElementById('open-report-modal');
-        const sourceUrlInput = document.getElementById('report-source-url');
-        const reportForm = document.getElementById('bug-report-form');
-        const modalStatus = document.getElementById('modal-form-status');
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+            const charId = urlParams.get('id');
+            const titleEl = document.getElementById('page-title');
+            const listEl = document.getElementById('links-list');
+            const modal = document.getElementById('report-modal');
+            const openModalBtn = document.getElementById('open-report-modal');
+            const sourceUrlInput = document.getElementById('report-source-url');
+            const reportForm = document.getElementById('bug-report-form');
+            const modalStatus = document.getElementById('modal-form-status');
 
-        try {
-            const ts = new Date().getTime();
-            const [manifestRes, linksRes] = await Promise.all([
-                fetch(`data/character_manifest.json?t=${ts}`),
-                fetch(`data/resource_links.json?t=${ts}`)
-            ]);
+            try {
+                const ts = new Date().getTime();
+                const [manifestRes, linksRes] = await Promise.all([
+                    fetch(`data/character_manifest.json?t=${ts}`),
+                    fetch(`data/resource_links.json?t=${ts}`)
+                ]);
 
-            if(!manifestRes.ok || !linksRes.ok) throw new Error("JSON 파일 로드 실패");
+                if (!manifestRes.ok || !linksRes.ok) throw new Error("JSON 파일 로드 실패");
 
-            const manifest = await manifestRes.json();
-            const linksDB = await linksRes.json();
-            let targetItems = [];
-            let pageTitleHTML = "";
+                const manifest = await manifestRes.json();
+                const linksDB = await linksRes.json();
+                let targetItems = [];
+                let pageTitleHTML = "";
 
-            if (category === 'character' && charId) {
-                const charData = manifest.find(c => String(c.id) === String(charId));
-                if (charData) {
-                    pageTitleHTML = `<img src="${charData.image_thumb}" class="title-thumb" alt=""> ${charData.name} 공략 모음`;
-                    targetItems = linksDB.characters[charId] || [];
-                } else { pageTitleHTML = "알 수 없는 캐릭터"; }
-            } else if (category && linksDB.categories[category]) {
-                pageTitleHTML = linksDB.categories[category].title;
-                targetItems = linksDB.categories[category].links || [];
-            } else { pageTitleHTML = "잘못된 접근"; }
+                if (category === 'character' && charId) {
+                    const charData = manifest.find(c => String(c.id) === String(charId));
+                    if (charData) {
+                        pageTitleHTML = `<img src="${charData.image_thumb}" class="title-thumb" alt=""> ${charData.name} 공략 모음`;
+                        targetItems = linksDB.characters[charId] || [];
+                    } else { pageTitleHTML = "알 수 없는 캐릭터"; }
+                } else if (category && linksDB.categories[category]) {
+                    pageTitleHTML = linksDB.categories[category].title;
+                    targetItems = linksDB.categories[category].links || [];
+                } else { pageTitleHTML = "잘못된 접근"; }
 
-            titleEl.innerHTML = pageTitleHTML;
-            listEl.innerHTML = '';
+                titleEl.innerHTML = pageTitleHTML;
+                listEl.innerHTML = '';
 
-            if (targetItems.length === 0) {
-                listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
+                if (targetItems.length === 0) {
+                    listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
+                }
+
+                // 렌더링 분기
+                if (category === 'code') {
+                    renderCodeLinks(targetItems, listEl);
+                } else {
+                    targetItems.forEach(item => {
+                        if (typeof item === 'string') {
+                            createLinkCardFromAPI(item, listEl);
+                        } else {
+                            createLinkCardInstant(item, listEl);
+                        }
+                    });
+                }
+
+            } catch (error) {
+                console.error(error);
+                titleEl.textContent = "오류 발생";
+                listEl.innerHTML = `<p style="text-align:center;">데이터를 불러오지 못했습니다.<br><small>${error.message}</small></p>`;
             }
 
-            // 렌더링 분기
-            if (category === 'code') {
-                renderCodeLinks(targetItems, listEl);
-            } else {
-                targetItems.forEach(item => {
-                    if (typeof item === 'string') {
-                        createLinkCardFromAPI(item, listEl);
-                    } else {
-                        createLinkCardInstant(item, listEl);
+            // 팝업 로직
+            if (openModalBtn) {
+                openModalBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.classList.add('show');
+                    sourceUrlInput.value = window.location.href;
+                });
+            }
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.classList.remove('show');
+                });
+            }
+            if (reportForm) {
+                reportForm.addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    modalStatus.style.display = 'block';
+                    modalStatus.textContent = '제보를 전송 중입니다...';
+
+                    const data = new FormData(e.target);
+                    const reporterEmail = data.get('_replyto') || 'N/A';
+                    const message = data.get('message');
+                    const sourceUrl = data.get('report_source_url');
+                    const DISCORD_ENDPOINT = e.target.action;
+
+                    const payload = {
+                        username: "Morimens Wiki Reporter",
+                        embeds: [{
+                            title: "🚨 신규 깨진 링크 제보 접수",
+                            color: 15777040,
+                            fields: [
+                                { name: "제보자 이메일", value: reporterEmail, inline: false },
+                                { name: "제보 페이지", value: `[링크](${sourceUrl})`, inline: false },
+                                { name: "상세 내용", value: message, inline: false },
+                            ],
+                            timestamp: new Date().toISOString()
+                        }]
+                    };
+
+                    try {
+                        const response = await fetch(DISCORD_ENDPOINT, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (response.ok) {
+                            modalStatus.textContent = "✅ 제보가 성공적으로 전송되었습니다! 감사합니다.";
+                            reportForm.reset();
+                            setTimeout(() => modal.classList.remove('show'), 3000);
+                        } else {
+                            modalStatus.textContent = `❌ 전송 실패: Webhook 오류 (상태 코드: ${response.status})`;
+                        }
+                    } catch (error) {
+                        modalStatus.textContent = "❌ 네트워크 오류가 발생했습니다.";
                     }
                 });
             }
-
-        } catch (error) {
-            console.error(error);
-            titleEl.textContent = "오류 발생";
-            listEl.innerHTML = `<p style="text-align:center;">데이터를 불러오지 못했습니다.<br><small>${error.message}</small></p>`;
-        }
-
-        // 팝업 로직
-        if(openModalBtn) {
-            openModalBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                modal.classList.add('show');
-                sourceUrlInput.value = window.location.href;
-            });
-        }
-        if(modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.classList.remove('show');
-            });
-        }
-        if(reportForm) {
-            reportForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-                modalStatus.style.display = 'block';
-                modalStatus.textContent = '제보를 전송 중입니다...';
-
-                const data = new FormData(e.target);
-                const reporterEmail = data.get('_replyto') || 'N/A';
-                const message = data.get('message');
-                const sourceUrl = data.get('report_source_url');
-                const DISCORD_ENDPOINT = e.target.action;
-
-                const payload = {
-                    username: "Morimens Wiki Reporter",
-                    embeds: [{
-                        title: "🚨 신규 깨진 링크 제보 접수",
-                        color: 15777040,
-                        fields: [
-                            { name: "제보자 이메일", value: reporterEmail, inline: false },
-                            { name: "제보 페이지", value: `[링크](${sourceUrl})`, inline: false },
-                            { name: "상세 내용", value: message, inline: false },
-                        ],
-                        timestamp: new Date().toISOString()
-                    }]
-                };
-
-                try {
-                    const response = await fetch(DISCORD_ENDPOINT, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (response.ok) {
-                        modalStatus.textContent = "✅ 제보가 성공적으로 전송되었습니다! 감사합니다.";
-                        reportForm.reset();
-                        setTimeout(() => modal.classList.remove('show'), 3000);
-                    } else {
-                        modalStatus.textContent = `❌ 전송 실패: Webhook 오류 (상태 코드: ${response.status})`;
-                    }
-                } catch (error) {
-                    modalStatus.textContent = "❌ 네트워크 오류가 발생했습니다.";
-                }
-            });
-        }
-    });
-
-    // 유틸리티 함수
-    function getProxyImage(url) {
-        if (!url) return 'images/smile_Ramona.webp';
-        url = url.trim();
-        if (url.startsWith('//')) { url = 'https:' + url; }
-        if (url.includes('namu.la') || url.includes('arca.live') || url.includes('dcinside')) {
-            return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=400&output=webp&n=-1`;
-        }
-        return url;
-    }
-
-    async function renderCodeLinks(urls, container) {
-        const warningHtml = '<div class="code-warning-text">만료된 교환 코드가 있을 수 있습니다.</div>';
-        container.insertAdjacentHTML('beforebegin', warningHtml);
-        const codeBox = document.createElement('div');
-        codeBox.className = 'text-link-box';
-        let codeContentHTML = '';
-
-        urls.forEach(item => {
-            let codeLine = '', codeString = '';
-            if (typeof item === 'object') {
-                codeLine = `<b>${item.title}</b>: ${item.desc || item.url || ''}`;
-                codeString = item.desc || item.title;
-            } else {
-                codeLine = item;
-                codeString = item;
-            }
-            const cleanedCode = codeString.replace(/\n/g, ' ').trim();
-            codeContentHTML += `<div class="code-line" onclick="copyCodeToClipboard('${cleanedCode}', this)">${codeLine}</div>`;
         });
-        codeBox.innerHTML = codeContentHTML;
-        container.appendChild(codeBox);
-    }
 
-    function createLinkCardInstant(data, container) {
-        try {
-            const domain = new URL(data.url).hostname;
-            const safeImage = getProxyImage(data.image);
-            const html = `
+        // 유틸리티 함수
+        function getProxyImage(url) {
+            if (!url) return 'images/smile_Ramona.webp';
+            url = url.trim();
+            if (url.startsWith('//')) { url = 'https:' + url; }
+            if (url.includes('namu.la') || url.includes('arca.live') || url.includes('dcinside')) {
+                return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=400&output=webp&n=-1`;
+            }
+            return url;
+        }
+
+        async function renderCodeLinks(urls, container) {
+            const warningHtml = '<div class="code-warning-text">만료된 교환 코드가 있을 수 있습니다.</div>';
+            container.insertAdjacentHTML('beforebegin', warningHtml);
+            const codeBox = document.createElement('div');
+            codeBox.className = 'text-link-box';
+            let codeContentHTML = '';
+
+            urls.forEach(item => {
+                let codeLine = '', codeString = '';
+                if (typeof item === 'object') {
+                    codeLine = `<b>${item.title}</b>: ${item.desc || item.url || ''}`;
+                    codeString = item.desc || item.title;
+                } else {
+                    codeLine = item;
+                    codeString = item;
+                }
+                const cleanedCode = codeString.replace(/\\n/g, ' ').trim();
+                codeContentHTML += `<div class="code-line" onclick="copyCodeToClipboard('${cleanedCode}', this)">${codeLine}</div>`;
+            });
+            codeBox.innerHTML = codeContentHTML;
+            container.appendChild(codeBox);
+        }
+
+        function createLinkCardInstant(data, container) {
+            try {
+                const domain = new URL(data.url).hostname;
+                const safeImage = getProxyImage(data.image);
+                const html = `
                 <a href="${data.url}" target="_blank" class="notion-bookmark">
                     <div class="bookmark-content">
                         <div>
@@ -453,40 +266,41 @@
                              onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
                     </div>
                 </a>`;
-            container.insertAdjacentHTML('beforeend', html);
-        } catch (e) { console.error("카드 생성 에러:", e); }
-    }
+                container.insertAdjacentHTML('beforeend', html);
+            } catch (e) { console.error("카드 생성 에러:", e); }
+        }
 
-    async function createLinkCardFromAPI(url, container) {
-        const cardWrap = document.createElement('div');
-        cardWrap.className = 'skeleton skeleton-card';
-        cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
-        container.appendChild(cardWrap);
-        try {
-            const apiUrl = `https://api.microlink.io?url=${encodeURIComponent(url)}`;
-            const res = await fetch(apiUrl);
-            const json = await res.json();
-            if (json.status === 'success') {
-                const data = json.data;
-                const safeImage = getProxyImage(data.image?.url);
-                cardWrap.className = 'notion-bookmark';
-                cardWrap.innerHTML = '';
-                const linkEl = document.createElement('a');
-                linkEl.href = url; linkEl.target = "_blank";
-                linkEl.className = "notion-bookmark"; linkEl.style.width = "100%";
-                linkEl.innerHTML = `
+        async function createLinkCardFromAPI(url, container) {
+            const cardWrap = document.createElement('div');
+            cardWrap.className = 'skeleton skeleton-card';
+            cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
+            container.appendChild(cardWrap);
+            try {
+                const apiUrl = `https://api.microlink.io?url=${encodeURIComponent(url)}`;
+                const res = await fetch(apiUrl);
+                const json = await res.json();
+                if (json.status === 'success') {
+                    const data = json.data;
+                    const safeImage = getProxyImage(data.image?.url);
+                    cardWrap.className = 'notion-bookmark';
+                    cardWrap.innerHTML = '';
+                    const linkEl = document.createElement('a');
+                    linkEl.href = url; linkEl.target = "_blank";
+                    linkEl.className = "notion-bookmark"; linkEl.style.width = "100%";
+                    linkEl.innerHTML = `
                     <div class="bookmark-content">
                         <div><div class="bookmark-title">${data.title || url}</div><div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div></div>
                         <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
                     </div>
                     <div class="bookmark-image"><img src="${safeImage}" alt="썸네일" loading="lazy" onerror="this.onerror=null; this.src='images/smile_Ramona.webp';"></div>`;
-                container.replaceChild(linkEl, cardWrap);
-            } else { throw new Error("API Fail"); }
-        } catch (e) {
-            cardWrap.className = 'notion-bookmark';
-            cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:20px; color:#fff; text-decoration:none; width:100%; display:block;"><div style="font-weight:bold; margin-bottom:5px;">${url}</div><div style="font-size:0.8em; color:#aaa;">(정보 로드 실패 - 콘솔 확인)</div></a>`;
+                    container.replaceChild(linkEl, cardWrap);
+                } else { throw new Error("API Fail"); }
+            } catch (e) {
+                cardWrap.className = 'notion-bookmark';
+                cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:20px; color:#fff; text-decoration:none; width:100%; display:block;"><div style="font-weight:bold; margin-bottom:5px;">${url}</div><div style="font-size:0.8em; color:#aaa;">(정보 로드 실패 - 콘솔 확인)</div></a>`;
+            }
         }
-    }
-</script>
+    </script>
 </body>
+
 </html>

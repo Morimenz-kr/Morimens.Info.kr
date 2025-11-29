@@ -1,0 +1,55 @@
+/* ============================================
+   list.html 전용 스타일
+   ============================================ */
+
+/* --- 1. 헤더 영역 --- */
+.header-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    min-height: 50px;
+}
+
+.header-area h1 {
+    font-size: 1.5em;
+    margin: 0;
+    color: #fff;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    padding: 0 80px;
+    width: 100%;
+    word-break: keep-all;
+    line-height: 1.2;
+}
+
+/* 뒤로가기 버튼 (왼쪽 고정) */
+.header-area .back-link {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    background-color: #333;
+    color: #ccc;
+    text-decoration: none;
+    border-radius: 8px;
+    border: 1px solid #444;
+    font-size: 0.85em;
+    font-weight: bold;
+    transition: all 0.2s;
+    z-index: 10;
+    white-space: nowrap;
+    margin-bottom: 0;
+    /* 절대 위치이므로 margin 제거 */
+}
+
+.header-area .back-link:hover {
+    background-color: #444;
+    color: #fff;
+    border-color: #ffc107;
+}

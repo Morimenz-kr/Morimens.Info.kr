@@ -1,69 +1,75 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>캐릭터 상세 - 망각전야 (MORIMENS)</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/detail.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
+
 <body>
-<div class="container">
+    <div class="container">
 
-    <a href="list.html" class="back-button">&larr; 목록으로 돌아가기</a>
+        <a href="list.html" class="back-button">&larr; 목록으로 돌아가기</a>
 
-    <div class="detail-layout">
+        <div class="detail-layout">
 
-        <div class="char-profile">
-            <img id="char-image" src="https://via.placeholder.com/400x600?text=Loading..." alt="캐릭터 일러스트">
-            <h2 id="char-name">...</h2>
-            <div class="tags" id="char-tags"></div>
-            <div class="lore">
-                <h4>배경 스토리</h4>
-                <p id="char-lore">...</p>
-            </div>
-            <h4>기본 스탯 (Lv.1)</h4>
-            <div id="stats-table-container"></div>
-        </div>
-
-        <div class="char-data">
-
-            <div class="data-tabs" id="data-tabs">
-                <button class="tab-link active" data-tab="tab-skills">스킬</button>
-                <button class="tab-link" data-tab="tab-covenant">비밀계약</button>
-                <button class="tab-link" data-tab="tab-myeongryun">명륜</button>
-                <button class="tab-link" data-tab="tab-team">조합</button>
-                <button class="tab-link" data-tab="tab-growth">영지 계발/특성</button>
+            <div class="char-profile">
+                <img id="char-image" src="https://via.placeholder.com/400x600?text=Loading..." alt="캐릭터 일러스트">
+                <h2 id="char-name">...</h2>
+                <div class="tags" id="char-tags"></div>
+                <div class="lore">
+                    <h4>배경 스토리</h4>
+                    <p id="char-lore">...</p>
+                </div>
+                <h4>기본 스탯 (Lv.1)</h4>
+                <div id="stats-table-container"></div>
             </div>
 
-            <div class="tab-content active" id="tab-skills"></div>
-            <div class="tab-content" id="tab-covenant"></div>
-            <div class="tab-content" id="tab-myeongryun"></div>
-            <div class="tab-content team-grid" id="tab-team"></div>
-            <div class="tab-content" id="tab-growth">
-                <h4>영지 계발 (돌파)</h4>
-                <div id="breakthrough-content"></div>
-                <hr style="border-color: #555; margin: 25px 0;">
-                <h4>특성</h4>
-                <div id="talents-content"></div>
-            </div>
+            <div class="char-data">
 
-        </div>
-    </div>
-</div>
+                <div class="data-tabs" id="data-tabs">
+                    <button class="tab-link active" data-tab="tab-skills">스킬</button>
+                    <button class="tab-link" data-tab="tab-covenant">비밀계약</button>
+                    <button class="tab-link" data-tab="tab-myeongryun">명륜</button>
+                    <button class="tab-link" data-tab="tab-team">조합</button>
+                    <button class="tab-link" data-tab="tab-growth">영지 계발/특성</button>
+                </div>
 
-<div class="modal-overlay" id="derived-modal">
-    <div class="modal-content">
-        <h3>파생 카드</h3>
-        <div class="derived-carousel-container">
-            <button class="modal-carousel-arrow left" id="modal-prev">&lt;</button>
-            <div class="derived-card-slide" id="modal-skill-slide">
+                <div class="tab-content active" id="tab-skills"></div>
+                <div class="tab-content" id="tab-covenant"></div>
+                <div class="tab-content" id="tab-myeongryun"></div>
+                <div class="tab-content team-grid" id="tab-team"></div>
+                <div class="tab-content" id="tab-growth">
+                    <h4>영지 계발 (돌파)</h4>
+                    <div id="breakthrough-content"></div>
+                    <hr style="border-color: #555; margin: 25px 0;">
+                    <h4>특성</h4>
+                    <div id="talents-content"></div>
+                </div>
+
             </div>
-            <button class="modal-carousel-arrow right" id="modal-next">&gt;</button>
         </div>
     </div>
-</div>
 
-<script src="js/detail.js"></script>
+    <div class="modal-overlay" id="derived-modal">
+        <div class="modal-content">
+            <h3>파생 카드</h3>
+            <div class="derived-carousel-container">
+                <button class="modal-carousel-arrow left" id="modal-prev">&lt;</button>
+                <div class="derived-card-slide" id="modal-skill-slide">
+                </div>
+                <button class="modal-carousel-arrow right" id="modal-next">&gt;</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/detail.js"></script>
 </body>
+
 </html>

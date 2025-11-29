@@ -1,0 +1,198 @@
+/* ============================================
+   links.html 전용 스타일
+   ============================================ */
+
+/* --- 1. 링크 컨테이너 --- */
+.link-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+/* --- 2. 카테고리 타이틀 --- */
+.category-title {
+    color: #ffc107;
+    border-bottom: 2px solid #555;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #555;
+}
+
+/* --- 3. 데이터 없음 상태 --- */
+.no-data {
+    text-align: center;
+    padding: 50px;
+    color: #777;
+    border: 2px dashed #444;
+    border-radius: 10px;
+}
+
+/* --- 4. 제보 버튼 섹션 --- */
+.report-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    text-align: center;
+    color: #777;
+    font-size: 0.9em;
+}
+
+.report-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #333;
+    color: #ccc;
+    text-decoration: none;
+    border-radius: 20px;
+    border: 1px solid #555;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.report-btn:hover {
+    background-color: #444;
+    color: #fff;
+    border-color: #ffc107;
+}
+
+/* --- 5. 교환 코드 전용 스타일 --- */
+.code-warning-text {
+    font-size: 0.85em;
+    color: #999;
+    text-align: center;
+    margin-bottom: 15px;
+    padding: 8px 15px;
+    background-color: #333;
+    border-radius: 8px;
+}
+
+.text-link-box {
+    display: block;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+    text-align: center;
+    color: #bbb;
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+.code-line {
+    padding: 10px;
+    margin: 5px 0;
+    border-bottom: 1px dashed #444;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    word-break: break-all;
+}
+
+.code-line:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.code-line:last-child {
+    border-bottom: none;
+}
+
+.code-line.copied {
+    color: #ffc107 !important;
+    transform: scale(0.98);
+    background-color: transparent;
+}
+
+/* --- 6. 제보 모달 폼 스타일 --- */
+.modal-content {
+    width: 90%;
+    max-width: 500px;
+    background-color: #2c2c2c;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-title {
+    color: #ffc107;
+    border-bottom: 2px solid #444;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.form-field-label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ccc;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    background-color: #383838;
+    color: #eee;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #ffc107;
+}
+
+.form-textarea {
+    min-height: 120px;
+    max-height: 400px;
+    /* 🔧 최대 높이 제한 - 화면 뚫고 내려가는 버그 방지 */
+    resize: vertical;
+}
+
+.form-submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-submit-btn:hover {
+    background-color: #0056b3;
+}
