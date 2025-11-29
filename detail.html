@@ -5,11 +5,13 @@
     <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>캐릭터 상세 - 미사그 대학 한국 캠퍼스</title>
+    <title>캐릭터 상세</title>
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/detail.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <!-- Config 파일 로드 -->
+    <script src="config/config.js"></script>
 </head>
 
 <body>
@@ -70,6 +72,12 @@
     </div>
 
     <script src="js/detail.js"></script>
+
+    <!-- Floating 신고 버튼 -->
+    <button class="floating-report-btn" onclick="document.getElementById('report-modal').classList.add('show')"
+        title="버그 신고">
+        🚨
+    </button>
 </body>
 
 </html>

@@ -6,11 +6,11 @@
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>정보 모음 - 미사그 대학 한국 캠퍼스</title>
+    <title>정보 모음</title>
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://morimenz-kr.github.io/Morimens.Info.kr/">
-    <meta property="og:title" content="미사그 대학 한국 캠퍼스 - 종합 가이드">
+    <meta property="og:title" content="미사그 대학 한국 캠퍼스">
     <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 미사그 대학의 모든 정보를 한눈에 확인하세요.">
     <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
 
@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/pages/links.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <!-- Config 파일 로드 -->
+    <script src="config/config.js"></script>
 </head>
 
 <body>
@@ -44,9 +46,7 @@
             <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
             <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
 
-            <form id="bug-report-form"
-                action="https://discordapp.com/api/webhooks/1442726767222718554/i3QtvZ6-giYqwtlheMm3ugxcJoVsoVYmExBPX2n-uEoFHpWwmGqaaO_f6gnlBNXCZYas"
-                method="POST">
+            <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
 
                 <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
                 <input type="text" id="reporter-email" name="_replyto" class="form-input"
@@ -300,7 +300,37 @@
                 cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:20px; color:#fff; text-decoration:none; width:100%; display:block;"><div style="font-weight:bold; margin-bottom:5px;">${url}</div><div style="font-size:0.8em; color:#aaa;">(정보 로드 실패 - 콘솔 확인)</div></a>`;
             }
         }
+
+        // Discord Webhook 전송 함수
+        async function sendToDiscord(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const payload = {
+                content: `**버그 신고**\n출처 URL: ${formData.get('source_url')}\n내용: ${formData.get('content')}`
+            };
+
+            try {
+                await fetch(CONFIG.DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert('신고가 접수되었습니다!');
+                document.getElementById('report-modal').classList.remove('show');
+                form.reset();
+            } catch (error) {
+                alert('전송 실패: ' + error.message);
+            }
+        }
     </script>
+
+    <!-- Floating 신고 버튼 -->
+    <button class="floating-report-btn" onclick="document.getElementById('report-modal').classList.add('show')"
+        title="버그 신고">
+        🚨
+    </button>
 </body>
 
 </html>

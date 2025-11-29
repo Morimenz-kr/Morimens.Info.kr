@@ -361,3 +361,62 @@ select:focus {
     outline: none;
     border-color: #ffc107;
 }
+
+/* --- 신고 모달 폼 스타일 (공통) --- */
+.form-title {
+    color: #ffc107;
+    border-bottom: 2px solid #444;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.form-field-label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ccc;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    background-color: #383838;
+    color: #eee;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #ffc107;
+}
+
+.form-textarea {
+    min-height: 120px;
+    max-height: 400px;
+    /* 🔧 최대 높이 제한 - 화면 뚫고 내려가는 버그 방지 */
+    resize: vertical;
+}
+
+.form-submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-submit-btn:hover {
+    background-color: #0056b3;
+}

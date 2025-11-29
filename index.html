@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/pages/landing.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <!-- Config 파일 로드 -->
+    <script src="config/config.js"></script>
 </head>
 
 <body>
@@ -132,6 +134,32 @@
             <div class="patch-list" id="patch-list-content">
                 <p style="text-align:center; color:#777;">로딩 중...</p>
             </div>
+        </div>
+    </div>
+
+    <div id="report-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+            <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+            <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+
+                <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+                <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                    placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+                <label for="report-message" class="form-field-label">제보할 내용 (버그 or 피드백) (필수)</label>
+                <textarea id="report-message" name="message" class="form-textarea" required
+                    placeholder="제보하실 내용을 적어주세요."></textarea>
+
+                <input type="hidden" name="report_source_url" id="report-source-url">
+                <input type="hidden" name="_subject" value="[Morimens Wiki] 버그/피드백 접수">
+
+                <button type="submit" class="form-submit-btn">제보 보내기</button>
+                <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송
+                    중...</p>
+            </form>
+
         </div>
     </div>
 
@@ -255,7 +283,47 @@
             closeBtn.addEventListener('click', () => modal.classList.remove('show'));
             modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
         });
+
+        // Discord Webhook 전송 함수
+        async function sendToDiscord(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            const payload = {
+                content: `**버그 신고**\n출처 URL: ${formData.get('report_source_url')}\n내용: ${formData.get('message')}`
+            };
+
+            try {
+                await fetch(CONFIG.DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                alert('신고가 접수되었습니다!');
+                document.getElementById('report-modal').classList.remove('show');
+                form.reset();
+            } catch (error) {
+                alert('전송 실패: ' + error.message);
+            }
+        }
+
+        // 모달 닫기 이벤트
+        document.addEventListener('DOMContentLoaded', () => {
+            const reportModal = document.getElementById('report-modal');
+            reportModal.addEventListener('click', (e) => {
+                if (e.target === reportModal) {
+                    reportModal.classList.remove('show');
+                }
+            });
+        });
     </script>
+
+    <!-- Floating 신고 버튼 -->
+    <button class="floating-report-btn" onclick="document.getElementById('report-modal').classList.add('show')"
+        title="버그 신고">
+        🚨
+    </button>
 </body>
 
 </html>

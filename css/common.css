@@ -11,12 +11,14 @@
 }
 
 /* --- 2. Body & HTML 기본 설정 --- */
-html, body {
+html,
+body {
     width: 100%;
     min-height: 100vh;
     margin: 0;
     padding: 0;
-    overflow-x: hidden; /* 가로 스크롤 방지 */
+    overflow-x: hidden;
+    /* 가로 스크롤 방지 */
 }
 
 body {
@@ -42,7 +44,8 @@ body {
     will-change: transform;
     transform: translateZ(0);
     height: 100vh;
-    min-height: -webkit-fill-available; /* iOS Safari 대응 */
+    min-height: -webkit-fill-available;
+    /* iOS Safari 대응 */
 }
 
 .background-overlay {
@@ -71,7 +74,11 @@ h1 {
     word-break: keep-all;
 }
 
-h2, h3, h4, h5, h6 {
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: #fff;
 }
 
@@ -96,7 +103,8 @@ button:focus {
 }
 
 /* --- 8. 뒤로가기 버튼 공통 스타일 --- */
-.back-link, .back-button {
+.back-link,
+.back-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -112,7 +120,8 @@ button:focus {
     transition: all 0.2s ease;
 }
 
-.back-link:hover, .back-button:hover {
+.back-link:hover,
+.back-button:hover {
     background-color: #444;
     color: #fff;
     border-color: #ffc107;
@@ -145,4 +154,43 @@ button:focus {
 
 ::-webkit-scrollbar-thumb:hover {
     background: #666;
+}
+
+/* --- 11. Floating 신고 버튼 --- */
+.floating-report-btn {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    /* 화면 중앙 */
+    transform: translateY(-50%);
+    z-index: 999;
+
+    background: #3a3a3a;
+    /* 짙은 회색 */
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    /* 라운드 스퀘어 */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    /* 이모지 크기 */
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.floating-report-btn:hover {
+    background: #4a4a4a;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+.floating-report-btn:active {
+    background: #2a2a2a;
+    transform: translateY(-50%) scale(0.95);
 }
