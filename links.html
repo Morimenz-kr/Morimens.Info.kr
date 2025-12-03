@@ -68,7 +68,7 @@
     </div>
 
     <script>
-        // 🚩 전역 복사 함수
+        // 🚩 전역 복사 함수 (교환 코드 등에서 사용)
         function copyCodeToClipboard(text, element) {
             if (!navigator.clipboard) {
                 alert("⚠️ 이 브라우저는 클립보드 복사를 지원하지 않습니다.");
@@ -94,13 +94,19 @@
             const charId = urlParams.get('id');
             const titleEl = document.getElementById('page-title');
             const listEl = document.getElementById('links-list');
+
+            // 모달 관련 요소
             const modal = document.getElementById('report-modal');
             const openModalBtn = document.getElementById('open-report-modal');
             const sourceUrlInput = document.getElementById('report-source-url');
-            const reportForm = document.getElementById('bug-report-form');
-            const modalStatus = document.getElementById('modal-form-status');
+
+            // 1. 카테고리별 클래스 추가 (CSS 스타일링 용이성 확보)
+            if (category) {
+                document.body.classList.add(`category-${category}`);
+            }
 
             try {
+                // 캐싱 방지를 위한 타임스탬프
                 const ts = new Date().getTime();
                 const [manifestRes, linksRes] = await Promise.all([
                     fetch(`data/character_manifest.json?t=${ts}`),
@@ -114,16 +120,23 @@
                 let targetItems = [];
                 let pageTitleHTML = "";
 
+                // 2. 데이터 로드 분기 처리
                 if (category === 'character' && charId) {
                     const charData = manifest.find(c => String(c.id) === String(charId));
                     if (charData) {
                         pageTitleHTML = `<img src="${charData.image_thumb}" class="title-thumb" alt=""> ${charData.name} 공략 모음`;
                         targetItems = linksDB.characters[charId] || [];
-                    } else { pageTitleHTML = "알 수 없는 캐릭터"; }
+                    } else {
+                        pageTitleHTML = "알 수 없는 캐릭터";
+                    }
                 } else if (category && linksDB.categories[category]) {
+                    // event, weekly_yungjae 등 모든 카테고리 처리
                     pageTitleHTML = linksDB.categories[category].title;
                     targetItems = linksDB.categories[category].links || [];
-                } else { pageTitleHTML = "잘못된 접근"; }
+                } else {
+                    pageTitleHTML = "존재하지 않는 페이지";
+                    targetItems = [];
+                }
 
                 titleEl.innerHTML = pageTitleHTML;
                 listEl.innerHTML = '';
@@ -132,11 +145,12 @@
                     listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
                 }
 
-                // 렌더링 분기
+                // 3. 렌더링 분기
                 if (category === 'code') {
                     renderCodeLinks(targetItems, listEl);
                 } else {
                     targetItems.forEach(item => {
+                        // 문자열인 경우(URL만 있는 경우)와 객체인 경우 모두 처리
                         if (typeof item === 'string') {
                             createLinkCardFromAPI(item, listEl);
                         } else {
@@ -151,12 +165,12 @@
                 listEl.innerHTML = `<p style="text-align:center;">데이터를 불러오지 못했습니다.<br><small>${error.message}</small></p>`;
             }
 
-            // 팝업 로직
+            // 4. 모달 이벤트 바인딩
             if (openModalBtn) {
                 openModalBtn.addEventListener('click', (e) => {
                     e.preventDefault();
                     modal.classList.add('show');
-                    sourceUrlInput.value = window.location.href;
+                    if(sourceUrlInput) sourceUrlInput.value = window.location.href;
                 });
             }
             if (modal) {
@@ -164,73 +178,23 @@
                     if (e.target === modal) modal.classList.remove('show');
                 });
             }
-            if (reportForm) {
-                reportForm.addEventListener("submit", async (e) => {
-                    e.preventDefault();
-                    modalStatus.style.display = 'block';
-                    modalStatus.textContent = '제보를 전송 중입니다...';
-
-                    const data = new FormData(e.target);
-                    const reporterEmail = data.get('_replyto') || 'N/A';
-                    const message = data.get('message');
-                    const sourceUrl = data.get('report_source_url');
-                    const DISCORD_ENDPOINT = e.target.action;
-
-                    const payload = {
-                        username: "Morimens Wiki Reporter",
-                        embeds: [{
-                            title: "🚨 신규 깨진 링크 제보 접수",
-                            color: 15777040,
-                            fields: [
-                                { name: "제보자 이메일", value: reporterEmail, inline: false },
-                                { name: "제보 페이지", value: `[링크](${sourceUrl})`, inline: false },
-                                { name: "상세 내용", value: message, inline: false },
-                            ],
-                            timestamp: new Date().toISOString()
-                        }]
-                    };
-
-                    try {
-                        const response = await fetch(DISCORD_ENDPOINT, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        if (response.ok) {
-                            if (modalStatus) {
-                                modalStatus.textContent = "✅ 제보가 성공적으로 전송되었습니다! 감사합니다.";
-                            }
-                            form.reset();
-                            // 성공 메시지를 2초 동안 보여준 후 모달 닫기
-                            setTimeout(() => {
-                                document.getElementById('report-modal').classList.remove('show');
-                                if (modalStatus) {
-                                    modalStatus.style.display = 'none';
-                                    modalStatus.textContent = '제보를 전송 중입니다...'; // 다음 사용을 위해 초기화
-                                }
-                            }, 2000);
-                        } else {
-                            modalStatus.textContent = `❌ 전송 실패: Webhook 오류 (상태 코드: ${response.status})`;
-                        }
-                    } catch (error) {
-                        modalStatus.textContent = "❌ 네트워크 오류가 발생했습니다.";
-                    }
-                });
-            }
         });
 
-        // 유틸리티 함수
+        // --- 유틸리티 함수 ---
+
+        // 이미지 프록시 (외부 이미지 로딩 문제 해결)
         function getProxyImage(url) {
             if (!url) return 'images/smile_Ramona.webp';
             url = url.trim();
             if (url.startsWith('//')) { url = 'https:' + url; }
+            // 나무위키/아카라이브/디시 이미지는 리퍼러 문제로 로딩 안 될 수 있어 프록시 사용
             if (url.includes('namu.la') || url.includes('arca.live') || url.includes('dcinside')) {
                 return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=400&output=webp&n=-1`;
             }
             return url;
         }
 
+        // 교환 코드 렌더링
         async function renderCodeLinks(urls, container) {
             const warningHtml = '<div class="code-warning-text">만료된 교환 코드가 있을 수 있습니다.</div>';
             container.insertAdjacentHTML('beforebegin', warningHtml);
@@ -254,19 +218,27 @@
             container.appendChild(codeBox);
         }
 
+        // 즉시 카드 생성 (JSON에 데이터가 다 있는 경우) - 모바일 반응형 고려
         function createLinkCardInstant(data, container) {
             try {
-                const domain = new URL(data.url).hostname;
+                // 도메인 추출 (url이 없을 경우 예외 처리)
+                let domain = 'link';
+                try {
+                    if(data.url) domain = new URL(data.url).hostname;
+                } catch(e) {}
+
                 const safeImage = getProxyImage(data.image);
+
+                // HTML 구조: CSS(notion-bookmark)가 모바일에서 flex-direction: column 처리한다고 가정
                 const html = `
                 <a href="${data.url}" target="_blank" class="notion-bookmark">
                     <div class="bookmark-content">
                         <div>
-                            <div class="bookmark-title">${data.title}</div>
+                            <div class="bookmark-title">${data.title || '제목 없음'}</div>
                             <div class="bookmark-desc">${data.desc || ''}</div>
                         </div>
                         <div class="bookmark-url">
-                            <img src="https://www.google.com/s2/favicons?domain=${domain}" width="14" height="14" style="margin-right:4px;">
+                            <img src="https://www.google.com/s2/favicons?domain=${domain}" width="14" height="14" style="margin-right:4px; vertical-align:middle;">
                             ${domain}
                         </div>
                     </div>
@@ -279,8 +251,10 @@
             } catch (e) { console.error("카드 생성 에러:", e); }
         }
 
+        // API로 메타데이터 긁어오기 (URL만 있는 경우)
         async function createLinkCardFromAPI(url, container) {
             const cardWrap = document.createElement('div');
+            // 스켈레톤 로딩 UI
             cardWrap.className = 'skeleton skeleton-card';
             cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
             container.appendChild(cardWrap);
@@ -288,55 +262,50 @@
                 const apiUrl = `https://api.microlink.io?url=${encodeURIComponent(url)}`;
                 const res = await fetch(apiUrl);
                 const json = await res.json();
+
                 if (json.status === 'success') {
                     const data = json.data;
                     const safeImage = getProxyImage(data.image?.url);
-                    cardWrap.className = 'notion-bookmark';
-                    cardWrap.innerHTML = '';
+
+                    // 스켈레톤 제거 후 실제 카드 적용
+                    cardWrap.className = 'notion-bookmark'; // CSS 클래스 변경
+                    cardWrap.innerHTML = ''; // 기존 내용 비움
+
                     const linkEl = document.createElement('a');
-                    linkEl.href = url; linkEl.target = "_blank";
-                    linkEl.className = "notion-bookmark"; linkEl.style.width = "100%";
+                    linkEl.href = url;
+                    linkEl.target = "_blank";
+                    linkEl.className = "notion-bookmark";
+                    linkEl.style.width = "100%"; // 모바일 꽉 참 보장
+
                     linkEl.innerHTML = `
                     <div class="bookmark-content">
-                        <div><div class="bookmark-title">${data.title || url}</div><div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div></div>
+                        <div>
+                            <div class="bookmark-title">${data.title || url}</div>
+                            <div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div>
+                        </div>
                         <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
                     </div>
-                    <div class="bookmark-image"><img src="${safeImage}" alt="썸네일" loading="lazy" onerror="this.onerror=null; this.src='images/smile_Ramona.webp';"></div>`;
+                    <div class="bookmark-image">
+                        <img src="${safeImage}" alt="썸네일" loading="lazy" onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
+                    </div>`;
+
                     container.replaceChild(linkEl, cardWrap);
                 } else { throw new Error("API Fail"); }
             } catch (e) {
+                // 실패 시 텍스트 링크로 대체
                 cardWrap.className = 'notion-bookmark';
-                cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:20px; color:#fff; text-decoration:none; width:100%; display:block;"><div style="font-weight:bold; margin-bottom:5px;">${url}</div><div style="font-size:0.8em; color:#aaa;">(정보 로드 실패 - 콘솔 확인)</div></a>`;
+                cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:15px; color:#fff; text-decoration:none; width:100%; display:block;"><div style="font-weight:bold; margin-bottom:5px; word-break:break-all;">${url}</div><div style="font-size:0.8em; color:#aaa;">(미리보기 로드 실패)</div></a>`;
             }
         }
 
-        // 모달 열기 및 초기화 함수
-        function openReportModal() {
-            const modal = document.getElementById('report-modal');
-            const modalStatus = document.getElementById('modal-form-status');
-            const sourceUrlInput = document.getElementById('report-source-url');
-
-            // 상태 초기화
-            if (modalStatus) {
-                modalStatus.style.display = 'none';
-                modalStatus.textContent = '제보를 전송 중입니다...';
-            }
-
-            // 현재 URL 자동 입력
-            if (sourceUrlInput) {
-                sourceUrlInput.value = window.location.href;
-            }
-
-            // 모달 열기
-            modal.classList.add('show');
-        }
-
-        // Discord Webhook 전송 함수 (Embed 형식)
+        // Discord Webhook 전송 함수 (HTML의 onsubmit 속성에서 호출됨)
         async function sendToDiscord(event) {
-            event.preventDefault();
+            event.preventDefault(); // 폼 기본 제출 막기
+
             const form = event.target;
             const formData = new FormData(form);
             const modalStatus = document.getElementById('modal-form-status');
+            const modal = document.getElementById('report-modal');
 
             if (modalStatus) {
                 modalStatus.style.display = 'block';
@@ -362,30 +331,32 @@
             };
 
             try {
+                // Config 파일에서 URL 가져오기
                 const response = await fetch(CONFIG.DISCORD_WEBHOOK_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                // Discord Webhook은 204 No Content 응답을 주므로 response 체크 불가
-                // fetch가 성공하면 전송된 것으로 간주
+                // Discord Webhook은 성공 시 204 No Content를 반환하므로 response.ok 체크가 애매할 수 있으나
+                // fetch가 예외 없이 완료되면 전송된 것으로 간주
                 if (modalStatus) {
                     modalStatus.textContent = "✅ 제보가 성공적으로 전송되었습니다! 감사합니다.";
                 }
                 form.reset();
-                // 성공 메시지를 2초 동안 보여준 후 모달 닫기
+
+                // 성공 메시지를 1.5초 동안 보여준 후 모달 닫기
                 setTimeout(() => {
-                    document.getElementById('report-modal').classList.remove('show');
+                    modal.classList.remove('show');
                     if (modalStatus) {
                         modalStatus.style.display = 'none';
                         modalStatus.textContent = '제보를 전송 중입니다...';
                     }
-                }, 2000);
+                }, 1500);
             } catch (error) {
-                const errorMsg = '❌ 네트워크 오류가 발생했습니다.';
+                console.error(error);
                 if (modalStatus) {
-                    modalStatus.textContent = errorMsg;
+                    modalStatus.textContent = '❌ 네트워크 오류가 발생했습니다.';
                 }
             }
         }

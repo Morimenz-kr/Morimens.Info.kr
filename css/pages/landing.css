@@ -235,3 +235,69 @@ footer {
     color: #ccc;
     font-size: 0.85em;
 }
+
+/* =========================================
+   2x1 와이드 메뉴 (높이 1배 유지, 가로 2배 확장)
+   ========================================= */
+
+/* 1. 컨테이너: 가로 2칸 차지 + 텍스트는 무조건 아래로 */
+.menu-grid .menu-wrapper.wide-menu {
+    grid-column: span 2 !important;
+    width: 100% !important;
+
+    /* 텍스트가 오른쪽으로 가는 현상 방지 (세로 정렬 강제) */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+}
+
+/* 2. 회색 박스(.menu-item) 납작하게 누르기 */
+.menu-grid .menu-wrapper.wide-menu .menu-item {
+    width: 100% !important;
+
+    /* [핵심 수정] 비율을 2.2가 아니라 4.2로 변경! */
+    /* 가로가 2배 넓어졌으니, 비율 수치도 2배 커져야 높이가 그대로 유지됩니다. */
+    /* (기본 비율 약 2:1 -> 와이드 비율 약 4.2:1) */
+    aspect-ratio: 4.2 / 1 !important;
+
+    /* 높이가 튀는 것을 방지하기 위한 초기화 */
+    height: auto !important;
+    padding: 0 !important;
+    margin-bottom: 8px !important;
+
+    /* 내부 아이콘 정렬 */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    font-size: 2rem !important;
+}
+
+/* 3. 텍스트 라벨 */
+.menu-grid .menu-wrapper.wide-menu .menu-label {
+    text-align: center !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+    font-size: 1.0em !important;
+    font-weight: bold !important;
+
+    /* 텍스트가 옆으로 붙는 것 방지 */
+    display: block !important;
+    position: static !important;
+}
+
+/* --- 모바일 반응형 --- */
+/* 모바일에서는 가로폭이 좁아서 비율을 다시 조정해야 예쁩니다 */
+@media (max-width: 600px) {
+    .menu-grid .menu-wrapper.wide-menu {
+        grid-column: span 2 !important;
+    }
+
+    .menu-grid .menu-wrapper.wide-menu .menu-item {
+        /* 모바일에서는 그리드 비율이 달라지므로 비율 조정 */
+        /* 화면이 좁을 땐 3.5 정도가 적당합니다 */
+        aspect-ratio: 3.5 / 1 !important;
+        font-size: 1.6em !important;
+    }
+}

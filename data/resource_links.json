@@ -1,18 +1,120 @@
 {
   "categories": {
+    "event": {
+      "title": "🎉 진행 중인 이벤트 정보",
+      "links": 
+      [
+        {
+          "url": "https://arca.live/b/forgettingeve/155651048",
+          "title": "오늘자 레이드 각 스테이지별 기믹 공략(5스테이지, 도장)",
+          "desc": "사실 마지막날까지 남아있을거도 같은 레이드다보상도 맛없는데, 기본 기믹까지 좆같이 생기긴 했다.근데 사실 별거 아니긴 하다.일단 유물보다, 보스 기믹부터 먼저 보자.이새낀 맞을때마다, 쉴드 59/임시 뎀감 1%를 얻",
+          "image": "https://ac-p1.namu.la/20251203sac/91cb6d2d9e0d2ba62475fd3f73cd7e21a2650e0a5a95c28cf38438c4ff9d79e6.png?expires=1764759765&key=gkLVrwoz6T7wkg4vxKiP0Q"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155649302",
+          "title": "오늘자 레이드 각 스테이지별 기믹 공략(4스테이지, 영핵)",
+          "desc": "기본 유물 보너스는이거도 오역인데, 매 턴 시작시마다가 아니라, 매 턴 각성체별로 첫 카드 쓸때마다 발동임처음 카드 한장을 쓰면 광기+25, Insight(0코, 1산출력, 1드로) 1장 생성됨.그리고 광기폭발 누적",
+          "image": "https://ac-p1.namu.la/20251203sac/7dfa9924374cbb03eb96e6dfbb9e2194536cdba7eac4501e67023e1de635e33b.png?expires=1764759752&key=HW9UP5gYYl17z4HHjoN8rg"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155647245",
+          "title": "오늘자 레이드 각 스테이지별 기믹 공략(3스테이지, 현돌)",
+          "desc": "3스테이지기본 유물 스탯 보너스는패 최대량+5, 매턴 2장 더 드로우하고 산출력+2, 덱을 섞을때마다 힘+30하고 일시적으로 경계(방어도증가)를 50얻음.그리고 특이하게, 덱 섞을때마다 광기가 가장 높은 각성체의 카",
+          "image": "https://ac-p1.namu.la/20251203sac/5a031ef7192898a2b39fb4e7c5a2f4e0db36ec789bc613f477bdbe124690ff27.png?expires=1764759737&key=f6j0Phd87uUFqBCG8ay7Ew"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155638061",
+          "title": "영핵보스 공략",
+          "desc": "매턴마다 이걸 쓰는데 다단히트의경우 2스택이쌓임봉인이되면 이렇게 핸드에있던 카드 + 손패에있던 카드가 다 봉인상태가되는데기초적인 공략은 광폭4회써서 넘기는것위에 내가 광폭 몇회 째인지 체크해줌총합 광폭 4회째에 모든",
+          "image": "https://ac-p1.namu.la/20251203sac/855985ca70cc78d535e743e49e6a11b141142cf382d23708e508a0392bd7fa11.png?expires=1764759719&key=hlGzjEIF1bg69Zt4LczApg"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155635579",
+          "title": "오늘 레이드 이벤트 \"뒤틀린 공명\" 이것만 달려",
+          "desc": "이번 레이드 이벤트 전체적으로 가장 벨류높은게영핵파편임 이것만 야무지개 캐면 엔컨(융재 금구) 4~5단 금방깬다",
+          "image": "https://ac-p1.namu.la/20251203sac/05f30ef86de7a47ef3c93bccdbdb08fe51dadf5fd37338752a5c716b8e179a64.png?expires=1764759704&key=GjOk7VpfKPNpUsMas7eHaw"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155561551",
+          "title": "레이드 이벤트 내일 달릴때 중요한거",
+          "desc": "내일 345 한번에 열리고 횟수늘린다고..?그럼 다른거하지말고 영핵 파편 주는 4일차만 달려라... 100% 이거부터 동난다아무리 횟수 올려봐야 이거 뉴비형들 fomo오는 구성일수밖에 없음처음 사과문뜨고 횟수늘린다고",
+          "image": "/static/apple-icon.png?t=0b7dd927728ff47163d1911a55b260f51a231248"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155549495",
+          "title": "[화요일] 이벤트 어려운 뉴비만 보기.",
+          "desc": "https://youtu.be/9G-Csiw9jzQ?si=42j1rvSgeQNCWQ6n1. 단 영지각성을 켜2. 제 활염 1~2 붙어있는 카드를 마구 갈겨서 3을 만들고 써.3. 소모한 활염이 10스택 이상이 되면 ",
+          "image": "https://ac-p1.namu.la/20251202sac/d2ea78cd531f161df54172b12b534cf02c347c855bf36ddd78a9e6e90da4a654.png?expires=1764759666&key=eGg8YmCv8v9verGV9xq3Bg"
+        },
+        {
+        "url": "https://arca.live/b/forgettingeve/155507638",
+        "title": "레이드 이벤트 개인적이 팁",
+        "desc": "솔직히 좀 재미도없고 빡치기도하고 왜하는지 모르겠는 이벤트그래도 보상은 좋으니깐 다들 최대한 하길일단 오늘 해보면서 느낀게 결국엔 친구조력 잘써야한다는 결론임친구조력 하나로 깰수도있고 그래서 좀 정리하면,1. 풀돌/",
+        "image": "https://ac-p1.namu.la/20251201sac/03a6a6e674ac031e7af2861e6229d5c4412cab9eaac4dcfe0d1819020529f2f8.png?expires=1764633413&key=g8E3msoSfMFaxAYunD0bnQ"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155506568",
+          "title": "Flares 양형 레이드 이벤트 15파티 조합",
+          "desc": "https://docs.google.com/spreadsheets/d/15M8uDlTpUfz41CmHPOxsQzJgYv--6kXjiKDcUDSDdPU/edit?gid=1722830217#gid=172283021715",
+          "image": "https://ac-p1.namu.la/20251201sac/1253e1f98af3e7c95171cdf78319fe1fb80f22ca08a5cb11431f038b14391496.png?expires=1764633398&key=tQxjoZ7sz_OyuPWnAmsscw"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155476016",
+          "title": "초간단 이벤트공략",
+          "desc": "아무 개쓰레기3개에 개쓰레기명륜(r도상관없음)2개박고 타비친구타비는 명륜은 중요하지않지만 약재의꿈은 꽤중요함나머지 모든 상황에서 타비카드빼고 아무것도안쓰고 꺠면됨타비 초한이오면 내 핸드에 4익이 있으면 초한키고 카드",
+          "image": "https://ac-p1.namu.la/20251201sac/27d4eeed7ecf444839b4530747a3092253fbc224474bf0bef32e14ebe48e0462.png?expires=1764633370&key=rR8hY3gFetpsP-ZMwJlW-g"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155475309",
+          "title": "지금이라도 뉴비들 이벤트 보상 빨리 타먹는 법",
+          "desc": "1. 단 이벤트 페이지에서 랭킹창을 연다.2. 후에는 도우미 랭킹 항목을 연다.3. 그리고 랭킹창에 보이는 모든 유저들의 캐릭터 아이콘을 클릭해서4. 친추를 무차별로 때려박는다. 기본적으로 도우미 랭킹에 올라간 유저",
+          "image": "https://ac-p1.namu.la/20251201sac/c3dfbb18ee1619998e951a1315eac256c1c062c26a58c175699951d33063b8d8.png?expires=1764633355&key=n3x98dffkD4d6Wsvt4AYpA"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155378743",
+          "title": "2.4.0.7 패치노트기반 레이드 이벤트 다시 정리",
+          "desc": "1. 이벤트맵 7일간 하루에 하나씩 열림 (왼쪽부터 하나씩)2. 클리어 횟수 한도 없음 (선착순 아니라는 뜻!)3. 하루에 케릭터/명륜 한번만 사용 가능하고, 중복 사용 불가. - 무조건 친구 조력해야함. 친구조력은",
+          "image": "https://ac-p1.namu.la/20251130sac/e3d518734b71ecc5f4ffdcb9567e28432194e40c96dce752713e580486f0a436.png?expires=1764633274&key=x2igXT-q2hRY2lJJIMgTtQ"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155370046",
+          "title": "뉴비 필독!! 내일부터 레이드임!! 고렙들한테 친추 보내!",
+          "desc": "1)기간동안 총 7개의 보스맵이 열림(낼부터 1주)각 스테이지별로 도전 가능 횟수가 정해져있는걸로 보임서버 전체 공유라서, 아마 한정뽑 주는 맵이 제일 먼저 털릴듯2)제일 중요한 거임. 하루 트라이는 무제한 가능함대",
+          "image": "https://ac-p1.namu.la/20251130sac/1efe09fa6623997891660aae0e88b42f55dfabdfd96cdb2d4be105c87b17eeeb.jpg?expires=1764633226&key=hCiRCZzpLazcoiX34s6OPA"
+        }
+      ]
+    },
+    "weekly_yungjae": {
+      "title": "🔥 이번주 융재 금구 팁",
+      "links": 
+      [
+        {
+          "url": "https://arca.live/b/forgettingeve/155600040",
+          "title": "유입도 할 수 있따! 융재 400점 후기&가이드",
+          "desc": "망붕이 융재 400점 보고 달린거라 약간 현타와버려씀이제 천천히 하려구1파)4단x2난이도가 낮아서 2파티 클리어하기 무난했음1차 파티1파에서 뫼엥이 히트인게 보스가 카드를 감염시키는데감염된 카드를 쓰면 보스의 공격횟",
+          "image": "https://ac-p1.namu.la/20251202sac/3ae3a8b948507691cd0bf739d1c0c97d6242af200051746f4f8a57346aced39f.jpg?expires=1764759784&key=v7y9I_Nu-sbRckdKw7H02g"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/155081527",
+          "title": "이번 융재금구 Flares 양형의 보스별 공략",
+          "desc": "https://youtu.be/6EiNufcwNks?si=6PNwllbAC_iaXF0h🌀 Wave 1 — “기생충(Parasite) 보스”권장 딜러: Caster(G. Murphy 아님), Dorisine 가능하지",
+          "image": "https://ac-p1.namu.la/20251127sac/0243c64beffca2af02ff0cebae129339ef850c8fd5a86e3c79970ab22e313245.png?expires=1764760092&key=RYa8o2Vp0xsTGBm9vko1pg"
+        }
+      ]
+    },
     "newbie": {
       "title": "🐣 뉴비 필독 가이드",
       "links": 
       [
         {
           "url": "https://arca.live/b/forgettingeve/155370046",
-          "title": "뉴비 필독!! 내일부터 레이드임!! 고렙들한테 친추 보내! - 망각전야 채널",
+          "title": "뉴비 필독!! 내일부터 레이드임!! 고렙들한테 친추 보내!",
           "desc": "1)기간동안 총 7개의 보스맵이 열림(낼부터 1주)각 스테이지별로 도전 가능 횟수가 정해져있는걸로 보임서버 전체 공유라서, 아마 한정뽑 주는 맵이 제일 먼저 털릴듯2)제일 중요한 거임. 하루 트라이는 무제한 가능함대",
           "image": "https://ac-p1.namu.la/20251130sac/1efe09fa6623997891660aae0e88b42f55dfabdfd96cdb2d4be105c87b17eeeb.jpg?expires=1764633226&key=hCiRCZzpLazcoiX34s6OPA"
         },
         {
           "url": "https://arca.live/b/forgettingeve/155286992",
-          "title": "캐릭 픽업을 이용한 상시 쌀먹 방법 - 망각전야 채널",
+          "title": "캐릭 픽업을 이용한 상시 쌀먹 방법",
           "desc": "캐릭터 이벤트 베너끼리는 천장을 공유한다탄피 3돌과 카티 3돌을 하는 사람이 많을것이다하지만 혼돈 상시에선 쓸만한 놈이 거의 없는데심해 상시에서는 카이커스, 골리아등 고성능 픽뚫이 넘쳐난다이럴땐 탄피 픽업을 돌려서 ",
           "image": "https://ac-p1.namu.la/20251129sac/6039ae347e6f8da5e03de9684d2e38db1153e903849ee0159ddb545784d9e7ee.png?expires=1764478192&key=0ZiHV0hcKNmKXYHYOkv8-A"
         },
@@ -150,7 +252,7 @@
       [
         {
           "url": "https://arca.live/b/forgettingeve/155286992",
-          "title": "캐릭 픽업을 이용한 상시 쌀먹 방법 - 망각전야 채널",
+          "title": "캐릭 픽업을 이용한 상시 쌀먹 방법",
           "desc": "캐릭터 이벤트 베너끼리는 천장을 공유한다탄피 3돌과 카티 3돌을 하는 사람이 많을것이다하지만 혼돈 상시에선 쓸만한 놈이 거의 없는데심해 상시에서는 카이커스, 골리아등 고성능 픽뚫이 넘쳐난다이럴땐 탄피 픽업을 돌려서 ",
           "image": "https://ac-p1.namu.la/20251129sac/6039ae347e6f8da5e03de9684d2e38db1153e903849ee0159ddb545784d9e7ee.png?expires=1764478192&key=0ZiHV0hcKNmKXYHYOkv8-A"
         },
@@ -209,8 +311,14 @@
       "links": 
       [
         {
+          "url": "https://arca.live/b/forgettingeve/155677950",
+          "title": "★유입을 위한융재금지 구역 세부 가이드★",
+          "desc": "반갑다 망붕이들! 이번 이벤트로 작은 별사탕이 대거 풀리면서융재금지구역 쌀먹이 대단히 쉬워졌다고 생각해ㅎ뉴비 유입도 많겠다, 이 게임의 엔컨인 융재에 대한 세부가이드지금 시작해봄! 융재가 뭐하는 컨텐츠인지는 다 알거",
+          "image": "https://ac-p1.namu.la/20251203sac/3a2c8ec2112235f4f71efa7d7deeb130c39baba4f552eaccb828aa65f0fa7188.jpg?expires=1764759804&key=gclRf71C8XPZZrisfUG5uw"
+        },
+        {
           "url": "https://arca.live/b/forgettingeve/155414795",
-          "title": "형들 융재 미리 짜놓은 정해진 고점팟 여러개 만들어놓고 순서대로 박는게 아님 - 망각전야 채널",
+          "title": "형들 융재 미리 짜놓은 정해진 고점팟 여러개 만들어놓고 순서대로 박는게 아님",
           "desc": "아직 외우기 힘들어서 그런데 보스마다 패턴을 파악해서 약점을 찌르는 맵임이런 병신같은 조합으로도 5단이 밀린다",
           "image": "https://ac-p1.namu.la/20251130sac/188595dff6d41afbb3112168e05ec32195a47b41e2e307485168b0b8bc500285.jpg?expires=1764633113&key=hWBm57YZkIAa6Uu2PUT2pA"
         },
@@ -257,7 +365,7 @@
       "links": [
         {
           "url": "https://arca.live/b/forgettingeve/155380262",
-          "title": "12/01~ 환몽심잠 변경점 정리 - 망각전야 채널",
+          "title": "12/01~ 환몽심잠 변경점 정리",
           "desc": "📌 스테이지/점수 시스템 업데이트일부 맵 조정 → 보스를 바로 도전할 수 없음매주 각 영역(Realm)에 추천 각성자 1명→ 출전 시 CON/ATK/DEF +50%📊 점수 규칙 개선 (기존 계산 결과는 동일)기본",
           "image": "https://arca.live/node_modules/twemoji/assets/svg/1f4cc.svg"
         },
@@ -358,7 +466,7 @@
       [
         {
           "url": "https://arca.live/b/forgettingeve/155324262",
-          "title": "절대 모든밀약 2줄작 졸업할때까지 3줄작을 하지마 - 망각전야 채널",
+          "title": "절대 모든밀약 2줄작 졸업할때까지 3줄작을 하지마",
           "desc": "1줄 고정 리롤 -> 펜 1개2줄 고정 리롤 -> 펜 10개절대절대3줄작을해선안돼",
           "image": "/static/apple-icon.png?t=e1bf30f61b2b9534c5a27e707b0b299719a603ac"
         },
@@ -435,7 +543,7 @@
       [
         {
           "url": "https://arca.live/b/forgettingeve/155267214",
-          "title": "간단한 초차원 캐릭별 후기 - 망각전야 채널",
+          "title": "간단한 초차원 캐릭별 후기",
           "desc": "*초차원 계역은 구린거 맞음*카스토르:카스토르클레멘타인:음해 거르고 초차원 섞을 때 최우선 순위임스킬 전부 3렙인데도 1인분은 해주는 우수한 서포터힘깎&힐&적이 주는 피해감소를 전부 가지고 있음카시아:",
           "image": "https://ac-p1.namu.la/20251129sac/0e3a05ebd13df464ac480bf720fb85062f103c3beb9fd8a93a088f71fa3b33e5.jpg?expires=1764477957&key=0ObuVuurx8LeaiaWdMdqHw"
         },
@@ -515,44 +623,14 @@
       "links": 
       [
         {
-          "url": "https://arca.live/b/forgettingeve/155507638",
-          "title": "레이드 이벤트 개인적이 팁 - 망각전야 채널",
-          "desc": "솔직히 좀 재미도없고 빡치기도하고 왜하는지 모르겠는 이벤트그래도 보상은 좋으니깐 다들 최대한 하길일단 오늘 해보면서 느낀게 결국엔 친구조력 잘써야한다는 결론임친구조력 하나로 깰수도있고 그래서 좀 정리하면,1. 풀돌/",
-          "image": "https://ac-p1.namu.la/20251201sac/03a6a6e674ac031e7af2861e6229d5c4412cab9eaac4dcfe0d1819020529f2f8.png?expires=1764633413&key=g8E3msoSfMFaxAYunD0bnQ"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/155506568",
-          "title": "Flares 양형 레이드 이벤트 15파티 조합 - 망각전야 채널",
-          "desc": "https://docs.google.com/spreadsheets/d/15M8uDlTpUfz41CmHPOxsQzJgYv--6kXjiKDcUDSDdPU/edit?gid=1722830217#gid=172283021715",
-          "image": "https://ac-p1.namu.la/20251201sac/1253e1f98af3e7c95171cdf78319fe1fb80f22ca08a5cb11431f038b14391496.png?expires=1764633398&key=tQxjoZ7sz_OyuPWnAmsscw"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/155476016",
-          "title": "초간단 이벤트공략 - 망각전야 채널",
-          "desc": "아무 개쓰레기3개에 개쓰레기명륜(r도상관없음)2개박고 타비친구타비는 명륜은 중요하지않지만 약재의꿈은 꽤중요함나머지 모든 상황에서 타비카드빼고 아무것도안쓰고 꺠면됨타비 초한이오면 내 핸드에 4익이 있으면 초한키고 카드",
-          "image": "https://ac-p1.namu.la/20251201sac/27d4eeed7ecf444839b4530747a3092253fbc224474bf0bef32e14ebe48e0462.png?expires=1764633370&key=rR8hY3gFetpsP-ZMwJlW-g"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/155475309",
-          "title": "지금이라도 뉴비들 이벤트 보상 빨리 타먹는 법 - 망각전야 채널",
-          "desc": "1. 단 이벤트 페이지에서 랭킹창을 연다.2. 후에는 도우미 랭킹 항목을 연다.3. 그리고 랭킹창에 보이는 모든 유저들의 캐릭터 아이콘을 클릭해서4. 친추를 무차별로 때려박는다. 기본적으로 도우미 랭킹에 올라간 유저",
-          "image": "https://ac-p1.namu.la/20251201sac/c3dfbb18ee1619998e951a1315eac256c1c062c26a58c175699951d33063b8d8.png?expires=1764633355&key=n3x98dffkD4d6Wsvt4AYpA"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/155378743",
-          "title": "2.4.0.7 패치노트기반 레이드 이벤트 다시 정리 - 망각전야 채널",
-          "desc": "1. 이벤트맵 7일간 하루에 하나씩 열림 (왼쪽부터 하나씩)2. 클리어 횟수 한도 없음 (선착순 아니라는 뜻!)3. 하루에 케릭터/명륜 한번만 사용 가능하고, 중복 사용 불가. - 무조건 친구 조력해야함. 친구조력은",
-          "image": "https://ac-p1.namu.la/20251130sac/e3d518734b71ecc5f4ffdcb9567e28432194e40c96dce752713e580486f0a436.png?expires=1764633274&key=x2igXT-q2hRY2lJJIMgTtQ"
-        },
-        {
           "url": "https://arca.live/b/forgettingeve/155370046",
-          "title": "뉴비 필독!! 내일부터 레이드임!! 고렙들한테 친추 보내! - 망각전야 채널",
+          "title": "뉴비 필독!! 내일부터 레이드임!! 고렙들한테 친추 보내!",
           "desc": "1)기간동안 총 7개의 보스맵이 열림(낼부터 1주)각 스테이지별로 도전 가능 횟수가 정해져있는걸로 보임서버 전체 공유라서, 아마 한정뽑 주는 맵이 제일 먼저 털릴듯2)제일 중요한 거임. 하루 트라이는 무제한 가능함대",
           "image": "https://ac-p1.namu.la/20251130sac/1efe09fa6623997891660aae0e88b42f55dfabdfd96cdb2d4be105c87b17eeeb.jpg?expires=1764633226&key=hCiRCZzpLazcoiX34s6OPA"
         },
         {
           "url": "https://arca.live/b/forgettingeve/155348043",
-          "title": "OP들 간단한 실사용 후기 - 망각전야 채널",
+          "title": "OP들 간단한 실사용 후기",
           "desc": "사용처:메인 스토리 1-2부 하드 전체, 융재 4-5단계1)카티구라최애픽뉴비 기준, 딜탱&모두 되고 단순한 캐릭인게 최고의 장점고점 보려면 머리를 써야 되지만, 기본적으로 스택 10스택맞추고 엑사 플레어 0코",
           "image": "https://ac-p1.namu.la/20251129sac/a9686703ea9c69664f7c5ab852ed5c50b700819269107d846928b01de52846b7.jpg?expires=1764478448&key=2kDJDIWH9YOpYfkQXX5lOg"
         },
@@ -707,7 +785,7 @@
     [
       {
         "url": "https://arca.live/b/forgettingeve/155298417",
-        "title": "라이커 캐릭터 정보 - 망각전야 채널",
+        "title": "라이커 캐릭터 정보",
         "desc": "안녕 친구들 오늘은 라이커?레이크?라이카?레이카 ?를 할거야내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함오늘 알아볼 ",
         "image": "https://ac-p1.namu.la/20251129sac/79912e13d593e440050b083faf8a6fd9c123be17b57a1b5ea66d87f148d9753d.jpg?expires=1764478246&key=QLjoJupE1Ovo4VYmAleZ6Q"
       },
@@ -868,19 +946,19 @@
     [
       {
         "url": "https://arca.live/b/forgettingeve/155505755",
-        "title": "유튜브 보다 알게된건데 탄피 딜 = 은열충전 / 치확이래 - 망각전야 채널",
+        "title": "유튜브 보다 알게된건데 탄피 딜 = 은열충전 / 치확이래",
         "desc": "딜러로 고려하는건 최소 3돌~초한부터인데, 머피의 1돌옵이이거 번역이 이상한데, 원무의 촉수데미지, 방어막, 빨간촉수일때 최종 피해량이 은열 충전 스탯에 비례해서 증가함.그리고 탄피의 2돌 옵션 \"거꾸로 임신\"에서촉",
         "image": "https://ac-p1.namu.la/20251201sac/78bd32b0fa1f355aaba820c44e3684ea1ac75c40eebce9ab21cc88842fe2cf50.png?expires=1764633093&key=-eZNlqi_kedEsHgY4pqw-w"
       },
       {
         "url": "https://arca.live/b/forgettingeve/155341076",
-        "title": "허상왕녀 탄망 머피 희대에 성능케 기본 가이드 - 망각전야 채널",
+        "title": "허상왕녀 탄망 머피 희대에 성능케 기본 가이드",
         "desc": "https://arca.live/b/forgettingeve/154906809 (탄망 머피 심해 접대 5지 5단 날먹 영상)https://arca.live/b/forgettingeve/152017581 (2부한정케 ",
         "image": "https://ac-p1.namu.la/20251129sac/5aa7cdc9de402c4fc7eba6b93cf17db757c016be83997de719b8df80d941d3a0.png?expires=1764478405&key=DsqpkRujoD1rzDqscoKxiQ"
       },
       {
         "url": "https://arca.live/b/forgettingeve/155271104",
-        "title": "일반 뉴비한테 탄피가 어려운 이유 고찰 - 망각전야 채널",
+        "title": "일반 뉴비한테 탄피가 어려운 이유 고찰",
         "desc": "희생딜 얻어맞고 코피 흘리는거 아님탄피가 사실 신캐인만큼 짱짱쎈데초~중반구간 뉴비들한텐 약하게 느껴질만한 이유를 생각해봄일단 신국 심해영역은 HP기반 데미지임뉴비일땐 챕터를 깨서 각성체를 승격시킬때가 많은데그러다보니",
         "image": "https://ac-p1.namu.la/20251129sac/1c851f066586f4b2310ed19dd5f8327a8ea1f9d0ce6a0cd26d3628f9726ed9e2.jpg?expires=1764478136&key=Uu36mYBnCIQ83-Kt5g8Vyw"
       },
@@ -960,6 +1038,12 @@
     "helot_catena": 
     [
       {
+        "url": "https://arca.live/b/forgettingeve/155605126",
+        "title": "혈시로 혈쇄 히로 캐릭터 정보",
+        "desc": "안녕 오늘은 혈시로 혈히로 혈헬롯? 에 알아보자내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함오늘 친구의 스펙임난 별로",
+        "image": "https://ac-p1.namu.la/20251202sac/cce490798bd37eb57a90a83ce3254daf23a1c9bb36b865a6b6d41416fa8df7c2.png?expires=1764759863&key=YfU38QEhQAVWZ3pe-tsFzw"
+      },
+      {
         "url": "https://arca.live/b/forgettingeve/152787781",
         "title": "혈시로덱만 판 뉴비가 쓰는 간단 가이드 ",
         "desc": "오늘이 딱 2주차인듯! 이번주 융재 350이 목표다요요새 겜은 오래 못해서 하루에 하드 1-2개만 밀고있지만1부는 6일컷했고, 하드&2부도 아직까지 막힌 적은 없더라기본 추천 구성남은 자리:아이기스 타비 라이",
@@ -989,7 +1073,7 @@
     [
       {
         "url": "https://arca.live/b/forgettingeve/155526247",
-        "title": "오를라 2돌에 대하여 - 망각전야 채널",
+        "title": "오를라 2돌에 대하여",
         "desc": "ㅎㅇ오늘도 초차원과 즐거운 시간 보내고 있기를 바란다다름이 아니라 한번쯤 오를라 2돌 관련 글을 써보려고 했는데 드디어 시간이 나서 써봄시작에 앞서 이 글은 오를라 감정효과를 전부 안다는 전제 하에 작성되었음을 밝힘",
         "image": "https://ac-p1.namu.la/20251201sac/2fde54f40c46f4b353a62ef8c11ac4000fc324ecc6ab97e989b0ee5fa444e3ab.png?expires=1764632960&key=gCRHO-OP2xGSsB9ocXgcQg"
       },
@@ -1033,6 +1117,12 @@
     "pollux": 
     [
       {
+        "url": "https://arca.live/b/forgettingeve/155626735",
+        "title": "폴룩스 기초 가이드",
+        "desc": "ㅎㅇ오늘도 초차원과 행복한 시간을 보내고 있길 바란다요즘 폴룩스에 관심을 가져주는 사람들도 늘어난 김에 기초 가이드를 써봄이 글에서는 완전 기초적인 이야기만 할 예정이니 딜사이클 및 활용관련은 메인딜 가이드를 참고해",
+        "image": "https://ac-p1.namu.la/20251202sac/28e20b7e26765e53f40679e3f9a9fc6d37265f5f201b1809588c76c137f48d70.png?expires=1764759888&key=JnfhniPZaQbuaW2JMsX_lg"
+      },
+      {
         "url": "https://arca.live/b/forgettingeve/153469534",
         "title": "폴룩스 메인딜 가이드 ",
         "desc": "ㅎㅇ이 험난한 망각전야를 폴룩스 메인딜 초차원덱으로 헤쳐나가고 싶은 사람이 어딘가에는 있을거라고 생각한다나도 아주 잘 굴리는건 아니지만 그런 사람들에게 이 글이 부디 도움이 되기를 바람시작에 앞서 이 글은 폴룩스 3",
@@ -1050,7 +1140,7 @@
     [
       {
         "url": "https://arca.live/b/forgettingeve/155349891",
-        "title": "정실 라모나에 대해 아라보자 - 망각전야 채널",
+        "title": "정실 라모나에 대해 아라보자",
         "desc": "우리의 수호자바라기이자 뉴비들의 친구 라모나. 기초 스탯은 체력, 공격, 방어 모두 표준 수준인 걸 볼 수 있다.필수출전인 스테이지도 있으면서, 밴당하는 스테이지도 있어서 열심히 키웠더니 밴당했다는 뉴비들의 곡소리가",
         "image": "https://ac-p1.namu.la/20251130sac/5910924bd5a98972331e8e64a7c827fd1c24bdb76b4386021c6ded27f80d05ee.png?expires=1764478560&key=V8rNfMKijRYji_o9IyR6HQ"
       }
