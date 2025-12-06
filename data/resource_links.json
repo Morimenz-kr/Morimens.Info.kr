@@ -417,6 +417,12 @@
       "title": "🔘 명륜 정보",
       "links": [
         {
+          "url": "https://arca.live/b/forgettingeve/155954978",
+          "title": "모든 한정명륜 간단리뷰&추천",
+          "desc": "안녕 망붕이들아~ 슬슬 융재도 준비하며 파티짜구선택권 어떻게 쓸지 고민하는 망붕이들을 위해서 써봤어각 캐릭터 이름/명륜이름으로 검색하면 찾기 쉬울거야!융재금지구역 기준으로 많이 썼으니 참고해줘.늘 그렇지만, 나랑 의",
+          "image": "https://ac-p1.namu.la/20251205sac/7421368474b1a62256b93042d800ba3b7e0294e370ba06524d231024b9373391.jpg?expires=1765010711&key=r87WtHMk3hvcMSDGJUfYqg"
+        },
+        {
           "url": "https://arca.live/b/forgettingeve/155855556",
           "title": "기억의나선을 팔아보자",
           "desc": "기억의나선 명륜 탄피 나오면서 꽤 좋아졌는데 생각보다 언급이 안되어서 영업좀 하려고해 탄피 나선 스킬과 동일하게 남은방어력의 50%를 넘겨주는 효과가있음 나선을 팀원에게 장착후 탄피 나선을 사용하면 50%+50% 적",
@@ -867,7 +873,15 @@
       }
     ],
     "alva": [],
-    "karen": [],
+    "karen": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/155953318",
+        "title": "카렌 캐릭터 정보",
+        "desc": "안녕 안녕 가렌?카렌? 정보야내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함분명 내가 기억하기로는 데마시아의 가렌이였는",
+        "image": "https://ac-p1.namu.la/20251206sac/fe1049261abd137bbaabcd3e11be37a2ff3d7d6ad9362be43a000ec6d635c4dd.jpg?expires=1765010678&key=wp3OlXpX0PW2r-1Mb1jWRg"
+      }
+    ],
     "kathigu-ra": 
     [
       {
@@ -1010,7 +1024,15 @@
         "image": "https://ac-p1.namu.la/20251203sac/d74c4c6df8b64fd279791374a3d36be9d0b6569c78d1b4017d03cbf579921209.jpg?expires=1764850967&key=MfUm32mzqPPzt2uGkwBdGg"
       }
     ],
-    "aurita": [],
+    "aurita": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/155955068",
+        "title": "오레타 캐릭터 정보",
+        "desc": "안녕 안녕 오레타야내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함요새 뉴비친구들 오레타 많이들 좋아하는데 갠적인 생각으",
+        "image": "https://ac-p1.namu.la/20251206sac/7bd7442754d4c4969b1ec4150b2694eb9660342e226ad5f6802a1ed2bf3c7d16.jpg?expires=1765010750&key=8Losd-s_WRh5lTchNzZHqA"
+      }
+    ],
     "caecus": [],
     "Murphy_Fauxborn": 
     [
