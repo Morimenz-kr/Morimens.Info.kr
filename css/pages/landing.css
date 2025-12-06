@@ -5,7 +5,7 @@
 /* --- 1. 메인 레이아웃 컨테이너 --- */
 .landing-container {
     position: relative;
-    z-index: 2;
+    z-index: 999;
     width: 100%;
     max-width: 800px;
     padding: 40px 20px 80px;
