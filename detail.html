@@ -10,73 +10,184 @@
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/detail.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <!-- Config 파일 로드 -->
     <script src="config/config.js"></script>
 </head>
 
 <body>
-    <div class="container">
+<div class="container">
 
-        <a href="list.html" class="back-button">&larr; 목록으로 돌아가기</a>
+    <a href="list.html" class="back-button">&larr; 목록으로 돌아가기</a>
 
-        <div class="detail-layout">
+    <div class="detail-layout">
 
-            <div class="char-profile">
-                <img id="char-image" src="https://via.placeholder.com/400x600?text=Loading..." alt="캐릭터 일러스트">
-                <h2 id="char-name">...</h2>
-                <div class="tags" id="char-tags"></div>
-                <div class="lore">
-                    <h4>배경 스토리</h4>
-                    <p id="char-lore">...</p>
-                </div>
-                <h4>기본 스탯 (Lv.1)</h4>
-                <div id="stats-table-container"></div>
+        <div class="char-profile">
+            <img id="char-image" src="https://via.placeholder.com/400x600?text=Loading..." alt="캐릭터 일러스트">
+            <h2 id="char-name">...</h2>
+            <div class="tags" id="char-tags"></div>
+            <div class="lore">
+                <h4>배경 스토리</h4>
+                <p id="char-lore">...</p>
+            </div>
+            <h4>기본 스탯 (Lv.1)</h4>
+            <div id="stats-table-container"></div>
+        </div>
+
+        <div class="char-data">
+
+            <div class="data-tabs" id="data-tabs">
+                <button class="tab-link active" data-tab="tab-skills">스킬</button>
+                <button class="tab-link" data-tab="tab-covenant">비밀계약</button>
+                <button class="tab-link" data-tab="tab-myeongryun">명륜</button>
+                <button class="tab-link" data-tab="tab-team">조합</button>
+                <button class="tab-link" data-tab="tab-growth">영지 계발/특성</button>
             </div>
 
-            <div class="char-data">
-
-                <div class="data-tabs" id="data-tabs">
-                    <button class="tab-link active" data-tab="tab-skills">스킬</button>
-                    <button class="tab-link" data-tab="tab-covenant">비밀계약</button>
-                    <button class="tab-link" data-tab="tab-myeongryun">명륜</button>
-                    <button class="tab-link" data-tab="tab-team">조합</button>
-                    <button class="tab-link" data-tab="tab-growth">영지 계발/특성</button>
-                </div>
-
-                <div class="tab-content active" id="tab-skills"></div>
-                <div class="tab-content" id="tab-covenant"></div>
-                <div class="tab-content" id="tab-myeongryun"></div>
-                <div class="tab-content team-grid" id="tab-team"></div>
-                <div class="tab-content" id="tab-growth">
-                    <h4>영지 계발 (돌파)</h4>
-                    <div id="breakthrough-content"></div>
-                    <hr style="border-color: #555; margin: 25px 0;">
-                    <h4>특성</h4>
-                    <div id="talents-content"></div>
-                </div>
-
+            <div class="tab-content active" id="tab-skills"></div>
+            <div class="tab-content" id="tab-covenant"></div>
+            <div class="tab-content" id="tab-myeongryun"></div>
+            <div class="tab-content team-grid" id="tab-team"></div>
+            <div class="tab-content" id="tab-growth">
+                <h4>영지 계발 (돌파)</h4>
+                <div id="breakthrough-content"></div>
+                <hr style="border-color: #555; margin: 25px 0;">
+                <h4>특성</h4>
+                <div id="talents-content"></div>
             </div>
+
         </div>
     </div>
+</div>
 
-    <div class="modal-overlay" id="derived-modal">
-        <div class="modal-content">
-            <h3>파생 카드</h3>
-            <div class="derived-carousel-container">
-                <button class="modal-carousel-arrow left" id="modal-prev">&lt;</button>
-                <div class="derived-card-slide" id="modal-skill-slide">
-                </div>
-                <button class="modal-carousel-arrow right" id="modal-next">&gt;</button>
+<div class="modal-overlay" id="derived-modal">
+    <div class="modal-content">
+        <h3>파생 카드</h3>
+        <div class="derived-carousel-container">
+            <button class="modal-carousel-arrow left" id="modal-prev">&lt;</button>
+            <div class="derived-card-slide" id="modal-skill-slide">
             </div>
+            <button class="modal-carousel-arrow right" id="modal-next">&gt;</button>
         </div>
     </div>
+</div>
 
-    <script src="js/detail.js"></script>
+<script src="js/detail.js"></script>
 
-    <!-- Floating 신고 버튼 -->
-    <button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
-        🚨
-    </button>
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                    </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 스킬 설명 오타', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        const sourceUrlInput = document.getElementById('report-source-url');
+        const modalStatus = document.getElementById('modal-form-status');
+        if (modalStatus) {
+            modalStatus.style.display = 'none';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+        if (sourceUrlInput) { sourceUrlInput.value = window.location.href; }
+        modal.classList.add('show');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal) {
+            reportModal.addEventListener('click', (e) => {
+                if (e.target === reportModal) reportModal.classList.remove('show');
+            });
+        }
+    });
+
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '전송 중...';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+</script>
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
+    🚨
+</button>
 </body>
-
 </html>
