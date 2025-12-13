@@ -19,6 +19,34 @@
     <link rel="stylesheet" href="css/pages/links.css">
     <link rel="stylesheet" href="css/responsive.css">
     <script src="config/config.js"></script>
+    <style>
+        /* 추가된 버튼의 스타일 (기존 .report-btn을 활용하되, 조금 다르게 강조) */
+        .party-link-btn {
+            display: block;
+            width: 100%;
+            padding: 15px 10px;
+            margin: 15px 0 25px 0;
+            background-color: #f7a115; /* 강조 색상 */
+            color: #1a1a1a;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+        .party-link-btn:hover {
+            background-color: #e59400;
+        }
+        .party-credit-text {
+            display: block;
+            font-size: 0.8em;
+            color: #aaa;
+            text-align: center;
+            margin-top: 10px;
+            padding-bottom: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -28,6 +56,8 @@
 
     <div class="link-container">
         <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
+
+        <div id="party-link-slot"></div>
         <div id="links-list"></div>
 
         <div class="report-section">
@@ -35,6 +65,9 @@
             <a href="#" id="open-report-modal" class="report-btn">
                 🚨 버그/피드백 제보하기
             </a>
+            <span id="party-credit-slot" class="party-credit-text" style="display:none;">
+                '융재 금구 파티 편성' 기능은 망각전야 채널의 '플린의 조수'님이 제작하신 사이트로 연결됩니다.
+            </span>
         </div>
     </div>
 </div>
@@ -193,6 +226,25 @@
         // 1. 카테고리별 클래스 추가
         if (category) {
             document.body.classList.add(`category-${category}`);
+
+            // =======================================================
+            // ⭐ 사용자 요청: '융재금구' 페이지일 때 파티 찾기 버튼 삽입 로직
+            if (category === 'weapon') {
+                const partySlot = document.getElementById('party-link-slot');
+                const partyCredit = document.getElementById('party-credit-slot');
+
+                // 💡 '파티 사이트의 전체 URL' 부분을 실제 주소로 변경해주세요.
+                const partyButtonHTML = `
+                    <a href="https://brodaru.github.io/morimenz_party/#/" target="_blank" class="party-link-btn">
+                        🤝 융재 금구 파티 편성 (외부 연결)
+                    </a>
+                `;
+                partySlot.innerHTML = partyButtonHTML;
+
+                // 크레딧 표시
+                partyCredit.style.display = 'block';
+            }
+            // =======================================================
         }
 
         try {
@@ -362,4 +414,4 @@
     🚨
 </button>
 </body>
-</html>
+</html>파
