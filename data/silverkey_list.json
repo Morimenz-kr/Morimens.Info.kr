@@ -1,0 +1,310 @@
+[
+  {
+    "korean_name": "주사 수호",
+    "english_name": "key_injection",
+    "description": "보호막 92점을 획득합니다. 현재 체력이 25% 미만일 경우, 체력 92점을 회복합니다.",
+    "image_path": "images/key_injection.png",
+    "tags": ["보호막 획득", "체력 회복"]
+  },
+  {
+    "korean_name": "회귀의 문을 넘어",
+    "english_name": "key_return",
+    "description": "뽑기 더미에서 카드 1장을 선택하여 손에 넣고, 해당 카드의 계산 비용을 1만큼 줄입니다.",
+    "image_path": "images/key_return.png",
+    "tags": ["카드 추가", "산출력 감소"]
+  },
+  {
+    "korean_name": "문을 여는 답",
+    "english_name": "key_open_door",
+    "description": "무작위 은열쇠 3개를 발견하고, 그 중 하나를 선택하여 효과를 발동합니다. 은열쇠 에너지를 200 획득합니다.",
+    "image_path": "images/key_open_door.png",
+    "tags": ["은열쇠 게이지 획득"]
+  },
+  {
+    "korean_name": "별들의 가호",
+    "english_name": "key_star_protect",
+    "description": "\"잠\" 또는 \"깨어남\"을 선택. 잠: 보호막 58점과 \"별의 보호\" 중첩 1개를 획득하며, 최대 5개까지 누적됩니다. 중첩은 전투 후에도 초기화되지 않습니다. 깨어남: 모든 각성체는 광기 8점을 획득하고, 모든 \"별빛 보호\" 중첩을 소모하며, 소모된 중첩 수만큼 연산 능력을 얻습니다. 현재 영역이 \"심해\"인 경우, 소모된 중첩 수만큼 추가적인 임시 촉수가 생성됩니다.",
+    "image_path": "images/key_star_protect.png",
+    "tags": ["보호막 획득", "광기 부여", "터치월 생성"]
+  },
+  {
+    "korean_name": "어긋난 운명",
+    "english_name": "key_twisted_fate",
+    "description": "각성체 하나를 선택하여 광기 15를 부여합니다. 드로우 덱에서 계산 비용이 가장 낮은 카드 2장을 뽑습니다. 팀에 카스토르가 있다면, 카스토르의 피해 증폭을 일시적으로 30% 증가시킵니다.",
+    "image_path": "images/key_twisted_fate.png",
+    "tags": ["광기 부여", "드로우", "피해 증폭"]
+  },
+  {
+    "korean_name": "검은 백조의 춤사위",
+    "english_name": "key_black_swan",
+    "description": "한 명의 각성체를 선택하여 그 명령카드의 크리티컬 확률과 크리티컬 피해를 임시로 15% 증가시키고 15포인트의 광기를 얻습니다. 리즈가 팀에 있으면, 추가로 1장의 ‘소모’의 ‘사멸 녹염’을 손에 넣습니다.",
+    "image_path": "images/key_black_swan.png",
+    "tags": ["크리티컬 확률 증가", "크리티컬 피해 증가", "광기 부여", "카드 추가"]
+  },
+  {
+    "korean_name": "정지된 한여름의 추억",
+    "english_name": "key_summer_time",
+    "description": "각성체 하나를 선택하고, 계산 비용이 0인 임시 \"타격\" 카드 한 장을 손에 추가합니다. 세 번째 발동마다 대신 \"아름다운 순간\" 카드 한 장을 손에 추가하고, 모든 각성체에게 임시로 크리티컬 확률 20% 증가 효과를 부여합니다.",
+    "image_path": "images/key_summer_time.png",
+    "tags": ["카드 추가", "크리티컬 확률 증가"]
+  },
+  {
+    "korean_name": "마지막 서약",
+    "english_name": "key_last_pledge",
+    "description": "일시적으로 크리티컬 확률이 25% 증가하고 일시적으로 힘이 19 증가합니다. 보스전 중이고 이번 턴에 카드를 사용하지 않았다면, 죽음의 저항을 한 번 시도합니다. 성공하면 보호막 367점을 얻습니다. 이 효과는 한 번만 발동할 수 있습니다.",
+    "image_path": "images/key_last_pledge.png",
+    "tags": ["크리티컬 확률 증가", "힘 증가", "보호막 획득"]
+  },
+  {
+    "korean_name": "영원한 집착",
+    "english_name": "key_eternal_obsession",
+    "description": "힘이 28점 증가하고, 영구적인 힘의 25%에 해당하는 추가적인 임시 힘을 얻습니다.",
+    "image_path": "images/key_eternal_obsession.png",
+    "tags": ["힘 증가"]
+  },
+  {
+    "korean_name": "아름다운 꿈의 순간",
+    "english_name": "key_dream_moment",
+    "description": "121의 보호막 포인트를 얻고 현재 보호막의 10%에 해당하는 일시적인 힘을 얻습니다.",
+    "image_path": "images/key_dream_moment.png",
+    "tags": ["보호막 획득", "힘 증가"]
+  },
+  {
+    "korean_name": "꺼지지 않는 태양",
+    "english_name": "key_never_falling_sun",
+    "description": "산출력 1을 획득하고 피해 증폭이 30% 증가합니다. 카티구라가 팀에 존재할 경우, 카티구라의 명령 카드 1장을 뽑고 해당 카드에 활염 1스택을 부여합니다.",
+    "image_path": "images/key_never_falling_sun.png",
+    "tags": ["피해 증폭", "드로우"]
+  },
+  {
+    "korean_name": "쥐의 지혜",
+    "english_name": "key_mouse_wisdom",
+    "description": "산출력을 3 획득합니다.",
+    "image_path": "images/key_mouse_wisdom.png",
+    "tags": ["산출력 획득"]
+  },
+  {
+    "korean_name": "한 발의 총성",
+    "english_name": "key_gun_sound",
+    "description": "빛나는 속임수 주사위 1장을 손패에 추가하고, 임시 크리티컬 확률을 10% 획득합니다.",
+    "image_path": "images/key_gun_sound.png",
+    "tags": ["카드 추가", "크리티컬 확률 증가"]
+  },
+  {
+    "korean_name": "불평등한 교환",
+    "english_name": "key_unfair_exchange",
+    "description": "카드를 네 장 뽑습니다.",
+    "image_path": "images/key_unfair_exchange.png",
+    "tags": ["드로우"]
+  },
+  {
+    "korean_name": "한여름의 꿈",
+    "english_name": "key_summer_dream",
+    "description": "1장의 카드를 뽑습니다. 만약 명령카드나 영지 각성을 뽑으면, 그 카드의 산출력 소모를 0으로 만들고, 해당 카드의 소유자가 20점의 광기를 획득합니다. 그렇지 않으면 그 카드를 버리고 이 효과를 반복합니다.",
+    "image_path": "images/key_summer_dream.png",
+    "tags": ["드로우", "산출력 감소", "광기 부여"]
+  },
+  {
+    "korean_name": "그녀의 전부",
+    "english_name": "key_all_of_her",
+    "description": "영역 숙련을 24만큼 증가시킵니다. 각성체 하나를 선택하여 광기 24점을 부여합니다",
+    "image_path": "images/key_all_of_her.png",
+    "tags": ["영역 숙련", "광기 부여"]
+  },
+  {
+    "korean_name": "작은 소원",
+    "english_name": "key_tiny_wish",
+    "description": "각성체 하나에게 광기를 35 부여합니다.",
+    "image_path": "images/key_tiny_wish.png",
+    "tags": ["광기 부여"]
+  },
+  {
+    "korean_name": "네 번째 악장",
+    "english_name": "key_4th_music",
+    "description": "이번 턴에 다음에 낼 카드의 연산력이 3 이상이면 연산력 2를 얻고, 그렇지 않으면 카드 2장을 뽑습니다. 이번 전투에서 이 효과가 네 번째로 발생하면, 대신 \"영감\" 카드 4장을 직접 얻습니다.",
+    "image_path": "images/key_4th_music.png",
+    "tags": ["드로우", "카드 추가"]
+  },
+  {
+    "korean_name": "순백의 첫 만남",
+    "english_name": "key_pure_white",
+    "description": "손에 든 카드를 모두 버리고, 버린 카드 수 +2만큼 카드를 뽑습니다.",
+    "image_path": "images/key_pure_white.png",
+    "tags": ["드로우"]
+  },
+  {
+    "korean_name": "산맥의 가호",
+    "english_name": "key_mt_blessing",
+    "description": "각성자 한 명을 선택하고 해당 각성자에 대한 명령 카드 2장을 뽑습니다.",
+    "image_path": "images/key_mt_blessing.png",
+    "tags": ["드로우"]
+  },
+  {
+    "korean_name": "특별 치료",
+    "english_name": "key_special",
+    "description": "체력 68을 회복하고 공격력 20을 얻습니다. 클레멘타인이 파티에 있을 경우, 이번 턴에 그녀의 다음 명령 카드가 입히는 피해량, 보호막, 체력 회복, 광기, 은색 열쇠 에너지의 횟수가 1씩 증가합니다.",
+    "image_path": "images/key_special.png",
+    "tags": ["체력 회복", "힘 증가", "보호막 획득", "광기 부여", "은열쇠 게이지"]
+  },
+  {
+    "korean_name": "사라지지 않는 번개",
+    "english_name": "key_lightning",
+    "description": "방어력 58점을 얻고 카드 2장을 뽑습니다. 코퍼산트가 파티에 있다면 \"향로 인도\" 카드 1장을 추가로 손에 넣습니다.",
+    "image_path": "images/key_lightning.png",
+    "tags": ["보호막 획득", "드로우", "카드 추가"]
+  },
+  {
+    "korean_name": "불멸의 장례식",
+    "english_name": "key_funeral",
+    "description": "모든 각성체는 15점의 광기를 얻고, 다음 턴 시작 시 최대 체력의 5%의 희생을 얻습니다.",
+    "image_path": "images/key_funeral.png",
+    "tags": ["광기 부여", "체력 감소"]
+  },
+  {
+    "korean_name": "유일한 씨앗",
+    "english_name": "key_seed",
+    "description": "손에 있는 비파생 명령 카드 하나를 선택하고, 소모가 부여된 원본카드의 복사본을 손패에 추가하고, 해당 카드의 주인이 15 광기를 획득합니다.",
+    "image_path": "images/key_seed.png",
+    "tags": ["카드 추가", "광기 부여"]
+  },
+  {
+    "korean_name": "봄의 현시",
+    "english_name": "key_spring",
+    "description": "4개의 시편 중 하나를 선택하고, 선택지에서 제거합니다. 모든 시편이 선택되면 초기화 됩니다.",
+    "image_path": "images/key_spring.png",
+    "tags": ["체력 회복", "힘 증가", "광기 부여", "크리티컬 확률 증가"]
+  },
+  {
+    "korean_name": "머릿속의 목소리",
+    "english_name": "key_voice",
+    "description": "1턴 동안 모든 적에게 약화 및 취약 상태를 부여하고 일시적으로 힘 10을 훔칩니다.",
+    "image_path": "images/key_voice.png",
+    "tags": ["약화 부여", "취약 부여", "힘훔침"]
+  },
+  {
+    "korean_name": "잔혹한 인사",
+    "english_name": "key_keirei",
+    "description": "모든 적에게서 일시적으로 힘 39를 훔칩니다. 도어세인이 파티에 있다면 ‘잔해’ 1개를 얻습니다.",
+    "image_path": "images/key_keirei.png",
+    "tags": ["힘훔침", "카드 추가"]
+  },
+  {
+    "korean_name": "허무의 역병",
+    "english_name": "key_void",
+    "description": "각성체 1명을 선택하여 20의 광기를 부여합니다. 모든 적에게 39의 중독을 부여하고, 목표의 잃은 체력 1%마다 1%의 중독을 발동시킵니다. (최대 50%)",
+    "image_path": "images/key_void.png",
+    "tags": ["광기 부여", "중독 부여", "중독 발동"]
+  },
+  {
+    "korean_name": "허세의 색채색",
+    "english_name": "key_paint",
+    "description": "한 명의 각성체를 선택하여 20포인트의 광기를 획득시키고, 1장의 ‘영감’을 드로우 덱에 섞습니다. 만약 픽맨이 팀에 있으면, 1층의 ‘창의’를 그에게 획득시킵니다.",
+    "image_path": "images/key_paint.png",
+    "tags": ["광기 부여", "카드 추가"]
+  },
+  {
+    "korean_name": "우는 피의 성심",
+    "english_name": "key_bloodtear",
+    "description": "카드 1장을 뽑고 계산 비용을 1 감소시킨다. 뽑은 카드가 명령 카드일 경우, 해당 카드 소유자는 일시적으로 크리티컬 피해가 25% 증가한다. 파티에 폴룩스가 있을 경우, 죄악의 표식 중첩을 5개 획득한다.",
+    "image_path": "images/key_bloodtear.png",
+    "tags": ["드로우", "산출력 감소", "크리티컬 피해 증가"]
+  },
+  {
+    "korean_name": "뼈를 침식하는 포옹",
+    "english_name": "key_born",
+    "description": "1점의 산출력을 획득하고, 다음 턴 시작 시 96점의 보호막을 획득합니다. 현재 경계역이 ‘심해’이고 ‘물결’상태일 경우, 효과가 1개의 터치 윌 생성으로 변경됩니다.",
+    "image_path": "images/key_born.png",
+    "tags": ["보호막 획득", "터치월 생성"]
+  },
+  {
+    "korean_name": "오레타의 보물",
+    "english_name": "key_aureta",
+    "description": "드로우 덱에서 3 장의 가장 낮은 산출력 소모 카드를 뽑습니다. 현재 경계역이 심해’라면, 터치 손상이 추가로 10포인트 증가합니다.",
+    "image_path": "images/key_aureta.png",
+    "tags": ["드로우", "터치 손상"]
+  },
+  {
+    "korean_name": "거인의 패도",
+    "english_name": "key_giant",
+    "description": "1의 산출력과 15의 힘을 획득하고, 한 명의 각성체를 선택하여 15의 광기를 획득합니다. 현재 경계역이 ‘심해’이고 ‘노도’상태일 경우, 효과가 15%의 임시 크리티컬 확률과 임시 크리티컬 데미지 획득으로 변경됩니다.",
+    "image_path": "images/key_giant.png",
+    "tags": ["힘 증가", "광기 부여", "크리티컬 확률 증가", "크리티컬 피해 증가"]
+  },
+  {
+    "korean_name": "바다의 의식",
+    "english_name": "key_sea",
+    "description": "카드를 2장 뽑고 산출력 2를 획득하지만 모든 각성체가 5 광기를 잃습니다. 현재 ‘고요한 바다’ 태세일 경우, 모든 적에게 중독을 215 부여합니다. 보스 전투에서는 3배의 중독을 부여합니다.",
+    "image_path": "images/key_sea.png",
+    "tags": ["드로우", "중독 부여"]
+  },
+  {
+    "korean_name": "포효하는 피와 모래",
+    "english_name": "key_blood",
+    "description": "1명의 각성체를 선태하여 20점의 힘을 얻습니다. 현재 경계역이 ‘혈육’인 경우, 배아 융합+20가 추가로 적용되지 않지만, 현재 생명의 10%를 잃습니다.",
+    "image_path": "images/key_blood.png",
+    "tags": ["힘 증가", "체력 감소"]
+  },
+  {
+    "korean_name": "호숫가의 회상",
+    "english_name": "key_lakeside",
+    "description": "체력이 가장 높은 적에게 348의 독 피해를 입히고 56의 보호막을 부여합니다. 이번 턴에 \"흡수\"가 발동되었다면 추가 보호막은 획득하지 않으며, 적이 입힌 독 피해의 절반이 적용됩니다.",
+    "image_path": "images/key_lakeside.png",
+    "tags": ["중독 부여", "보호막 획득"]
+  },
+  {
+    "korean_name": "장미의 승리",
+    "english_name": "key_rose",
+    "description": "임시 공격력 42를 얻고 카드 2장을 뽑습니다. 현재 영역이 ‘혈육’이라면 현재 체력의 10%를 잃고 임시 공격력 14를 추가로 얻습니다. 손에 있는 \"배아\" 카드 한 장당 임시 공격력 14를 추가로 얻습니다.",
+    "image_path": "images/key_rose.png",
+    "tags": ["힘 증가", "드로우", "체력 감소"]
+  },
+  {
+    "korean_name": "회색 안개의 진상",
+    "english_name": "key_grey_fog",
+    "description": "힘 14를 얻고 손에 \"영감\" 카드 1장을 추가합니다. 초차원 턴인 경우, 효과가 변경되어 손에 \"영감\" 카드 2장을 추가합니다.",
+    "image_path": "images/key_grey_fog.png",
+    "tags": ["힘 증가", "카드 추가", "초월 턴"]
+  },
+  {
+    "korean_name": "기적의 강림",
+    "english_name": "key_miracle",
+    "description": "힘을 18 획득합니다. 적의 공격으로 피해를 입었을 때, 다음 턴 시작 시 입은 피해량의 10%만큼 보호막을 획득합니다. 현재 영역이 ‘혈육’인 경우, 지연 보호막 대신 피해량의 10%를 핓빛 용광로에 축적합니다.",
+    "image_path": "images/key_miracle.png",
+    "tags": ["힘 증가", "보호막 획득", "스칼렛 용광로"]
+  },
+  {
+    "korean_name": "사냥의 결의",
+    "english_name": "key_hungry",
+    "description": "편성된 각성체의 스킬 카드 3장을 발견합니다. 그 중 1장을 선택하여 해당 카드의 임시 복사본을 손패에 추가하고, 그 카드의 산출력 소비를 1 감소시킵니다. 현재 영역이 ‘혈육’이라면 ‘다 먹어치워!’를 선택할 수 있습니다.",
+    "image_path": "images/key_hungry.png",
+    "tags": ["카드 추가", "산출력 감소"]
+  },
+  {
+    "korean_name": "순간의 영원",
+    "english_name": "key_moment",
+    "description": "산출력 1을 획득합니다. 각성체 하나를 선택하고. ‘타격’카드 원본 1장과 ‘방어’카드 원본 1장을 손에 넣은 다음, 그 존재에게 ‘소모’와 ‘소멸’ 효과를 부여합니다. 현재 영역이 ‘초차원’일 경우, 힘 19점과 임시 경계 5점을 추가로 얻습니다.",
+    "image_path": "images/key_moment.png",
+    "tags": ["카드 추가", "힘 증가", "경계 획득"]
+  },
+  {
+    "korean_name": "부패의 연회",
+    "english_name": "key_rotten_party",
+    "description": "반격 150스택을 획득하고, 모든 적의 힘을 임시로 28점 감소시킵니다. 현재 ‘초월 턴’중이라면, 임시로 힘이 감소된 모든 적에게 반격 만큼의 피해를 입힙니다.",
+    "image_path": "images/key_rotten_party.png",
+    "tags": ["초월 턴"]
+  },
+  {
+    "korean_name": "소원을 다시 만나다",
+    "english_name": "key_wish_again",
+    "description": "버린 카드 더미에서 명령카드 1장을 선택하여 회수합니다. 만약 ‘라모나’가 팀에 있을 경우, 그 팀원이 이번 턴에 사용하는 다음 명령카드가 2번 발동됩니다.",
+    "image_path": "images/key_wish_again.png",
+    "tags": ["카드 추가"]
+  },
+  {
+    "korean_name": "기울어진 배",
+    "english_name": "key_ship",
+    "description": "1점 산출력을 획득하고, 모든 적에게 5스택 출생의식을 적용한다. 만약 ‘탄망 머피’가 팀에 있다면, 나선원무 한 장을 뽑는다.",
+    "image_path": "images/key_ship.png",
+    "tags": ["출생 의식", "드로우"]
+  }
+]

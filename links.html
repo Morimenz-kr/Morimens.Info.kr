@@ -4,7 +4,7 @@
 <head>
     <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
     <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>정보 모음</title>
 
@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="css/responsive.css">
     <script src="config/config.js"></script>
     <style>
-        /* 추가된 버튼의 스타일 (기존 .report-btn을 활용하되, 조금 다르게 강조) */
+        /* 추가된 버튼의 스타일 */
         .party-link-btn {
             display: block;
             width: 100%;
@@ -46,6 +46,25 @@
             margin-top: 10px;
             padding-bottom: 20px;
         }
+        /* 기존 .report-btn 스타일 */
+        .report-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            background-color: #333;
+            color: #ccc;
+            text-align: center;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #555;
+            cursor: pointer;
+            font-size: 0.95em;
+            margin-top: 10px;
+        }
+        .report-btn:hover {
+            background-color: #444;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -62,9 +81,9 @@
 
         <div class="report-section">
             <p>혹시 연결되지 않는 링크가 있나요?</p>
-            <a href="#" id="open-report-modal" class="report-btn">
+            <button id="open-report-modal" class="report-btn">
                 🚨 버그/피드백 제보하기
-            </a>
+            </button>
             <span id="party-credit-slot" class="party-credit-text" style="display:none;">
                 '융재 금구 파티 편성' 기능은 망각전야 채널의 '플린의 조수'님이 제작하신 사이트로 연결됩니다.
             </span>
@@ -178,7 +197,6 @@
             }
         }
     }
-    // ================= [공통] 모달 끝 =================
 
     // 🚩 전역 복사 함수
     function copyCodeToClipboard(text, element) {
@@ -207,9 +225,8 @@
         const titleEl = document.getElementById('page-title');
         const listEl = document.getElementById('links-list');
 
-        // 모달 관련 요소 및 이벤트 바인딩
         const modal = document.getElementById('report-modal');
-        const openModalBtn = document.getElementById('open-report-modal'); // 페이지 내 버튼
+        const openModalBtn = document.getElementById('open-report-modal');
 
         if (openModalBtn) {
             openModalBtn.addEventListener('click', (e) => {
@@ -233,15 +250,14 @@
                 const partySlot = document.getElementById('party-link-slot');
                 const partyCredit = document.getElementById('party-credit-slot');
 
-                // 💡 '파티 사이트의 전체 URL' 부분을 실제 주소로 변경해주세요.
+                // 내부 시뮬레이터 버튼 (신규) + 외부 링크 버튼 (기존)
                 const partyButtonHTML = `
-                    <a href="https://brodaru.github.io/morimenz_party/#/" target="_blank" class="party-link-btn">
-                        🤝 융재 금구 파티 편성 (외부 연결)
+                    <a href="party_builder.html" class="party-link-btn" style="background-color: #3498db; color: #fff; margin-bottom: 10px;">
+                        🛠️ 융재 금구 파티 시뮬레이터 실행 (Beta)
                     </a>
                 `;
                 partySlot.innerHTML = partyButtonHTML;
 
-                // 크레딧 표시
                 partyCredit.style.display = 'block';
             }
             // =======================================================
@@ -414,4 +430,4 @@
     🚨
 </button>
 </body>
-</html>파
+</html>
