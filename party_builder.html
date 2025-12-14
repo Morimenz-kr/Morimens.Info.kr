@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <script src="config/config.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>융재금지구역 파티 시뮬레이터</title>
@@ -566,6 +567,110 @@
             .tooltip-desc { font-size: 0.9em; line-height: 1.5; color: #ddd; }
             .tooltip-tag { padding: 3px 8px; font-size: 0.8em; }
         }
+        /* ============================================================
+       [긴급 이식] components.css & common.css 원본 스타일 적용
+       ============================================================ */
+
+        /* 1. 플로팅 버튼 (common.css 원본) */
+        .floating-report-btn {
+            position: fixed;
+            right: 20px;
+            top: 50%; /* 화면 중앙 정렬 */
+            transform: translateY(-50%);
+            z-index: 2000; /* 파티 빌더의 요소들보다 위에 오도록 z-index만 상향 조정 */
+            background: #3a3a3a;
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+        .floating-report-btn:hover {
+            background: #4a4a4a;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 2. 모달 컨텐츠 (components.css 원본) */
+        /* 주의: 파티빌더의 .modal-box 대신 links.html과 똑같은 .modal-content 사용 */
+        #report-modal .modal-content {
+            width: 90%;
+            max-width: 500px;
+            background-color: #222; /* 원본 다크 그레이 */
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #444;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            color: #eee;
+        }
+
+        /* 3. 폼 스타일 (components.css 원본) */
+        #report-modal .form-title {
+            color: #ffc107;
+            border-bottom: 2px solid #444;
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.5em; /* h2 사이즈 보정 */
+        }
+        #report-modal p { color: #aaa; font-size: 0.9em; margin-bottom: 15px; }
+
+        #report-modal .form-field-label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #ccc;
+            font-size: 1em;
+        }
+
+        #report-modal .form-input,
+        #report-modal .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #555;
+            border-radius: 6px;
+            background-color: #383838;
+            color: #eee;
+            font-size: 1em;
+            box-sizing: border-box;
+            font-family: 'Pretendard', sans-serif;
+        }
+        #report-modal .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        #report-modal .form-input:focus,
+        #report-modal .form-textarea:focus {
+            outline: none;
+            border-color: #ffc107;
+        }
+
+        #report-modal .form-submit-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #007bff; /* 원본 파란색 */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 1em;
+        }
+        #report-modal .form-submit-btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -628,10 +733,10 @@
                 <div class="filter-chip" onclick="toggleCharFilter('domain', 'ultra')">초차원</div>
             </div>
             <div class="filter-group" style="border-left:1px solid #444; padding-left:20px;">
-                <span class="filter-label">직업:</span>
-                <div class="filter-chip" onclick="toggleCharFilter('class', 'assault')">타격</div>
-                <div class="filter-chip" onclick="toggleCharFilter('class', 'warden')">방어</div>
-                <div class="filter-chip" onclick="toggleCharFilter('class', 'chorus')">지원</div>
+                <span class="filter-label">역할:</span>
+                <div class="filter-chip" onclick="toggleCharFilter('class', 'assault')">데미지형</div>
+                <div class="filter-chip" onclick="toggleCharFilter('class', 'warden')">방어형</div>
+                <div class="filter-chip" onclick="toggleCharFilter('class', 'chorus')">보조형</div>
             </div>
         </div>
 
@@ -1197,6 +1302,133 @@
 
         document.getElementById('modal-system').classList.add('show');
     }
+
+    /* --- [통합 수정본] 신고 모달 로직 (links.html과 100% 동일 + 배경 클릭 닫기 보장) --- */
+
+    // 1. 모달 열기 함수
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        const sourceUrlInput = document.getElementById('report-source-url');
+        const modalStatus = document.getElementById('modal-form-status');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'none';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+        if (sourceUrlInput) { sourceUrlInput.value = window.location.href; }
+
+        modal.classList.add('show');
+    }
+
+    // 2. 디스코드 전송 함수
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '전송 중...';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+
+    // 3. [핵심 수정] 배경 클릭 시 닫기 (로딩 완료 후 실행 보장)
+    document.addEventListener('DOMContentLoaded', () => {
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal) {
+            reportModal.addEventListener('click', (e) => {
+                // 검은 배경(Overlay)을 클릭했을 때만 닫기
+                if (e.target === reportModal) {
+                    reportModal.classList.remove('show');
+                }
+            });
+        }
+    });
 </script>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                    </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
+    🚨
+</button>
 </body>
 </html>
