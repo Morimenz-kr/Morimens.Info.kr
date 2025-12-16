@@ -5,23 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/data/silverkey_list.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/party_builder.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/css/party_builder.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/js/party_builder.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/covenant.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/covenant_list.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wheels.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/wheel_list.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Kathigu-la_tide.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/faint_tide.webp" beforeDir="false" afterPath="$PROJECT_DIR$/images/faint_tide.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/horla_tide.webp" beforeDir="false" afterPath="$PROJECT_DIR$/images/horla_tide.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/ogier_tide.webp" beforeDir="false" afterPath="$PROJECT_DIR$/images/ogier_tide.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/pollux_tide.webp" beforeDir="false" afterPath="$PROJECT_DIR$/images/pollux_tide.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/ramona_tide.webp" beforeDir="false" afterPath="$PROJECT_DIR$/images/ramona_tide.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/ryker_tide.webp" beforeDir="false" afterPath="$PROJECT_DIR$/images/ryker_tide.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/sanga_tide.webp" beforeDir="false" afterPath="$PROJECT_DIR$/images/sanga_tide.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/sarvador_tide.webp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/uvhash_tide.webp" beforeDir="false" afterPath="$PROJECT_DIR$/images/uvhash_tide.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/wanda_tide.webp" beforeDir="false" afterPath="$PROJECT_DIR$/images/wanda_tide.webp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/links.html" beforeDir="false" afterPath="$PROJECT_DIR$/links.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/party_builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/party_builder.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +20,7 @@
       <list>
         <option value="JSON File" />
         <option value="HTML File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -87,7 +75,8 @@
       <workItem from="1765502845413" duration="750000" />
       <workItem from="1765600574269" duration="18653000" />
       <workItem from="1765680380650" duration="8843000" />
-      <workItem from="1765691504113" duration="9183000" />
+      <workItem from="1765691504113" duration="22726000" />
+      <workItem from="1765854019277" duration="5167000" />
     </task>
     <servers />
   </component>
