@@ -634,6 +634,14 @@
   },
   {
     "grade": "SR",
+    "korean_name": "푸른 고리 독소",
+    "english_name": "wheel_blue_ring_poison",
+    "main_stat": "은열쇠 충전 10.8",
+    "description": "팀 유일: 장착자의 은열쇠 충전, 광기 폭발로 발생하는 최종 피해 및 방어막이 5/6/7/8% 증가합니다.",
+    "image_path": "images/wheel_blue_ring_poison.png"
+  },
+  {
+    "grade": "SR",
     "korean_name": "35mm의 마법",
     "english_name": "wheel_magic_of_35mm",
     "main_stat": "죽음 저항 25.2%",
