@@ -6,6 +6,11 @@
     --highlight: #f7a115;
     --slot-border: #555;
     --text-main: #e6e6e6;
+    /* 모달 디자인 표준 규격 추가 */
+    --modal-bg: #222;
+    --modal-radius: 12px;
+    --modal-border: #444;
+    --modal-accent: #ffc107;
 }
 
 body {
@@ -84,10 +89,27 @@ body {
     font-weight: bold; letter-spacing: 0.5px; white-space: nowrap;
 }
 
-/* 슬롯 컨테이너 (기본 PC) */
+/* [수정] 슬롯 컨테이너: 중앙 배치를 위해 속성 변경 */
 .slots-container {
-    flex: 1; display: flex; gap: 40px; justify-content: flex-start;
-    padding-left: 60px; align-items: center;
+    flex: 1;
+    display: flex;
+    gap: 40px;
+    /* justify-content를 flex-start에서 center로 변경 */
+    justify-content: center;
+    /* 왼쪽으로 밀어내던 패딩 제거 */
+    padding-left: 0;
+    align-items: center;
+}
+
+/* [추가 제언] 도메인 패널이 왼쪽에 있어도 슬롯이 정중앙에 오게 하려면 
+   content-row의 배치를 조정하는 것이 좋습니다. */
+.content-row {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 전체 콘텐츠를 가로 중앙으로 */
+    width: 100%;
+    overflow: hidden;
 }
 
 /* 하단 바 */
@@ -118,18 +140,14 @@ body {
 
 /* --- [캐릭터 카드 & 휠 슬롯] --- */
 .char-card {
-    /* [수정] 반응형 기초 설정 */
     width: 240px;
     max-width: 100%;
-    flex-shrink: 1; /* 공간 부족 시 수축 허용 */
-
+    flex-shrink: 1;
     aspect-ratio: 294 / 672;
     background-color: var(--card-bg); border: 1px solid var(--slot-border);
     position: relative; cursor: pointer; overflow: hidden;
     display: flex; flex-direction: column; justify-content: flex-end;
     transition: border-color 0.2s;
-
-    /* 폰트 사이즈 유동적 설정 */
     font-size: clamp(10px, 1.3vw, 16px);
 }
 .char-card:hover { border-color: #777; }
@@ -190,17 +208,44 @@ body {
     color: #fff; font-size: 1.2em; font-weight: bold; text-align: center; font-family: serif;
 }
 
-/* --- [모달 공통] --- */
+/* --- [모달 공통 - 리팩토링 버전] --- */
 .modal-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center;
 }
 .modal-overlay.show { display: flex; }
 
-.modal-box { width: 90%; max-width: 900px; height: 85vh; background: #252529; border: 1px solid #555; display: flex; flex-direction: column; }
-.modal-box-wide { width: 95%; max-width: 1400px; height: 90vh; background: #252529; border: 1px solid #555; display: flex; flex-direction: row; }
-.modal-header { padding: 15px 20px; background: #2e2e34; border-bottom: 1px solid #444; display: flex; justify-content: space-between; align-items: center; }
-.modal-header h3 { margin: 0; color: #eee; font-size: 1.1em; }
+.modal-box {
+    width: 90%; max-width: 900px; height: 85vh;
+    background: var(--modal-bg); /* components.css와 일치 */
+    border: 1px solid var(--modal-border);
+    border-radius: var(--modal-radius); /* 라운드 스퀘어 핵심 */
+    display: flex; flex-direction: column;
+    overflow: hidden; /* 내부 요소가 라운드를 침범하지 않게 함 */
+}
+
+.modal-box-wide {
+    width: 95%; max-width: 1400px; height: 90vh;
+    background: var(--modal-bg);
+    border: 1px solid var(--modal-border);
+    border-radius: var(--modal-radius); /* 라운드 스퀘어 핵심 */
+    display: flex; flex-direction: row;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 15px 20px;
+    background: transparent; /* 배경색 제거 */
+    border-bottom: 1px solid var(--modal-border);
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--modal-accent); /* 타이틀 색상 노란색으로 통일 */
+    font-size: 1.2rem;
+    font-weight: bold;
+}
 .close-btn { background: none; border: none; color: #999; font-size: 1.5em; cursor: pointer; }
 
 /* 필터 컨테이너 */
@@ -283,7 +328,7 @@ body {
 
 @keyframes expandDropdown { from { max-height: 0; opacity: 0; } to { max-height: 200px; opacity: 1; } }
 
-/* --- [신고 모달 스타일 (이식됨)] --- */
+/* --- [신고 모달 스타일 (라운드 스퀘어 적용)] --- */
 .floating-report-btn {
     position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 2000;
     background: #3a3a3a; width: 56px; height: 56px; border-radius: 12px;
@@ -291,11 +336,12 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); cursor: pointer; transition: all 0.3s ease; border: none;
 }
 .floating-report-btn:hover { background: #4a4a4a; transform: translateY(-50%) scale(1.1); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); }
+
 #report-modal .modal-content {
-    width: 90%; max-width: 500px; background-color: #222; border-radius: 12px;
-    padding: 20px; border: 1px solid #444; max-height: 80vh; display: flex; flex-direction: column; text-align: left; color: #eee;
+    width: 90%; max-width: 500px; background-color: var(--modal-bg); border-radius: var(--modal-radius);
+    padding: 20px; border: 1px solid var(--modal-border); max-height: 80vh; display: flex; flex-direction: column; text-align: left; color: #eee;
 }
-#report-modal .form-title { color: #ffc107; border-bottom: 2px solid #444; padding-bottom: 10px; margin-top: 0; font-size: 1.5em; }
+#report-modal .form-title { color: var(--modal-accent); border-bottom: 1px solid var(--modal-border); padding-bottom: 10px; margin-top: 0; font-size: 1.5em; }
 #report-modal p { color: #aaa; font-size: 0.9em; margin-bottom: 15px; }
 #report-modal .form-field-label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; color: #ccc; font-size: 1em; }
 #report-modal .form-input, #report-modal .form-textarea {
@@ -303,13 +349,21 @@ body {
     color: #eee; font-size: 1em; box-sizing: border-box; font-family: 'Pretendard', sans-serif;
 }
 #report-modal .form-textarea { min-height: 120px; resize: vertical; }
-#report-modal .form-input:focus, #report-modal .form-textarea:focus { outline: none; border-color: #ffc107; }
+#report-modal .form-input:focus, #report-modal .form-textarea:focus { outline: none; border-color: var(--modal-accent); }
 #report-modal .form-submit-btn {
     display: block; width: 100%; padding: 12px; margin-top: 20px; background-color: #007bff; color: white;
     border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; font-size: 1em;
 }
 #report-modal .form-submit-btn:hover { background-color: #0056b3; }
 
+/* --- [시스템 알림 모달 리터칭] --- */
+#modal-system .modal-box {
+    max-width: 450px; height: auto; min-height: 200px; border-radius: var(--modal-radius);
+    background: var(--modal-bg);
+}
+#modal-system .modal-footer {
+    border-top: 1px solid #333; padding: 15px; background: transparent;
+}
 
 /* ============================================================
    [반응형 확장: 노트북 및 태블릿 추가]
@@ -317,73 +371,27 @@ body {
 
 /* 1. 노트북/작은 데스크탑 (1025px ~ 1400px) */
 @media (max-width: 1400px) {
-    .char-card {
-        /* 너비 고정값에서 비율 축소로 변경 */
-        width: 180px;
-    }
-    .slots-container {
-        gap: 20px;
-        padding-left: 30px;
-    }
-    .slot-wheel {
-        width: 70px; height: 110px;
-    }
-    .slot-covenant {
-        width: 50px; height: 60px;
-        bottom: 140px;
-    }
-    .wheels-wrapper {
-        gap: 15px;
-    }
+    .char-card { width: 180px; }
+    .slots-container { gap: 20px; padding-left: 30px; }
+    .slot-wheel { width: 70px; height: 110px; }
+    .slot-covenant { width: 50px; height: 60px; bottom: 140px; }
+    .wheels-wrapper { gap: 15px; }
 }
 
 /* 2. 태블릿 (769px ~ 1024px) */
-/* 한 줄에 4개가 안 들어가므로 2x2 그리드로 변경 + 스크롤 허용 */
 @media (max-width: 1024px) {
-    .content-row {
-        flex-direction: column; /* 세로 배치 */
-        overflow-y: auto; /* 내용 넘치면 스크롤 */
-    }
-
-    .domain-side-panel {
-        width: 100%;
-        margin-top: 20px; margin-bottom: 20px;
-        justify-content: center; /* 중앙 정렬 */
-        padding-left: 0;
-    }
-
-    .slots-container {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2열 배치 */
-        gap: 20px;
-        padding: 0 40px; /* 좌우 여백 */
-        width: 100%;
-        max-width: 700px;
-        justify-content: center;
-    }
-
-    .char-card {
-        width: 100%; /* 그리드 칸 꽉 채움 */
-        aspect-ratio: 294 / 672;
-    }
-
-    /* 모달 박스 조정 */
-    .modal-box-wide {
-        flex-direction: column;
-        width: 95%; height: 90vh;
-    }
-    .wheel-list-wrapper {
-        border-right: none; border-bottom: 1px solid #444;
-        height: 55%;
-    }
-    .wheel-equip-panel {
-        width: 100%; height: 45%; padding: 15px;
-    }
+    .content-row { flex-direction: column; overflow-y: auto; }
+    .domain-side-panel { width: 100%; margin-top: 20px; margin-bottom: 20px; justify-content: center; padding-left: 0; }
+    .slots-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 40px; width: 100%; max-width: 700px; justify-content: center; }
+    .char-card { width: 100%; aspect-ratio: 294 / 672; }
+    .modal-box-wide { flex-direction: column; width: 95%; height: 90vh; }
+    .wheel-list-wrapper { border-right: none; border-bottom: 1px solid #444; height: 55%; }
+    .wheel-equip-panel { width: 100%; height: 45%; padding: 15px; }
     .large-slot { width: 100px; height: 160px; }
     .wheel-equip-slots { gap: 15px; margin-bottom: 15px; }
 }
 
-/* 3. 모바일 (768px 이하) - 기존 코드 유지 */
+/* 3. 모바일 (768px 이하) */
 @media (max-width: 768px) {
     body { overflow-y: auto; }
     .builder-container { flex-direction: column; height: auto; min-height: 100dvh; }
@@ -434,4 +442,4 @@ body {
     .tooltip-title { font-size: 1.1em; margin-bottom: 8px; }
     .tooltip-desc { font-size: 0.9em; line-height: 1.5; color: #ddd; }
     .tooltip-tag { padding: 3px 8px; font-size: 0.8em; }
-}
+} 
