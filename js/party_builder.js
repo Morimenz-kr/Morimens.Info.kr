@@ -2,6 +2,7 @@
 
 const MAX_TEAMS = 10;
 const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+const EXCLUSIVE_GROUPS = [["ramona", "ramona_timeworn"]];
 
 // [필터 변수]
 let activeCharFilters = {
@@ -145,22 +146,45 @@ function renderMain() {
     document.getElementById('team-title-text').textContent = team.name;
     renderTeamDomainImage(team);
     const sBox = document.getElementById('team-slots'); sBox.innerHTML = '';
+
     const domSet = getActiveDomains(team);
-    const isConflictGlobal = (domSet.size > 2);
+    const isDomainConflict = (domSet.size > 2);
 
     for(let i=0; i<4; i++) {
         const cid = team.chars[i];
         const div = document.createElement('div');
         div.className = 'char-card';
+
         if(cid) {
             const info = DB.chars.find(x => String(x.id) === cid);
+
+            // 1. 현재 캐릭터의 그룹 찾기
+            const charGroup = EXCLUSIVE_GROUPS.find(g => g.includes(String(cid)));
+            // 2. 다른 슬롯에 같은 그룹의 캐릭터가 있는지 체크
+            const isAlterConflict = charGroup && team.chars.some((otherId, otherIdx) =>
+                i !== otherIdx && otherId && charGroup.includes(String(otherId))
+            );
+
+            // 3. 출력할 텍스트를 결정 (여기가 핵심입니다)
+            let conflictText = "";
+            if (isAlterConflict) {
+                conflictText = "출전할 수 없음";
+            } else if (isDomainConflict) {
+                conflictText = "영역 충돌";
+            }
+
+            // 4. 결정된 텍스트로 오버레이 생성 (직접 "영역 충돌"을 쓰지 않습니다)
+            let conflictHTML = conflictText
+                ? `<div class="card-conflict-overlay"><div class="conflict-bar">${conflictText}</div></div>`
+                : '';
+
             const w1 = team.wheels[i][0]; const w2 = team.wheels[i][1];
             const w1Info = DB.wheels.find(x => x.english_name === w1);
             const w2Info = DB.wheels.find(x => x.english_name === w2);
-            let conflictHTML = isConflictGlobal ? `<div class="card-conflict-overlay"><div class="conflict-bar">영역 충돌</div></div>` : '';
             const charImg = info ? `images/${info.id}_tide.webp` : 'images/smile_Ramona.webp';
             const thumbImg = info ? info.image_thumb : '';
             let topInfoHTML = info ? `<div class="char-top-info"><img src="images/character_${info.relems}.png" class="char-top-icon"><span class="char-top-name">${info.name}</span></div>` : '';
+
             div.innerHTML = `<img src="${charImg}" class="char-tide-img" onerror="this.src='${thumbImg}'">${conflictHTML}${topInfoHTML}<div class="card-bottom-overlay"><div class="covenant-wrapper"><div class="slot-covenant"></div></div><div class="wheels-wrapper"><div class="slot-wheel" onclick="openWheelModal(${i},0,event)">${w1Info ? `<img src="${w1Info.image_path}">` : '+'}</div><div class="slot-wheel" onclick="openWheelModal(${i},1,event)">${w2Info ? `<img src="${w2Info.image_path}">` : '+'}</div></div></div>`;
             div.onclick = (e) => { if(e.target.closest('.slot-wheel') || e.target.closest('.slot-covenant')) return; openQuickSetup(); };
         } else {
@@ -169,6 +193,7 @@ function renderMain() {
         }
         sBox.appendChild(div);
     }
+
     const kid = team.key; const kInfo = DB.keys.find(x => x.english_name === kid);
     const kIcon = document.getElementById('key-icon'); const kName = document.getElementById('key-name');
     if(kInfo) { kIcon.innerHTML = `<img src="${kInfo.image_path}">`; kName.textContent = kInfo.korean_name; kName.style.color = '#fff'; }
@@ -244,7 +269,11 @@ function updateCharFilterUI() {
 function renderCharGrid() {
     const box = document.getElementById('grid-char'); box.innerHTML = '';
     const curSet = new Set();
-    tempChars.forEach(id => { const c = DB.chars.find(x => String(x.id) === id); if(c) curSet.add(c.relems); });
+    tempChars.forEach(id => {
+        const c = DB.chars.find(x => String(x.id) === id);
+        if(c) curSet.add(c.relems);
+    });
+
     const usedMap = new Set();
     teams.forEach((t, i) => { if(i!==currentTeamIdx) t.chars.forEach(id => { if(id) usedMap.add(id); }); });
 
@@ -258,17 +287,30 @@ function renderCharGrid() {
         const id = String(c.id);
         const isSel = tempChars.includes(id);
         const isUsed = usedMap.has(id);
-        const isConflict = (!isSel && curSet.size >= 2 && !curSet.has(c.relems));
+
+        // Alter 중복 체크
+        const charGroup = EXCLUSIVE_GROUPS.find(g => g.includes(id));
+        const isAlterConflict = !isSel && charGroup && tempChars.some(tid => charGroup.includes(String(tid)));
+
+        // 영역 중복 체크
+        const isDomainConflict = !isSel && curSet.size >= 2 && !curSet.has(c.relems);
+        const isConflict = isAlterConflict || isDomainConflict;
 
         const el = document.createElement('div');
         el.className = `grid-item ${isSel?'selected':''} ${isUsed?'disabled':''} ${isConflict?'conflict':''}`;
         el.innerHTML = `<img src="${c.image_thumb}">`;
         el.onclick = () => {
             if(isUsed) return;
-            if(isSel) tempChars = tempChars.filter(x => x !== id);
-            else {
-                if(isConflict) return;
-                if(tempChars.length >= 4) return alert("최대 4명");
+            if(isSel) {
+                tempChars = tempChars.filter(x => x !== id);
+            } else {
+                if(isConflict) {
+                    // 알림 메시지 분기
+                    if(isAlterConflict) alert("동일한 캐릭터의 다른 버전은 함께 배치할 수 없습니다.");
+                    else alert("세 개 이상의 영역을 한 팀에 배치할 수 없습니다.");
+                    return;
+                }
+                if(tempChars.length >= 4) return alert("최대 4명까지 선택 가능합니다.");
                 tempChars.push(id);
             }
             renderCharGrid();
@@ -323,7 +365,15 @@ function renderWheelList() {
             const hasAllTags = Array.from(activeWheelTags).every(tag => wTags.includes(tag));
             if(!hasAllTags) return false;
         }
-        if (searchText.length > 0) return w.korean_name.includes(searchText) || w.description.includes(searchText);
+
+        if (searchText.length > 0) {
+            // [개선된 검색 조건] 이름, 설명, 혹은 추천 캐릭터 목록에 검색어가 포함되는지 확인
+            const nameMatch = w.korean_name.includes(searchText);
+            const descMatch = w.description.includes(searchText);
+            const charMatch = w.optimized_for && w.optimized_for.some(charName => charName.includes(searchText));
+
+            return nameMatch || descMatch || charMatch;
+        }
         return true;
     });
     filteredList.forEach(w => {
@@ -380,9 +430,19 @@ function renderKeyGrid() {
     const searchText = document.getElementById('key-search-input').value.trim().toLowerCase();
     const filteredKeys = DB.keys.filter(k => {
         if (activeKeyTags.size > 0) {
-            const kTags = k.tags || []; const hasAllTags = Array.from(activeKeyTags).every(tag => kTags.includes(tag)); if(!hasAllTags) return false;
+            const kTags = k.tags || [];
+            const hasAllTags = Array.from(activeKeyTags).every(tag => kTags.includes(tag));
+            if(!hasAllTags) return false;
         }
-        if (searchText.length > 0) return k.korean_name.includes(searchText) || k.description.includes(searchText);
+
+        if (searchText.length > 0) {
+            // [개선된 검색 조건]
+            const nameMatch = k.korean_name.includes(searchText);
+            const descMatch = k.description.includes(searchText);
+            const charMatch = k.optimized_for && k.optimized_for.some(charName => charName.includes(searchText));
+
+            return nameMatch || descMatch || charMatch;
+        }
         return true;
     });
     if (filteredKeys.length === 0) { box.innerHTML = `<div class="no-result-message">검색 결과가 없습니다.</div>`; return; }
