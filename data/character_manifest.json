@@ -4,6 +4,7 @@
   { "id": "nautila", "name": "노틸라", "image_thumb": "images/Nautila-thumb.webp", "relems": "chaos", "class": "warden", "grade": "ssr" },
   { "id": "ryker", "name": "라이커", "image_thumb": "images/Ryker-thumb.webp", "relems": "chaos", "class": "chorus", "grade": "ssr" },
   { "id": "lily", "name": "릴리", "image_thumb": "images/Lily-thumb.webp", "relems": "chaos", "class": "warden", "grade": "ssr" },
+  { "id": "mouchette", "name": "모샤", "image_thumb": "images/Mouchette-thumb.webp", "relems": "chaos", "class": "assault", "grade": "ssr" },
   { "id": "doll_inferno", "name": "융해 · 돌", "image_thumb": "images/Doll_Inferno-thumb.webp", "relems": "chaos", "class": "chorus", "grade": "ssr" },
   { "id": "alva", "name": "엘바", "image_thumb": "images/Alva-thumb.webp", "relems": "chaos", "class": "warden", "grade": "ssr" },
   { "id": "karen", "name": "카렌", "image_thumb": "images/Karen-thumb.webp", "relems": "chaos", "class": "chorus", "grade": "ssr" },

@@ -82,6 +82,24 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "카운트 다운 순간",
+    "english_name": "wheel_countdown_moment",
+    "optimized_for": [],
+    "main_stat": "은열쇠 충전 21.6",
+    "description": "팀 고유: 탐험이 시작된 후, 1장의 '카운트다운:5'를 덱에 추가합니다. '카운트 다운: 0' 발동 시 3장의 카드를 뽑고 3 포인트의 산출력을 얻으며, 40% 확률로 다시 섞습니다.",
+    "image_path": "images/wheel_countdown_moment.png"
+  },
+  {
+    "grade": "SSR",
+    "korean_name": "상자 속의 어린이의 재미",
+    "english_name": "wheel_fun_in_box",
+    "optimized_for": [],
+    "main_stat": "죽음 저항 50.4%",
+    "description": "팀 유일: '융흔'에서 '각인'을 처음 구매하거나 '회색빛 유적지'에서 할인 상품을 처음 구매하는데 필요한 블랙 프린트의 비용이 100% 확률로 0이 됩니다. (탐색당 1회)",
+    "image_path": "images/wheel_fun_in_box.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "행운의 시간",
     "english_name": "wheel_time_of_luck",
     "optimized_for": ["라이커"],
@@ -223,6 +241,15 @@
     "main_stat": "검은 인장 드롭율 10.8%",
     "description": "팀 유일: 장비자의 광기 폭발이 생성하는 방어막이 13/17/21/25% 증가한다. 장비자가 광기 폭발을 사용한 후, 장비자의 방어력 13/17/21/25%에 해당하는 임시 힘을 획득한다. 아군이 손상 상태일 경우, 이 효과는 2배가 된다.",
     "image_path": "images/wheel_auth_of_knight.png"
+  },
+  {
+    "grade": "SSR",
+    "korean_name": "광학의 세계의 끝까지",
+    "english_name": "wheel_doomsday_rampage",
+    "description": "팀 유일: 장비자의 광기폭발과 기본 데미지가 30% 증가합니다. 이번 턴의 임의의 각성체의 '타격'을 사용한 후, 장비자의 '타격' 데미지가 장비자의 공격력의 13%만큼 일시적으로 증가하며, 매 턴 최대 8번 발동됩니다.",
+    "main_stat": "죽음 저항 50.4%",
+    "image_path": "images/wheel_doomsday_rampage.png",
+    "optimized_for": ["모샤"]
   },
   {
     "grade": "SSR",
@@ -762,6 +789,15 @@
     "main_stat": "죽음 저항 25.2%",
     "description": "팀 유일: 전투 시작 시 장비자의 명령 카드를 1장 뽑으며, 40/60/80/100% 확률로 그 산출력 소모가 1 감소한다. 죽음 저항이 발동할 때마다 해당 효과는 1회 반복된다.",
     "image_path": "images/wheel_flowers_and_poems.png"
+  },
+  {
+    "korean_name": "이성 빛나는 등불",
+    "english_name": "wheel_light_of_intellect",
+    "description": "팀 유일: 매 턴 첫 번째 키령을 해제한 후 100% 확률로 장비자의 '타격' 카드를 뽑습니다.",
+    "main_stat": "죽음 저항",
+    "image_path": "images/wheel_light_of_intellect.png",
+    "optimized_for": [],
+    "grade": "SR"
   },
   {
     "grade": "SR",
