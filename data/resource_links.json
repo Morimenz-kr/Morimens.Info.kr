@@ -393,6 +393,12 @@
       "title": "🔘 명륜 정보",
       "links": [
         {
+          "url": "https://arca.live/b/forgettingeve/158240154",
+          "title": "뇌피셜로 좋다고 생각한 이번 타이스 명륜",
+          "desc": "뇌피셜이랑 다르게 출시되고나서 막상 해보니까 덱을 한바퀴 돌려도 카운트다운이 다시 드로우가 안됨즉, 효과를 보려면 6턴을 고정으로 기다려야 한다는 얘기그래서 은열스탯 43.2 + 약간의 보너스 정도로 생각하고 쓰는 ",
+          "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
+        },
+        {
           "url": "https://arca.live/b/forgettingeve/157673631",
           "title": "패스&공짜 명륜 간단소개",
           "desc": "2주년 배포 명륜영역숙련 72는 초차원만 아니면 상당히 훌륭한 옵션이고고유옵은 혈육/혼돈/초차원 셋을 섞은 이중계역일 때 최고점확정 서치여서 머피, 골리아 같이 특정 카드 의존도가 높은서포터 각성체에게 들려주면 상당",
@@ -930,6 +936,21 @@
         "title": "융해 돌은 왜 사기일까? ",
         "desc": "1.궁극기거의 매 턴 나가는데, 심플하게 아군 피해증폭+50% 광기+광기증가 명륜(계산 같은거) 낄테니 17이상은 차더라자기 전무 끼면 19? 2.만능 유틸기선택지 1번:적 취약 1턴, 아군 피해증폭+50% 1턴선택",
         "image": "https://ac-p3.namu.la/20251107sac/3025b9ef6ad64b10601245fca2ce89ef8780dd8e05cbb2dd2f236cf4fa553f71.jpg?expires=1764043651&key=a--hzUPEXx3wqxfwSRh_3g"
+      }
+    ],
+    "mouchette": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/158168742",
+        "title": "겜 들어가니까 모샤 공짜로 주던데 명륜 뽑아야됨??",
+        "desc": "모샤의 전용명륜광기 폭발 데미지와 '추격' 데미지를 올려준다타격을 쓸 때 마다라는 조건부를 달고 타격에 '장비자 공격력의 13%*8' 를 올려준다.추격... 장비자 공격력.. 저게 뭔 소리임?지피티가 타격을 추격이라",
+        "image": "https://ac-p1.namu.la/20251229sac/64f4a7f9144883108c281607fa5b02dd54c62f6c6bc761bde6231ead969d4e8c.png?expires=1767112346&key=A7RMxJySZ_pXW8nEugH_8Q"
+      },
+      {
+        "url": "https://arca.live/b/forgettingeve/158143841",
+        "title": "Flares : 모샤는 C~A티어 캐릭터",
+        "desc": "https://youtu.be/e1J3nIclZdQ육성도와 명륜에 따라서 C-A티어까지 가는캐릭터 (전형적인 고투자 저효율 캐릭터로 가성비가 매우 안좋음)보스전에서는 핵과금시 GOAT 하지만 잡몹처리에는 JOAT임 ",
+        "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
       }
     ],
     "alva": [],
