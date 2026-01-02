@@ -1,4 +1,4 @@
-/* js/party_builder.js 전체 코드 */
+/* js/party_builder.js 전체 코드 (모달 완벽 적용) */
 
 const MAX_TEAMS = 10;
 const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
@@ -10,33 +10,41 @@ let activeCharFilters = {
     class: new Set()
 };
 
+// [태그 데이터 정의]
 const ALL_KEY_TAGS = [ "산출력", "산출력 획득", "은열쇠 에너지", "은열쇠 게이지", "방어막 획득", "체력 회복", "힘", "힘 증가", "피해 증폭", "치명타 확률", "치명타 확률 증가", "치명타 피해", "치명타 피해 증가", "영역 숙련", "카드 추가", "드로우", "카드 뽑기", "코스트 감소", "계산 비용", "복사본", "영감", "광기", "광기 부여", "약화", "취약", "중독", "중독 부여", "힘 훔침", "힘 감소", "반격", "소멸", "경계", "희생", "터치월", "터치 손상", "출생 의식", "스칼렛 용광로", "초월 턴", "시편", "주사위" ];
 let activeKeyTags = new Set();
 
 const ALL_SEARCH_TAGS = [ "은열쇠 충전", "피해 증폭", "영역 숙련", "죽음 저항", "광기 회복", "검은 인장 드롭율", "크리티컬 확률", "크리티컬 피해", "기본 피해 증가", "최종 피해 증가", "능동 피해 증가", "힘", "임시 힘", "반격", "방어막", "HP 회복", "광기 획득", "은열쇠 에너지", "산출력", "손패 상한", "카드 뽑기", "중독", "취약", "허약", "전투 시작 시", "턴 시작 시", "광기 폭발", "은열쇠 발동", "명령 카드", "타격", "방어", "적 처치", "피격", "혈육", "심해", "초차원", "배아", "촉수", "핏빛 용광로", "심장의 불", "빙설", "학자 인격", "광대 인격", "고요한 바다", "몰아치는 파도", "저주받은 유물", "증상 카드" ];
 let activeWheelTags = new Set();
 
+// [팀 데이터 구조] supportIdx 추가 (조력자 슬롯 인덱스, 없으면 -1)
 let teams = Array.from({ length: MAX_TEAMS }, (_, i) => ({
     name: `TEAM ${ROMAN_NUMS[i]}`,
     chars: [null, null, null, null],
     wheels: [ [null, null], [null, null], [null, null], [null, null] ],
-    key: null
+    key: null,
+    supportIdx: -1
 }));
+
 let currentTeamIdx = 0;
 let DB = { chars: [], wheels: [], keys: [] };
+
+// [편성 모달용 변수]
 let tempChars = [];
+let isSupportSelectionMode = false; // [NEW] 현재 모달이 조력자 선택 모드인지 확인하는 플래그
+
 let editingCharIdx = -1;
 let selectedWheelSlotIdx = 0;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log("Party Builder JS Loaded!"); // [디버그] 파일 로드 확인용 로그
+    console.log("Party Builder JS Loaded!");
     await loadExternalData();
     assignTagsToWheels();
     assignTagsToKeys();
     loadFromLocalStorage();
     renderAll();
 
-    // 버그 신고 모달 닫기 이벤트 연결
+    // 버그 신고 모달 닫기 이벤트
     const reportModal = document.getElementById('report-modal');
     if (reportModal) {
         reportModal.addEventListener('click', (e) => {
@@ -63,6 +71,7 @@ function resetCurrentTeam() {
             teams[currentTeamIdx].chars = [null, null, null, null];
             teams[currentTeamIdx].wheels = [ [null, null], [null, null], [null, null], [null, null] ];
             teams[currentTeamIdx].key = null;
+            teams[currentTeamIdx].supportIdx = -1;
             renderAll();
             saveAllData(true);
         }
@@ -97,7 +106,7 @@ async function loadExternalData() {
         DB.wheels = await resWheels.json();
         DB.keys = await resKeys.json();
         DB.chars.forEach(c => c.id = String(c.id));
-    } catch (error) { console.error(error); alert("데이터 로드 실패"); }
+    } catch (error) { console.error(error); openSystemAlert("오류", "데이터 로드 실패"); }
 }
 
 function assignTagsToWheels() {
@@ -116,7 +125,11 @@ function loadFromLocalStorage() {
     if(saved) {
         try {
             const loadedTeams = JSON.parse(saved);
-            teams = loadedTeams.map((t, i) => ({ ...teams[i], ...t }));
+            teams = loadedTeams.map((t, i) => ({
+                ...teams[i],
+                ...t,
+                supportIdx: t.supportIdx !== undefined ? t.supportIdx : -1 // 데이터 마이그레이션
+            }));
         } catch(e) {}
     }
 }
@@ -141,6 +154,7 @@ function renderSidebar() {
     });
 }
 
+// [메인 렌더링 - 최종 수정: 버튼/카드 분리(애니메이션 간섭 해결), 버튼 상단 정렬]
 function renderMain() {
     const team = teams[currentTeamIdx];
     document.getElementById('team-title-text').textContent = team.name;
@@ -150,48 +164,109 @@ function renderMain() {
     const domSet = getActiveDomains(team);
     const isDomainConflict = (domSet.size > 2);
 
+    const globalUsedMap = new Set();
+    teams.forEach((t, tIdx) => {
+        if (tIdx === currentTeamIdx) return;
+        t.chars.forEach((c, slotIdx) => {
+            if(c && t.supportIdx !== slotIdx) globalUsedMap.add(c);
+        });
+    });
+
     for(let i=0; i<4; i++) {
         const cid = team.chars[i];
+        const isSupport = (team.supportIdx === i);
+
+        // [구조] 4번째 슬롯만 Wrapper 사용 (버튼 위치 및 카드 애니메이션 보호)
+        let container;
+        if (i === 3) {
+            container = document.createElement('div');
+            container.className = 'slot-wrapper';
+            container.style.position = 'relative';
+            container.style.margin = '0 10px'; // 슬롯 간격 보정
+        } else {
+            // 1~3번은 그냥 카드 자체가 컨테이너
+            container = document.createDocumentFragment();
+        }
+
+        // [카드 생성]
         const div = document.createElement('div');
         div.className = 'char-card';
+
+        // ★ 삭제됨: div.style.overflow = 'visible'; 
+        // 이제 4번 카드도 overflow: hidden(CSS기본값)이 적용되어 애니메이션이 통일됩니다.
 
         if(cid) {
             const info = DB.chars.find(x => String(x.id) === cid);
 
-            // 1. 현재 캐릭터의 그룹 찾기
             const charGroup = EXCLUSIVE_GROUPS.find(g => g.includes(String(cid)));
-            // 2. 다른 슬롯에 같은 그룹의 캐릭터가 있는지 체크
             const isAlterConflict = charGroup && team.chars.some((otherId, otherIdx) =>
                 i !== otherIdx && otherId && charGroup.includes(String(otherId))
             );
+            const isGlobalDuplicate = !isSupport && globalUsedMap.has(cid);
 
-            // 3. 출력할 텍스트를 결정 (여기가 핵심입니다)
             let conflictText = "";
-            if (isAlterConflict) {
-                conflictText = "출전할 수 없음";
-            } else if (isDomainConflict) {
-                conflictText = "영역 충돌";
-            }
+            if (isAlterConflict) conflictText = "출전 불가";
+            else if (isDomainConflict) conflictText = "영역 충돌";
+            else if (isGlobalDuplicate) conflictText = "중복 사용됨";
 
-            // 4. 결정된 텍스트로 오버레이 생성 (직접 "영역 충돌"을 쓰지 않습니다)
-            let conflictHTML = conflictText
-                ? `<div class="card-conflict-overlay"><div class="conflict-bar">${conflictText}</div></div>`
-                : '';
+            let conflictHTML = conflictText ? `<div class="card-conflict-overlay"><div class="conflict-bar">${conflictText}</div></div>` : '';
+
+            let displayName = info ? info.name : '';
+            if (isSupport) displayName += ' <span style="color:#3498db; font-size:0.8em; font-weight:bold;">(조력)</span>';
 
             const w1 = team.wheels[i][0]; const w2 = team.wheels[i][1];
             const w1Info = DB.wheels.find(x => x.english_name === w1);
             const w2Info = DB.wheels.find(x => x.english_name === w2);
             const charImg = info ? `images/${info.id}_tide.webp` : 'images/smile_Ramona.webp';
             const thumbImg = info ? info.image_thumb : '';
-            let topInfoHTML = info ? `<div class="char-top-info"><img src="images/character_${info.relems}.png" class="char-top-icon"><span class="char-top-name">${info.name}</span></div>` : '';
+            let topInfoHTML = info ? `<div class="char-top-info"><img src="images/character_${info.relems}.png" class="char-top-icon"><span class="char-top-name">${displayName}</span></div>` : '';
 
             div.innerHTML = `<img src="${charImg}" class="char-tide-img" onerror="this.src='${thumbImg}'">${conflictHTML}${topInfoHTML}<div class="card-bottom-overlay"><div class="covenant-wrapper"><div class="slot-covenant"></div></div><div class="wheels-wrapper"><div class="slot-wheel" onclick="openWheelModal(${i},0,event)">${w1Info ? `<img src="${w1Info.image_path}">` : '+'}</div><div class="slot-wheel" onclick="openWheelModal(${i},1,event)">${w2Info ? `<img src="${w2Info.image_path}">` : '+'}</div></div></div>`;
-            div.onclick = (e) => { if(e.target.closest('.slot-wheel') || e.target.closest('.slot-covenant')) return; openQuickSetup(); };
+
+            div.onclick = (e) => {
+                if(e.target.closest('.slot-wheel') || e.target.closest('.slot-covenant')) return;
+                openQuickSetup();
+            };
         } else {
-            div.className += ' empty'; div.innerHTML = `<div class="empty-cross"></div><div class="empty-text">배치할 각성체 선택</div>`;
-            div.onclick = openQuickSetup;
+            div.className += ' empty';
+            div.innerHTML = `<div class="empty-cross"></div><div class="empty-text">배치할 각성체 선택</div>`;
+            div.onclick = () => openQuickSetup();
         }
-        sBox.appendChild(div);
+
+        // [DOM 조립]
+        if (i === 3) {
+            container.appendChild(div); // 카드 넣기
+
+            // 버튼 생성 (카드 밖, Wrapper 안)
+            const btn = document.createElement('div');
+            btn.className = 'support-setup-btn';
+            btn.innerHTML = '조력 설정';
+            btn.style.cssText = `
+                position: absolute;
+                left: 100%; top: 0;
+                margin-left: 12px;
+                z-index: 200;
+                background: #2c3e50;
+                border: 1px solid #555;
+                color: #ecf0f1;
+                padding: 10px 14px;
+                font-size: 14px;
+                cursor: pointer;
+                border-radius: 6px;
+                white-space: nowrap;
+                box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+                font-weight: bold;
+                display: flex; align-items: center; justify-content: center;
+            `;
+            btn.onclick = (e) => {
+                e.stopPropagation();
+                openSupportSelector(e);
+            };
+            container.appendChild(btn); // 버튼 넣기
+            sBox.appendChild(container); // Wrapper를 슬롯박스에
+        } else {
+            sBox.appendChild(div); // 1~3번은 카드 바로 넣기
+        }
     }
 
     const kid = team.key; const kInfo = DB.keys.find(x => x.english_name === kid);
@@ -229,13 +304,52 @@ function renderTeamDomainImage(team) {
 
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
+// [일반 편성 모달 열기]
 function openQuickSetup() {
-    tempChars = teams[currentTeamIdx].chars.filter(x => x);
+    isSupportSelectionMode = false; // 일반 모드
+
+    // ★ 수정: 조력자가 설정(4번 슬롯)되어 있다면, 1~3번 슬롯(인덱스 0,1,2)만 tempChars에 담음
+    if (teams[currentTeamIdx].supportIdx === 3) {
+        tempChars = teams[currentTeamIdx].chars.slice(0, 3).filter(x => x);
+    } else {
+        // 조력자가 없다면 4명 다 가져옴
+        tempChars = teams[currentTeamIdx].chars.filter(x => x);
+    }
+
     activeCharFilters.domain.clear();
     activeCharFilters.class.clear();
     updateCharFilterUI();
     renderCharGrid();
     document.getElementById('modal-char').classList.add('show');
+    document.querySelector('#modal-char .modal-footer').style.display = 'block';
+}
+
+// [조력자 설정 모달 열기] - 4번째 슬롯 전용
+function openSupportSelector(e) {
+    if(e) e.stopPropagation();
+    console.log("조력자 선택 모달 열기 시작");
+
+    isSupportSelectionMode = true; // 조력자 모드 활성화
+    tempChars = []; // 임시 배열 초기화
+
+    // 필터 초기화
+    activeCharFilters.domain.clear();
+    activeCharFilters.class.clear();
+    updateCharFilterUI();
+
+    // 그리드 렌더링 (여기서 에러나면 모달 안뜸)
+    try {
+        renderCharGrid();
+        document.getElementById('modal-char').classList.add('show');
+
+        // 조력자 모드는 하단 '확정' 버튼 숨김
+        const footer = document.querySelector('#modal-char .modal-footer');
+        if(footer) footer.style.display = 'none';
+
+    } catch (err) {
+        console.error("그리드 렌더링 중 오류 발생:", err);
+        alert("오류가 발생했습니다. 콘솔(F12)을 확인해주세요.");
+    }
 }
 
 function toggleCharFilter(type, value) {
@@ -266,16 +380,52 @@ function updateCharFilterUI() {
     });
 }
 
+// [캐릭터 그리드 - 모든 Alert/Confirm -> System Modal로 교체 완료]
 function renderCharGrid() {
-    const box = document.getElementById('grid-char'); box.innerHTML = '';
+    const box = document.getElementById('grid-char');
+    box.innerHTML = '';
     const curSet = new Set();
-    tempChars.forEach(id => {
-        const c = DB.chars.find(x => String(x.id) === id);
-        if(c) curSet.add(c.relems);
-    });
 
+    // [영역 체크 로직]
+    if (!isSupportSelectionMode) {
+        // 1. 현재 선택 목록(tempChars)에 있는 캐릭터들의 영역 추가
+        tempChars.forEach(id => {
+            const c = DB.chars.find(x => String(x.id) === id);
+            if(c) curSet.add(c.relems);
+        });
+
+        // 2. 조력자가 설정되어 있다면, 그 조력자의 영역도 계산에 포함
+        const currentTeam = teams[currentTeamIdx];
+        if (currentTeam.supportIdx === 3 && currentTeam.chars[3]) {
+            const supportChar = DB.chars.find(x => String(x.id) === currentTeam.chars[3]);
+            if (supportChar) {
+                curSet.add(supportChar.relems);
+            }
+        }
+
+    } else {
+        // [조력자 선택 모드일 때] 1~3번 슬롯(본체들)의 영역을 미리 넣어둠
+        for(let i=0; i<3; i++) {
+            const id = teams[currentTeamIdx].chars[i];
+            if(id) {
+                const c = DB.chars.find(x => String(x.id) === id);
+                if(c) curSet.add(c.relems);
+            }
+        }
+    }
+
+    // [중복 사용 체크 로직] (다른 파티 메인 멤버 확인용)
     const usedMap = new Set();
-    teams.forEach((t, i) => { if(i!==currentTeamIdx) t.chars.forEach(id => { if(id) usedMap.add(id); }); });
+    teams.forEach((t, i) => {
+        if (i !== currentTeamIdx) {
+            t.chars.forEach((id, slotIdx) => {
+                // 남의 조력자는 '중복'으로 치지 않음 (기존 로직 유지)
+                if (id && t.supportIdx !== slotIdx) {
+                    usedMap.add(id);
+                }
+            });
+        }
+    });
 
     const filteredChars = DB.chars.filter(c => {
         const domainPass = (activeCharFilters.domain.size === 0) || activeCharFilters.domain.has(c.relems);
@@ -286,51 +436,150 @@ function renderCharGrid() {
     filteredChars.forEach(c => {
         const id = String(c.id);
         const isSel = tempChars.includes(id);
-        const isUsed = usedMap.has(id);
+        const isUsed = usedMap.has(id); // 다른 파티에서 '메인'으로 사용 중인가?
 
-        // Alter 중복 체크
+        // 현재 이 캐릭터가 '우리 팀의 조력자'로 이미 설정되어 있는가?
+        const isCurrentTeamHelper = !isSupportSelectionMode &&
+            teams[currentTeamIdx].supportIdx === 3 &&
+            teams[currentTeamIdx].chars[3] === id;
+
+        // Alter(이격) 중복 체크
         const charGroup = EXCLUSIVE_GROUPS.find(g => g.includes(id));
-        const isAlterConflict = !isSel && charGroup && tempChars.some(tid => charGroup.includes(String(tid)));
+        let currentTeamChars = isSupportSelectionMode
+            ? teams[currentTeamIdx].chars.slice(0, 3) // 조력자 모드면 1~3번과 비교
+            : tempChars; // 일반 모드면 선택된 애들과 비교
 
-        // 영역 중복 체크
+        // 일반 모드일 때도 기존 조력자와의 이격 중복 체크 필요
+        if (!isSupportSelectionMode && teams[currentTeamIdx].supportIdx === 3) {
+            currentTeamChars = [...currentTeamChars, teams[currentTeamIdx].chars[3]];
+        }
+
+        const isAlterConflict = charGroup && currentTeamChars.some(tid => tid && tid !== id && charGroup.includes(String(tid)));
         const isDomainConflict = !isSel && curSet.size >= 2 && !curSet.has(c.relems);
-        const isConflict = isAlterConflict || isDomainConflict;
+
+        let isConflict = isAlterConflict || isDomainConflict;
+        let itemClass = `grid-item ${isSel?'selected':''}`;
+
+        // [비활성화 로직 수정됨]
+        // 조력자 모드일 때는 isUsed(다른 파티 사용 중)여도 선택 가능해야 하므로,
+        // !isSupportSelectionMode 조건 안에서만 isUsed를 체크합니다.
+        if (!isSupportSelectionMode && (isUsed || isCurrentTeamHelper)) {
+            itemClass += ' disabled';
+        }
+
+        if(isConflict) itemClass += ' conflict';
 
         const el = document.createElement('div');
-        el.className = `grid-item ${isSel?'selected':''} ${isUsed?'disabled':''} ${isConflict?'conflict':''}`;
+        el.className = itemClass;
         el.innerHTML = `<img src="${c.image_thumb}">`;
+
         el.onclick = () => {
-            if(isUsed) return;
-            if(isSel) {
-                tempChars = tempChars.filter(x => x !== id);
-            } else {
-                if(isConflict) {
-                    // 알림 메시지 분기
-                    if(isAlterConflict) alert("동일한 캐릭터의 다른 버전은 함께 배치할 수 없습니다.");
-                    else alert("세 개 이상의 영역을 한 팀에 배치할 수 없습니다.");
+            // [A] 조력자 선택 모드
+            if (isSupportSelectionMode) {
+                if (isConflict) {
+                    if(isAlterConflict) openSystemAlert("편성 불가", "현재 파티에 동일한 캐릭터(또는 이격)가 이미 존재합니다.");
+                    else openSystemAlert("편성 불가", "세 개 이상의 영역을 한 팀에 배치할 수 없습니다.");
                     return;
                 }
-                if(tempChars.length >= 4) return alert("최대 4명까지 선택 가능합니다.");
+
+                // ★ [삭제됨] if(isUsed) { alert... } 로직을 제거했습니다.
+                // 이제 1파티 메인 멤버라도 2파티 조력자로 선택 가능합니다.
+
+                const applySupport = () => {
+                    // 전역 조력자 초기화 (다른 파티의 조력자 해제)
+                    // -> '한 캐릭터를 여러 파티의 조력자로' 쓰는 건 허용할지 질문엔 없었으나,
+                    // 보통 조력자는 1명만 빌리거나 하므로 기존 로직(다른 파티 조력 해제)을 유지합니다.
+                    // 만약 이것도 풀고 싶으시면 아래 forEach 루프를 지우시면 됩니다.
+                    teams.forEach(t => {
+                        if (t.supportIdx !== -1) {
+                            t.chars[t.supportIdx] = null;
+                            t.wheels[t.supportIdx] = [null, null];
+                            t.supportIdx = -1;
+                        }
+                    });
+
+                    teams[currentTeamIdx].chars[3] = id;
+                    teams[currentTeamIdx].supportIdx = 3;
+
+                    closeModal('modal-char');
+                    renderAll();
+                    saveAllData();
+                };
+
+                // 이미 다른 파티에 조력자가 설정되어 있으면 물어봄
+                let existingSupportTeam = teams.find(t => t.supportIdx !== -1);
+                if (existingSupportTeam) {
+                    openSystemConfirm("조력자 변경", `이미 [${existingSupportTeam.name}] 팀에 조력자가 설정되어 있습니다. 계속하시겠습니까?`, () => applySupport());
+                } else {
+                    applySupport();
+                }
+                return;
+            }
+
+            // [B] 일반 선택 모드
+            if (isUsed || isCurrentTeamHelper) return;
+
+            if (isSel) {
+                tempChars = tempChars.filter(x => x !== id);
+            } else {
+                if (isConflict) {
+                    if(isAlterConflict) openSystemAlert("편성 불가", "동일한 캐릭터의 다른 버전은 함께 배치할 수 없습니다.");
+                    else openSystemAlert("편성 불가", "세 개 이상의 영역을 한 팀에 배치할 수 없습니다.");
+                    return;
+                }
+                if (tempChars.length >= 4) {
+                    openSystemAlert("인원 초과", "최대 4명까지 선택 가능합니다.");
+                    return;
+                }
                 tempChars.push(id);
             }
             renderCharGrid();
         };
         box.appendChild(el);
     });
-    document.getElementById('char-count').textContent = `${tempChars.length} / 4 선택됨`;
+
+    if(!isSupportSelectionMode) {
+        document.getElementById('char-count').textContent = `${tempChars.length} / 4 선택됨`;
+    } else {
+        document.getElementById('char-count').textContent = `조력자로 설정할 캐릭터를 선택하세요.`;
+    }
 }
 
+// [일반 모드 편성 확정]
 function confirmQuickSetup() {
-    const newArr = [null,null,null,null];
-    tempChars.forEach((id, i) => { if(i<4) newArr[i] = id; });
-    for(let i=0; i<4; i++) { if(teams[currentTeamIdx].chars[i] !== newArr[i]) teams[currentTeamIdx].wheels[i] = [null,null]; }
+    const isSupportActive = (teams[currentTeamIdx].supportIdx === 3);
+
+    // 조력자가 있으면 3명까지만 채우고, 없으면 4명 채움
+    const limit = isSupportActive ? 3 : 4;
+    const newArr = [null, null, null, null];
+
+    // 선택된 캐릭터들을 앞에서부터 채움
+    tempChars.forEach((id, i) => {
+        if(i < limit) newArr[i] = id;
+    });
+
+    // ★ 핵심: 조력자가 설정되어 있다면 4번 슬롯(인덱스 3)은 기존 캐릭터 유지
+    if (isSupportActive) {
+        newArr[3] = teams[currentTeamIdx].chars[3];
+    }
+
+    // 휠(장비) 초기화 로직: 캐릭터가 바뀌었을 때만 장비 해제
+    for(let i=0; i<4; i++) {
+        if(teams[currentTeamIdx].chars[i] !== newArr[i]) {
+            teams[currentTeamIdx].wheels[i] = [null,null];
+        }
+    }
+
     teams[currentTeamIdx].chars = newArr;
     closeModal('modal-char');
     renderAll();
 }
 
 function openWheelModal(charIdx, slotIdx, e) {
-    if(!teams[currentTeamIdx].chars[charIdx]) return alert("먼저 캐릭터를 배치해주세요.");
+    if(!teams[currentTeamIdx].chars[charIdx]) {
+        openSystemAlert("알림", "먼저 캐릭터를 배치해주세요.");
+        return;
+    }
     editingCharIdx = charIdx; selectedWheelSlotIdx = slotIdx; if(e) e.stopPropagation();
     activeWheelTags.clear(); document.getElementById('wheel-search-input').value = '';
     renderActiveTags(); setupSearchEvents(); renderWheelModalUI(); document.getElementById('modal-wheel').classList.add('show');
@@ -367,7 +616,7 @@ function renderWheelList() {
         }
 
         if (searchText.length > 0) {
-            // [개선된 검색 조건] 이름, 설명, 혹은 추천 캐릭터 목록에 검색어가 포함되는지 확인
+            // [개선된 검색 조건]
             const nameMatch = w.korean_name.includes(searchText);
             const descMatch = w.description.includes(searchText);
             const charMatch = w.optimized_for && w.optimized_for.some(charName => charName.includes(searchText));
@@ -436,11 +685,9 @@ function renderKeyGrid() {
         }
 
         if (searchText.length > 0) {
-            // [개선된 검색 조건]
             const nameMatch = k.korean_name.includes(searchText);
             const descMatch = k.description.includes(searchText);
             const charMatch = k.optimized_for && k.optimized_for.some(charName => charName.includes(searchText));
-
             return nameMatch || descMatch || charMatch;
         }
         return true;
@@ -592,7 +839,6 @@ async function sendToDiscord(event) {
     }
 }
 
-// [누락되었던 핵심 함수 복구]
 function openReportModal() {
     const modal = document.getElementById('report-modal');
     const sourceUrlInput = document.getElementById('report-source-url');
