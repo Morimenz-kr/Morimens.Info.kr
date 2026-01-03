@@ -182,7 +182,6 @@ function renderMain() {
             container = document.createElement('div');
             container.className = 'slot-wrapper';
             container.style.position = 'relative';
-            container.style.margin = '0 10px'; // 슬롯 간격 보정
         } else {
             // 1~3번은 그냥 카드 자체가 컨테이너
             container = document.createDocumentFragment();
@@ -241,23 +240,6 @@ function renderMain() {
             const btn = document.createElement('div');
             btn.className = 'support-setup-btn';
             btn.innerHTML = '조력 설정';
-            btn.style.cssText = `
-                position: absolute;
-                left: 100%; top: 0;
-                margin-left: 12px;
-                z-index: 200;
-                background: #2c3e50;
-                border: 1px solid #555;
-                color: #ecf0f1;
-                padding: 10px 14px;
-                font-size: 14px;
-                cursor: pointer;
-                border-radius: 6px;
-                white-space: nowrap;
-                box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-                font-weight: bold;
-                display: flex; align-items: center; justify-content: center;
-            `;
             btn.onclick = (e) => {
                 e.stopPropagation();
                 openSupportSelector(e);

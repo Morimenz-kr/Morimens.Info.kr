@@ -1,3 +1,5 @@
+/* css/party_builder.css */
+
 /* --- [기본 테마 설정] --- */
 :root {
     --bg-dark: #1a1a1a;
@@ -6,7 +8,7 @@
     --highlight: #f7a115;
     --slot-border: #555;
     --text-main: #e6e6e6;
-    /* 모달 디자인 표준 규격 추가 */
+    /* 모달 디자인 표준 규격 */
     --modal-bg: #222;
     --modal-radius: 12px;
     --modal-border: #444;
@@ -68,7 +70,14 @@ body {
 .edit-icon:hover { opacity: 1; }
 .edit-icon path { fill: #fff; }
 
-.content-row { flex: 1; display: flex; align-items: center; width: 100%; overflow: hidden; }
+.content-row {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+}
 
 /* 도메인 패널 */
 .domain-side-panel {
@@ -89,27 +98,14 @@ body {
     font-weight: bold; letter-spacing: 0.5px; white-space: nowrap;
 }
 
-/* [수정] 슬롯 컨테이너: 중앙 배치를 위해 속성 변경 */
+/* 슬롯 컨테이너 */
 .slots-container {
     flex: 1;
     display: flex;
     gap: 40px;
-    /* justify-content를 flex-start에서 center로 변경 */
     justify-content: center;
-    /* 왼쪽으로 밀어내던 패딩 제거 */
     padding-left: 0;
     align-items: center;
-}
-
-/* [추가 제언] 도메인 패널이 왼쪽에 있어도 슬롯이 정중앙에 오게 하려면 
-   content-row의 배치를 조정하는 것이 좋습니다. */
-.content-row {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* 전체 콘텐츠를 가로 중앙으로 */
-    width: 100%;
-    overflow: hidden;
 }
 
 /* 하단 바 */
@@ -208,7 +204,34 @@ body {
     color: #fff; font-size: 1.2em; font-weight: bold; text-align: center; font-family: serif;
 }
 
-/* --- [모달 공통 - 리팩토링 버전] --- */
+/* [추가] 조력 설정 버튼 스타일 (데스크탑 기본: 우측 배치) */
+.support-setup-btn {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    margin-left: 12px;
+    z-index: 200;
+    background: #2c3e50;
+    border: 1px solid #555;
+    color: #ecf0f1;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    white-space: nowrap;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+.support-setup-btn:hover {
+    background: #34495e;
+    border-color: #7f8c8d;
+}
+
+/* --- [모달 공통] --- */
 .modal-overlay {
     display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center;
@@ -217,32 +240,32 @@ body {
 
 .modal-box {
     width: 90%; max-width: 900px; height: 85vh;
-    background: var(--modal-bg); /* components.css와 일치 */
+    background: var(--modal-bg);
     border: 1px solid var(--modal-border);
-    border-radius: var(--modal-radius); /* 라운드 스퀘어 핵심 */
+    border-radius: var(--modal-radius);
     display: flex; flex-direction: column;
-    overflow: hidden; /* 내부 요소가 라운드를 침범하지 않게 함 */
+    overflow: hidden;
 }
 
 .modal-box-wide {
     width: 95%; max-width: 1400px; height: 90vh;
     background: var(--modal-bg);
     border: 1px solid var(--modal-border);
-    border-radius: var(--modal-radius); /* 라운드 스퀘어 핵심 */
+    border-radius: var(--modal-radius);
     display: flex; flex-direction: row;
     overflow: hidden;
 }
 
 .modal-header {
     padding: 15px 20px;
-    background: transparent; /* 배경색 제거 */
+    background: transparent;
     border-bottom: 1px solid var(--modal-border);
     display: flex; justify-content: space-between; align-items: center;
 }
 
 .modal-header h3 {
     margin: 0;
-    color: var(--modal-accent); /* 타이틀 색상 노란색으로 통일 */
+    color: var(--modal-accent);
     font-size: 1.2rem;
     font-weight: bold;
 }
@@ -328,7 +351,7 @@ body {
 
 @keyframes expandDropdown { from { max-height: 0; opacity: 0; } to { max-height: 200px; opacity: 1; } }
 
-/* --- [신고 모달 스타일 (라운드 스퀘어 적용)] --- */
+/* --- [신고 모달 스타일] --- */
 .floating-report-btn {
     position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 2000;
     background: #3a3a3a; width: 56px; height: 56px; border-radius: 12px;
@@ -356,7 +379,7 @@ body {
 }
 #report-modal .form-submit-btn:hover { background-color: #0056b3; }
 
-/* --- [시스템 알림 모달 리터칭] --- */
+/* --- [시스템 알림 모달] --- */
 #modal-system .modal-box {
     max-width: 450px; height: auto; min-height: 200px; border-radius: var(--modal-radius);
     background: var(--modal-bg);
@@ -443,15 +466,14 @@ body {
     .tooltip-desc { font-size: 0.9em; line-height: 1.5; color: #ddd; }
     .tooltip-tag { padding: 3px 8px; font-size: 0.8em; }
 
-    /* 조력자 라벨 (우측 상단) */
+    /* 조력자 라벨 */
     .char-top-support {
         position: absolute;
         top: 0;
         right: 0;
-        /* 요청하신 부드러운 파란색 그라데이션 */
         background: linear-gradient(270deg, rgba(41, 128, 185, 0.95) 0%, rgba(41, 128, 185, 0.7) 80%, transparent 100%);
         color: #fff;
-        padding: 6px 12px 6px 20px; /* 왼쪽을 길게 빼서 자연스럽게 */
+        padding: 6px 12px 6px 20px;
         font-size: 0.9em;
         font-weight: bold;
         font-family: 'Pretendard', sans-serif;
@@ -474,4 +496,19 @@ body {
         z-index: 5;
         font-weight: bold;
     }
-} 
+
+    /* [추가] 모바일에서 조력 설정 버튼 위치 재조정 (화면 안쪽으로 이동) */
+    .support-setup-btn {
+        left: auto;       /* 데스크탑의 외부 배치 무효화 */
+        margin-left: 0;   /* 마진 제거 */
+        top: 6px;         /* 카드 상단 내부 */
+        right: 6px;       /* 카드 우측 내부 */
+
+        /* 모바일 최적화 스타일 */
+        padding: 6px 10px;
+        font-size: 0.8em;
+        background: rgba(44, 62, 80, 0.95); /* 카드 배경과 섞이지 않게 약간 투명 */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        border-color: #777;
+    }
+}
