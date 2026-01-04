@@ -306,5 +306,12 @@
     "description": "1점 산출력을 획득하고, 모든 적에게 5스택 출생의식을 적용한다. 만약 ‘탄망 머피’가 팀에 있다면, 나선원무 한 장을 뽑는다.",
     "image_path": "images/key_ship.png",
     "tags": ["출생 의식", "드로우"]
-  }
+  },
+  {
+    "korean_name": "안개 속에서 온",
+    "english_name": "key_from_fog",
+    "description": "'타격' 2장을 뽑습니다. 만약 '모샤'가 팀에 있다면, 그들의 산출력 소모를 -1로 줄입니다.",
+    "image_path": "images/key_from_fog.png",
+    "tags": ["카드 추가"]
+  }  
 ]
