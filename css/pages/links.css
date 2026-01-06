@@ -68,53 +68,23 @@
     border-color: #ffc107;
 }
 
-/* --- 5. 교환 코드 전용 스타일 --- */
-.code-warning-text {
-    font-size: 0.85em;
-    color: #999;
-    text-align: center;
-    margin-bottom: 15px;
-    padding: 8px 15px;
-    background-color: #333;
-    border-radius: 8px;
+/* 교환 코드 카드 레이아웃 */
+.code-card-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+.code-card {
+    background: #2a2a2a; border: 1px solid #444; border-radius: 10px;
+    padding: 16px; display: flex; justify-content: space-between; align-items: center;
 }
-
-.text-link-box {
-    display: block;
-    background-color: #2a2a2a;
-    border: 1px solid #444;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 12px;
-    text-align: center;
-    color: #bbb;
-    font-size: 1.1em;
-    line-height: 1.6;
+.code-details { flex: 1; text-align: left; }
+.code-title { font-weight: bold; font-size: 1.2em; color: #fff; display: block; }
+.code-reward { font-size: 0.9em; color: #aaa; }
+.code-timer { font-size: 0.8em; color: #ff9f43; margin-top: 4px; font-weight: bold; }
+.code-copy-btn {
+    background: #42b983; color: white; padding: 8px 16px;
+    border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s;
 }
-
-.code-line {
-    padding: 10px;
-    margin: 5px 0;
-    border-bottom: 1px dashed #444;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    word-break: break-all;
-}
-
-.code-line:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: #fff;
-}
-
-.code-line:last-child {
-    border-bottom: none;
-}
-
-.code-line.copied {
-    color: #ffc107 !important;
-    transform: scale(0.98);
-    background-color: transparent;
-}
+.code-copy-btn:hover { background: #33a06f; transform: scale(1.05); }
+.code-copy-btn.copied { background: #ffc107; color: #000; }
+.section-label { color: #ffc107; margin: 20px 0 10px; font-size: 1.1em; border-left: 4px solid #ffc107; padding-left: 10px; }
 
 /* --- 6. 제보 모달 폼 스타일 --- */
 .modal-content {

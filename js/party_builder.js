@@ -598,12 +598,17 @@ function renderWheelList() {
         }
 
         if (searchText.length > 0) {
-            // [개선된 검색 조건]
-            const nameMatch = w.korean_name.includes(searchText);
-            const descMatch = w.description.includes(searchText);
-            const charMatch = w.optimized_for && w.optimized_for.some(charName => charName.includes(searchText));
+            // 검색어와 비교 대상에서 공백을 제거하여 '죽음저항'으로 검색해도 '죽음 저항'이 나오게 합니다.
+            const cleanSearchText = searchText.replace(/\s+/g, '').toLowerCase();
 
-            return nameMatch || descMatch || charMatch;
+            const nameMatch = w.korean_name.replace(/\s+/g, '').toLowerCase().includes(cleanSearchText);
+            const descMatch = (w.description || "").replace(/\s+/g, '').toLowerCase().includes(cleanSearchText);
+            const statMatch = (w.main_stat || "").replace(/\s+/g, '').toLowerCase().includes(cleanSearchText); // 추가됨!
+            const charMatch = w.optimized_for && w.optimized_for.some(charName =>
+                charName.replace(/\s+/g, '').toLowerCase().includes(cleanSearchText)
+            );
+
+            if (!(nameMatch || descMatch || statMatch || charMatch)) return false;
         }
         return true;
     });

@@ -587,29 +587,15 @@
       ]
     },
     "code": {
-      "title": "🎟️ 교환코드 모음",
-      "links":
-      [
-        "QWYL-GDYC-HVLG",
-        "MerryChristmas",
-        "ZMCT-NAQM-CDTH",
-        "DEVW-WTDQ-WKPA",
-        "HVGX-HLDX-QKKN",
-        "QKBQ-SSDG-JZYU",
-        "Catsgift",
-        "Dc5000",
-        "Silverkey",
-        "CPGN-KNSZ-YQCA",
-        "DC25000",
-        "morimens26000",
-        "discord27000",
-        "WLAU-VFLK-ZEEC",
-        "FWNR-DTZF-NMYZ",
-        "LCBJ-CDYB-WGEM",
-        "RADU-GEJJ-TRDE",
-        "MistSequence",
-        "WeWillMeetAgain",
-        "ZMRW-SLLM-FFRV"
+      "title": "🎟️ 교환 코드",
+      "links": [
+        { "title": "SILVERKEY", "desc": "무구의 은핵 10개", "expiry": null },
+        { "title": "CATSGIFT", "desc": "은심 1000개", "expiry": null },
+        { "title": "HVGX-HLDX-QKKN", "desc": "무구의 은핵 5개", "expiry": null },
+        { "title": "QKBQ-SSDG-JZYU", "desc": "무구의 은핵 5개", "expiry": null },
+        { "title": "DV5000", "desc": "린피테이프 5개", "expiry": null },
+        { "title": "MistSequence", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-28" },
+        { "title": "QWYL-GDYC-HVLG", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-01-14" }
       ]
     },
     

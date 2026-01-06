@@ -14,11 +14,13 @@
     <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 미사그 대학의 모든 정보를 한눈에 확인하세요.">
     <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
 
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/pages/links.css">
-    <link rel="stylesheet" href="css/responsive.css">
     <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/links.css');
+        loadCSS('css/responsive.css');
+    </script>
     <style>
         /* 추가된 버튼의 스타일 */
         .party-link-btn {
@@ -332,27 +334,49 @@
         return url;
     }
 
-    function renderCodeLinks(urls, container) {
-        const warningHtml = '<div class="code-warning-text">만료된 교환 코드가 있을 수 있습니다.</div>';
-        container.insertAdjacentHTML('beforebegin', warningHtml);
-        const codeBox = document.createElement('div');
-        codeBox.className = 'text-link-box';
-        let codeContentHTML = '';
+    function renderCodeLinks(items, container) {
+        container.innerHTML = ''; // 초기화
 
-        urls.forEach(item => {
-            let codeLine = '', codeString = '';
-            if (typeof item === 'object') {
-                codeLine = `<b>${item.title}</b>: ${item.desc || item.url || ''}`;
-                codeString = item.desc || item.title;
-            } else {
-                codeLine = item;
-                codeString = item;
-            }
-            const cleanedCode = codeString.replace(/\\n/g, ' ').trim();
-            codeContentHTML += `<div class="code-line" onclick="copyCodeToClipboard('${cleanedCode}', this)">${codeLine}</div>`;
-        });
-        codeBox.innerHTML = codeContentHTML;
-        container.appendChild(codeBox);
+        // 1. 데이터 분류
+        const permanent = items.filter(item => !item.expiry);
+        const temporary = items.filter(item => item.expiry && new Date(item.expiry) >= new Date().setHours(0,0,0,0));
+
+        // D-Day 계산 함수
+        const getDDay = (dateStr) => {
+            const diff = new Date(dateStr) - new Date();
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            return days === 0 ? "오늘 만료" : `${days}일 남음`;
+        };
+
+        // 카드 생성 도우미
+        const createCard = (item, isTemp) => `
+        <div class="code-card">
+            <div class="code-details">
+                <span class="code-title">${item.title}</span>
+                <span class="code-reward">${item.desc || '보상 정보 없음'}</span>
+                ${isTemp ? `<div class="code-timer">⏳ ${getDDay(item.expiry)}</div>` : ''}
+            </div>
+            <button class="code-copy-btn" onclick="copyCodeToClipboard('${item.title}', this)">복사</button>
+        </div>
+    `;
+
+        // 2. 기간 한정 코드 렌더링
+        if (temporary.length > 0) {
+            container.insertAdjacentHTML('beforeend', '<div class="section-label">📅 기간 한정 코드</div>');
+            const tempGroup = document.createElement('div');
+            tempGroup.className = 'code-card-container';
+            temporary.forEach(item => tempGroup.insertAdjacentHTML('beforeend', createCard(item, true)));
+            container.appendChild(tempGroup);
+        }
+
+        // 3. 상시 코드 렌더링
+        if (permanent.length > 0) {
+            container.insertAdjacentHTML('beforeend', '<div class="section-label">♾️ 상시 코드</div>');
+            const permGroup = document.createElement('div');
+            permGroup.className = 'code-card-container';
+            permanent.forEach(item => permGroup.insertAdjacentHTML('beforeend', createCard(item, false)));
+            container.appendChild(permGroup);
+        }
     }
 
     function createLinkCardInstant(data, container) {

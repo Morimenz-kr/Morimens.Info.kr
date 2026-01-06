@@ -2,13 +2,14 @@
 <html lang="ko">
 <head>
     <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/party_builder.css');
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>융재금지구역 파티 시뮬레이터</title>
     <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
-
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/party_builder.css">
 </head>
 <body>
 
@@ -168,7 +169,10 @@
 </div>
 <button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">🚨</button>
 
-<script src="js/party_builder.js"></script>
+<script>
+    loadJS('js/party_builder.js');
+</script>
+</body>
 
 </body>
 </html>
