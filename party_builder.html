@@ -57,21 +57,37 @@
             <h3>배치할 각성체 선택 (최대 4명)</h3>
             <button class="close-btn" onclick="closeModal('modal-char')">&times;</button>
         </div>
-        <div class="char-filter-container">
-            <div class="filter-group">
-                <span class="filter-label">영역:</span>
-                <div class="filter-chip" onclick="toggleCharFilter('domain', 'chaos')">혼돈</div>
-                <div class="filter-chip" onclick="toggleCharFilter('domain', 'aequor')">심해</div>
-                <div class="filter-chip" onclick="toggleCharFilter('domain', 'caro')">혈육</div>
-                <div class="filter-chip" onclick="toggleCharFilter('domain', 'ultra')">초차원</div>
+
+        <div class="char-search-section">
+            <div class="search-container">
+                <div class="search-input-box">
+                    <div class="search-input-wrapper">
+                        <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <input type="text" id="char-search-input" placeholder="이름 또는 특성 검색 (예: 죽저, 크리티컬)..." autocomplete="off">
+                    </div>
+                    <div id="char-search-suggestions" class="suggestions-dropdown"></div>
+                </div>
             </div>
-            <div class="filter-group" style="border-left:1px solid #444; padding-left:20px;">
-                <span class="filter-label">역할:</span>
-                <div class="filter-chip" onclick="toggleCharFilter('class', 'assault')">데미지형</div>
-                <div class="filter-chip" onclick="toggleCharFilter('class', 'warden')">방어형</div>
-                <div class="filter-chip" onclick="toggleCharFilter('class', 'chorus')">보조형</div>
+
+            <div class="char-filter-container">
+                <div class="filter-group">
+                    <span class="filter-label">영역:</span>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'chaos')">혼돈</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'aequor')">심해</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'caro')">혈육</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'ultra')">초차원</div>
+                </div>
+                <div class="filter-group" style="border-left:1px solid #444; padding-left:20px;">
+                    <span class="filter-label">역할:</span>
+                    <div class="filter-chip" onclick="toggleCharFilter('class', 'assault')">공격형</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('class', 'warden')">방어형</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('class', 'chorus')">보조형</div>
+                </div>
             </div>
+
+            <div id="active-char-search-tags" class="active-tags-list"></div>
         </div>
+
         <div class="modal-grid" id="grid-char"></div>
         <div class="modal-footer">
             <span id="char-count" style="color:#aaa; margin-right:15px; font-size:0.9em;">0 / 4 선택됨</span>

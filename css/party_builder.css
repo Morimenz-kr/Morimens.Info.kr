@@ -388,6 +388,74 @@ body {
     border-top: 1px solid #333; padding: 15px; background: transparent;
 }
 
+/* --- [캐릭터 모달 UI 버그 수정] --- */
+
+/* 1. 검색 섹션 배경 및 레이아웃 */
+.char-search-section {
+    background: #2a2a2e;
+    border-bottom: 1px solid #444;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 2. 아이콘 겹침 방지 (중요) */
+.search-input-wrapper {
+    position: relative; /* 아이콘 배치의 기준점 */
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#char-search-input {
+    width: 100%;
+    padding: 12px 15px 12px 40px !important; /* 왼쪽 패딩을 40px로 강제하여 아이콘과 분리 */
+    background: #1e1e22;
+    border: 1px solid #555;
+    color: #eee;
+    border-radius: 4px;
+    font-size: 1em;
+    outline: none;
+    box-sizing: border-box; /* 패딩이 너비에 포함되도록 설정 */
+}
+
+/* 3. 검색창과 필터 사이 간격 최적화 */
+.char-search-section .search-container {
+    padding: 15px 20px 5px 20px;
+    background: transparent;
+    border-bottom: none;
+}
+
+.char-search-section .char-filter-container {
+    padding: 5px 20px 10px 20px;
+    background: transparent;
+    border-bottom: none;
+}
+
+/* 4. 필터 아래 태그 리스트 스타일 */
+.char-search-section .active-tags-list {
+    padding: 0 20px 15px 20px;
+    margin-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* 태그가 없을 때 높이 제거 */
+.active-tags-list:empty {
+    display: none;
+}
+
+/* 5. 추천 드롭다운 위치 조정 */
+#char-search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #333338;
+    border: 1px solid #555;
+    z-index: 100;
+}
+
 /* ============================================================
    [반응형 확장: 노트북 및 태블릿 추가]
    ============================================================ */

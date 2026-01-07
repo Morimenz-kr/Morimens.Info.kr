@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/party_builder.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/party_builder.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/patch_notes.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/patch_notes.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/party_builder.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/party_builder.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/party_builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/party_builder.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,6 +89,8 @@
       <workItem from="1767348623456" duration="6994000" />
       <workItem from="1767436622397" duration="5912000" />
       <workItem from="1767519030064" duration="2874000" />
+      <workItem from="1767746595407" duration="370000" />
+      <workItem from="1767751368923" duration="2236000" />
     </task>
     <servers />
   </component>

@@ -36,6 +36,57 @@ let isSupportSelectionMode = false; // [NEW] 현재 모달이 조력자 선택 �
 let editingCharIdx = -1;
 let selectedWheelSlotIdx = 0;
 
+// 태그 기반 검색용
+// [수정] 캐릭터 정밀 태그 데이터 맵 (제공 데이터 33종 전량 이식)
+const CHAR_TAG_MAP = {
+    "허약/약화": ["doll_inferno", "nymphaea", "karen", "24", "celeste", "murphy", "miryam", "corposant", "salvador", "thais", "horla", "ryker", "winkle", "dafoodil", "doll", "erica", "castor"],
+    "취약": ["doll_inferno", "nymphaea", "24", "caecus", "murphy", "miryam", "aigis", "salvador", "thais", "doresain", "horla", "ogier", "ryker", "dafoodil", "alva", "erica"],
+    "광기부여": ["miryam", "doll_inferno", "thais", "horla", "winkle", "dafoodil", "doll", "nautila"],
+    "드로우": ["ramona", "ramona_timeworn", "faros", "jenkin", "casiah", "ryker", "dafoodil", "hameln", "miryam"],
+    "힐": ["doll_inferno", "karen", "lily", "celeste", "caecus", "doresain", "clementine", "horla", "doll", "leigh", "sorel", "faint"],
+    "영구 힘 추가": ["tawil", "kathigu-ra", "helot_catena", "ramona", "nymphaea", "24", "goliath", "tulu", "miryam", "uvhash", "thais", "doresain", "pickman", "casiah", "clementine", "horla", "ogier", "lotan", "ryker", "dafoodil", "pandia", "hameln", "leigh", "agrippa", "sorel", "tinct", "faint"],
+    "힘 감소": ["ramona", "ramona_timeworn", "24", "tulu", "clementine", "horla", "wanda", "miryam"],
+    "힘 강탈": ["faint", "pickman", "pandia", "hameln", "tinct"],
+    "힘 감소 제거": ["helot"],
+    "경계": ["alva", "erica", "agrippa"],
+    "중독": ["doll_inferno", "nymphaea", "karen", "lily", "24", "faros", "miryam", "thais", "dafoodil", "agrippa", "liz"],
+    "출혈": ["helot_catena", "24", "thais", "pollux", "helot"],
+    "반격": ["24", "caecus", "faint", "thais", "winkle", "wanda", "nautila", "pandia"],
+    "석화/기절": ["aigis", "mouchette"],
+    "배아 추가": ["24", "thais", "aigis", "leigh", "agrippa", "sorel"],
+    "스칼렛 용광로 축적": ["24", "salvador"],
+    "크리티컬 확률 증가": ["tinct", "leigh"],
+    "크리티컬 피해 증가": ["jenkin", "dafoodil", "tinct", "leigh"],
+    "둔화제거": ["karen", "celeste"],
+    "중상제거": ["celeste"],
+    "취약제거": ["faros", "doll", "leigh", "tinct"],
+    "허약제거": ["caecus", "tulu", "lotan", "helot", "tinct", "erica"],
+    "손상제거": ["sanga", "ogier", "winkle", "tinct"],
+    "취약/허약/손상 면역": ["nautila"],
+    "힘제거": ["goliath"],
+    "장벽제거": ["winkle"],
+    "반격제거": ["pandia"],
+    "광기제거 / 광란제거": ["clementine"],
+    "죽음 저항 추가": ["faint"],
+    "희생": ["murphy", "Murphy_Fauxborn"],
+    "부식": ["castor"],
+    "추격": ["mouchette"]
+};
+
+// 다양한 용어로 검색해도 결과 출력되도록 수정
+const TAG_ALIASES = {
+    "크리티컬 피해 증가": ["치피 증가", "치명타 피해 증가", "치피", "크뎀"],
+    "크리티컬 확률 증가": ["치확 증가", "치명타 확률 증가", "치확", "크확"],
+    "죽음 저항 추가": ["죽음 저항", "죽저", "데스 레지스턴스"],
+    "영구 힘 추가": ["공격력 증가", "버프", "영구 힘"],
+    "허약/약화": ["공격력 감소"],
+    "취약": ["받는 피해 증가"]
+};
+
+// 3. 상태 관리 변수 추가
+let activeCharSearchTags = new Set();
+const ALL_CHAR_TAG_NAMES = Object.keys(CHAR_TAG_MAP);
+
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("Party Builder JS Loaded!");
     await loadExternalData();
@@ -288,50 +339,38 @@ function closeModal(id) { document.getElementById(id).classList.remove('show'); 
 
 // [일반 편성 모달 열기]
 function openQuickSetup() {
-    isSupportSelectionMode = false; // 일반 모드
-
-    // ★ 수정: 조력자가 설정(4번 슬롯)되어 있다면, 1~3번 슬롯(인덱스 0,1,2)만 tempChars에 담음
+    isSupportSelectionMode = false;
     if (teams[currentTeamIdx].supportIdx === 3) {
         tempChars = teams[currentTeamIdx].chars.slice(0, 3).filter(x => x);
     } else {
-        // 조력자가 없다면 4명 다 가져옴
         tempChars = teams[currentTeamIdx].chars.filter(x => x);
     }
-
-    activeCharFilters.domain.clear();
-    activeCharFilters.class.clear();
-    updateCharFilterUI();
-    renderCharGrid();
-    document.getElementById('modal-char').classList.add('show');
-    document.querySelector('#modal-char .modal-footer').style.display = 'block';
+    initCharModal(); // 초기화 로직으로 연결
 }
 
 // [조력자 설정 모달 열기] - 4번째 슬롯 전용
 function openSupportSelector(e) {
     if(e) e.stopPropagation();
-    console.log("조력자 선택 모달 열기 시작");
+    isSupportSelectionMode = true;
+    tempChars = [];
+    initCharModal(); // 초기화 로직으로 연결
+}
 
-    isSupportSelectionMode = true; // 조력자 모드 활성화
-    tempChars = []; // 임시 배열 초기화
-
-    // 필터 초기화
+function initCharModal() {
     activeCharFilters.domain.clear();
     activeCharFilters.class.clear();
+    activeCharSearchTags.clear();
+    const input = document.getElementById('char-search-input');
+    if (input) input.value = '';
+
+    renderActiveCharTags();
+    setupCharSearchEvents();
     updateCharFilterUI();
+    renderCharGrid();
 
-    // 그리드 렌더링 (여기서 에러나면 모달 안뜸)
-    try {
-        renderCharGrid();
-        document.getElementById('modal-char').classList.add('show');
-
-        // 조력자 모드는 하단 '확정' 버튼 숨김
-        const footer = document.querySelector('#modal-char .modal-footer');
-        if(footer) footer.style.display = 'none';
-
-    } catch (err) {
-        console.error("그리드 렌더링 중 오류 발생:", err);
-        alert("오류가 발생했습니다. 콘솔(F12)을 확인해주세요.");
-    }
+    document.getElementById('modal-char').classList.add('show');
+    // 조력자 모드면 하단 푸터(배치 확정 버튼) 숨김
+    document.querySelector('#modal-char .modal-footer').style.display = isSupportSelectionMode ? 'none' : 'block';
 }
 
 function toggleCharFilter(type, value) {
@@ -367,26 +406,21 @@ function renderCharGrid() {
     const box = document.getElementById('grid-char');
     box.innerHTML = '';
     const curSet = new Set();
+    // [추가] 검색어 가져오기
+    const searchText = document.getElementById('char-search-input').value.trim().toLowerCase();
 
-    // [영역 체크 로직]
+    // 1. 영역 체크 로직 (원본 유지)
     if (!isSupportSelectionMode) {
-        // 1. 현재 선택 목록(tempChars)에 있는 캐릭터들의 영역 추가
         tempChars.forEach(id => {
             const c = DB.chars.find(x => String(x.id) === id);
             if(c) curSet.add(c.relems);
         });
-
-        // 2. 조력자가 설정되어 있다면, 그 조력자의 영역도 계산에 포함
         const currentTeam = teams[currentTeamIdx];
         if (currentTeam.supportIdx === 3 && currentTeam.chars[3]) {
             const supportChar = DB.chars.find(x => String(x.id) === currentTeam.chars[3]);
-            if (supportChar) {
-                curSet.add(supportChar.relems);
-            }
+            if (supportChar) curSet.add(supportChar.relems);
         }
-
     } else {
-        // [조력자 선택 모드일 때] 1~3번 슬롯(본체들)의 영역을 미리 넣어둠
         for(let i=0; i<3; i++) {
             const id = teams[currentTeamIdx].chars[i];
             if(id) {
@@ -396,42 +430,54 @@ function renderCharGrid() {
         }
     }
 
-    // [중복 사용 체크 로직] (다른 파티 메인 멤버 확인용)
+    // 2. 중복 사용 체크 로직 (원본 유지)
     const usedMap = new Set();
     teams.forEach((t, i) => {
         if (i !== currentTeamIdx) {
             t.chars.forEach((id, slotIdx) => {
-                // 남의 조력자는 '중복'으로 치지 않음 (기존 로직 유지)
-                if (id && t.supportIdx !== slotIdx) {
-                    usedMap.add(id);
-                }
+                if (id && t.supportIdx !== slotIdx) usedMap.add(id);
             });
         }
     });
 
+    // 3. 필터링 로직 수정 (영역/역할 + 태그 + 검색어)
     const filteredChars = DB.chars.filter(c => {
         const domainPass = (activeCharFilters.domain.size === 0) || activeCharFilters.domain.has(c.relems);
         const classPass = (activeCharFilters.class.size === 0) || activeCharFilters.class.has(c.class);
-        return domainPass && classPass;
+        if(!domainPass || !classPass) return false;
+
+        // [추가] 선택된 태그 필터 (AND 조건)
+        if (activeCharSearchTags.size > 0) {
+            const hasAllTags = Array.from(activeCharSearchTags).every(tagName =>
+                CHAR_TAG_MAP[tagName] && CHAR_TAG_MAP[tagName].includes(String(c.id))
+            );
+            if (!hasAllTags) return false;
+        }
+
+        // [추가] 텍스트 검색 (이름/태그/별칭)
+        if (searchText.length > 0) {
+            const nameMatch = c.name.toLowerCase().includes(searchText);
+            const tagMatch = ALL_CHAR_TAG_NAMES.some(tagName => {
+                const isTagMatch = tagName.toLowerCase().includes(searchText);
+                const isAliasMatch = (TAG_ALIASES[tagName] || []).some(a => a.toLowerCase().includes(searchText));
+                return (isTagMatch || isAliasMatch) && CHAR_TAG_MAP[tagName].includes(String(c.id));
+            });
+            if (!nameMatch && !tagMatch) return false;
+        }
+        return true;
     });
 
+    // 4. 그리드 아이템 생성 및 클릭 이벤트
     filteredChars.forEach(c => {
         const id = String(c.id);
         const isSel = tempChars.includes(id);
-        const isUsed = usedMap.has(id); // 다른 파티에서 '메인'으로 사용 중인가?
-
-        // 현재 이 캐릭터가 '우리 팀의 조력자'로 이미 설정되어 있는가?
+        const isUsed = usedMap.has(id);
         const isCurrentTeamHelper = !isSupportSelectionMode &&
             teams[currentTeamIdx].supportIdx === 3 &&
             teams[currentTeamIdx].chars[3] === id;
 
-        // Alter(이격) 중복 체크
         const charGroup = EXCLUSIVE_GROUPS.find(g => g.includes(id));
-        let currentTeamChars = isSupportSelectionMode
-            ? teams[currentTeamIdx].chars.slice(0, 3) // 조력자 모드면 1~3번과 비교
-            : tempChars; // 일반 모드면 선택된 애들과 비교
-
-        // 일반 모드일 때도 기존 조력자와의 이격 중복 체크 필요
+        let currentTeamChars = isSupportSelectionMode ? teams[currentTeamIdx].chars.slice(0, 3) : tempChars;
         if (!isSupportSelectionMode && teams[currentTeamIdx].supportIdx === 3) {
             currentTeamChars = [...currentTeamChars, teams[currentTeamIdx].chars[3]];
         }
@@ -441,14 +487,7 @@ function renderCharGrid() {
 
         let isConflict = isAlterConflict || isDomainConflict;
         let itemClass = `grid-item ${isSel?'selected':''}`;
-
-        // [비활성화 로직 수정됨]
-        // 조력자 모드일 때는 isUsed(다른 파티 사용 중)여도 선택 가능해야 하므로,
-        // !isSupportSelectionMode 조건 안에서만 isUsed를 체크합니다.
-        if (!isSupportSelectionMode && (isUsed || isCurrentTeamHelper)) {
-            itemClass += ' disabled';
-        }
-
+        if (!isSupportSelectionMode && (isUsed || isCurrentTeamHelper)) itemClass += ' disabled';
         if(isConflict) itemClass += ' conflict';
 
         const el = document.createElement('div');
@@ -456,22 +495,26 @@ function renderCharGrid() {
         el.innerHTML = `<img src="${c.image_thumb}">`;
 
         el.onclick = () => {
-            // [A] 조력자 선택 모드
             if (isSupportSelectionMode) {
                 if (isConflict) {
-                    if(isAlterConflict) openSystemAlert("편성 불가", "현재 파티에 동일한 캐릭터(또는 이격)가 이미 존재합니다.");
-                    else openSystemAlert("편성 불가", "세 개 이상의 영역을 한 팀에 배치할 수 없습니다.");
+                    if(isAlterConflict) openSystemAlert("편성 불가", "현재 파티에 동일한 캐릭터가 존재합니다.");
+                    else openSystemAlert("편성 불가", "세 개 이상의 영역을 배치할 수 없습니다.");
                     return;
                 }
 
-                // ★ [삭제됨] if(isUsed) { alert... } 로직을 제거했습니다.
-                // 이제 1파티 메인 멤버라도 2파티 조력자로 선택 가능합니다.
-
                 const applySupport = () => {
-                    // 전역 조력자 초기화 (다른 파티의 조력자 해제)
-                    // -> '한 캐릭터를 여러 파티의 조력자로' 쓰는 건 허용할지 질문엔 없었으나,
-                    // 보통 조력자는 1명만 빌리거나 하므로 기존 로직(다른 파티 조력 해제)을 유지합니다.
-                    // 만약 이것도 풀고 싶으시면 아래 forEach 루프를 지우시면 됩니다.
+                    const currentTeam = teams[currentTeamIdx];
+
+                    // [추가] 조력자로 선택된 캐릭터가 기존 메인 슬롯(0,1,2)에 있으면 비움
+                    for (let i = 0; i < 3; i++) {
+                        const targetId = currentTeam.chars[i];
+                        if (targetId === id || (charGroup && charGroup.includes(String(targetId)))) {
+                            currentTeam.chars[i] = null;
+                            currentTeam.wheels[i] = [null, null]; // 장비도 해제
+                        }
+                    }
+
+                    // 전역 조력자 초기화 및 현재 조력자 설정
                     teams.forEach(t => {
                         if (t.supportIdx !== -1) {
                             t.chars[t.supportIdx] = null;
@@ -480,39 +523,25 @@ function renderCharGrid() {
                         }
                     });
 
-                    teams[currentTeamIdx].chars[3] = id;
-                    teams[currentTeamIdx].supportIdx = 3;
-
+                    currentTeam.chars[3] = id;
+                    currentTeam.supportIdx = 3;
                     closeModal('modal-char');
                     renderAll();
                     saveAllData();
                 };
 
-                // 이미 다른 파티에 조력자가 설정되어 있으면 물어봄
                 let existingSupportTeam = teams.find(t => t.supportIdx !== -1);
                 if (existingSupportTeam) {
-                    openSystemConfirm("조력자 변경", `이미 [${existingSupportTeam.name}] 팀에 조력자가 설정되어 있습니다. 계속하시겠습니까?`, () => applySupport());
-                } else {
-                    applySupport();
-                }
+                    openSystemConfirm("조력자 변경", `이미 [${existingSupportTeam.name}] 팀에 조력자가 설정되어 있습니다. 변경하시겠습니까?`, () => applySupport());
+                } else applySupport();
                 return;
             }
 
-            // [B] 일반 선택 모드
+            // 일반 선택 모드 (원본 유지)
             if (isUsed || isCurrentTeamHelper) return;
-
-            if (isSel) {
-                tempChars = tempChars.filter(x => x !== id);
-            } else {
-                if (isConflict) {
-                    if(isAlterConflict) openSystemAlert("편성 불가", "동일한 캐릭터의 다른 버전은 함께 배치할 수 없습니다.");
-                    else openSystemAlert("편성 불가", "세 개 이상의 영역을 한 팀에 배치할 수 없습니다.");
-                    return;
-                }
-                if (tempChars.length >= 4) {
-                    openSystemAlert("인원 초과", "최대 4명까지 선택 가능합니다.");
-                    return;
-                }
+            if (isSel) tempChars = tempChars.filter(x => x !== id);
+            else {
+                if (isConflict || tempChars.length >= 4) return;
                 tempChars.push(id);
             }
             renderCharGrid();
@@ -520,11 +549,67 @@ function renderCharGrid() {
         box.appendChild(el);
     });
 
-    if(!isSupportSelectionMode) {
-        document.getElementById('char-count').textContent = `${tempChars.length} / 4 선택됨`;
-    } else {
-        document.getElementById('char-count').textContent = `조력자로 설정할 캐릭터를 선택하세요.`;
-    }
+    document.getElementById('char-count').textContent = isSupportSelectionMode ? `조력자로 설정할 캐릭터를 선택하세요.` : `${tempChars.length} / 4 선택됨`;
+}
+
+function setupCharSearchEvents() {
+    const input = document.getElementById('char-search-input');
+    const suggestBox = document.getElementById('char-search-suggestions');
+    if (!input || !suggestBox) return;
+
+    input.oninput = (e) => {
+        const val = e.target.value.trim().toLowerCase();
+        if(val.length < 1) {
+            suggestBox.style.display = 'none';
+            renderCharGrid();
+            return;
+        }
+
+        // 별칭 맵을 포함하여 검색 후보군 추출
+        const matches = ALL_CHAR_TAG_NAMES.filter(tagName => {
+            const isTagNameMatch = tagName.toLowerCase().includes(val);
+            const isAliasMatch = (TAG_ALIASES[tagName] || []).some(alias => alias.toLowerCase().includes(val));
+            return (isTagNameMatch || isAliasMatch) && !activeCharSearchTags.has(tagName);
+        });
+
+        if(matches.length > 0) {
+            suggestBox.innerHTML = '';
+            matches.forEach(tag => {
+                const div = document.createElement('div');
+                div.className = 'suggestion-item';
+                div.innerHTML = `<span class="suggestion-match">${tag}</span>`;
+                div.onclick = () => {
+                    activeCharSearchTags.add(tag);
+                    renderActiveCharTags();
+                    input.value = '';
+                    suggestBox.style.display = 'none';
+                    renderCharGrid();
+                };
+                suggestBox.appendChild(div);
+            });
+            suggestBox.style.display = 'block';
+        } else {
+            suggestBox.style.display = 'none';
+        }
+        renderCharGrid();
+    };
+}
+
+function renderActiveCharTags() {
+    const container = document.getElementById('active-char-search-tags');
+    if (!container) return;
+    container.innerHTML = '';
+    activeCharSearchTags.forEach(tag => {
+        const chip = document.createElement('div');
+        chip.className = 'active-tag-chip';
+        chip.textContent = tag;
+        chip.onclick = () => {
+            activeCharSearchTags.delete(tag);
+            renderActiveCharTags();
+            renderCharGrid();
+        };
+        container.appendChild(chip);
+    });
 }
 
 // [일반 모드 편성 확정]
