@@ -29,9 +29,16 @@ body {
 
 /* --- [사이드바] --- */
 .sidebar {
-    width: 80px; background-color: var(--sidebar-bg);
-    border-right: 1px solid #333; display: flex; flex-direction: column; align-items: center;
-    padding-top: 120px; overflow-y: auto; flex-shrink: 0;
+    width: 80px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* [NEW] Y축 중앙 정렬 */
+    padding-top: 0; /* 기존 패딩 제거 */
+    overflow-y: auto;
+    flex-shrink: 0;
 }
 .team-tab {
     width: 44px; height: 44px; border-radius: 50%; border: 1px solid #444;
@@ -52,7 +59,10 @@ body {
     height: 100vh; box-sizing: border-box; overflow: hidden;
 }
 
-.back-btn-wrapper { margin-bottom: 20px; }
+.back-btn-wrapper {
+    margin-bottom: 10px; /* 탭 높이와 시각적 밸런스를 맞추기 위한 하단 마진 */
+    flex-shrink: 0;
+}
 .back-btn {
     display: inline-flex; align-items: center; padding: 8px 16px; background-color: #2e2e34;
     color: #ccc; text-decoration: none; border-radius: 4px; font-size: 0.9em; font-weight: bold;
@@ -204,6 +214,98 @@ body {
     color: #fff; font-size: 1.2em; font-weight: bold; text-align: center; font-family: serif;
 }
 
+.conflict-tag {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(60, 60, 70, 0.95);
+    color: white;
+    padding: 4px 8px;
+    font-size: 0.8em;
+    font-weight: bold;
+    white-space: nowrap;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+/* [수정] 그리드 내 영역 충돌 텍스트 빨간색 적용 */
+.conflict-tag.domain-conflict-label {
+    background: rgba(0, 0, 0, 0.9) !important; /* 배경을 더 어둡게 하여 대비 상승 */
+    color: #ff4d4d !important;               /* 선명한 빨간색 */
+    border: 1px solid #ff4d4d !important;    /* 빨간색 테두리 */
+    box-shadow: 0 0 15px rgba(255, 77, 77, 0.5);
+    z-index: 20;
+}
+
+/* [추가] 세트 탭 삭제 버튼 스타일 */
+.page-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px 10px 20px;
+}
+
+.btn-close-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 14px;
+    color: #fff; /* 항상 흰색 유지 */
+    transition: all 0.2s;
+    margin-left: auto;
+}
+
+.btn-close-tab:hover {
+    background-color: rgba(231, 76, 60, 0.5);
+    color: #fff;
+}
+
+.page-tab.active .btn-close-tab,
+.page-tab.active .edit-icon-tab {
+    color: #fff !important; /* 노란색(--highlight) 대신 흰색 강제 */
+}
+
+.page-tab.active .btn-close-tab:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #fff;
+}
+.grid-item.conflict:hover {
+    border-color: #c0392b;
+}
+
+.grid-item.conflict img {
+    filter: grayscale(0.7) brightness(0.7);
+    opacity: 0.5;
+}
+
+.edit-icon-tab {
+    width: 14px;
+    height: 14px;
+    margin-left: 6px;
+    opacity: 0.5; /* 기본 투명도 */
+    transition: 0.2s;
+    cursor: pointer;
+    color: #fff; /* 항상 흰색 유지 */
+}
+
+
+.edit-icon-tab:hover {
+    opacity: 1 !important;
+    transform: scale(1.1);
+}
+
+/* 탭 이름 텍스트 영역 조정 */
+.tab-name-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px; /* 이름이 너무 길어지는 것 방지 */
+}
+
 /* [추가] 조력 설정 버튼 스타일 (데스크탑 기본: 우측 배치) */
 .support-setup-btn {
     position: absolute;
@@ -307,9 +409,12 @@ body {
 .grid-item.selected { border-color: var(--highlight); }
 .grid-item.selected::after { content: '✔'; position: absolute; top: 0; right: 0; background: var(--highlight); color: #000; font-size: 0.8em; padding: 2px 4px; }
 .grid-item.disabled { pointer-events: none; filter: grayscale(100%) brightness(0.4); }
-.grid-item.conflict { pointer-events: none; border: 1px solid #e74c3c; }
+.grid-item.conflict {
+    cursor: not-allowed;
+    filter: none !important; /* 전체 필터 해제 */
+    position: relative;
+}
 .grid-item.conflict img { opacity: 0.3; }
-.grid-item.conflict::before { content: '영역 충돌'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #e74c3c; font-size: 0.7em; font-weight: bold; white-space: nowrap; z-index: 5; }
 
 .item-tooltip {
     display: none; position: fixed; z-index: 9999; background: rgba(18, 18, 18, 0.95);
@@ -454,6 +559,99 @@ body {
     background: #333338;
     border: 1px solid #555;
     z-index: 100;
+}
+
+/* [추가] 상단 네비게이션 바 수평 정렬 */
+.top-navigation-bar {
+    display: flex;
+    align-items: flex-end; /* 버튼과 탭의 바닥 라인을 일치시킴 */
+    gap: 30px; /* 돌아가기 버튼과 세트 탭 사이의 간격 */
+    margin-bottom: 20px;
+    border-bottom: 1px solid #444; /* 구분선을 상단 바 전체 하단으로 이동 */
+    width: 100%;
+}
+
+/* [수정] 크롬 브라우저 스타일 탭 디자인 */
+.page-control-bar {
+    display: flex;
+    align-items: flex-end;
+    gap: 0;
+    margin-bottom: 0; /* 네비게이션 바가 감싸고 있으므로 기존 하단 마진 제거 */
+    background: transparent;
+    padding: 0;
+    border-bottom: none; /* 하단 선은 top-navigation-bar에서 처리하므로 제거 */
+    flex: 1; /* 남은 공간을 차지하여 복사/삭제 버튼을 우측 끝으로 밀어냄 */
+}
+
+.page-tabs {
+    display: flex;
+    gap: 2px;
+    padding-left: 10px;
+}
+
+.page-tab {
+    display: inline-flex; /* 콘텐츠에 맞춰 너비 결정 */
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 5px 10px 15px !important; /* 오른쪽 패딩 최소화로 X버튼 밀착 */
+    width: auto; /* 고정 너비 해제 */
+    min-width: 80px; /* 최소 너비만 유지 */
+    max-width: 350px; /* 너무 길어지는 것만 방지 */
+    background: #2a2a2e;
+    border: 1px solid #444;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #888;
+    margin-bottom: -1px;
+    flex: 0 0 auto; /* 축소되지 않고 자기 크기 유지 */
+    transition: all 0.2s;
+}
+
+.page-tab.active {
+    background: #38383e; /* 크롬 활성 탭 느낌의 밝은 회색 */
+    color: var(--highlight);
+    font-weight: bold;
+    border-color: #444;
+    border-bottom: 1px solid #38383e; /* 하단 선을 지워서 연결된 느낌 생성 */
+    z-index: 2;
+}
+
+.page-tab:hover:not(.active) {
+    background: #333338;
+    color: #ccc;
+}
+
+/* 추가 버튼 스타일 수정 */
+.add-page-btn {
+    width: 28px;
+    height: 28px;
+    background: #333;
+    border: none;
+    color: #aaa;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 0 10px 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.add-page-btn:hover {
+    background: #444;
+    color: #fff;
+}
+
+.page-actions {
+    margin-left: auto;
+    margin-bottom: 8px;
+}
+
+/* 기존 사이드바 위치 조정 (페이지 바 추가로 인한 여백) */
+.sidebar {
+    padding-top: 20px; /* 기존 120px에서 줄임 */
 }
 
 /* ============================================================

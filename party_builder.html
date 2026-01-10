@@ -15,9 +15,17 @@
 
 <div class="builder-container">
     <div class="sidebar" id="sidebar-tabs"></div>
+
     <div class="main-area">
-        <div class="back-btn-wrapper">
-            <a href="javascript:void(0);" onclick="goBackToMenu()" class="back-btn">⬅ 융재금구 메뉴로 돌아가기</a>
+        <div class="top-navigation-bar">
+            <div class="back-btn-wrapper">
+                <a href="javascript:void(0);" onclick="goBackToMenu()" class="back-btn">⬅ 융재 금구 메뉴로 돌아가기</a>
+            </div>
+
+            <div class="page-control-bar">
+                <div id="page-tabs" class="page-tabs"></div>
+                <button class="add-page-btn" onclick="addNewPage()" title="새 세트 추가">+</button>
+            </div>
         </div>
 
         <div class="header-wrapper">
@@ -28,7 +36,11 @@
                 </svg>
                 <div id="team-domain-container" class="header-domain-wrap"></div>
             </div>
-            <button class="btn btn-red btn-sm" onclick="resetCurrentTeam()">팀 초기화</button>
+            <div class="header-right" style="display: flex; gap: 8px;">
+                <button class="btn btn-blue btn-sm" onclick="copyTeamToClipboard()">팀 복사</button>
+                <button class="btn btn-blue btn-sm" onclick="pasteTeamFromClipboard()">팀 붙여넣기</button>
+                <button class="btn btn-red btn-sm" onclick="resetCurrentTeam()">팀 초기화</button>
+            </div>
         </div>
 
         <div class="content-row">
@@ -57,7 +69,6 @@
             <h3>배치할 각성체 선택 (최대 4명)</h3>
             <button class="close-btn" onclick="closeModal('modal-char')">&times;</button>
         </div>
-
         <div class="char-search-section">
             <div class="search-container">
                 <div class="search-input-box">
@@ -68,7 +79,6 @@
                     <div id="char-search-suggestions" class="suggestions-dropdown"></div>
                 </div>
             </div>
-
             <div class="char-filter-container">
                 <div class="filter-group">
                     <span class="filter-label">영역:</span>
@@ -84,14 +94,15 @@
                     <div class="filter-chip" onclick="toggleCharFilter('class', 'chorus')">보조형</div>
                 </div>
             </div>
-
             <div id="active-char-search-tags" class="active-tags-list"></div>
         </div>
-
         <div class="modal-grid" id="grid-char"></div>
         <div class="modal-footer">
             <span id="char-count" style="color:#aaa; margin-right:15px; font-size:0.9em;">0 / 4 선택됨</span>
-            <button class="btn btn-yellow" onclick="confirmQuickSetup()">배치 확정</button>
+            <div style="display: inline-flex; gap: 10px;">
+                <button id="btn-remove-support" class="btn btn-red" onclick="removeSupport()" style="display: none;">조력자 해제</button>
+                <button class="btn btn-yellow" onclick="confirmQuickSetup()">배치 확정</button>
+            </div>
         </div>
     </div>
 </div>
@@ -100,13 +111,7 @@
     <div class="modal-box-wide">
         <div class="wheel-list-wrapper">
             <div class="search-container">
-                <div class="search-input-box">
-                    <div class="search-input-wrapper">
-                        <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                        <input type="text" id="wheel-search-input" placeholder="태그 또는 이름 검색..." autocomplete="off">
-                    </div>
-                    <div id="search-suggestions" class="suggestions-dropdown"></div>
-                </div>
+                <input type="text" id="wheel-search-input" placeholder="명륜 검색..." autocomplete="off">
                 <div id="active-tags-area" class="active-tags-list"></div>
             </div>
             <div class="wheel-list-panel" id="grid-wheel"></div>
@@ -117,7 +122,7 @@
                 <div class="large-slot" id="equip-slot-0" onclick="selectWheelSlot(0)"><div class="slot-placeholder">+</div></div>
                 <div class="large-slot" id="equip-slot-1" onclick="selectWheelSlot(1)"><div class="slot-placeholder">+</div></div>
             </div>
-            <div class="equip-info-text" id="equip-slot-desc" style="color:#777; margin-bottom:20px; text-align:center; min-height:40px;">슬롯을 선택하고 좌측 목록에서 명륜을 클릭하세요.</div>
+            <div class="equip-info-text" id="equip-slot-desc" style="color:#777; margin-bottom:20px; text-align:center; min-height:40px;">슬롯을 선택하세요.</div>
             <button class="btn btn-red" onclick="unequipSelectedWheel()">해제</button>
             <button class="btn btn-blue" onclick="closeModal('modal-wheel')" style="margin-top:15px; width: 100px;">닫기</button>
         </div>
@@ -126,17 +131,21 @@
 
 <div id="modal-key" class="modal-overlay">
     <div class="modal-box" style="max-width:600px; height:80vh;">
-        <div class="modal-header"><h3>은열쇠 선택</h3><button class="close-btn" onclick="closeModal('modal-key')">&times;</button></div>
+        <div class="modal-header">
+            <h3>은열쇠 선택</h3>
+            <button class="close-btn" onclick="closeModal('modal-key')">&times;</button>
+        </div>
+
         <div class="search-container">
             <div class="search-input-box">
                 <div class="search-input-wrapper">
                     <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                     <input type="text" id="key-search-input" placeholder="태그 또는 이름 검색..." autocomplete="off">
                 </div>
-                <div id="key-search-suggestions" class="suggestions-dropdown"></div>
             </div>
             <div id="active-key-tags-area" class="active-tags-list"></div>
         </div>
+
         <div class="modal-grid" id="grid-key"></div>
         <div class="modal-footer">
             <button class="btn btn-red" onclick="unequipKey()" style="margin-right:10px;">해제</button>
@@ -145,19 +154,20 @@
     </div>
 </div>
 
-<div id="global-tooltip" class="item-tooltip">
-    <div class="tooltip-title" id="tt-title"></div>
-    <div class="tooltip-desc" id="tt-desc"></div>
-    <div class="tooltip-tags" id="tt-tags"></div>
-</div>
-
 <div id="modal-system" class="modal-overlay">
     <div class="modal-box" style="max-width: 450px; height: auto; min-height: 200px; border-color: #777;">
         <div class="modal-header">
             <h3 id="sys-modal-title" style="color: var(--highlight);">알림</h3>
             <button class="close-btn" onclick="closeModal('modal-system')">&times;</button>
         </div>
-        <div style="padding: 40px 30px; text-align: center; color: #e0e0e0; font-size: 1.1em; line-height: 1.5; white-space: pre-line;" id="sys-modal-msg">내용</div>
+        <div id="sys-modal-msg" style="padding: 30px 30px 10px 30px; text-align: center; color: #e0e0e0; font-size: 1.1em; line-height: 1.5; white-space: pre-line;">내용</div>
+
+        <div id="sys-input-wrapper" style="padding: 0 40px 20px 40px; display: none;">
+            <input type="text" id="sys-modal-input" class="form-input"
+                   style="width: 100%; text-align: center; background:#333; border:1px solid #555; color:#fff; padding:10px; border-radius:4px;">
+            <div id="sys-modal-char-count" style="text-align: right; color: #888; font-size: 0.8em; margin-top: 5px;">0 / 15</div>
+        </div>
+
         <div class="modal-footer" style="justify-content: center; gap: 15px; padding-bottom: 25px;">
             <button id="sys-btn-yes" class="btn btn-yellow" style="min-width: 80px;">확인</button>
             <button id="sys-btn-no" class="btn btn-red" style="min-width: 80px; display: none;">취소</button>
@@ -183,12 +193,17 @@
         </form>
     </div>
 </div>
+
+<div id="global-tooltip" class="item-tooltip">
+    <div class="tooltip-title" id="tt-title"></div>
+    <div class="tooltip-desc" id="tt-desc"></div>
+    <div class="tooltip-tags" id="tt-tags"></div>
+</div>
+
 <button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">🚨</button>
 
 <script>
     loadJS('js/party_builder.js');
 </script>
-</body>
-
 </body>
 </html>
