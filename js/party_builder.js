@@ -539,11 +539,9 @@ function renderCharGrid() {
             else if (activeDomains.size >= 2 && !activeDomains.has(c.relems)) conflictReason = "영역 충돌";
         } else {
             // [일반 대원 편성 모드]
-            // 버그 수정: 다른 파티의 조력자여도 현재 파티의 일반 대원으로 선택 가능해야 함
             if (usedInOtherTeamsNormal.has(id)) {
                 conflictReason = "사용중";
             } else if (team.supportIdx !== -1 && team.chars[team.supportIdx] === id) {
-                // 현재 팀의 조력자와 겹칠 때만 차단
                 conflictReason = "조력자로 사용 중";
             } else if (!tempChars.includes(id) && activeDomains.size >= 2 && !activeDomains.has(c.relems)) {
                 conflictReason = "영역 충돌";
@@ -558,14 +556,14 @@ function renderCharGrid() {
 
         if (conflictReason) {
             const overlay = document.createElement('div');
-            // 영역 충돌인 경우 전용 빨간색 클래스 부여
             overlay.className = 'conflict-tag' + (conflictReason === "영역 충돌" ? " domain-conflict-label" : "");
             overlay.innerText = conflictReason;
             el.appendChild(overlay);
         }
 
         el.onclick = () => {
-            if (conflictReason) {
+            // [버그 수정] 이미 선택된 캐릭터(isSelected)라면 충돌 경고를 띄우지 않고 해제 로직으로 진행함
+            if (conflictReason && !isSelected) {
                 openSystemAlert("편성 불가", `[${c.name}] 각성체는 ${conflictReason} 상태입니다.`);
                 return;
             }
@@ -586,8 +584,12 @@ function renderCharGrid() {
                     applySupport();
                 }
             } else {
-                if (isSelected) tempChars = tempChars.filter(x => x !== id);
-                else if (tempChars.length < 4) tempChars.push(id);
+                if (isSelected) {
+                    // 이미 선택된 캐릭터를 다시 누르면 중복 여부와 상관없이 목록에서 제외(Deselect)
+                    tempChars = tempChars.filter(x => x !== id);
+                } else {
+                    if (tempChars.length < 4) tempChars.push(id);
+                }
                 renderCharGrid();
             }
         };
