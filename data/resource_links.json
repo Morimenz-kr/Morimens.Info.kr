@@ -601,7 +601,8 @@
         { "title": "QKBQ-SSDG-JZYU", "desc": "무구의 은핵 5개", "expiry": null },
         { "title": "DV5000", "desc": "특별 승인 약재 5개", "expiry": null },
         { "title": "MistSequence", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-28" },
-        { "title": "QWYL-GDYC-HVLG", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-01-14" }
+        { "title": "QWYL-GDYC-HVLG", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-01-14" },
+        { "title": "WeWillMeetAgain", "desc": "SSR 명륜 '황혼과 새벽', '순수한 은빛의 초심, '폐허로부터의 재탄생' 중 택1'", "expiry": "2026-01-26" }
       ]
     },
     
