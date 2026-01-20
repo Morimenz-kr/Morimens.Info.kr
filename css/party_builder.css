@@ -28,6 +28,7 @@ body {
 }
 
 /* --- [사이드바] --- */
+/* --- [사이드바 & 밀어내기 애니메이션 설정] --- */
 .sidebar {
     width: 80px;
     background-color: var(--sidebar-bg);
@@ -35,24 +36,44 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* [NEW] Y축 중앙 정렬 */
-    padding-top: 0; /* 기존 패딩 제거 */
+    justify-content: center;
+    padding-top: 0;
     overflow-y: auto;
     flex-shrink: 0;
 }
+
 .team-tab {
     width: 44px; height: 44px; border-radius: 50%; border: 1px solid #444;
     display: flex; justify-content: center; align-items: center; margin-bottom: 25px;
-    cursor: pointer; font-family: serif; font-size: 1.1em; color: #666;
-    transition: all 0.2s; position: relative; background: transparent;
+    cursor: grab; font-family: serif; font-size: 1.1em; color: #666;
+    position: relative; background: transparent;
+
+    /* [핵심] 쫀득한 손맛을 위한 애니메이션 설정 */
+    /* transform(위치 이동)이 발생할 때 0.25초 동안 Ease-Out 곡선으로 부드럽게 움직입니다. */
+    transition: transform 0.25s cubic-bezier(0.2, 0, 0.2, 1),
+    background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+
+    /* 모달 드래그 시 브라우저 스크롤 방지 */
+    touch-action: none;
+    user-select: none;
 }
+
+/* 탭 사이 수직 연결선 (기존 디자인 유지) */
 .team-tab:not(:last-child)::after {
     content: ''; position: absolute; bottom: -26px; width: 1px; height: 26px; background: #333;
 }
+
+/* 상태별 스타일 (기존 수치 유지) */
 .team-tab.active { border-color: var(--highlight); color: var(--highlight); box-shadow: 0 0 8px rgba(247, 161, 21, 0.2); }
 .team-tab.filled { border-color: #6a89cc; color: #a4b0be; }
 .team-tab.active.filled { border-color: var(--highlight); color: var(--highlight); }
 
+/* [추가] 드래그 중인 본체의 상태: 공간은 차지하되 모습은 흐리게 */
+.team-tab.dragging {
+    opacity: 0.2;
+    transform: scale(0.9);
+    cursor: grabbing;
+}
 /* --- [메인 레이아웃] --- */
 .main-area {
     flex: 1; display: flex; flex-direction: column; padding: 30px 50px;
@@ -372,7 +393,23 @@ body {
     font-weight: bold;
 }
 .close-btn { background: none; border: none; color: #999; font-size: 1.5em; cursor: pointer; }
+/* 툴팁 내 주옵션 강조 스타일 */
+.tooltip-main-stat {
+    color: #ffc107; /* 강조색 (노란색) */
+    font-weight: bold;
+    font-size: 1.05em;
+    padding: 6px 8px;
+    background: rgba(255, 193, 7, 0.1);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    border-left: 3px solid #ffc107;
+}
 
+.tooltip-effect-desc {
+    color: #ccc;
+    line-height: 1.5;
+    word-break: keep-all;
+}
 /* 필터 컨테이너 */
 .char-filter-container {
     padding: 12px 20px; background: #2a2a2e; border-bottom: 1px solid #444; display: flex; flex-wrap: wrap; gap: 20px;

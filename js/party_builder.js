@@ -5,6 +5,8 @@ const MAX_TEAMS = 10;
 const MAX_PAGES = 5;
 const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 const EXCLUSIVE_GROUPS = [["ramona", "ramona_timeworn"]];
+let draggedIdx = -1;
+let lastHoverIdx = -1;
 
 // [2] 데이터 생성 팩토리 함수
 function createEmptyTeam(index) {
@@ -311,17 +313,142 @@ function deletePage(index) {
 }
 
 function renderSidebar() {
-    const c = document.getElementById('sidebar-tabs');
-    if (!c) return;
-    c.innerHTML = '';
+    const container = document.getElementById('sidebar-tabs');
+    if (!container) return;
+    container.innerHTML = '';
     const currentTeams = allPages[currentPageIdx].teams;
+
+    const isVertical = window.innerWidth > 768;
+    // 간격 계산 (PC: 69px, 모바일: 가로 배치이므로 약 52px)
+    const shiftDistance = isVertical ? 69 : 52;
+
     currentTeams.forEach((t, i) => {
-        const d = document.createElement('div');
-        d.className = `team-tab ${i === currentTeamIdx ? 'active' : ''} ${t.chars.some(x=>x)?'filled':''}`;
-        d.textContent = ROMAN_NUMS[i];
-        d.onclick = () => { currentTeamIdx = i; renderAll(); };
-        c.appendChild(d);
+        const tab = document.createElement('div');
+        tab.className = `team-tab ${i === currentTeamIdx ? 'active' : ''} ${t.chars.some(x => x) ? 'filled' : ''}`;
+        tab.textContent = ROMAN_NUMS[i];
+        tab.dataset.index = i;
+        tab.draggable = true;
+
+        // 드래그 시작 공통 로직
+        const handleStart = (idx) => {
+            draggedIdx = idx;
+            tab.classList.add('dragging');
+        };
+
+        // 주변 슬롯 밀어내기 (애니메이션 로직 동기화)
+        const handleMove = (hoverIdx) => {
+            if (draggedIdx === -1 || draggedIdx === hoverIdx) {
+                document.querySelectorAll('.team-tab').forEach(el => el.style.transform = '');
+                return;
+            }
+
+            lastHoverIdx = hoverIdx;
+            const allTabs = document.querySelectorAll('.team-tab');
+
+            allTabs.forEach((el, idx) => {
+                if (idx === draggedIdx) return;
+                const moveValue = isVertical ? `translateY` : `translateX`;
+
+                if (draggedIdx < hoverIdx) {
+                    if (idx > draggedIdx && idx <= hoverIdx) el.style.transform = `${moveValue}(-${shiftDistance}px)`;
+                    else el.style.transform = '';
+                } else {
+                    if (idx < draggedIdx && idx >= hoverIdx) el.style.transform = `${moveValue}(${shiftDistance}px)`;
+                    else el.style.transform = '';
+                }
+            });
+        };
+
+        // 드래그 종료 및 데이터 Swap 실행
+        const handleEnd = () => {
+            tab.classList.remove('dragging');
+            document.querySelectorAll('.team-tab').forEach(el => {
+                el.style.transform = '';
+                el.style.pointerEvents = 'auto'; // 레이캐스트 복구
+            });
+
+            const from = draggedIdx;
+            const to = lastHoverIdx;
+
+            if (from !== -1 && to !== -1 && from !== to) {
+                executeSwap(from, to);
+            }
+
+            draggedIdx = -1;
+            lastHoverIdx = -1;
+        };
+
+        // --- PC: Drag and Drop API ---
+        tab.ondragstart = (e) => {
+            if (e.dataTransfer) {
+                e.dataTransfer.setData("text/plain", i);
+                e.dataTransfer.effectAllowed = "move";
+            }
+            handleStart(i);
+        };
+        tab.ondragover = (e) => {
+            e.preventDefault();
+            handleMove(i);
+        };
+        tab.ondrop = (e) => {
+            e.preventDefault();
+            handleEnd();
+        };
+        tab.ondragend = () => handleEnd();
+
+        // --- 모바일: Touch API ---
+        tab.ontouchstart = (e) => {
+            // e.preventDefault(); // 클릭을 막을 수 있으므로 주의해서 사용
+            handleStart(i);
+        };
+
+        tab.ontouchmove = (e) => {
+            const touch = e.touches[0];
+
+            // [중요] 내 엘리먼트가 elementFromPoint를 가리지 않도록 일시적으로 레이캐스트 제외
+            tab.style.pointerEvents = 'none';
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            tab.style.pointerEvents = 'auto';
+
+            if (target && target.classList.contains('team-tab')) {
+                const hIdx = parseInt(target.dataset.index);
+                handleMove(hIdx);
+            }
+        };
+
+        tab.ontouchend = (e) => {
+            handleEnd();
+        };
+
+        // 탭 클릭 기능
+        tab.onclick = () => {
+            currentTeamIdx = i;
+            renderAll();
+        };
+
+        container.appendChild(tab);
     });
+}
+
+function executeSwap(fromIdx, toIdx) {
+    // 인덱스 유효성 검사 보강
+    if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx || isNaN(fromIdx)) return;
+
+    const teams = allPages[currentPageIdx].teams;
+    const [draggedItem] = teams.splice(fromIdx, 1);
+    teams.splice(toIdx, 0, draggedItem);
+
+    // 인덱스 트래킹
+    if (currentTeamIdx === fromIdx) {
+        currentTeamIdx = toIdx;
+    } else if (fromIdx < currentTeamIdx && toIdx >= currentTeamIdx) {
+        currentTeamIdx--;
+    } else if (fromIdx > currentTeamIdx && toIdx <= currentTeamIdx) {
+        currentTeamIdx++;
+    }
+
+    renderAll();
+    saveAllData(true);
 }
 
 function renderMain() {
@@ -630,18 +757,55 @@ function confirmQuickSetup() {
         return;
     }
 
-    const newArr = [null, null, null, null];
-    const limit = team.supportIdx === 3 ? 3 : 4;
+    // --- [수정 시작]: 장비(명륜) 데이터 보존 로직 ---
 
-    tempChars.forEach((id, i) => { if (i < limit) newArr[i] = id; });
-    if (team.supportIdx === 3) newArr[3] = team.chars[3];
-
-    // 캐릭터 변경 시 명륜 장착 해제
+    // 1. 현재 파티에 장착된 명륜 데이터를 캐릭터 ID 기준으로 맵핑(캐싱)
+    // 식별자 기반으로 데이터를 임시 저장하여 순서 변경 시에도 대응할 수 있게 함
+    const wheelCache = {};
     for (let i = 0; i < 4; i++) {
-        if (team.chars[i] !== newArr[i]) team.wheels[i] = [null, null];
+        const charId = team.chars[i];
+        if (charId) {
+            // 해당 캐릭터가 끼고 있던 명륜 배열([null, null] 포함)을 저장
+            wheelCache[charId] = [...team.wheels[i]];
+        }
     }
 
+    // 2. 새로운 파티 배열 생성
+    const newArr = [null, null, null, null];
+    const limit = team.supportIdx === 3 ? 3 : 4;
+    tempChars.forEach((id, i) => {
+        if (i < limit) newArr[i] = id;
+    });
+
+    // 조력자 위치 유지 (3번 슬롯이 조력자인 경우)
+    if (team.supportIdx === 3) {
+        newArr[3] = team.chars[3];
+    }
+
+    // 3. 캐릭터 ID를 기준으로 명륜 재배치
+    const newWheels = [
+        [null, null], [null, null], [null, null], [null, null]
+    ];
+
+    for (let i = 0; i < 4; i++) {
+        const newCharId = newArr[i];
+        if (newCharId) {
+            if (wheelCache[newCharId]) {
+                // 이전에 파티에 있던 캐릭터라면 캐시된 장비를 그대로 가져옴
+                newWheels[i] = wheelCache[newCharId];
+            } else {
+                // 아예 새로 들어온 캐릭터라면 빈 슬롯으로 유지
+                newWheels[i] = [null, null];
+            }
+        }
+    }
+
+    // 4. 팀 데이터 최종 업데이트
     team.chars = newArr;
+    team.wheels = newWheels;
+
+    // --- [수정 완료] ---
+
     closeModal('modal-char');
     renderAll();
     saveAllData(true);
@@ -649,10 +813,32 @@ function confirmQuickSetup() {
 
 // [10] 명륜 및 은열쇠 선택 로직
 function openWheelModal(charIdx, slotIdx, e) {
-    if(!allPages[currentPageIdx].teams[currentTeamIdx].chars[charIdx]) return openSystemAlert("알림", "캐릭터를 먼저 배치하세요.");
-    editingCharIdx = charIdx; selectedWheelSlotIdx = slotIdx; if(e) e.stopPropagation();
-    activeWheelTags.clear(); document.getElementById('wheel-search-input').value = '';
-    renderWheelModalUI(); document.getElementById('modal-wheel').classList.add('show');
+    if(!allPages[currentPageIdx].teams[currentTeamIdx].chars[charIdx])
+        return openSystemAlert("알림", "캐릭터를 먼저 배치하세요.");
+
+    editingCharIdx = charIdx;
+    selectedWheelSlotIdx = slotIdx;
+
+    if(e) e.stopPropagation();
+
+    activeWheelTags.clear();
+    const input = document.getElementById('wheel-search-input');
+    if (input) {
+        input.value = '';
+        setupWheelSearchEvents(); // 검색 이벤트 바인딩 호출 추가
+    }
+
+    renderWheelModalUI();
+    document.getElementById('modal-wheel').classList.add('show');
+}
+
+function setupWheelSearchEvents() {
+    const input = document.getElementById('wheel-search-input');
+    if (!input) return;
+
+    input.oninput = () => {
+        renderWheelList(); // 입력 시마다 리스트를 다시 필터링하여 렌더링
+    };
 }
 function selectWheelSlot(idx) { selectedWheelSlotIdx = idx; renderWheelModalUI(); }
 function renderWheelModalUI() {
@@ -667,28 +853,69 @@ function renderWheelModalUI() {
     renderWheelList();
 }
 function renderWheelList() {
-    const box = document.getElementById('grid-wheel'); box.innerHTML = '';
-    const used = new Set();
-    allPages[currentPageIdx].teams.forEach(t => t.wheels.forEach(row => row.forEach(w => { if(w) used.add(w); })));
-    const currentW = allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx];
-    const search = document.getElementById('wheel-search-input').value.trim().toLowerCase();
+    const box = document.getElementById('grid-wheel');
+    if (!box) return;
+    box.innerHTML = '';
 
+    // 1. 중복 장착 확인을 위한 Set 생성 (기존 로직 유지)
+    const used = new Set();
+    allPages[currentPageIdx].teams.forEach(t =>
+        t.wheels.forEach(row =>
+            row.forEach(w => { if(w) used.add(w); })
+        )
+    );
+
+    const currentW = allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx];
+    const searchInput = document.getElementById('wheel-search-input');
+    const search = searchInput ? searchInput.value.trim().toLowerCase() : "";
+    const searchClean = search.replace(/\s+/g, ''); // 공백 제거 검색어
+
+    // 2. 필터링 로직 확장 (이름 + 설명 + 주옵션)
     DB.wheels.filter(w => {
-        if(activeWheelTags.size && !Array.from(activeWheelTags).every(t => w.tags.includes(t))) return false;
-        if(search && !w.korean_name.toLowerCase().includes(search) && !w.description.toLowerCase().includes(search)) return false;
+        // 태그 필터
+        if(activeWheelTags.size && !Array.from(activeWheelTags).every(t => (w.tags || []).includes(t))) return false;
+
+        // 검색어 필터 (주옵션인 main_stat 추가)
+        if(search) {
+            const name = (w.korean_name || "").toLowerCase();
+            const desc = (w.description || "").toLowerCase();
+            const mainStat = (w.main_stat || "").toLowerCase(); // 주옵션 필드
+
+            const matches = name.includes(search) ||
+                desc.includes(search) ||
+                mainStat.includes(search) ||
+                name.replace(/\s+/g, '').includes(searchClean) ||
+                mainStat.replace(/\s+/g, '').includes(searchClean);
+
+            if(!matches) return false;
+        }
         return true;
     }).forEach(w => {
+        // 3. 렌더링 로직 (기존 그리드 스타일 유지)
         const isSel = w.english_name === currentW;
         const isUsed = used.has(w.english_name) && !isSel;
+
         const el = document.createElement('div');
-        el.className = `grid-item grid-item-wheel ${isSel?'selected':''} ${isUsed?'disabled':''}`;
+        el.className = `grid-item grid-item-wheel ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
+
+        // 원본과 동일하게 이미지 삽입
         el.innerHTML = `<img src="${w.image_path}">`;
-        el.onmouseenter = (e) => showTooltip(w, e); el.onmouseleave = hideTooltip;
+
+        // 툴팁 이벤트
+        el.onmouseenter = (e) => showTooltip(w, e);
+        el.onmouseleave = hideTooltip;
+        el.onmousemove = moveTooltip; // 툴팁 따라다니게 추가
+
+        // 클릭 이벤트 (데이터 업데이트)
         el.onclick = () => {
             if(isUsed) return;
             allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx] = w.english_name;
-            renderWheelModalUI(); renderAll();
+            renderWheelModalUI();
+            renderAll();
+            // 데이터 변경 후 저장 (필요 시)
+            if (typeof saveAllData === 'function') saveAllData(true);
         };
+
         box.appendChild(el);
     });
 }
@@ -763,10 +990,32 @@ function unequipKey() { allPages[currentPageIdx].teams[currentTeamIdx].key = nul
 const tooltipEl = document.getElementById('global-tooltip');
 function showTooltip(item, e) {
     document.getElementById('tt-title').textContent = item.korean_name;
-    document.getElementById('tt-desc').textContent = item.description;
-    const tagsCont = document.getElementById('tt-tags'); tagsCont.innerHTML = '';
-    (item.tags || []).forEach(t => { const s = document.createElement('span'); s.className = 'tooltip-tag'; s.textContent = t; tagsCont.appendChild(s); });
-    tooltipEl.style.display = 'block'; moveTooltip(e);
+
+    // --- [수정 시작]: 주옵션 강조 표시 ---
+    const descCont = document.getElementById('tt-desc');
+    let contentHtml = "";
+
+    // 주옵션(main_stat)이 있는 경우 상단에 강조된 레이아웃 추가
+    if (item.main_stat) {
+        contentHtml += `<div class="tooltip-main-stat">주옵션: ${item.main_stat}</div>`;
+    }
+
+    // 기존 설명 추가
+    contentHtml += `<div class="tooltip-effect-desc">${item.description}</div>`;
+    descCont.innerHTML = contentHtml; // textContent 대신 innerHTML 사용
+    // --- [수정 완료] ---
+
+    const tagsCont = document.getElementById('tt-tags');
+    tagsCont.innerHTML = '';
+    (item.tags || []).forEach(t => {
+        const s = document.createElement('span');
+        s.className = 'tooltip-tag';
+        s.textContent = t;
+        tagsCont.appendChild(s);
+    });
+
+    tooltipEl.style.display = 'block';
+    moveTooltip(e);
 }
 function moveTooltip(e) {
     let x = e.clientX + 15, y = e.clientY + 15;
@@ -808,7 +1057,7 @@ function closeModal(id) {
         if (removeBtn) removeBtn.style.display = 'none';
     }
 }
-function goBackToMenu() { location.href = 'links.html'; }
+function goBackToMenu() { location.href = 'https://morimenz-kr.github.io/Morimens.Info.kr/links.html?category=weapon'; }
 
 function copyTeamToClipboard() {
     const team = allPages[currentPageIdx].teams[currentTeamIdx];
