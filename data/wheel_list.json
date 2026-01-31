@@ -460,6 +460,15 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "억지로 미간을 찌푸리다",
+    "english_name": "wheel_wasted_frown",
+    "optimized_for": ["서"],
+    "main_stat": "피해 증폭 14.4%",
+    "description": "팀 유일 : 장비자가 주는 고정 중독과 발동 중독 효과가 15/20/25/30% 증가하며, 혈육 영역에서 자동 회복되는 배아 융합이 15/20/25/30% 증가합니다. 장비자가 매 턴 처음으로 공명이 발동될 때 다른 각성체가 4/6/8/10점의 광기를 획득합니다.",
+    "image_path": "images/wheel_wasted_frown.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "환희의 마법 공연",
     "english_name": "wheel_magical_performance",
     "optimized_for": ["카시아"],
@@ -791,13 +800,13 @@
     "image_path": "images/wheel_flowers_and_poems.png"
   },
   {
+    "grade": "SR",
     "korean_name": "이성 빛나는 등불",
     "english_name": "wheel_light_of_intellect",
     "description": "팀 유일: 매 턴 첫 번째 키령을 해제한 후 100% 확률로 장비자의 '타격' 카드를 뽑습니다.",
     "main_stat": "죽음 저항",
     "image_path": "images/wheel_light_of_intellect.png",
-    "optimized_for": [],
-    "grade": "SR"
+    "optimized_for": []
   },
   {
     "grade": "SR",
@@ -894,6 +903,14 @@
     "main_stat": "크리티컬 확률 7.2%",
     "description": "팀 유일: 초차원 턴에 장비자는 '심장의 불' 3스택을 얻고, 장비자가 그 턴 명령 카드를 사용할 때 1스택을 소모하여 최종 피해와 방어막을 9/11/13/15% 증가시킨다.",
     "image_path": "images/wheel_holy_face.png"
+  },
+  {
+    "grade": "SR",
+    "korean_name": "백합의 미끼",
+    "english_name": "wheel_otori_lily",
+    "main_stat": "피해 증폭 7.2%",
+    "description": "팀 유일 : 장비자가 초래하는 고정 중독과 발동 중독 효과가 4/6/8/10% 증가합니다. 장비자가 매 턴 처음으로 '공명'을 발동할 때 4/6/8/10의 광기를 획득합니다.",
+    "image_path": "images/wheel_otori_lily.png"
   },
   {
     "grade": "R",

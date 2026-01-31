@@ -1057,7 +1057,15 @@ function closeModal(id) {
         if (removeBtn) removeBtn.style.display = 'none';
     }
 }
-function goBackToMenu() { location.href = 'https://morimenz-kr.github.io/Morimens.Info.kr/links.html?category=weapon'; }
+function goBackToMenu() {
+    // 이전 페이지가 정보 페이지(links.html)라면 히스토리 뒤로 가기 수행
+    if (document.referrer.includes('links.html')) {
+        history.back();
+    } else {
+        // 직접 접속 등 이전 기록이 없을 경우를 대비한 대체 경로 (파라미터 포함)
+        location.href = 'links.html?category=weapon';
+    }
+}
 
 function copyTeamToClipboard() {
     const team = allPages[currentPageIdx].teams[currentTeamIdx];

@@ -313,5 +313,12 @@
     "description": "'타격' 2장을 뽑습니다. 만약 '모샤'가 팀에 있다면, 그들의 산출력 소모를 -1로 줄입니다.",
     "image_path": "images/key_from_fog.png",
     "tags": ["카드 추가"]
-  }  
+  },
+  {
+    "korean_name": "심집순이의 옛이야기",
+    "english_name": "key_homegirl_story",
+    "description": "1포인트의 계산력을 얻고 모든 적의 38포인트의 힘을 임시로 감소시킵니다. \"서\"가 팀에 있을 경우 모든 적에게 1층의 '도취'를 부여합니다.\n",
+    "image_path": "images/key_homegirl_story.png",
+    "tags": ["힘 감소", "산출력 획득"]
+  }
 ]
