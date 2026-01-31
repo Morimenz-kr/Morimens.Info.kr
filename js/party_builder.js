@@ -53,11 +53,11 @@ const CHAR_TAG_MAP = {
     "드로우": ["ramona", "ramona_timeworn", "faros", "jenkin", "casiah", "ryker", "dafoodil", "hameln", "miryam"],
     "힐": ["doll_inferno", "karen", "lily", "celeste", "caecus", "doresain", "clementine", "horla", "doll", "leigh", "sorel", "faint"],
     "영구 힘 추가": ["tawil", "kathigu-ra", "helot_catena", "ramona", "nymphaea", "24", "goliath", "tulu", "miryam", "uvhash", "thais", "doresain", "pickman", "casiah", "clementine", "horla", "ogier", "lotan", "ryker", "dafoodil", "pandia", "hameln", "leigh", "agrippa", "sorel", "tinct", "faint"],
-    "힘 감소": ["ramona", "ramona_timeworn", "24", "tulu", "clementine", "horla", "wanda", "miryam"],
+    "힘 감소": ["ramona", "ramona_timeworn", "24", "tulu", "clementine", "horla", "wanda", "miryam", "xu"],
     "힘 강탈": ["faint", "pickman", "pandia", "hameln", "tinct"],
     "힘 감소 제거": ["helot"],
     "경계": ["alva", "erica", "agrippa"],
-    "중독": ["doll_inferno", "nymphaea", "karen", "lily", "24", "faros", "miryam", "thais", "dafoodil", "agrippa", "liz"],
+    "중독": ["doll_inferno", "nymphaea", "karen", "lily", "24", "faros", "miryam", "thais", "dafoodil", "agrippa", "liz", "xu"],
     "출혈": ["helot_catena", "24", "thais", "pollux", "helot"],
     "반격": ["24", "caecus", "faint", "thais", "winkle", "wanda", "nautila", "pandia"],
     "석화/기절": ["aigis", "mouchette"],
@@ -74,11 +74,12 @@ const CHAR_TAG_MAP = {
     "힘제거": ["goliath"],
     "장벽제거": ["winkle"],
     "반격제거": ["pandia"],
-    "광기제거 / 광란제거": ["clementine"],
+    "광기/광란제거": ["clementine"],
     "죽음 저항 추가": ["faint"],
     "희생": ["murphy", "Murphy_Fauxborn"],
     "부식": ["castor"],
-    "추격": ["mouchette"]
+    "추격": ["mouchette"],
+    "산출력 획득" : ["doll_inferno", "xu"]
 };
 
 const TAG_ALIASES = {
