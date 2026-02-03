@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="" />
+    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/data/resource_links.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/resource_links.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -91,6 +93,7 @@
       <workItem from="1768909068083" duration="9906000" />
       <workItem from="1769352690342" duration="711000" />
       <workItem from="1769830782868" duration="4984000" />
+      <workItem from="1770029024663" duration="297000" />
     </task>
     <servers />
   </component>
