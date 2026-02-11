@@ -5,22 +5,10 @@
       "links": 
       [
         {
-          "url": "https://arca.live/b/forgettingeve/161014513",
-          "title": "청년층이 이제 꽤 생겼을텐데 이벤트로 모아놓으면 괜찮은것",
-          "desc": "바로 영지비약 3 되시겠다아마 바로는 못느낄거고 광기의 징조 한두개씩 올리다 보면 느낄텐데존나 모자람이 스킬찍는 재화는 결국에 쳐 남기시작함어자피 모방 없어서 찍지도 못함따로 안돌고 재화 룰렛 돌리는거로 충당이 됨근",
-          "image": "https://ac-p3.namu.la/20260130sac/be56951cae629dfeb85f714c3ef4c381598898ccefea874e5b345d092811d40b.jpg?expires=1769840950&key=AbNH6-h8K7yvUQjTOHkHUw"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/154797654",
-          "title": "무한 이벤트 짧팁 재탕 ",
-          "desc": "https://arca.live/b/forgettingeve/1512048581. 성신편 룰이라 일단 풀돌케릭 빌리면 쉬우니 일단 조력 최대한 이용하는거 추천2. 뉴비기준에서는 맨 마지막 챕터 (재화 3개 주는곳)에",
-          "image": "/static/apple-icon.png?t=e1bf30f61b2b9534c5a27e707b0b299719a603ac"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/155061152",
-          "title": "이벤트 무한 상점의 효율을 알아보자",
-          "desc": "무한 상점의 효율을 비교하기 위해 비교 대상인 막간 훈련의 보상을 살펴보자각 린피 20개에 보라병 2.8개 6000금권, 2만 금권을 주는걸 알 수 있다이벤트 스테이지는 120린피에 교환재료 1800개씩을 준다그리고",
-          "image": "https://ac-p1.namu.la/20251127sac/02978488cc37326face79e2df1a4f17b75c892910c92f017d7f587b93030d5c6.png?expires=1764238295&key=f-mPgJPc3n1ThxCWkbhPVw"
+          "url": "https://arca.live/b/forgettingeve/161914557",
+          "title": "계역뽑 정리",
+          "desc": "30뽑 반천장 60뽑 천장픽뚫 한 번 났으면 다음번 ssr은 선택한 캐릭터 or 명륜이 확정연속 두번 같은거 뽑으면 다음 천장은 다른게 확정선택 명륜 -> 선택 명륜-> 선택 캐릭터(확정)선택 캐릭터-&g",
+          "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
         }
       ]
     },
@@ -558,9 +546,10 @@
         { "title": "HVGX-HLDX-QKKN", "desc": "무구의 은핵 5개", "expiry": null },
         { "title": "QKBQ-SSDG-JZYU", "desc": "무구의 은핵 5개", "expiry": null },
         { "title": "DC5000", "desc": "특별 승인 약재 5개", "expiry": null },
+        { "title": "ADMN-LHPX-RTZN,", "desc": "은심 200개", "expiry": "2026-02-24" },
+        { "title": "NJQC-BJMK-ANAS", "desc": "은심 200개", "expiry": "2026-02-24" },
         { "title": "MistSequence", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-28" },
-        { "title": "TELW-BCFF-CABT", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-02-04" },
-        { "title": "WeWillMeetAgain", "desc": "SSR 명륜 '황혼과 새벽', '순수한 은빛의 초심, '폐허로부터의 재탄생' 중 택1'", "expiry": "2026-01-26" }
+        { "title": "YouSavedMorimens", "desc": "무구의 은핵 100개", "expiry": "2026-03-09" }
       ]
     },
     
@@ -1252,6 +1241,12 @@
     "faint": [],
     "pickman": 
     [
+      {
+        "url": "https://arca.live/b/forgettingeve/161975552",
+        "title": "오레타도 이해할 수 있는 픽맨 가이드",
+        "desc": "곧 픽업이라 만듦왜 픽맨 안 함?",
+        "image": "https://ac-p1.namu.la/20260209sac/d072627f9d0740cc9430abaa0147abbe4b67d599fb671e71ac13e9a04614320e.png?expires=1770806612&key=bUBEdU9C3ynh2ewZzPNmng"
+      },
       {
         "url": "https://arca.live/b/forgettingeve/157901962",
         "title": "픽맨 운용 가이드",
