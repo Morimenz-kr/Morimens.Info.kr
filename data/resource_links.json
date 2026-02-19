@@ -23,6 +23,12 @@
       "links": 
       [
         {
+          "url": "https://arca.live/b/forgettingeve/162787459",
+          "title": "정보콘으로 보는 돌계산 뉴비들을 위한 짤막가이드",
+          "desc": "5. 다했어요 이제 뭐하나요>> 이제 스토리를 밀자>> 어려운게 궁금하다?열차 컨텐츠를 해보자 레벨보정있어서 보통을 깰만할거다>> 스토리 번역은 4장 까지 손번역이고 이후 아직 gpt",
+          "image": "https://ac-p1.namu.la/20260219sac/5b25d0c5f3907ff9a0be15f11b0b626220f61091a0af8bb7ee2c43f2a08af8c5.jpg?expires=1771506286&key=tX21gAh79WAPxyZcRt02Ow"
+        },
+        {
           "url": "https://arca.live/b/forgettingeve/161211120",
           "title": "간단하게 적는 융재금구 파티 짜는 법",
           "desc": "요새 융재 파티짜는 법 물어보는 친구들이 많아서좀 간단하게라도 적어보겠슴이게 정답도 아니고 망전자체가 자기 조합짜는재미도 있는 겜이니까 적당히 걸러서 들으셈이번 시즌 내 융재금구 조합임짤렸는데 5파도 2번깨서 총 8",
@@ -596,7 +602,7 @@
           "url": "https://arca.live/b/forgettingeve/152920653",
           "title": "순수혼돈의 자원 순환 ",
           "desc": "1. 은열 확보턴 종료 시 250 획득비밀계약턴 종료 시 증가 명륜딜링 시 증가 명륜SR - R수호자 레벨 10에 지급하는 1돌 효과(여파: 핸드에서 버렸을 때 발동)라몬나는 동조율(친밀도)에 따라 은열이 추가로 올",
-          "image": "https://ac-p3.namu.la/20251106sac/3871f3ba1fb9d025bbcfddf91541663e1f09e286ceee6a7211ab25696d717f78.png?expires=1764043688&key=SyRSrP-c-uEQtofMD3kxRw"
+          "image": "https://ac-p3.namu.la/20251106sac/3871f3ba1fb9d0sorel25bbcfddf91541663e1f09e286ceee6a7211ab25696d717f78.png?expires=1764043688&key=SyRSrP-c-uEQtofMD3kxRw"
         },
         {
           "url": "https://arca.live/b/forgettingeve/132015880",
@@ -1248,7 +1254,15 @@
         "image": "https://ac-p1.namu.la/20260104sac/973ebf49c230e6636ffa90802710b09fb37afd4b2c7fb5ca014727b2ef0d63bb.png?expires=1767522584&key=0zeNwOKonsb3UKp4rwPNcA"
       }
     ],
-    "sorel": [],
+    "sorel": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/162756853",
+        "title": "소렐 캐릭터 정보",
+        "desc": "안녕 안녕 소렐에 대해 알아보자내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함혈육접대시즌이나 로마 최후의 전사 유우하시",
+        "image": "https://ac-p1.namu.la/20260218sac/730fb4c6c442c8c7415368fcaa34d7b77b7f4cdd06588aee6328ac5f6bdde258.png?expires=1771506140&key=M1IouVynICvispYBKjBtVw"
+      }
+    ],
     "agrippa": [],
     "aigis": [],
     "uvhash": [],
