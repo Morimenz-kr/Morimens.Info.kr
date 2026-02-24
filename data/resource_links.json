@@ -3,7 +3,13 @@
     "event": {
       "title": "🎉 진행 중인 이벤트 정보",
       "links": 
-      [
+      [ 
+        {
+          "url": "https://arca.live/b/forgettingeve/163172807",
+          "title": "이벤트 효율계산",
+          "desc": "이 겜은 스테미나 개념인 린피를 2곳에서 태울 수 있다하나는 막간훈련 다른 하나는 이벤트 스테이지다막간훈련은 린피 20으로 정해진 보상을, 이벤트 스테이지는 린피 120으로 정해진 보상을 얻을 수 있는데 뉴비들은 막",
+          "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/162827668",
           "title": "(중요) 열차 광기 난이도로 동조율 쌀먹하기❗❗❗",
@@ -932,6 +938,12 @@
     "mouchette": 
     [
       {
+        "url": "https://arca.live/b/forgettingeve/163220692",
+        "title": "모샤 뉴메타(미완성) + 영상추가",
+        "desc": "4파는 명륜 좀 바뀜 그냥 다른캐릭 죽저명륜 ssr로 바꿨음 그게 다임영상을 새로 찍다보니 엘바로 바꿔서 진행해봤는데오지르랑 별 차이도 없다폭풍강타를 ㅈㄴ게 많이쓰기때문에다음턴에 죽저가 없어도 초한이 켜져서 확정킬이",
+        "image": "https://ac-p1.namu.la/20260224sac/3736f32cec134d993c1b0240741377df4190e2831899b455334c905b1483eca4.jpg?expires=1771977757&key=_J_RJxAYUuB0n5UWuiWBPA"
+      },
+      {
         "url": "https://arca.live/b/forgettingeve/162928081",
         "title": "모샤덱 타이스,라모나등 산출력 요원 빼버리기",
         "desc": "'실력'으로 죽저를 한턴에 여러번 띄우면 산출력이 만땅이 된다융재3파기준 뒤는 어자피 생각할 필요 없지죽저 터진 턴에 죽일거니까",
@@ -1255,6 +1267,12 @@
     ],
     "doresain": 
     [
+      {
+        "url": "https://arca.live/b/forgettingeve/163189191",
+        "title": "도어세인 운용 가이드",
+        "desc": "ㅎㅇ오늘은 혈육과 즐거운 시간 보내고 있길 바란다오늘의 주제는 도어세인 운용법임시작에 앞서 작성자는 도어세인이 초한임을 밝힘일단 소개부터 하자면 도어세인은 전형적인 약자멸시형 캐릭이며 광폭으로 딜하는 광폭딜러임힘계수",
+        "image": "https://ac-p1.namu.la/20260223sac/4a03a48d3d0fbc6bd40cfaa876d30e119a2f5dfb6824c621d53ab79eb15e099c.png?expires=1771977698&key=taKxjIGdoiHSIQGNhUPFFg"
+      },
       {
         "url": "https://arca.live/b/forgettingeve/159813008",
         "title": "도어세인 가이드 하나 링크",
