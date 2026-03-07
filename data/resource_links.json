@@ -576,7 +576,8 @@
         { "title": "HVGX-HLDX-QKKN", "desc": "무구의 은핵 5개", "expiry": null },
         { "title": "QKBQ-SSDG-JZYU", "desc": "무구의 은핵 5개", "expiry": null },
         { "title": "DC5000", "desc": "특별 승인 약재 5개", "expiry": null },
-        { "title": "QNFA-JHCW-JMVH,", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-03-14" },
+        { "title": "QNFA-JHCW-JMVH", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-03-14" },
+        { "title": "SlaytheSpire2", "desc": "광휘의 은핵 5개", "expiry": "2026-03-22" },
         { "title": "MistSequence", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-28" },
         { "title": "YouSavedMorimens", "desc": "무구의 은핵 100개", "expiry": "2026-03-09" }
       ]
@@ -586,12 +587,6 @@
       "title": "🎭 계역별 정보",
       "links": 
       [
-        {
-          "url": "https://arca.live/b/forgettingeve/158125313",
-          "title": "대충 적는 심해 캐릭터 리뷰",
-          "desc": "ㅎㅇ약 1년 계역뽑으로 심해만 굴리다 최근에 혈육으로 넘어간 레무리아 백성임뉴비에게 계역뽑으로 심해가 잘 추천되는데, 정작 다 써본 사람은 본 적이 없는 것 같아 그동안 온리 심해만 굴려본 소감&짧팁을 적어본",
-          "image": "https://ac-p1.namu.la/20251229sac/2c0e2a5a20f00071c1f4fa43047b265f5526383e1e11b6c143a066e95dbdf44d.jpg?expires=1767357778&key=hFSftFTWD3Pkq5NfECM_qQ"
-        },
         {
           "url": "https://arca.live/b/forgettingeve/158125313",
           "title": "대충 적는 심해 캐릭터 리뷰",
