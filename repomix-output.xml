@@ -32,7 +32,7 @@ The content is organized as follows:
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Only files matching these patterns are included: data/**, js/**, css/**, config/**
+- Only files matching these patterns are included: **/*.{js,json,css,html}
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -60,9 +60,14 @@ data/patch_notes.json
 data/resource_links.json
 data/silverkey_list.json
 data/wheel_list.json
+detail.html
+index.html
 js/detail.js
 js/index.js
 js/party_builder.js
+links.html
+list.html
+party_builder.html
 </directory_structure>
 
 <files>
@@ -4464,6 +4469,205 @@ footer {
 ]
 </file>
 
+<file path="detail.html">
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캐릭터 상세</title>
+
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/detail.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+
+<body>
+<div class="container">
+
+    <a href="list.html" class="back-button">&larr; 목록으로 돌아가기</a>
+
+    <div class="detail-layout">
+
+        <div class="char-profile">
+            <img id="char-image" src="https://via.placeholder.com/400x600?text=Loading..." alt="캐릭터 일러스트">
+            <h2 id="char-name">...</h2>
+            <div class="tags" id="char-tags"></div>
+            <div class="lore">
+                <h4>배경 스토리</h4>
+                <p id="char-lore">...</p>
+            </div>
+            <h4>기본 스탯 (Lv.1)</h4>
+            <div id="stats-table-container"></div>
+        </div>
+
+        <div class="char-data">
+
+            <div class="data-tabs" id="data-tabs">
+                <button class="tab-link active" data-tab="tab-skills">스킬</button>
+                <button class="tab-link" data-tab="tab-covenant">비밀계약</button>
+                <button class="tab-link" data-tab="tab-myeongryun">명륜</button>
+                <button class="tab-link" data-tab="tab-team">조합</button>
+                <button class="tab-link" data-tab="tab-growth">영지 계발/특성</button>
+            </div>
+
+            <div class="tab-content active" id="tab-skills"></div>
+            <div class="tab-content" id="tab-covenant"></div>
+            <div class="tab-content" id="tab-myeongryun"></div>
+            <div class="tab-content team-grid" id="tab-team"></div>
+            <div class="tab-content" id="tab-growth">
+                <h4>영지 계발 (돌파)</h4>
+                <div id="breakthrough-content"></div>
+                <hr style="border-color: #555; margin: 25px 0;">
+                <h4>특성</h4>
+                <div id="talents-content"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="derived-modal">
+    <div class="modal-content">
+        <h3>파생 카드</h3>
+        <div class="derived-carousel-container">
+            <button class="modal-carousel-arrow left" id="modal-prev">&lt;</button>
+            <div class="derived-card-slide" id="modal-skill-slide">
+            </div>
+            <button class="modal-carousel-arrow right" id="modal-next">&gt;</button>
+        </div>
+    </div>
+</div>
+
+<script src="js/detail.js"></script>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                    </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 스킬 설명 오타', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        const sourceUrlInput = document.getElementById('report-source-url');
+        const modalStatus = document.getElementById('modal-form-status');
+        if (modalStatus) {
+            modalStatus.style.display = 'none';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+        if (sourceUrlInput) { sourceUrlInput.value = window.location.href; }
+        modal.classList.add('show');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal) {
+            reportModal.addEventListener('click', (e) => {
+                if (e.target === reportModal) reportModal.classList.remove('show');
+            });
+        }
+    });
+
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '전송 중...';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+</script>
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
+    🚨
+</button>
+</body>
+</html>
+</file>
+
 <file path="css/party_builder.css">
 /* css/party_builder.css */
 
@@ -5282,6 +5486,991 @@ body {
         border-color: #777;
     }
 }
+</file>
+
+<file path="list.html">
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>각성체 목록</title>
+
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/list.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+
+<body>
+<div class="container">
+
+    <div class="header-area">
+        <a href="index.html" class="back-link">⬅ 돌아가기</a>
+        <h1>각성체 목록</h1>
+    </div>
+
+    <div class="controls-container">
+        <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색...">
+        <div class="filter-container">
+            <select id="relems-filter">
+                <option value="all">계역 (전체)</option>
+                <option value="chaos">혼돈</option>
+                <option value="aequor">심해</option>
+                <option value="caro">혈육</option>
+                <option value="ultra">초차원</option>
+            </select>
+            <select id="grade-filter">
+                <option value="all">등급 (전체)</option>
+                <option value="ssr">SSR</option>
+                <option value="sr">SR</option>
+            </select>
+            <select id="class-filter">
+                <option value="all">클래스 (전체)</option>
+                <option value="assault">공격</option>
+                <option value="warden">방어</option>
+                <option value="chorus">보조</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="character-grid" id="character-grid">
+    </div>
+</div>
+
+<script src="js/index.js"></script>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                    </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 스킬 설명 오타', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    // 1. 모달 열기 함수
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        const sourceUrlInput = document.getElementById('report-source-url');
+        const modalStatus = document.getElementById('modal-form-status');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'none';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        if (sourceUrlInput) {
+            sourceUrlInput.value = window.location.href;
+        }
+
+        modal.classList.add('show');
+    }
+
+    // 2. 모달 닫기 이벤트
+    document.addEventListener('DOMContentLoaded', () => {
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal) {
+            reportModal.addEventListener('click', (e) => {
+                if (e.target === reportModal) {
+                    reportModal.classList.remove('show');
+                }
+            });
+        }
+    });
+
+    // 3. 디스코드 전송 로직
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '전송 중...';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+</script>
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
+    🚨
+</button>
+</body>
+</html>
+</file>
+
+<file path="links.html">
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정보 모음</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://morimenz-kr.github.io/Morimens.Info.kr/">
+    <meta property="og:title" content="미사그 대학 한국 캠퍼스">
+    <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 미사그 대학의 모든 정보를 한눈에 확인하세요.">
+    <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
+
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/links.css');
+        loadCSS('css/responsive.css');
+    </script>
+    <style>
+        /* 추가된 버튼의 스타일 */
+        .party-link-btn {
+            display: block;
+            width: 100%;
+            padding: 15px 10px;
+            margin: 15px 0 25px 0;
+            background-color: #f7a115; /* 강조 색상 */
+            color: #1a1a1a;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s;
+        }
+        .party-link-btn:hover {
+            background-color: #e59400;
+        }
+        .party-credit-text {
+            display: block;
+            font-size: 0.8em;
+            color: #aaa;
+            text-align: center;
+            margin-top: 10px;
+            padding-bottom: 20px;
+        }
+        /* 기존 .report-btn 스타일 */
+        .report-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            background-color: #333;
+            color: #ccc;
+            text-align: center;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #555;
+            cursor: pointer;
+            font-size: 0.95em;
+            margin-top: 10px;
+        }
+        .report-btn:hover {
+            background-color: #444;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container" style="position: relative; z-index: 2;">
+    <a href="javascript:history.back()" class="back-link">⬅ 뒤로가기</a>
+
+    <div class="link-container">
+        <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
+
+        <div id="party-link-slot"></div>
+        <div id="links-list"></div>
+
+        <div class="report-section">
+            <p>혹시 연결되지 않는 링크가 있나요?</p>
+            <button id="open-report-modal" class="report-btn">
+                🚨 버그/피드백 제보하기
+            </button>
+            <span id="party-credit-slot" class="party-credit-text" style="display:none;">
+                '융재 금구 파티 편성' 기능은 망각전야 채널의 '플린의 조수'님이 제작하신 사이트로 연결됩니다.
+            </span>
+        </div>
+    </div>
+</div>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                    </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    // --- 기능 로직 ---
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        const sourceUrlInput = document.getElementById('report-source-url');
+        const modalStatus = document.getElementById('modal-form-status');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'none';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+        if (sourceUrlInput) { sourceUrlInput.value = window.location.href; }
+        modal.classList.add('show');
+    }
+
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '전송 중...';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+
+    // 🚩 전역 복사 함수
+    function copyCodeToClipboard(text, element) {
+        if (!navigator.clipboard) {
+            alert("⚠️ 이 브라우저는 클립보드 복사를 지원하지 않습니다.");
+            return;
+        }
+        navigator.clipboard.writeText(text).then(() => {
+            element.classList.add('copied');
+            const originalText = element.innerHTML;
+            element.innerHTML = '✅ 복사 완료!';
+            setTimeout(() => {
+                element.classList.remove('copied');
+                element.innerHTML = originalText;
+            }, 800);
+        }).catch(err => {
+            console.error('클립보드 복사 실패:', err);
+            alert('복사 실패! 콘솔을 확인해주세요.');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const charId = urlParams.get('id');
+        const titleEl = document.getElementById('page-title');
+        const listEl = document.getElementById('links-list');
+
+        const modal = document.getElementById('report-modal');
+        const openModalBtn = document.getElementById('open-report-modal');
+
+        if (openModalBtn) {
+            openModalBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openReportModal();
+            });
+        }
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('show');
+            });
+        }
+
+        // 1. 카테고리별 클래스 추가
+        if (category) {
+            document.body.classList.add(`category-${category}`);
+
+            // =======================================================
+            // ⭐ 사용자 요청: '융재금구' 페이지일 때 파티 찾기 버튼 삽입 로직
+            if (category === 'weapon') {
+                const partySlot = document.getElementById('party-link-slot');
+                const partyCredit = document.getElementById('party-credit-slot');
+
+                // 내부 시뮬레이터 버튼 (신규) + 외부 링크 버튼 (기존)
+                const partyButtonHTML = `
+                    <a href="party_builder.html" class="party-link-btn" style="background-color: #3498db; color: #fff; margin-bottom: 10px;">
+                        🛠️ 융재 금구 파티 시뮬레이터 실행 (Beta)
+                    </a>
+                `;
+                partySlot.innerHTML = partyButtonHTML;
+
+                partyCredit.style.display = 'block';
+            }
+            // =======================================================
+        }
+
+        try {
+            const ts = new Date().getTime();
+            const [manifestRes, linksRes] = await Promise.all([
+                fetch(`data/character_manifest.json?t=${ts}`),
+                fetch(`data/resource_links.json?t=${ts}`)
+            ]);
+
+            if (!manifestRes.ok || !linksRes.ok) throw new Error("JSON 파일 로드 실패");
+
+            const manifest = await manifestRes.json();
+            const linksDB = await linksRes.json();
+            let targetItems = [];
+            let pageTitleHTML = "";
+
+            // 2. 데이터 로드 분기 처리
+            if (category === 'character' && charId) {
+                const charData = manifest.find(c => String(c.id) === String(charId));
+                if (charData) {
+                    pageTitleHTML = `<img src="${charData.image_thumb}" class="title-thumb" alt=""> ${charData.name} 공략 모음`;
+                    targetItems = linksDB.characters[charId] || [];
+                } else {
+                    pageTitleHTML = "알 수 없는 캐릭터";
+                }
+            } else if (category && linksDB.categories[category]) {
+                pageTitleHTML = linksDB.categories[category].title;
+                targetItems = linksDB.categories[category].links || [];
+            } else {
+                pageTitleHTML = "존재하지 않는 페이지";
+                targetItems = [];
+            }
+
+            titleEl.innerHTML = pageTitleHTML;
+            listEl.innerHTML = '';
+
+            if (targetItems.length === 0) {
+                listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
+            }
+
+            // 3. 렌더링 분기
+            if (category === 'code') {
+                renderCodeLinks(targetItems, listEl);
+            } else {
+                targetItems.forEach(item => {
+                    if (typeof item === 'string') {
+                        createLinkCardFromAPI(item, listEl);
+                    } else {
+                        createLinkCardInstant(item, listEl);
+                    }
+                });
+            }
+
+        } catch (error) {
+            console.error(error);
+            titleEl.textContent = "오류 발생";
+            listEl.innerHTML = `<p style="text-align:center;">데이터를 불러오지 못했습니다.<br><small>${error.message}</small></p>`;
+        }
+    });
+
+    // --- 유틸리티 함수 ---
+    function getProxyImage(url) {
+        if (!url) return 'images/smile_Ramona.webp';
+        url = url.trim();
+        if (url.startsWith('//')) { url = 'https:' + url; }
+        if (url.includes('namu.la') || url.includes('arca.live') || url.includes('dcinside')) {
+            return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=400&output=webp&n=-1`;
+        }
+        return url;
+    }
+
+    function renderCodeLinks(items, container) {
+        container.innerHTML = ''; // 초기화
+
+        // 1. 데이터 분류
+        const permanent = items.filter(item => !item.expiry);
+        const temporary = items.filter(item => item.expiry && new Date(item.expiry) >= new Date().setHours(0,0,0,0));
+
+        // D-Day 계산 함수
+        const getDDay = (dateStr) => {
+            const diff = new Date(dateStr) - new Date();
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            return days === 0 ? "오늘 만료" : `${days}일 남음`;
+        };
+
+        // 카드 생성 도우미
+        const createCard = (item, isTemp) => `
+        <div class="code-card">
+            <div class="code-details">
+                <span class="code-title">${item.title}</span>
+                <span class="code-reward">${item.desc || '보상 정보 없음'}</span>
+                ${isTemp ? `<div class="code-timer">⏳ ${getDDay(item.expiry)}</div>` : ''}
+            </div>
+            <button class="code-copy-btn" onclick="copyCodeToClipboard('${item.title}', this)">복사</button>
+        </div>
+    `;
+
+        // 2. 기간 한정 코드 렌더링
+        if (temporary.length > 0) {
+            container.insertAdjacentHTML('beforeend', '<div class="section-label">📅 기간 한정 코드</div>');
+            const tempGroup = document.createElement('div');
+            tempGroup.className = 'code-card-container';
+            temporary.forEach(item => tempGroup.insertAdjacentHTML('beforeend', createCard(item, true)));
+            container.appendChild(tempGroup);
+        }
+
+        // 3. 상시 코드 렌더링
+        if (permanent.length > 0) {
+            container.insertAdjacentHTML('beforeend', '<div class="section-label">♾️ 상시 코드</div>');
+            const permGroup = document.createElement('div');
+            permGroup.className = 'code-card-container';
+            permanent.forEach(item => permGroup.insertAdjacentHTML('beforeend', createCard(item, false)));
+            container.appendChild(permGroup);
+        }
+    }
+
+    function createLinkCardInstant(data, container) {
+        try {
+            let domain = 'link';
+            try { if(data.url) domain = new URL(data.url).hostname; } catch(e) {}
+            const safeImage = getProxyImage(data.image);
+
+            const html = `
+                <a href="${data.url}" target="_blank" class="notion-bookmark">
+                    <div class="bookmark-content">
+                        <div>
+                            <div class="bookmark-title">${data.title || '제목 없음'}</div>
+                            <div class="bookmark-desc">${data.desc || ''}</div>
+                        </div>
+                        <div class="bookmark-url">
+                            <img src="https://www.google.com/s2/favicons?domain=${domain}" width="14" height="14" style="margin-right:4px; vertical-align:middle;">
+                            ${domain}
+                        </div>
+                    </div>
+                    <div class="bookmark-image">
+                        <img src="${safeImage}" alt="썸네일" loading="lazy" 
+                             onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
+                    </div>
+                </a>`;
+            container.insertAdjacentHTML('beforeend', html);
+        } catch (e) { console.error("카드 생성 에러:", e); }
+    }
+
+    async function createLinkCardFromAPI(url, container) {
+        const cardWrap = document.createElement('div');
+        cardWrap.className = 'skeleton skeleton-card';
+        cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
+        container.appendChild(cardWrap);
+        try {
+            const apiUrl = `https://api.microlink.io?url=${encodeURIComponent(url)}`;
+            const res = await fetch(apiUrl);
+            const json = await res.json();
+
+            if (json.status === 'success') {
+                const data = json.data;
+                const safeImage = getProxyImage(data.image?.url);
+
+                cardWrap.className = 'notion-bookmark';
+                cardWrap.innerHTML = '';
+
+                const linkEl = document.createElement('a');
+                linkEl.href = url;
+                linkEl.target = "_blank";
+                linkEl.className = "notion-bookmark";
+                linkEl.style.width = "100%";
+
+                linkEl.innerHTML = `
+                    <div class="bookmark-content">
+                        <div>
+                            <div class="bookmark-title">${data.title || url}</div>
+                            <div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div>
+                        </div>
+                        <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
+                    </div>
+                    <div class="bookmark-image">
+                        <img src="${safeImage}" alt="썸네일" loading="lazy" onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
+                    </div>`;
+
+                container.replaceChild(linkEl, cardWrap);
+            } else { throw new Error("API Fail"); }
+        } catch (e) {
+            cardWrap.className = 'notion-bookmark';
+            cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:15px; color:#fff; text-decoration:none; width:100%; display:block;"><div style="font-weight:bold; margin-bottom:5px; word-break:break-all;">${url}</div><div style="font-size:0.8em; color:#aaa;">(미리보기 로드 실패)</div></a>`;
+        }
+    }
+</script>
+
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
+    🚨
+</button>
+</body>
+</html>
+</file>
+
+<file path="party_builder.html">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/party_builder.css');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>융재금지구역 파티 시뮬레이터</title>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+</head>
+<body>
+
+<div class="builder-container">
+    <div class="sidebar" id="sidebar-tabs"></div>
+
+    <div class="main-area">
+        <div class="top-navigation-bar">
+            <div class="back-btn-wrapper">
+                <a href="javascript:void(0);" onclick="goBackToMenu()" class="back-btn">⬅ 융재 금구 메뉴로 돌아가기</a>
+            </div>
+
+            <div class="page-control-bar">
+                <div id="page-tabs" class="page-tabs"></div>
+                <button class="add-page-btn" onclick="addNewPage()" title="새 세트 추가">+</button>
+            </div>
+        </div>
+
+        <div class="header-wrapper">
+            <div class="header-left">
+                <h2 id="team-title-text">TEAM I</h2>
+                <svg class="edit-icon" onclick="editTeamName()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" />
+                </svg>
+                <div id="team-domain-container" class="header-domain-wrap"></div>
+            </div>
+            <div class="header-right" style="display: flex; gap: 8px;">
+                <button class="btn btn-blue btn-sm" onclick="copyTeamToClipboard()">팀 복사</button>
+                <button class="btn btn-blue btn-sm" onclick="pasteTeamFromClipboard()">팀 붙여넣기</button>
+                <button class="btn btn-red btn-sm" onclick="resetCurrentTeam()">팀 초기화</button>
+            </div>
+        </div>
+
+        <div class="content-row">
+            <div class="slots-container" id="team-slots"></div>
+        </div>
+
+        <div class="bottom-section">
+            <div class="silverkey-box" onclick="openKeyModal()">
+                <div class="key-circle" id="key-icon">+</div>
+                <div class="key-info">
+                    <div>은열쇠</div>
+                    <div id="key-name">장착 안 함</div>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-blue" onclick="openQuickSetup()">빠른 편성</button>
+                <button class="btn btn-yellow" onclick="saveAllData()">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-char" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>배치할 각성체 선택 (최대 4명)</h3>
+            <button class="close-btn" onclick="closeModal('modal-char')">&times;</button>
+        </div>
+        <div class="char-search-section">
+            <div class="search-container">
+                <div class="search-input-box">
+                    <div class="search-input-wrapper">
+                        <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <input type="text" id="char-search-input" placeholder="이름 또는 특성 검색 (예: 죽저, 크리티컬)..." autocomplete="off">
+                    </div>
+                    <div id="char-search-suggestions" class="suggestions-dropdown"></div>
+                </div>
+            </div>
+            <div class="char-filter-container">
+                <div class="filter-group">
+                    <span class="filter-label">영역:</span>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'chaos')">혼돈</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'aequor')">심해</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'caro')">혈육</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'ultra')">초차원</div>
+                </div>
+                <div class="filter-group" style="border-left:1px solid #444; padding-left:20px;">
+                    <span class="filter-label">역할:</span>
+                    <div class="filter-chip" onclick="toggleCharFilter('class', 'assault')">공격형</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('class', 'warden')">방어형</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('class', 'chorus')">보조형</div>
+                </div>
+            </div>
+            <div id="active-char-search-tags" class="active-tags-list"></div>
+        </div>
+        <div class="modal-grid" id="grid-char"></div>
+        <div class="modal-footer">
+            <span id="char-count" style="color:#aaa; margin-right:15px; font-size:0.9em;">0 / 4 선택됨</span>
+            <div style="display: inline-flex; gap: 10px;">
+                <button id="btn-remove-support" class="btn btn-red" onclick="removeSupport()" style="display: none;">조력자 해제</button>
+                <button class="btn btn-yellow" onclick="confirmQuickSetup()">배치 확정</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-wheel" class="modal-overlay">
+    <div class="modal-box-wide">
+        <div class="wheel-list-wrapper">
+            <div class="search-container">
+                <input type="text" id="wheel-search-input" placeholder="명륜 검색..." autocomplete="off">
+                <div id="active-tags-area" class="active-tags-list"></div>
+            </div>
+            <div class="wheel-list-panel" id="grid-wheel"></div>
+        </div>
+        <div class="wheel-equip-panel">
+            <h3 style="color:#eee; margin-bottom:20px;">장착 슬롯 선택</h3>
+            <div class="wheel-equip-slots">
+                <div class="large-slot" id="equip-slot-0" onclick="selectWheelSlot(0)"><div class="slot-placeholder">+</div></div>
+                <div class="large-slot" id="equip-slot-1" onclick="selectWheelSlot(1)"><div class="slot-placeholder">+</div></div>
+            </div>
+            <div class="equip-info-text" id="equip-slot-desc" style="color:#777; margin-bottom:20px; text-align:center; min-height:40px;">슬롯을 선택하세요.</div>
+            <button class="btn btn-red" onclick="unequipSelectedWheel()">해제</button>
+            <button class="btn btn-blue" onclick="closeModal('modal-wheel')" style="margin-top:15px; width: 100px;">닫기</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-key" class="modal-overlay">
+    <div class="modal-box" style="max-width:600px; height:80vh;">
+        <div class="modal-header">
+            <h3>은열쇠 선택</h3>
+            <button class="close-btn" onclick="closeModal('modal-key')">&times;</button>
+        </div>
+
+        <div class="search-container">
+            <div class="search-input-box">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="text" id="key-search-input" placeholder="태그 또는 이름 검색..." autocomplete="off">
+                </div>
+            </div>
+            <div id="active-key-tags-area" class="active-tags-list"></div>
+        </div>
+
+        <div class="modal-grid" id="grid-key"></div>
+        <div class="modal-footer">
+            <button class="btn btn-red" onclick="unequipKey()" style="margin-right:10px;">해제</button>
+            <button class="btn btn-blue" onclick="closeModal('modal-key')">닫기</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-system" class="modal-overlay">
+    <div class="modal-box" style="max-width: 450px; height: auto; min-height: 200px; border-color: #777;">
+        <div class="modal-header">
+            <h3 id="sys-modal-title" style="color: var(--highlight);">알림</h3>
+            <button class="close-btn" onclick="closeModal('modal-system')">&times;</button>
+        </div>
+        <div id="sys-modal-msg" style="padding: 30px 30px 10px 30px; text-align: center; color: #e0e0e0; font-size: 1.1em; line-height: 1.5; white-space: pre-line;">내용</div>
+
+        <div id="sys-input-wrapper" style="padding: 0 40px 20px 40px; display: none;">
+            <input type="text" id="sys-modal-input" class="form-input"
+                   style="width: 100%; text-align: center; background:#333; border:1px solid #555; color:#fff; padding:10px; border-radius:4px;">
+            <div id="sys-modal-char-count" style="text-align: right; color: #888; font-size: 0.8em; margin-top: 5px;">0 / 15</div>
+        </div>
+
+        <div class="modal-footer" style="justify-content: center; gap: 15px; padding-bottom: 25px;">
+            <button id="sys-btn-yes" class="btn btn-yellow" style="min-width: 80px;">확인</button>
+            <button id="sys-btn-no" class="btn btn-red" style="min-width: 80px; display: none;">취소</button>
+        </div>
+    </div>
+</div>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input" placeholder="패치노트에 언급을 원하시면 적어주세요.">
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!</span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required placeholder="내용을 입력해주세요."></textarea>
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<div id="global-tooltip" class="item-tooltip">
+    <div class="tooltip-title" id="tt-title"></div>
+    <div class="tooltip-desc" id="tt-desc"></div>
+    <div class="tooltip-tags" id="tt-tags"></div>
+</div>
+
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">🚨</button>
+
+<script>
+    loadJS('js/party_builder.js');
+</script>
+</body>
+</html>
+</file>
+
+<file path="data/patch_notes.json">
+[
+  {
+    "version": "v1.3.7",
+    "date": "2026-01-31",
+    "changes": [
+      "융재 금구 시뮬레이터 - 머피 이미지 수정",
+      "서 추가"
+    ]
+  },
+  {
+    "version": "v1.3.6",
+    "date": "2026-01-20",
+    "changes": [
+      "파티 위치 변경 기능 추가",
+      "파티 멤버를 변경할 시 다른 멤버가 장착중인 명륜이 해제되는 버그 수정",
+      "명륜의 주옵션이 보다 잘 보이도록 수정",
+      "명륜 검색 로직 변경",
+      "융재 금구 메뉴로 돌아가기 버튼의 링크 연결 버그 수정"
+    ]
+  },
+  {
+    "version": "v1.3.5",
+    "date": "2026-01-10",
+    "changes": [
+      "세트 기능 추가"
+    ]
+  },
+  {
+  "version": "v1.3.4",
+  "date": "2026-01-07",
+  "changes": [
+    "각성체 검색 로직 업데이트"
+  ]
+},
+  {
+    "version": "v1.3.3",
+    "date": "2026-01-06",
+    "changes": [
+      "명륜 검색 로직 업데이트  ",
+      "교환 코드 UI 수정"
+      ]
+  },
+  {
+    "version": "v1.3.2",
+    "date": "2026-01-02",
+    "changes": [
+      "융재금구 시뮬레이터 - 조력 기능 추가",
+      "모샤 관련 내용 추가"
+    ]
+  },
+  {
+    "version": "v1.3.1",
+    "date": "2025-12-21",
+    "changes": [
+      "버그 수정",
+      "후원 링크 개선"
+    ]
+  },
+  {
+    "version": "v1.3.0",
+    "date": "2025-12-15",
+    "changes": [
+      "융재 금구 파티 편성 시뮬레이터 기능 추가"
+    ]
+  },
+  {
+    "version": "v1.2.1",
+    "date": "2025-12-03",
+    "changes": [
+      "'이벤트 관련 정보', '이번주 융재 금구 팁' 추가"
+    ]
+  },
+  {
+    "version": "v1.2.0",
+    "date": "2025-11-29",
+    "changes": [
+      "타이틀 변경 (망각전야 (Morimens) → 미사그 대학 한국 캠퍼스)",
+      "링크 카드 UI 개선",
+      "플로팅 신고 버튼 추가",
+      "후원 기능 추가",
+      "코드 구조 개편"
+    ]
+  },
+  {
+    "version": "v1.0.4",
+    "date": "2025-11-26",
+    "changes": [
+      "계역별 팁, 은열쇠 정보, 페이즈 체스 카테고리 추가",
+      "링크 카드 썸네일 비율 조정",
+      "뒤로 가기 버튼 UI 수정"
+    ]
+  },
+  {
+    "version": "v1.0.3",
+    "date": "2025-11-26",
+    "changes": [
+      "모바일 환경에서 스크롤 하면 배경이 움직이던 버그 수정",
+      "배너 수정 및 UI 개선 (공식 유튜브, 디스코드로 연결)",
+      "PC/모바일 레이아웃 여백 동기화",
+      "404 경로 문제 해결 및 안정성 강화"
+    ]
+  },
+  {
+    "version": "v1.0.2",
+    "date": "2025-11-256",
+    "changes": [
+      "★채널 공지에 올라감★",
+      "교환 코드 페이지 UI 개편 (클릭 시 자동 복사 기능 추가)",
+      "제보하기 텍스트 수정",
+      "모바일 환경 가독성 개선 및 다크 모드로 배경 통일"
+    ]
+  },
+  {
+    "version": "v1.0.1",
+    "date": "2025-11-25",
+    "changes": [
+      "사이트 오픈 및 기본 가이드 데이터 구축"
+    ]
+  }
+]
 </file>
 
 <file path="js/party_builder.js">
@@ -6472,127 +7661,402 @@ function openReportModal() {
 }
 </file>
 
-<file path="data/patch_notes.json">
-[
-  {
-    "version": "v1.3.7",
-    "date": "2026-01-31",
-    "changes": [
-      "융재 금구 시뮬레이터 - 머피 이미지 수정",
-      "서 추가"
-    ]
-  },
-  {
-    "version": "v1.3.6",
-    "date": "2026-01-20",
-    "changes": [
-      "파티 위치 변경 기능 추가",
-      "파티 멤버를 변경할 시 다른 멤버가 장착중인 명륜이 해제되는 버그 수정",
-      "명륜의 주옵션이 보다 잘 보이도록 수정",
-      "명륜 검색 로직 변경",
-      "융재 금구 메뉴로 돌아가기 버튼의 링크 연결 버그 수정"
-    ]
-  },
-  {
-    "version": "v1.3.5",
-    "date": "2026-01-10",
-    "changes": [
-      "세트 기능 추가"
-    ]
-  },
-  {
-  "version": "v1.3.4",
-  "date": "2026-01-07",
-  "changes": [
-    "각성체 검색 로직 업데이트"
-  ]
-},
-  {
-    "version": "v1.3.3",
-    "date": "2026-01-06",
-    "changes": [
-      "명륜 검색 로직 업데이트  ",
-      "교환 코드 UI 수정"
-      ]
-  },
-  {
-    "version": "v1.3.2",
-    "date": "2026-01-02",
-    "changes": [
-      "융재금구 시뮬레이터 - 조력 기능 추가",
-      "모샤 관련 내용 추가"
-    ]
-  },
-  {
-    "version": "v1.3.1",
-    "date": "2025-12-21",
-    "changes": [
-      "버그 수정",
-      "후원 링크 개선"
-    ]
-  },
-  {
-    "version": "v1.3.0",
-    "date": "2025-12-15",
-    "changes": [
-      "융재 금구 파티 편성 시뮬레이터 기능 추가"
-    ]
-  },
-  {
-    "version": "v1.2.1",
-    "date": "2025-12-03",
-    "changes": [
-      "'이벤트 관련 정보', '이번주 융재 금구 팁' 추가"
-    ]
-  },
-  {
-    "version": "v1.2.0",
-    "date": "2025-11-29",
-    "changes": [
-      "타이틀 변경 (망각전야 (Morimens) → 미사그 대학 한국 캠퍼스)",
-      "링크 카드 UI 개선",
-      "플로팅 신고 버튼 추가",
-      "후원 기능 추가",
-      "코드 구조 개편"
-    ]
-  },
-  {
-    "version": "v1.0.4",
-    "date": "2025-11-26",
-    "changes": [
-      "계역별 팁, 은열쇠 정보, 페이즈 체스 카테고리 추가",
-      "링크 카드 썸네일 비율 조정",
-      "뒤로 가기 버튼 UI 수정"
-    ]
-  },
-  {
-    "version": "v1.0.3",
-    "date": "2025-11-26",
-    "changes": [
-      "모바일 환경에서 스크롤 하면 배경이 움직이던 버그 수정",
-      "배너 수정 및 UI 개선 (공식 유튜브, 디스코드로 연결)",
-      "PC/모바일 레이아웃 여백 동기화",
-      "404 경로 문제 해결 및 안정성 강화"
-    ]
-  },
-  {
-    "version": "v1.0.2",
-    "date": "2025-11-256",
-    "changes": [
-      "★채널 공지에 올라감★",
-      "교환 코드 페이지 UI 개편 (클릭 시 자동 복사 기능 추가)",
-      "제보하기 텍스트 수정",
-      "모바일 환경 가독성 개선 및 다크 모드로 배경 통일"
-    ]
-  },
-  {
-    "version": "v1.0.1",
-    "date": "2025-11-25",
-    "changes": [
-      "사이트 오픈 및 기본 가이드 데이터 구축"
-    ]
-  }
-]
+<file path="index.html">
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>미사그 대학 한국 캠퍼스</title>
+
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://morimenz-kr.github.io/Morimens.Info.kr/">
+    <meta property="og:title" content="미사그 대학 한국 캠퍼스">
+    <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 Morimens의 모든 정보를 한눈에 확인하세요.">
+    <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
+
+    <script src="config/config.js"></script>
+
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/landing.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+
+<body>
+<div class="bg-image"></div>
+<div class="background-overlay"></div>
+
+<div class="landing-container">
+    <header>
+        <h1>미사그 대학 한국 캠퍼스</h1>
+    </header>
+
+    <div class="banner-container">
+        <div class="banner-track" id="banner-track">
+
+            <a href="https://www.youtube.com/@morimensofficial" target="_blank" class="banner-slide">
+                <img src="images/banner_youtube.png" alt="유튜브 배너">
+            </a>
+
+            <a href="https://discord.com/invite/VJhuUdHxmc/" target="_blank" class="banner-slide">
+                <img src="images/Banner_Discord.png" alt="디스코드 배너">
+            </a>
+
+        </div>
+
+        <button class="arrow left" id="prev-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        <button class="arrow right" id="next-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+
+        <div class="dots-container" id="dots-container"></div>
+    </div>
+
+    <div class="menu-grid">
+        <a href="links.html?category=event" class="menu-wrapper wide-menu">
+            <div class="menu-item">🎉</div>
+            <p class="menu-label">진행중인 이벤트 관련 정보</p>
+        </a>
+
+        <a href="links.html?category=weekly_yungjae" class="menu-wrapper wide-menu">
+            <div class="menu-item">🔥</div>
+            <p class="menu-label">진행중인 융재 금구 팁</p>
+        </a>
+
+        <a href="list.html" class="menu-wrapper">
+            <div class="menu-item">⭐</div>
+            <p class="menu-label">각성체 정보</p>
+        </a>
+        <a href="links.html?category=faction" class="menu-wrapper">
+            <div class="menu-item">🎭</div>
+            <p class="menu-label">계역별 정보</p>
+        </a>
+        <a href="links.html?category=dreamdive" class="menu-wrapper">
+            <div class="menu-item">🌊</div>
+            <p class="menu-label">환몽심잠 정보</p>
+        </a>
+        <a href="links.html?category=weapon" class="menu-wrapper">
+            <div class="menu-item">🗡️</div>
+            <p class="menu-label">융재금구 정보</p>
+        </a>
+        <a href="links.html?category=system" class="menu-wrapper">
+            <div class="menu-item">⚙️</div>
+            <p class="menu-label">시스템 정보</p>
+        </a>
+        <a href="links.html?category=covenant" class="menu-wrapper">
+            <div class="menu-item">📜</div>
+            <p class="menu-label">비밀계약 정보</p>
+        </a>
+        <a href="links.html?category=myeongryun" class="menu-wrapper">
+            <div class="menu-item">🔘</div>
+            <p class="menu-label">명륜 정보</p>
+        </a>
+        <a href="links.html?category=silverkey" class="menu-wrapper">
+            <div class="menu-item">🔑</div>
+            <p class="menu-label">은열쇠 정보</p>
+        </a>
+        <a href="links.html?category=chess" class="menu-wrapper">
+            <div class="menu-item">♟️</div>
+            <p class="menu-label">페이즈 체스</p>
+        </a>
+        <a href="links.html?category=code" class="menu-wrapper">
+            <div class="menu-item">🎟️</div>
+            <p class="menu-label">교환 코드</p>
+        </a>
+        <a href="links.html?category=newbie" class="menu-wrapper">
+            <div class="menu-item">🐣</div>
+            <p class="menu-label">뉴비 팁</p>
+        </a>
+        <a href="links.html?category=etc" class="menu-wrapper">
+            <div class="menu-item">🎸</div>
+            <p class="menu-label">기타</p>
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2025 미사그 대학 한국 캠퍼스 |
+        <span id="open-patch-modal" class="patch-link">Patch Notes</span> |
+        <a href="https://litt.ly/mythag.univ.kr" target="_blank" class="sponsor-link"> 후원하기(리틀리) |</a>
+        <a href="https://buymeacoffee.com/Mythag.Univ.kr" target="_blank" rel="noopener noreferrer" class="sponsor-link"> 후원하기 (Buy me a Coffee)</a>
+    </footer>
+</div>
+
+<div id="patch-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>📢 업데이트 내역</h2>
+            <button id="close-patch-modal" class="close-btn">&times;</button>
+        </div>
+        <div class="patch-list" id="patch-list-content">
+            <p style="text-align:center; color:#777;">로딩 중...</p>
+        </div>
+    </div>
+</div>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                    </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 배너 슬라이더 로직 ---
+        const track = document.getElementById('banner-track');
+        const originalSlides = Array.from(track.children);
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const dotsContainer = document.getElementById('dots-container');
+
+        const slideCount = originalSlides.length;
+        let currentIndex = 1;
+        let autoSlideInterval;
+        let isTransitioning = false;
+
+        const firstClone = originalSlides[0].cloneNode(true);
+        const lastClone = originalSlides[slideCount - 1].cloneNode(true);
+
+        track.appendChild(firstClone);
+        track.insertBefore(lastClone, originalSlides[0]);
+
+        track.style.transform = `translateX(-100%)`;
+
+        originalSlides.forEach((_, idx) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (idx === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                resetTimer();
+                moveToSlide(idx + 1);
+            });
+            dotsContainer.appendChild(dot);
+        });
+        const dots = Array.from(dotsContainer.children);
+
+        function updateDots(index) {
+            let realIndex = index - 1;
+            if (realIndex < 0) realIndex = slideCount - 1;
+            if (realIndex >= slideCount) realIndex = 0;
+
+            dots.forEach(d => d.classList.remove('active'));
+            dots[realIndex].classList.add('active');
+        }
+
+        function moveToSlide(index) {
+            if (isTransitioning) return;
+            isTransitioning = true;
+
+            track.style.transition = 'transform 0.5s ease-in-out';
+            track.style.transform = `translateX(-${index * 100}%)`;
+            currentIndex = index;
+            updateDots(currentIndex);
+        }
+
+        track.addEventListener('transitionend', () => {
+            isTransitioning = false;
+            if (currentIndex === slideCount + 1) {
+                track.style.transition = 'none';
+                currentIndex = 1;
+                track.style.transform = `translateX(-100%)`;
+            }
+            if (currentIndex === 0) {
+                track.style.transition = 'none';
+                currentIndex = slideCount;
+                track.style.transform = `translateX(-${slideCount * 100}%)`;
+            }
+        });
+
+        function resetTimer() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(() => moveToSlide(currentIndex + 1), 5000);
+        }
+
+        nextBtn.addEventListener('click', () => {
+            resetTimer();
+            moveToSlide(currentIndex + 1);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            resetTimer();
+            moveToSlide(currentIndex - 1);
+        });
+
+        resetTimer();
+
+        const bannerContainer = document.querySelector('.banner-container');
+        bannerContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+        bannerContainer.addEventListener('mouseleave', () => resetTimer());
+
+
+        // --- 패치노트 로직 ---
+        const modal = document.getElementById('patch-modal');
+        const openBtn = document.getElementById('open-patch-modal');
+        const closeBtn = document.getElementById('close-patch-modal');
+        const listContent = document.getElementById('patch-list-content');
+
+        async function loadPatchNotes() {
+            try {
+                const ts = new Date().getTime();
+                const res = await fetch(`data/patch_notes.json?t=${ts}`);
+                if (!res.ok) throw new Error('Load failed');
+                const data = await res.json();
+                let html = '';
+                data.forEach(item => {
+                    let changesHtml = item.changes.map(c => `<li>${c}</li>`).join('');
+                    html += `<div class="patch-item"><span class="patch-ver">${item.version}</span><span class="patch-date">${item.date}</span><ul class="patch-desc">${changesHtml}</ul></div><hr style="border-color:#333; opacity:0.5;">`;
+                });
+                listContent.innerHTML = html.replace(/\<hr[^\>]*\>(?=[^\<]*$)/, '');
+
+                if (data.length > 0) {
+                    openBtn.textContent = `Patch Notes ${data[0].version}`;
+                }
+            } catch (e) { listContent.innerHTML = '로드 실패'; }
+        }
+
+        loadPatchNotes();
+
+        openBtn.addEventListener('click', () => { modal.classList.add('show'); });
+        closeBtn.addEventListener('click', () => modal.classList.remove('show'));
+        modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+
+        // 모달 닫기 이벤트 리스너 바인딩
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal) {
+            reportModal.addEventListener('click', (e) => {
+                if (e.target === reportModal) {
+                    reportModal.classList.remove('show');
+                }
+            });
+        }
+    });
+
+    // --- 신고 모달 함수 ---
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        const modalStatus = document.getElementById('modal-form-status');
+        const sourceUrlInput = document.getElementById('report-source-url');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'none';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        if (sourceUrlInput) {
+            sourceUrlInput.value = window.location.href;
+        }
+
+        modal.classList.add('show');
+    }
+
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '제보를 전송 중입니다...';
+                    modalStatus.style.color = '#ffc107';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+</script>
+<button class="floating-report-btn" onclick="openReportModal()"
+        title="버그 신고">
+    🚨
+</button>
+</body>
+</html>
 </file>
 
 <file path="data/resource_links.json">
@@ -6601,7 +8065,19 @@ function openReportModal() {
     "event": {
       "title": "🎉 진행 중인 이벤트 정보",
       "links": 
-      [
+      [ 
+        {
+          "url": "https://arca.live/b/forgettingeve/163172807",
+          "title": "이벤트 효율계산",
+          "desc": "이 겜은 스테미나 개념인 린피를 2곳에서 태울 수 있다하나는 막간훈련 다른 하나는 이벤트 스테이지다막간훈련은 린피 20으로 정해진 보상을, 이벤트 스테이지는 린피 120으로 정해진 보상을 얻을 수 있는데 뉴비들은 막",
+          "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/162827668",
+          "title": "(중요) 열차 광기 난이도로 동조율 쌀먹하기❗❗❗",
+          "desc": "반갑다.거두절미하고 본론 들어가겠다.준비물은 총 3개1. 처음 5회 전투 피 1로 만드는 특성2. 동조율이 바닥을 기는 각성체 4마리3.(있어도 되고 없어도 됨) 심해캐릭 하나어떻게 하는가?간단하다. 광기 난이도로 ",
+          "image": "https://ac-p1.namu.la/20260219sac/77115ba141c0cbc12b8091866d1a4d4508998be72676257b5a5100d7b30a2e6f.jpg?expires=1771673223&key=jGbLVXeJSwCoIoNEMHfcvQ"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/161914557",
           "title": "계역뽑 정리",
@@ -6620,6 +8096,12 @@ function openReportModal() {
       "title": "🐣 뉴비 필독 가이드",
       "links": 
       [
+        {
+          "url": "https://arca.live/b/forgettingeve/162787459",
+          "title": "정보콘으로 보는 돌계산 뉴비들을 위한 짤막가이드",
+          "desc": "5. 다했어요 이제 뭐하나요>> 이제 스토리를 밀자>> 어려운게 궁금하다?열차 컨텐츠를 해보자 레벨보정있어서 보통을 깰만할거다>> 스토리 번역은 4장 까지 손번역이고 이후 아직 gpt",
+          "image": "https://ac-p1.namu.la/20260219sac/5b25d0c5f3907ff9a0be15f11b0b626220f61091a0af8bb7ee2c43f2a08af8c5.jpg?expires=1771506286&key=tX21gAh79WAPxyZcRt02Ow"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/161211120",
           "title": "간단하게 적는 융재금구 파티 짜는 법",
@@ -6717,6 +8199,42 @@ function openReportModal() {
       "links": 
       [
         {
+          "url": "https://arca.live/b/forgettingeve/164049610",
+          "title": "스토리 맵 비밀 은심 정보 추가사항",
+          "desc": "https://arca.live/b/forgettingeve/164027742?mode=best&p=1#comment <-이 정보글의 보완용 가서 개추주자그동안 설렁설렁 해왔던걸 이제부터라도 좀 챙겨나가",
+          "image": "https://ac-p1.namu.la/20260305sac/484b5d50e46d0f3bb549c7e20be7f4d2d27d01fd04750ea52eb7cf87e4aa3843.png?expires=1772848577&key=IJtwDTB1qcdQUCCC94f_3w"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/164027742",
+          "title": "스토리 맵에 숨겨진 비밀 은심 정리",
+          "desc": "이제 곧 한달차가 되어가는 뉴비가나보다 더 늦게 시작한 뉴비들을 위해 정보글을 써봄스토리맵(망각편)에는 숨겨진 은심이 존재하고이 게임은 불친절하게도 그 맵에 은심이 숨겨져 있는지 아닌지내가 안먹은건지 애초에 없는건지",
+          "image": "https://ac-p1.namu.la/20260305sac/712ca389201304c99d77111203672986309d5644e5707eeac828dac529c89d96.png?expires=1772848538&key=AMiW08igFdVkukjI7k-JOw"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/162451394",
+          "title": "시간 역행 꿀팁 공유",
+          "desc": "모르는 사람도 꽤 있는거 같아서 공유함만약에 예상치 못하게 죽저가 터져도 후퇴하거나 하지마라 너는 고급패스의 주인이다. 재전투를 누르고 다시 시간 역행을 앞으로 돌리게되면 원래 그자리에서 다시 할 수 있다. 좀더 상",
+          "image": "https://ac-p1.namu.la/20260214sac/7d69c3e9ac49529bca16f7553818f00a999d3f9ccee6f4f7eb95d66bcc3d8ba9.jpg?expires=1771412664&key=LFlu-6hwZFdmy_EymHKm8w"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/162398170",
+          "title": "1시즌 플레이 시 획득 뽑기권 수량 정리",
+          "desc": "한 시즌은 28일 (단축시즌은 14일이지만 일반적인 시즌 기준)월정액 + 패스 기준임5900원으로 30일 동안 6000은심 + 300은심 획득 = 30뽑680원액 (약 13200원)으로 1레벨당 50은심 * 50레벨",
+          "image": "https://ac-p3.namu.la/20260214sac/bb711475afacf7af80e2ae77754e0c241e9f3025f2d230256ffc96309813861d.png?expires=1771085985&key=zSSKRq-FG8dJdSkLeBFFmQ"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/162255971",
+          "title": "구플 출시를 맞아 충전 효율 재탕",
+          "desc": "https://arca.live/b/forgettingeve/153163643대충 계산방식은 이전에 썼던 글이랑 같음(원액/19) + (은심/200) = 기대회수원액원화초회은심기대회수회수 당 비용601200603.4",
+          "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/162209798",
+          "title": "열차로 동조율 쌀먹하기",
+          "desc": "준비물) 노드 끝에서 2번째에 있는 첫 5회 생명력 11.단 동조율 모자란 놈들로 채운 다음에 광란에 들어가2. 제 체력 1이 된 1파 중간보스를 썰어3. 튀어동조율 완성이렇게 하면 1분만에 동조율 120을 먹을 수",
+          "image": "https://ac-p3.namu.la/20260212sac/4f6d2f0f36a0ae432275a12938e4b577cdf2521a60f05c20df9b6518a86d1920.jpg?expires=1771085893&key=94_2pjvagjbpAMgkeD3ADQ"
+        },
+        {
           "url": "https://arca.live/b/forgettingeve/161014513",
           "title": "청년층이 이제 꽤 생겼을텐데 이벤트로 모아놓으면 괜찮은것",
           "desc": "바로 영지비약 3 되시겠다아마 바로는 못느낄거고 광기의 징조 한두개씩 올리다 보면 느낄텐데존나 모자람이 스킬찍는 재화는 결국에 쳐 남기시작함어자피 모방 없어서 찍지도 못함따로 안돌고 재화 룰렛 돌리는거로 충당이 됨근",
@@ -6757,30 +8275,6 @@ function openReportModal() {
           "title": "계정 삭제하는 방법",
           "desc": "유저 센터 클릭 안전 클릭 > 계정 취소 (여기를 클릭하세요) 클릭확인1번 체크 > 2번 체크빈칸 채우기. 기다리면 계정 삭제될듯?게임 계정 삭제 안내1. 다음은 게임 계정 삭제에 대한 안내 사항이오니, ",
           "image": "https://ac-p1.namu.la/20251222sac/156bf287b7e7f04ffbfdc172d8a6d79e096baf4a8a9ccb4f6418e2e0e24cacca.png?expires=1766498487&key=mlYQOM54qQLC_F_uqx5e9A"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/156912291",
-          "title": "동조율 이벤트 쌀먹 추가팁",
-          "desc": "1. 이번 융재금구 끝낸사람은 다 초기화 박고해도됨2. 탄피 원턴킬1) 양형 공략 https://youtu.be/mrSa_idpw2I?si=AcvWReClmbmqIncs2) 챈형 공략 https://arca.live",
-          "image": "https://ac-p1.namu.la/20251216sac/f8294227c55a1f9d9d3ad8bf4072d57de127f7a2b1859164d806bb304b7eacab.png?expires=1765882647&key=xT5UxsIHHhFhcCf3MQgBOg"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/156900701",
-          "title": "최속 원터치 동조율 쌀먹!",
-          "desc": "**신왕의 찬가를 낀 광기의 징조 8이상 탄피 빌리기**장소는 3파 1급아이기스 명륜+가진 피해증폭 명륜 대충 넣어주기나처럼 둘둘 안해도 딜 남아돔.스펙 높으면 2급ㄱㄱ 혼돈이나 순수심해면 딜 훨씬 세지니까전투 시작",
-          "image": "https://ac-p1.namu.la/20251216sac/f148a410cdaaf89bf0ad486b25e238006260d0b07279e37d2ea288d6713bff15.jpg?expires=1765882633&key=f_ch47Ps0nBBC8taaJiXyQ"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/156888375",
-          "title": "뉴비들 할배 친구 왕창 늘리는 법 알려줄께!",
-          "desc": "이벤트 탭원초로 다시 전투 로 들어가거기 기본 화면에 명예의 명부 라는 게 있는데 그거 클릭그 위에 도움 전투 명단 이란게 있음저번 이벤트때 캐릭터 많이 빌려준 할배들 랭킹임보통 이미 저 할배들은 친구창이 꽉 차있긴",
-          "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/156878013",
-          "title": "초고속 동조율 쌀먹",
-          "desc": "준비물 : 할배 폴룩스사용이유는 성심이 무조건 첫패에 들어오기 때문에 변수가 없는 점융재 제3파 2급을 돈 이유는 빠르게 돌 수 있고 3급과 동조율이 같기 때문에현재 얻을 수 있는 동조율1급 : 2582급 : 300",
-          "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
         },
         {
           "url": "https://arca.live/b/forgettingeve/156556836",
@@ -6825,24 +8319,6 @@ function openReportModal() {
           "image": "https://ac-p3.namu.la/20251114sac/4b92eac13ac7ca13dd2472bf7b9ebeea48a7b8aaf517a1545b4c027439cb0a2c.png?expires=1764041553&key=p4YBBVFaAA6tcGWuc08lPA"
         },
         {
-          "url": "https://arca.live/b/forgettingeve/153884190",
-          "title": "V2.4.0 망각편 룰 변경 ",
-          "desc": "Forbidden Lore(禁忌学识等级, 금기학 등급)수호자 레벨이 제공하던 체력-HP 변환률, 유물, 각인, 은열쇠 성능은 \"금기학 등급\"으로 통합되어,\"육체연구Somatic research\", \"비전연구Esote",
-          "image": "/static/apple-icon.png?t=e1bf30f61b2b9534c5a27e707b0b299719a603ac"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/153885990",
-          "title": "V2.4.0 과제 관련 ",
-          "desc": "과제 업그레이드- 기초과제(무과금)의 보상 중 육성소재를 보다 폭넓게 쓸 수 있는 장미금권으로 조정했습니다. 퀘스트 레벨이 50에 이르면 장미금권 1,560,000을 획득할 수 있습니다.- 고급과제(1단계 과금) 5",
-          "image": "https://ac-p3.namu.la/20251024sac/1c6f23a1a10e695c69ecb239ad40ed27c0938dba1c76b1b86aa15c3e0551b32c.jpg?expires=1764042853&key=6lL1sQdKYck1MmKCHuf5NQ"
-        },
-        {
-          "url": "https://arca.live/b/forgettingeve/153877194",
-          "title": "V2.4.0 각성체 밸런스 내용만 다시 정리 ",
-          "desc": "엘바- 영혼단련: 이번 턴 실드 양의 10~20% 만큼 \"타격\", \"심안의 칼날\" 기초공이 증가. \"혈육\" 속성의 적에겐 최종 피해 20~50% 증가- 영지각성 \"전장의 통찰\": 방어막 1점 당 추가 공격력 보너스를",
-          "image": "https://ac-p3.namu.la/20251115sac/fc09204b57166ca04b7f35e0fc160e082a165076bcb979453113827799fe5712.jpg?expires=1764042871&key=9U6647NHfSavnMnhs1dsog"
-        },
-        {
           "url": "https://arca.live/b/forgettingeve/151773734",
           "title": "용어집 모음 ",
           "desc": "찾고 싶은 내용은 ctrl+f알고 싶은 내용은 덧글로 남겨주면 내용 수정하겠음------------------------------------------------검은 인장(블랙 프린트 & 흑인(?)) - 게",
@@ -6854,6 +8330,24 @@ function openReportModal() {
       "title": "🗡️ 융재금구 정보",
       "links": 
       [
+        {
+          "url": "https://arca.live/b/forgettingeve/164001646",
+          "title": "한정 캐릭터 티어리스트 (2)",
+          "desc": "한정 캐릭터 티어리스트 (1)기준: S급: 해당 각성체가 없으면 덱 자체가 성립하지 않음A급: 범용성과 퍼포먼스가 모두 높음B+급: 조건부로 A급 퍼포먼스를 발휘함B급: 사용할 수는 있으나 조건이 까다롭거나 퍼포먼스",
+          "image": "https://ac-p1.namu.la/20260305sac/12ecc707a051e290df9772fa1facdbc6df4bda60be682f14a94602139d4b06a5.png?expires=1772848504&key=AmLnqRPDTA0O3OwgOr4sBg"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/163968302",
+          "title": "한정 캐릭터 티어리스트 (1)",
+          "desc": "우선, 덱 빌딩 게임들이 대부분 그렇지만 캐릭터의 개별적인 티어는 측정하기 어렵다. 위 티어리스트는 덱이 완성되었을 때의 퍼포먼스를 기준으로 짠 티어리스트이다.(완성 덱은 링크 참고. 융재금구용 베스트 5덱 소개)기",
+          "image": "https://ac-p1.namu.la/20260304sac/9dd070a1fdd672909de0c5837bf9d7235ae022ee8e5f393a191cd9049bb5603e.png?expires=1772638854&key=o22FBwf_fQ2wdENJ4MiZhg"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/163404731",
+          "title": "융재금구 꿀팁) 레벨 낮은 405~대 사람 찾기",
+          "desc": "융재금구 점수를 5점 이라도 더 올리고 싶은 뉴비들은 425 할배들 보다 오히려살짝 아래 405~대 사람들을 찾아보는게 더 좋다왜냐? 425 찍는 사람들은 애초에개씹할배들이라 솔직히 참고가 안된다레벨부터 80~90 ",
+          "image": "https://ac-p1.namu.la/20260226sac/49f252ee872191b2371ef009cf77114e36c6c4d3fac7e28793cde01ccc802bb1.jpg?expires=1772467900&key=7jcesfv4I832QVvomeOF6g"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/161211120",
           "title": "간단하게 적는 융재금구 파티 짜는 법",
@@ -7144,8 +8638,8 @@ function openReportModal() {
         { "title": "HVGX-HLDX-QKKN", "desc": "무구의 은핵 5개", "expiry": null },
         { "title": "QKBQ-SSDG-JZYU", "desc": "무구의 은핵 5개", "expiry": null },
         { "title": "DC5000", "desc": "특별 승인 약재 5개", "expiry": null },
-        { "title": "ADMN-LHPX-RTZN", "desc": "은심 200개", "expiry": "2026-02-24" },
-        { "title": "NJQC-BJMK-ANAS", "desc": "은심 200개", "expiry": "2026-02-24" },
+        { "title": "QNFA-JHCW-JMVH", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-03-14" },
+        { "title": "SlaytheSpire2", "desc": "광휘의 은핵 5개", "expiry": "2026-03-22" },
         { "title": "MistSequence", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-28" },
         { "title": "YouSavedMorimens", "desc": "무구의 은핵 100개", "expiry": "2026-03-09" }
       ]
@@ -7155,12 +8649,6 @@ function openReportModal() {
       "title": "🎭 계역별 정보",
       "links": 
       [
-        {
-          "url": "https://arca.live/b/forgettingeve/158125313",
-          "title": "대충 적는 심해 캐릭터 리뷰",
-          "desc": "ㅎㅇ약 1년 계역뽑으로 심해만 굴리다 최근에 혈육으로 넘어간 레무리아 백성임뉴비에게 계역뽑으로 심해가 잘 추천되는데, 정작 다 써본 사람은 본 적이 없는 것 같아 그동안 온리 심해만 굴려본 소감&짧팁을 적어본",
-          "image": "https://ac-p1.namu.la/20251229sac/2c0e2a5a20f00071c1f4fa43047b265f5526383e1e11b6c143a066e95dbdf44d.jpg?expires=1767357778&key=hFSftFTWD3Pkq5NfECM_qQ"
-        },
         {
           "url": "https://arca.live/b/forgettingeve/158125313",
           "title": "대충 적는 심해 캐릭터 리뷰",
@@ -7207,7 +8695,13 @@ function openReportModal() {
           "url": "https://arca.live/b/forgettingeve/152920653",
           "title": "순수혼돈의 자원 순환 ",
           "desc": "1. 은열 확보턴 종료 시 250 획득비밀계약턴 종료 시 증가 명륜딜링 시 증가 명륜SR - R수호자 레벨 10에 지급하는 1돌 효과(여파: 핸드에서 버렸을 때 발동)라몬나는 동조율(친밀도)에 따라 은열이 추가로 올",
-          "image": "https://ac-p3.namu.la/20251106sac/3871f3ba1fb9d025bbcfddf91541663e1f09e286ceee6a7211ab25696d717f78.png?expires=1764043688&key=SyRSrP-c-uEQtofMD3kxRw"
+          "image": "https://ac-p3.namu.la/20251106sac/3871f3ba1fb9d0sorel25bbcfddf91541663e1f09e286ceee6a7211ab25696d717f78.png?expires=1764043688&key=SyRSrP-c-uEQtofMD3kxRw"
+        },
+        {
+          "url": "https://arca.live/b/forgettingeve/132015880",
+          "title": "경계의 재능",
+          "desc": "*인게임에서 스크롤 하면서 보기 힘들어서 작성함** 오타 및 오류 제보 시 반영하겠음*** 팀은 최대 2개의 영역을 가질 수 있음****심해, 초차원, 혈육 파티에 혼돈 캐릭이 껴있어도 지순 2배 효과를 누릴 수 있",
+          "image": "https://ac-p1.namu.la/20250324sac/c16b91ad4df2cc0696e1018cc88014be680306c2802247a1d0fa064b997ac792.png?expires=1771420685&key=KqOStpAxW74O05BM7Ld74A"
         }
       ]
     },
@@ -7441,13 +8935,27 @@ function openReportModal() {
     "24": 
     [
       {
+        "url": "https://arca.live/b/forgettingeve/162464799",
+        "title": "23일 복각 로테이션 24/오를라/픽맨 정보",
+        "desc": "23일부터 1달 동안 지속되는 복각 픽업이다.캐릭터 정보는 찾아보면 나오지만, 최근 유입된 뉴비들이 많길래 기본적인 정보를 정리해 본다.할배들은 굳이 안봐도 된다. 알아서 잘 하겠지.일단 픽업 들어가도 되나요? 에 ",
+        "image": "https://ac-p1.namu.la/20260215sac/8140214bf2e83754686d8a8266a1e3f6d2c15a2f522e5262173929b073c1f45b.png?expires=1771420362&key=1FGFJ3k6Exq9SS2HOHDozA"
+      },
+      {
         "url": "https://arca.live/b/forgettingeve/155025661",
         "title": "24 캐릭터 정보",
         "desc": "안녕 친구들 오늘은 24 공략?정보?를 알려줄거야24를 처음 하는 이유는 이새끼가 할게 제일 많을거같아서 이거 하고나면 좀 편할거같음내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었",
         "image": "https://ac-p1.namu.la/20251126sac/3327dc095fa4d6cae897192663f58504d856963455ff771b4deea47458a98400.jpg?expires=1764238171&key=D9MNTD9HiHiCX6WnYGJA_A"
       }
     ],
-    "nymphaea": [],
+    "nymphaea": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/162509365",
+        "title": "님피아 캐릭터 정보",
+        "desc": "안녕 안녕 님피아에 대해 알아보자내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함본인의 님피아다스탯이 개쓰레기임 일단 스",
+        "image": "https://ac-p1.namu.la/20260215sac/ba86fc6792cc0429379c27d223b2f004c137af05b17a88fbf73d05e30c38004b.png?expires=1771420480&key=vJytrsRnpBDJbYtgtYrJ1w"
+      }
+    ],
     "nautila": 
     [
       {
@@ -7511,6 +9019,18 @@ function openReportModal() {
     "mouchette": 
     [
       {
+        "url": "https://arca.live/b/forgettingeve/163220692",
+        "title": "모샤 뉴메타(미완성) + 영상추가",
+        "desc": "4파는 명륜 좀 바뀜 그냥 다른캐릭 죽저명륜 ssr로 바꿨음 그게 다임영상을 새로 찍다보니 엘바로 바꿔서 진행해봤는데오지르랑 별 차이도 없다폭풍강타를 ㅈㄴ게 많이쓰기때문에다음턴에 죽저가 없어도 초한이 켜져서 확정킬이",
+        "image": "https://ac-p1.namu.la/20260224sac/3736f32cec134d993c1b0240741377df4190e2831899b455334c905b1483eca4.jpg?expires=1771977757&key=_J_RJxAYUuB0n5UWuiWBPA"
+      },
+      {
+        "url": "https://arca.live/b/forgettingeve/162928081",
+        "title": "모샤덱 타이스,라모나등 산출력 요원 빼버리기",
+        "desc": "'실력'으로 죽저를 한턴에 여러번 띄우면 산출력이 만땅이 된다융재3파기준 뒤는 어자피 생각할 필요 없지죽저 터진 턴에 죽일거니까",
+        "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
+      },
+      {
         "url": "https://arca.live/b/forgettingeve/160310568",
         "title": "1부 진행하는 모샤에게 좋은 유물들.",
         "desc": "망각전야 처음 하는 유저들은 유물의 중요성을 체감하지 못한다. 하지만 코스트코 명륜으로 깔맞춤한 유물은 풀돌 캐릭, 풀돌 명륜보다도 강하다.일반적으로 좋은 유물들(산출력 증가, 힘증가 등등) 말고, 모샤에게 특화된 ",
@@ -7541,7 +9061,15 @@ function openReportModal() {
         "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
       }
     ],
-    "alva": [],
+    "alva": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/162708147",
+        "title": "엘바 캐릭터 정보",
+        "desc": "안녕 안녕 엘바에 대해 알아보자내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함본인의 엘바임 나름 멋있게 생겼음 난 좋아",
+        "image": "https://ac-p1.namu.la/20260218sac/d0f684bf08f26d702fc726690b6c1f5074ac9daebe810ef75ffc23c9417d2156.png?expires=1771420508&key=S3JAwk3stQMzL0nvwy0lww"
+      }
+    ],
     "karen": 
     [
       {
@@ -7623,7 +9151,15 @@ function openReportModal() {
         "image": "https://ac-p3.namu.la/20250512sac/8b88ef6d01b226b6064916dd67d40ea56368e3ddfc335b0b0042970a045856c4.jpg?expires=1764044825&key=8PKKGsHF_AhnFzbX6e2MYw"
       }
     ],
-    "pandia": [],
+    "pandia": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/162513474",
+        "title": "판디아 캐릭터 정보",
+        "desc": "안녕 안녕 판디아에 대해 알아보자내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함본인의 판디아임망전 귀여움 1티어다반박 ",
+        "image": "https://ac-p1.namu.la/20260215sac/d86eceb333ab3671c8389f321d89b99f3118af273f4ccc7d33fdfd8ebf47a0fb.png?expires=1771420496&key=ho6YlJwfVFC0yokaaUkpmw"
+      }
+    ],
     "hameln": 
     [
       {
@@ -7786,9 +9322,23 @@ function openReportModal() {
         "image": "https://ac-p3.namu.la/20251125sac/64a6be30def1566e966658c42387d650b3d01b294e00337a247b8c519927b8bc.jpg?expires=1764044975&key=DmhC3u7sAoCIC0yy1WtLiw"
       }
     ],
-    "tulu": [],
+    "tulu": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/162925715",
+        "title": "툴루 캐릭터 정보",
+        "desc": "안녕 안녕 툴루에 대해 알아보자내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함본인의 툴루 투루 godking임모리멘스 ",
+        "image": "https://ac-p1.namu.la/20260220sac/6645d5e787a03e181c371fb3dd28321f26440fda1494ec2bd6a6ac99c954091f.png?expires=1771673433&key=7z_gZJ1Fxcbjr1DUIClASg"
+      }
+    ],
     "faros": 
     [
+      {
+        "url": "https://arca.live/b/forgettingeve/162907731",
+        "title": "파로스 중독덱 공략",
+        "desc": "안녕 친구들평소에 별 도움도 안되는 캐릭터 정보 써대는 사람이야내가 최대한 그냥 캐릭터 설명만 하려하고 정형화된 덱을 소개 안하는 이유는 '덱빌딩'게임에서 덱빌딩을 빼버리면 뭔 재미가 있을까 싶어서 최대한 설명만 하",
+        "image": "https://ac-p1.namu.la/20260220sac/8a14e6825101c65e7301254bc73dc9a15d0bc11d1ab1fb4878f06d074c6463fc.png?expires=1771673392&key=F1z_hkqVG2YnWfGsOqcV6A"
+      },
       {
         "url": "https://arca.live/b/forgettingeve/155131006",
         "title": "파로스 캐릭터 정보",
@@ -7798,6 +9348,12 @@ function openReportModal() {
     ],
     "doresain": 
     [
+      {
+        "url": "https://arca.live/b/forgettingeve/163189191",
+        "title": "도어세인 운용 가이드",
+        "desc": "ㅎㅇ오늘은 혈육과 즐거운 시간 보내고 있길 바란다오늘의 주제는 도어세인 운용법임시작에 앞서 작성자는 도어세인이 초한임을 밝힘일단 소개부터 하자면 도어세인은 전형적인 약자멸시형 캐릭이며 광폭으로 딜하는 광폭딜러임힘계수",
+        "image": "https://ac-p1.namu.la/20260223sac/4a03a48d3d0fbc6bd40cfaa876d30e119a2f5dfb6824c621d53ab79eb15e099c.png?expires=1771977698&key=taKxjIGdoiHSIQGNhUPFFg"
+      },
       {
         "url": "https://arca.live/b/forgettingeve/159813008",
         "title": "도어세인 가이드 하나 링크",
@@ -7823,12 +9379,34 @@ function openReportModal() {
         "image": "https://ac-p1.namu.la/20260104sac/973ebf49c230e6636ffa90802710b09fb37afd4b2c7fb5ca014727b2ef0d63bb.png?expires=1767522584&key=0zeNwOKonsb3UKp4rwPNcA"
       }
     ],
-    "sorel": [],
+    "sorel": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/162756853",
+        "title": "소렐 캐릭터 정보",
+        "desc": "안녕 안녕 소렐에 대해 알아보자내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함혈육접대시즌이나 로마 최후의 전사 유우하시",
+        "image": "https://ac-p1.namu.la/20260218sac/730fb4c6c442c8c7415368fcaa34d7b77b7f4cdd06588aee6328ac5f6bdde258.png?expires=1771506140&key=M1IouVynICvispYBKjBtVw"
+      }
+    ],
     "agrippa": [],
     "aigis": [],
-    "uvhash": [],
+    "uvhash": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/163615018",
+        "title": "우브하시 캐릭터 정보",
+        "desc": "안녕 안녕 우브하시에 대해 알아보자내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함본인의 로오마 최후의 전사 유우하시 우",
+        "image": "https://ac-p1.namu.la/20260228sac/5f33ee19a69ba9c190dacece080571beb202614704416fee7077fd19fb22d54a.png?expires=1772467233&key=kHLHzD-dW9thIE2Z-nPpTA"
+      }
+    ],
     "thais": 
     [
+      {
+        "url": "https://arca.live/b/forgettingeve/162884037",
+        "title": "타이스와 조합하면 좋은 캐릭에 대해 알아보자",
+        "desc": "최근 뉴비들이 많이 유입되길래 캐릭터 조합에 대해 적어본다.혈육 그 자체인 타이스 마망이다.타이스 마망은 배아 펌핑, 힘 펌핑, 광기 주유, 취약/허약 디버프, 은열쇠 펌핑까지 다 해주는 다재다능한 서포터지만, 타이",
+        "image": "https://ac-p1.namu.la/20260220sac/802934fe826bd97eef41b9bc4dac166814949439df449396b91451f35b2b0d59.png?expires=1771673379&key=_fhv4y5NdfhVEpa46xkyGw"
+      },
       {
         "url": "https://arca.live/b/forgettingeve/153407883",
         "title": "혈육 그 자체, REAL GOAT 타이스를 아라보자 ",
@@ -7839,6 +9417,12 @@ function openReportModal() {
     "faint": [],
     "pickman": 
     [
+      {
+        "url": "https://arca.live/b/forgettingeve/162464799",
+        "title": "23일 복각 로테이션 24/오를라/픽맨 정보",
+        "desc": "23일부터 1달 동안 지속되는 복각 픽업이다.캐릭터 정보는 찾아보면 나오지만, 최근 유입된 뉴비들이 많길래 기본적인 정보를 정리해 본다.할배들은 굳이 안봐도 된다. 알아서 잘 하겠지.일단 픽업 들어가도 되나요? 에 ",
+        "image": "https://ac-p1.namu.la/20260215sac/8140214bf2e83754686d8a8266a1e3f6d2c15a2f522e5262173929b073c1f45b.png?expires=1771420362&key=1FGFJ3k6Exq9SS2HOHDozA"
+      },
       {
         "url": "https://arca.live/b/forgettingeve/161975552",
         "title": "오레타도 이해할 수 있는 픽맨 가이드",
@@ -7885,7 +9469,15 @@ function openReportModal() {
         "image": "https://ac-p3.namu.la/20250812sac/631b6837929e9c6b9c3360cd5864cf7f8216277161b7cdba8adf8a295e7ed2d0.png?expires=1764044126&key=tu03Ud1rh9qP1dZKDupcjQ"
       }
     ],
-    "helot": [],
+    "helot": 
+    [
+      {
+        "url": "https://arca.live/b/forgettingeve/163631068",
+        "title": "히로를 어떻게든 딜러로 써먹어보자",
+        "desc": "폰으로 찍은 사진들이라 화질이 좀 꾸질수도 있으니 양해바람그리고 본인은 히로를 딜러로써 설명할 예정임혈히로, 모샤의 서폿으로는 궁만 딸깍해주면 끝이니 설명할 필요도 없다고 생각함본인의 히로인데아마 챈 유일 퍼펙트 히",
+        "image": "https://ac-p1.namu.la/20260228sac/bd2e258dc82de3f114d908814487cf8dc9393071b7ca7be837e19ef589e107fb.jpg?expires=1772467420&key=105-VLubr7L4MiYp36LU3g"
+      }
+    ],
     "xu" : [
       {
         "url": "https://arca.live/b/forgettingeve/161472856",
@@ -7915,6 +9507,12 @@ function openReportModal() {
     "horla": 
     [
       {
+        "url": "https://arca.live/b/forgettingeve/162464799",
+        "title": "23일 복각 로테이션 24/오를라/픽맨 정보",
+        "desc": "23일부터 1달 동안 지속되는 복각 픽업이다.캐릭터 정보는 찾아보면 나오지만, 최근 유입된 뉴비들이 많길래 기본적인 정보를 정리해 본다.할배들은 굳이 안봐도 된다. 알아서 잘 하겠지.일단 픽업 들어가도 되나요? 에 ",
+        "image": "https://ac-p1.namu.la/20260215sac/8140214bf2e83754686d8a8266a1e3f6d2c15a2f522e5262173929b073c1f45b.png?expires=1771420362&key=1FGFJ3k6Exq9SS2HOHDozA"
+      },
+      {
         "url": "https://arca.live/b/forgettingeve/155526247",
         "title": "오를라 2돌에 대하여",
         "desc": "ㅎㅇ오늘도 초차원과 즐거운 시간 보내고 있기를 바란다다름이 아니라 한번쯤 오를라 2돌 관련 글을 써보려고 했는데 드디어 시간이 나서 써봄시작에 앞서 이 글은 오를라 감정효과를 전부 안다는 전제 하에 작성되었음을 밝힘",
@@ -7939,6 +9537,12 @@ function openReportModal() {
     "jenkin": 
     [
       {
+        "url": "https://arca.live/b/forgettingeve/162849847",
+        "title": "상시캐 딜러의 희망이였던 젠킨에 대하여",
+        "desc": "젠킨툴툴거리지만 누구보다 남을 잘 챙기는 귀염둥이젠킨에 대한 글이 없다는걸 알고 융재 5단계에서 항상 쓰려고 노력했던 본인이기에 젠킨에 대해 간단한 소개를 적어보고자 한다.우선 젠킨의 60레벨 스탯이다.망각전야 좀 ",
+        "image": "https://ac-p1.namu.la/20260219sac/1b57a497cc0617d574ba47536d52fa883c85b7fbca12b4536c794c7a1466996d.png?expires=1771673351&key=Fsd-xCm3C24Y1wOcs2af3g"
+      },
+      {
         "url": "https://arca.live/b/forgettingeve/156244139",
         "title": "정보)젠킨은 최고의 크리티컬 피해 버퍼다",
         "desc": "젠킨 영지각성->피해를 입히면 임시 크리티컬 피해+15%, 5스택실험대상 완다크리티컬 피해 53%젠킨이 4타를 때린 후, 113%5타->128%5타+광폭 60%=198%파티에 크리티컬 피해를 무려 145%",
@@ -7947,6 +9551,12 @@ function openReportModal() {
     ],
     "castor": 
     [
+      {
+        "url": "https://arca.live/b/forgettingeve/162165099",
+        "title": "폴룩스덱에서의 카스토르에 대해",
+        "desc": "ㅎㅇ오늘도 초차원과 즐거운 시간 보내고 있길 바란다이번 주제는 폴룩스덱에 카스토르가 필수인가?에 대한 것이다시작에 앞서 이 글은 초한 폴룩스+카스토르 기준으로 작성되었음을 밝힘내가 일본어로 플레이해서 모든 스샷이 일",
+        "image": "https://ac-p3.namu.la/20260211sac/ede4a24d59844ea3abba49e9976e5c4a1b09b6ef37a8942706a3a6fc06c6d10c.png?expires=1771085871&key=cKCMnHory_F1mhJAeosbtA"
+      },
       {
         "url": "https://arca.live/b/forgettingeve/156437605",
         "title": "한달 된 늒네가 쓰는 카스토르가 좋은 이유",
@@ -8007,6 +9617,18 @@ function openReportModal() {
     ],
     "pollux": 
     [
+      {
+        "url": "https://arca.live/b/forgettingeve/163021136",
+        "title": "폴룩스 메인딜 가이드-통합편",
+        "desc": "ㅎㅇ이 험난한 망각전야를 폴룩스 메인딜 초차원덱으로 헤쳐나가려는 사람이여 환영한다시작에 앞서 미리 말해둘 것이 조금 있다1. 폴룩스 최소 3돌~초한을 상정하고 작성되었음. 작성자는 폴룩스가 초한임을 밝힘2. 이전에 ",
+        "image": "https://ac-p1.namu.la/20260222sac/302b995b2a250851d40f6961d378c68df403e2b2f10bdef44348000cd24731d3.png?expires=1771751830&key=nMpO7e-j9GfMSU2Gjun9DQ"
+      },
+      {
+        "url": "https://arca.live/b/forgettingeve/162165099",
+        "title": "폴룩스덱에서의 카스토르에 대해",
+        "desc": "ㅎㅇ오늘도 초차원과 즐거운 시간 보내고 있길 바란다이번 주제는 폴룩스덱에 카스토르가 필수인가?에 대한 것이다시작에 앞서 이 글은 초한 폴룩스+카스토르 기준으로 작성되었음을 밝힘내가 일본어로 플레이해서 모든 스샷이 일",
+        "image": "https://ac-p3.namu.la/20260211sac/ede4a24d59844ea3abba49e9976e5c4a1b09b6ef37a8942706a3a6fc06c6d10c.png?expires=1771085871&key=cKCMnHory_F1mhJAeosbtA"
+      },
       {
         "url": "https://arca.live/b/forgettingeve/155626735",
         "title": "폴룩스 기초 가이드",

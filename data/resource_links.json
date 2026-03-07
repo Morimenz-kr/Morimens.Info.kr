@@ -581,8 +581,7 @@
         { "title": "MistSequence", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-28" },
         { "title": "YouSavedMorimens", "desc": "무구의 은핵 100개", "expiry": "2026-03-09" }
       ]
-    },
-    
+    },    
     "faction": {
       "title": "🎭 계역별 정보",
       "links": 
@@ -642,8 +641,7 @@
           "image": "https://ac-p1.namu.la/20250324sac/c16b91ad4df2cc0696e1018cc88014be680306c2802247a1d0fa064b997ac792.png?expires=1771420685&key=KqOStpAxW74O05BM7Ld74A"
         }
       ]
-    },
-    
+    },    
     "silverkey": {
       "title": "🔑 은열쇠 정보",
       "links": 
@@ -689,7 +687,7 @@
     },
     
     "etc": {
-      "title": "🎸 기타(과금 효육, 기타 등율등..)",
+      "title": "🎸 기타(과금 효율, 기타 등율등..)",
       "links": 
       [
         {
@@ -1525,6 +1523,12 @@
     ],
     "clementine": 
     [
+      {
+        "url": "https://arca.live/b/forgettingeve/164196368",
+        "title": "클레멘타인 캐릭터 정보",
+        "desc": "안녕 안녕 클레멘타인에 대해 알아보자내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고 있는게 있으면 댓글로 남겨주셈 빠른 수정함클레멘타인은 이미 공략글이 있어서 안",
+        "image": "https://ac-p1.namu.la/20260307sac/8ac2ba1e368f2d7d4b331713345b510cab849f58c95ad6be7c8672076c87301d.png?expires=1772873922&key=7xw3-VR3hCKc9SNcIA9j9A"
+      },
       {
         "url": "https://arca.live/b/forgettingeve/158597843",
         "title": "클레멘타인 소개글",
