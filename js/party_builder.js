@@ -8,6 +8,9 @@ const EXCLUSIVE_GROUPS = [["ramona", "ramona_timeworn"]];
 let draggedIdx = -1;
 let lastHoverIdx = -1;
 
+// 최근 사용한 은열쇠 식별자 저장소 (로컬 스토리지 연동)
+let recentKeys = JSON.parse(localStorage.getItem('morimens_recent_keys')) || [];
+
 // [2] 데이터 생성 팩토리 함수
 function createEmptyTeam(index) {
     return {
@@ -30,6 +33,7 @@ function createEmptyPage(name) {
 let allPages = [createEmptyPage("PAGE 1")];
 let currentPageIdx = 0;
 let currentTeamIdx = 0;
+
 let DB = { chars: [], wheels: [], keys: [] };
 
 // 필터 및 검색 관련 변수
@@ -958,16 +962,38 @@ function renderKeyGrid() {
     const searchInput = document.getElementById('key-search-input');
     const search = searchInput ? searchInput.value.trim().toLowerCase() : '';
 
-    DB.keys.filter(k => {
-        // [로직] 태그 검색 또는 이름 검색 지원
+    // 현재 선택된 정렬 기준 확인
+    const sortSelect = document.getElementById('key-sort-select');
+    const sortByRecent = sortSelect ? sortSelect.value === 'recent' : true;
+
+    // 1단계: 검색어 필터링
+    let filteredKeys = DB.keys.filter(k => {
         if (search && !k.korean_name.toLowerCase().includes(search) &&
             !(k.tags || []).some(t => t.toLowerCase().includes(search))) {
             return false;
         }
         return true;
-    }).forEach(k => {
+    });
+
+    // 2단계: 정렬 적용
+    if (sortByRecent) {
+        filteredKeys.sort((a, b) => {
+            let indexA = recentKeys.indexOf(a.english_name);
+            let indexB = recentKeys.indexOf(b.english_name);
+
+            // 최근 기록에 없으면 가중치를 999로 주어 최하단으로 밀어냄
+            if (indexA === -1) indexA = 999;
+            if (indexB === -1) indexB = 999;
+
+            return indexA - indexB;
+        });
+    }
+
+    // 3단계: 화면 렌더링
+    filteredKeys.forEach(k => {
         const isSel = k.english_name === currentK;
         const isUsed = used.has(k.english_name);
+
         const el = document.createElement('div');
         el.className = `grid-item ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
         el.style.borderRadius = "50%";
@@ -979,6 +1005,16 @@ function renderKeyGrid() {
         el.onclick = () => {
             if (isUsed) return;
             allPages[currentPageIdx].teams[currentTeamIdx].key = k.english_name;
+
+            // --- [추가 로직] 장착 시 최근 사용 기록 업데이트 ---
+            recentKeys = recentKeys.filter(name => name !== k.english_name); // 기존 중복 제거
+            recentKeys.unshift(k.english_name); // 배열의 맨 앞에 삽입
+            if (recentKeys.length > 20) recentKeys.pop(); // 최대 20개까지만 보관
+
+            // 브라우저 캐시에 저장
+            localStorage.setItem('morimens_recent_keys', JSON.stringify(recentKeys));
+            // ------------------------------------------------
+
             closeModal('modal-key');
             renderAll();
         };

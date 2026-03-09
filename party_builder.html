@@ -135,21 +135,21 @@
             <h3>은열쇠 선택</h3>
             <button class="close-btn" onclick="closeModal('modal-key')">&times;</button>
         </div>
-
-        <div class="search-container">
-            <div class="search-input-box">
+        <div class="search-container" style="flex-direction: row; align-items: center;">
+            <div class="search-input-box" style="flex: 1;">
                 <div class="search-input-wrapper">
                     <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                    <input type="text" id="key-search-input" placeholder="태그 또는 이름 검색..." autocomplete="off">
+                    <input type="text" id="key-search-input" placeholder="은열쇠 검색..." autocomplete="off">
                 </div>
             </div>
-            <div id="active-key-tags-area" class="active-tags-list"></div>
+            <select id="key-sort-select" onchange="renderKeyGrid()" style="padding: 12px; background: #1e1e22; border: 1px solid #555; color: #eee; border-radius: 4px; outline: none; cursor: pointer; font-size: 0.9em; font-family: 'Pretendard', sans-serif;">
+                <option value="recent">최근 사용순</option>
+                <option value="default">기본 정렬</option>
+            </select>
         </div>
-
         <div class="modal-grid" id="grid-key"></div>
         <div class="modal-footer">
-            <button class="btn btn-red" onclick="unequipKey()" style="margin-right:10px;">해제</button>
-            <button class="btn btn-blue" onclick="closeModal('modal-key')">닫기</button>
+            <button class="btn btn-red" onclick="unequipKey()">해제</button>
         </div>
     </div>
 </div>
