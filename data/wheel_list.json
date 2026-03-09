@@ -100,6 +100,15 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "도박의 지헤",
+    "english_name": "wheel_wisdom_of_gamble",
+    "optimized_for": [],
+    "main_stat": "크리티컬 피해 21.6%",
+    "description": "팀 유일: 탐험이 시작된 후, 1장의 \"대박의 지혜\"를 드로우 덱에 섞습니다. \"대박의 지혜\": 1 계산력을 소모합니다. 손에 있는 모든 명령카드를 무작위로 드로우 덱에 섞으며, 섞인 명력카드는 다음에 사용할 때 13% 확률로 1번 추가로 발동합니다. 또한, 1장의 명령 카드를 섞을 떄마다 모든 각성체가 2점의 광기를 얻습니다. 보존, 소모, 고유",
+    "image_path": "images/wheel_fun_in_box.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "행운의 시간",
     "english_name": "wheel_time_of_luck",
     "optimized_for": ["라이커"],
@@ -349,6 +358,15 @@
     "main_stat": "은열쇠 충전 21.6",
     "description": "팀 유일: 손패 상한이 2 증가하고, 다른 명륜이 제공하는 손패 상한과 중첩되지 않는다. 장비자의 은열쇠 충전 및 광기 폭발로 인한 최종 피해, 방어막이 11/14/17/20% 증가한다. '고요한 바다' 태세로 전환 시 장비자가 15/20/25/30 광기를 획득하며, 3턴의 쿨타임이 존재한다. '몰아치는 파도' 태세로 전환 시 모든 적에게 강림 의식 4/6/8/10스택을 부여하며, 3턴의 쿨타임이 존재한다.",
     "image_path": "images/wheel_peace_sleep_in_dark.png"
+  },
+  {
+    "grade": "SSR",
+    "korean_name": "먼 곳의 에덴",
+    "english_name": "wheel_eden",
+    "optimized_for": ["모스크"],
+    "main_stat": "영역숙련 36",
+    "description": "팀 유일 : 전투 시작 시 13/17/21/25%의 기본 광기에 해당하는 광기를 획득합니다. 장비자의 광기 폭발 최종 피해가 기본 광기의 20%만큼 증가합니다. \"몰아치는 파도\" 자세로 전환할 때, 현재 영역 숙련의 20/25/30/35%에 해당하는 임시 영역 숙련을 획득하며, 3턴 쿨다운이 있다.",
+    "image_path": "images/wheel_eden.png"
   },
   {
     "grade": "SSR",
@@ -910,6 +928,14 @@
     "english_name": "wheel_otori_lily",
     "main_stat": "피해 증폭 7.2%",
     "description": "팀 유일 : 장비자가 초래하는 고정 중독과 발동 중독 효과가 4/6/8/10% 증가합니다. 장비자가 매 턴 처음으로 '공명'을 발동할 때 4/6/8/10의 광기를 획득합니다.",
+    "image_path": "images/wheel_otori_lily.png"
+  },
+  {
+    "grade": "SR",
+    "korean_name": "갇힌 광기",
+    "english_name": "wheel_stucked_madness",
+    "main_stat": "영역 숙련 18",
+    "description": "팀 유일 : \"몰아치는 파도\"자세로 전환할 떄 현재 영역 숙련의 11/14/17/20%에 해당하는 임시 영역 숙련을 획득하며, 3턴 쿨다운.",
     "image_path": "images/wheel_otori_lily.png"
   },
   {
