@@ -105,7 +105,7 @@
     "optimized_for": [],
     "main_stat": "크리티컬 피해 21.6%",
     "description": "팀 유일: 탐험이 시작된 후, 1장의 \"대박의 지혜\"를 드로우 덱에 섞습니다. \"대박의 지혜\": 1 계산력을 소모합니다. 손에 있는 모든 명령카드를 무작위로 드로우 덱에 섞으며, 섞인 명력카드는 다음에 사용할 때 13% 확률로 1번 추가로 발동합니다. 또한, 1장의 명령 카드를 섞을 떄마다 모든 각성체가 2점의 광기를 얻습니다. 보존, 소모, 고유",
-    "image_path": "images/wheel_fun_in_box.png"
+    "image_path": "images/wheel_wisdom_of_gamble.png"
   },
   {
     "grade": "SSR",
@@ -936,7 +936,7 @@
     "english_name": "wheel_stucked_madness",
     "main_stat": "영역 숙련 18",
     "description": "팀 유일 : \"몰아치는 파도\"자세로 전환할 떄 현재 영역 숙련의 11/14/17/20%에 해당하는 임시 영역 숙련을 획득하며, 3턴 쿨다운.",
-    "image_path": "images/wheel_otori_lily.png"
+    "image_path": "images/wheel_stucked_madness.png"
   },
   {
     "grade": "R",
