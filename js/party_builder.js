@@ -976,7 +976,7 @@ function renderKeyGrid() {
     });
 
     // 2단계: 정렬 적용
-    if (sortByRecent) {
+    if (sortByRecent) { 
         filteredKeys.sort((a, b) => {
             let indexA = recentKeys.indexOf(a.english_name);
             let indexB = recentKeys.indexOf(b.english_name);
