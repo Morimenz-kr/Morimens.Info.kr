@@ -45,8 +45,20 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentModalCards = [];
     let currentModalIndex = 0;
 
-    const RELEMS_MAP = { "chaos": "혼돈", "aequor": "심해", "caro": "혈육", "ultra": "초차원" };
-    const CLASS_MAP = { "assault": "데미지형", "warden": "방어형", "chorus": "보조형" };
+    // RELEMS_MAP, CLASS_MAP은 config/constants.js에서 전역으로 정의됨
+
+    // --- 캐시 유틸리티 ---
+    async function cachedFetch(url, cacheKey) {
+        const cached = sessionStorage.getItem(cacheKey);
+        if (cached) {
+            try { return JSON.parse(cached); } catch(e) { sessionStorage.removeItem(cacheKey); }
+        }
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.url}`);
+        const data = await res.json();
+        try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) { /* quota exceeded */ }
+        return data;
+    }
 
     // --- 2. 메인 실행 함수 ---
 
@@ -58,16 +70,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // --- 데이터 로딩 (툴팁 DB 포함) ---
+            const ver = (typeof CONFIG !== 'undefined') ? CONFIG.VERSION : '';
+            const validateResponse = (res) => {
+                if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.url}`);
+                return res.json();
+            };
+
             const [
                 awakenerData, cardsDB, statsDB, covenantsDB, wheelsDB, manifestData, tooltipsDB
             ] = await Promise.all([
-                fetch(`data/awakener/${charId}.json`).then(res => res.json()),
-                fetch(`data/db_cards.json`).then(res => res.json()),
-                fetch(`data/db_awakener_stats.json`).then(res => res.json()),
-                fetch(`data/covenant.json`).then(res => res.json()),
-                fetch(`data/wheels.json`).then(res => res.json()),
-                fetch(`data/character_manifest.json`).then(res => res.json()),
-                fetch(`data/db_tooltips.json`).then(res => res.json())
+                fetch(`data/awakener/${charId}.json`).then(validateResponse), // 캐릭터별 데이터는 항상 fresh
+                cachedFetch(`data/db_cards.json`, `db_cards_${ver}`),
+                cachedFetch(`data/db_awakener_stats.json`, `db_stats_${ver}`),
+                cachedFetch(`data/covenant_list.json`, `db_covenants_${ver}`),
+                cachedFetch(`data/wheel_list.json`, `db_wheels_${ver}`),
+                cachedFetch(`data/character_manifest.json`, `db_manifest_${ver}`),
+                cachedFetch(`data/db_tooltips.json`, `db_tooltips_${ver}`)
             ]);
 
             // DB 데이터 캐싱
@@ -426,7 +444,8 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>`;
     }
 
-    function collectAllDerivedCards(cardId, collectedIds = new Set()) {
+    function collectAllDerivedCards(cardId, collectedIds = new Set(), depth = 0) {
+        if (depth > 10) return collectedIds;
         const card = ALL_CARDS_DB[cardId];
         if (!card) {
             return collectedIds;
@@ -436,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.derives_cards.forEach(derivedId => {
                 if (!collectedIds.has(derivedId)) {
                     collectedIds.add(derivedId);
-                    collectAllDerivedCards(derivedId, collectedIds);
+                    collectAllDerivedCards(derivedId, collectedIds, depth + 1);
                 }
             });
         }
@@ -524,8 +543,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!e.target.matches('button.tab-link')) return;
             const clickedTab = e.target;
             const targetTabContentId = clickedTab.dataset.tab;
-            elements.tabsContainer.querySelectorAll('.tab-link').forEach(button => button.classList.remove('active'));
+            elements.tabsContainer.querySelectorAll('.tab-link').forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
             clickedTab.classList.add('active');
+            clickedTab.setAttribute('aria-selected', 'true');
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             document.getElementById(targetTabContentId).classList.add('active');
         });

@@ -18,46 +18,47 @@
 </head>
 
 <body>
-<div class="container">
+<main class="container">
 
     <div class="header-area">
-        <a href="index.html" class="back-link">⬅ 돌아가기</a>
+        <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 돌아가기</a></nav>
         <h1>각성체 목록</h1>
     </div>
 
-    <div class="controls-container">
-        <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색...">
+    <section class="controls-container" aria-label="검색 및 필터">
+        <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색..." aria-label="캐릭터 이름 검색">
         <div class="filter-container">
-            <select id="relems-filter">
+            <select id="relems-filter" aria-label="계역 필터">
                 <option value="all">계역 (전체)</option>
                 <option value="chaos">혼돈</option>
                 <option value="aequor">심해</option>
                 <option value="caro">혈육</option>
                 <option value="ultra">초차원</option>
             </select>
-            <select id="grade-filter">
+            <select id="grade-filter" aria-label="등급 필터">
                 <option value="all">등급 (전체)</option>
                 <option value="ssr">SSR</option>
                 <option value="sr">SR</option>
             </select>
-            <select id="class-filter">
+            <select id="class-filter" aria-label="클래스 필터">
                 <option value="all">클래스 (전체)</option>
                 <option value="assault">공격</option>
                 <option value="warden">방어</option>
                 <option value="chorus">보조</option>
             </select>
         </div>
-    </div>
+    </section>
 
-    <div class="character-grid" id="character-grid">
-    </div>
-</div>
+    <section class="character-grid" id="character-grid" aria-label="캐릭터 목록">
+    </section>
+</main>
 
+<script src="config/constants.js"></script>
 <script src="js/index.js"></script>
 
-<div id="report-modal" class="modal-overlay">
+<div id="report-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
     <div class="modal-content">
-        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <h2 id="report-modal-title" class="form-title">버그 제보 or 피드백</h2>
         <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
 
         <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
@@ -180,8 +181,8 @@
         }
     }
 </script>
-<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
-    🚨
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고" aria-label="버그 제보하기">
+    <span aria-hidden="true">🚨</span>
 </button>
 </body>
 </html>
