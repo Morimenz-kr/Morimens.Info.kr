@@ -17,21 +17,21 @@
 }
 
 .character-card {
-    background-color: #2a2a2a;
-    border-radius: 12px;
+    background-color: var(--color-bg-card);
+    border-radius: var(--radius-lg);
     overflow: hidden;
     text-align: center;
     padding-bottom: 12px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s, background 0.2s;
-    border: 1px solid #333;
+    transition: transform var(--transition-fast), background var(--transition-fast);
+    border: 1px solid var(--color-border-dark);
     position: relative;
 }
 
 .character-card:hover {
     transform: translateY(-5px);
-    background-color: #333;
-    border-color: #555;
+    background-color: var(--color-bg-elevated);
+    border-color: var(--color-border-light);
 }
 
 .character-card img {
@@ -72,19 +72,19 @@
 }
 
 .relems-tag.chaos {
-    background-color: #8B8000;
+    background-color: var(--color-chaos);
 }
 
 .relems-tag.aequor {
-    background-color: #005A8C;
+    background-color: var(--color-aequor);
 }
 
 .relems-tag.caro {
-    background-color: #8C0000;
+    background-color: var(--color-caro);
 }
 
 .relems-tag.ultra {
-    background-color: #5A008C;
+    background-color: var(--color-ultra);
 }
 
 /* 태그 스타일 (등급, 클래스) */
@@ -96,48 +96,48 @@
 }
 
 .tag.ssr {
-    background-color: #ffc107;
+    background-color: var(--color-ssr);
     color: #333;
 }
 
 .tag.sr {
-    background-color: #8a2be2;
+    background-color: var(--color-sr);
 }
 
 .tag.chaos {
-    background-color: #8B8000;
+    background-color: var(--color-chaos);
 }
 
 .tag.aequor {
-    background-color: #005A8C;
+    background-color: var(--color-aequor);
 }
 
 .tag.caro {
-    background-color: #8C0000;
+    background-color: var(--color-caro);
 }
 
 .tag.ultra {
-    background-color: #5A008C;
+    background-color: var(--color-ultra);
 }
 
 .tag.assault {
-    background-color: #dc3545;
+    background-color: var(--color-assault);
 }
 
 .tag.warden {
-    background-color: #007bff;
+    background-color: var(--color-warden);
 }
 
 .tag.chorus {
-    background-color: #28a745;
+    background-color: var(--color-chorus);
 }
 
 /* --- 2. 북마크 링크 카드 (Notion-style) --- */
 .notion-bookmark {
     display: flex;
-    background-color: #2a2a2a;
-    border: 1px solid #444;
-    border-radius: 6px;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
     text-decoration: none;
     color: #eee;
     margin-bottom: 16px;
@@ -219,8 +219,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    ;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: var(--color-overlay);
     z-index: 1000;
     justify-content: center;
     align-items: center;
@@ -234,9 +233,9 @@
     width: 90%;
     max-width: 500px;
     background-color: #222;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     padding: 20px;
-    border: 1px solid #444;
+    border: 1px solid var(--color-border);
     max-height: 80vh;
     display: flex;
     flex-direction: column;
@@ -255,7 +254,7 @@
 .modal-header h2 {
     margin: 0;
     font-size: 1.2em;
-    color: #ffc107;
+    color: var(--color-accent);
 }
 
 .close-btn {
@@ -329,16 +328,16 @@
     flex: 1;
     min-width: 200px;
     padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: #252525;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-input);
     color: #fff;
     font-size: 1em;
 }
 
 .search-bar:focus {
     outline: none;
-    border-color: #ffc107;
+    border-color: var(--color-accent);
 }
 
 .filter-container {
@@ -348,10 +347,10 @@
 
 select {
     padding: 12px;
-    background-color: #333;
+    background-color: var(--color-bg-elevated);
     color: #eee;
-    border: 1px solid #444;
-    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
     font-weight: bold;
     cursor: pointer;
     font-size: 1em;
@@ -359,12 +358,12 @@ select {
 
 select:focus {
     outline: none;
-    border-color: #ffc107;
+    border-color: var(--color-accent);
 }
 
 /* --- 신고 모달 폼 스타일 (공통) --- */
 .form-title {
-    color: #ffc107;
+    color: var(--color-accent);
     border-bottom: 2px solid #444;
     padding-bottom: 10px;
     margin-top: 0;
@@ -382,9 +381,9 @@ select:focus {
 .form-textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #555;
-    border-radius: 6px;
-    background-color: #383838;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg-form);
     color: #eee;
     font-size: 1em;
     box-sizing: border-box;
@@ -393,7 +392,7 @@ select:focus {
 .form-input:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: #ffc107;
+    border-color: var(--color-accent);
 }
 
 .form-textarea {
@@ -408,7 +407,7 @@ select:focus {
     width: 100%;
     padding: 12px;
     margin-top: 20px;
-    background-color: #007bff;
+    background-color: var(--color-link-blue);
     color: white;
     border: none;
     border-radius: 6px;
@@ -418,5 +417,5 @@ select:focus {
 }
 
 .form-submit-btn:hover {
-    background-color: #0056b3;
+    background-color: var(--color-link-blue-hover);
 }

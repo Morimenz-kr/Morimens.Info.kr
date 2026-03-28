@@ -3,6 +3,47 @@
    모든 페이지에서 공통으로 사용되는 기본 스타일
    ============================================ */
 
+/* --- 0. CSS Variables (전역 디자인 토큰) --- */
+:root {
+    --color-bg-dark: #1a1a1a;
+    --color-bg-card: #2a2a2a;
+    --color-bg-elevated: #333;
+    --color-bg-hover: #444;
+    --color-bg-input: #252525;
+    --color-bg-form: #383838;
+    --color-text-primary: #ecf0f1;
+    --color-text-secondary: #ccc;
+    --color-text-muted: #aaa;
+    --color-text-dim: #888;
+    --color-accent: #ffc107;
+    --color-accent-gold: #ffd700;
+    --color-link-blue: #007bff;
+    --color-link-blue-hover: #0056b3;
+    --color-success: #2ecc71;
+    --color-danger: #e74c3c;
+    --color-border: #444;
+    --color-border-light: #555;
+    --color-border-dark: #333;
+    --color-overlay: rgba(0, 0, 0, 0.85);
+    --color-overlay-light: rgba(0, 0, 0, 0.75);
+    --color-chaos: #8B8000;
+    --color-aequor: #005A8C;
+    --color-caro: #8C0000;
+    --color-ultra: #5A008C;
+    --color-assault: #dc3545;
+    --color-warden: #007bff;
+    --color-chorus: #28a745;
+    --color-ssr: #ffc107;
+    --color-sr: #8a2be2;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-pill: 15px;
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --font-family: 'Pretendard', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
 /* --- 1. CSS Reset & Box Model --- */
 * {
     box-sizing: border-box;
@@ -22,9 +63,9 @@ body {
 }
 
 body {
-    font-family: 'Pretendard', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: #1a1a1a;
-    color: #ecf0f1;
+    font-family: var(--font-family);
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

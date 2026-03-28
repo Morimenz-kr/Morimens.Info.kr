@@ -186,24 +186,39 @@ async function loadExternalData() {
     }
 }
 
+// 사전 계산된 정규화 키워드 캐시
+const _cleanSearchTags = {};
+const _cleanKeyTags = {};
+
 function assignTagsToWheels() {
+    // 키워드 정규화 캐시 (한 번만 계산)
+    if (Object.keys(_cleanSearchTags).length === 0) {
+        ALL_SEARCH_TAGS.forEach(keyword => {
+            _cleanSearchTags[keyword] = keyword.replace(/\s+/g, '');
+        });
+    }
     DB.wheels.forEach(wheel => {
         wheel.tags = [];
         const text = (wheel.description + " " + wheel.main_stat).replace(/\s+/g, '');
         ALL_SEARCH_TAGS.forEach(keyword => {
-            const cleanKeyword = keyword.replace(/\s+/g, '');
-            if (text.includes(cleanKeyword)) wheel.tags.push(keyword);
+            if (text.includes(_cleanSearchTags[keyword])) wheel.tags.push(keyword);
         });
     });
 }
 
 function assignTagsToKeys() {
     if(!DB.keys) return;
+    // 키워드 정규화 캐시 (한 번만 계산)
+    if (Object.keys(_cleanKeyTags).length === 0) {
+        ALL_KEY_TAGS.forEach(keyword => {
+            _cleanKeyTags[keyword] = keyword.replace(/\s+/g, '');
+        });
+    }
     DB.keys.forEach(key => {
         const combinedTags = new Set(key.tags || []);
         const text = (key.description + " " + key.korean_name).replace(/\s+/g, '');
         ALL_KEY_TAGS.forEach(keyword => {
-            if (text.includes(keyword.replace(/\s+/g, ''))) combinedTags.add(keyword);
+            if (text.includes(_cleanKeyTags[keyword])) combinedTags.add(keyword);
         });
         key.tags = Array.from(combinedTags);
     });

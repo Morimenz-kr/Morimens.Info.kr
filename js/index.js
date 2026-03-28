@@ -1,8 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // "번역기" (매핑 테이블)
-    const RELEMS_MAP = { "chaos": "혼돈", "aequor": "심해", "caro": "혈육", "ultra": "초차원" };
-    const CLASS_MAP = { "assault": "데미지형", "warden": "방어형", "chorus": "보조형" };
-
     // DOM 요소 캐시 (GetComponent 캐싱)
     const searchBar = document.getElementById('search-bar');
     const relemsFilter = document.getElementById('relems-filter');
