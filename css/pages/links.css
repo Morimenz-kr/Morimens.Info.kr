@@ -166,3 +166,95 @@
 .form-submit-btn:hover {
     background-color: #0056b3;
 }
+
+/* ============================================
+   크롬 스타일 폴더형 탭 및 화면 스위칭 로직
+   ============================================ */
+.chrome-tabs-container {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 0;
+    border-bottom: 1px solid #444; /* 하단 전체를 가로지르는 기준선 */
+    padding-left: 10px;
+}
+
+.chrome-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background: #2a2a2e;
+    border: 1px solid #444;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 0.95em;
+    color: #888;
+    margin-bottom: -1px; /* 하단 기준선을 덮기 위한 트릭 */
+    transition: all 0.2s;
+    font-family: 'Pretendard', sans-serif;
+    min-width: 120px; /* 글씨 크기에 맞춰 늘어나게 함 */
+}
+
+.chrome-tab:hover:not(.active) {
+    background: #333338;
+    color: #ccc;
+}
+
+.chrome-tab.active {
+    background: #38383e;
+    color: #ffc107;
+    font-weight: bold;
+    border-color: #444;
+    border-bottom: 1px solid #38383e; /* 활성화 시 하단 선을 지워서 내용물과 연결 */
+    z-index: 2;
+}
+
+/* 탭 전환 시 나타나는 콘텐츠 화면 (가로 폭은 부모를 따라 고정됨) */
+.tab-content {
+    display: none; /* 기본적으로 화면에서 완전히 제거됨 */
+    animation: fadeInTab 0.3s ease-out;
+    padding-top: 25px;
+}
+
+.tab-content.active {
+    display: block; /* 활성화 시에만 화면 통째로 등장 */
+}
+
+@keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 도감 전용 격자 레이아웃 */
+.dictionary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+}
+/* ============================================
+   명륜 상세 정보 툴팁 디자인
+   ============================================ */
+.item-tooltip {
+    display: none; position: fixed; z-index: 9999; background: rgba(18, 18, 18, 0.95);
+    border: 1px solid #777; border-radius: 4px; padding: 12px; max-width: 300px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.8); pointer-events: none; color: #eee; font-size: 0.9rem; line-height: 1.4;
+}
+.tooltip-title { color: #ffc107; font-weight: bold; margin-bottom: 6px; font-size: 1.1em; border-bottom: 1px solid #444; padding-bottom: 4px; }
+.tooltip-desc { color: #ccc; word-break: keep-all; }
+.tooltip-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+.tooltip-tag { font-size: 0.75em; background: #333; color: #aaa; padding: 2px 6px; border-radius: 4px; }
+.tooltip-main-stat { color: #ffc107; margin-bottom: 5px; font-weight: bold; }
+.tooltip-effect-desc { color: #ccc; font-size: 0.9em; line-height: 1.4; }
+
+/* 모바일 화면에서는 마우스가 없으므로 터치 시 화면 중앙 하단에 고정되도록 처리 */
+@media (max-width: 768px) {
+    .item-tooltip {
+        position: fixed !important; top: auto !important; bottom: 90px !important;
+        left: 50% !important; transform: translateX(-50%) !important;
+        width: 90% !important; max-width: none !important;
+        background: rgba(25, 25, 30, 0.98); border: 1px solid #ffc107;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.7); text-align: left;
+        padding: 15px; z-index: 2000; border-radius: 8px; pointer-events: none;
+    }
+}

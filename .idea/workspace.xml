@@ -5,8 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/data/character_settings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/pages/links.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/pages/links.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/party_builder.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/party_builder.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/covenant_list.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/covenant_list.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/resource_links.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/resource_links.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/silverkey_list.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/silverkey_list.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wheel_list.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/wheel_list.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/key_from_fog.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/key_from_fog.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/key_homegirl_story.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/key_homegirl_story.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/key_keirei.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/key_keirei.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/key_lightning.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/key_lightning.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/key_mt_blessing.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/key_mt_blessing.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/key_paint.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/key_paint.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/key_special.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/key_special.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/key_star_protect.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/key_star_protect.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/key_summer_time.png" beforeDir="false" afterPath="$PROJECT_DIR$/images/key_summer_time.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/links.html" beforeDir="false" afterPath="$PROJECT_DIR$/links.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repomix-output.xml" beforeDir="false" afterPath="$PROJECT_DIR$/repomix-output.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,9 +34,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JSON File" />
         <option value="HTML File" />
         <option value="JavaScript File" />
+        <option value="JSON File" />
       </list>
     </option>
   </component>
@@ -146,7 +164,9 @@
       <workItem from="1774956990817" duration="1920000" />
       <workItem from="1775062587030" duration="288000" />
       <workItem from="1775201013569" duration="262000" />
-      <workItem from="1775288476674" duration="762000" />
+      <workItem from="1775288476674" duration="17024000" />
+      <workItem from="1775367902028" duration="18237000" />
+      <workItem from="1775430460904" duration="14777000" />
     </task>
     <servers />
   </component>

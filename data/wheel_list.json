@@ -156,7 +156,7 @@
     "grade": "SSR",
     "korean_name": "호박색의 죽음",
     "english_name": "wheel_amber_death",
-    "optimized_for": ["카티굴라"],
+    "optimized_for": ["카티구라"],
     "main_stat": "크리티컬 피해 21.6%",
     "description": "팀 유일: 장비자가 입히는 기본 피해가 20/25/30/35%, 부여하는 힘이 6/8/10/12% 증가한다. 장비자의 명령 카드를 사용한 후 장비자 공격력 11/14/17/20%의 임시 힘을 얻으며, 매 턴 최대 5회 발동된다.",
     "image_path": "images/wheel_amber_death.png"

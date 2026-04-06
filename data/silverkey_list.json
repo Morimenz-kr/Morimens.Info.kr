@@ -320,5 +320,12 @@
     "description": "1포인트의 계산력을 얻고 모든 적의 38포인트의 힘을 임시로 감소시킵니다. \"서\"가 팀에 있을 경우 모든 적에게 1층의 '도취'를 부여합니다.\n",
     "image_path": "images/key_homegirl_story.png",
     "tags": ["힘 감소", "산출력 획득"]
+  },
+  {
+    "korean_name": "익사한 순수",
+    "english_name": "key_mosk",
+    "description": "1명의 각성체를 선택하여 15점의 광기를 획득하고, 다른 각성체는 5점의 광기를 획득합니다. 만약 Mosk가 팀에 있다면, 즉시 \"소용돌이! 유동! 발사!\"를 사용하여 추격합니다.",
+    "image_path": "images/key_mosk.png",
+    "tags": ["광기 획득", "추격"]
   }
 ]

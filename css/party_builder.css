@@ -208,7 +208,7 @@ body {
     display: flex; justify-content: center; gap: 24px; z-index: 2; pointer-events: auto;
 }
 .slot-wheel {
-    width: 84px; height: 130px; border: 1px solid #888; background: rgba(0,0,0,0.5);
+    width: 84px; height: 170px; border: 1px solid #888; background: rgba(0,0,0,0.5);
     display: flex; justify-content: center; align-items: center;
     font-size: 2em; color: #555; cursor: pointer; transition: 0.2s;
 }
@@ -441,7 +441,7 @@ body {
 .modal-footer { padding: 15px 20px; background: #2e2e34; border-top: 1px solid #444; text-align: right; }
 
 .grid-item { position: relative; aspect-ratio: 1/1; background: #333338; cursor: pointer; border: 2px solid transparent; }
-.grid-item-wheel { aspect-ratio: 3/4; }
+.grid-item-wheel { aspect-ratio: 225/456; }
 .grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .grid-item.selected { border-color: var(--highlight); }
 .grid-item.selected::after { content: '✔'; position: absolute; top: 0; right: 0; background: var(--highlight); color: #000; font-size: 0.8em; padding: 2px 4px; }
@@ -699,7 +699,7 @@ body {
 @media (max-width: 1400px) {
     .char-card { width: 180px; }
     .slots-container { gap: 20px; padding-left: 30px; }
-    .slot-wheel { width: 70px; height: 110px; }
+    .slot-wheel { width: 70px; height: 142px; }
     .slot-covenant { width: 50px; height: 60px; bottom: 140px; }
     .wheels-wrapper { gap: 15px; }
 }
@@ -735,7 +735,7 @@ body {
     .char-card { width: 100%; aspect-ratio: 3/5; }
     .char-top-name { font-size: 1em; }
     .char-top-icon { width: 20px; height: 20px; }
-    .slot-wheel { width: 36px; height: 54px; font-size: 1.2em; }
+    .slot-wheel { width: 36px; height: 73px; font-size: 1.2em; }
     .slot-covenant { width: 36px; height: 45px; font-size: 1.2em; bottom: 70px; right: 5px; }
     .wheels-wrapper { gap: 8px; bottom: 10px; }
     .empty-cross { width: 30px; height: 30px; }

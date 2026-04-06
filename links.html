@@ -22,23 +22,30 @@
         loadCSS('css/responsive.css');
     </script>
     <style>
-        /* 추가된 버튼의 스타일 */
+        /* 융재금구 시뮬레이터 버튼 스타일 최종 수정 */
         .party-link-btn {
             display: block;
             width: 100%;
-            padding: 15px 10px;
-            margin: 15px 0 25px 0;
-            background-color: #f7a115; /* 강조 색상 */
-            color: #1a1a1a;
+            padding: 12px 0;
+            /* 상단 마진(패딩)을 0으로 줄여 타이틀과의 간격을 밀착시킵니다 */
+            margin: -35px 0 20px 0;
+            background-color: #3498db !important;
+            color: #ffffff !important;
             font-weight: bold;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 6px;
             text-decoration: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: background-color 0.2s;
+            font-size: 0.95em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: none;
+            box-sizing: border-box;
         }
+
+        /* 호버 상태 유지 */
         .party-link-btn:hover {
-            background-color: #e59400;
+            background-color: #3498db !important;
+            color: #ffffff !important;
+            cursor: pointer;
         }
         .party-credit-text {
             display: block;
@@ -67,6 +74,247 @@
             background-color: #444;
             color: #fff;
         }
+        .recommend-role, .recommend-step {
+            display: inline-block; /* 텍스트 크기에 맞게 조절 */
+            background-color: #2a2a32;
+            border: 1px solid #555;
+            border-radius: 12px;
+            padding: 3px 12px;
+            font-size: 0.75em;
+            color: #eee;
+            text-align: center;
+            white-space: nowrap;
+            width: fit-content;
+        }        
+        .recommend-box {
+            width: 100%;
+            aspect-ratio: 2 / 0.9;
+            background-color: #1e1e22;
+            border: 1px solid #444;
+            border-radius: 12px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            overflow: hidden;
+            color: #ddd;
+            padding: 0; /* 이중 패딩 방지를 위해 0으로 변경 */
+            margin-bottom: 25px;
+        }
+        /* 마지막 박스의 하단 마진만 제거하여 레이아웃 균형을 맞춤 */
+        .recommend-box:last-child {
+            margin-bottom: 0;
+        }
+        /* [수정] 좌측 영역의 너비를 고정하여 완벽한 중앙 배치 공간 확보 */
+        .recommend-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 10px;
+            width: 140px; /* 왼쪽 벽부터 세로선까지의 너비를 고정 */
+            min-width: 140px;
+            padding: 0; /* 내부 패딩 제거 (중앙 정렬로 대체) */
+            border-right: 1px solid #444;
+            box-sizing: border-box;
+        }
+
+        /* [유지] 기존 8px 라운드 사각형 디자인과 크기 그대로 유지 */
+        .recommend-thumb {
+            width: 75px;
+            height: 75px;
+            object-fit: cover;
+            border-radius: 8px; /* 기존 스타일 유지 */
+            border: 1px solid #555;
+        }
+
+        .recommend-right {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;            /* [수정] 이 수치를 조절해서 원하는 공백을 맞추세요 */
+            height: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .equip-slot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 100%;
+            width: fit-content;    /* 너비를 내용물에 맞춤 */
+            min-width: 0;          /* 고정 너비 삭제 */
+        }
+
+        .equip-img-myeongryun {
+            height: 60%;
+            aspect-ratio: 225 / 456;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #555;
+        }
+
+        .equip-img-covenant {
+            height: 60%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #555;
+        }
+
+        /* 슬롯 하단 라벨 텍스트 */
+        .equip-label {
+            font-size: 0.8em;
+            color: #aaa;
+            white-space: nowrap;
+        }
+
+        /* 대체 텍스트 버튼 스타일 */
+        .sub-link {
+            font-size: 0.75em;
+            color: #aaa;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: color 0.2s;
+        }
+        .sub-link:hover {
+            color: #ffc107;
+        }
+        .sub-link.disabled {
+            color: #444;           /* 어둡게 처리 */
+            text-decoration: none; /* 밑줄 제거 */
+            cursor: default;      /* 커서 기본으로 */
+            pointer-events: none;  /* 클릭 차단 */
+        }
+        
+
+        /* 모달 내 대체 아이템 리스트 스타일 */
+        .sub-item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .sub-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #2a2a32;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .sub-item img {
+            width: 40px;
+            border-radius: 4px;
+        }
+        .modal-content {
+            width: fit-content !important; /* 내부 요소에 맞춰 너비 결정 */
+            min-width: 300px;
+            max-width: 90vw; /* 화면 밖으로 나가지 않게 제한 */
+            transition: all 0.3s ease;
+        }
+
+        /* 명륜 전용 모달 크기 (세로형 아이템 위주) */
+        .modal-myeongryun {
+            width: 400px;
+            max-height: 80vh;
+        }
+
+        /* 비밀계약 전용 모달 크기 (넓은 레이아웃) */
+        .modal-covenant {
+            width: 600px;
+            max-height: 70vh;
+        }
+
+        /* 비밀계약 이름 텍스트 스타일 */
+        .equip-name {
+            font-size: 0.85em;
+            color: #fff;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+        /* 메인 박스 내 이름 텍스트 스타일 */
+        .equip-name-label {
+            font-size: 0.8em;
+            color: #eee;
+            margin-top: 4px;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+        /* 모달 내 아이템 공통 (수직 배치) */
+        .sub-item-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background: #2a2a32;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+
+        /* 모달 내 명륜 이미지 비율 */
+        .sub-img-myeongryun {
+            width: 80px;
+            aspect-ratio: 225 / 456;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #555;
+        }
+
+        /* 모달 내 비밀계약 이미지 비율 */
+        .sub-img-covenant {
+            width: 100px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #555;
+        }
+
+        .sub-item-name {
+            font-size: 0.85em;
+            color: #eee;
+            font-weight: bold;
+            text-align: center;
+        }
+        /* 세팅 정보가 없을 때 표시할 안내 박스 */
+        .no-setting-notice {
+            width: 100%;
+            height: 180px; /* 기존 recommend-box와 비슷한 높이 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #1e1e24;
+            border: 1px dashed #444;
+            border-radius: 12px;
+            color: #888;
+            gap: 10px;
+        }
+        .no-setting-notice i {
+            font-size: 2em;
+        }
+        .tooltip-tag {
+            display: inline-block;
+            background-color: #3a3a42;
+            border: 1px solid #666;
+            border-radius: 4px;
+            padding: 2px 8px;
+            margin-right: 5px;
+            margin-top: 5px;
+            font-size: 0.75em;
+            color: #ffc107; /* 태그 강조 색상 */
+            white-space: nowrap;
+        }
     </style>
 </head>
 
@@ -78,17 +326,24 @@
     <div class="link-container">
         <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
 
-        <div id="party-link-slot"></div>
-        <div id="links-list"></div>
+        <div class="chrome-tabs-container">
+            <div class="chrome-tab active" onclick="switchTab('dictionary')">명륜 리스트</div>
+            <div class="chrome-tab" onclick="switchTab('links')">채널 정보글 링크</div>
+        </div>
+
+        <div id="tab-content-dictionary" class="tab-content active">
+            <div id="dictionary-grid" class="dictionary-grid">
+            </div>
+        </div>
+
+        <div id="tab-content-links" class="tab-content">
+            <div id="party-link-slot"></div>
+            <div id="links-list"></div>
+        </div>
 
         <div class="report-section">
             <p>혹시 연결되지 않는 링크가 있나요?</p>
-            <button id="open-report-modal" class="report-btn">
-                🚨 버그/피드백 제보하기
-            </button>
-            <span id="party-credit-slot" class="party-credit-text" style="display:none;">
-                '융재 금구 파티 편성' 기능은 망각전야 채널의 '플린의 조수'님이 제작하신 사이트로 연결됩니다.
-            </span>
+            <button id="open-report-modal" class="report-btn">🚨 버그/피드백 제보하기</button>
         </div>
     </div>
 </div>
@@ -117,6 +372,15 @@
             <button type="submit" class="form-submit-btn">제보 보내기</button>
             <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
         </form>
+    </div>
+</div>
+
+<div id="substitute-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title" id="sub-modal-title">대체 장비 정보</h2>
+        <div id="sub-modal-body" style="color: #ccc; line-height: 1.6;">
+        </div>
+        <button type="button" class="form-submit-btn" onclick="closeSubModal()" style="margin-top: 20px; background-color: #444;">닫기</button>
     </div>
 </div>
 
@@ -220,108 +484,431 @@
         });
     }
 
+    function openSubModal(type) {
+        const modal = document.getElementById('substitute-modal');
+        const contentBox = modal.querySelector('.modal-content');
+        const title = document.getElementById('sub-modal-title');
+        const body = document.getElementById('sub-modal-body');
+
+        contentBox.classList.remove('modal-myeongryun', 'modal-covenant');
+
+        let content = '';
+        const placeholderImg = 'images/smile_Ramona.webp';
+
+        if (type === 'ssr' || type === 'sr') {
+            contentBox.classList.add('modal-myeongryun');
+            title.textContent = type === 'ssr' ? 'SSR 명륜 대체' : 'SR 명륜 대체';
+
+            // 명륜용 2열 그리드 (이미지 아래 이름)
+            content = '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">';
+            content += `
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-myeongryun">
+                <div class="sub-item-name">대체 명륜 A</div>
+            </div>
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-myeongryun">
+                <div class="sub-item-name">대체 명륜 B</div>
+            </div>
+        `;
+            content += '</div>';
+        } else {
+            contentBox.classList.add('modal-covenant');
+            title.textContent = '비밀계약 대체';
+
+            // 비밀계약용 3열 그리드 (이미지 아래 이름)
+            content = '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px;">';
+            content += `
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-covenant">
+                <div class="sub-item-name">대체 계약 A</div>
+            </div>
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-covenant">
+                <div class="sub-item-name">대체 계약 B</div>
+            </div>
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-covenant">
+                <div class="sub-item-name">대체 계약 C</div>
+            </div>
+        `;
+            content += '</div>';
+        }
+
+        body.innerHTML = content;
+        modal.classList.add('show');
+    }
+
+    function closeSubModal() {
+        const modal = document.getElementById('substitute-modal');
+        if (modal) modal.classList.remove('show');
+    }
+
+    // 탭 전환 로직
+    function switchTab(tabName) {
+        document.querySelectorAll('.chrome-tab').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+
+        if (tabName === 'dictionary') {
+            document.querySelectorAll('.chrome-tab')[0].classList.add('active');
+            document.getElementById('tab-content-dictionary').classList.add('active');
+        } else {
+            document.querySelectorAll('.chrome-tab')[1].classList.add('active');
+            document.getElementById('tab-content-links').classList.add('active');
+        }
+    }
+
+    // 전역 툴팁 엘리먼트 동적 생성
+    const tooltipEl = document.createElement('div');
+    tooltipEl.id = 'global-tooltip';
+    tooltipEl.className = 'item-tooltip';
+    tooltipEl.innerHTML = `
+    <div class="tooltip-title" id="tt-title"></div>
+    <div class="tooltip-desc" id="tt-desc"></div>
+    <div class="tooltip-tags" id="tt-tags"></div>
+`;
+    document.body.appendChild(tooltipEl);
+
+    // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠 통합 호환)
+    // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환)
+    function showTooltip(item, e) {
+        const ttTitle = document.getElementById('tt-title');
+        const ttDesc = document.getElementById('tt-desc');
+        const ttTags = document.getElementById('tt-tags');
+
+        ttTitle.textContent = item.korean_name;
+        let contentHtml = '';
+
+        // 명륜 전용 주옵션
+        if (item.main_stat) {
+            contentHtml += `<div class="tooltip-main-stat">주옵션: ${item.main_stat}</div>`;
+        }
+        // 공통 설명 (은열쇠 등)
+        if (item.description) {
+            contentHtml += `<div class="tooltip-effect-desc">${item.description}</div>`;
+        }
+
+        // 비밀계약 전용 세트 효과
+        if (item.set_effect_3) {
+            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[3세트 효과]</div>`;
+            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_3}</div>`;
+        }
+        if (item.set_effect_6) {
+            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[6세트 효과]</div>`;
+            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_6}</div>`;
+        }
+
+        ttDesc.innerHTML = contentHtml;
+        ttTags.innerHTML = '';
+
+        // 비밀계약/은열쇠(tags) 또는 명륜(optimized_for) 배열을 감지하여 태그 뱃지 생성
+        const tagArray = item.tags || item.optimized_for || [];
+        tagArray.forEach(tag => {
+            const s = document.createElement('span');
+            s.className = 'tooltip-tag';
+            s.textContent = tag;
+            ttTags.appendChild(s);
+        });
+
+        tooltipEl.style.display = 'block';
+        moveTooltip(e);
+    }
+
+    // 툴팁 위치 실시간 추적 및 화면 이탈 방어 로직
+    function moveTooltip(e) {
+        if (!tooltipEl || tooltipEl.style.display === 'none') return;
+
+        let x = e.clientX + 15;
+        let y = e.clientY + 15;
+
+        const rect = tooltipEl.getBoundingClientRect();
+        if (x + rect.width > window.innerWidth) {
+            x = e.clientX - rect.width - 15;
+        }
+        if (y + rect.height > window.innerHeight) {
+            y = e.clientY - rect.height - 15;
+        }
+
+        tooltipEl.style.left = x + 'px';
+        tooltipEl.style.top = y + 'px';
+    }
+
+    function hideTooltip() {
+        if (tooltipEl) {
+            tooltipEl.style.display = 'none';
+        }
+    }
+
+    // 아이콘 리스트 렌더링 로직 (비율 및 크기 분기 처리)
+    function renderDictionary(data, category) {
+        const grid = document.getElementById('dictionary-grid');
+        grid.innerHTML = '';
+
+        // 카테고리에 따라 그리드의 기본 크기를 다르게 할당하여 비밀계약 아이콘을 크게 만듦
+        if (category === 'covenant') {
+            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(130px, 1fr))';
+        } else {
+            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(80px, 1fr))';
+        }
+
+        data.forEach(item => {
+            const img = document.createElement('img');
+            img.src = item.image_path;
+            img.style.width = '100%';
+
+            // 은열쇠와 비밀계약은 1:1, 명륜은 인게임 비율 적용
+            if (category === 'silverkey' || category === 'covenant') {
+                img.style.aspectRatio = '1/1';
+            } else {
+                img.style.aspectRatio = '225/456';
+            }
+
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '4px';
+            img.style.cursor = 'pointer';
+            img.style.border = '1px solid #444';
+
+            img.onmouseenter = (e) => {
+                img.style.borderColor = '#ffc107';
+                showTooltip(item, e);
+            };
+            img.onmousemove = moveTooltip;
+            img.onmouseleave = () => {
+                img.style.borderColor = '#444';
+                hideTooltip();
+            };
+
+            grid.appendChild(img);
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const category = urlParams.get('category');
         const charId = urlParams.get('id');
         const titleEl = document.getElementById('page-title');
         const listEl = document.getElementById('links-list');
+        const tabsContainer = document.querySelector('.chrome-tabs-container');
+        const partySlot = document.getElementById('party-link-slot');
 
-        const modal = document.getElementById('report-modal');
-        const openModalBtn = document.getElementById('open-report-modal');
+        const isCharacterPage = (category === 'character');
+        const isDictionaryPage = (category === 'myeongryun' || category === 'silverkey' || category === 'covenant');
 
-        if (openModalBtn) {
-            openModalBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openReportModal();
-            });
-        }
-        if (modal) {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.classList.remove('show');
-            });
-        }
-
-        // 1. 카테고리별 클래스 추가
-        if (category) {
-            document.body.classList.add(`category-${category}`);
-
-            // =======================================================
-            // ⭐ 사용자 요청: '융재금구' 페이지일 때 파티 찾기 버튼 삽입 로직
-            if (category === 'weapon') {
-                const partySlot = document.getElementById('party-link-slot');
-                const partyCredit = document.getElementById('party-credit-slot');
-
-                // 내부 시뮬레이터 버튼 (신규) + 외부 링크 버튼 (기존)
-                const partyButtonHTML = `
-                    <a href="party_builder.html" class="party-link-btn" style="background-color: #3498db; color: #fff; margin-bottom: 10px;">
-                        🛠️ 융재 금구 파티 시뮬레이터 실행 (Beta)
-                    </a>
-                `;
-                partySlot.innerHTML = partyButtonHTML;
-
-                partyCredit.style.display = 'block';
+        // 1. 탭 표시 설정 및 명칭 수정 (외부 링크 -> 채널 정보글 리스트)
+        if (tabsContainer) {
+            tabsContainer.style.display = (isDictionaryPage || isCharacterPage) ? 'flex' : 'none';
+            const tabs = document.querySelectorAll('.chrome-tab');
+            if (tabs.length >= 1) {
+                if (isCharacterPage) {
+                    tabs[0].textContent = '추천 세팅';
+                    if (tabs[1]) tabs[1].textContent = "채널 정보글 리스트";
+                } else if (isDictionaryPage) {
+                    if (category === 'myeongryun') tabs[0].textContent = '명륜 리스트';
+                    else if (category === 'silverkey') tabs[0].textContent = '은열쇠 리스트';
+                    else if (category === 'covenant') tabs[0].textContent = '비밀계약 리스트';
+                    if (tabs[1]) tabs[1].textContent = '채널 정보글 리스트';
+                }
             }
-            // =======================================================
         }
 
         try {
             const ts = new Date().getTime();
-            const [manifestRes, linksRes] = await Promise.all([
-                fetch(`data/character_manifest.json?t=${ts}`),
-                fetch(`data/resource_links.json?t=${ts}`)
+            const [manifest, linksDB, wheelList, covList, settingsDB, keyList] = await Promise.all([
+                fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/covenant_list.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/character_settings.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => [])
             ]);
 
-            if (!manifestRes.ok || !linksRes.ok) throw new Error("JSON 파일 로드 실패");
+            // 한국어 이름 및 영문 ID 매핑 (유연한 데이터 참조를 위해 유지)
+            window.wheelMap = {};
+            wheelList.forEach(w => {
+                window.wheelMap[w.english_name] = w;
+                window.wheelMap[w.korean_name] = w;
+            });
+            window.covMap = {};
+            covList.forEach(c => {
+                window.covMap[c.english_name] = c;
+                window.covMap[c.korean_name] = c;
+            });
+            window.currentSettings = settingsDB;
 
-            const manifest = await manifestRes.json();
-            const linksDB = await linksRes.json();
+            const charData = manifest.find(c => c.id === charId);
             let targetItems = [];
-            let pageTitleHTML = "";
 
-            // 2. 데이터 로드 분기 처리
-            if (category === 'character' && charId) {
-                const charData = manifest.find(c => String(c.id) === String(charId));
-                if (charData) {
-                    pageTitleHTML = `<img src="${charData.image_thumb}" class="title-thumb" alt=""> ${charData.name} 공략 모음`;
-                    targetItems = linksDB.characters[charId] || [];
+            // [수정] 융재금구(weapon) 카테고리 진입 시 내부 시뮬레이터 버튼 노출
+            if (partySlot) {
+                if (category === 'weapon') {
+                    partySlot.innerHTML = `
+                        <a href="party_builder.html" class="party-link-btn">
+                            융재 금구 파티 시뮬레이터 실행 (Beta)
+                        </a>
+                    `;
                 } else {
-                    pageTitleHTML = "알 수 없는 캐릭터";
+                    partySlot.innerHTML = '';
                 }
-            } else if (category && linksDB.categories[category]) {
-                pageTitleHTML = linksDB.categories[category].title;
-                targetItems = linksDB.categories[category].links || [];
-            } else {
-                pageTitleHTML = "존재하지 않는 페이지";
-                targetItems = [];
             }
 
-            titleEl.innerHTML = pageTitleHTML;
-            listEl.innerHTML = '';
+            // 1. 캐릭터 공략 페이지
+            if (isCharacterPage && charData) {
+                titleEl.innerHTML = `<img src="${charData.image_thumb}" class="title-thumb"> ${charData.name} 공략 모음`;
+                targetItems = linksDB.characters[charId] || [];
 
+                const gridContainer = document.getElementById('dictionary-grid');
+                const settings = settingsDB[charId] || settingsDB[charData.name];
+
+                if (gridContainer) {
+                    gridContainer.className = '';
+                    gridContainer.innerHTML = '';
+                    if (settings) {
+                        const settingsList = Array.isArray(settings) ? settings : [settings];
+                        settingsList.forEach((setInfo, idx) => {
+                            const getWheel = (id) => window.wheelMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
+                            const getCov = (id) => window.covMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
+
+                            const ssrWheel = getWheel(setInfo.myeongryun_ssr.main_id);
+                            const srWheel = getWheel(setInfo.myeongryun_sr.main_id);
+                            const mainCov = getCov(setInfo.covenant.main_id);
+
+                            const renderSubLink = (type, list, charId, idx) => {
+                                const label = type === 'covenant' ? '대체 비밀계약' : '대체 명륜';
+                                if (list && list.length > 0) {
+                                    return `<div class="sub-link" onclick="openDynamicSubModal('${type}', '${charId}', ${idx})">${label}</div>`;
+                                }
+                                return `<div class="sub-link disabled">대체 정보 없음</div>`;
+                            };
+
+                            gridContainer.innerHTML += `
+                                <div class="recommend-box">
+                                    <div class="recommend-left">
+                                        <img src="${charData.image_thumb}" class="recommend-thumb" onerror="this.src='images/smile_Ramona.webp';">
+                                        <div class="recommend-role">${setInfo.settingName} 세팅</div>
+                                        <div class="recommend-step">${setInfo.recommendStep} 추천</div>
+                                    </div>
+                                    <div class="recommend-right">
+                                        <div class="equip-slot">
+                                            <div class="equip-label">추천 SSR 명륜</div>
+                                            <img src="${ssrWheel.image_path}" class="equip-img-myeongryun" onerror="this.src='images/placeholder.png';">
+                                            <div class="equip-name-label">${ssrWheel.korean_name}</div>
+                                            ${renderSubLink('ssr', setInfo.myeongryun_ssr.substitutes, charId, idx)}
+                                        </div>
+                                        <div class="equip-slot">
+                                            <div class="equip-label">추천 SR 명륜</div>
+                                            <img src="${srWheel.image_path}" class="equip-img-myeongryun" onerror="this.src='images/placeholder.png';">
+                                            <div class="equip-name-label">${srWheel.korean_name}</div>
+                                            ${renderSubLink('sr', setInfo.myeongryun_sr.substitutes, charId, idx)}
+                                        </div>
+                                        <div class="equip-slot">
+                                            <div class="equip-label">추천 비밀계약</div>
+                                            <img src="${mainCov.image_path}" class="equip-img-covenant" onerror="this.src='images/placeholder.png';">
+                                            <div class="equip-name-label">${mainCov.korean_name}</div>
+                                            ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        gridContainer.innerHTML = `<div class="no-setting-notice"><div style="font-size: 24px;">📝</div><div>아직 추천 세팅 정보가 등록되지 않았습니다.</div></div>`;
+                    }
+                }
+                switchTab('dictionary');
+            }
+
+            // 2. 도감 페이지 (명륜/비밀계약/은열쇠)
+            else if (isDictionaryPage) {
+                if (category && linksDB.categories[category]) {
+                    titleEl.textContent = linksDB.categories[category].title;
+                    targetItems = linksDB.categories[category].links || [];
+                }
+                let dictData = (category === 'myeongryun') ? wheelList : (category === 'covenant') ? covList : keyList;
+                if (dictData && dictData.length > 0) renderDictionary(dictData, category);
+                switchTab('dictionary');
+            }
+
+            // 3. 일반 페이지 (쿠폰, 융재금구(weapon), 공략 등)
+            else if (category && linksDB.categories[category]) {
+                titleEl.textContent = linksDB.categories[category].title;
+                targetItems = linksDB.categories[category].links || [];
+                // 링크 리스트 탭으로 화면 전환
+                switchTab('links');
+            }
+
+            // 공통: 리스트 카드 출력
+            listEl.innerHTML = '';
             if (targetItems.length === 0) {
                 listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
-            }
-
-            // 3. 렌더링 분기
-            if (category === 'code') {
-                renderCodeLinks(targetItems, listEl);
             } else {
                 targetItems.forEach(item => {
-                    if (typeof item === 'string') {
-                        createLinkCardFromAPI(item, listEl);
-                    } else {
-                        createLinkCardInstant(item, listEl);
-                    }
+                    if (typeof item === 'string') createLinkCardFromAPI(item, listEl);
+                    else createLinkCardInstant(item, listEl);
                 });
             }
 
         } catch (error) {
-            console.error(error);
-            titleEl.textContent = "오류 발생";
-            listEl.innerHTML = `<p style="text-align:center;">데이터를 불러오지 못했습니다.<br><small>${error.message}</small></p>`;
+            console.error("데이터 로드 오류:", error);
+        }
+
+        const subModal = document.getElementById('substitute-modal');
+        if (subModal) {
+            subModal.addEventListener('click', (e) => { if (e.target === subModal) closeSubModal(); });
         }
     });
+
+    function openDynamicSubModal(type, charId, idx = 0) {
+        if (!window.currentSettings || !window.currentSettings[charId]) return;
+
+        const settings = window.currentSettings[charId];
+        // 배열 여부 확인 후 해당 인덱스의 세팅 추출
+        const setInfo = Array.isArray(settings) ? settings[idx] : settings;
+
+        const modal = document.getElementById('substitute-modal');
+        const title = document.getElementById('sub-modal-title');
+        const body = document.getElementById('sub-modal-body');
+
+        let ids = [];
+        let isWheel = true;
+
+        if (type === 'ssr') {
+            title.textContent = '대체할 SSR 명륜';
+            ids = setInfo.myeongryun_ssr.substitutes || [];
+        } else if (type === 'sr') {
+            title.textContent = '대체할 SR 명륜';
+            ids = setInfo.myeongryun_sr.substitutes || [];
+        } else {
+            title.textContent = '대체할 비밀계약';
+            ids = setInfo.covenant.substitutes || [];
+            isWheel = false;
+        }
+
+        const itemCount = ids.length;
+        const gridCols = itemCount > 0 ? itemCount : 1;
+
+        let html = `<div style="display: grid; grid-template-columns: repeat(${gridCols}, auto); gap: 20px; justify-content: center; margin-top: 15px;">`;
+
+        if (itemCount === 0) {
+            html = '<div style="text-align:center; padding:20px; color:#777;">등록된 대체 정보가 없습니다.</div>';
+        } else {
+            ids.forEach(id => {
+                const data = isWheel ? window.wheelMap[id] : window.covMap[id];
+                if (data) {
+                    html += `
+                    <div class="sub-item-vertical" style="min-width: 120px;">
+                        <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}" 
+                             class="${isWheel ? 'sub-img-myeongryun' : 'sub-img-covenant'}"
+                             onerror="this.src='images/placeholder.png';">
+                        <div class="sub-item-name">${data.korean_name}</div>
+                    </div>`;
+                }
+            });
+            html += '</div>';
+        }
+
+        body.innerHTML = html;
+        modal.classList.add('show');
+    }
 
     // --- 유틸리티 함수 ---
     function getProxyImage(url) {
