@@ -694,7 +694,7 @@
         const isCharacterPage = (category === 'character');
         const isDictionaryPage = (category === 'myeongryun' || category === 'silverkey' || category === 'covenant');
 
-        // 1. 탭 표시 설정 및 명칭 수정 (외부 링크 -> 채널 정보글 리스트)
+        // 1. 탭 표시 설정 및 명칭 수정
         if (tabsContainer) {
             tabsContainer.style.display = (isDictionaryPage || isCharacterPage) ? 'flex' : 'none';
             const tabs = document.querySelectorAll('.chrome-tab');
@@ -722,7 +722,6 @@
                 fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => [])
             ]);
 
-            // 한국어 이름 및 영문 ID 매핑 (유연한 데이터 참조를 위해 유지)
             window.wheelMap = {};
             wheelList.forEach(w => {
                 window.wheelMap[w.english_name] = w;
@@ -738,14 +737,10 @@
             const charData = manifest.find(c => c.id === charId);
             let targetItems = [];
 
-            // [수정] 융재금구(weapon) 카테고리 진입 시 내부 시뮬레이터 버튼 노출
+            // 융재금구(weapon) 카테고리 진입 시 내부 시뮬레이터 버튼 노출
             if (partySlot) {
                 if (category === 'weapon') {
-                    partySlot.innerHTML = `
-                        <a href="party_builder.html" class="party-link-btn">
-                            융재 금구 파티 시뮬레이터 실행 (Beta)
-                        </a>
-                    `;
+                    partySlot.innerHTML = `<a href="party_builder.html" class="party-link-btn">융재 금구 파티 시뮬레이터 실행 (Beta)</a>`;
                 } else {
                     partySlot.innerHTML = '';
                 }
@@ -755,10 +750,9 @@
             if (isCharacterPage && charData) {
                 titleEl.innerHTML = `<img src="${charData.image_thumb}" class="title-thumb"> ${charData.name} 공략 모음`;
                 targetItems = linksDB.characters[charId] || [];
-
+                // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
                 const gridContainer = document.getElementById('dictionary-grid');
                 const settings = settingsDB[charId] || settingsDB[charData.name];
-
                 if (gridContainer) {
                     gridContainer.className = '';
                     gridContainer.innerHTML = '';
@@ -767,19 +761,14 @@
                         settingsList.forEach((setInfo, idx) => {
                             const getWheel = (id) => window.wheelMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
                             const getCov = (id) => window.covMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
-
                             const ssrWheel = getWheel(setInfo.myeongryun_ssr.main_id);
                             const srWheel = getWheel(setInfo.myeongryun_sr.main_id);
                             const mainCov = getCov(setInfo.covenant.main_id);
-
                             const renderSubLink = (type, list, charId, idx) => {
                                 const label = type === 'covenant' ? '대체 비밀계약' : '대체 명륜';
-                                if (list && list.length > 0) {
-                                    return `<div class="sub-link" onclick="openDynamicSubModal('${type}', '${charId}', ${idx})">${label}</div>`;
-                                }
+                                if (list && list.length > 0) return `<div class="sub-link" onclick="openDynamicSubModal('${type}', '${charId}', ${idx})">${label}</div>`;
                                 return `<div class="sub-link disabled">대체 정보 없음</div>`;
                             };
-
                             gridContainer.innerHTML += `
                                 <div class="recommend-box">
                                     <div class="recommend-left">
@@ -807,8 +796,7 @@
                                             ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
                                         </div>
                                     </div>
-                                </div>
-                            `;
+                                </div>`;
                         });
                     } else {
                         gridContainer.innerHTML = `<div class="no-setting-notice"><div style="font-size: 24px;">📝</div><div>아직 추천 세팅 정보가 등록되지 않았습니다.</div></div>`;
@@ -828,15 +816,25 @@
                 switchTab('dictionary');
             }
 
-            // 3. 일반 페이지 (쿠폰, 융재금구(weapon), 공략 등)
+            // 3. 교환 코드(code) 전용 처리
+            else if (category === 'code') {
+                if (linksDB.categories[category]) {
+                    titleEl.textContent = linksDB.categories[category].title;
+                    const codes = linksDB.categories[category].links || [];
+                    renderCodeLinks(codes, listEl); // 전용 렌더러 호출
+                    switchTab('links');
+                    return; // 공통 렌더링 로직을 타지 않도록 종료
+                }
+            }
+
+            // 4. 일반 페이지 (기타 카테고리)
             else if (category && linksDB.categories[category]) {
                 titleEl.textContent = linksDB.categories[category].title;
                 targetItems = linksDB.categories[category].links || [];
-                // 링크 리스트 탭으로 화면 전환
                 switchTab('links');
             }
 
-            // 공통: 리스트 카드 출력
+            // 공통: 리스트 카드 출력 (교환 코드가 아닌 일반 링크용)
             listEl.innerHTML = '';
             if (targetItems.length === 0) {
                 listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
