@@ -321,7 +321,7 @@
 <body>
 
 <div class="container" style="position: relative; z-index: 2;">
-    <a href="javascript:history.back()" class="back-link">⬅ 뒤로가기</a>
+    <a href="javascript:void(0)" onclick="goBack()" class="back-link">⬅ 뒤로가기</a>
 
     <div class="link-container">
         <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
@@ -385,6 +385,18 @@
 </div>
 
 <script>
+    // --- 뒤로가기 ---
+    function goBack() {
+        const ref = document.referrer;
+        const isFromParent = ref && (ref.includes('index.html') || ref.includes('list.html'));
+        if (isFromParent) {
+            history.back();
+        } else {
+            const category = new URLSearchParams(location.search).get('category');
+            location.href = (category === 'character') ? 'list.html' : 'index.html';
+        }
+    }
+
     // --- 기능 로직 ---
     function openReportModal() {
         const modal = document.getElementById('report-modal');
