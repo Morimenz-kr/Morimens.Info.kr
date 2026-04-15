@@ -397,3 +397,83 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         max-width: 100%;
     }
 }
+/* --- 모바일 추천 세팅: 정렬 및 크기 강제 보정 (인라인 스타일 무력화) --- */
+@media (max-width: 768px) {
+    /* 1. 전체 박스 설정 */
+    .recommend-box {
+        flex-direction: column !important;
+        aspect-ratio: auto !important;
+        height: auto !important;
+    }
+
+    /* 2. 상단 (썸네일/태그) 중앙 정렬 */
+    .recommend-left {
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-right: none !important;
+        border-bottom: 1px solid #444 !important;
+        padding: 20px !important;
+        text-align: center !important;
+    }
+
+    /* 3. 하단 (명륜/비밀계약) 그리드 설정 */
+    .recommend-right {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 25px 10px !important;
+        padding: 25px 15px !important;
+        align-items: start !important;
+    }
+
+    /* 4. 🚨 인라인 스타일(가로 배치) 강제 해제 및 중앙 정렬 */
+    .recommend-right > div {
+        display: flex !important;
+        flex-direction: column !important; /* 가로(Row)에서 세로(Column)로 강제 변경 */
+        align-items: center !important;    /* 가로축 중앙 정렬 */
+        justify-content: center !important;
+        text-align: center !important;     /* 텍스트 중앙 정렬 */
+        width: 100% !important;
+        gap: 10px !important;              /* 이미지와 글자 사이 간격 */
+    }
+
+    /* 5. 비밀계약 전체 너비 및 강조 */
+    .recommend-right > div:last-child {
+        grid-column: 1 / -1 !important;
+        border-top: 1px dashed #444 !important;
+        padding-top: 20px !important;
+        margin-top: 10px !important;
+    }
+
+    /* 6. 이미지 크기 보정 */
+    .equip-img-myeongryun {
+        width: 80px !important;
+        height: auto !important;
+    }
+
+    .equip-img-covenant {
+        width: 100% !important;
+        max-width: 160px !important; /* 🔥 비밀계약 이미지 대폭 확대 */
+        height: auto !important;
+        margin: 0 auto !important;
+    }
+
+    /* 7. 내부 텍스트 박스 중앙 정렬 */
+    .equip-info-myeongryun,
+    .equip-info-covenant {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; /* 글자 박스 안의 내용들도 중앙으로 */
+        width: 100% !important;
+    }
+
+    /* 상세 텍스트들 개별 정렬 */
+    .equip-info-myeongryun span,
+    .equip-info-covenant span {
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+    }
+}
