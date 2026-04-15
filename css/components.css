@@ -386,6 +386,7 @@ select:focus {
     color: #eee;
     font-size: 1em;
     box-sizing: border-box;
+    font-family: inherit;
 }
 
 .form-input:focus,
@@ -417,4 +418,13 @@ select:focus {
 
 .form-submit-btn:hover {
     background-color: var(--color-link-blue-hover);
+}
+
+/* 버그 제보 모달 콤팩트 스타일 전역 적용 */
+#report-modal .modal-content {
+    width: fit-content !important;
+    min-width: 300px;
+    max-width: 90vw;
+    margin: 0 auto;
+    transition: all 0.3s ease;
 }

@@ -24,6 +24,22 @@
         loadCSS('css/components.css');
         loadCSS('css/pages/landing.css');
         loadCSS('css/responsive.css');
+
+        // 1. 모달 닫기 함수
+        function closeReportModal() {
+            const modal = document.getElementById('report-modal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+        }
+
+        // 2. 모달 바깥(어두운 배경) 클릭 시 닫기
+        document.addEventListener('click', function(event) {
+            const reportModal = document.getElementById('report-modal');
+            if (reportModal && reportModal.classList.contains('show') && event.target === reportModal) {
+                closeReportModal();
+            }
+        });
     </script>
 </head>
 
@@ -150,13 +166,17 @@
     </div>
 </div>
 
-<div id="report-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
-    <div class="modal-content">
-        <h2 id="report-modal-title" class="form-title">버그 제보 or 피드백</h2>
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content" style="position: relative;">
+        <button type="button" class="close-btn" onclick="closeReportModal()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
+            &times;
+        </button>
+
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
         <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
 
         <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
-
             <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
             <input type="text" id="reporter-email" name="_replyto" class="form-input"
                    placeholder="패치노트에 언급을 원하시면 적어주세요.">
@@ -164,8 +184,8 @@
             <label for="report-message" class="form-field-label">
                 제보할 내용 (버그 or 피드백) (필수)
                 <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
-                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
-                    </span>
+                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                </span>
             </label>
             <textarea id="report-message" name="message" class="form-textarea" required
                       placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
