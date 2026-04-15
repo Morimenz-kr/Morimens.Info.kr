@@ -34,7 +34,6 @@
     }
 
     .banner-container {
-        height: 100px;
         margin-bottom: 25px;
     }
 
@@ -68,7 +67,6 @@
     }
 
     footer {
-        bottom: 5px;
         font-size: 0.7em;
     }
 
@@ -107,14 +105,15 @@
         font-size: 0.95em;
     }
 
-    /* Links (links.html) - 🔧 120px 유지 */
+    /* Links (links.html) - 모바일 소형 북마크 축소 */
     .notion-bookmark {
-        height: 120px;
+        height: auto;
+        min-height: 80px;
     }
 
     .bookmark-image {
-        width: 120px;
-        height: 120px;
+        width: 80px;
+        height: 80px;
     }
 
     .bookmark-content {
@@ -187,7 +186,6 @@
     }
 
     .banner-container {
-        height: 120px;
         margin-bottom: 30px;
     }
 
@@ -212,7 +210,6 @@
     }
 
     footer {
-        bottom: 5px;
         font-size: 0.75em;
     }
 
@@ -230,14 +227,15 @@
         gap: 12px;
     }
 
-    /* Links - 🔧 120px 유지 */
+    /* Links - 북마크 크기 조정 */
     .notion-bookmark {
-        height: 120px;
+        height: auto;
+        min-height: 100px;
     }
 
     .bookmark-image {
-        width: 120px;
-        height: 120px;
+        width: 100px;
+        height: 100px;
     }
 
     /* Detail */
@@ -263,9 +261,7 @@
         font-size: 1.8em;
     }
 
-    .banner-container {
-        height: 130px;
-    }
+    /* 배너 높이는 landing.css에서 clamp()로 처리 */
 
     /* List */
     .character-grid {
@@ -273,7 +269,7 @@
         gap: 15px;
     }
 
-    /* Links - 🔧 120px 유지 */
+    /* Links */
     .notion-bookmark {
         height: 120px;
     }
@@ -335,6 +331,20 @@
     .team-cards-wrapper {
         grid-template-columns: repeat(4, 1fr);
     }
+}
+
+/* --- 유동 타이포그래피 --- */
+h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
+header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
+.category-title { font-size: clamp(1.4em, 3vw, 2em); }
+
+/* --- 가로 모드 폰 대응 --- */
+@media (orientation: landscape) and (max-height: 500px) {
+    .banner-container { margin-bottom: 15px; }
+    .landing-container { padding-top: 20px; padding-bottom: 40px; }
+    .menu-grid { gap: 8px; }
+    .menu-item { aspect-ratio: 2 / 0.7; font-size: 1.6em; }
+    .modal-content { max-height: 90vh; }
 }
 
 /* --- 공통 터치 디바이스 최적화 --- */

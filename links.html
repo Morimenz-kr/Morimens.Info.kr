@@ -215,12 +215,6 @@
             width: 40px;
             border-radius: 4px;
         }
-        .modal-content {
-            width: fit-content !important; /* 내부 요소에 맞춰 너비 결정 */
-            min-width: 300px;
-            max-width: 90vw; /* 화면 밖으로 나가지 않게 제한 */
-            transition: all 0.3s ease;
-        }
 
         /* 명륜 전용 모달 크기 (세로형 아이템 위주) */
         .modal-myeongryun {
@@ -343,18 +337,22 @@
 
         <div class="report-section">
             <p>혹시 연결되지 않는 링크가 있나요?</p>
-            <button id="open-report-modal" class="report-btn">🚨 버그/피드백 제보하기</button>
+            <button id="open-report-modal" class="report-btn" onclick="openReportModal()">🚨 버그/피드백 제보하기</button>
         </div>
     </div>
 </div>
 
 <div id="report-modal" class="modal-overlay">
-    <div class="modal-content">
+    <div class="modal-content" style="position: relative;">
+        <button type="button" class="close-btn" onclick="closeReportModal()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
+            &times;
+        </button>
+
         <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
         <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
 
         <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
-
             <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
             <input type="text" id="reporter-email" name="_replyto" class="form-input"
                    placeholder="패치노트에 언급을 원하시면 적어주세요.">
@@ -362,8 +360,8 @@
             <label for="report-message" class="form-field-label">
                 제보할 내용 (버그 or 피드백) (필수)
                 <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
-                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
-                    </span>
+                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                </span>
             </label>
             <textarea id="report-message" name="message" class="form-textarea" required
                       placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
@@ -411,6 +409,23 @@
         if (sourceUrlInput) { sourceUrlInput.value = window.location.href; }
         modal.classList.add('show');
     }
+    
+    // 1. 닫기 버튼을 눌렀을 때 실행되는 함수
+    function closeReportModal() {
+        const modal = document.getElementById('report-modal');
+        if (modal) {
+            modal.classList.remove('show');
+        }
+    }
+
+    // 2. 모달 바깥(어두운 오버레이)을 클릭했을 때 창을 닫는 로직
+    document.addEventListener('click', function(event) {
+        const reportModal = document.getElementById('report-modal');
+        // 모달이 열려있고, 클릭한 대상이 정확히 'modal-overlay' 배경 자체일 때만 닫음
+        if (reportModal && reportModal.classList.contains('show') && event.target === reportModal) {
+            closeReportModal();
+        }
+    });
 
     async function sendToDiscord(event) {
         event.preventDefault();
@@ -581,8 +596,7 @@
 `;
     document.body.appendChild(tooltipEl);
 
-    // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠 통합 호환)
-    // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환)
+    // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환 + 파밍처 추가) ㅁㄴㅇ
     function showTooltip(item, e) {
         const ttTitle = document.getElementById('tt-title');
         const ttDesc = document.getElementById('tt-desc');
@@ -608,6 +622,12 @@
         if (item.set_effect_6) {
             contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[6세트 효과]</div>`;
             contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_6}</div>`;
+        }
+
+        // [추가된 부분] 획득처(파밍처) 정보가 JSON에 존재할 경우 출력
+        if (item.source) {
+            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 15px; font-weight: bold;">[획득처]</div>`;
+            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px; color: #d9d9d9;">${item.source}</div>`;
         }
 
         ttDesc.innerHTML = contentHtml;

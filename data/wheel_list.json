@@ -3,7 +3,7 @@
     "grade": "SSR",
     "korean_name": "영혼의 탄생",
     "english_name": "wheel_birth_of_soul",
-    "optimized_for": [],
+    "optimized_for": ["HP 증가", "HP 회복", "방어막 획득"],
     "main_stat": "영역 숙련 36",
     "description": "팀 유일: 팀의 최대 HP가 10% 증가한다. 장비자의 HP 회복과 방어막이 4/6/8/10% 증가한다. 장비자가 '타격'을 사용한 후, 잃은 HP의 3/4/5/6%를 회복한다. 장비자가 '방어'를 사용한 후, 현재 HP의 3/4/5/6%에 해당하는 방어막을 획득한다. 이 효과는 매 턴 최대 1회 발동된다.",
     "image_path": "images/wheel_birth_of_soul.png"
@@ -12,7 +12,7 @@
     "grade": "SSR",
     "korean_name": "아쿠트의 봄",
     "english_name": "wheel_spring_of_yakut",
-    "optimized_for": [],
+    "optimized_for": ["광기 획득", "은열쇠 에너지 획득"],
     "main_stat": "은열쇠 충전 21.6",
     "description": "팀 유일: 턴 종료 시 장비자가 9/11/13/15 광기를 획득하며, 장비자의 은열쇠 충전과 동일한 은열쇠 에너지를 획득한다.",
     "image_path": "images/wheel_spring_of_yakut.png"
@@ -21,7 +21,7 @@
     "grade": "SSR",
     "korean_name": "태양의 추락",
     "english_name": "wheel_falling_sun",
-    "optimized_for": [],
+    "optimized_for": ["중독 증가", "반격 증가", "크리티컬 확률 증가", "크리티컬 피해 증가"],
     "main_stat": "피해 증폭 14.4%",
     "description": "팀 유일: 장비자가 입히는 기본 피해, 중독 및 반격이 11/14/17/20% 증가하며, 크리티컬 확률과 크리티컬 피해가 11/14/17/20% 증가한다.",
     "image_path": "images/wheel_falling_sun.png"
@@ -30,7 +30,7 @@
     "grade": "SSR",
     "korean_name": "폐허로부터의 재탄생",
     "english_name": "wheel_revive_from_ruins",
-    "optimized_for": [],
+    "optimized_for": ["광기 폭발 피해 증가", "방어막 증가", "동조율 증가"],
     "main_stat": "광기 회복 7.2",
     "description": "팀 유일: 장비자가 광기 폭발을 발동한 뒤, 광기 폭발의 기본 피해가 7/8/9/10% 증가하고, 방어막과 HP 회복이 2/3/4/5% 증가한다. 최대 5회 중첩 가능. 탐색 완료 시 장비자가 얻는 동조율이 10/15/20/25% 증가한다.",
     "image_path": "images/wheel_revive_from_ruins.png"
@@ -39,7 +39,7 @@
     "grade": "SSR",
     "korean_name": "황혼과 새벽",
     "english_name": "wheel_dusk_and_dawn",
-    "optimized_for": [],
+    "optimized_for": ["은열쇠 에너지 획득", "산출력 상한 증가", "드로우 카드 증가"],
     "main_stat": "죽음 저항 50.4%",
     "description": "팀 유일: 턴 종료 시 은열쇠 에너지를 125/150/175/200 획득한다. 죽음 저항 발동 시 은열쇠 에너지를 700/800/900/1000 획득한다. 응급 영지체 사용 시, 산출력 상한이 3 증가하고 매 턴 뽑는 카드 수가 3 증가한다.",
     "image_path": "images/wheel_dusk_and_dawn.png"
@@ -48,7 +48,7 @@
     "grade": "SSR",
     "korean_name": "순수한 은빛의 초심",
     "english_name": "wheel_pure_silver_light",
-    "optimized_for": [],
+    "optimized_for": ["힘 획득", "방어막 획득", "광기 획득"],
     "main_stat": "은열쇠 충전 21.6",
     "description": "팀 유일: 은열쇠 발동 후, 장비자의 공격력 1.5/2/2.5/3%의 힘과 방어력 6/9/12/15%의 방어막을 획득한다. 응급 영지체 사용 시, 턴 종료 시 모든 각성체가 15/20/25/30 광기를 획득한다.",
     "image_path": "images/wheel_pure_silver_light.png"
@@ -57,7 +57,7 @@
     "grade": "SSR",
     "korean_name": "개학일",
     "english_name": "wheel_firstday_of_school",
-    "optimized_for": [],
+    "optimized_for": ["광기 획득"],
     "main_stat": "검은 인장 드롭율 10.8%",
     "description": "팀 유일: '융식 흔적'과 '재의 유적'이 새로고침된 후, 장비자는 35/40/45/50 광기를 획득한다.",
     "image_path": "images/wheel_firstday_of_school.png"
@@ -66,16 +66,16 @@
     "grade": "SSR",
     "korean_name": "파트너 특훈",
     "english_name": "wheel_training_partner",
-    "optimized_for": [],
+    "optimized_for": ["크리티컬 확률 증가"],
     "main_stat": "크리티컬 확률 14.4%",
     "description": "팀 유일: 은열쇠 발동 후, 장비자의 크리티컬 확률이 임시로 20/25/30/35% 증가한다.",
     "image_path": "images/wheel_training_partner.png"
   },
   {
     "grade": "SSR",
-    "korean_name": "우리는 결국 다시 만날 것이다",
+    "korean_name": "다시 만날 ㄱ거야",
     "english_name": "wheel_you_and_me_will_meet",
-    "optimized_for": [],
+    "optimized_for": ["명령 카드 1장 드로우", "동조율 증가"],
     "main_stat": "영역 숙련 36",
     "description": "팀 유일: 촉수 자세를 변경하거나, 핏빛 용광로를 사용하거나, 소멸을 사용할 경우 장비자의 명령 카드 1장을 뽑는다. 이 효과에는 각각 3턴의 쿨타임이 있다. 탐험 완료 후, 모든 각성체가 얻는 동조율이 4/6/8/10% 증가한다.",
     "image_path": "images/wheel_you_and_me_will_meet.png"
@@ -84,7 +84,7 @@
     "grade": "SSR",
     "korean_name": "카운트 다운 순간",
     "english_name": "wheel_countdown_moment",
-    "optimized_for": [],
+    "optimized_for": ["산출력 획득"],
     "main_stat": "은열쇠 충전 21.6",
     "description": "팀 고유: 탐험이 시작된 후, 1장의 '카운트다운:5'를 덱에 추가합니다. '카운트 다운: 0' 발동 시 3장의 카드를 뽑고 3 포인트의 산출력을 얻으며, 40% 확률로 다시 섞습니다.",
     "image_path": "images/wheel_countdown_moment.png"
@@ -93,7 +93,7 @@
     "grade": "SSR",
     "korean_name": "상자 속의 어린이의 재미",
     "english_name": "wheel_fun_in_box",
-    "optimized_for": [],
+    "optimized_for": ["비용 감소"],
     "main_stat": "죽음 저항 50.4%",
     "description": "팀 유일: '융흔'에서 '각인'을 처음 구매하거나 '회색빛 유적지'에서 할인 상품을 처음 구매하는데 필요한 블랙 프린트의 비용이 100% 확률로 0이 됩니다. (탐색당 1회)",
     "image_path": "images/wheel_fun_in_box.png"
@@ -102,16 +102,16 @@
     "grade": "SSR",
     "korean_name": "도박의 지헤",
     "english_name": "wheel_wisdom_of_gamble",
-    "optimized_for": [],
+    "optimized_for": ["광기 획득"],
     "main_stat": "크리티컬 피해 21.6%",
-    "description": "팀 유일: 탐험이 시작된 후, 1장의 \"대박의 지혜\"를 드로우 덱에 섞습니다. \"대박의 지혜\": 1 계산력을 소모합니다. 손에 있는 모든 명령카드를 무작위로 드로우 덱에 섞으며, 섞인 명령카드는 다음에 사용할 때 13/17/21/25% 확률로 1번 추가로 발동합니다. 또한, 1장의 명령 카드를 섞을 떄마다 모든 각성체가 2점의 광기를 얻습니다. 보존, 소모, 고유",
+    "description": "팀 유일: 탐험이 시작된 후, 1장의 \"대박의 지혜\"를 드로우 덱에 섞습니다. \"대박의 지혜\": 1 산출력을 소모합니다. 손에 있는 모든 명령카드를 무작위로 드로우 덱에 섞으며, 섞인 명령카드는 다음에 사용할 때 13/17/21/25% 확률로 1번 추가로 발동합니다. 또한, 1장의 명령 카드를 섞을 떄마다 모든 각성체가 2점의 광기를 얻습니다. 보존, 소모, 고유",
     "image_path": "images/wheel_wisdom_of_gamble.png"
   },
   {
     "grade": "SSR",
     "korean_name": "행운의 시간",
     "english_name": "wheel_time_of_luck",
-    "optimized_for": ["라이커"],
+    "optimized_for": ["라이커", "크리티컬 확률 증가", "크리티컬 피해 증가", "광기 획득"],
     "main_stat": "검은 인장 드롭율 10.8%",
     "description": "팀 유일: 전투 시작 시, 보유한 유물 1개마다 장비자의 명령 카드 크리티컬 확률이 3% 증가한다. 장비자가 광기 폭발을 사용한 후, 4면 주사위를 한 번 던진다. 장비자는 주사위 눈*3/4/5/6만큼의 광기와 임시 크리티컬 피해를 획득하며, 주사위 눈이 4 이상이면 다른 각성체도 그 절반을 획득한다.",
     "image_path": "images/wheel_time_of_luck.png"
@@ -120,7 +120,7 @@
     "grade": "SSR",
     "korean_name": "영원한 진혼곡",
     "english_name": "wheel_eternal_requiem",
-    "optimized_for": ["하멜른"],
+    "optimized_for": ["라이커", "은열쇠 에너지 획득", "크리티컬 피해 증가", "크리티컬 확률 증가"],
     "main_stat": "은열쇠 충전 21.6",
     "description": "팀 유일: 탐색 시작 시, '은열쇠 새벽빛' 1장을 드로우 덱에 섞는다. 은열쇠 발동 시 장비자의 크리티컬 피해가 2/3/4/5% 증가한다. 장비자가 피해를 입힐 경우, 장비자의 은열쇠 충전의 50/60/70/80%에 해당하는 은열쇠 에너지를 획득하고, 임시 크리티컬 확률이 5/6/7/8% 증가한다. 이 효과는 매 턴 최대 5회까지 발동한다.",
     "image_path": "images/wheel_eternal_requiem.png"
@@ -129,7 +129,7 @@
     "grade": "SSR",
     "korean_name": "거꾸로 가는 시계",
     "english_name": "wheel_backward_clock",
-    "optimized_for": ["라모나", "회귀 · 라모나"],
+    "optimized_for": ["라모나", "회귀 · 라모나", "카드 재사용"],
     "main_stat": "은열쇠 충전 21.6",
     "description": "팀 유일: 장비자의 명령 카드를 사용한 후, 30/40/50/60%의 확률로 버림 패에서 손패로 다시 가져온다. 이 효과는 한 턴에 1회만 발동된다.",
     "image_path": "images/wheel_backward_clock.png"
@@ -138,7 +138,7 @@
     "grade": "SSR",
     "korean_name": "기억의 나선",
     "english_name": "wheel_voltex_of_memory",
-    "optimized_for": ["노틸라"],
+    "optimized_for": ["노틸라", "방어막 증가", "방어막 유지"],
     "main_stat": "영역 숙련 36",
     "description": "팀 유일: 장비자가 생성하는 방어막이 11/14/17/20% 증가한다. 턴 시작 시 남은 방어막의 35/40/45/50%를 유지하며, 유지할 수 있는 방어막의 최대치는 최대 HP의 11/14/17/20%이다.",
     "image_path": "images/wheel_voltex_of_memory.png"
@@ -147,7 +147,7 @@
     "grade": "SSR",
     "korean_name": "고통을 넘어",
     "english_name": "wheel_over_the_pain",
-    "optimized_for": ["릴리"],
+    "optimized_for": ["릴리", "중독 증가", "방어막 증가", "크리티컬 피해 증가", "방어막 획득"],
     "main_stat": "죽음 저항 50.4%",
     "description": "팀 유일: 장비자가 입히는 중독과 방어막이 9/11/13/15% 증가한다. 장비자의 '타격' 크리티컬 확률과 크리티컬 피해가 20/25/30/35% 증가하고, 최대 HP의 4/5/6/7%에 해당하는 방어막을 획득한다. 방어막 효과는 1턴에 1번만 적용된다.",
     "image_path": "images/wheel_over_the_pain.png"
@@ -156,7 +156,7 @@
     "grade": "SSR",
     "korean_name": "호박색의 죽음",
     "english_name": "wheel_amber_death",
-    "optimized_for": ["카티구라"],
+    "optimized_for": ["카티구라", "기본 피해 증가", "힘 증가", "힘 획득"],
     "main_stat": "크리티컬 피해 21.6%",
     "description": "팀 유일: 장비자가 입히는 기본 피해가 20/25/30/35%, 부여하는 힘이 6/8/10/12% 증가한다. 장비자의 명령 카드를 사용한 후 장비자 공격력 11/14/17/20%의 임시 힘을 얻으며, 매 턴 최대 5회 발동된다.",
     "image_path": "images/wheel_amber_death.png"
@@ -165,7 +165,7 @@
     "grade": "SSR",
     "korean_name": "소리 없는 잔치",
     "english_name": "wheel_silent_party",
-    "optimized_for": ["카렌"],
+    "optimized_for": ["카렌", "중독 증가", "HP 회복"],
     "main_stat": "광기 회복 7.2",
     "description": "팀 유일: 장비자가 부여하는 중독이 9/11/13/15% 증가한다. 장비자가 광기 폭발을 사용한 후, 장비자의 체력 11/14/17/20%만큼 HP를 회복하며, 남아 있는 산출력 1점마다 장비자의 체력 2/3/4/5%만큼 추가로 HP를 회복한다.",
     "image_path": "images/wheel_silent_party.png"
@@ -174,7 +174,7 @@
     "grade": "SSR",
     "korean_name": "떠도는 욕망",
     "english_name": "wheel_wandering_desire",
-    "optimized_for": ["판디아"],
+    "optimized_for": ["판디아", "반격 증가", "임시 힘 획득", "반격 획득"],
     "main_stat": "크리티컬 확률 14.4%",
     "description": "팀 유일: 장비자가 생성하는 반격이 13/17/21/25% 증가한다. 공격을 1회 받을 때마다 장비자의 공격력 5/6/7/8%만큼 임시 힘을 획득한다. 장비자가 광기 폭발을 사용한 후, 장비자의 공격력 9/11/13/15%만큼 반격을 획득한다.",
     "image_path": "images/wheel_wandering_desire.png"
@@ -183,7 +183,7 @@
     "grade": "SSR",
     "korean_name": "죽음을 넘어",
     "english_name": "wheel_over_the_death",
-    "optimized_for": ["돌"],
+    "optimized_for": ["돌", "회복량 증가", "광기 획득"],
     "main_stat": "광기 회복 7.2",
     "description": "팀 유일: 장비자의 명령 카드 회복량이 13/17/21/25% 증가한다. 장비자가 광기 폭발을 발동하기 전, 다른 각성체가 5/6/7/8 광기를 획득한다. 아군이 취약 상태일 경우, 이 효과는 2배가 된다.",
     "image_path": "images/wheel_over_the_death.png"
@@ -192,7 +192,7 @@
     "grade": "SSR",
     "korean_name": "이형체의 포식",
     "english_name": "wheel_heteromorph_mark",
-    "optimized_for": ["｢24｣"],
+    "optimized_for": ["｢24｣", "광기 폭발 피해 증가", "광기 획득", "크리티컬 피해 증가", "크리티컬 피해 증가"],
     "main_stat": "광기 회복 7.2",
     "description": "팀 유일: 장비자가 광기 폭발 기본 피해가 60% 증가한다. 탐색 시작 시, 장비자가 학자 인격으로 진입한다. 장비자가 광기 폭발을 사용한 뒤, 학자 인격과 광대 인격 사이에서 전환된다. 학자 인격: 턴 종료 시, 장비자가 11/14/17/20 광기를 획득한다. 광대 인격: 턴 종료 시, 장비자의 크리티컬 확률과 크리티컬 피해가 4/5/6/7% 증가한다.",
     "image_path": "images/wheel_heteromorph_mark.png"
@@ -201,7 +201,7 @@
     "grade": "SSR",
     "korean_name": "별하늘의 짐승",
     "english_name": "wheel_star_beast",
-    "optimized_for": ["로탄"],
+    "optimized_for": ["로탄", "타격 피해 증가", "광기 폭발 피해 증가", "임시 크리티컬 확률 증가"],
     "main_stat": "크리티컬 피해 21.6%",
     "description": "팀 유일: 장비자의 '타격'과 광기 폭발의 기본 피해가 26/34/42/50% 증가한다. 장비자가 '타격'을 사용한 뒤 장비자의 임시 크리티컬 확률이 5% 증가하며, 매 턴 최대 3회까지 중첩된다. 3회 중첩 후에는 추가로 임시 크리티컬 피해가 15% 증가한다.",
     "image_path": "images/wheel_star_beast.png"
@@ -210,7 +210,7 @@
     "grade": "SSR",
     "korean_name": "감춰진 수레바퀴",
     "english_name": "wheel_wheel_of_seclusion",
-    "optimized_for": ["타비"],
+    "optimized_for": ["타비", "은열쇠 충전 한도 증가", "손패 상한 증가", "은열쇠 충전 증가", ""],
     "main_stat": "은열쇠 충전 21.6",
     "description": "팀 유일: 은열쇠 충전 한도가 100% 증가한다. 손패 상한이 2 증가하고, 다른 명륜이 제공하는 손패 상한과 중첩되지 않는다. 장비자의 은열쇠 충전이 13/17/21/25% 증가한다. 장비자가 카드를 사용하면, 해당 턴 동안 장비자 명령 카드의 크리티컬 확률, 크리티컬 피해, 생성되는 방어막, 광기 및 힘이 3/4/5/6% 증가하며, 최대 5회까지 중첩된다.",
     "image_path": "images/wheel_wheel_of_seclusion.png"
@@ -219,7 +219,7 @@
     "grade": "SSR",
     "korean_name": "견고한 의지",
     "english_name": "wheel_solid_will",
-    "optimized_for": ["앨바"],
+    "optimized_for": ["엘바"],
     "main_stat": "죽음 저항 50.4%",
     "description": "팀 유일: 장비자가 입히는 기본 피해와 방어막이 9/11/13/15% 증가한다. 탐색 시작 시, 장비자의 '타격'과 '방어'를 덱에 추가한다. 장비자가 '방어'를 사용한 후, 장비자의 다음 '타격'의 크리티컬 확률과 크리티컬 피해가 15% 증가한다. 장비자가 '타격'을 사용한 후, 장비자의 다음 '방어'의 방어막이 15% 증가한다. 최대 3회 중첩 가능.",
     "image_path": "images/wheel_solid_will.png"
