@@ -202,23 +202,16 @@ button:focus {
     position: fixed;
     right: 20px;
     top: 50%;
-    /* 화면 중앙 */
     transform: translateY(-50%);
     z-index: 999;
-
     background: #3a3a3a;
-    /* 짙은 회색 */
     width: 56px;
     height: 56px;
     border-radius: 12px;
-    /* 라운드 스퀘어 */
-
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 28px;
-    /* 이모지 크기 */
-
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     transition: all 0.3s ease;
@@ -234,4 +227,22 @@ button:focus {
 .floating-report-btn:active {
     background: #2a2a2a;
     transform: translateY(-50%) scale(0.95);
+}
+
+@media (max-width: 480px) {
+    .floating-report-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 22px;
+        right: 10px;
+        top: auto;
+        bottom: 80px;
+        transform: none;
+    }
+    .floating-report-btn:hover {
+        transform: scale(1.1);
+    }
+    .floating-report-btn:active {
+        transform: scale(0.95);
+    }
 }

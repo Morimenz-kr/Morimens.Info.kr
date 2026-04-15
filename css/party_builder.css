@@ -815,3 +815,36 @@ body {
         border-color: #777;
     }
 }
+
+/* 4. 소형 모바일 (480px 이하) */
+@media (max-width: 480px) {
+    .main-area { padding: 10px; padding-bottom: 90px; }
+    .header-left h2 { font-size: 1.2em; }
+    .header-wrapper { padding-bottom: 10px; }
+    .slots-container { gap: 8px; }
+    .char-card { aspect-ratio: 3/5; }
+    .char-top-name { font-size: 0.85em; }
+    .char-top-icon { width: 16px; height: 16px; margin-right: 6px; }
+    .char-top-info { padding: 6px 10px 6px 8px; }
+    .slot-wheel { width: 30px; height: 60px; font-size: 1em; }
+    .slot-covenant { width: 30px; height: 38px; font-size: 1em; }
+    .wheels-wrapper { gap: 6px; bottom: 8px; }
+    .empty-text { font-size: 0.8em; }
+    .bottom-section { padding: 8px 10px; }
+    .key-circle { width: 30px; height: 30px; font-size: 1em; }
+    .key-info div:last-child { font-size: 0.8em; }
+    .btn { padding: 6px 10px; font-size: 0.8em; }
+    .page-tab { min-width: 60px; font-size: 0.8em; padding: 8px 4px 8px 10px !important; }
+    .tab-name-text { max-width: 80px; }
+    .top-navigation-bar { gap: 10px; }
+    .modal-header h3 { font-size: 1rem; }
+    .floating-report-btn { width: 44px; height: 44px; font-size: 22px; right: 10px; }
+}
+
+/* 5. 모바일 키보드 대응: 모달 높이 축소 */
+@media (max-width: 768px) and (max-height: 500px) {
+    .modal-box, .modal-box-wide { height: 100dvh; }
+    .wheel-equip-panel { height: 35%; }
+    .wheel-list-wrapper { height: 65%; }
+    .large-slot { width: 60px; height: 100px; }
+}
