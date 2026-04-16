@@ -704,6 +704,7 @@
         { "title": "DC5000", "desc": "특별 승인 약재 5개", "expiry": null },
         { "title": "RCSV-DPLV-KQPP", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-23" },
         { "title": "MistSequence", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-28" },
+        { "title": "TWPB-NCNV-AHXK,", "desc": "은심 200개", "expiry": "2026-04-28" },
         { "title": "RMUE-RVQY-XKWE", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-29" },
         { "title": "YouSavedMorimens", "desc": "무구의 은핵 100개", "expiry": "2026-05-12" },
         { "title": "SayaNoUta", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-08-17" }
@@ -713,6 +714,12 @@
       "title": "🎭 계역별 정보",
       "links": 
       [
+        {
+          "url": "https://arca.live/b/forgettingeve/167800946",
+          "title": "초차원 입문 가이드-개정판",
+          "desc": "ㅎㅇ언제나 초차원과 즐거운 하루 보내고 있길 바란다다름이 아니라 아라크네 출시도 얼마 남지 않은 김에 초차원 입문 가이드를 재작성하려고 함시작하기 전에 이 글은 정말 아무것도 모르겠고 이해가 잘 안되는데 초차원 기믹",
+          "image": "https://ac-p1.namu.la/20260415sac/e5495ccc48b0c9d139a4b95a1b286ffc4e5b13e3f35e363af75e806d541bacfa.png?expires=1776342919&key=WyrKu-GjN1sb6E3owZTzBw"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/166598676",
           "title": "심해 계역 TMI",
