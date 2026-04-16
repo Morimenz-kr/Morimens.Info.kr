@@ -1,4 +1,4 @@
-This file is a merged representation of a subset of the codebase, containing specifically included files and files not matching ignore patterns, combined into a single document by Repomix.
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
 
 <file_summary>
 This section contains a summary of this file.
@@ -32,8 +32,7 @@ The content is organized as follows:
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Only files matching these patterns are included: **/*.{json,html,css,js}
-- Files matching these patterns are excluded: **/images/**, **/node_modules/**, **/.git/**
+- Files matching these patterns are excluded: *.png, *.jpg, *.jpeg, *.gif, *.svg
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -46,6 +45,7 @@ The content is organized as follows:
 .claude/launch.json
 .claude/settings.local.json
 .claude/worktrees/optimistic-raman/.claude/settings.local.json
+.nojekyll
 config/config.js
 config/constants.js
 css/common.css
@@ -68,6 +68,502 @@ data/resource_links.json
 data/silverkey_list.json
 data/wheel_list.json
 detail.html
+images/180px-UiGoldline.png
+images/24_cubic.png
+images/24_tide.webp
+images/24-thumb.png
+images/24-thumb.webp
+images/aequor_caro.png
+images/aequor_ultra.png
+images/Aequor.png
+images/agrippa_cubic.png
+images/agrippa_tide.webp
+images/Agrippa-thumb.png
+images/Agrippa-thumb.webp
+images/aigis_cubic.png
+images/aigis_tide.webp
+images/Aigis-thumb.png
+images/Aigis-thumb.webp
+images/alva_cubic.png
+images/alva_tide.webp
+images/Alva-thumb.png
+images/Alva-thumb.webp
+images/Alva-thumb.zip
+images/arachne-thumb.png
+images/aurita_cubic.png
+images/aurita_tide.webp
+images/Aurita-thumb.png
+images/Aurita-thumb.webp
+images/background.png
+images/background.webp
+images/Banner_Arcalive.png
+images/Banner_Discord.png
+images/Banner_Discord.webp
+images/Banner_festival.webp
+images/banner_test.png
+images/banner_youtube.png
+images/Basic_Blank_UI.png
+images/Basic_Blank_UI.webp
+images/caecus_cubic.png
+images/caecus_tide.webp
+images/Caecus-thumb.png
+images/Caecus-thumb.webp
+images/caro_ultra.png
+images/Caro.png
+images/casiah_cubic.png
+images/casiah_tide.webp
+images/Casiah-thumb.png
+images/Casiah-thumb.webp
+images/castor_cubic.png
+images/castor_tide.webp
+images/Castor-thumb.png
+images/Castor-thumb.webp
+images/celeste_cubic.png
+images/celeste_tide.webp
+images/Celeste-thumb.png
+images/Celeste-thumb.webp
+images/channel_banner.webp
+images/channels4_banner.jpg
+images/chaos_aequor.png
+images/chaos_caro.png
+images/chaos_ultra.png
+images/Chaos.png
+images/character_aequor.png
+images/character_caro.png
+images/character_chaos.png
+images/character_ultra.png
+images/clementine_cubic.png
+images/clementine_tide.webp
+images/Clementine-thumb.png
+images/Clementine-thumb.webp
+images/coporsant_cubic.png
+images/coporsant_tide.webp
+images/Coporsant-thumb.png
+images/corposant_tide.webp
+images/Corposant-thumb.webp
+images/covenant_36rings.png
+images/covenant_April.png
+images/covenant_betray.png
+images/covenant_blood.png
+images/covenant_butterfly.png
+images/covenant_deus.png
+images/covenant_grave.png
+images/covenant_medicine.png
+images/covenant_ocean.png
+images/covenant_party.png
+images/covenant_rabbit.png
+images/covenant_reEvolve.png
+images/covenant_revelation.png
+images/covenant_scarlet.png
+images/covenant_snail.png
+images/covenant_sungood.png
+images/covenant_twins_black.png
+images/covenant_twins_white.png
+images/covenant_vampire.png
+images/covenant_virgin.png
+images/covenant_wolf.png
+images/dafoodil_cubic.png
+images/dafoodil_tide.webp
+images/Dafoodil-thumb.png
+images/Dafoodil-thumb.webp
+images/doll_cubic.png
+images/doll_inferno_cubic.png
+images/doll_inferno_tide.webp
+images/Doll_Inferno-thumb.png
+images/Doll_Inferno-thumb.webp
+images/doll_tide.webp
+images/Doll-thumb.png
+images/Doll-thumb.webp
+images/doresain_cubic.png
+images/doresain_tide.webp
+images/Doresain-thumb.png
+images/Doresain-thumb.webp
+images/erica_cubic.png
+images/erica_tide.webp
+images/Erica-thumb.png
+images/Erica-thumb.webp
+images/faint_cubic.png
+images/faint_tide.webp
+images/Faint-thumb.png
+images/Faint-thumb.webp
+images/faros_tide.webp
+images/Faros-thumb.png
+images/Faros-thumb.webp
+images/faros.png
+images/goliath_cubic.png
+images/goliath_tide.webp
+images/Goliath-thumb.png
+images/Goliath-thumb.webp
+images/hameln_cubic.png
+images/hameln_tide.webp
+images/Hameln-thumb.png
+images/Hameln-thumb.webp
+images/Helot_Catena_cubic.png
+images/helot_catena_tide.webp
+images/Helot_Catena-thumb.png
+images/Helot_Catena-thumb.webp
+images/helot_cubic.png
+images/helot_tide.webp
+images/Helot-thumb.png
+images/Helot-thumb.webp
+images/horla_cubic.png
+images/horla_tide.webp
+images/Horla-thumb.png
+images/Horla-thumb.webp
+images/Insight.webp
+images/items/10돌.png
+images/items/11돌.png
+images/items/12돌.png
+images/items/13돌.png
+images/items/14돌.png
+images/items/4돌.png
+images/items/5돌.png
+images/items/6돌.png
+images/items/7돌.png
+images/items/8돌.png
+images/items/9돌.png
+images/items/도취_취해있다.png
+images/items/침전.png
+images/items/풀돌.png
+images/items/immaculate_core.png
+images/items/loop_master.png
+images/items/lumen_core.png
+images/items/prototype_horizon.png
+images/jenkin_cubic.png
+images/jenkin_tide.webp
+images/Jenkin-thumb.png
+images/Jenkin-thumb.webp
+images/karen_cubic.png
+images/karen_tide.webp
+images/Karen-thumb.png
+images/Karen-thumb.webp
+images/kathigu-ra_cubic.png
+images/kathigu-ra_tide.webp
+images/Kathigu-Ra-thumb.png
+images/Kathigu-Ra-thumb.webp
+images/key_4th_music.png
+images/key_all_of_her.png
+images/key_aureta.png
+images/key_black_swan.png
+images/key_blood.png
+images/key_bloodtear.png
+images/key_born.png
+images/key_dream_moment.png
+images/key_eternal_obsession.png
+images/key_fireworks.png
+images/key_from_fog.png
+images/key_funeral.png
+images/key_giant.png
+images/key_grey_fog.png
+images/key_gun_sound.png
+images/key_homegirl_story.png
+images/key_hungry.png
+images/key_injection.png
+images/key_keirei.png
+images/key_lakeside.png
+images/key_last_pledge.png
+images/key_lightning.png
+images/key_miracle.png
+images/key_moment.png
+images/key_Mosk_film.png
+images/key_mosk.png
+images/key_mouse_wisdom.png
+images/key_mt_blessing.png
+images/key_never_falling_sun.png
+images/key_open_door.png
+images/key_paint.png
+images/key_pure_white.png
+images/key_return.png
+images/key_rose.png
+images/key_rotten_party.png
+images/key_sea.png
+images/key_seed.png
+images/key_ship.png
+images/key_special.png
+images/key_spring.png
+images/key_star_protect.png
+images/key_summer_dream.png
+images/key_summer_time.png
+images/key_tiny_wish.png
+images/key_twisted_fate.png
+images/key_unfair_exchange.png
+images/key_voice.png
+images/key_void.png
+images/key_wish_again.png
+images/Krarbu-thumb.png
+images/leigh_cubic.png
+images/leigh_tide.webp
+images/Leigh-thumb.png
+images/Leigh-thumb.webp
+images/lily_cubic.png
+images/lily_tide.webp
+images/Lily-thumb.png
+images/Lily-thumb.webp
+images/liz_cubic.png
+images/liz_tide.webp
+images/Liz-thumb.png
+images/Liz-thumb.webp
+images/lotan_cubic.png
+images/lotan_tide.webp
+images/Lotan-thumb.png
+images/Lotan-thumb.webp
+images/miryam_cubic.png
+images/miryam_tide.webp
+images/Miryam-thumb.png
+images/Miryam-thumb.webp
+images/morimens_icon.png
+images/morimens_icon.webp
+images/mosk-thumb.png
+images/mouchette_tide.webp
+images/Mouchette-thumb.png
+images/Mouchette-thumb.webp
+images/murphy_cubic.png
+images/Murphy_Fauxborn_cubic.png
+images/Murphy_Fauxborn_tide.webp
+images/Murphy_Fauxborn-thumb.png
+images/Murphy_Fauxborn-thumb.webp
+images/murphy_tide.webp
+images/Murphy-thumb.png
+images/Murphy-thumb.webp
+images/nautila_cubic.png
+images/nautila_tide.webp
+images/Nautila-thumb.png
+images/Nautila-thumb.webp
+images/nymphaea_cubic.png
+images/nymphaea_tide.webp
+images/Nymphaea-thumb.png
+images/Nymphaea-thumb.webp
+images/ogier_cubic.png
+images/ogier_tide.webp
+images/Ogier-thumb.png
+images/Ogier-thumb.webp
+images/pandia_cubic.png
+images/pandia_tide.webp
+images/Pandia-thumb.png
+images/Pandia-thumb.webp
+images/pickman_cubic.png
+images/pickman_tide.webp
+images/Pickman-thumb.png
+images/Pickman-thumb.webp
+images/pollux_cubic.png
+images/pollux_tide.webp
+images/Pollux-thumb.png
+images/Pollux-thumb.webp
+images/pure_aequor.png
+images/pure_caro.png
+images/pure_chaos.png
+images/pure_ultra.png
+images/ramona_cubic.png
+images/ramona_tide.webp
+images/ramona_timeworn_cubic.png
+images/ramona_timeworn_tide.webp
+images/Ramona_Timeworn-thumb.png
+images/Ramona_Timeworn-thumb.webp
+images/Ramona-thumb.png
+images/Ramona-thumb.webp
+images/RoseGoldCoupon.png
+images/Rouse_Blank_UI.png
+images/Rouse_Blank_UI.webp
+images/ryker_cubic.png
+images/ryker_tide.webp
+images/Ryker-thumb.png
+images/Ryker-thumb.webp
+images/salvador_cubic.png
+images/salvador_tide.webp
+images/Salvador-thumb.png
+images/Salvador-thumb.webp
+images/sanga_cubic.png
+images/sanga_tide.webp
+images/Sanga-thumb.png
+images/Sanga-thumb.webp
+images/silverCore.png
+images/smile_Ramona.webp
+images/sorel_cubic.png
+images/sorel_tide.webp
+images/Sorel-thumb.png
+images/Sorel-thumb.webp
+images/tawil_cubic.png
+images/tawil_tide.webp
+images/Tawil-Defense.webp
+images/Tawil-FourWings.webp
+images/Tawil-full.webp
+images/Tawil-HoneyMead.webp
+images/Tawil-MutatedHealth.webp
+images/Tawil-PolarDusk.webp
+images/Tawil-ReturnGift.webp
+images/Tawil-Rouse (1).webp
+images/Tawil-Rouse.png
+images/Tawil-SilverKeyDawn.webp
+images/Tawil-SixWings.webp
+images/Tawil-Skill1.webp
+images/Tawil-Skill2.webp
+images/Tawil-Strike.webp
+images/Tawil-thumb.png
+images/Tawil-thumb.webp
+images/Tawil-TwinWings.webp
+images/Tawil-UtopianVeil.webp
+images/Tawil-Verdict.webp
+images/Tawil-Wheel.webp
+images/thais_cubic.png
+images/thais_tide.webp
+images/Thais-thumb.png
+images/Thais-thumb.webp
+images/tinct_cubic.png
+images/tinct_tide.webp
+images/Tinct-thumb.png
+images/Tinct-thumb.webp
+images/tulu_cubic.png
+images/tulu_tide.webp
+images/Tulu-thumb.png
+images/Tulu-thumb.webp
+images/UI_Aequor.png
+images/UI_Caro.png
+images/UI_Chaos.png
+images/UI_Ultra.png
+images/Ultra.png
+images/uvhash_cubic.png
+images/uvhash_tide.webp
+images/Uvhash-thumb.png
+images/Uvhash-thumb.webp
+images/vortice_tide.webp
+images/vortice-thumb.png
+images/wanda_cubic.png
+images/wanda_tide.webp
+images/Wanda-thumb.png
+images/Wanda-thumb.webp
+images/wheel_active.png
+images/wheel_adventure_bag.png
+images/wheel_aging.png
+images/wheel_alone_feather.png
+images/wheel_amber_death.png
+images/wheel_auth_of_knight.png
+images/wheel_backward_clock.png
+images/wheel_berserk.png
+images/wheel_birth_of_soul.png
+images/wheel_bless.png
+images/wheel_blue_ring_poison.png
+images/wheel_blue_stone_seat.png
+images/wheel_bound_song.png
+images/wheel_brush_of_yearning.png
+images/wheel_call_of_abyss.png
+images/wheel_caro_party.png
+images/wheel_channeling.png
+images/wheel_comming_sun.png
+images/wheel_core_meltdown.png
+images/wheel_countdown_moment.png
+images/wheel_critical_point.png
+images/wheel_cut_and_hurt.png
+images/wheel_dear_my_friend.png
+images/wheel_death_of_coral_woman.png
+images/wheel_dessection_of_death.png
+images/wheel_doll_falls_void.png
+images/wheel_doomsday_rampage.png
+images/wheel_door_of_truth.png
+images/wheel_dream_of_ocean.png
+images/wheel_dusk_and_dawn.png
+images/wheel_eden.png
+images/wheel_eternal_requiem.png
+images/wheel_falling_sun.png
+images/wheel_favor.png
+images/wheel_favorite_collection.png
+images/wheel_fin_of_pain.png
+images/wheel_firstday_of_school.png
+images/wheel_flowers_and_poems.png
+images/wheel_fun_in_box.png
+images/wheel_gift_of_corruption.png
+images/wheel_gluttony.png
+images/wheel_goodbye_kiss.png
+images/wheel_great_dish.png
+images/wheel_greed.png
+images/wheel_guide_in_the_torch.png
+images/wheel_guide_sea.png
+images/wheel_hand_of_forget.png
+images/wheel_hat_of_witch.png
+images/wheel_heavy_of_duty.png
+images/wheel_heteromorph_mark.png
+images/wheel_hidden_pain.png
+images/wheel_holy_face.png
+images/wheel_hope.png
+images/wheel_hymn_of_godking.png
+images/wheel_hypnotic_pendulum.png
+images/wheel_illusion.png
+images/wheel_in_the_hard_rain.png
+images/wheel_info_is_life.png
+images/wheel_insight.png
+images/wheel_int_the_nightshadow.png
+images/wheel_intolerable_freedom.png
+images/wheel_isallu_eye.png
+images/wheel_judge.png
+images/wheel_kicked.png
+images/wheel_kiss_of_rest.png
+images/wheel_last_poem.png
+images/wheel_light_of_intellect.png
+images/wheel_lords_cane.png
+images/wheel_magic_of_35mm.png
+images/wheel_magical_performance.png
+images/wheel_man_in_mirror.png
+images/wheel_manifestation.png
+images/wheel_meeting_moment.png
+images/wheel_memories_of_winter_night.png
+images/wheel_memory_syndrom.png
+images/wheel_merciful_upbringing.png
+images/wheel_million_eyes.png
+images/wheel_mind_wall.png
+images/wheel_name_of_a_rose.png
+images/wheel_never_ending_calculation.png
+images/wheel_never_stop_show.png
+images/wheel_non-existent.png
+images/wheel_otori_lily.png
+images/wheel_over_the_death.png
+images/wheel_over_the_pain.png
+images/wheel_pain_curse.png
+images/wheel_pale_descencdant.png
+images/wheel_paradox_of_factualism.png
+images/wheel_pathless_path.png
+images/wheel_peace_sleep_in_dark.png
+images/wheel_power_of_faith.png
+images/wheel_pure_silver_light.png
+images/wheel_queens_precepts.png
+images/wheel_revelation.png
+images/wheel_revive_from_ruins.png
+images/wheel_roullet_of_destiny.png
+images/wheel_sail_that_guides.png
+images/wheel_secret_birth.png
+images/wheel_secret_talk.png
+images/wheel_silent_party.png
+images/wheel_silver_fish.png
+images/wheel_sink_to_crimson.png
+images/wheel_sleep_under_iceburg.png
+images/wheel_solid_will.png
+images/wheel_spring_of_yakut.png
+images/wheel_star_beast.png
+images/wheel_stick_of_shepered.png
+images/wheel_stone_tablet_god_word.png
+images/wheel_stucked_madness.png
+images/wheel_sucking.png
+images/wheel_swallowed_lullaby.png
+images/wheel_sword_of_giant.png
+images/wheel_tale_of_gluttony.webp
+images/wheel_the_day_threw_off_shackles.png
+images/wheel_time_of_luck.png
+images/wheel_training_partner.png
+images/wheel_turn_and_turn.png
+images/wheel_twisted_knight_poem.png
+images/wheel_until_snowmt_melt.png
+images/wheel_voltex_of_memory.png
+images/wheel_wandering_desire.png
+images/wheel_wasted_frown.png
+images/wheel_wheel_hidden_pain.png
+images/wheel_wheel_of_seclusion.png
+images/wheel_wisdom_of_gamble.png
+images/wheel_you_and_me_will_meet.png
+images/winkle_cubic.png
+images/winkle_tide.webp
+images/Winkle-thumb.png
+images/Winkle-thumb.webp
+images/xu_tide.webp
+images/Xu-thumb.png
+images/Xu-thumb.webp
 index.html
 js/detail.js
 js/index.js
@@ -76,10 +572,15 @@ js/party_builder.js
 links.html
 list.html
 party_builder.html
+README
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
+
+<file path=".nojekyll">
+
+</file>
 
 <file path="css/pages/list.css">
 /* ============================================
@@ -500,6 +1001,10 @@ This section contains the contents of the repository's files.
   "죽음저항": "치명적인 피해를 입었을 때, 1회에 한해 생명력을 1로 남기고 살아남게 합니다.",
   "영감": "파생 카드 '영감'을 획득함을 나타냅니다."
 }
+</file>
+
+<file path="README">
+한국어로 된 Morimens 정보 공유 사이트를 만들기 위한 Git입니다.
 </file>
 
 <file path=".ai/mcp/mcp.json">
@@ -1132,408 +1637,6 @@ footer {
         /* 화면이 좁을 땐 3.5 정도가 적당합니다 */
         aspect-ratio: 3.5 / 1 !important;
         font-size: 1.6em !important;
-    }
-}
-</file>
-
-<file path="css/responsive.css">
-/* ============================================
-   반응형 스타일 (Responsive Design)
-   모든 페이지에 적용되는 반응형 미디어 쿼리
-   ============================================ */
-
-/* =============================================
-   브레이크포인트:
-   - 모바일 소형: ~ 480px
-   - 모바일 일반: 481px ~ 600px  
-   - 태블릿 세로: 601px ~ 768px
-   - 태블릿 가로: 769px ~ 1024px
-   - PC: 1025px ~
-   ============================================= */
-
-/* --- 모바일 소형 (~ 480px) --- */
-@media (max-width: 480px) {
-
-    /* 공통 */
-    .container {
-        padding: 15px;
-    }
-
-    /* Landing (index.html) */
-    .landing-container {
-        padding: 20px 15px 60px;
-    }
-
-    header h1 {
-        font-size: 1.4em;
-    }
-
-    header {
-        margin-bottom: 20px;
-    }
-
-    .banner-container {
-        margin-bottom: 25px;
-    }
-
-    .banner-text {
-        font-size: 1.1em;
-    }
-
-    .banner-tag {
-        font-size: 0.75em;
-        padding: 3px 6px;
-    }
-
-    .arrow svg {
-        width: 28px;
-        height: 28px;
-    }
-
-    /* 메뉴 그리드: 2열 */
-    .menu-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-
-    .menu-item {
-        font-size: 1.8em;
-        border-radius: 10px;
-    }
-
-    .menu-label {
-        font-size: 0.85em;
-    }
-
-    footer {
-        font-size: 0.7em;
-    }
-
-    /* List (list.html) */
-    .header-area h1 {
-        font-size: 1.3em;
-        padding: 0 70px;
-    }
-
-    .header-area .back-link {
-        padding: 6px 10px;
-        font-size: 0.75em;
-    }
-
-    .controls-container {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .filter-container {
-        justify-content: space-between;
-    }
-
-    select {
-        flex: 1;
-        font-size: 0.9em;
-        padding: 10px;
-    }
-
-    .character-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-
-    .character-card h3 {
-        font-size: 0.95em;
-    }
-
-    /* Links (links.html) - 모바일 소형 북마크 축소 */
-    .notion-bookmark {
-        height: auto;
-        min-height: 80px;
-    }
-
-    .bookmark-image {
-        width: 80px;
-        height: 80px;
-    }
-
-    .bookmark-content {
-        padding: 8px 10px;
-    }
-
-    .bookmark-title {
-        font-size: 0.95em;
-    }
-
-    .bookmark-desc {
-        font-size: 0.85em;
-    }
-
-    .category-title {
-        font-size: 1.4em;
-    }
-
-    /* Detail (detail.html) - 모바일 레이아웃 */
-    .detail-layout {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .char-profile,
-    .char-data {
-        flex-basis: 100%;
-    }
-
-    .data-tabs {
-        overflow-x: auto;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .data-tabs .tab-link {
-        font-size: 0.95em;
-        padding: 8px 12px;
-    }
-
-    .skill-card-builder {
-        width: 100%;
-        max-width: 280px;
-        height: auto;
-        aspect-ratio: 300 / 465;
-    }
-
-    .team-cards-wrapper {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
-}
-
-/* --- 모바일 일반 (481px ~ 600px) --- */
-@media (min-width: 481px) and (max-width: 600px) {
-    .container {
-        padding: 15px;
-    }
-
-    .landing-container {
-        padding: 20px 15px 60px;
-    }
-
-    header h1 {
-        font-size: 1.5em;
-    }
-
-    header {
-        margin-bottom: 20px;
-    }
-
-    .banner-container {
-        margin-bottom: 30px;
-    }
-
-    .arrow svg {
-        width: 30px;
-        height: 30px;
-    }
-
-    /* 메뉴 그리드: 3열 */
-    .menu-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-    }
-
-    .menu-item {
-        font-size: 1.4em;
-        border-radius: 10px;
-    }
-
-    .menu-label {
-        font-size: 0.9em;
-    }
-
-    footer {
-        font-size: 0.75em;
-    }
-
-    /* List */
-    .header-area h1 {
-        font-size: 1.4em;
-    }
-
-    .controls-container {
-        flex-direction: column;
-    }
-
-    .character-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    /* Links - 북마크 크기 조정 */
-    .notion-bookmark {
-        height: auto;
-        min-height: 100px;
-    }
-
-    .bookmark-image {
-        width: 100px;
-        height: 100px;
-    }
-
-    /* Detail */
-    .detail-layout {
-        flex-direction: column;
-    }
-
-    .team-cards-wrapper {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* --- 태블릿 세로 (601px ~ 768px) --- */
-@media (min-width: 601px) and (max-width: 768px) {
-
-    /* 메뉴 그리드: 3열 */
-    .menu-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-    }
-
-    .menu-item {
-        font-size: 1.8em;
-    }
-
-    /* 배너 높이는 landing.css에서 clamp()로 처리 */
-
-    /* List */
-    .character-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-    }
-
-    /* Links */
-    .notion-bookmark {
-        height: 120px;
-    }
-
-    .bookmark-image {
-        width: 120px;
-        height: 120px;
-    }
-
-    /* Detail */
-    .detail-layout {
-        flex-direction: column;
-    }
-
-    .team-cards-wrapper {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* --- 태블릿 가로 (769px ~ 1024px) --- */
-@media (min-width: 769px) and (max-width: 1024px) {
-
-    /* 메뉴 그리드: 4열 */
-    .menu-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-    }
-
-    .menu-item {
-        font-size: 2em;
-    }
-
-    /* List */
-    .character-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 18px;
-    }
-
-    /* Detail */
-    .team-cards-wrapper {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-/* --- PC (1025px ~) --- */
-@media (min-width: 1025px) {
-
-    /* 메뉴 그리드: 4열 */
-    .menu-grid {
-        grid-template-columns: repeat(4, 1fr);
-    }
-
-    /* List - auto-fill로 자동 조정 */
-    .character-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    }
-
-    /* Detail */
-    .team-cards-wrapper {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-/* --- 유동 타이포그래피 --- */
-h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
-header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
-.category-title { font-size: clamp(1.4em, 3vw, 2em); }
-
-/* --- 가로 모드 폰 대응 --- */
-@media (orientation: landscape) and (max-height: 500px) {
-    .banner-container { margin-bottom: 15px; }
-    .landing-container { padding-top: 20px; padding-bottom: 40px; }
-    .menu-grid { gap: 8px; }
-    .menu-item { aspect-ratio: 2 / 0.7; font-size: 1.6em; }
-    .modal-content { max-height: 90vh; }
-}
-
-/* --- 공통 터치 디바이스 최적화 --- */
-@media (hover: none) and (pointer: coarse) {
-
-    /* 터치 타겟 크기 증가 */
-    .menu-item {
-        min-height: 60px;
-    }
-
-    button,
-    a.back-link,
-    .menu-wrapper {
-        min-height: 44px;
-        /* iOS 권장 최소 터치 영역 */
-    }
-
-    /* 호버 효과 비활성화 (터치 기기에서는 불필요) */
-    .character-card:hover,
-    .notion-bookmark:hover,
-    .menu-wrapper:hover .menu-item {
-        transform: none;
-    }
-}
-
-/* --- 다크모드 지원 (선택적) --- */
-@media (prefers-color-scheme: dark) {
-    /* 기본이 이미 다크모드이므로 추가 조정 불필요 */
-    /* 필요시 라이트모드 사용자를 위한 스타일 추가 가능 */
-}
-
-/* --- 인쇄 스타일 (선택적) --- */
-@media print {
-
-    .bg-image,
-    .background-overlay,
-    footer,
-    .back-link,
-    .arrow,
-    .dots-container {
-        display: none !important;
-    }
-
-    body {
-        background: white;
-        color: black;
-    }
-
-    .container {
-        max-width: 100%;
     }
 }
 </file>
@@ -3683,6 +3786,488 @@ button:focus {
 }
 </file>
 
+<file path="css/responsive.css">
+/* ============================================
+   반응형 스타일 (Responsive Design)
+   모든 페이지에 적용되는 반응형 미디어 쿼리
+   ============================================ */
+
+/* =============================================
+   브레이크포인트:
+   - 모바일 소형: ~ 480px
+   - 모바일 일반: 481px ~ 600px  
+   - 태블릿 세로: 601px ~ 768px
+   - 태블릿 가로: 769px ~ 1024px
+   - PC: 1025px ~
+   ============================================= */
+
+/* --- 모바일 소형 (~ 480px) --- */
+@media (max-width: 480px) {
+
+    /* 공통 */
+    .container {
+        padding: 15px;
+    }
+
+    /* Landing (index.html) */
+    .landing-container {
+        padding: 20px 15px 60px;
+    }
+
+    header h1 {
+        font-size: 1.4em;
+    }
+
+    header {
+        margin-bottom: 20px;
+    }
+
+    .banner-container {
+        margin-bottom: 25px;
+    }
+
+    .banner-text {
+        font-size: 1.1em;
+    }
+
+    .banner-tag {
+        font-size: 0.75em;
+        padding: 3px 6px;
+    }
+
+    .arrow svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    /* 메뉴 그리드: 2열 */
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .menu-item {
+        font-size: 1.8em;
+        border-radius: 10px;
+    }
+
+    .menu-label {
+        font-size: 0.85em;
+    }
+
+    footer {
+        font-size: 0.7em;
+    }
+
+    /* List (list.html) */
+    .header-area h1 {
+        font-size: 1.3em;
+        padding: 0 70px;
+    }
+
+    .header-area .back-link {
+        padding: 6px 10px;
+        font-size: 0.75em;
+    }
+
+    .controls-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .filter-container {
+        justify-content: space-between;
+    }
+
+    select {
+        flex: 1;
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .character-card h3 {
+        font-size: 0.95em;
+    }
+
+    /* Links (links.html) - 모바일 소형 북마크 축소 */
+    .notion-bookmark {
+        height: auto;
+        min-height: 80px;
+    }
+
+    .bookmark-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .bookmark-content {
+        padding: 8px 10px;
+    }
+
+    .bookmark-title {
+        font-size: 0.95em;
+    }
+
+    .bookmark-desc {
+        font-size: 0.85em;
+    }
+
+    .category-title {
+        font-size: 1.4em;
+    }
+
+    /* Detail (detail.html) - 모바일 레이아웃 */
+    .detail-layout {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .char-profile,
+    .char-data {
+        flex-basis: 100%;
+    }
+
+    .data-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-tabs .tab-link {
+        font-size: 0.95em;
+        padding: 8px 12px;
+    }
+
+    .skill-card-builder {
+        width: 100%;
+        max-width: 280px;
+        height: auto;
+        aspect-ratio: 300 / 465;
+    }
+
+    .team-cards-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+/* --- 모바일 일반 (481px ~ 600px) --- */
+@media (min-width: 481px) and (max-width: 600px) {
+    .container {
+        padding: 15px;
+    }
+
+    .landing-container {
+        padding: 20px 15px 60px;
+    }
+
+    header h1 {
+        font-size: 1.5em;
+    }
+
+    header {
+        margin-bottom: 20px;
+    }
+
+    .banner-container {
+        margin-bottom: 30px;
+    }
+
+    .arrow svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* 메뉴 그리드: 3열 */
+    .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .menu-item {
+        font-size: 1.4em;
+        border-radius: 10px;
+    }
+
+    .menu-label {
+        font-size: 0.9em;
+    }
+
+    footer {
+        font-size: 0.75em;
+    }
+
+    /* List */
+    .header-area h1 {
+        font-size: 1.4em;
+    }
+
+    .controls-container {
+        flex-direction: column;
+    }
+
+    .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    /* Links - 북마크 크기 조정 */
+    .notion-bookmark {
+        height: auto;
+        min-height: 100px;
+    }
+
+    .bookmark-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    /* Detail */
+    .detail-layout {
+        flex-direction: column;
+    }
+
+    .team-cards-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* --- 태블릿 세로 (601px ~ 768px) --- */
+@media (min-width: 601px) and (max-width: 768px) {
+
+    /* 메뉴 그리드: 3열 */
+    .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .menu-item {
+        font-size: 1.8em;
+    }
+
+    /* 배너 높이는 landing.css에서 clamp()로 처리 */
+
+    /* List */
+    .character-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    /* Links */
+    .notion-bookmark {
+        height: 120px;
+    }
+
+    .bookmark-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Detail */
+    .detail-layout {
+        flex-direction: column;
+    }
+
+    .team-cards-wrapper {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- 태블릿 가로 (769px ~ 1024px) --- */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    /* 메뉴 그리드: 4열 */
+    .menu-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+    }
+
+    .menu-item {
+        font-size: 2em;
+    }
+
+    /* List */
+    .character-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+    }
+
+    /* Detail */
+    .team-cards-wrapper {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* --- PC (1025px ~) --- */
+@media (min-width: 1025px) {
+
+    /* 메뉴 그리드: 4열 */
+    .menu-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* List - auto-fill로 자동 조정 */
+    .character-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    /* Detail */
+    .team-cards-wrapper {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* --- 유동 타이포그래피 --- */
+h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
+header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
+.category-title { font-size: clamp(1.4em, 3vw, 2em); }
+
+/* --- 가로 모드 폰 대응 --- */
+@media (orientation: landscape) and (max-height: 500px) {
+    .banner-container { margin-bottom: 15px; }
+    .landing-container { padding-top: 20px; padding-bottom: 40px; }
+    .menu-grid { gap: 8px; }
+    .menu-item { aspect-ratio: 2 / 0.7; font-size: 1.6em; }
+    .modal-content { max-height: 90vh; }
+}
+
+/* --- 공통 터치 디바이스 최적화 --- */
+@media (hover: none) and (pointer: coarse) {
+
+    /* 터치 타겟 크기 증가 */
+    .menu-item {
+        min-height: 60px;
+    }
+
+    button,
+    a.back-link,
+    .menu-wrapper {
+        min-height: 44px;
+        /* iOS 권장 최소 터치 영역 */
+    }
+
+    /* 호버 효과 비활성화 (터치 기기에서는 불필요) */
+    .character-card:hover,
+    .notion-bookmark:hover,
+    .menu-wrapper:hover .menu-item {
+        transform: none;
+    }
+}
+
+/* --- 다크모드 지원 (선택적) --- */
+@media (prefers-color-scheme: dark) {
+    /* 기본이 이미 다크모드이므로 추가 조정 불필요 */
+    /* 필요시 라이트모드 사용자를 위한 스타일 추가 가능 */
+}
+
+/* --- 인쇄 스타일 (선택적) --- */
+@media print {
+
+    .bg-image,
+    .background-overlay,
+    footer,
+    .back-link,
+    .arrow,
+    .dots-container {
+        display: none !important;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+
+    .container {
+        max-width: 100%;
+    }
+}
+/* --- 모바일 추천 세팅: 정렬 및 크기 강제 보정 (인라인 스타일 무력화) --- */
+@media (max-width: 768px) {
+    /* 1. 전체 박스 설정 */
+    .recommend-box {
+        flex-direction: column !important;
+        aspect-ratio: auto !important;
+        height: auto !important;
+    }
+
+    /* 2. 상단 (썸네일/태그) 중앙 정렬 */
+    .recommend-left {
+        width: 100% !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-right: none !important;
+        border-bottom: 1px solid #444 !important;
+        padding: 20px !important;
+        text-align: center !important;
+    }
+
+    /* 3. 하단 (명륜/비밀계약) 그리드 설정 */
+    .recommend-right {
+        width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 25px 10px !important;
+        padding: 25px 15px !important;
+        align-items: start !important;
+    }
+
+    /* 4. 🚨 인라인 스타일(가로 배치) 강제 해제 및 중앙 정렬 */
+    .recommend-right > div {
+        display: flex !important;
+        flex-direction: column !important; /* 가로(Row)에서 세로(Column)로 강제 변경 */
+        align-items: center !important;    /* 가로축 중앙 정렬 */
+        justify-content: center !important;
+        text-align: center !important;     /* 텍스트 중앙 정렬 */
+        width: 100% !important;
+        gap: 10px !important;              /* 이미지와 글자 사이 간격 */
+    }
+
+    /* 5. 비밀계약 전체 너비 및 강조 */
+    .recommend-right > div:last-child {
+        grid-column: 1 / -1 !important;
+        border-top: 1px dashed #444 !important;
+        padding-top: 20px !important;
+        margin-top: 10px !important;
+    }
+
+    /* 6. 이미지 크기 보정 */
+    .equip-img-myeongryun {
+        width: 80px !important;
+        height: auto !important;
+    }
+
+    .equip-img-covenant {
+        width: 100% !important;
+        max-width: 160px !important; /* 🔥 비밀계약 이미지 대폭 확대 */
+        height: auto !important;
+        margin: 0 auto !important;
+    }
+
+    /* 7. 내부 텍스트 박스 중앙 정렬 */
+    .equip-info-myeongryun,
+    .equip-info-covenant {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important; /* 글자 박스 안의 내용들도 중앙으로 */
+        width: 100% !important;
+    }
+
+    /* 상세 텍스트들 개별 정렬 */
+    .equip-info-myeongryun span,
+    .equip-info-covenant span {
+        text-align: center !important;
+        display: block !important;
+        width: 100% !important;
+    }
+}
+</file>
+
 <file path="data/covenant_list.json">
 [
   {
@@ -3873,6 +4458,340 @@ button:focus {
     "image_path" : "images/covenant_ocean.png",
     "tags" : ["힘 획득", "촉수 집결"],
     "source" : "막간 훈련 : 폭풍 너머의 바다"
+  }
+]
+</file>
+
+<file path="data/silverkey_list.json">
+[
+  {
+    "korean_name": "주사 수호",
+    "english_name": "key_injection",
+    "description": "보호막 92점을 획득합니다. 현재 체력이 25% 미만일 경우, 체력 92점을 회복합니다.",
+    "image_path": "images/key_injection.png",
+    "tags": ["보호막 획득", "체력 회복"]
+  },
+  {
+    "korean_name": "회귀의 문을 넘어",
+    "english_name": "key_return",
+    "description": "뽑기 더미에서 카드 1장을 선택하여 손에 넣고, 해당 카드의 계산 비용을 1만큼 줄입니다.",
+    "image_path": "images/key_return.png",
+    "tags": ["카드 추가", "산출력 감소"]
+  },
+  {
+    "korean_name": "문을 여는 답",
+    "english_name": "key_open_door",
+    "description": "무작위 은열쇠 3개를 발견하고, 그 중 하나를 선택하여 효과를 발동합니다. 은열쇠 에너지를 200 획득합니다.",
+    "image_path": "images/key_open_door.png",
+    "tags": ["은열쇠 게이지 획득"]
+  },
+  {
+    "korean_name": "별들의 가호",
+    "english_name": "key_star_protect",
+    "description": "\"잠\" 또는 \"깨어남\"을 선택. 잠: 보호막 58점과 \"별의 보호\" 중첩 1개를 획득하며, 최대 5개까지 누적됩니다. 중첩은 전투 후에도 초기화되지 않습니다. 깨어남: 모든 각성체는 광기 8점을 획득하고, 모든 \"별빛 보호\" 중첩을 소모하며, 소모된 중첩 수만큼 연산 능력을 얻습니다. 현재 영역이 \"심해\"인 경우, 소모된 중첩 수만큼 추가적인 임시 촉수가 생성됩니다.",
+    "image_path": "images/key_star_protect.png",
+    "tags": ["보호막 획득", "광기 부여", "터치월 생성"]
+  },
+  {
+    "korean_name": "어긋난 운명",
+    "english_name": "key_twisted_fate",
+    "description": "각성체 하나를 선택하여 광기 15를 부여합니다. 드로우 덱에서 계산 비용이 가장 낮은 카드 2장을 뽑습니다. 팀에 카스토르가 있다면, 카스토르의 피해 증폭을 일시적으로 30% 증가시킵니다.",
+    "image_path": "images/key_twisted_fate.png",
+    "tags": ["광기 부여", "드로우", "피해 증폭"]
+  },
+  {
+    "korean_name": "검은 백조의 춤사위",
+    "english_name": "key_black_swan",
+    "description": "한 명의 각성체를 선택하여 그 명령카드의 크리티컬 확률과 크리티컬 피해를 임시로 15% 증가시키고 15포인트의 광기를 얻습니다. 리즈가 팀에 있으면, 추가로 1장의 ‘소모’의 ‘사멸 녹염’을 손에 넣습니다.",
+    "image_path": "images/key_black_swan.png",
+    "tags": ["크리티컬 확률 증가", "크리티컬 피해 증가", "광기 부여", "카드 추가"]
+  },
+  {
+    "korean_name": "정지된 한여름의 추억",
+    "english_name": "key_summer_time",
+    "description": "각성체 하나를 선택하고, 계산 비용이 0인 임시 \"타격\" 카드 한 장을 손에 추가합니다. 세 번째 발동마다 대신 \"아름다운 순간\" 카드 한 장을 손에 추가하고, 모든 각성체에게 임시로 크리티컬 확률 20% 증가 효과를 부여합니다.",
+    "image_path": "images/key_summer_time.png",
+    "tags": ["카드 추가", "크리티컬 확률 증가"]
+  },
+  {
+    "korean_name": "마지막 서약",
+    "english_name": "key_last_pledge",
+    "description": "일시적으로 크리티컬 확률이 25% 증가하고 일시적으로 힘이 19 증가합니다. 보스전 중이고 이번 턴에 카드를 사용하지 않았다면, 죽음의 저항을 한 번 시도합니다. 성공하면 보호막 367점을 얻습니다. 이 효과는 한 번만 발동할 수 있습니다.",
+    "image_path": "images/key_last_pledge.png",
+    "tags": ["크리티컬 확률 증가", "힘 증가", "보호막 획득"]
+  },
+  {
+    "korean_name": "영원한 집착",
+    "english_name": "key_eternal_obsession",
+    "description": "힘이 28점 증가하고, 영구적인 힘의 25%에 해당하는 추가적인 임시 힘을 얻습니다.",
+    "image_path": "images/key_eternal_obsession.png",
+    "tags": ["힘 증가"]
+  },
+  {
+    "korean_name": "아름다운 꿈의 순간",
+    "english_name": "key_dream_moment",
+    "description": "121의 보호막 포인트를 얻고 현재 보호막의 10%에 해당하는 일시적인 힘을 얻습니다.",
+    "image_path": "images/key_dream_moment.png",
+    "tags": ["보호막 획득", "힘 증가"]
+  },
+  {
+    "korean_name": "꺼지지 않는 태양",
+    "english_name": "key_never_falling_sun",
+    "description": "산출력 1을 획득하고 피해 증폭이 30% 증가합니다. 카티구라가 팀에 존재할 경우, 카티구라의 명령 카드 1장을 뽑고 해당 카드에 활염 1스택을 부여합니다.",
+    "image_path": "images/key_never_falling_sun.png",
+    "tags": ["피해 증폭", "드로우"]
+  },
+  {
+    "korean_name": "쥐의 지혜",
+    "english_name": "key_mouse_wisdom",
+    "description": "산출력을 3 획득합니다.",
+    "image_path": "images/key_mouse_wisdom.png",
+    "tags": ["산출력 획득"]
+  },
+  {
+    "korean_name": "한 발의 총성",
+    "english_name": "key_gun_sound",
+    "description": "빛나는 속임수 주사위 1장을 손패에 추가하고, 임시 크리티컬 확률을 10% 획득합니다.",
+    "image_path": "images/key_gun_sound.png",
+    "tags": ["카드 추가", "크리티컬 확률 증가"]
+  },
+  {
+    "korean_name": "불평등한 교환",
+    "english_name": "key_unfair_exchange",
+    "description": "카드를 네 장 뽑습니다.",
+    "image_path": "images/key_unfair_exchange.png",
+    "tags": ["드로우"]
+  },
+  {
+    "korean_name": "한여름의 꿈",
+    "english_name": "key_summer_dream",
+    "description": "1장의 카드를 뽑습니다. 만약 명령카드나 영지 각성을 뽑으면, 그 카드의 산출력 소모를 0으로 만들고, 해당 카드의 소유자가 20점의 광기를 획득합니다. 그렇지 않으면 그 카드를 버리고 이 효과를 반복합니다.",
+    "image_path": "images/key_summer_dream.png",
+    "tags": ["드로우", "산출력 감소", "광기 부여"]
+  },
+  {
+    "korean_name": "그녀의 전부",
+    "english_name": "key_all_of_her",
+    "description": "영역 숙련을 24만큼 증가시킵니다. 각성체 하나를 선택하여 광기 24점을 부여합니다",
+    "image_path": "images/key_all_of_her.png",
+    "tags": ["영역 숙련", "광기 부여"]
+  },
+  {
+    "korean_name": "작은 소원",
+    "english_name": "key_tiny_wish",
+    "description": "각성체 하나에게 광기를 35 부여합니다.",
+    "image_path": "images/key_tiny_wish.png",
+    "tags": ["광기 부여"]
+  },
+  {
+    "korean_name": "네 번째 악장",
+    "english_name": "key_4th_music",
+    "description": "이번 턴에 다음에 낼 카드의 연산력이 3 이상이면 연산력 2를 얻고, 그렇지 않으면 카드 2장을 뽑습니다. 이번 전투에서 이 효과가 네 번째로 발생하면, 대신 \"영감\" 카드 4장을 직접 얻습니다.",
+    "image_path": "images/key_4th_music.png",
+    "tags": ["드로우", "카드 추가"]
+  },
+  {
+    "korean_name": "순백의 첫 만남",
+    "english_name": "key_pure_white",
+    "description": "손에 든 카드를 모두 버리고, 버린 카드 수 +2만큼 카드를 뽑습니다.",
+    "image_path": "images/key_pure_white.png",
+    "tags": ["드로우"]
+  },
+  {
+    "korean_name": "산맥의 가호",
+    "english_name": "key_mt_blessing",
+    "description": "각성자 한 명을 선택하고 해당 각성자에 대한 명령 카드 2장을 뽑습니다.",
+    "image_path": "images/key_mt_blessing.png",
+    "tags": ["드로우"]
+  },
+  {
+    "korean_name": "특별 치료",
+    "english_name": "key_special",
+    "description": "체력 68을 회복하고 공격력 20을 얻습니다. 클레멘타인이 파티에 있을 경우, 이번 턴에 그녀의 다음 명령 카드가 입히는 피해량, 보호막, 체력 회복, 광기, 은색 열쇠 에너지의 횟수가 1씩 증가합니다.",
+    "image_path": "images/key_special.png",
+    "tags": ["체력 회복", "힘 증가", "보호막 획득", "광기 부여", "은열쇠 게이지"]
+  },
+  {
+    "korean_name": "사라지지 않는 번개",
+    "english_name": "key_lightning",
+    "description": "방어력 58점을 얻고 카드 2장을 뽑습니다. 코퍼산트가 파티에 있다면 \"향로 인도\" 카드 1장을 추가로 손에 넣습니다.",
+    "image_path": "images/key_lightning.png",
+    "tags": ["보호막 획득", "드로우", "카드 추가"]
+  },
+  {
+    "korean_name": "불멸의 장례식",
+    "english_name": "key_funeral",
+    "description": "모든 각성체는 15점의 광기를 얻고, 다음 턴 시작 시 최대 체력의 5%의 희생을 얻습니다.",
+    "image_path": "images/key_funeral.png",
+    "tags": ["광기 부여", "체력 감소"]
+  },
+  {
+    "korean_name": "유일한 씨앗",
+    "english_name": "key_seed",
+    "description": "손에 있는 비파생 명령 카드 하나를 선택하고, 소모가 부여된 원본카드의 복사본을 손패에 추가하고, 해당 카드의 주인이 15 광기를 획득합니다.",
+    "image_path": "images/key_seed.png",
+    "tags": ["카드 추가", "광기 부여"]
+  },
+  {
+    "korean_name": "봄의 현시",
+    "english_name": "key_spring",
+    "description": "4개의 시편 중 하나를 선택하고, 선택지에서 제거합니다. 모든 시편이 선택되면 초기화 됩니다.",
+    "image_path": "images/key_spring.png",
+    "tags": ["체력 회복", "힘 증가", "광기 부여", "크리티컬 확률 증가"]
+  },
+  {
+    "korean_name": "머릿속의 목소리",
+    "english_name": "key_voice",
+    "description": "1턴 동안 모든 적에게 약화 및 취약 상태를 부여하고 일시적으로 힘 10을 훔칩니다.",
+    "image_path": "images/key_voice.png",
+    "tags": ["약화 부여", "취약 부여", "힘훔침"]
+  },
+  {
+    "korean_name": "잔혹한 인사",
+    "english_name": "key_keirei",
+    "description": "모든 적에게서 일시적으로 힘 39를 훔칩니다. 도어세인이 파티에 있다면 ‘잔해’ 1개를 얻습니다.",
+    "image_path": "images/key_keirei.png",
+    "tags": ["힘훔침", "카드 추가"]
+  },
+  {
+    "korean_name": "허무의 역병",
+    "english_name": "key_void",
+    "description": "각성체 1명을 선택하여 20의 광기를 부여합니다. 모든 적에게 39의 중독을 부여하고, 목표의 잃은 체력 1%마다 1%의 중독을 발동시킵니다. (최대 50%)",
+    "image_path": "images/key_void.png",
+    "tags": ["광기 부여", "중독 부여", "중독 발동"]
+  },
+  {
+    "korean_name": "허세의 색채색",
+    "english_name": "key_paint",
+    "description": "한 명의 각성체를 선택하여 20포인트의 광기를 획득시키고, 1장의 ‘영감’을 드로우 덱에 섞습니다. 만약 픽맨이 팀에 있으면, 1층의 ‘창의’를 그에게 획득시킵니다.",
+    "image_path": "images/key_paint.png",
+    "tags": ["광기 부여", "카드 추가"]
+  },
+  {
+    "korean_name": "우는 피의 성심",
+    "english_name": "key_bloodtear",
+    "description": "카드 1장을 뽑고 계산 비용을 1 감소시킨다. 뽑은 카드가 명령 카드일 경우, 해당 카드 소유자는 일시적으로 크리티컬 피해가 25% 증가한다. 파티에 폴룩스가 있을 경우, 죄악의 표식 중첩을 5개 획득한다.",
+    "image_path": "images/key_bloodtear.png",
+    "tags": ["드로우", "산출력 감소", "크리티컬 피해 증가"]
+  },
+  {
+    "korean_name": "뼈를 침식하는 포옹",
+    "english_name": "key_born",
+    "description": "1점의 산출력을 획득하고, 다음 턴 시작 시 96점의 보호막을 획득합니다. 현재 경계역이 ‘심해’이고 ‘물결’상태일 경우, 효과가 1개의 터치 윌 생성으로 변경됩니다.",
+    "image_path": "images/key_born.png",
+    "tags": ["보호막 획득", "터치월 생성"]
+  },
+  {
+    "korean_name": "오레타의 보물",
+    "english_name": "key_aureta",
+    "description": "드로우 덱에서 3 장의 가장 낮은 산출력 소모 카드를 뽑습니다. 현재 경계역이 심해’라면, 터치 손상이 추가로 10포인트 증가합니다.",
+    "image_path": "images/key_aureta.png",
+    "tags": ["드로우", "터치 손상"]
+  },
+  {
+    "korean_name": "거인의 패도",
+    "english_name": "key_giant",
+    "description": "1의 산출력과 15의 힘을 획득하고, 한 명의 각성체를 선택하여 15의 광기를 획득합니다. 현재 경계역이 ‘심해’이고 ‘노도’상태일 경우, 효과가 15%의 임시 크리티컬 확률과 임시 크리티컬 데미지 획득으로 변경됩니다.",
+    "image_path": "images/key_giant.png",
+    "tags": ["힘 증가", "광기 부여", "크리티컬 확률 증가", "크리티컬 피해 증가"]
+  },
+  {
+    "korean_name": "바다의 의식",
+    "english_name": "key_sea",
+    "description": "카드를 2장 뽑고 산출력 2를 획득하지만 모든 각성체가 5 광기를 잃습니다. 현재 ‘고요한 바다’ 태세일 경우, 모든 적에게 중독을 215 부여합니다. 보스 전투에서는 3배의 중독을 부여합니다.",
+    "image_path": "images/key_sea.png",
+    "tags": ["드로우", "중독 부여"]
+  },
+  {
+    "korean_name": "포효하는 피와 모래",
+    "english_name": "key_blood",
+    "description": "1명의 각성체를 선태하여 20점의 힘을 얻습니다. 현재 경계역이 ‘혈육’인 경우, 배아 융합+20가 추가로 적용되지 않지만, 현재 생명의 10%를 잃습니다.",
+    "image_path": "images/key_blood.png",
+    "tags": ["힘 증가", "체력 감소"]
+  },
+  {
+    "korean_name": "호숫가의 회상",
+    "english_name": "key_lakeside",
+    "description": "체력이 가장 높은 적에게 348의 독 피해를 입히고 56의 보호막을 부여합니다. 이번 턴에 \"흡수\"가 발동되었다면 추가 보호막은 획득하지 않으며, 적이 입힌 독 피해의 절반이 적용됩니다.",
+    "image_path": "images/key_lakeside.png",
+    "tags": ["중독 부여", "보호막 획득"]
+  },
+  {
+    "korean_name": "장미의 승리",
+    "english_name": "key_rose",
+    "description": "임시 공격력 42를 얻고 카드 2장을 뽑습니다. 현재 영역이 ‘혈육’이라면 현재 체력의 10%를 잃고 임시 공격력 14를 추가로 얻습니다. 손에 있는 \"배아\" 카드 한 장당 임시 공격력 14를 추가로 얻습니다.",
+    "image_path": "images/key_rose.png",
+    "tags": ["힘 증가", "드로우", "체력 감소"]
+  },
+  {
+    "korean_name": "회색 안개의 진상",
+    "english_name": "key_grey_fog",
+    "description": "힘 14를 얻고 손에 \"영감\" 카드 1장을 추가합니다. 초차원 턴인 경우, 효과가 변경되어 손에 \"영감\" 카드 2장을 추가합니다.",
+    "image_path": "images/key_grey_fog.png",
+    "tags": ["힘 증가", "카드 추가", "초월 턴"]
+  },
+  {
+    "korean_name": "기적의 강림",
+    "english_name": "key_miracle",
+    "description": "힘을 18 획득합니다. 적의 공격으로 피해를 입었을 때, 다음 턴 시작 시 입은 피해량의 10%만큼 보호막을 획득합니다. 현재 영역이 ‘혈육’인 경우, 지연 보호막 대신 피해량의 10%를 핓빛 용광로에 축적합니다.",
+    "image_path": "images/key_miracle.png",
+    "tags": ["힘 증가", "보호막 획득", "스칼렛 용광로"]
+  },
+  {
+    "korean_name": "사냥의 결의",
+    "english_name": "key_hungry",
+    "description": "편성된 각성체의 스킬 카드 3장을 발견합니다. 그 중 1장을 선택하여 해당 카드의 임시 복사본을 손패에 추가하고, 그 카드의 산출력 소비를 1 감소시킵니다. 현재 영역이 ‘혈육’이라면 ‘다 먹어치워!’를 선택할 수 있습니다.",
+    "image_path": "images/key_hungry.png",
+    "tags": ["카드 추가", "산출력 감소"]
+  },
+  {
+    "korean_name": "순간의 영원",
+    "english_name": "key_moment",
+    "description": "산출력 1을 획득합니다. 각성체 하나를 선택하고. ‘타격’카드 원본 1장과 ‘방어’카드 원본 1장을 손에 넣은 다음, 그 존재에게 ‘소모’와 ‘소멸’ 효과를 부여합니다. 현재 영역이 ‘초차원’일 경우, 힘 19점과 임시 경계 5점을 추가로 얻습니다.",
+    "image_path": "images/key_moment.png",
+    "tags": ["카드 추가", "힘 증가", "경계 획득"]
+  },
+  {
+    "korean_name": "부패의 연회",
+    "english_name": "key_rotten_party",
+    "description": "반격 150스택을 획득하고, 모든 적의 힘을 임시로 28점 감소시킵니다. 현재 ‘초월 턴’중이라면, 임시로 힘이 감소된 모든 적에게 반격 만큼의 피해를 입힙니다.",
+    "image_path": "images/key_rotten_party.png",
+    "tags": ["초월 턴"]
+  },
+  {
+    "korean_name": "소원을 다시 만나다",
+    "english_name": "key_wish_again",
+    "description": "버린 카드 더미에서 명령카드 1장을 선택하여 회수합니다. 만약 ‘라모나’가 팀에 있을 경우, 그 팀원이 이번 턴에 사용하는 다음 명령카드가 2번 발동됩니다.",
+    "image_path": "images/key_wish_again.png",
+    "tags": ["카드 추가"]
+  },
+  {
+    "korean_name": "기울어진 배",
+    "english_name": "key_ship",
+    "description": "1점 산출력을 획득하고, 모든 적에게 5스택 출생의식을 적용한다. 만약 ‘탄망 머피’가 팀에 있다면, 나선원무 한 장을 뽑는다.",
+    "image_path": "images/key_ship.png",
+    "tags": ["출생 의식", "드로우"]
+  },
+  {
+    "korean_name": "안개 속에서 온",
+    "english_name": "key_from_fog",
+    "description": "'타격' 2장을 뽑습니다. 만약 '모샤'가 팀에 있다면, 그들의 산출력 소모를 -1로 줄입니다.",
+    "image_path": "images/key_from_fog.png",
+    "tags": ["카드 추가"]
+  },
+  {
+    "korean_name": "심집순이의 옛이야기",
+    "english_name": "key_homegirl_story",
+    "description": "1포인트의 계산력을 얻고 모든 적의 38포인트의 힘을 임시로 감소시킵니다. \"서\"가 팀에 있을 경우 모든 적에게 1층의 '도취'를 부여합니다.\n",
+    "image_path": "images/key_homegirl_story.png",
+    "tags": ["힘 감소", "산출력 획득"]
+  },
+  {
+    "korean_name": "익사한 순수",
+    "english_name": "key_mosk",
+    "description": "1명의 각성체를 선택하여 15점의 광기를 획득하고, 다른 각성체는 5점의 광기를 획득합니다. 만약 Mosk가 팀에 있다면, 즉시 \"소용돌이! 유동! 발사!\"를 사용하여 추격합니다.",
+    "image_path": "images/key_mosk.png",
+    "tags": ["광기 획득", "추격"]
   }
 ]
 </file>
@@ -4510,534 +5429,6 @@ select:focus {
     margin: 0 auto;
     transition: all 0.3s ease;
 }
-</file>
-
-<file path="data/silverkey_list.json">
-[
-  {
-    "korean_name": "주사 수호",
-    "english_name": "key_injection",
-    "description": "보호막 92점을 획득합니다. 현재 체력이 25% 미만일 경우, 체력 92점을 회복합니다.",
-    "image_path": "images/key_injection.png",
-    "tags": ["보호막 획득", "체력 회복"]
-  },
-  {
-    "korean_name": "회귀의 문을 넘어",
-    "english_name": "key_return",
-    "description": "뽑기 더미에서 카드 1장을 선택하여 손에 넣고, 해당 카드의 계산 비용을 1만큼 줄입니다.",
-    "image_path": "images/key_return.png",
-    "tags": ["카드 추가", "산출력 감소"]
-  },
-  {
-    "korean_name": "문을 여는 답",
-    "english_name": "key_open_door",
-    "description": "무작위 은열쇠 3개를 발견하고, 그 중 하나를 선택하여 효과를 발동합니다. 은열쇠 에너지를 200 획득합니다.",
-    "image_path": "images/key_open_door.png",
-    "tags": ["은열쇠 게이지 획득"]
-  },
-  {
-    "korean_name": "별들의 가호",
-    "english_name": "key_star_protect",
-    "description": "\"잠\" 또는 \"깨어남\"을 선택. 잠: 보호막 58점과 \"별의 보호\" 중첩 1개를 획득하며, 최대 5개까지 누적됩니다. 중첩은 전투 후에도 초기화되지 않습니다. 깨어남: 모든 각성체는 광기 8점을 획득하고, 모든 \"별빛 보호\" 중첩을 소모하며, 소모된 중첩 수만큼 연산 능력을 얻습니다. 현재 영역이 \"심해\"인 경우, 소모된 중첩 수만큼 추가적인 임시 촉수가 생성됩니다.",
-    "image_path": "images/key_star_protect.png",
-    "tags": ["보호막 획득", "광기 부여", "터치월 생성"]
-  },
-  {
-    "korean_name": "어긋난 운명",
-    "english_name": "key_twisted_fate",
-    "description": "각성체 하나를 선택하여 광기 15를 부여합니다. 드로우 덱에서 계산 비용이 가장 낮은 카드 2장을 뽑습니다. 팀에 카스토르가 있다면, 카스토르의 피해 증폭을 일시적으로 30% 증가시킵니다.",
-    "image_path": "images/key_twisted_fate.png",
-    "tags": ["광기 부여", "드로우", "피해 증폭"]
-  },
-  {
-    "korean_name": "검은 백조의 춤사위",
-    "english_name": "key_black_swan",
-    "description": "한 명의 각성체를 선택하여 그 명령카드의 크리티컬 확률과 크리티컬 피해를 임시로 15% 증가시키고 15포인트의 광기를 얻습니다. 리즈가 팀에 있으면, 추가로 1장의 ‘소모’의 ‘사멸 녹염’을 손에 넣습니다.",
-    "image_path": "images/key_black_swan.png",
-    "tags": ["크리티컬 확률 증가", "크리티컬 피해 증가", "광기 부여", "카드 추가"]
-  },
-  {
-    "korean_name": "정지된 한여름의 추억",
-    "english_name": "key_summer_time",
-    "description": "각성체 하나를 선택하고, 계산 비용이 0인 임시 \"타격\" 카드 한 장을 손에 추가합니다. 세 번째 발동마다 대신 \"아름다운 순간\" 카드 한 장을 손에 추가하고, 모든 각성체에게 임시로 크리티컬 확률 20% 증가 효과를 부여합니다.",
-    "image_path": "images/key_summer_time.png",
-    "tags": ["카드 추가", "크리티컬 확률 증가"]
-  },
-  {
-    "korean_name": "마지막 서약",
-    "english_name": "key_last_pledge",
-    "description": "일시적으로 크리티컬 확률이 25% 증가하고 일시적으로 힘이 19 증가합니다. 보스전 중이고 이번 턴에 카드를 사용하지 않았다면, 죽음의 저항을 한 번 시도합니다. 성공하면 보호막 367점을 얻습니다. 이 효과는 한 번만 발동할 수 있습니다.",
-    "image_path": "images/key_last_pledge.png",
-    "tags": ["크리티컬 확률 증가", "힘 증가", "보호막 획득"]
-  },
-  {
-    "korean_name": "영원한 집착",
-    "english_name": "key_eternal_obsession",
-    "description": "힘이 28점 증가하고, 영구적인 힘의 25%에 해당하는 추가적인 임시 힘을 얻습니다.",
-    "image_path": "images/key_eternal_obsession.png",
-    "tags": ["힘 증가"]
-  },
-  {
-    "korean_name": "아름다운 꿈의 순간",
-    "english_name": "key_dream_moment",
-    "description": "121의 보호막 포인트를 얻고 현재 보호막의 10%에 해당하는 일시적인 힘을 얻습니다.",
-    "image_path": "images/key_dream_moment.png",
-    "tags": ["보호막 획득", "힘 증가"]
-  },
-  {
-    "korean_name": "꺼지지 않는 태양",
-    "english_name": "key_never_falling_sun",
-    "description": "산출력 1을 획득하고 피해 증폭이 30% 증가합니다. 카티구라가 팀에 존재할 경우, 카티구라의 명령 카드 1장을 뽑고 해당 카드에 활염 1스택을 부여합니다.",
-    "image_path": "images/key_never_falling_sun.png",
-    "tags": ["피해 증폭", "드로우"]
-  },
-  {
-    "korean_name": "쥐의 지혜",
-    "english_name": "key_mouse_wisdom",
-    "description": "산출력을 3 획득합니다.",
-    "image_path": "images/key_mouse_wisdom.png",
-    "tags": ["산출력 획득"]
-  },
-  {
-    "korean_name": "한 발의 총성",
-    "english_name": "key_gun_sound",
-    "description": "빛나는 속임수 주사위 1장을 손패에 추가하고, 임시 크리티컬 확률을 10% 획득합니다.",
-    "image_path": "images/key_gun_sound.png",
-    "tags": ["카드 추가", "크리티컬 확률 증가"]
-  },
-  {
-    "korean_name": "불평등한 교환",
-    "english_name": "key_unfair_exchange",
-    "description": "카드를 네 장 뽑습니다.",
-    "image_path": "images/key_unfair_exchange.png",
-    "tags": ["드로우"]
-  },
-  {
-    "korean_name": "한여름의 꿈",
-    "english_name": "key_summer_dream",
-    "description": "1장의 카드를 뽑습니다. 만약 명령카드나 영지 각성을 뽑으면, 그 카드의 산출력 소모를 0으로 만들고, 해당 카드의 소유자가 20점의 광기를 획득합니다. 그렇지 않으면 그 카드를 버리고 이 효과를 반복합니다.",
-    "image_path": "images/key_summer_dream.png",
-    "tags": ["드로우", "산출력 감소", "광기 부여"]
-  },
-  {
-    "korean_name": "그녀의 전부",
-    "english_name": "key_all_of_her",
-    "description": "영역 숙련을 24만큼 증가시킵니다. 각성체 하나를 선택하여 광기 24점을 부여합니다",
-    "image_path": "images/key_all_of_her.png",
-    "tags": ["영역 숙련", "광기 부여"]
-  },
-  {
-    "korean_name": "작은 소원",
-    "english_name": "key_tiny_wish",
-    "description": "각성체 하나에게 광기를 35 부여합니다.",
-    "image_path": "images/key_tiny_wish.png",
-    "tags": ["광기 부여"]
-  },
-  {
-    "korean_name": "네 번째 악장",
-    "english_name": "key_4th_music",
-    "description": "이번 턴에 다음에 낼 카드의 연산력이 3 이상이면 연산력 2를 얻고, 그렇지 않으면 카드 2장을 뽑습니다. 이번 전투에서 이 효과가 네 번째로 발생하면, 대신 \"영감\" 카드 4장을 직접 얻습니다.",
-    "image_path": "images/key_4th_music.png",
-    "tags": ["드로우", "카드 추가"]
-  },
-  {
-    "korean_name": "순백의 첫 만남",
-    "english_name": "key_pure_white",
-    "description": "손에 든 카드를 모두 버리고, 버린 카드 수 +2만큼 카드를 뽑습니다.",
-    "image_path": "images/key_pure_white.png",
-    "tags": ["드로우"]
-  },
-  {
-    "korean_name": "산맥의 가호",
-    "english_name": "key_mt_blessing",
-    "description": "각성자 한 명을 선택하고 해당 각성자에 대한 명령 카드 2장을 뽑습니다.",
-    "image_path": "images/key_mt_blessing.png",
-    "tags": ["드로우"]
-  },
-  {
-    "korean_name": "특별 치료",
-    "english_name": "key_special",
-    "description": "체력 68을 회복하고 공격력 20을 얻습니다. 클레멘타인이 파티에 있을 경우, 이번 턴에 그녀의 다음 명령 카드가 입히는 피해량, 보호막, 체력 회복, 광기, 은색 열쇠 에너지의 횟수가 1씩 증가합니다.",
-    "image_path": "images/key_special.png",
-    "tags": ["체력 회복", "힘 증가", "보호막 획득", "광기 부여", "은열쇠 게이지"]
-  },
-  {
-    "korean_name": "사라지지 않는 번개",
-    "english_name": "key_lightning",
-    "description": "방어력 58점을 얻고 카드 2장을 뽑습니다. 코퍼산트가 파티에 있다면 \"향로 인도\" 카드 1장을 추가로 손에 넣습니다.",
-    "image_path": "images/key_lightning.png",
-    "tags": ["보호막 획득", "드로우", "카드 추가"]
-  },
-  {
-    "korean_name": "불멸의 장례식",
-    "english_name": "key_funeral",
-    "description": "모든 각성체는 15점의 광기를 얻고, 다음 턴 시작 시 최대 체력의 5%의 희생을 얻습니다.",
-    "image_path": "images/key_funeral.png",
-    "tags": ["광기 부여", "체력 감소"]
-  },
-  {
-    "korean_name": "유일한 씨앗",
-    "english_name": "key_seed",
-    "description": "손에 있는 비파생 명령 카드 하나를 선택하고, 소모가 부여된 원본카드의 복사본을 손패에 추가하고, 해당 카드의 주인이 15 광기를 획득합니다.",
-    "image_path": "images/key_seed.png",
-    "tags": ["카드 추가", "광기 부여"]
-  },
-  {
-    "korean_name": "봄의 현시",
-    "english_name": "key_spring",
-    "description": "4개의 시편 중 하나를 선택하고, 선택지에서 제거합니다. 모든 시편이 선택되면 초기화 됩니다.",
-    "image_path": "images/key_spring.png",
-    "tags": ["체력 회복", "힘 증가", "광기 부여", "크리티컬 확률 증가"]
-  },
-  {
-    "korean_name": "머릿속의 목소리",
-    "english_name": "key_voice",
-    "description": "1턴 동안 모든 적에게 약화 및 취약 상태를 부여하고 일시적으로 힘 10을 훔칩니다.",
-    "image_path": "images/key_voice.png",
-    "tags": ["약화 부여", "취약 부여", "힘훔침"]
-  },
-  {
-    "korean_name": "잔혹한 인사",
-    "english_name": "key_keirei",
-    "description": "모든 적에게서 일시적으로 힘 39를 훔칩니다. 도어세인이 파티에 있다면 ‘잔해’ 1개를 얻습니다.",
-    "image_path": "images/key_keirei.png",
-    "tags": ["힘훔침", "카드 추가"]
-  },
-  {
-    "korean_name": "허무의 역병",
-    "english_name": "key_void",
-    "description": "각성체 1명을 선택하여 20의 광기를 부여합니다. 모든 적에게 39의 중독을 부여하고, 목표의 잃은 체력 1%마다 1%의 중독을 발동시킵니다. (최대 50%)",
-    "image_path": "images/key_void.png",
-    "tags": ["광기 부여", "중독 부여", "중독 발동"]
-  },
-  {
-    "korean_name": "허세의 색채색",
-    "english_name": "key_paint",
-    "description": "한 명의 각성체를 선택하여 20포인트의 광기를 획득시키고, 1장의 ‘영감’을 드로우 덱에 섞습니다. 만약 픽맨이 팀에 있으면, 1층의 ‘창의’를 그에게 획득시킵니다.",
-    "image_path": "images/key_paint.png",
-    "tags": ["광기 부여", "카드 추가"]
-  },
-  {
-    "korean_name": "우는 피의 성심",
-    "english_name": "key_bloodtear",
-    "description": "카드 1장을 뽑고 계산 비용을 1 감소시킨다. 뽑은 카드가 명령 카드일 경우, 해당 카드 소유자는 일시적으로 크리티컬 피해가 25% 증가한다. 파티에 폴룩스가 있을 경우, 죄악의 표식 중첩을 5개 획득한다.",
-    "image_path": "images/key_bloodtear.png",
-    "tags": ["드로우", "산출력 감소", "크리티컬 피해 증가"]
-  },
-  {
-    "korean_name": "뼈를 침식하는 포옹",
-    "english_name": "key_born",
-    "description": "1점의 산출력을 획득하고, 다음 턴 시작 시 96점의 보호막을 획득합니다. 현재 경계역이 ‘심해’이고 ‘물결’상태일 경우, 효과가 1개의 터치 윌 생성으로 변경됩니다.",
-    "image_path": "images/key_born.png",
-    "tags": ["보호막 획득", "터치월 생성"]
-  },
-  {
-    "korean_name": "오레타의 보물",
-    "english_name": "key_aureta",
-    "description": "드로우 덱에서 3 장의 가장 낮은 산출력 소모 카드를 뽑습니다. 현재 경계역이 심해’라면, 터치 손상이 추가로 10포인트 증가합니다.",
-    "image_path": "images/key_aureta.png",
-    "tags": ["드로우", "터치 손상"]
-  },
-  {
-    "korean_name": "거인의 패도",
-    "english_name": "key_giant",
-    "description": "1의 산출력과 15의 힘을 획득하고, 한 명의 각성체를 선택하여 15의 광기를 획득합니다. 현재 경계역이 ‘심해’이고 ‘노도’상태일 경우, 효과가 15%의 임시 크리티컬 확률과 임시 크리티컬 데미지 획득으로 변경됩니다.",
-    "image_path": "images/key_giant.png",
-    "tags": ["힘 증가", "광기 부여", "크리티컬 확률 증가", "크리티컬 피해 증가"]
-  },
-  {
-    "korean_name": "바다의 의식",
-    "english_name": "key_sea",
-    "description": "카드를 2장 뽑고 산출력 2를 획득하지만 모든 각성체가 5 광기를 잃습니다. 현재 ‘고요한 바다’ 태세일 경우, 모든 적에게 중독을 215 부여합니다. 보스 전투에서는 3배의 중독을 부여합니다.",
-    "image_path": "images/key_sea.png",
-    "tags": ["드로우", "중독 부여"]
-  },
-  {
-    "korean_name": "포효하는 피와 모래",
-    "english_name": "key_blood",
-    "description": "1명의 각성체를 선태하여 20점의 힘을 얻습니다. 현재 경계역이 ‘혈육’인 경우, 배아 융합+20가 추가로 적용되지 않지만, 현재 생명의 10%를 잃습니다.",
-    "image_path": "images/key_blood.png",
-    "tags": ["힘 증가", "체력 감소"]
-  },
-  {
-    "korean_name": "호숫가의 회상",
-    "english_name": "key_lakeside",
-    "description": "체력이 가장 높은 적에게 348의 독 피해를 입히고 56의 보호막을 부여합니다. 이번 턴에 \"흡수\"가 발동되었다면 추가 보호막은 획득하지 않으며, 적이 입힌 독 피해의 절반이 적용됩니다.",
-    "image_path": "images/key_lakeside.png",
-    "tags": ["중독 부여", "보호막 획득"]
-  },
-  {
-    "korean_name": "장미의 승리",
-    "english_name": "key_rose",
-    "description": "임시 공격력 42를 얻고 카드 2장을 뽑습니다. 현재 영역이 ‘혈육’이라면 현재 체력의 10%를 잃고 임시 공격력 14를 추가로 얻습니다. 손에 있는 \"배아\" 카드 한 장당 임시 공격력 14를 추가로 얻습니다.",
-    "image_path": "images/key_rose.png",
-    "tags": ["힘 증가", "드로우", "체력 감소"]
-  },
-  {
-    "korean_name": "회색 안개의 진상",
-    "english_name": "key_grey_fog",
-    "description": "힘 14를 얻고 손에 \"영감\" 카드 1장을 추가합니다. 초차원 턴인 경우, 효과가 변경되어 손에 \"영감\" 카드 2장을 추가합니다.",
-    "image_path": "images/key_grey_fog.png",
-    "tags": ["힘 증가", "카드 추가", "초월 턴"]
-  },
-  {
-    "korean_name": "기적의 강림",
-    "english_name": "key_miracle",
-    "description": "힘을 18 획득합니다. 적의 공격으로 피해를 입었을 때, 다음 턴 시작 시 입은 피해량의 10%만큼 보호막을 획득합니다. 현재 영역이 ‘혈육’인 경우, 지연 보호막 대신 피해량의 10%를 핓빛 용광로에 축적합니다.",
-    "image_path": "images/key_miracle.png",
-    "tags": ["힘 증가", "보호막 획득", "스칼렛 용광로"]
-  },
-  {
-    "korean_name": "사냥의 결의",
-    "english_name": "key_hungry",
-    "description": "편성된 각성체의 스킬 카드 3장을 발견합니다. 그 중 1장을 선택하여 해당 카드의 임시 복사본을 손패에 추가하고, 그 카드의 산출력 소비를 1 감소시킵니다. 현재 영역이 ‘혈육’이라면 ‘다 먹어치워!’를 선택할 수 있습니다.",
-    "image_path": "images/key_hungry.png",
-    "tags": ["카드 추가", "산출력 감소"]
-  },
-  {
-    "korean_name": "순간의 영원",
-    "english_name": "key_moment",
-    "description": "산출력 1을 획득합니다. 각성체 하나를 선택하고. ‘타격’카드 원본 1장과 ‘방어’카드 원본 1장을 손에 넣은 다음, 그 존재에게 ‘소모’와 ‘소멸’ 효과를 부여합니다. 현재 영역이 ‘초차원’일 경우, 힘 19점과 임시 경계 5점을 추가로 얻습니다.",
-    "image_path": "images/key_moment.png",
-    "tags": ["카드 추가", "힘 증가", "경계 획득"]
-  },
-  {
-    "korean_name": "부패의 연회",
-    "english_name": "key_rotten_party",
-    "description": "반격 150스택을 획득하고, 모든 적의 힘을 임시로 28점 감소시킵니다. 현재 ‘초월 턴’중이라면, 임시로 힘이 감소된 모든 적에게 반격 만큼의 피해를 입힙니다.",
-    "image_path": "images/key_rotten_party.png",
-    "tags": ["초월 턴"]
-  },
-  {
-    "korean_name": "소원을 다시 만나다",
-    "english_name": "key_wish_again",
-    "description": "버린 카드 더미에서 명령카드 1장을 선택하여 회수합니다. 만약 ‘라모나’가 팀에 있을 경우, 그 팀원이 이번 턴에 사용하는 다음 명령카드가 2번 발동됩니다.",
-    "image_path": "images/key_wish_again.png",
-    "tags": ["카드 추가"]
-  },
-  {
-    "korean_name": "기울어진 배",
-    "english_name": "key_ship",
-    "description": "1점 산출력을 획득하고, 모든 적에게 5스택 출생의식을 적용한다. 만약 ‘탄망 머피’가 팀에 있다면, 나선원무 한 장을 뽑는다.",
-    "image_path": "images/key_ship.png",
-    "tags": ["출생 의식", "드로우"]
-  },
-  {
-    "korean_name": "안개 속에서 온",
-    "english_name": "key_from_fog",
-    "description": "'타격' 2장을 뽑습니다. 만약 '모샤'가 팀에 있다면, 그들의 산출력 소모를 -1로 줄입니다.",
-    "image_path": "images/key_from_fog.png",
-    "tags": ["카드 추가"]
-  },
-  {
-    "korean_name": "심집순이의 옛이야기",
-    "english_name": "key_homegirl_story",
-    "description": "1포인트의 계산력을 얻고 모든 적의 38포인트의 힘을 임시로 감소시킵니다. \"서\"가 팀에 있을 경우 모든 적에게 1층의 '도취'를 부여합니다.\n",
-    "image_path": "images/key_homegirl_story.png",
-    "tags": ["힘 감소", "산출력 획득"]
-  },
-  {
-    "korean_name": "익사한 순수",
-    "english_name": "key_mosk",
-    "description": "1명의 각성체를 선택하여 15점의 광기를 획득하고, 다른 각성체는 5점의 광기를 획득합니다. 만약 Mosk가 팀에 있다면, 즉시 \"소용돌이! 유동! 발사!\"를 사용하여 추격합니다.",
-    "image_path": "images/key_mosk.png",
-    "tags": ["광기 획득", "추격"]
-  }
-]
-</file>
-
-<file path="list.html">
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
-    <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>각성체 목록</title>
-
-    <script src="config/config.js"></script>
-    <script>
-        loadCSS('css/common.css');
-        loadCSS('css/components.css');
-        loadCSS('css/pages/list.css');
-        loadCSS('css/responsive.css');
-    </script>
-</head>
-
-<body>
-<main class="container">
-
-    <div class="header-area">
-        <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 돌아가기</a></nav>
-        <h1>각성체 목록</h1>
-    </div>
-
-    <section class="controls-container" aria-label="검색 및 필터">
-        <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색..." aria-label="캐릭터 이름 검색">
-        <div class="filter-container">
-            <select id="relems-filter" aria-label="계역 필터">
-                <option value="all">계역 (전체)</option>
-                <option value="chaos">혼돈</option>
-                <option value="aequor">심해</option>
-                <option value="caro">혈육</option>
-                <option value="ultra">초차원</option>
-            </select>
-            <select id="grade-filter" aria-label="등급 필터">
-                <option value="all">등급 (전체)</option>
-                <option value="ssr">SSR</option>
-                <option value="sr">SR</option>
-            </select>
-            <select id="class-filter" aria-label="클래스 필터">
-                <option value="all">클래스 (전체)</option>
-                <option value="assault">공격</option>
-                <option value="warden">방어</option>
-                <option value="chorus">보조</option>
-            </select>
-        </div>
-    </section>
-
-    <section class="character-grid" id="character-grid" aria-label="캐릭터 목록">
-    </section>
-</main>
-
-<script src="config/constants.js"></script>
-<script src="js/index.js"></script>
-
-<div id="report-modal" class="modal-overlay">
-    <div class="modal-content" style="position: relative;">
-        <button type="button" class="close-btn" onclick="closeReportModal()"
-                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
-            &times;
-        </button>
-
-        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
-        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
-
-        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
-            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
-            <input type="text" id="reporter-email" name="_replyto" class="form-input"
-                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
-
-            <label for="report-message" class="form-field-label">
-                제보할 내용 (버그 or 피드백) (필수)
-                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
-                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
-                </span>
-            </label>
-            <textarea id="report-message" name="message" class="form-textarea" required
-                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
-
-            <input type="hidden" name="report_source_url" id="report-source-url">
-            <button type="submit" class="form-submit-btn">제보 보내기</button>
-            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
-        </form>
-    </div>
-</div>
-
-<script>
-    // 1. 모달 열기 함수
-    function openReportModal() {
-        const modal = document.getElementById('report-modal');
-        const sourceUrlInput = document.getElementById('report-source-url');
-        const modalStatus = document.getElementById('modal-form-status');
-
-        if (modalStatus) {
-            modalStatus.style.display = 'none';
-            modalStatus.textContent = '제보를 전송 중입니다...';
-            modalStatus.style.color = '#ffc107';
-        }
-
-        if (sourceUrlInput) {
-            sourceUrlInput.value = window.location.href;
-        }
-
-        modal.classList.add('show');
-    }
-
-    // 2. 모달 닫기 이벤트
-    document.addEventListener('DOMContentLoaded', () => {
-        const reportModal = document.getElementById('report-modal');
-        if (reportModal) {
-            reportModal.addEventListener('click', (e) => {
-                if (e.target === reportModal) {
-                    reportModal.classList.remove('show');
-                }
-            });
-        }
-    });
-
-    // 3. 디스코드 전송 로직
-    async function sendToDiscord(event) {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-        const modalStatus = document.getElementById('modal-form-status');
-        const modal = document.getElementById('report-modal');
-
-        if (modalStatus) {
-            modalStatus.style.display = 'block';
-            modalStatus.textContent = '제보를 전송 중입니다...';
-            modalStatus.style.color = '#ffc107';
-        }
-
-        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
-        const message = formData.get('message');
-        const sourceUrl = formData.get('report_source_url') || window.location.href;
-
-        const payload = {
-            username: "Morimens Wiki Bot",
-            embeds: [{
-                title: "📩 새로운 제보가 도착했습니다!",
-                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
-                color: 0xFF9F43,
-                fields: [
-                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
-                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
-                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
-                ],
-                footer: { text: "Morimens Wiki Report System" },
-                timestamp: new Date().toISOString()
-            }]
-        };
-
-        try {
-            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
-            if(!webhookUrl) throw new Error("Config Error");
-
-            await fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (modalStatus) {
-                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
-                modalStatus.style.color = "#2ecc71";
-            }
-            form.reset();
-            setTimeout(() => {
-                modal.classList.remove('show');
-                if (modalStatus) {
-                    modalStatus.style.display = 'none';
-                    modalStatus.textContent = '전송 중...';
-                }
-            }, 1500);
-        } catch (error) {
-            console.error(error);
-            if (modalStatus) {
-                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
-                modalStatus.style.color = "#e74c3c";
-            }
-        }
-    }
-</script>
-<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고" aria-label="버그 제보하기">
-    <span aria-hidden="true">🚨</span>
-</button>
-</body>
-</html>
 </file>
 
 <file path="css/party_builder.css">
@@ -5893,6 +6284,204 @@ body {
 }
 </file>
 
+<file path="list.html">
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>각성체 목록</title>
+
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/list.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+
+<body>
+<main class="container">
+
+    <div class="header-area">
+        <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 돌아가기</a></nav>
+        <h1>각성체 목록</h1>
+    </div>
+
+    <section class="controls-container" aria-label="검색 및 필터">
+        <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색..." aria-label="캐릭터 이름 검색">
+        <div class="filter-container">
+            <select id="relems-filter" aria-label="계역 필터">
+                <option value="all">계역 (전체)</option>
+                <option value="chaos">혼돈</option>
+                <option value="aequor">심해</option>
+                <option value="caro">혈육</option>
+                <option value="ultra">초차원</option>
+            </select>
+            <select id="grade-filter" aria-label="등급 필터">
+                <option value="all">등급 (전체)</option>
+                <option value="ssr">SSR</option>
+                <option value="sr">SR</option>
+            </select>
+            <select id="class-filter" aria-label="클래스 필터">
+                <option value="all">클래스 (전체)</option>
+                <option value="assault">공격</option>
+                <option value="warden">방어</option>
+                <option value="chorus">보조</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="character-grid" id="character-grid" aria-label="캐릭터 목록">
+    </section>
+</main>
+
+<script src="config/constants.js"></script>
+<script src="js/index.js"></script>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content" style="position: relative;">
+        <button type="button" class="close-btn" onclick="closeReportModal()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
+            &times;
+        </button>
+
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    // 2. 모달 닫기 이벤트
+    document.addEventListener('DOMContentLoaded', () => {
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal) {
+            reportModal.addEventListener('click', (e) => {
+                if (e.target === reportModal) {
+                    reportModal.classList.remove('show');
+                }
+            });
+        }
+    });
+
+    // 3. 디스코드 전송 로직
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '전송 중...';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+
+    function closeReportModal() {
+        const modal = document.getElementById('report-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('show');
+        }
+    }
+
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        if (modal) {
+            modal.style.display = 'flex';
+            modal.classList.add('show');
+        }
+    }
+
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('report-modal');
+        if (event.target === modal) {
+            closeReportModal();
+        }
+    });
+</script>
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고" aria-label="버그 제보하기">
+    <span aria-hidden="true">🚨</span>
+</button>
+</body>
+</html>
+</file>
+
 <file path="party_builder.html">
 <!DOCTYPE html>
 <html lang="ko">
@@ -6384,1223 +6973,6 @@ body {
 </button>
 </body>
 </html>
-</file>
-
-<file path="links.html">
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
-    <meta charset="UTF-8">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>정보 모음</title>
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://morimenz-kr.github.io/Morimens.Info.kr/">
-    <meta property="og:title" content="미사그 대학 한국 캠퍼스">
-    <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 미사그 대학의 모든 정보를 한눈에 확인하세요.">
-    <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
-
-    <script src="config/config.js"></script>
-    <script>
-        loadCSS('css/common.css');
-        loadCSS('css/components.css');
-        loadCSS('css/pages/links.css');
-        loadCSS('css/responsive.css');
-    </script>
-    <style>
-        /* 융재금구 시뮬레이터 버튼 스타일 최종 수정 */
-        .party-link-btn {
-            display: block;
-            width: 100%;
-            padding: 12px 0;
-            /* 상단 마진(패딩)을 0으로 줄여 타이틀과의 간격을 밀착시킵니다 */
-            margin: -35px 0 20px 0;
-            background-color: #3498db !important;
-            color: #ffffff !important;
-            font-weight: bold;
-            text-align: center;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.95em;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            transition: none;
-            box-sizing: border-box;
-        }
-
-        /* 호버 상태 유지 */
-        .party-link-btn:hover {
-            background-color: #3498db !important;
-            color: #ffffff !important;
-            cursor: pointer;
-        }
-        .party-credit-text {
-            display: block;
-            font-size: 0.8em;
-            color: #aaa;
-            text-align: center;
-            margin-top: 10px;
-            padding-bottom: 20px;
-        }
-        /* 기존 .report-btn 스타일 */
-        .report-btn {
-            display: block;
-            width: 100%;
-            padding: 12px 0;
-            background-color: #333;
-            color: #ccc;
-            text-align: center;
-            border-radius: 4px;
-            text-decoration: none;
-            border: 1px solid #555;
-            cursor: pointer;
-            font-size: 0.95em;
-            margin-top: 10px;
-        }
-        .report-btn:hover {
-            background-color: #444;
-            color: #fff;
-        }
-        .recommend-role, .recommend-step {
-            display: inline-block; /* 텍스트 크기에 맞게 조절 */
-            background-color: #2a2a32;
-            border: 1px solid #555;
-            border-radius: 12px;
-            padding: 3px 12px;
-            font-size: 0.75em;
-            color: #eee;
-            text-align: center;
-            white-space: nowrap;
-            width: fit-content;
-        }        
-        .recommend-box {
-            width: 100%;
-            aspect-ratio: 2 / 0.9;
-            background-color: #1e1e22;
-            border: 1px solid #444;
-            border-radius: 12px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            overflow: hidden;
-            color: #ddd;
-            padding: 0; /* 이중 패딩 방지를 위해 0으로 변경 */
-            margin-bottom: 25px;
-        }
-        /* 마지막 박스의 하단 마진만 제거하여 레이아웃 균형을 맞춤 */
-        .recommend-box:last-child {
-            margin-bottom: 0;
-        }
-        /* [수정] 좌측 영역의 너비를 고정하여 완벽한 중앙 배치 공간 확보 */
-        .recommend-left {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            gap: 10px;
-            width: 140px; /* 왼쪽 벽부터 세로선까지의 너비를 고정 */
-            min-width: 140px;
-            padding: 0; /* 내부 패딩 제거 (중앙 정렬로 대체) */
-            border-right: 1px solid #444;
-            box-sizing: border-box;
-        }
-
-        /* [유지] 기존 8px 라운드 사각형 디자인과 크기 그대로 유지 */
-        .recommend-thumb {
-            width: 75px;
-            height: 75px;
-            object-fit: cover;
-            border-radius: 8px; /* 기존 스타일 유지 */
-            border: 1px solid #555;
-        }
-
-        .recommend-right {
-            flex: 1;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            gap: 25px;            /* [수정] 이 수치를 조절해서 원하는 공백을 맞추세요 */
-            height: 100%;
-            padding: 0 20px;
-            box-sizing: border-box;
-        }
-
-        .equip-slot {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            height: 100%;
-            width: fit-content;    /* 너비를 내용물에 맞춤 */
-            min-width: 0;          /* 고정 너비 삭제 */
-        }
-
-        .equip-img-myeongryun {
-            height: 60%;
-            aspect-ratio: 225 / 456;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid #555;
-        }
-
-        .equip-img-covenant {
-            height: 60%;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            border-radius: 6px;
-            border: 1px solid #555;
-        }
-
-        /* 슬롯 하단 라벨 텍스트 */
-        .equip-label {
-            font-size: 0.8em;
-            color: #aaa;
-            white-space: nowrap;
-        }
-
-        /* 대체 텍스트 버튼 스타일 */
-        .sub-link {
-            font-size: 0.75em;
-            color: #aaa;
-            text-decoration: underline;
-            cursor: pointer;
-            margin-top: 4px;
-            transition: color 0.2s;
-        }
-        .sub-link:hover {
-            color: #ffc107;
-        }
-        .sub-link.disabled {
-            color: #444;           /* 어둡게 처리 */
-            text-decoration: none; /* 밑줄 제거 */
-            cursor: default;      /* 커서 기본으로 */
-            pointer-events: none;  /* 클릭 차단 */
-        }
-        
-
-        /* 모달 내 대체 아이템 리스트 스타일 */
-        .sub-item-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-        }
-        .sub-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: #2a2a32;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #444;
-        }
-        .sub-item img {
-            width: 40px;
-            border-radius: 4px;
-        }
-
-        /* 명륜 전용 모달 크기 (세로형 아이템 위주) */
-        .modal-myeongryun {
-            width: 400px;
-            max-height: 80vh;
-        }
-
-        /* 비밀계약 전용 모달 크기 (넓은 레이아웃) */
-        .modal-covenant {
-            width: 600px;
-            max-height: 70vh;
-        }
-
-        /* 비밀계약 이름 텍스트 스타일 */
-        .equip-name {
-            font-size: 0.85em;
-            color: #fff;
-            font-weight: bold;
-            margin-top: 2px;
-        }
-        /* 메인 박스 내 이름 텍스트 스타일 */
-        .equip-name-label {
-            font-size: 0.8em;
-            color: #eee;
-            margin-top: 4px;
-            font-weight: bold;
-            text-align: center;
-            white-space: nowrap;
-        }
-        /* 모달 내 아이템 공통 (수직 배치) */
-        .sub-item-vertical {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            background: #2a2a32;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #444;
-        }
-
-        /* 모달 내 명륜 이미지 비율 */
-        .sub-img-myeongryun {
-            width: 80px;
-            aspect-ratio: 225 / 456;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid #555;
-        }
-
-        /* 모달 내 비밀계약 이미지 비율 */
-        .sub-img-covenant {
-            width: 100px;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            border-radius: 4px;
-            border: 1px solid #555;
-        }
-
-        .sub-item-name {
-            font-size: 0.85em;
-            color: #eee;
-            font-weight: bold;
-            text-align: center;
-        }
-        /* 세팅 정보가 없을 때 표시할 안내 박스 */
-        .no-setting-notice {
-            width: 100%;
-            height: 180px; /* 기존 recommend-box와 비슷한 높이 */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-color: #1e1e24;
-            border: 1px dashed #444;
-            border-radius: 12px;
-            color: #888;
-            gap: 10px;
-        }
-        .no-setting-notice i {
-            font-size: 2em;
-        }
-        .tooltip-tag {
-            display: inline-block;
-            background-color: #3a3a42;
-            border: 1px solid #666;
-            border-radius: 4px;
-            padding: 2px 8px;
-            margin-right: 5px;
-            margin-top: 5px;
-            font-size: 0.75em;
-            color: #ffc107; /* 태그 강조 색상 */
-            white-space: nowrap;
-        }
-    </style>
-</head>
-
-<body>
-
-<div class="container" style="position: relative; z-index: 2;">
-    <a href="javascript:void(0)" onclick="goBack()" class="back-link">⬅ 뒤로가기</a>
-
-    <div class="link-container">
-        <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
-
-        <div class="chrome-tabs-container">
-            <div class="chrome-tab active" onclick="switchTab('dictionary')">명륜 리스트</div>
-            <div class="chrome-tab" onclick="switchTab('links')">채널 정보글 링크</div>
-        </div>
-
-        <div id="tab-content-dictionary" class="tab-content active">
-            <div id="dictionary-grid" class="dictionary-grid">
-            </div>
-        </div>
-
-        <div id="tab-content-links" class="tab-content">
-            <div id="party-link-slot"></div>
-            <div id="links-list"></div>
-        </div>
-
-        <div class="report-section">
-            <p>혹시 연결되지 않는 링크가 있나요?</p>
-            <button id="open-report-modal" class="report-btn" onclick="openReportModal()">🚨 버그/피드백 제보하기</button>
-        </div>
-    </div>
-</div>
-
-<div id="report-modal" class="modal-overlay">
-    <div class="modal-content" style="position: relative;">
-        <button type="button" class="close-btn" onclick="closeReportModal()"
-                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
-            &times;
-        </button>
-
-        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
-        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
-
-        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
-            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
-            <input type="text" id="reporter-email" name="_replyto" class="form-input"
-                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
-
-            <label for="report-message" class="form-field-label">
-                제보할 내용 (버그 or 피드백) (필수)
-                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
-                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
-                </span>
-            </label>
-            <textarea id="report-message" name="message" class="form-textarea" required
-                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
-
-            <input type="hidden" name="report_source_url" id="report-source-url">
-            <button type="submit" class="form-submit-btn">제보 보내기</button>
-            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
-        </form>
-    </div>
-</div>
-
-<div id="substitute-modal" class="modal-overlay">
-    <div class="modal-content">
-        <h2 class="form-title" id="sub-modal-title">대체 장비 정보</h2>
-        <div id="sub-modal-body" style="color: #ccc; line-height: 1.6;">
-        </div>
-        <button type="button" class="form-submit-btn" onclick="closeSubModal()" style="margin-top: 20px; background-color: #444;">닫기</button>
-    </div>
-</div>
-
-<script>
-    // --- 뒤로가기 ---
-    function goBack() {
-        const ref = document.referrer;
-        const isFromParent = ref && (ref.includes('index.html') || ref.includes('list.html'));
-        if (isFromParent) {
-            history.back();
-        } else {
-            const category = new URLSearchParams(location.search).get('category');
-            location.href = (category === 'character') ? 'list.html' : 'index.html';
-        }
-    }
-
-    // --- 기능 로직 ---
-    function openReportModal() {
-        const modal = document.getElementById('report-modal');
-        const sourceUrlInput = document.getElementById('report-source-url');
-        const modalStatus = document.getElementById('modal-form-status');
-
-        if (modalStatus) {
-            modalStatus.style.display = 'none';
-            modalStatus.textContent = '제보를 전송 중입니다...';
-            modalStatus.style.color = '#ffc107';
-        }
-        if (sourceUrlInput) { sourceUrlInput.value = window.location.href; }
-        modal.classList.add('show');
-    }
-    
-    // 1. 닫기 버튼을 눌렀을 때 실행되는 함수
-    function closeReportModal() {
-        const modal = document.getElementById('report-modal');
-        if (modal) {
-            modal.classList.remove('show');
-        }
-    }
-
-    // 2. 모달 바깥(어두운 오버레이)을 클릭했을 때 창을 닫는 로직
-    document.addEventListener('click', function(event) {
-        const reportModal = document.getElementById('report-modal');
-        // 모달이 열려있고, 클릭한 대상이 정확히 'modal-overlay' 배경 자체일 때만 닫음
-        if (reportModal && reportModal.classList.contains('show') && event.target === reportModal) {
-            closeReportModal();
-        }
-    });
-
-    async function sendToDiscord(event) {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-        const modalStatus = document.getElementById('modal-form-status');
-        const modal = document.getElementById('report-modal');
-
-        if (modalStatus) {
-            modalStatus.style.display = 'block';
-            modalStatus.textContent = '제보를 전송 중입니다...';
-            modalStatus.style.color = '#ffc107';
-        }
-
-        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
-        const message = formData.get('message');
-        const sourceUrl = formData.get('report_source_url') || window.location.href;
-
-        const payload = {
-            username: "Morimens Wiki Bot",
-            embeds: [{
-                title: "📩 새로운 제보가 도착했습니다!",
-                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
-                color: 0xFF9F43,
-                fields: [
-                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
-                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
-                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
-                ],
-                footer: { text: "Morimens Wiki Report System" },
-                timestamp: new Date().toISOString()
-            }]
-        };
-
-        try {
-            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
-            if(!webhookUrl) throw new Error("Config Error");
-
-            await fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (modalStatus) {
-                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
-                modalStatus.style.color = "#2ecc71";
-            }
-            form.reset();
-            setTimeout(() => {
-                modal.classList.remove('show');
-                if (modalStatus) {
-                    modalStatus.style.display = 'none';
-                    modalStatus.textContent = '전송 중...';
-                }
-            }, 1500);
-        } catch (error) {
-            console.error(error);
-            if (modalStatus) {
-                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
-                modalStatus.style.color = "#e74c3c";
-            }
-        }
-    }
-
-    // 🚩 전역 복사 함수
-    function copyCodeToClipboard(text, element) {
-        if (!navigator.clipboard) {
-            alert("⚠️ 이 브라우저는 클립보드 복사를 지원하지 않습니다.");
-            return;
-        }
-        navigator.clipboard.writeText(text).then(() => {
-            element.classList.add('copied');
-            const originalText = element.innerHTML;
-            element.innerHTML = '✅ 복사 완료!';
-            setTimeout(() => {
-                element.classList.remove('copied');
-                element.innerHTML = originalText;
-            }, 800);
-        }).catch(err => {
-            console.error('클립보드 복사 실패:', err);
-            alert('복사 실패! 콘솔을 확인해주세요.');
-        });
-    }
-
-    function openSubModal(type) {
-        const modal = document.getElementById('substitute-modal');
-        const contentBox = modal.querySelector('.modal-content');
-        const title = document.getElementById('sub-modal-title');
-        const body = document.getElementById('sub-modal-body');
-
-        contentBox.classList.remove('modal-myeongryun', 'modal-covenant');
-
-        let content = '';
-        const placeholderImg = 'images/smile_Ramona.webp';
-
-        if (type === 'ssr' || type === 'sr') {
-            contentBox.classList.add('modal-myeongryun');
-            title.textContent = type === 'ssr' ? 'SSR 명륜 대체' : 'SR 명륜 대체';
-
-            // 명륜용 2열 그리드 (이미지 아래 이름)
-            content = '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">';
-            content += `
-            <div class="sub-item-vertical">
-                <img src="${placeholderImg}" class="sub-img-myeongryun">
-                <div class="sub-item-name">대체 명륜 A</div>
-            </div>
-            <div class="sub-item-vertical">
-                <img src="${placeholderImg}" class="sub-img-myeongryun">
-                <div class="sub-item-name">대체 명륜 B</div>
-            </div>
-        `;
-            content += '</div>';
-        } else {
-            contentBox.classList.add('modal-covenant');
-            title.textContent = '비밀계약 대체';
-
-            // 비밀계약용 3열 그리드 (이미지 아래 이름)
-            content = '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px;">';
-            content += `
-            <div class="sub-item-vertical">
-                <img src="${placeholderImg}" class="sub-img-covenant">
-                <div class="sub-item-name">대체 계약 A</div>
-            </div>
-            <div class="sub-item-vertical">
-                <img src="${placeholderImg}" class="sub-img-covenant">
-                <div class="sub-item-name">대체 계약 B</div>
-            </div>
-            <div class="sub-item-vertical">
-                <img src="${placeholderImg}" class="sub-img-covenant">
-                <div class="sub-item-name">대체 계약 C</div>
-            </div>
-        `;
-            content += '</div>';
-        }
-
-        body.innerHTML = content;
-        modal.classList.add('show');
-    }
-
-    function closeSubModal() {
-        const modal = document.getElementById('substitute-modal');
-        if (modal) modal.classList.remove('show');
-    }
-
-    // 탭 전환 로직
-    function switchTab(tabName) {
-        document.querySelectorAll('.chrome-tab').forEach(el => el.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-
-        if (tabName === 'dictionary') {
-            document.querySelectorAll('.chrome-tab')[0].classList.add('active');
-            document.getElementById('tab-content-dictionary').classList.add('active');
-        } else {
-            document.querySelectorAll('.chrome-tab')[1].classList.add('active');
-            document.getElementById('tab-content-links').classList.add('active');
-        }
-    }
-
-    // 전역 툴팁 엘리먼트 동적 생성
-    const tooltipEl = document.createElement('div');
-    tooltipEl.id = 'global-tooltip';
-    tooltipEl.className = 'item-tooltip';
-    tooltipEl.innerHTML = `
-    <div class="tooltip-title" id="tt-title"></div>
-    <div class="tooltip-desc" id="tt-desc"></div>
-    <div class="tooltip-tags" id="tt-tags"></div>
-`;
-    document.body.appendChild(tooltipEl);
-
-    // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환 + 파밍처 추가) ㅁㄴㅇ
-    function showTooltip(item, e) {
-        const ttTitle = document.getElementById('tt-title');
-        const ttDesc = document.getElementById('tt-desc');
-        const ttTags = document.getElementById('tt-tags');
-
-        ttTitle.textContent = item.korean_name;
-        let contentHtml = '';
-
-        // 명륜 전용 주옵션
-        if (item.main_stat) {
-            contentHtml += `<div class="tooltip-main-stat">주옵션: ${item.main_stat}</div>`;
-        }
-        // 공통 설명 (은열쇠 등)
-        if (item.description) {
-            contentHtml += `<div class="tooltip-effect-desc">${item.description}</div>`;
-        }
-
-        // 비밀계약 전용 세트 효과
-        if (item.set_effect_3) {
-            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[3세트 효과]</div>`;
-            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_3}</div>`;
-        }
-        if (item.set_effect_6) {
-            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[6세트 효과]</div>`;
-            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_6}</div>`;
-        }
-
-        // [추가된 부분] 획득처(파밍처) 정보가 JSON에 존재할 경우 출력
-        if (item.source) {
-            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 15px; font-weight: bold;">[획득처]</div>`;
-            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px; color: #d9d9d9;">${item.source}</div>`;
-        }
-
-        ttDesc.innerHTML = contentHtml;
-        ttTags.innerHTML = '';
-
-        // 비밀계약/은열쇠(tags) 또는 명륜(optimized_for) 배열을 감지하여 태그 뱃지 생성
-        const tagArray = item.tags || item.optimized_for || [];
-        tagArray.forEach(tag => {
-            const s = document.createElement('span');
-            s.className = 'tooltip-tag';
-            s.textContent = tag;
-            ttTags.appendChild(s);
-        });
-
-        tooltipEl.style.display = 'block';
-        moveTooltip(e);
-    }
-
-    // 툴팁 위치 실시간 추적 및 화면 이탈 방어 로직
-    function moveTooltip(e) {
-        if (!tooltipEl || tooltipEl.style.display === 'none') return;
-
-        let x = e.clientX + 15;
-        let y = e.clientY + 15;
-
-        const rect = tooltipEl.getBoundingClientRect();
-        if (x + rect.width > window.innerWidth) {
-            x = e.clientX - rect.width - 15;
-        }
-        if (y + rect.height > window.innerHeight) {
-            y = e.clientY - rect.height - 15;
-        }
-
-        tooltipEl.style.left = x + 'px';
-        tooltipEl.style.top = y + 'px';
-    }
-
-    function hideTooltip() {
-        if (tooltipEl) {
-            tooltipEl.style.display = 'none';
-        }
-    }
-
-    // 아이콘 리스트 렌더링 로직 (비율 및 크기 분기 처리)
-    function renderDictionary(data, category) {
-        const grid = document.getElementById('dictionary-grid');
-        grid.innerHTML = '';
-
-        // 카테고리에 따라 그리드의 기본 크기를 다르게 할당하여 비밀계약 아이콘을 크게 만듦
-        if (category === 'covenant') {
-            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(130px, 1fr))';
-        } else {
-            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(80px, 1fr))';
-        }
-
-        data.forEach(item => {
-            const img = document.createElement('img');
-            img.src = item.image_path;
-            img.style.width = '100%';
-
-            // 은열쇠와 비밀계약은 1:1, 명륜은 인게임 비율 적용
-            if (category === 'silverkey' || category === 'covenant') {
-                img.style.aspectRatio = '1/1';
-            } else {
-                img.style.aspectRatio = '225/456';
-            }
-
-            img.style.objectFit = 'cover';
-            img.style.borderRadius = '4px';
-            img.style.cursor = 'pointer';
-            img.style.border = '1px solid #444';
-
-            img.onmouseenter = (e) => {
-                img.style.borderColor = '#ffc107';
-                showTooltip(item, e);
-            };
-            img.onmousemove = moveTooltip;
-            img.onmouseleave = () => {
-                img.style.borderColor = '#444';
-                hideTooltip();
-            };
-
-            grid.appendChild(img);
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const category = urlParams.get('category');
-        const charId = urlParams.get('id');
-        const titleEl = document.getElementById('page-title');
-        const listEl = document.getElementById('links-list');
-        const tabsContainer = document.querySelector('.chrome-tabs-container');
-        const partySlot = document.getElementById('party-link-slot');
-
-        const isCharacterPage = (category === 'character');
-        const isDictionaryPage = (category === 'myeongryun' || category === 'silverkey' || category === 'covenant');
-
-        // 1. 탭 표시 설정 및 명칭 수정
-        if (tabsContainer) {
-            tabsContainer.style.display = (isDictionaryPage || isCharacterPage) ? 'flex' : 'none';
-            const tabs = document.querySelectorAll('.chrome-tab');
-            if (tabs.length >= 1) {
-                if (isCharacterPage) {
-                    tabs[0].textContent = '추천 세팅';
-                    if (tabs[1]) tabs[1].textContent = "채널 정보글 리스트";
-                } else if (isDictionaryPage) {
-                    if (category === 'myeongryun') tabs[0].textContent = '명륜 리스트';
-                    else if (category === 'silverkey') tabs[0].textContent = '은열쇠 리스트';
-                    else if (category === 'covenant') tabs[0].textContent = '비밀계약 리스트';
-                    if (tabs[1]) tabs[1].textContent = '채널 정보글 리스트';
-                }
-            }
-        }
-
-        try {
-            const ts = new Date().getTime();
-            const [manifest, linksDB, wheelList, covList, settingsDB, keyList] = await Promise.all([
-                fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
-                fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
-                fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
-                fetch(`data/covenant_list.json?t=${ts}`).then(res => res.json()),
-                fetch(`data/character_settings.json?t=${ts}`).then(res => res.json()),
-                fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => [])
-            ]);
-
-            window.wheelMap = {};
-            wheelList.forEach(w => {
-                window.wheelMap[w.english_name] = w;
-                window.wheelMap[w.korean_name] = w;
-            });
-            window.covMap = {};
-            covList.forEach(c => {
-                window.covMap[c.english_name] = c;
-                window.covMap[c.korean_name] = c;
-            });
-            window.currentSettings = settingsDB;
-
-            const charData = manifest.find(c => c.id === charId);
-            let targetItems = [];
-
-            // 융재금구(weapon) 카테고리 진입 시 내부 시뮬레이터 버튼 노출
-            if (partySlot) {
-                if (category === 'weapon') {
-                    partySlot.innerHTML = `<a href="party_builder.html" class="party-link-btn">융재 금구 파티 시뮬레이터 실행 (Beta)</a>`;
-                } else {
-                    partySlot.innerHTML = '';
-                }
-            }
-
-            // 1. 캐릭터 공략 페이지
-            if (isCharacterPage && charData) {
-                titleEl.innerHTML = `<img src="${charData.image_thumb}" class="title-thumb"> ${charData.name} 공략 모음`;
-                targetItems = linksDB.characters[charId] || [];
-                // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
-                const gridContainer = document.getElementById('dictionary-grid');
-                const settings = settingsDB[charId] || settingsDB[charData.name];
-                if (gridContainer) {
-                    gridContainer.className = '';
-                    gridContainer.innerHTML = '';
-                    if (settings) {
-                        const settingsList = Array.isArray(settings) ? settings : [settings];
-                        settingsList.forEach((setInfo, idx) => {
-                            const getWheel = (id) => window.wheelMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
-                            const getCov = (id) => window.covMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
-                            const ssrWheel = getWheel(setInfo.myeongryun_ssr.main_id);
-                            const srWheel = getWheel(setInfo.myeongryun_sr.main_id);
-                            const mainCov = getCov(setInfo.covenant.main_id);
-                            const renderSubLink = (type, list, charId, idx) => {
-                                const label = type === 'covenant' ? '대체 비밀계약' : '대체 명륜';
-                                if (list && list.length > 0) return `<div class="sub-link" onclick="openDynamicSubModal('${type}', '${charId}', ${idx})">${label}</div>`;
-                                return `<div class="sub-link disabled">대체 정보 없음</div>`;
-                            };
-                            gridContainer.innerHTML += `
-                                <div class="recommend-box">
-                                    <div class="recommend-left">
-                                        <img src="${charData.image_thumb}" class="recommend-thumb" onerror="this.src='images/smile_Ramona.webp';">
-                                        <div class="recommend-role">${setInfo.settingName} 세팅</div>
-                                        <div class="recommend-step">${setInfo.recommendStep} 추천</div>
-                                    </div>
-                                    <div class="recommend-right">
-                                        <div class="equip-slot">
-                                            <div class="equip-label">추천 SSR 명륜</div>
-                                            <img src="${ssrWheel.image_path}" class="equip-img-myeongryun" onerror="this.src='images/placeholder.png';">
-                                            <div class="equip-name-label">${ssrWheel.korean_name}</div>
-                                            ${renderSubLink('ssr', setInfo.myeongryun_ssr.substitutes, charId, idx)}
-                                        </div>
-                                        <div class="equip-slot">
-                                            <div class="equip-label">추천 SR 명륜</div>
-                                            <img src="${srWheel.image_path}" class="equip-img-myeongryun" onerror="this.src='images/placeholder.png';">
-                                            <div class="equip-name-label">${srWheel.korean_name}</div>
-                                            ${renderSubLink('sr', setInfo.myeongryun_sr.substitutes, charId, idx)}
-                                        </div>
-                                        <div class="equip-slot">
-                                            <div class="equip-label">추천 비밀계약</div>
-                                            <img src="${mainCov.image_path}" class="equip-img-covenant" onerror="this.src='images/placeholder.png';">
-                                            <div class="equip-name-label">${mainCov.korean_name}</div>
-                                            ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
-                                        </div>
-                                    </div>
-                                </div>`;
-                        });
-                    } else {
-                        gridContainer.innerHTML = `<div class="no-setting-notice"><div style="font-size: 24px;">📝</div><div>아직 추천 세팅 정보가 등록되지 않았습니다.</div></div>`;
-                    }
-                }
-                switchTab('dictionary');
-            }
-
-            // 2. 도감 페이지 (명륜/비밀계약/은열쇠)
-            else if (isDictionaryPage) {
-                if (category && linksDB.categories[category]) {
-                    titleEl.textContent = linksDB.categories[category].title;
-                    targetItems = linksDB.categories[category].links || [];
-                }
-                let dictData = (category === 'myeongryun') ? wheelList : (category === 'covenant') ? covList : keyList;
-                if (dictData && dictData.length > 0) renderDictionary(dictData, category);
-                switchTab('dictionary');
-            }
-
-            // 3. 교환 코드(code) 전용 처리
-            else if (category === 'code') {
-                if (linksDB.categories[category]) {
-                    titleEl.textContent = linksDB.categories[category].title;
-                    const codes = linksDB.categories[category].links || [];
-                    renderCodeLinks(codes, listEl); // 전용 렌더러 호출
-                    switchTab('links');
-                    return; // 공통 렌더링 로직을 타지 않도록 종료
-                }
-            }
-
-            // 4. 일반 페이지 (기타 카테고리)
-            else if (category && linksDB.categories[category]) {
-                titleEl.textContent = linksDB.categories[category].title;
-                targetItems = linksDB.categories[category].links || [];
-                switchTab('links');
-            }
-
-            // 공통: 리스트 카드 출력 (교환 코드가 아닌 일반 링크용)
-            listEl.innerHTML = '';
-            if (targetItems.length === 0) {
-                listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
-            } else {
-                targetItems.forEach(item => {
-                    if (typeof item === 'string') createLinkCardFromAPI(item, listEl);
-                    else createLinkCardInstant(item, listEl);
-                });
-            }
-
-        } catch (error) {
-            console.error("데이터 로드 오류:", error);
-        }
-
-        const subModal = document.getElementById('substitute-modal');
-        if (subModal) {
-            subModal.addEventListener('click', (e) => { if (e.target === subModal) closeSubModal(); });
-        }
-    });
-
-    function openDynamicSubModal(type, charId, idx = 0) {
-        if (!window.currentSettings || !window.currentSettings[charId]) return;
-
-        const settings = window.currentSettings[charId];
-        // 배열 여부 확인 후 해당 인덱스의 세팅 추출
-        const setInfo = Array.isArray(settings) ? settings[idx] : settings;
-
-        const modal = document.getElementById('substitute-modal');
-        const title = document.getElementById('sub-modal-title');
-        const body = document.getElementById('sub-modal-body');
-
-        let ids = [];
-        let isWheel = true;
-
-        if (type === 'ssr') {
-            title.textContent = '대체할 SSR 명륜';
-            ids = setInfo.myeongryun_ssr.substitutes || [];
-        } else if (type === 'sr') {
-            title.textContent = '대체할 SR 명륜';
-            ids = setInfo.myeongryun_sr.substitutes || [];
-        } else {
-            title.textContent = '대체할 비밀계약';
-            ids = setInfo.covenant.substitutes || [];
-            isWheel = false;
-        }
-
-        const itemCount = ids.length;
-        const gridCols = itemCount > 0 ? itemCount : 1;
-
-        let html = `<div style="display: grid; grid-template-columns: repeat(${gridCols}, auto); gap: 20px; justify-content: center; margin-top: 15px;">`;
-
-        if (itemCount === 0) {
-            html = '<div style="text-align:center; padding:20px; color:#777;">등록된 대체 정보가 없습니다.</div>';
-        } else {
-            ids.forEach(id => {
-                const data = isWheel ? window.wheelMap[id] : window.covMap[id];
-                if (data) {
-                    html += `
-                    <div class="sub-item-vertical" style="min-width: 120px;">
-                        <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}" 
-                             class="${isWheel ? 'sub-img-myeongryun' : 'sub-img-covenant'}"
-                             onerror="this.src='images/placeholder.png';">
-                        <div class="sub-item-name">${data.korean_name}</div>
-                    </div>`;
-                }
-            });
-            html += '</div>';
-        }
-
-        body.innerHTML = html;
-        modal.classList.add('show');
-    }
-
-    // --- 유틸리티 함수 ---
-    function getProxyImage(url) {
-        if (!url) return 'images/smile_Ramona.webp';
-        url = url.trim();
-        if (url.startsWith('//')) { url = 'https:' + url; }
-        if (url.includes('namu.la') || url.includes('arca.live') || url.includes('dcinside')) {
-            return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=400&output=webp&n=-1`;
-        }
-        return url;
-    }
-
-    function renderCodeLinks(items, container) {
-        container.innerHTML = ''; // 초기화
-
-        // 1. 데이터 분류
-        const permanent = items.filter(item => !item.expiry);
-        const temporary = items.filter(item => item.expiry && new Date(item.expiry) >= new Date().setHours(0,0,0,0));
-
-        // D-Day 계산 함수
-        const getDDay = (dateStr) => {
-            const diff = new Date(dateStr) - new Date();
-            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            return days === 0 ? "오늘 만료" : `${days}일 남음`;
-        };
-
-        // 카드 생성 도우미
-        const createCard = (item, isTemp) => `
-        <div class="code-card">
-            <div class="code-details">
-                <span class="code-title">${item.title}</span>
-                <span class="code-reward">${item.desc || '보상 정보 없음'}</span>
-                ${isTemp ? `<div class="code-timer">⏳ ${getDDay(item.expiry)}</div>` : ''}
-            </div>
-            <button class="code-copy-btn" onclick="copyCodeToClipboard('${item.title}', this)">복사</button>
-        </div>
-    `;
-
-        // 2. 기간 한정 코드 렌더링
-        if (temporary.length > 0) {
-            container.insertAdjacentHTML('beforeend', '<div class="section-label">📅 기간 한정 코드</div>');
-            const tempGroup = document.createElement('div');
-            tempGroup.className = 'code-card-container';
-            temporary.forEach(item => tempGroup.insertAdjacentHTML('beforeend', createCard(item, true)));
-            container.appendChild(tempGroup);
-        }
-
-        // 3. 상시 코드 렌더링
-        if (permanent.length > 0) {
-            container.insertAdjacentHTML('beforeend', '<div class="section-label">♾️ 상시 코드</div>');
-            const permGroup = document.createElement('div');
-            permGroup.className = 'code-card-container';
-            permanent.forEach(item => permGroup.insertAdjacentHTML('beforeend', createCard(item, false)));
-            container.appendChild(permGroup);
-        }
-    }
-
-    function createLinkCardInstant(data, container) {
-        try {
-            let domain = 'link';
-            try { if(data.url) domain = new URL(data.url).hostname; } catch(e) {}
-            const safeImage = getProxyImage(data.image);
-
-            const html = `
-                <a href="${data.url}" target="_blank" class="notion-bookmark">
-                    <div class="bookmark-content">
-                        <div>
-                            <div class="bookmark-title">${data.title || '제목 없음'}</div>
-                            <div class="bookmark-desc">${data.desc || ''}</div>
-                        </div>
-                        <div class="bookmark-url">
-                            <img src="https://www.google.com/s2/favicons?domain=${domain}" width="14" height="14" style="margin-right:4px; vertical-align:middle;">
-                            ${domain}
-                        </div>
-                    </div>
-                    <div class="bookmark-image">
-                        <img src="${safeImage}" alt="썸네일" loading="lazy" 
-                             onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
-                    </div>
-                </a>`;
-            container.insertAdjacentHTML('beforeend', html);
-        } catch (e) { console.error("카드 생성 에러:", e); }
-    }
-
-    async function createLinkCardFromAPI(url, container) {
-        const cardWrap = document.createElement('div');
-        cardWrap.className = 'skeleton skeleton-card';
-        cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
-        container.appendChild(cardWrap);
-        try {
-            const apiUrl = `https://api.microlink.io?url=${encodeURIComponent(url)}`;
-            const res = await fetch(apiUrl);
-            const json = await res.json();
-
-            if (json.status === 'success') {
-                const data = json.data;
-                const safeImage = getProxyImage(data.image?.url);
-
-                cardWrap.className = 'notion-bookmark';
-                cardWrap.innerHTML = '';
-
-                const linkEl = document.createElement('a');
-                linkEl.href = url;
-                linkEl.target = "_blank";
-                linkEl.className = "notion-bookmark";
-                linkEl.style.width = "100%";
-
-                linkEl.innerHTML = `
-                    <div class="bookmark-content">
-                        <div>
-                            <div class="bookmark-title">${data.title || url}</div>
-                            <div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div>
-                        </div>
-                        <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
-                    </div>
-                    <div class="bookmark-image">
-                        <img src="${safeImage}" alt="썸네일" loading="lazy" onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
-                    </div>`;
-
-                container.replaceChild(linkEl, cardWrap);
-            } else { throw new Error("API Fail"); }
-        } catch (e) {
-            cardWrap.className = 'notion-bookmark';
-            cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:15px; color:#fff; text-decoration:none; width:100%; display:block;"><div style="font-weight:bold; margin-bottom:5px; word-break:break-all;">${url}</div><div style="font-size:0.8em; color:#aaa;">(미리보기 로드 실패)</div></a>`;
-        }
-    }
-</script>
-
-<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
-    🚨
-</button>
-</body>
-</html>
-</file>
-
-<file path="data/patch_notes.json">
-[
-  {
-    "version": "v1.3.9",
-    "date": "2026-04-07",
-    "changes": [
-      "각성체 페이지 추천 세팅 추가",
-      "명륜 페이지 개편",
-      "은열쇠 페이지 개편",
-      "비밀계약 페이지 개편"
-    ]
-  },
-  {
-    "version": "v1.3.8",
-    "date": "2026-03-09",
-    "changes": [
-      "모스크 추가"
-    ]
-  },
-  {
-    "version": "v1.3.7",
-    "date": "2026-01-31",
-    "changes": [
-      "융재 금구 시뮬레이터 - 머피 이미지 수정",
-      "서 추가"
-    ]
-  },
-  {
-    "version": "v1.3.6",
-    "date": "2026-01-20",
-    "changes": [
-      "파티 위치 변경 기능 추가",
-      "파티 멤버를 변경할 시 다른 멤버가 장착중인 명륜이 해제되는 버그 수정",
-      "명륜의 주옵션이 보다 잘 보이도록 수정",
-      "명륜 검색 로직 변경",
-      "융재 금구 메뉴로 돌아가기 버튼의 링크 연결 버그 수정"
-    ]
-  },
-  {
-    "version": "v1.3.5",
-    "date": "2026-01-10",
-    "changes": [
-      "세트 기능 추가"
-    ]
-  },
-  {
-  "version": "v1.3.4",
-  "date": "2026-01-07",
-  "changes": [
-    "각성체 검색 로직 업데이트"
-  ]
-},
-  {
-    "version": "v1.3.3",
-    "date": "2026-01-06",
-    "changes": [
-      "명륜 검색 로직 업데이트  ",
-      "교환 코드 UI 수정"
-      ]
-  },
-  {
-    "version": "v1.3.2",
-    "date": "2026-01-02",
-    "changes": [
-      "융재금구 시뮬레이터 - 조력 기능 추가",
-      "모샤 관련 내용 추가"
-    ]
-  },
-  {
-    "version": "v1.3.1",
-    "date": "2025-12-21",
-    "changes": [
-      "버그 수정",
-      "후원 링크 개선"
-    ]
-  },
-  {
-    "version": "v1.3.0",
-    "date": "2025-12-15",
-    "changes": [
-      "융재 금구 파티 편성 시뮬레이터 기능 추가"
-    ]
-  },
-  {
-    "version": "v1.2.1",
-    "date": "2025-12-03",
-    "changes": [
-      "'이벤트 관련 정보', '이번주 융재 금구 팁' 추가"
-    ]
-  },
-  {
-    "version": "v1.2.0",
-    "date": "2025-11-29",
-    "changes": [
-      "타이틀 변경 (망각전야 (Morimens) → 미사그 대학 한국 캠퍼스)",
-      "링크 카드 UI 개선",
-      "플로팅 신고 버튼 추가",
-      "후원 기능 추가",
-      "코드 구조 개편"
-    ]
-  },
-  {
-    "version": "v1.0.4",
-    "date": "2025-11-26",
-    "changes": [
-      "계역별 팁, 은열쇠 정보, 페이즈 체스 카테고리 추가",
-      "링크 카드 썸네일 비율 조정",
-      "뒤로 가기 버튼 UI 수정"
-    ]
-  },
-  {
-    "version": "v1.0.3",
-    "date": "2025-11-26",
-    "changes": [
-      "모바일 환경에서 스크롤 하면 배경이 움직이던 버그 수정",
-      "배너 수정 및 UI 개선 (공식 유튜브, 디스코드로 연결)",
-      "PC/모바일 레이아웃 여백 동기화",
-      "404 경로 문제 해결 및 안정성 강화"
-    ]
-  },
-  {
-    "version": "v1.0.2",
-    "date": "2025-11-256",
-    "changes": [
-      "★채널 공지에 올라감★",
-      "교환 코드 페이지 UI 개편 (클릭 시 자동 복사 기능 추가)",
-      "제보하기 텍스트 수정",
-      "모바일 환경 가독성 개선 및 다크 모드로 배경 통일"
-    ]
-  },
-  {
-    "version": "v1.0.1",
-    "date": "2025-11-25",
-    "changes": [
-      "사이트 오픈 및 기본 가이드 데이터 구축"
-    ]
-  }
-]
 </file>
 
 <file path="data/wheel_list.json">
@@ -8671,6 +8043,1235 @@ body {
     "main_stat": "검은 인장 드롭율 1.8%",
     "description": "팀 유일: 탐색 중 시야 +1, 맵의 시야가 전부 열린 후 검은 인장 15/20/25/30개를 획득한다. 보스 전투 시작 시, 모든 적에게 1턴 허약과 취약을 부여한다. [별의 장] 스테이지에서는 효과가 \"장비자의 차원 영상 유물 등장 확률이 100%로 증가\"로 변경된다.",
     "image_path": "images/wheel_insight.png"
+  }
+]
+</file>
+
+<file path="links.html">
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정보 모음</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://morimenz-kr.github.io/Morimens.Info.kr/">
+    <meta property="og:title" content="미사그 대학 한국 캠퍼스">
+    <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 미사그 대학의 모든 정보를 한눈에 확인하세요.">
+    <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
+
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/links.css');
+        loadCSS('css/responsive.css');
+    </script>
+    <style>
+        /* 융재금구 시뮬레이터 버튼 스타일 최종 수정 */
+        .party-link-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            /* 상단 마진(패딩)을 0으로 줄여 타이틀과의 간격을 밀착시킵니다 */
+            margin: -35px 0 20px 0;
+            background-color: #3498db !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.95em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: none;
+            box-sizing: border-box;
+        }
+
+        /* 호버 상태 유지 */
+        .party-link-btn:hover {
+            background-color: #3498db !important;
+            color: #ffffff !important;
+            cursor: pointer;
+        }
+        .party-credit-text {
+            display: block;
+            font-size: 0.8em;
+            color: #aaa;
+            text-align: center;
+            margin-top: 10px;
+            padding-bottom: 20px;
+        }
+        /* 기존 .report-btn 스타일 */
+        .report-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            background-color: #333;
+            color: #ccc;
+            text-align: center;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #555;
+            cursor: pointer;
+            font-size: 0.95em;
+            margin-top: 10px;
+        }
+        .report-btn:hover {
+            background-color: #444;
+            color: #fff;
+        }
+        .recommend-role, .recommend-step {
+            display: inline-block; /* 텍스트 크기에 맞게 조절 */
+            background-color: #2a2a32;
+            border: 1px solid #555;
+            border-radius: 12px;
+            padding: 3px 12px;
+            font-size: 0.75em;
+            color: #eee;
+            text-align: center;
+            white-space: nowrap;
+            width: fit-content;
+        }        
+        .recommend-box {
+            width: 100%;
+            aspect-ratio: 2 / 0.9;
+            background-color: #1e1e22;
+            border: 1px solid #444;
+            border-radius: 12px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            overflow: hidden;
+            color: #ddd;
+            padding: 0; /* 이중 패딩 방지를 위해 0으로 변경 */
+            margin-bottom: 25px;
+        }
+        /* 마지막 박스의 하단 마진만 제거하여 레이아웃 균형을 맞춤 */
+        .recommend-box:last-child {
+            margin-bottom: 0;
+        }
+        /* [수정] 좌측 영역의 너비를 고정하여 완벽한 중앙 배치 공간 확보 */
+        .recommend-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 10px;
+            width: 140px; /* 왼쪽 벽부터 세로선까지의 너비를 고정 */
+            min-width: 140px;
+            padding: 0; /* 내부 패딩 제거 (중앙 정렬로 대체) */
+            border-right: 1px solid #444;
+            box-sizing: border-box;
+        }
+
+        /* [유지] 기존 8px 라운드 사각형 디자인과 크기 그대로 유지 */
+        .recommend-thumb {
+            width: 75px;
+            height: 75px;
+            object-fit: cover;
+            border-radius: 8px; /* 기존 스타일 유지 */
+            border: 1px solid #555;
+        }
+
+        .recommend-right {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;            /* [수정] 이 수치를 조절해서 원하는 공백을 맞추세요 */
+            height: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        .equip-slot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 100%;
+            width: fit-content;    /* 너비를 내용물에 맞춤 */
+            min-width: 0;          /* 고정 너비 삭제 */
+        }
+
+        .equip-img-myeongryun {
+            height: 60%;
+            aspect-ratio: 225 / 456;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #555;
+        }
+
+        .equip-img-covenant {
+            height: 60%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #555;
+        }
+
+        /* 슬롯 하단 라벨 텍스트 */
+        .equip-label {
+            font-size: 0.8em;
+            color: #aaa;
+            white-space: nowrap;
+        }
+
+        /* 대체 텍스트 버튼 스타일 */
+        .sub-link {
+            font-size: 0.75em;
+            color: #aaa;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: color 0.2s;
+        }
+        .sub-link:hover {
+            color: #ffc107;
+        }
+        .sub-link.disabled {
+            color: #444;           /* 어둡게 처리 */
+            text-decoration: none; /* 밑줄 제거 */
+            cursor: default;      /* 커서 기본으로 */
+            pointer-events: none;  /* 클릭 차단 */
+        }
+        
+
+        /* 모달 내 대체 아이템 리스트 스타일 */
+        .sub-item-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .sub-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #2a2a32;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        .sub-item img {
+            width: 40px;
+            border-radius: 4px;
+        }
+
+        /* 명륜 전용 모달 크기 (세로형 아이템 위주) */
+        .modal-myeongryun {
+            width: 400px;
+            max-height: 80vh;
+        }
+
+        /* 비밀계약 전용 모달 크기 (넓은 레이아웃) */
+        .modal-covenant {
+            width: 600px;
+            max-height: 70vh;
+        }
+
+        /* 비밀계약 이름 텍스트 스타일 */
+        .equip-name {
+            font-size: 0.85em;
+            color: #fff;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+        /* 메인 박스 내 이름 텍스트 스타일 */
+        .equip-name-label {
+            font-size: 0.8em;
+            color: #eee;
+            margin-top: 4px;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+        }
+        /* 모달 내 아이템 공통 (수직 배치) */
+        .sub-item-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background: #2a2a32;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+
+        /* 모달 내 명륜 이미지 비율 */
+        .sub-img-myeongryun {
+            width: 80px;
+            aspect-ratio: 225 / 456;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #555;
+        }
+
+        /* 모달 내 비밀계약 이미지 비율 */
+        .sub-img-covenant {
+            width: 100px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #555;
+        }
+
+        .sub-item-name {
+            font-size: 0.85em;
+            color: #eee;
+            font-weight: bold;
+            text-align: center;
+        }
+        /* 세팅 정보가 없을 때 표시할 안내 박스 */
+        .no-setting-notice {
+            width: 100%;
+            height: 180px; /* 기존 recommend-box와 비슷한 높이 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #1e1e24;
+            border: 1px dashed #444;
+            border-radius: 12px;
+            color: #888;
+            gap: 10px;
+        }
+        .no-setting-notice i {
+            font-size: 2em;
+        }
+        .tooltip-tag {
+            display: inline-block;
+            background-color: #3a3a42;
+            border: 1px solid #666;
+            border-radius: 4px;
+            padding: 2px 8px;
+            margin-right: 5px;
+            margin-top: 5px;
+            font-size: 0.75em;
+            color: #ffc107; /* 태그 강조 색상 */
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container" style="position: relative; z-index: 2;">
+    <a href="javascript:void(0)" onclick="goBack()" class="back-link">⬅ 뒤로가기</a>
+
+    <div class="link-container">
+        <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
+
+        <div class="chrome-tabs-container">
+            <div class="chrome-tab active" onclick="switchTab('dictionary')">명륜 리스트</div>
+            <div class="chrome-tab" onclick="switchTab('links')">채널 정보글 링크</div>
+        </div>
+
+        <div id="tab-content-dictionary" class="tab-content active">
+            <div id="dictionary-grid" class="dictionary-grid">
+            </div>
+        </div>
+
+        <div id="tab-content-links" class="tab-content">
+            <div id="party-link-slot"></div>
+            <div id="links-list"></div>
+        </div>
+
+        <div class="report-section">
+            <p>혹시 연결되지 않는 링크가 있나요?</p>
+            <button id="open-report-modal" class="report-btn" onclick="openReportModal()">🚨 버그/피드백 제보하기</button>
+        </div>
+    </div>
+</div>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content" style="position: relative;">
+        <button type="button" class="close-btn" onclick="closeReportModal()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
+            &times;
+        </button>
+
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<div id="substitute-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title" id="sub-modal-title">대체 장비 정보</h2>
+        <div id="sub-modal-body" style="color: #ccc; line-height: 1.6;">
+        </div>
+        <button type="button" class="form-submit-btn" onclick="closeSubModal()" style="margin-top: 20px; background-color: #444;">닫기</button>
+    </div>
+</div>
+
+<script>
+    // --- 뒤로가기 ---
+    function goBack() {
+        const ref = document.referrer;
+        const isFromParent = ref && (ref.includes('index.html') || ref.includes('list.html'));
+        if (isFromParent) {
+            history.back();
+        } else {
+            const category = new URLSearchParams(location.search).get('category');
+            location.href = (category === 'character') ? 'list.html' : 'index.html';
+        }
+    }
+
+    // --- 기능 로직 ---
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        const sourceUrlInput = document.getElementById('report-source-url');
+        const modalStatus = document.getElementById('modal-form-status');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'none';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+        if (sourceUrlInput) { sourceUrlInput.value = window.location.href; }
+        modal.classList.add('show');
+    }
+    
+    // 1. 닫기 버튼을 눌렀을 때 실행되는 함수
+    function closeReportModal() {
+        const modal = document.getElementById('report-modal');
+        if (modal) {
+            modal.classList.remove('show');
+        }
+    }
+
+    // 2. 모달 바깥(어두운 오버레이)을 클릭했을 때 창을 닫는 로직
+    document.addEventListener('click', function(event) {
+        const reportModal = document.getElementById('report-modal');
+        // 모달이 열려있고, 클릭한 대상이 정확히 'modal-overlay' 배경 자체일 때만 닫음
+        if (reportModal && reportModal.classList.contains('show') && event.target === reportModal) {
+            closeReportModal();
+        }
+    });
+
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '전송 중...';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+
+    // 🚩 전역 복사 함수
+    function copyCodeToClipboard(text, element) {
+        if (!navigator.clipboard) {
+            alert("⚠️ 이 브라우저는 클립보드 복사를 지원하지 않습니다.");
+            return;
+        }
+        navigator.clipboard.writeText(text).then(() => {
+            element.classList.add('copied');
+            const originalText = element.innerHTML;
+            element.innerHTML = '✅ 복사 완료!';
+            setTimeout(() => {
+                element.classList.remove('copied');
+                element.innerHTML = originalText;
+            }, 800);
+        }).catch(err => {
+            console.error('클립보드 복사 실패:', err);
+            alert('복사 실패! 콘솔을 확인해주세요.');
+        });
+    }
+
+    function openSubModal(type) {
+        const modal = document.getElementById('substitute-modal');
+        const contentBox = modal.querySelector('.modal-content');
+        const title = document.getElementById('sub-modal-title');
+        const body = document.getElementById('sub-modal-body');
+
+        contentBox.classList.remove('modal-myeongryun', 'modal-covenant');
+
+        let content = '';
+        const placeholderImg = 'images/smile_Ramona.webp';
+
+        if (type === 'ssr' || type === 'sr') {
+            contentBox.classList.add('modal-myeongryun');
+            title.textContent = type === 'ssr' ? 'SSR 명륜 대체' : 'SR 명륜 대체';
+
+            // 명륜용 2열 그리드 (이미지 아래 이름)
+            content = '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">';
+            content += `
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-myeongryun">
+                <div class="sub-item-name">대체 명륜 A</div>
+            </div>
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-myeongryun">
+                <div class="sub-item-name">대체 명륜 B</div>
+            </div>
+        `;
+            content += '</div>';
+        } else {
+            contentBox.classList.add('modal-covenant');
+            title.textContent = '비밀계약 대체';
+
+            // 비밀계약용 3열 그리드 (이미지 아래 이름)
+            content = '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px;">';
+            content += `
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-covenant">
+                <div class="sub-item-name">대체 계약 A</div>
+            </div>
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-covenant">
+                <div class="sub-item-name">대체 계약 B</div>
+            </div>
+            <div class="sub-item-vertical">
+                <img src="${placeholderImg}" class="sub-img-covenant">
+                <div class="sub-item-name">대체 계약 C</div>
+            </div>
+        `;
+            content += '</div>';
+        }
+
+        body.innerHTML = content;
+        modal.classList.add('show');
+    }
+
+    function closeSubModal() {
+        const modal = document.getElementById('substitute-modal');
+        if (modal) modal.classList.remove('show');
+    }
+
+    // 탭 전환 로직
+    function switchTab(tabName) {
+        document.querySelectorAll('.chrome-tab').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+
+        if (tabName === 'dictionary') {
+            document.querySelectorAll('.chrome-tab')[0].classList.add('active');
+            document.getElementById('tab-content-dictionary').classList.add('active');
+        } else {
+            document.querySelectorAll('.chrome-tab')[1].classList.add('active');
+            document.getElementById('tab-content-links').classList.add('active');
+        }
+    }
+
+    // 전역 툴팁 엘리먼트 동적 생성
+    const tooltipEl = document.createElement('div');
+    tooltipEl.id = 'global-tooltip';
+    tooltipEl.className = 'item-tooltip';
+    tooltipEl.innerHTML = `
+    <div class="tooltip-title" id="tt-title"></div>
+    <div class="tooltip-desc" id="tt-desc"></div>
+    <div class="tooltip-tags" id="tt-tags"></div>
+`;
+    document.body.appendChild(tooltipEl);
+
+    // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환 + 파밍처 추가) ㅁㄴㅇ
+    function showTooltip(item, e) {
+        const ttTitle = document.getElementById('tt-title');
+        const ttDesc = document.getElementById('tt-desc');
+        const ttTags = document.getElementById('tt-tags');
+
+        ttTitle.textContent = item.korean_name;
+        let contentHtml = '';
+
+        // 명륜 전용 주옵션
+        if (item.main_stat) {
+            contentHtml += `<div class="tooltip-main-stat">주옵션: ${item.main_stat}</div>`;
+        }
+        // 공통 설명 (은열쇠 등)
+        if (item.description) {
+            contentHtml += `<div class="tooltip-effect-desc">${item.description}</div>`;
+        }
+
+        // 비밀계약 전용 세트 효과
+        if (item.set_effect_3) {
+            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[3세트 효과]</div>`;
+            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_3}</div>`;
+        }
+        if (item.set_effect_6) {
+            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[6세트 효과]</div>`;
+            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_6}</div>`;
+        }
+
+        // [추가된 부분] 획득처(파밍처) 정보가 JSON에 존재할 경우 출력
+        if (item.source) {
+            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 15px; font-weight: bold;">[획득처]</div>`;
+            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px; color: #d9d9d9;">${item.source}</div>`;
+        }
+
+        ttDesc.innerHTML = contentHtml;
+        ttTags.innerHTML = '';
+
+        // 비밀계약/은열쇠(tags) 또는 명륜(optimized_for) 배열을 감지하여 태그 뱃지 생성
+        const tagArray = item.tags || item.optimized_for || [];
+        tagArray.forEach(tag => {
+            const s = document.createElement('span');
+            s.className = 'tooltip-tag';
+            s.textContent = tag;
+            ttTags.appendChild(s);
+        });
+
+        tooltipEl.style.display = 'block';
+        moveTooltip(e);
+    }
+
+    // 툴팁 위치 실시간 추적 및 화면 이탈 방어 로직
+    function moveTooltip(e) {
+        if (!tooltipEl || tooltipEl.style.display === 'none') return;
+
+        let x = e.clientX + 15;
+        let y = e.clientY + 15;
+
+        const rect = tooltipEl.getBoundingClientRect();
+        if (x + rect.width > window.innerWidth) {
+            x = e.clientX - rect.width - 15;
+        }
+        if (y + rect.height > window.innerHeight) {
+            y = e.clientY - rect.height - 15;
+        }
+
+        tooltipEl.style.left = x + 'px';
+        tooltipEl.style.top = y + 'px';
+    }
+
+    function hideTooltip() {
+        if (tooltipEl) {
+            tooltipEl.style.display = 'none';
+        }
+    }
+
+    // 아이콘 리스트 렌더링 로직 (비율 및 크기 분기 처리)
+    function renderDictionary(data, category) {
+        const grid = document.getElementById('dictionary-grid');
+        grid.innerHTML = '';
+
+        // 카테고리에 따라 그리드의 기본 크기를 다르게 할당하여 비밀계약 아이콘을 크게 만듦
+        if (category === 'covenant') {
+            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(130px, 1fr))';
+        } else {
+            grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(80px, 1fr))';
+        }
+
+        data.forEach(item => {
+            const img = document.createElement('img');
+            img.src = item.image_path;
+            img.style.width = '100%';
+
+            // 은열쇠와 비밀계약은 1:1, 명륜은 인게임 비율 적용
+            if (category === 'silverkey' || category === 'covenant') {
+                img.style.aspectRatio = '1/1';
+            } else {
+                img.style.aspectRatio = '225/456';
+            }
+
+            img.style.objectFit = 'cover';
+            img.style.borderRadius = '4px';
+            img.style.cursor = 'pointer';
+            img.style.border = '1px solid #444';
+
+            img.onmouseenter = (e) => {
+                img.style.borderColor = '#ffc107';
+                showTooltip(item, e);
+            };
+            img.onmousemove = moveTooltip;
+            img.onmouseleave = () => {
+                img.style.borderColor = '#444';
+                hideTooltip();
+            };
+
+            grid.appendChild(img);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const charId = urlParams.get('id');
+        const titleEl = document.getElementById('page-title');
+        const listEl = document.getElementById('links-list');
+        const tabsContainer = document.querySelector('.chrome-tabs-container');
+        const partySlot = document.getElementById('party-link-slot');
+
+        const isCharacterPage = (category === 'character');
+        const isDictionaryPage = (category === 'myeongryun' || category === 'silverkey' || category === 'covenant');
+
+        // 1. 탭 표시 설정 및 명칭 수정
+        if (tabsContainer) {
+            tabsContainer.style.display = (isDictionaryPage || isCharacterPage) ? 'flex' : 'none';
+            const tabs = document.querySelectorAll('.chrome-tab');
+            if (tabs.length >= 1) {
+                if (isCharacterPage) {
+                    tabs[0].textContent = '추천 세팅';
+                    if (tabs[1]) tabs[1].textContent = "채널 정보글 리스트";
+                } else if (isDictionaryPage) {
+                    if (category === 'myeongryun') tabs[0].textContent = '명륜 리스트';
+                    else if (category === 'silverkey') tabs[0].textContent = '은열쇠 리스트';
+                    else if (category === 'covenant') tabs[0].textContent = '비밀계약 리스트';
+                    if (tabs[1]) tabs[1].textContent = '채널 정보글 리스트';
+                }
+            }
+        }
+
+        try {
+            const ts = new Date().getTime();
+            const [manifest, linksDB, wheelList, covList, settingsDB, keyList] = await Promise.all([
+                fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/covenant_list.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/character_settings.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => [])
+            ]);
+
+            window.wheelMap = {};
+            wheelList.forEach(w => {
+                window.wheelMap[w.english_name] = w;
+                window.wheelMap[w.korean_name] = w;
+            });
+            window.covMap = {};
+            covList.forEach(c => {
+                window.covMap[c.english_name] = c;
+                window.covMap[c.korean_name] = c;
+            });
+            window.currentSettings = settingsDB;
+
+            const charData = manifest.find(c => c.id === charId);
+            let targetItems = [];
+
+            // 융재금구(weapon) 카테고리 진입 시 내부 시뮬레이터 버튼 노출
+            if (partySlot) {
+                if (category === 'weapon') {
+                    partySlot.innerHTML = `<a href="party_builder.html" class="party-link-btn">융재 금구 파티 시뮬레이터 실행 (Beta)</a>`;
+                } else {
+                    partySlot.innerHTML = '';
+                }
+            }
+
+            // 1. 캐릭터 공략 페이지
+            if (isCharacterPage && charData) {
+                titleEl.innerHTML = `<img src="${charData.image_thumb}" class="title-thumb"> ${charData.name} 공략 모음`;
+                targetItems = linksDB.characters[charId] || [];
+                // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
+                const gridContainer = document.getElementById('dictionary-grid');
+                const settings = settingsDB[charId] || settingsDB[charData.name];
+                if (gridContainer) {
+                    gridContainer.className = '';
+                    gridContainer.innerHTML = '';
+                    if (settings) {
+                        const settingsList = Array.isArray(settings) ? settings : [settings];
+                        settingsList.forEach((setInfo, idx) => {
+                            const getWheel = (id) => window.wheelMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
+                            const getCov = (id) => window.covMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
+                            const ssrWheel = getWheel(setInfo.myeongryun_ssr.main_id);
+                            const srWheel = getWheel(setInfo.myeongryun_sr.main_id);
+                            const mainCov = getCov(setInfo.covenant.main_id);
+                            const renderSubLink = (type, list, charId, idx) => {
+                                const label = type === 'covenant' ? '대체 비밀계약' : '대체 명륜';
+                                if (list && list.length > 0) return `<div class="sub-link" onclick="openDynamicSubModal('${type}', '${charId}', ${idx})">${label}</div>`;
+                                return `<div class="sub-link disabled">대체 정보 없음</div>`;
+                            };
+                            gridContainer.innerHTML += `
+                                <div class="ㅐ">
+                                    <div class="recommend-left">
+                                        <img src="${charData.image_thumb}" class="recommend-thumb" onerror="this.src='images/smile_Ramona.webp';">
+                                        <div class="recommend-role">${setInfo.settingName} 세팅</div>
+                                        <div class="recommend-step">${setInfo.recommendStep} 추천</div>
+                                    </div>
+                                    <div class="recommend-right">
+                                        <div class="equip-slot">
+                                            <div class="equip-label">추천 SSR 명륜</div>
+                                            <img src="${ssrWheel.image_path}" class="equip-img-myeongryun" onerror="this.src='images/placeholder.png';">
+                                            <div class="equip-name-label">${ssrWheel.korean_name}</div>
+                                            ${renderSubLink('ssr', setInfo.myeongryun_ssr.substitutes, charId, idx)}
+                                        </div>
+                                        <div class="equip-slot">
+                                            <div class="equip-label">추천 SR 명륜</div>
+                                            <img src="${srWheel.image_path}" class="equip-img-myeongryun" onerror="this.src='images/placeholder.png';">
+                                            <div class="equip-name-label">${srWheel.korean_name}</div>
+                                            ${renderSubLink('sr', setInfo.myeongryun_sr.substitutes, charId, idx)}
+                                        </div>
+                                        <div class="equip-slot">
+                                            <div class="equip-label">추천 비밀계약</div>
+                                            <img src="${mainCov.image_path}" class="equip-img-covenant" onerror="this.src='images/placeholder.png';">
+                                            <div class="equip-name-label">${mainCov.korean_name}</div>
+                                            ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
+                                        </div>
+                                    </div>
+                                </div>`;
+                        });
+                    } else {
+                        gridContainer.innerHTML = `<div class="no-setting-notice"><div style="font-size: 24px;">📝</div><div>아직 추천 세팅 정보가 등록되지 않았습니다.</div></div>`;
+                    }
+                }
+                switchTab('dictionary');
+            }
+
+            // 2. 도감 페이지 (명륜/비밀계약/은열쇠)
+            else if (isDictionaryPage) {
+                if (category && linksDB.categories[category]) {
+                    titleEl.textContent = linksDB.categories[category].title;
+                    targetItems = linksDB.categories[category].links || [];
+                }
+                let dictData = (category === 'myeongryun') ? wheelList : (category === 'covenant') ? covList : keyList;
+                if (dictData && dictData.length > 0) renderDictionary(dictData, category);
+                switchTab('dictionary');
+            }
+
+            // 3. 교환 코드(code) 전용 처리
+            else if (category === 'code') {
+                if (linksDB.categories[category]) {
+                    titleEl.textContent = linksDB.categories[category].title;
+                    const codes = linksDB.categories[category].links || [];
+                    renderCodeLinks(codes, listEl); // 전용 렌더러 호출
+                    switchTab('links');
+                    return; // 공통 렌더링 로직을 타지 않도록 종료
+                }
+            }
+
+            // 4. 일반 페이지 (기타 카테고리)
+            else if (category && linksDB.categories[category]) {
+                titleEl.textContent = linksDB.categories[category].title;
+                targetItems = linksDB.categories[category].links || [];
+                switchTab('links');
+            }
+
+            // 공통: 리스트 카드 출력 (교환 코드가 아닌 일반 링크용)
+            listEl.innerHTML = '';
+            if (targetItems.length === 0) {
+                listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
+            } else {
+                targetItems.forEach(item => {
+                    if (typeof item === 'string') createLinkCardFromAPI(item, listEl);
+                    else createLinkCardInstant(item, listEl);
+                });
+            }
+
+        } catch (error) {
+            console.error("데이터 로드 오류:", error);
+        }
+
+        const subModal = document.getElementById('substitute-modal');
+        if (subModal) {
+            subModal.addEventListener('click', (e) => { if (e.target === subModal) closeSubModal(); });
+        }
+    });
+
+    function openDynamicSubModal(type, charId, idx = 0) {
+        if (!window.currentSettings || !window.currentSettings[charId]) return;
+
+        const settings = window.currentSettings[charId];
+        // 배열 여부 확인 후 해당 인덱스의 세팅 추출
+        const setInfo = Array.isArray(settings) ? settings[idx] : settings;
+
+        const modal = document.getElementById('substitute-modal');
+        const title = document.getElementById('sub-modal-title');
+        const body = document.getElementById('sub-modal-body');
+
+        let ids = [];
+        let isWheel = true;
+
+        if (type === 'ssr') {
+            title.textContent = '대체할 SSR 명륜';
+            ids = setInfo.myeongryun_ssr.substitutes || [];
+        } else if (type === 'sr') {
+            title.textContent = '대체할 SR 명륜';
+            ids = setInfo.myeongryun_sr.substitutes || [];
+        } else {
+            title.textContent = '대체할 비밀계약';
+            ids = setInfo.covenant.substitutes || [];
+            isWheel = false;
+        }
+
+        const itemCount = ids.length;
+        const gridCols = itemCount > 0 ? itemCount : 1;
+
+        let html = `<div style="display: grid; grid-template-columns: repeat(${gridCols}, auto); gap: 20px; justify-content: center; margin-top: 15px;">`;
+
+        if (itemCount === 0) {
+            html = '<div style="text-align:center; padding:20px; color:#777;">등록된 대체 정보가 없습니다.</div>';
+        } else {
+            ids.forEach(id => {
+                const data = isWheel ? window.wheelMap[id] : window.covMap[id];
+                if (data) {
+                    html += `
+                    <div class="sub-item-vertical" style="min-width: 120px;">
+                        <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}" 
+                             class="${isWheel ? 'sub-img-myeongryun' : 'sub-img-covenant'}"
+                             onerror="this.src='images/placeholder.png';">
+                        <div class="sub-item-name">${data.korean_name}</div>
+                    </div>`;
+                }
+            });
+            html += '</div>';
+        }
+
+        body.innerHTML = html;
+        modal.classList.add('show');
+    }
+
+    // --- 유틸리티 함수 ---
+    function getProxyImage(url) {
+        if (!url) return 'images/smile_Ramona.webp';
+        url = url.trim();
+        if (url.startsWith('//')) { url = 'https:' + url; }
+        if (url.includes('namu.la') || url.includes('arca.live') || url.includes('dcinside')) {
+            return `https://images.weserv.nl/?url=${encodeURIComponent(url)}&w=400&output=webp&n=-1`;
+        }
+        return url;
+    }
+
+    function renderCodeLinks(items, container) {
+        container.innerHTML = ''; // 초기화
+
+        // 1. 데이터 분류
+        const permanent = items.filter(item => !item.expiry);
+        const temporary = items.filter(item => item.expiry && new Date(item.expiry) >= new Date().setHours(0,0,0,0));
+
+        // D-Day 계산 함수
+        const getDDay = (dateStr) => {
+            const diff = new Date(dateStr) - new Date();
+            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            return days === 0 ? "오늘 만료" : `${days}일 남음`;
+        };
+
+        // 카드 생성 도우미
+        const createCard = (item, isTemp) => `
+        <div class="code-card">
+            <div class="code-details">
+                <span class="code-title">${item.title}</span>
+                <span class="code-reward">${item.desc || '보상 정보 없음'}</span>
+                ${isTemp ? `<div class="code-timer">⏳ ${getDDay(item.expiry)}</div>` : ''}
+            </div>
+            <button class="code-copy-btn" onclick="copyCodeToClipboard('${item.title}', this)">복사</button>
+        </div>
+    `;
+
+        // 2. 기간 한정 코드 렌더링
+        if (temporary.length > 0) {
+            container.insertAdjacentHTML('beforeend', '<div class="section-label">📅 기간 한정 코드</div>');
+            const tempGroup = document.createElement('div');
+            tempGroup.className = 'code-card-container';
+            temporary.forEach(item => tempGroup.insertAdjacentHTML('beforeend', createCard(item, true)));
+            container.appendChild(tempGroup);
+        }
+
+        // 3. 상시 코드 렌더링
+        if (permanent.length > 0) {
+            container.insertAdjacentHTML('beforeend', '<div class="section-label">♾️ 상시 코드</div>');
+            const permGroup = document.createElement('div');
+            permGroup.className = 'code-card-container';
+            permanent.forEach(item => permGroup.insertAdjacentHTML('beforeend', createCard(item, false)));
+            container.appendChild(permGroup);
+        }
+    }
+
+    function createLinkCardInstant(data, container) {
+        try {
+            let domain = 'link';
+            try { if(data.url) domain = new URL(data.url).hostname; } catch(e) {}
+            const safeImage = getProxyImage(data.image);
+
+            const html = `
+                <a href="${data.url}" target="_blank" class="notion-bookmark">
+                    <div class="bookmark-content">
+                        <div>
+                            <div class="bookmark-title">${data.title || '제목 없음'}</div>
+                            <div class="bookmark-desc">${data.desc || ''}</div>
+                        </div>
+                        <div class="bookmark-url">
+                            <img src="https://www.google.com/s2/favicons?domain=${domain}" width="14" height="14" style="margin-right:4px; vertical-align:middle;">
+                            ${domain}
+                        </div>
+                    </div>
+                    <div class="bookmark-image">
+                        <img src="${safeImage}" alt="썸네일" loading="lazy" 
+                             onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
+                    </div>
+                </a>`;
+            container.insertAdjacentHTML('beforeend', html);
+        } catch (e) { console.error("카드 생성 에러:", e); }
+    }
+
+    async function createLinkCardFromAPI(url, container) {
+        const cardWrap = document.createElement('div');
+        cardWrap.className = 'skeleton skeleton-card';
+        cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
+        container.appendChild(cardWrap);
+        try {
+            const apiUrl = `https://api.microlink.io?url=${encodeURIComponent(url)}`;
+            const res = await fetch(apiUrl);
+            const json = await res.json();
+
+            if (json.status === 'success') {
+                const data = json.data;
+                const safeImage = getProxyImage(data.image?.url);
+
+                cardWrap.className = 'notion-bookmark';
+                cardWrap.innerHTML = '';
+
+                const linkEl = document.createElement('a');
+                linkEl.href = url;
+                linkEl.target = "_blank";
+                linkEl.className = "notion-bookmark";
+                linkEl.style.width = "100%";
+
+                linkEl.innerHTML = `
+                    <div class="bookmark-content">
+                        <div>
+                            <div class="bookmark-title">${data.title || url}</div>
+                            <div class="bookmark-desc">${data.description || '설명이 없습니다.'}</div>
+                        </div>
+                        <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
+                    </div>
+                    <div class="bookmark-image">
+                        <img src="${safeImage}" alt="썸네일" loading="lazy" onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
+                    </div>`;
+
+                container.replaceChild(linkEl, cardWrap);
+            } else { throw new Error("API Fail"); }
+        } catch (e) {
+            cardWrap.className = 'notion-bookmark';
+            cardWrap.innerHTML = `<a href="${url}" target="_blank" style="padding:15px; color:#fff; text-decoration:none; width:100%; display:block;"><div style="font-weight:bold; margin-bottom:5px; word-break:break-all;">${url}</div><div style="font-size:0.8em; color:#aaa;">(미리보기 로드 실패)</div></a>`;
+        }
+    }
+</script>
+
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">
+    🚨
+</button>
+</body>
+</html>
+</file>
+
+<file path="data/patch_notes.json">
+[
+  {
+    "version": "v1.3.10",
+    "date": "2026-04-16",
+    "changes": [
+      "버그 신고 창에서 닉네임을 적는 곳과 버그 내용을 적는 내용의 폰트가 다르던 버그 수정",
+      "'버그 / 피드백 제보하기'를 누르면 아무것도 뜨지 않던 버그 수정.",
+      "모바일에서 버그/피드백 제보 모달을 지울 수 없던 버그 수정.,",
+      "각성체 목록의 각성체 썸네일 화질 개선.",
+      "모바일 추천 세팅 UI가 변경",
+      "비밀계약 정보에서 각 비밀계약의 획득처에 대한 정보 추가."
+    ]
+  },
+  {
+    "version": "v1.3.9",
+    "date": "2026-04-07",
+    "changes": [
+      "각성체 페이지 추천 세팅 추가",
+      "명륜 페이지 개편",
+      "은열쇠 페이지 개편",
+      "비밀계약 페이지 개편"
+    ]
+  },
+  {
+    "version": "v1.3.8",
+    "date": "2026-03-09",
+    "changes": [
+      "모스크 추가"
+    ]
+  },
+  {
+    "version": "v1.3.7",
+    "date": "2026-01-31",
+    "changes": [
+      "융재 금구 시뮬레이터 - 머피 이미지 수정",
+      "서 추가"
+    ]
+  },
+  {
+    "version": "v1.3.6",
+    "date": "2026-01-20",
+    "changes": [
+      "파티 위치 변경 기능 추가",
+      "파티 멤버를 변경할 시 다른 멤버가 장착중인 명륜이 해제되는 버그 수정",
+      "명륜의 주옵션이 보다 잘 보이도록 수정",
+      "명륜 검색 로직 변경",
+      "융재 금구 메뉴로 돌아가기 버튼의 링크 연결 버그 수정"
+    ]
+  },
+  {
+    "version": "v1.3.5",
+    "date": "2026-01-10",
+    "changes": [
+      "세트 기능 추가"
+    ]
+  },
+  {
+  "version": "v1.3.4",
+  "date": "2026-01-07",
+  "changes": [
+    "각성체 검색 로직 업데이트"
+  ]
+},
+  {
+    "version": "v1.3.3",
+    "date": "2026-01-06",
+    "changes": [
+      "명륜 검색 로직 업데이트  ",
+      "교환 코드 UI 수정"
+      ]
+  },
+  {
+    "version": "v1.3.2",
+    "date": "2026-01-02",
+    "changes": [
+      "융재금구 시뮬레이터 - 조력 기능 추가",
+      "모샤 관련 내용 추가"
+    ]
+  },
+  {
+    "version": "v1.3.1",
+    "date": "2025-12-21",
+    "changes": [
+      "버그 수정",
+      "후원 링크 개선"
+    ]
+  },
+  {
+    "version": "v1.3.0",
+    "date": "2025-12-15",
+    "changes": [
+      "융재 금구 파티 편성 시뮬레이터 기능 추가"
+    ]
+  },
+  {
+    "version": "v1.2.1",
+    "date": "2025-12-03",
+    "changes": [
+      "'이벤트 관련 정보', '이번주 융재 금구 팁' 추가"
+    ]
+  },
+  {
+    "version": "v1.2.0",
+    "date": "2025-11-29",
+    "changes": [
+      "타이틀 변경 (망각전야 (Morimens) → 미사그 대학 한국 캠퍼스)",
+      "링크 카드 UI 개선",
+      "플로팅 신고 버튼 추가",
+      "후원 기능 추가",
+      "코드 구조 개편"
+    ]
+  },
+  {
+    "version": "v1.0.4",
+    "date": "2025-11-26",
+    "changes": [
+      "계역별 팁, 은열쇠 정보, 페이즈 체스 카테고리 추가",
+      "링크 카드 썸네일 비율 조정",
+      "뒤로 가기 버튼 UI 수정"
+    ]
+  },
+  {
+    "version": "v1.0.3",
+    "date": "2025-11-26",
+    "changes": [
+      "모바일 환경에서 스크롤 하면 배경이 움직이던 버그 수정",
+      "배너 수정 및 UI 개선 (공식 유튜브, 디스코드로 연결)",
+      "PC/모바일 레이아웃 여백 동기화",
+      "404 경로 문제 해결 및 안정성 강화"
+    ]
+  },
+  {
+    "version": "v1.0.2",
+    "date": "2025-11-256",
+    "changes": [
+      "★채널 공지에 올라감★",
+      "교환 코드 페이지 UI 개편 (클릭 시 자동 복사 기능 추가)",
+      "제보하기 텍스트 수정",
+      "모바일 환경 가독성 개선 및 다크 모드로 배경 통일"
+    ]
+  },
+  {
+    "version": "v1.0.1",
+    "date": "2025-11-25",
+    "changes": [
+      "사이트 오픈 및 기본 가이드 데이터 구축"
+    ]
   }
 ]
 </file>
@@ -10619,7 +11220,6 @@ function openReportModal() {
         { "title": "HVGX-HLDX-QKKN", "desc": "무구의 은핵 5개", "expiry": null },
         { "title": "QKBQ-SSDG-JZYU", "desc": "무구의 은핵 5개", "expiry": null },
         { "title": "DC5000", "desc": "특별 승인 약재 5개", "expiry": null },
-        { "title": "SlaytheSpire2", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-16" },
         { "title": "RCSV-DPLV-KQPP", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-23" },
         { "title": "MistSequence", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-28" },
         { "title": "RMUE-RVQY-XKWE", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-29" },
