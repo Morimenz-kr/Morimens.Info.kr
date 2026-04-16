@@ -231,7 +231,7 @@
   "caecus": [
     {
       "settingName": "탱커",
-      "recommendStep": "3돓",
+      "recommendStep": "3돌",
       "myeongryun_ssr": { "main_id": "wheel_fin_of_pain", "substitutes": ["wheel_birth_of_soul"] },
       "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_man_in_mirror", "wheel_info_is_life", "wheel_int_the_nightshadow", "wheel_channeling"] },
       "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit"] }
