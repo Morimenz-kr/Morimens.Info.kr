@@ -13,7 +13,7 @@
   { "id": "pandia", "name": "판디아", "image_thumb": "images/Pandia-thumb.png", "relems": "chaos", "class": "assault", "grade": "ssr" },
   { "id": "hameln", "name": "하멜른", "image_thumb": "images/Hameln-thumb.png", "relems": "chaos", "class": "chorus", "grade": "ssr" },
   { "id": "goliath", "name": "골리앗", "image_thumb": "images/Goliath-thumb.png", "relems": "aequor", "class": "assault", "grade": "ssr" },
-  { "id": "coporsant", "name": "크퍼산트", "image_thumb": "images/Coporsant-thumb.png", "relems": "aequor", "class": "warden", "grade": "ssr" },
+  { "id": "coporsant", "name": "코퍼산트", "image_thumb": "images/Coporsant-thumb.png", "relems": "aequor", "class": "warden", "grade": "ssr" },
   { "id": "murphy", "name": "머피", "image_thumb": "images/Murphy-thumb.png", "relems": "aequor", "class": "warden", "grade": "ssr" },
   { "id": "miryam", "name": "미리암", "image_thumb": "images/Miryam-thumb.png", "relems": "aequor", "class": "chorus", "grade": "ssr" },
   { "id": "sanga", "name": "산", "image_thumb": "images/Sanga-thumb.png", "relems": "aequor", "class": "warden", "grade": "ssr" },

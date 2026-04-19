@@ -833,19 +833,28 @@ function confirmQuickSetup() {
 
 // [10] 명륜 및 은열쇠 선택 로직
 function openWheelModal(charIdx, slotIdx, e) {
-    if(!allPages[currentPageIdx].teams[currentTeamIdx].chars[charIdx])
-        return openSystemAlert("알림", "캐릭터를 먼저 배치하세요.");
-
+    if(!allPages[currentPageIdx].teams[currentTeamIdx].chars[charIdx]) return openSystemAlert("알림", "캐릭터를 먼저 배치하세요.");
     editingCharIdx = charIdx;
     selectedWheelSlotIdx = slotIdx;
-
     if(e) e.stopPropagation();
-
     activeWheelTags.clear();
+
     const input = document.getElementById('wheel-search-input');
     if (input) {
         input.value = '';
         setupWheelSearchEvents(); // 검색 이벤트 바인딩 호출 추가
+    }
+
+    // 명륜 모달을 열 때 전용 장착 버튼을 보이게 처리 및 클릭 이벤트 바인딩
+    const btnSsr = document.getElementById('btn-equip-ssr');
+    const btnSr = document.getElementById('btn-equip-sr');
+    if (btnSsr) {
+        btnSsr.style.display = 'block';
+        btnSsr.onclick = () => equipDedicatedWheel('SSR');
+    }
+    if (btnSr) {
+        btnSr.style.display = 'block';
+        btnSr.onclick = () => equipDedicatedWheel('SR');
     }
 
     renderWheelModalUI();
@@ -941,18 +950,74 @@ function renderWheelList() {
 }
 function unequipSelectedWheel() { allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx] = null; renderWheelModalUI(); renderAll(); }
 
-function openKeyModal() {
+function openKeyModal(e) {
+    // [수정] 은열쇠는 항상 1번 슬롯(리더) 캐릭터를 기준으로 처리하도록 강제 설정
+    editingCharIdx = 0;
+
+    const team = allPages[currentPageIdx].teams[currentTeamIdx];
+    if(!team.chars[editingCharIdx]) {
+        return openSystemAlert("알림", "1번 슬롯에 캐릭터를 먼저 배치하세요.");
+    }
+
+    if(e) e.stopPropagation();
+
     activeKeyTags.clear();
     const searchInput = document.getElementById('key-search-input');
-
-    // [보강] 요소가 존재할 때만 값 초기화
     if (searchInput) {
         searchInput.value = '';
-        setupKeySearchEvents(); // 검색 기능 활성화
+        setupKeySearchEvents();
+    }
+
+    // 전용 은열쇠 장착 버튼 노출 및 클릭 이벤트 연결
+    const btnKey = document.getElementById('btn-equip-key');
+    if (btnKey) {
+        btnKey.style.display = 'block';
+        btnKey.onclick = () => equipDedicatedKey();
     }
 
     renderKeyGrid();
     document.getElementById('modal-key').classList.add('show');
+}
+
+// =========================================
+// 전용 은열쇠 자동 장착 로직 (리더 슬롯 고정형)
+// =========================================
+function equipDedicatedKey() {
+    const team = allPages[currentPageIdx].teams[currentTeamIdx];
+
+    // 무조건 1번 슬롯(index 0) 캐릭터를 기준으로 탐색
+    const leaderCharId = team.chars[0];
+
+    if (!leaderCharId) {
+        openSystemAlert("알림", "1번 슬롯에 캐릭터를 먼저 배치해주세요.");
+        return;
+    }
+
+    const charInfo = DB.chars.find(x => String(x.id) === leaderCharId);
+    if (!charInfo) return;
+
+    // 캐릭터 이름에 맞는 전용 은열쇠 찾기
+    const targetKey = DB.keys.find(function(key) {
+        const tagArray = key.Tag || key.tags;
+        return Array.isArray(tagArray) && tagArray[0] === charInfo.name;
+    });
+
+    if (!targetKey) {
+        openSystemAlert("알림", charInfo.name + "의 전용 은열쇠를 찾을 수 없습니다.");
+        return;
+    }
+
+    // [중요] 프로젝트 데이터 구조에 맞춰 파티의 은열쇠 슬롯에 저장
+    // 만약 캐릭터별 배열 형태라면 team.keys[0]에 저장합니다.
+    if (Array.isArray(team.keys)) {
+        team.keys[0] = targetKey.english_name;
+    } else {
+        team.key = targetKey.english_name;
+    }
+
+    renderAll();
+    saveAllData(true);
+    closeModal('modal-key');
 }
 
 function setupKeySearchEvents() {
@@ -1233,4 +1298,57 @@ async function sendToDiscord(event) {
 function openReportModal() {
     document.getElementById('report-source-url').value = window.location.href;
     document.getElementById('report-modal').classList.add('show');
+}
+// =========================================
+// 전용 명륜 자동 장착 및 포커스 이동 로직
+// =========================================
+
+// 버튼 클릭 이벤트 리스너 (중복 방지를 위해 초기화 후 등록)
+const btnSsr = document.getElementById('btn-equip-ssr');
+const btnSr = document.getElementById('btn-equip-sr');
+
+if (btnSsr) {
+    btnSsr.onclick = () => equipDedicatedWheel('SSR');
+}
+if (btnSr) {
+    btnSr.onclick = () => equipDedicatedWheel('SR');
+}
+
+function equipDedicatedWheel(grade) {
+    const team = allPages[currentPageIdx].teams[currentTeamIdx];
+    const charId = team.chars[editingCharIdx];
+
+    // 1. 캐릭터 배치 확인
+    if (!charId) {
+        openSystemAlert("알림", "캐릭터를 먼저 배치해주세요.");
+        return;
+    }
+
+    // 2. 캐릭터 정보 가져오기
+    const charInfo = DB.chars.find(x => String(x.id) === charId);
+    if (!charInfo) return;
+
+    // 3. 해당 등급의 전용 명륜 찾기
+    const targetWheel = DB.wheels.find(function(wheel) {
+        const optFor = wheel.optimized_for;
+        return wheel.grade === grade && Array.isArray(optFor) && optFor[0] === charInfo.name;
+    });
+
+    if (!targetWheel) {
+        openSystemAlert("알림", `${charInfo.name}의 전용 ${grade} 명륜을 찾을 수 없습니다.`);
+        return;
+    }
+
+    // 4. 슬롯 인덱스 결정 (SSR=0, SR=1) 및 포커스 이동
+    const slotIdx = (grade === 'SSR') ? 0 : 1;
+    selectedWheelSlotIdx = slotIdx; // 장착하는 슬롯으로 즉시 포커스 이동
+
+    // 5. 데이터 적용
+    team.wheels[editingCharIdx][slotIdx] = targetWheel.english_name;
+
+    // 6. UI 전체 및 모달 내부 갱신 (핵심: 어떤 등급이든 즉시 리렌더링)
+    renderAll();
+    renderWheelModalUI(); // 이 함수가 호출되어야 슬롯 이미지가 즉시 바뀝니다.
+    saveAllData(true);
+
 }

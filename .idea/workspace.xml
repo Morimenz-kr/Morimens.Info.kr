@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="" />
+    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/wheel_list.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/wheel_list.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repomix-output.xml" beforeDir="false" afterPath="$PROJECT_DIR$/repomix-output.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -159,6 +163,8 @@
       <workItem from="1776262615287" duration="676000" />
       <workItem from="1776264202946" duration="1114000" />
       <workItem from="1776265414594" duration="442000" />
+      <workItem from="1776339220108" duration="821000" />
+      <workItem from="1776581383545" duration="1413000" />
     </task>
     <servers />
   </component>

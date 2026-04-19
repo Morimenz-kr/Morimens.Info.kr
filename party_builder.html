@@ -108,7 +108,10 @@
 </div>
 
 <div id="modal-wheel" class="modal-overlay">
-    <div class="modal-box-wide">
+    <div class="modal-box-wide" style="position: relative;">
+
+        <button class="close-btn" onclick="closeModal('modal-wheel')" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 28px; color: #aaa; cursor: pointer; z-index: 10;">&times;</button>
+
         <div class="wheel-list-wrapper">
             <div class="search-container">
                 <input type="text" id="wheel-search-input" placeholder="명륜 검색..." autocomplete="off">
@@ -116,15 +119,21 @@
             </div>
             <div class="wheel-list-panel" id="grid-wheel"></div>
         </div>
+
         <div class="wheel-equip-panel">
-            <h3 style="color:#eee; margin-bottom:20px;">장착 슬롯 선택</h3>
+            <h3 style="color:#eee; margin-bottom:50px;">장착 슬롯 선택</h3>
             <div class="wheel-equip-slots">
                 <div class="large-slot" id="equip-slot-0" onclick="selectWheelSlot(0)"><div class="slot-placeholder">+</div></div>
                 <div class="large-slot" id="equip-slot-1" onclick="selectWheelSlot(1)"><div class="slot-placeholder">+</div></div>
             </div>
             <div class="equip-info-text" id="equip-slot-desc" style="color:#777; margin-bottom:20px; text-align:center; min-height:40px;">슬롯을 선택하세요.</div>
-            <button class="btn btn-red" onclick="unequipSelectedWheel()">해제</button>
-            <button class="btn btn-blue" onclick="closeModal('modal-wheel')" style="margin-top:15px; width: 100px;">닫기</button>
+
+            <div class="action-buttons-container" id="modal-action-buttons">
+                <button class="btn btn-modal btn-equip-ssr" id="btn-equip-ssr" style="display: none;">전용 SSR 장착</button>
+                <button class="btn btn-modal btn-equip-sr" id="btn-equip-sr" style="display: none;">전용 SR 장착</button>
+
+                <button class="btn btn-modal btn-red" onclick="unequipSelectedWheel()" style="grid-column: span 2;">해제</button>
+            </div>
         </div>
     </div>
 </div>
@@ -135,6 +144,7 @@
             <h3>은열쇠 선택</h3>
             <button class="close-btn" onclick="closeModal('modal-key')">&times;</button>
         </div>
+
         <div class="search-container" style="flex-direction: row; align-items: center;">
             <div class="search-input-box" style="flex: 1;">
                 <div class="search-input-wrapper">
@@ -147,9 +157,12 @@
                 <option value="default">기본 정렬</option>
             </select>
         </div>
+
         <div class="modal-grid" id="grid-key"></div>
-        <div class="modal-footer">
-            <button class="btn btn-red" onclick="unequipKey()">해제</button>
+
+        <div class="action-buttons-container" style="margin-top: 15px; margin-bottom: 5px;">
+            <button class="btn-modal" id="btn-equip-key" style="display: none; background-color: #333; color: #ccc; border: 1px solid #555;">전용 은열쇠 장착</button>
+            <button class="btn-modal" onclick="unequipKey()" style="background-color: #333; color: #ccc; border: 1px solid #555;">해제</button>
         </div>
     </div>
 </div>

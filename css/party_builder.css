@@ -428,7 +428,7 @@ body {
 .wheel-equip-panel { width: 400px; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #1e1e22; flex-shrink: 0; }
 .wheel-equip-slots { display: flex; gap: 30px; margin-bottom: 40px; }
 .large-slot {
-    width: 140px; height: 240px; border: 2px solid #555; background: #222;
+    width: 140px; height: 280px; border: 2px solid #555; background: #222;
     display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; position: relative; transition: all 0.2s;
 }
 .large-slot:hover { border-color: #888; }
@@ -686,7 +686,54 @@ body {
     margin-bottom: 8px;
 }
 
-/* 기존 사이드바 위치 조정 (페이지 바 추가로 인한 여백) */
+/* =========================================
+   명륜 모달 하단 액션 버튼 그룹 (UI 수정본: 2x2 그리드)
+   ========================================= */
+.action-buttons-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* PC, 모바일 모두 시원하게 2칸씩 2줄 배치 */
+    gap: 10px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+/* 버튼 규격 통일 */
+.btn-modal {
+    padding: 12px 10px !important;
+    font-size: 0.95em;
+    font-weight: 600;
+    border-radius: 8px !important;
+    text-align: center;
+    margin-top: 0 !important;
+    width: 100% !important; /* 그리드 칸에 꽉 차게 */
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-modal:active {
+    transform: scale(0.96);
+}
+
+/* 프로젝트에서 사용하던 순정 회색 테마 적용 */
+.btn-equip-ssr { background-color: #333; color: #ccc; }
+.btn-equip-sr  { background-color: #333; color: #ccc; }
+
+.btn-equip-ssr:hover { background-color: #444; color: #fff; }
+.btn-equip-sr:hover  { background-color: #444; color: #fff; }
+
+@media (max-width: 768px) {
+    .action-buttons-container {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .btn-modal {
+        padding: 14px 10px !important; /* 모바일 터치 영역 확대 */
+    }
+}
+
 .sidebar {
     padding-top: 20px; /* 기존 120px에서 줄임 */
 }
@@ -847,4 +894,24 @@ body {
     .wheel-equip-panel { height: 35%; }
     .wheel-list-wrapper { height: 65%; }
     .large-slot { width: 60px; height: 100px; }
+}
+
+/* =========================================
+   은열쇠 모달 하단 버튼 크기 조절 (양옆 여백 추가)
+   ========================================= */
+#modal-key .action-buttons-container {
+    /* 양옆에 20px의 여유 공간을 주어 버튼 크기를 줄임 */
+    padding-left: 25px !important;
+    padding-right: 25px !important;
+
+    /* 버튼이 중앙에 위치하도록 박스 크기 계산 방식 고정 */
+    box-sizing: border-box !important;
+
+    /* 위아래 간격도 살짝 조정하여 시각적 안정감 부여 */
+    margin-bottom: 10px !important;
+}
+
+/* 버튼 자체의 모서리를 조금 더 둥글게 하여 부드러운 느낌 강조 (선택 사항) */
+#modal-key .btn-modal {
+    border-radius: 10px !important;
 }

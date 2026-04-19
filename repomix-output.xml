@@ -1,4 +1,4 @@
-This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+This file is a merged representation of a subset of the codebase, containing specifically included files and files not matching ignore patterns, combined into a single document by Repomix.
 
 <file_summary>
 This section contains a summary of this file.
@@ -32,7 +32,8 @@ The content is organized as follows:
 <notes>
 - Some files may have been excluded based on .gitignore rules and Repomix's configuration
 - Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
-- Files matching these patterns are excluded: *.png, *.jpg, *.jpeg, *.gif, *.svg
+- Only files matching these patterns are included: **/*.{json,html,css,js}
+- Files matching these patterns are excluded: **/images/**, **/node_modules/**, **/.git/**
 - Files matching patterns in .gitignore are excluded
 - Files matching default ignore patterns are excluded
 - Files are sorted by Git change count (files with more changes are at the bottom)
@@ -45,7 +46,6 @@ The content is organized as follows:
 .claude/launch.json
 .claude/settings.local.json
 .claude/worktrees/optimistic-raman/.claude/settings.local.json
-.nojekyll
 config/config.js
 config/constants.js
 css/common.css
@@ -68,502 +68,6 @@ data/resource_links.json
 data/silverkey_list.json
 data/wheel_list.json
 detail.html
-images/180px-UiGoldline.png
-images/24_cubic.png
-images/24_tide.webp
-images/24-thumb.png
-images/24-thumb.webp
-images/aequor_caro.png
-images/aequor_ultra.png
-images/Aequor.png
-images/agrippa_cubic.png
-images/agrippa_tide.webp
-images/Agrippa-thumb.png
-images/Agrippa-thumb.webp
-images/aigis_cubic.png
-images/aigis_tide.webp
-images/Aigis-thumb.png
-images/Aigis-thumb.webp
-images/alva_cubic.png
-images/alva_tide.webp
-images/Alva-thumb.png
-images/Alva-thumb.webp
-images/Alva-thumb.zip
-images/arachne-thumb.png
-images/aurita_cubic.png
-images/aurita_tide.webp
-images/Aurita-thumb.png
-images/Aurita-thumb.webp
-images/background.png
-images/background.webp
-images/Banner_Arcalive.png
-images/Banner_Discord.png
-images/Banner_Discord.webp
-images/Banner_festival.webp
-images/banner_test.png
-images/banner_youtube.png
-images/Basic_Blank_UI.png
-images/Basic_Blank_UI.webp
-images/caecus_cubic.png
-images/caecus_tide.webp
-images/Caecus-thumb.png
-images/Caecus-thumb.webp
-images/caro_ultra.png
-images/Caro.png
-images/casiah_cubic.png
-images/casiah_tide.webp
-images/Casiah-thumb.png
-images/Casiah-thumb.webp
-images/castor_cubic.png
-images/castor_tide.webp
-images/Castor-thumb.png
-images/Castor-thumb.webp
-images/celeste_cubic.png
-images/celeste_tide.webp
-images/Celeste-thumb.png
-images/Celeste-thumb.webp
-images/channel_banner.webp
-images/channels4_banner.jpg
-images/chaos_aequor.png
-images/chaos_caro.png
-images/chaos_ultra.png
-images/Chaos.png
-images/character_aequor.png
-images/character_caro.png
-images/character_chaos.png
-images/character_ultra.png
-images/clementine_cubic.png
-images/clementine_tide.webp
-images/Clementine-thumb.png
-images/Clementine-thumb.webp
-images/coporsant_cubic.png
-images/coporsant_tide.webp
-images/Coporsant-thumb.png
-images/corposant_tide.webp
-images/Corposant-thumb.webp
-images/covenant_36rings.png
-images/covenant_April.png
-images/covenant_betray.png
-images/covenant_blood.png
-images/covenant_butterfly.png
-images/covenant_deus.png
-images/covenant_grave.png
-images/covenant_medicine.png
-images/covenant_ocean.png
-images/covenant_party.png
-images/covenant_rabbit.png
-images/covenant_reEvolve.png
-images/covenant_revelation.png
-images/covenant_scarlet.png
-images/covenant_snail.png
-images/covenant_sungood.png
-images/covenant_twins_black.png
-images/covenant_twins_white.png
-images/covenant_vampire.png
-images/covenant_virgin.png
-images/covenant_wolf.png
-images/dafoodil_cubic.png
-images/dafoodil_tide.webp
-images/Dafoodil-thumb.png
-images/Dafoodil-thumb.webp
-images/doll_cubic.png
-images/doll_inferno_cubic.png
-images/doll_inferno_tide.webp
-images/Doll_Inferno-thumb.png
-images/Doll_Inferno-thumb.webp
-images/doll_tide.webp
-images/Doll-thumb.png
-images/Doll-thumb.webp
-images/doresain_cubic.png
-images/doresain_tide.webp
-images/Doresain-thumb.png
-images/Doresain-thumb.webp
-images/erica_cubic.png
-images/erica_tide.webp
-images/Erica-thumb.png
-images/Erica-thumb.webp
-images/faint_cubic.png
-images/faint_tide.webp
-images/Faint-thumb.png
-images/Faint-thumb.webp
-images/faros_tide.webp
-images/Faros-thumb.png
-images/Faros-thumb.webp
-images/faros.png
-images/goliath_cubic.png
-images/goliath_tide.webp
-images/Goliath-thumb.png
-images/Goliath-thumb.webp
-images/hameln_cubic.png
-images/hameln_tide.webp
-images/Hameln-thumb.png
-images/Hameln-thumb.webp
-images/Helot_Catena_cubic.png
-images/helot_catena_tide.webp
-images/Helot_Catena-thumb.png
-images/Helot_Catena-thumb.webp
-images/helot_cubic.png
-images/helot_tide.webp
-images/Helot-thumb.png
-images/Helot-thumb.webp
-images/horla_cubic.png
-images/horla_tide.webp
-images/Horla-thumb.png
-images/Horla-thumb.webp
-images/Insight.webp
-images/items/10돌.png
-images/items/11돌.png
-images/items/12돌.png
-images/items/13돌.png
-images/items/14돌.png
-images/items/4돌.png
-images/items/5돌.png
-images/items/6돌.png
-images/items/7돌.png
-images/items/8돌.png
-images/items/9돌.png
-images/items/도취_취해있다.png
-images/items/침전.png
-images/items/풀돌.png
-images/items/immaculate_core.png
-images/items/loop_master.png
-images/items/lumen_core.png
-images/items/prototype_horizon.png
-images/jenkin_cubic.png
-images/jenkin_tide.webp
-images/Jenkin-thumb.png
-images/Jenkin-thumb.webp
-images/karen_cubic.png
-images/karen_tide.webp
-images/Karen-thumb.png
-images/Karen-thumb.webp
-images/kathigu-ra_cubic.png
-images/kathigu-ra_tide.webp
-images/Kathigu-Ra-thumb.png
-images/Kathigu-Ra-thumb.webp
-images/key_4th_music.png
-images/key_all_of_her.png
-images/key_aureta.png
-images/key_black_swan.png
-images/key_blood.png
-images/key_bloodtear.png
-images/key_born.png
-images/key_dream_moment.png
-images/key_eternal_obsession.png
-images/key_fireworks.png
-images/key_from_fog.png
-images/key_funeral.png
-images/key_giant.png
-images/key_grey_fog.png
-images/key_gun_sound.png
-images/key_homegirl_story.png
-images/key_hungry.png
-images/key_injection.png
-images/key_keirei.png
-images/key_lakeside.png
-images/key_last_pledge.png
-images/key_lightning.png
-images/key_miracle.png
-images/key_moment.png
-images/key_Mosk_film.png
-images/key_mosk.png
-images/key_mouse_wisdom.png
-images/key_mt_blessing.png
-images/key_never_falling_sun.png
-images/key_open_door.png
-images/key_paint.png
-images/key_pure_white.png
-images/key_return.png
-images/key_rose.png
-images/key_rotten_party.png
-images/key_sea.png
-images/key_seed.png
-images/key_ship.png
-images/key_special.png
-images/key_spring.png
-images/key_star_protect.png
-images/key_summer_dream.png
-images/key_summer_time.png
-images/key_tiny_wish.png
-images/key_twisted_fate.png
-images/key_unfair_exchange.png
-images/key_voice.png
-images/key_void.png
-images/key_wish_again.png
-images/Krarbu-thumb.png
-images/leigh_cubic.png
-images/leigh_tide.webp
-images/Leigh-thumb.png
-images/Leigh-thumb.webp
-images/lily_cubic.png
-images/lily_tide.webp
-images/Lily-thumb.png
-images/Lily-thumb.webp
-images/liz_cubic.png
-images/liz_tide.webp
-images/Liz-thumb.png
-images/Liz-thumb.webp
-images/lotan_cubic.png
-images/lotan_tide.webp
-images/Lotan-thumb.png
-images/Lotan-thumb.webp
-images/miryam_cubic.png
-images/miryam_tide.webp
-images/Miryam-thumb.png
-images/Miryam-thumb.webp
-images/morimens_icon.png
-images/morimens_icon.webp
-images/mosk-thumb.png
-images/mouchette_tide.webp
-images/Mouchette-thumb.png
-images/Mouchette-thumb.webp
-images/murphy_cubic.png
-images/Murphy_Fauxborn_cubic.png
-images/Murphy_Fauxborn_tide.webp
-images/Murphy_Fauxborn-thumb.png
-images/Murphy_Fauxborn-thumb.webp
-images/murphy_tide.webp
-images/Murphy-thumb.png
-images/Murphy-thumb.webp
-images/nautila_cubic.png
-images/nautila_tide.webp
-images/Nautila-thumb.png
-images/Nautila-thumb.webp
-images/nymphaea_cubic.png
-images/nymphaea_tide.webp
-images/Nymphaea-thumb.png
-images/Nymphaea-thumb.webp
-images/ogier_cubic.png
-images/ogier_tide.webp
-images/Ogier-thumb.png
-images/Ogier-thumb.webp
-images/pandia_cubic.png
-images/pandia_tide.webp
-images/Pandia-thumb.png
-images/Pandia-thumb.webp
-images/pickman_cubic.png
-images/pickman_tide.webp
-images/Pickman-thumb.png
-images/Pickman-thumb.webp
-images/pollux_cubic.png
-images/pollux_tide.webp
-images/Pollux-thumb.png
-images/Pollux-thumb.webp
-images/pure_aequor.png
-images/pure_caro.png
-images/pure_chaos.png
-images/pure_ultra.png
-images/ramona_cubic.png
-images/ramona_tide.webp
-images/ramona_timeworn_cubic.png
-images/ramona_timeworn_tide.webp
-images/Ramona_Timeworn-thumb.png
-images/Ramona_Timeworn-thumb.webp
-images/Ramona-thumb.png
-images/Ramona-thumb.webp
-images/RoseGoldCoupon.png
-images/Rouse_Blank_UI.png
-images/Rouse_Blank_UI.webp
-images/ryker_cubic.png
-images/ryker_tide.webp
-images/Ryker-thumb.png
-images/Ryker-thumb.webp
-images/salvador_cubic.png
-images/salvador_tide.webp
-images/Salvador-thumb.png
-images/Salvador-thumb.webp
-images/sanga_cubic.png
-images/sanga_tide.webp
-images/Sanga-thumb.png
-images/Sanga-thumb.webp
-images/silverCore.png
-images/smile_Ramona.webp
-images/sorel_cubic.png
-images/sorel_tide.webp
-images/Sorel-thumb.png
-images/Sorel-thumb.webp
-images/tawil_cubic.png
-images/tawil_tide.webp
-images/Tawil-Defense.webp
-images/Tawil-FourWings.webp
-images/Tawil-full.webp
-images/Tawil-HoneyMead.webp
-images/Tawil-MutatedHealth.webp
-images/Tawil-PolarDusk.webp
-images/Tawil-ReturnGift.webp
-images/Tawil-Rouse (1).webp
-images/Tawil-Rouse.png
-images/Tawil-SilverKeyDawn.webp
-images/Tawil-SixWings.webp
-images/Tawil-Skill1.webp
-images/Tawil-Skill2.webp
-images/Tawil-Strike.webp
-images/Tawil-thumb.png
-images/Tawil-thumb.webp
-images/Tawil-TwinWings.webp
-images/Tawil-UtopianVeil.webp
-images/Tawil-Verdict.webp
-images/Tawil-Wheel.webp
-images/thais_cubic.png
-images/thais_tide.webp
-images/Thais-thumb.png
-images/Thais-thumb.webp
-images/tinct_cubic.png
-images/tinct_tide.webp
-images/Tinct-thumb.png
-images/Tinct-thumb.webp
-images/tulu_cubic.png
-images/tulu_tide.webp
-images/Tulu-thumb.png
-images/Tulu-thumb.webp
-images/UI_Aequor.png
-images/UI_Caro.png
-images/UI_Chaos.png
-images/UI_Ultra.png
-images/Ultra.png
-images/uvhash_cubic.png
-images/uvhash_tide.webp
-images/Uvhash-thumb.png
-images/Uvhash-thumb.webp
-images/vortice_tide.webp
-images/vortice-thumb.png
-images/wanda_cubic.png
-images/wanda_tide.webp
-images/Wanda-thumb.png
-images/Wanda-thumb.webp
-images/wheel_active.png
-images/wheel_adventure_bag.png
-images/wheel_aging.png
-images/wheel_alone_feather.png
-images/wheel_amber_death.png
-images/wheel_auth_of_knight.png
-images/wheel_backward_clock.png
-images/wheel_berserk.png
-images/wheel_birth_of_soul.png
-images/wheel_bless.png
-images/wheel_blue_ring_poison.png
-images/wheel_blue_stone_seat.png
-images/wheel_bound_song.png
-images/wheel_brush_of_yearning.png
-images/wheel_call_of_abyss.png
-images/wheel_caro_party.png
-images/wheel_channeling.png
-images/wheel_comming_sun.png
-images/wheel_core_meltdown.png
-images/wheel_countdown_moment.png
-images/wheel_critical_point.png
-images/wheel_cut_and_hurt.png
-images/wheel_dear_my_friend.png
-images/wheel_death_of_coral_woman.png
-images/wheel_dessection_of_death.png
-images/wheel_doll_falls_void.png
-images/wheel_doomsday_rampage.png
-images/wheel_door_of_truth.png
-images/wheel_dream_of_ocean.png
-images/wheel_dusk_and_dawn.png
-images/wheel_eden.png
-images/wheel_eternal_requiem.png
-images/wheel_falling_sun.png
-images/wheel_favor.png
-images/wheel_favorite_collection.png
-images/wheel_fin_of_pain.png
-images/wheel_firstday_of_school.png
-images/wheel_flowers_and_poems.png
-images/wheel_fun_in_box.png
-images/wheel_gift_of_corruption.png
-images/wheel_gluttony.png
-images/wheel_goodbye_kiss.png
-images/wheel_great_dish.png
-images/wheel_greed.png
-images/wheel_guide_in_the_torch.png
-images/wheel_guide_sea.png
-images/wheel_hand_of_forget.png
-images/wheel_hat_of_witch.png
-images/wheel_heavy_of_duty.png
-images/wheel_heteromorph_mark.png
-images/wheel_hidden_pain.png
-images/wheel_holy_face.png
-images/wheel_hope.png
-images/wheel_hymn_of_godking.png
-images/wheel_hypnotic_pendulum.png
-images/wheel_illusion.png
-images/wheel_in_the_hard_rain.png
-images/wheel_info_is_life.png
-images/wheel_insight.png
-images/wheel_int_the_nightshadow.png
-images/wheel_intolerable_freedom.png
-images/wheel_isallu_eye.png
-images/wheel_judge.png
-images/wheel_kicked.png
-images/wheel_kiss_of_rest.png
-images/wheel_last_poem.png
-images/wheel_light_of_intellect.png
-images/wheel_lords_cane.png
-images/wheel_magic_of_35mm.png
-images/wheel_magical_performance.png
-images/wheel_man_in_mirror.png
-images/wheel_manifestation.png
-images/wheel_meeting_moment.png
-images/wheel_memories_of_winter_night.png
-images/wheel_memory_syndrom.png
-images/wheel_merciful_upbringing.png
-images/wheel_million_eyes.png
-images/wheel_mind_wall.png
-images/wheel_name_of_a_rose.png
-images/wheel_never_ending_calculation.png
-images/wheel_never_stop_show.png
-images/wheel_non-existent.png
-images/wheel_otori_lily.png
-images/wheel_over_the_death.png
-images/wheel_over_the_pain.png
-images/wheel_pain_curse.png
-images/wheel_pale_descencdant.png
-images/wheel_paradox_of_factualism.png
-images/wheel_pathless_path.png
-images/wheel_peace_sleep_in_dark.png
-images/wheel_power_of_faith.png
-images/wheel_pure_silver_light.png
-images/wheel_queens_precepts.png
-images/wheel_revelation.png
-images/wheel_revive_from_ruins.png
-images/wheel_roullet_of_destiny.png
-images/wheel_sail_that_guides.png
-images/wheel_secret_birth.png
-images/wheel_secret_talk.png
-images/wheel_silent_party.png
-images/wheel_silver_fish.png
-images/wheel_sink_to_crimson.png
-images/wheel_sleep_under_iceburg.png
-images/wheel_solid_will.png
-images/wheel_spring_of_yakut.png
-images/wheel_star_beast.png
-images/wheel_stick_of_shepered.png
-images/wheel_stone_tablet_god_word.png
-images/wheel_stucked_madness.png
-images/wheel_sucking.png
-images/wheel_swallowed_lullaby.png
-images/wheel_sword_of_giant.png
-images/wheel_tale_of_gluttony.webp
-images/wheel_the_day_threw_off_shackles.png
-images/wheel_time_of_luck.png
-images/wheel_training_partner.png
-images/wheel_turn_and_turn.png
-images/wheel_twisted_knight_poem.png
-images/wheel_until_snowmt_melt.png
-images/wheel_voltex_of_memory.png
-images/wheel_wandering_desire.png
-images/wheel_wasted_frown.png
-images/wheel_wheel_hidden_pain.png
-images/wheel_wheel_of_seclusion.png
-images/wheel_wisdom_of_gamble.png
-images/wheel_you_and_me_will_meet.png
-images/winkle_cubic.png
-images/winkle_tide.webp
-images/Winkle-thumb.png
-images/Winkle-thumb.webp
-images/xu_tide.webp
-images/Xu-thumb.png
-images/Xu-thumb.webp
 index.html
 js/detail.js
 js/index.js
@@ -572,14 +76,32 @@ js/party_builder.js
 links.html
 list.html
 party_builder.html
-README
 </directory_structure>
 
 <files>
 This section contains the contents of the repository's files.
 
-<file path=".nojekyll">
+<file path="config/config.js">
+// 웹사이트 설정 파일
+const CONFIG = {
+    // 1. 패치노트와 맞출 버전 (배포 시 이 부분을 수정)
+    VERSION: "v1.3.3",
+    LAST_UPDATED: "2026-01-06",
 
+    // 2. Discord Webhook URL - 기존 주소 유지
+    DISCORD_WEBHOOK_URL: 'https://discordapp.com/api/webhooks/1442726767222718554/i3QtvZ6-giYqwtlheMm3ugxcJoVsoVYmExBPX2n-uEoFHpWwmGqaaO_f6gnlBNXCZYas'
+};
+
+// CSS를 버전 붙여서 로드하는 함수
+function loadCSS(path) {
+    document.write(`<link rel="stylesheet" href="${path}?v=${CONFIG.VERSION}">`);
+}
+
+// JS를 버전 붙여서 로드하는 함수
+function loadJS(path) {
+    // <\/script> 로 쓰는 이유는 자바스크립트 문자열 내에서 스크립트 태그 종료를 안전하게 처리하기 위함입니다.
+    document.write(`<script src="${path}?v=${CONFIG.VERSION}"><\/script>`);
+}
 </file>
 
 <file path="css/pages/list.css">
@@ -1003,10 +525,6 @@ This section contains the contents of the repository's files.
 }
 </file>
 
-<file path="README">
-한국어로 된 Morimens 정보 공유 사이트를 만들기 위한 Git입니다.
-</file>
-
 <file path=".ai/mcp/mcp.json">
 
 </file>
@@ -1038,29 +556,6 @@ This section contains the contents of the repository's files.
       "Bash(echo \"exit: $?\")"
     ]
   }
-}
-</file>
-
-<file path="config/config.js">
-// 웹사이트 설정 파일
-const CONFIG = {
-    // 1. 패치노트와 맞출 버전 (배포 시 이 부분을 수정)
-    VERSION: "v1.3.3",
-    LAST_UPDATED: "2026-01-06",
-
-    // 2. Discord Webhook URL - 기존 주소 유지
-    DISCORD_WEBHOOK_URL: 'https://discordapp.com/api/webhooks/1442726767222718554/i3QtvZ6-giYqwtlheMm3ugxcJoVsoVYmExBPX2n-uEoFHpWwmGqaaO_f6gnlBNXCZYas'
-};
-
-// CSS를 버전 붙여서 로드하는 함수
-function loadCSS(path) {
-    document.write(`<link rel="stylesheet" href="${path}?v=${CONFIG.VERSION}">`);
-}
-
-// JS를 버전 붙여서 로드하는 함수
-function loadJS(path) {
-    // <\/script> 로 쓰는 이유는 자바스크립트 문자열 내에서 스크립트 태그 종료를 안전하게 처리하기 위함입니다.
-    document.write(`<script src="${path}?v=${CONFIG.VERSION}"><\/script>`);
 }
 </file>
 
@@ -1641,658 +1136,469 @@ footer {
 }
 </file>
 
-<file path="data/character_settings.json">
-{
-  "24": [
-    {
-      "settingName": "딜러",
-      "recommendStep": "2~3돌",
-      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_star_beast"] },
-      "myeongryun_sr": { "main_id": "wheel_lords_cane", "substitutes": ["wheel_critical_point", "wheel_dessection_of_death"] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_wolf"] }
-    },
-    {
-      "settingName": "서폿",
-      "recommendStep": "2~3돌",
-      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_over_the_death"] },
-      "myeongryun_sr": { "main_id": "wheel_heavy_of_duty", "substitutes": [] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
-    }
-  ],
-  "nymphaea": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_gift_of_corruption"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_vampire"] }
-    }
-  ],
-  "nautila": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_voltex_of_memory", "substitutes": ["wheel_birth_of_soul"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_rabbit"] }
-    }
-  ],
-  "ryker": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함 ~ 1돌",
-      "myeongryun_ssr": { "main_id": "wheel_time_of_luck", "substitutes": ["wheel_pathliss_path"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_roullet_of_destiny"] },
-      "covenant": { "main_id": "covenant_blood", "substitutes": ["covenant_scarlet"] }
-    }
-  ],
-  "lily": [
-    {
-      "settingName": "범용",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_solid_will", "wheel_dusk_and_dawn"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_twins_white"] }
-    }
-  ],
-  "mouchette": [
-    {
-      "settingName": "범용",
-      "recommendStep": "2돌, 3돌, 초한",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_sword_of_giant", "wheel_star_beast"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_magic_of_35mm", "wheel_doomsday_rampage"] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_medicine", "covenant_scarlet"] }
-    }
-  ],
-  "doll_inferno": [
-    {
-      "settingName": "범용",
-      "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_never_ending_calculation"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_heavy_of_duty"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_medicine"] }
-    }
-  ],
-  "alva": [
-    {
-      "settingName": "서폿",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_voltex_of_memory"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_isallu_eye", "wheel_magic_of_35mm"] },
-      "covenant": { "main_id": "covenant_twins_white", "substitutes": ["covenant_party","covenant_betray"] }
-    },
-    {
-      "settingName": "딜러",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_sword_of_giant", "wheel_voltex_of_memory"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
-    }
-  ],
-  "karen": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_never_ending_calculation"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_deus"] }
-    }
-  ],
-  "kathigu-ra": [
-    {
-      "settingName": "딜러",
-      "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_amber_death"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
-    },
-    {
-      "settingName": "탱커",
-      "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_sword_of_giant", "wheel_last_poem"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_betray"] }
-    }
-  ],
-  "tawil": [
-    {
-      "settingName": "딜러",
-      "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_meeting_moment", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
-    },
-    {
-      "settingName": "서폿",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_meeting_moment", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": [] }
-    }
-  ],
-  "pandia": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_wandering_desire", "substitutes": ["wheel_caro_party"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_scarlet", "substitutes": ["covenant_April", "covenant_36rings"] }
-    }
-  ],
-  "hameln": [
-    {
-      "settingName": "범용",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_backward_clock"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_reEvolve"] }
-    }
-  ],
-  "goliath": [
-    {
-      "settingName": "범용",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_in_the_hard_rain"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
-    },
-    {
-      "settingName": "범용",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_dream_of_ocean", "substitutes": ["wheel_birth_of_soul"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
-      "covenant": { "main_id": "covenant_twins_black", "substitutes": [] }
-    }
-  ],
-  "corposant": [
-    {
-      "settingName": "딜러",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_last_poem", "substitutes": ["wheel_sword_of_giant", "wheel_the_day_threw_off_shackles"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
-    },
-    {
-      "settingName": "서폿",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_last_poem", "substitutes": ["wheel_the_day_threw_off_shackles", "wheel_death_of_coral_woman"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
-      "covenant": { "main_id": "covenant_grave", "substitutes": ["covenant_rabbit", "covenant_reEvolve"] }
-    }
-  ],
-  "murphy": [
-    {
-      "settingName": "범용",
-      "recommendStep": "1돌",
-      "myeongryun_ssr": { "main_id": "wheel_secret_birth", "substitutes": ["wheel_backward_clock"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_meeting_moment", "wheel_sleep_under_iceburg"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_twins_white"] }
-    }
-  ],
-  "miryam": [
-    {
-      "settingName": "범용",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_power_of_faith", "substitutes": ["wheel_never_ending_calculation", "wheel_merciful_upbringing"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_medicine"] }
-    }
-  ],
-  "sanga": [
-    {
-      "settingName": "딜러",
-      "recommendStep": "초한",
-      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_over_the_pain"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_magic_of_35mm"] },
-      "covenant": { "main_id": "covenant_36rings", "substitutes": ["covenant_grave"] }
-    },
-    {
-      "settingName": "탱커",
-      "recommendStep": "초한",
-      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_over_the_pain"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_party", "substitutes": [] }
-    }
-  ],
-  "celeste": [
-    {
-      "settingName": "범용",
-      "recommendStep": "1돌",
-      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_dusk_and_dawn"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_rabbit", "substitutes": ["covenant_grave"] }
-    }
-  ],
-  "aurita": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함, 3돌",
-      "myeongryun_ssr": { "main_id": "wheel_backward_clock", "substitutes": ["wheel_pathless_path","wheel_name_of_a_rose"] },
-      "myeongryun_sr": { "main_id": "wheel_meeting_moment", "substitutes": ["wheel_until_snowmt_melt", "wheel_dessection_of_death", "wheel_silver_fish"] },
-      "covenant": { "main_id": "covenant_blood", "substitutes": ["covenant_scarlet"] }
-    }
-  ],
-  "caecus": [
-    {
-      "settingName": "탱커",
-      "recommendStep": "3돓",
-      "myeongryun_ssr": { "main_id": "wheel_fin_of_pain", "substitutes": ["wheel_birth_of_soul"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_man_in_mirror", "wheel_info_is_life", "wheel_int_the_nightshadow", "wheel_channeling"] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit"] }
-    },
-    {
-      "settingName": "반격",
-      "recommendStep": "초한",
-      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_wolf"] }
-    }
-  ],
-  "Murphy_Fauxborn": [
-    {
-      "settingName": "서폿",
-      "recommendStep": "명함 ~ 2돌",
-      "myeongryun_ssr": { "main_id": "wheel_peace_sleep_in_dark", "substitutes": ["wheel_backward_clock", "wheel_merciful_upbringing"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_vampire"] }
-    },
-    {
-      "settingName": "딜러",
-      "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_sword_of_giant", "wheel_backward_clock"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_never_stop_show"] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
-    }
-  ],
-  "tulu": [
-    {
-      "settingName": "범용",
-      "recommendStep": "1돌",
-      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_never_ending_calculation"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_blue_stone_seart", "wheel_channeling"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire"] }
-    }
-  ],
-  "faros": [
-    {
-      "settingName": "범용",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_in_the_hard_rain", "substitutes": ["wheel_birth_of_soul"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_sleep_under_iceburg"] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit", "covenant_reEvolve"] }
-    }
-  ],
-  "vortice": [
-    {
-      "settingName": "추격 딜러",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_eden", "substitutes": ["wheel_voltex_of_memory", "wheel_you_and_me_will_meet"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_stucked_madness"] },
-      "covenant": { "main_id": "covenant_ocean", "substitutes": ["covenant_deus"] }
-    },
-    {
-      "settingName": "광기 폭발 딜러",
-      "recommendStep": "3돌 이상",
-      "myeongryun_ssr": { "main_id": "wheel_eden", "substitutes": ["wheel_voltex_of_memory", "wheel_you_and_me_will_meet"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_stucked_madness"] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_ocean"] }
-    }
-  ],
-  "doresain": [
-    {
-      "settingName": "범용",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_kiss_of_rest", "substitutes": ["wheel_caro_party", "wheel_amber_death"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet", "covenant_blood", "covenant_36rings"] }
-    }
-  ],
-  "leigh": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_tale_of_gluttony"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_rabbit", "substitutes": ["covenant_grave"] }
-    }
-  ],
-  "salvador": [
-    {
-      "settingName": "서폿",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_stone_tablet_god_word", "substitutes": ["wheel_backward_clock", "wheel_last_poem"] },
-      "myeongryun_sr": { "main_id": "wheel_info_is_life", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_betray", "substitutes": ["covenant_rabbit", "covenant_grave"] }
-    },
-    {
-      "settingName": "딜러",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_stone_tablet_god_word", "substitutes": ["wheel_sword_of_giant", "wheel_last_poem"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_betray", "substitutes": ["covenant_April", "covenant_grave"] }
-    }
-  ],
-  "xu": [
-    {
-      "settingName": "범용",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_wasted_frown", "substitutes": ["wheel_silent_party"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_reEvolve", "covenant_grave"] }
-    },
-    {
-      "settingName": "잡몹전 + 범용",
-      "recommendStep": "초한",
-      "myeongryun_ssr": { "main_id": "wheel_wasted_frown", "substitutes": ["wheel_silent_party"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_reEvolve", "covenant_grave"] }
-    }
-  ],
-  "sorel": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_name_of_a_rose", "substitutes": ["wheel_caro_party", "wheel_pathless_path"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_million_eyes"] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_36rings"] }
-    }
-  ],
-  "agrippa": [
-    {
-      "settingName": "딜러",
-      "recommendStep": "명힘",
-      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_medicine"] }
-    },
-    {
-      "settingName": "서폿",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_backward_clock", "substitutes": ["wheel_pale_descencdant"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit"] }
-    }
-  ],
-  "aigis": [
-    {
-      "settingName": "범용",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_memories_of_winter_night", "wheel_backward_clock"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_meeting_moment"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_blood", "covenant_grave"] }
-    }
-  ],
-  "uvhash": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_caro_party", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
-    }
-  ],
-  "thais": [
-    {
-      "settingName": "범용",
-      "recommendStep": "2돌 이상",
-      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_never_ending_calculation", "wheel_over_the_death"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_reEvolve"] }
-    }
-  ],
-  "faint": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함 이상",
-      "myeongryun_ssr": { "main_id": "wheel_dusk_and_dawn", "substitutes": ["wheel_hymn_of_godking"] },
-      "myeongryun_sr": { "main_id": "wheel_int_the_nightshadow", "substitutes": ["wheel_magic_of_35mm"] },
-      "covenant": { "main_id": "covenant_grave", "substitutes": ["covenant_rabbit"] }
-    }
-  ],
-  "pickman": [
-    {
-      "settingName": "서폿",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_paradox_of_factualism", "substitutes": ["wheel_never_ending_calculation", "wheel_doll_falls_void", "wheel_over_the_death"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_reEvolve", "covenant_blood"] }
-    },
-    {
-      "settingName": "서브 딜러",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_sink_to_crimson", "substitutes": ["wheel_sword_of_giant", "wheel_the_day_threw_off_shackles"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
-    }
-  ],
-  "helot_catena": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함 ~ 3돌",
-      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_sink_to_crimson", "wheel_star_beast"] },
-      "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
-    }
-  ],
-  "helot": [
-    {
-      "settingName": "서폿",
-      "recommendStep": "명함 이상",
-      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_in_the_hard_rain"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
-    },
-    {
-      "settingName": "딜러",
-      "recommendStep": "명함 이상",
-      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_sink_to_crimson"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
-    }
-  ],
-  "dafoodil": [
-    {
-      "settingName": "범용",
-      "recommendStep": "2돌 미만",
-      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_favorite_collection", "wheel_falling_sun"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_betray", "substitutes": [] }
-    },
-    {
-      "settingName": "범용",
-      "recommendStep": "2돌 이상",
-      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_favorite_collection", "wheel_falling_sun"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_wolf"] }
-    }
-  ],
-  "liz": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_turn_and_turn", "wheel_intolerable_freedom", "wheel_the_day_threw_off_shackles", "wheel_gift_of_corruption"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_hat_of_witch", "wheel_critical_point"] },
-      "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_April"] }
-    }
-  ],
-  "winkle": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함, 1돌",
-      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_of_never_ending_calculation", "wheel_over_the_death", "wheel_doll_falls_void", "wheel_hymn_of_godking", "wheel_magical_performance"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire"] }
-    },
-    {
-      "settingName": "망각편 범용",
-      "recommendStep": "명함, 1돌",
-      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_of_never_ending_calculation", "wheel_over_the_death", "wheel_doll_falls_void", "wheel_hymn_of_godking", "wheel_magical_performance"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_butterfly", "substitutes": [] }
-    }
-  ],
-  "erica": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_pure_silver_light", "substitutes": ["wheel_core_meltdown"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_meeting_moment"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_rabbit"] }
-    }
-  ],
-  "horla": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함 이상",
-      "myeongryun_ssr": { "main_id": "wheel_dusk_and_dawn", "substitutes": ["wheel_last_poem"] },
-      "myeongryun_sr": { "main_id": "wheel_memory_syndrom", "substitutes": ["wheel_flowers_and_poems"] },
-      "covenant": { "main_id": "covenant_grave", "substitutes": [] }
-    },
-    {
-      "settingName": "허약/취약 필요",
-      "recommendStep": "1돌 이상",
-      "myeongryun_ssr": { "main_id": "wheel_dusk_and_dawn", "substitutes": ["wheel_last_poem"] },
-      "myeongryun_sr": { "main_id": "wheel_memory_syndrom", "substitutes": ["wheel_flowers_and_poems"] },
-      "covenant": { "main_id": "covenant_twins_black", "substitutes": ["covenant_twins_white"] }
-    }
-  ],
-  "wanda": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함, 3돌",
-      "myeongryun_ssr": { "main_id": "wheel_queens_precepts", "substitutes": ["wheel_fin_of_pain","wheel_wandering_desire"] },
-      "myeongryun_sr": { "main_id": "wheel_int_the_nightshadow", "substitutes": ["wheel_channeling"] },
-      "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_medicine"] }
-    }
-  ],
-  "jenkin": [
-    {
-      "settingName": "딜러",
-      "recommendStep": "명함, 1돌",
-      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_amber_death", "wheel_favorite_collection", "wheel_pathless_path"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_critical_point"] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
-    },
-    {
-      "settingName": "서폿",
-      "recommendStep": "명함, 1돌",
-      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_dusk_and_dawn"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
-    }
-  ],
-  "castor": [
-    {
-      "settingName": "일반/딜러",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_the_day_threw_off_shackles", "wheel_sink_to_crimson"] },
-      "myeongryun_sr": { "main_id": "wheel_cut_and_hurt", "substitutes": ["wheel_isallu_eye", "wheel_alone_feather"] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_twins_black", "covenant_wolf"] }
-    },
-    {
-      "settingName": "탱커",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_intolerable_freedom", "substitutes": ["wheel_in_the_hard_rain", "wheel_voltex_of_memory"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_isallu_eye"] },
-      "covenant": { "main_id": "covenant_rabbit", "substitutes": ["covenant_party"] }
-    },
-    {
-      "settingName": "서폿",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_intolerable_freedom", "substitutes": ["wheel_in_the_hard_rain"] },
-      "myeongryun_sr": { "main_id": "wheel_cut_and_hurt", "substitutes": ["wheel_isallu_eye"] },
-      "covenant": { "main_id": "covenant_twins_black", "substitutes": ["covenant_sungood", "covenant_twins_white"] }
-    }
-  ],
-  "casiah": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_in_the_hard_rain", "substitutes": ["wheel_magical_performance"] },
-      "myeongryun_sr": { "main_id": "wheel_cut_and_hurt", "substitutes": [] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_grave", "covenant_blood"] }
-    }
-  ],
-  "clementine": [
-    {
-      "settingName": "범용",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_in_the_hard_rain"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_twins_black", "covenant_sungood", "covenant_medicine"] }
-    }
-  ],
-  "tinct": [
-    {
-      "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_secret_birth", "substitutes": ["wheel_voltex_of_memory"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_blue_stone_seat"] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_vampire"] }
-    }
-  ],
-  "pollux": [
-    {
-      "settingName": "범용",
-      "recommendStep": "3돌, 초한",
-      "myeongryun_ssr": { "main_id": "wheel_twisted_knight_poem", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
-    }
-  ],
-  "doll": [
-    {
-      "settingName": "범용",
-      "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_death", "substitutes": ["wheel_doll_falls_void"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_heavy_of_duty"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire", "covenant_grave"] }
-    }
-  ],
-  "ramona": [
-    {
-      "settingName": "범용",
-      "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_backward_clock", "wheel_memories_of_winter_night"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_deus"] }
-    }
-  ],
-  "lotan": [
-    {
-      "settingName": "범용",
-      "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_start_beast", "wheel_the_day_threw_off_shackles", "wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": ["wheel_cut_and_hurt"] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_scarlet"] }
-    }
-  ],
-  "ogier": [
-    {
-      "settingName": "범용",
-      "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_auth_of_knight", "substitutes": ["wheel_birth_of_soul"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit"] }
-    }
-  ],
-  "ramona_timeworn": [
-    {
-      "settingName": "서폿",
-      "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_backward_clock"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_reEvolve"] }
-    },
-    {
-      "settingName": "딜러",
-      "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_eternal_requiem", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_betray", "substitutes": ["covenant_April", "covenant_grave"] }
-    }
-  ]
+<file path="css/pages/links.css">
+/* ============================================
+   links.html 전용 스타일
+   ============================================ */
+
+/* --- 1. 링크 컨테이너 --- */
+.link-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 10px;
 }
+
+/* --- 2. 카테고리 타이틀 --- */
+.category-title {
+    color: #ffc107;
+    border-bottom: 2px solid #555;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid #555;
+}
+
+/* --- 3. 데이터 없음 상태 --- */
+.no-data {
+    text-align: center;
+    padding: 50px;
+    color: #777;
+    border: 2px dashed #444;
+    border-radius: 10px;
+}
+
+/* --- 4. 제보 버튼 섹션 --- */
+.report-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+    text-align: center;
+    color: #777;
+    font-size: 0.9em;
+}
+
+.report-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #333;
+    color: #ccc;
+    text-decoration: none;
+    border-radius: 20px;
+    border: 1px solid #555;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.report-btn:hover {
+    background-color: #444;
+    color: #fff;
+    border-color: #ffc107;
+}
+
+/* 교환 코드 카드 레이아웃 */
+.code-card-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+.code-card {
+    background: #2a2a2a; border: 1px solid #444; border-radius: 10px;
+    padding: 16px; display: flex; justify-content: space-between; align-items: center;
+}
+.code-details { flex: 1; text-align: left; }
+.code-title { font-weight: bold; font-size: 1.2em; color: #fff; display: block; }
+.code-reward { font-size: 0.9em; color: #aaa; }
+.code-timer { font-size: 0.8em; color: #ff9f43; margin-top: 4px; font-weight: bold; }
+.code-copy-btn {
+    background: #42b983; color: white; padding: 8px 16px;
+    border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s;
+}
+.code-copy-btn:hover { background: #33a06f; transform: scale(1.05); }
+.code-copy-btn.copied { background: #ffc107; color: #000; }
+.section-label { color: #ffc107; margin: 20px 0 10px; font-size: 1.1em; border-left: 4px solid #ffc107; padding-left: 10px; }
+
+/* --- 6. 제보 모달 폼 스타일 --- */
+.modal-content {
+    width: 90%;
+    max-width: 500px;
+    background-color: #2c2c2c;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-title {
+    color: #ffc107;
+    border-bottom: 2px solid #444;
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.form-field-label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ccc;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    background-color: #383838;
+    color: #eee;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #ffc107;
+}
+
+.form-textarea {
+    min-height: 120px;
+    max-height: 400px;
+    /* 🔧 최대 높이 제한 - 화면 뚫고 내려가는 버그 방지 */
+    resize: vertical;
+}
+
+.form-submit-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.form-submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* ============================================
+   크롬 스타일 폴더형 탭 및 화면 스위칭 로직
+   ============================================ */
+.chrome-tabs-container {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 0;
+    border-bottom: 1px solid #444; /* 하단 전체를 가로지르는 기준선 */
+    padding-left: 10px;
+}
+
+.chrome-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background: #2a2a2e;
+    border: 1px solid #444;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-size: 0.95em;
+    color: #888;
+    margin-bottom: -1px; /* 하단 기준선을 덮기 위한 트릭 */
+    transition: all 0.2s;
+    font-family: 'Pretendard', sans-serif;
+    min-width: 120px; /* 글씨 크기에 맞춰 늘어나게 함 */
+}
+
+.chrome-tab:hover:not(.active) {
+    background: #333338;
+    color: #ccc;
+}
+
+.chrome-tab.active {
+    background: #38383e;
+    color: #ffc107;
+    font-weight: bold;
+    border-color: #444;
+    border-bottom: 1px solid #38383e; /* 활성화 시 하단 선을 지워서 내용물과 연결 */
+    z-index: 2;
+}
+
+/* 탭 전환 시 나타나는 콘텐츠 화면 (가로 폭은 부모를 따라 고정됨) */
+.tab-content {
+    display: none; /* 기본적으로 화면에서 완전히 제거됨 */
+    animation: fadeInTab 0.3s ease-out;
+    padding-top: 25px;
+}
+
+.tab-content.active {
+    display: block; /* 활성화 시에만 화면 통째로 등장 */
+}
+
+@keyframes fadeInTab {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 도감 전용 격자 레이아웃 */
+.dictionary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 15px;
+}
+/* ============================================
+   명륜 상세 정보 툴팁 디자인
+   ============================================ */
+.item-tooltip {
+    display: none; position: fixed; z-index: 9999; background: rgba(18, 18, 18, 0.95);
+    border: 1px solid #777; border-radius: 4px; padding: 12px; max-width: 300px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.8); pointer-events: none; color: #eee; font-size: 0.9rem; line-height: 1.4;
+}
+.tooltip-title { color: #ffc107; font-weight: bold; margin-bottom: 6px; font-size: 1.1em; border-bottom: 1px solid #444; padding-bottom: 4px; }
+.tooltip-desc { color: #ccc; word-break: keep-all; }
+.tooltip-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
+.tooltip-tag { font-size: 0.75em; background: #333; color: #aaa; padding: 2px 6px; border-radius: 4px; }
+.tooltip-main-stat { color: #ffc107; margin-bottom: 5px; font-weight: bold; }
+.tooltip-effect-desc { color: #ccc; font-size: 0.9em; line-height: 1.4; }
+
+/* 모바일 화면에서는 마우스가 없으므로 터치 시 화면 중앙 하단에 고정되도록 처리 */
+@media (max-width: 768px) {
+    .item-tooltip {
+        position: fixed !important; top: auto !important; bottom: 90px !important;
+        left: 50% !important; transform: translateX(-50%) !important;
+        width: 90% !important; max-width: none !important;
+        background: rgba(25, 25, 30, 0.98); border: 1px solid #ffc107;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.7); text-align: left;
+        padding: 15px; z-index: 2000; border-radius: 8px; pointer-events: none;
+    }
+}
+</file>
+
+<file path="detail.html">
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캐릭터 상세</title>
+
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/detail.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+
+<body>
+<main class="container">
+
+    <nav aria-label="탐색">
+        <a href="list.html" class="back-button">&larr; 목록으로 돌아가기</a>
+    </nav>
+
+    <article class="detail-layout">
+
+        <aside class="char-profile">
+            <img id="char-image" src="https://via.placeholder.com/400x600?text=Loading..." alt="캐릭터 일러스트">
+            <h2 id="char-name">...</h2>
+            <div class="tags" id="char-tags"></div>
+            <div class="lore">
+                <h4>배경 스토리</h4>
+                <p id="char-lore">...</p>
+            </div>
+            <h4>기본 스탯 (Lv.1)</h4>
+            <div id="stats-table-container"></div>
+        </div>
+
+        <section class="char-data">
+
+            <div class="data-tabs" id="data-tabs" role="tablist" aria-label="캐릭터 정보 탭">
+                <button class="tab-link active" data-tab="tab-skills" role="tab" aria-selected="true" aria-controls="tab-skills">스킬</button>
+                <button class="tab-link" data-tab="tab-covenant" role="tab" aria-selected="false" aria-controls="tab-covenant">비밀계약</button>
+                <button class="tab-link" data-tab="tab-myeongryun" role="tab" aria-selected="false" aria-controls="tab-myeongryun">명륜</button>
+                <button class="tab-link" data-tab="tab-team" role="tab" aria-selected="false" aria-controls="tab-team">조합</button>
+                <button class="tab-link" data-tab="tab-growth" role="tab" aria-selected="false" aria-controls="tab-growth">영지 계발/특성</button>
+            </div>
+
+            <div class="tab-content active" id="tab-skills" role="tabpanel" aria-labelledby="tab-skills"></div>
+            <div class="tab-content" id="tab-covenant" role="tabpanel" aria-labelledby="tab-covenant"></div>
+            <div class="tab-content" id="tab-myeongryun" role="tabpanel" aria-labelledby="tab-myeongryun"></div>
+            <div class="tab-content team-grid" id="tab-team" role="tabpanel" aria-labelledby="tab-team"></div>
+            <div class="tab-content" id="tab-growth" role="tabpanel" aria-labelledby="tab-growth">
+                <h4>영지 계발 (돌파)</h4>
+                <div id="breakthrough-content"></div>
+                <hr style="border-color: #555; margin: 25px 0;">
+                <h4>특성</h4>
+                <div id="talents-content"></div>
+            </div>
+
+        </section>
+    </article>
+</main>
+
+<div class="modal-overlay" id="derived-modal" role="dialog" aria-modal="true" aria-labelledby="derived-modal-title">
+    <div class="modal-content">
+        <h3 id="derived-modal-title">파생 카드</h3>
+        <div class="derived-carousel-container">
+            <button class="modal-carousel-arrow left" id="modal-prev" aria-label="이전 카드">&lt;</button>
+            <div class="derived-card-slide" id="modal-skill-slide">
+            </div>
+            <button class="modal-carousel-arrow right" id="modal-next" aria-label="다음 카드">&gt;</button>
+        </div>
+    </div>
+</div>
+
+<script src="config/constants.js"></script>
+<script src="js/detail.js"></script>
+
+<div id="report-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
+    <div class="modal-content">
+        <h2 id="report-modal-title" class="form-title">버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                    </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 스킬 설명 오타', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        const sourceUrlInput = document.getElementById('report-source-url');
+        const modalStatus = document.getElementById('modal-form-status');
+        if (modalStatus) {
+            modalStatus.style.display = 'none';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+        if (sourceUrlInput) { sourceUrlInput.value = window.location.href; }
+        modal.classList.add('show');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal) {
+            reportModal.addEventListener('click', (e) => {
+                if (e.target === reportModal) reportModal.classList.remove('show');
+            });
+        }
+    });
+
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '전송 중...';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+</script>
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고" aria-label="버그 제보하기">
+    <span aria-hidden="true">🚨</span>
+</button>
+</body>
+</html>
 </file>
 
 <file path="js/detail.js">
@@ -3523,269 +2829,6 @@ button:focus {
 }
 </file>
 
-<file path="css/pages/links.css">
-/* ============================================
-   links.html 전용 스타일
-   ============================================ */
-
-/* --- 1. 링크 컨테이너 --- */
-.link-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 10px;
-}
-
-/* --- 2. 카테고리 타이틀 --- */
-.category-title {
-    color: #ffc107;
-    border-bottom: 2px solid #555;
-    padding-bottom: 15px;
-    margin-bottom: 30px;
-    font-size: 1.8em;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.title-thumb {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
-    object-fit: cover;
-    border: 2px solid #555;
-}
-
-/* --- 3. 데이터 없음 상태 --- */
-.no-data {
-    text-align: center;
-    padding: 50px;
-    color: #777;
-    border: 2px dashed #444;
-    border-radius: 10px;
-}
-
-/* --- 4. 제보 버튼 섹션 --- */
-.report-section {
-    margin-top: 40px;
-    padding-top: 20px;
-    border-top: 1px solid #444;
-    text-align: center;
-    color: #777;
-    font-size: 0.9em;
-}
-
-.report-btn {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 16px;
-    background-color: #333;
-    color: #ccc;
-    text-decoration: none;
-    border-radius: 20px;
-    border: 1px solid #555;
-    transition: all 0.2s;
-    cursor: pointer;
-}
-
-.report-btn:hover {
-    background-color: #444;
-    color: #fff;
-    border-color: #ffc107;
-}
-
-/* 교환 코드 카드 레이아웃 */
-.code-card-container { display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
-.code-card {
-    background: #2a2a2a; border: 1px solid #444; border-radius: 10px;
-    padding: 16px; display: flex; justify-content: space-between; align-items: center;
-}
-.code-details { flex: 1; text-align: left; }
-.code-title { font-weight: bold; font-size: 1.2em; color: #fff; display: block; }
-.code-reward { font-size: 0.9em; color: #aaa; }
-.code-timer { font-size: 0.8em; color: #ff9f43; margin-top: 4px; font-weight: bold; }
-.code-copy-btn {
-    background: #42b983; color: white; padding: 8px 16px;
-    border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s;
-}
-.code-copy-btn:hover { background: #33a06f; transform: scale(1.05); }
-.code-copy-btn.copied { background: #ffc107; color: #000; }
-.section-label { color: #ffc107; margin: 20px 0 10px; font-size: 1.1em; border-left: 4px solid #ffc107; padding-left: 10px; }
-
-/* --- 6. 제보 모달 폼 스타일 --- */
-.modal-content {
-    width: 90%;
-    max-width: 500px;
-    background-color: #2c2c2c;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.7);
-    animation: fadeIn 0.3s ease-out;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.form-title {
-    color: #ffc107;
-    border-bottom: 2px solid #444;
-    padding-bottom: 10px;
-    margin-top: 0;
-}
-
-.form-field-label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #ccc;
-}
-
-.form-input,
-.form-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #555;
-    border-radius: 6px;
-    background-color: #383838;
-    color: #eee;
-    font-size: 1em;
-    box-sizing: border-box;
-}
-
-.form-input:focus,
-.form-textarea:focus {
-    outline: none;
-    border-color: #ffc107;
-}
-
-.form-textarea {
-    min-height: 120px;
-    max-height: 400px;
-    /* 🔧 최대 높이 제한 - 화면 뚫고 내려가는 버그 방지 */
-    resize: vertical;
-}
-
-.form-submit-btn {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin-top: 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.form-submit-btn:hover {
-    background-color: #0056b3;
-}
-
-/* ============================================
-   크롬 스타일 폴더형 탭 및 화면 스위칭 로직
-   ============================================ */
-.chrome-tabs-container {
-    display: flex;
-    align-items: flex-end;
-    margin-bottom: 0;
-    border-bottom: 1px solid #444; /* 하단 전체를 가로지르는 기준선 */
-    padding-left: 10px;
-}
-
-.chrome-tab {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px;
-    background: #2a2a2e;
-    border: 1px solid #444;
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-    font-size: 0.95em;
-    color: #888;
-    margin-bottom: -1px; /* 하단 기준선을 덮기 위한 트릭 */
-    transition: all 0.2s;
-    font-family: 'Pretendard', sans-serif;
-    min-width: 120px; /* 글씨 크기에 맞춰 늘어나게 함 */
-}
-
-.chrome-tab:hover:not(.active) {
-    background: #333338;
-    color: #ccc;
-}
-
-.chrome-tab.active {
-    background: #38383e;
-    color: #ffc107;
-    font-weight: bold;
-    border-color: #444;
-    border-bottom: 1px solid #38383e; /* 활성화 시 하단 선을 지워서 내용물과 연결 */
-    z-index: 2;
-}
-
-/* 탭 전환 시 나타나는 콘텐츠 화면 (가로 폭은 부모를 따라 고정됨) */
-.tab-content {
-    display: none; /* 기본적으로 화면에서 완전히 제거됨 */
-    animation: fadeInTab 0.3s ease-out;
-    padding-top: 25px;
-}
-
-.tab-content.active {
-    display: block; /* 활성화 시에만 화면 통째로 등장 */
-}
-
-@keyframes fadeInTab {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* 도감 전용 격자 레이아웃 */
-.dictionary-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 15px;
-}
-/* ============================================
-   명륜 상세 정보 툴팁 디자인
-   ============================================ */
-.item-tooltip {
-    display: none; position: fixed; z-index: 9999; background: rgba(18, 18, 18, 0.95);
-    border: 1px solid #777; border-radius: 4px; padding: 12px; max-width: 300px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.8); pointer-events: none; color: #eee; font-size: 0.9rem; line-height: 1.4;
-}
-.tooltip-title { color: #ffc107; font-weight: bold; margin-bottom: 6px; font-size: 1.1em; border-bottom: 1px solid #444; padding-bottom: 4px; }
-.tooltip-desc { color: #ccc; word-break: keep-all; }
-.tooltip-tags { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 4px; }
-.tooltip-tag { font-size: 0.75em; background: #333; color: #aaa; padding: 2px 6px; border-radius: 4px; }
-.tooltip-main-stat { color: #ffc107; margin-bottom: 5px; font-weight: bold; }
-.tooltip-effect-desc { color: #ccc; font-size: 0.9em; line-height: 1.4; }
-
-/* 모바일 화면에서는 마우스가 없으므로 터치 시 화면 중앙 하단에 고정되도록 처리 */
-@media (max-width: 768px) {
-    .item-tooltip {
-        position: fixed !important; top: auto !important; bottom: 90px !important;
-        left: 50% !important; transform: translateX(-50%) !important;
-        width: 90% !important; max-width: none !important;
-        background: rgba(25, 25, 30, 0.98); border: 1px solid #ffc107;
-        box-shadow: 0 -5px 20px rgba(0,0,0,0.7); text-align: left;
-        padding: 15px; z-index: 2000; border-radius: 8px; pointer-events: none;
-    }
-}
-</file>
-
 <file path="css/responsive.css">
 /* ============================================
    반응형 스타일 (Responsive Design)
@@ -4265,6 +3308,660 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         display: block !important;
         width: 100% !important;
     }
+}
+</file>
+
+<file path="data/character_settings.json">
+{
+  "24": [
+    {
+      "settingName": "딜러",
+      "recommendStep": "2~3돌",
+      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_star_beast"] },
+      "myeongryun_sr": { "main_id": "wheel_lords_cane", "substitutes": ["wheel_critical_point", "wheel_dessection_of_death"] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_wolf"] }
+    },
+    {
+      "settingName": "서폿",
+      "recommendStep": "2~3돌",
+      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_over_the_death"] },
+      "myeongryun_sr": { "main_id": "wheel_heavy_of_duty", "substitutes": [] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
+    }
+  ],
+  "nymphaea": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_gift_of_corruption"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_vampire"] }
+    }
+  ],
+  "nautila": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_voltex_of_memory", "substitutes": ["wheel_birth_of_soul"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_rabbit"] }
+    }
+  ],
+  "ryker": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함 ~ 1돌",
+      "myeongryun_ssr": { "main_id": "wheel_time_of_luck", "substitutes": ["wheel_pathliss_path"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_roullet_of_destiny"] },
+      "covenant": { "main_id": "covenant_blood", "substitutes": ["covenant_scarlet"] }
+    }
+  ],
+  "lily": [
+    {
+      "settingName": "범용",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_solid_will", "wheel_dusk_and_dawn"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_twins_white"] }
+    }
+  ],
+  "mouchette": [
+    {
+      "settingName": "범용",
+      "recommendStep": "2돌, 3돌, 초한",
+      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_sword_of_giant", "wheel_star_beast"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_magic_of_35mm", "wheel_doomsday_rampage"] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_medicine", "covenant_scarlet"] }
+    }
+  ],
+  "doll_inferno": [
+    {
+      "settingName": "범용",
+      "recommendStep": "3돌 ~ 초한",
+      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_never_ending_calculation"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_heavy_of_duty"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_medicine"] }
+    }
+  ],
+  "alva": [
+    {
+      "settingName": "서폿",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_voltex_of_memory"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_isallu_eye", "wheel_magic_of_35mm"] },
+      "covenant": { "main_id": "covenant_twins_white", "substitutes": ["covenant_party","covenant_betray"] }
+    },
+    {
+      "settingName": "딜러",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_sword_of_giant", "wheel_voltex_of_memory"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
+    }
+  ],
+  "karen": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_never_ending_calculation"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_deus"] }
+    }
+  ],
+  "kathigu-ra": [
+    {
+      "settingName": "딜러",
+      "recommendStep": "3돌 ~ 초한",
+      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_amber_death"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
+    },
+    {
+      "settingName": "탱커",
+      "recommendStep": "3돌 ~ 초한",
+      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_sword_of_giant", "wheel_last_poem"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_betray"] }
+    }
+  ],
+  "tawil": [
+    {
+      "settingName": "딜러",
+      "recommendStep": "3돌 ~ 초한",
+      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_meeting_moment", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
+    },
+    {
+      "settingName": "서폿",
+      "recommendStep": "2돌",
+      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_meeting_moment", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": [] }
+    }
+  ],
+  "pandia": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_wandering_desire", "substitutes": ["wheel_caro_party"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_scarlet", "substitutes": ["covenant_April", "covenant_36rings"] }
+    }
+  ],
+  "hameln": [
+    {
+      "settingName": "범용",
+      "recommendStep": "2돌",
+      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_backward_clock"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_reEvolve"] }
+    }
+  ],
+  "goliath": [
+    {
+      "settingName": "범용",
+      "recommendStep": "2돌",
+      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_in_the_hard_rain"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_man_in_mirror"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
+    },
+    {
+      "settingName": "범용",
+      "recommendStep": "2돌",
+      "myeongryun_ssr": { "main_id": "wheel_dream_of_ocean", "substitutes": ["wheel_birth_of_soul"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
+      "covenant": { "main_id": "covenant_twins_black", "substitutes": [] }
+    }
+  ],
+  "corposant": [
+    {
+      "settingName": "딜러",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_last_poem", "substitutes": ["wheel_sword_of_giant", "wheel_the_day_threw_off_shackles"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
+    },
+    {
+      "settingName": "서폿",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_last_poem", "substitutes": ["wheel_the_day_threw_off_shackles", "wheel_death_of_coral_woman"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
+      "covenant": { "main_id": "covenant_grave", "substitutes": ["covenant_rabbit", "covenant_reEvolve"] }
+    }
+  ],
+  "murphy": [
+    {
+      "settingName": "범용",
+      "recommendStep": "1돌",
+      "myeongryun_ssr": { "main_id": "wheel_secret_birth", "substitutes": ["wheel_backward_clock"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_meeting_moment", "wheel_sleep_under_iceburg"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_twins_white"] }
+    }
+  ],
+  "miryam": [
+    {
+      "settingName": "범용",
+      "recommendStep": "2돌",
+      "myeongryun_ssr": { "main_id": "wheel_power_of_faith", "substitutes": ["wheel_never_ending_calculation", "wheel_merciful_upbringing"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_medicine"] }
+    }
+  ],
+  "sanga": [
+    {
+      "settingName": "딜러",
+      "recommendStep": "초한",
+      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_over_the_pain"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_magic_of_35mm"] },
+      "covenant": { "main_id": "covenant_36rings", "substitutes": ["covenant_grave"] }
+    },
+    {
+      "settingName": "탱커",
+      "recommendStep": "초한",
+      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_over_the_pain"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_party", "substitutes": [] }
+    }
+  ],
+  "celeste": [
+    {
+      "settingName": "범용",
+      "recommendStep": "1돌",
+      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_dusk_and_dawn"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
+      "covenant": { "main_id": "covenant_rabbit", "substitutes": ["covenant_grave"] }
+    }
+  ],
+  "aurita": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함, 3돌",
+      "myeongryun_ssr": { "main_id": "wheel_backward_clock", "substitutes": ["wheel_pathless_path","wheel_name_of_a_rose"] },
+      "myeongryun_sr": { "main_id": "wheel_meeting_moment", "substitutes": ["wheel_until_snowmt_melt", "wheel_dessection_of_death", "wheel_silver_fish"] },
+      "covenant": { "main_id": "covenant_blood", "substitutes": ["covenant_scarlet"] }
+    }
+  ],
+  "caecus": [
+    {
+      "settingName": "탱커",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_fin_of_pain", "substitutes": ["wheel_birth_of_soul"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_man_in_mirror", "wheel_info_is_life", "wheel_int_the_nightshadow", "wheel_channeling"] },
+      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit"] }
+    },
+    {
+      "settingName": "반격",
+      "recommendStep": "초한",
+      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_wolf"] }
+    }
+  ],
+  "Murphy_Fauxborn": [
+    {
+      "settingName": "서폿",
+      "recommendStep": "명함 ~ 2돌",
+      "myeongryun_ssr": { "main_id": "wheel_peace_sleep_in_dark", "substitutes": ["wheel_backward_clock", "wheel_merciful_upbringing"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_vampire"] }
+    },
+    {
+      "settingName": "딜러",
+      "recommendStep": "3돌 ~ 초한",
+      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_sword_of_giant", "wheel_backward_clock"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_never_stop_show"] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
+    }
+  ],
+  "tulu": [
+    {
+      "settingName": "범용",
+      "recommendStep": "1돌",
+      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_never_ending_calculation"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_blue_stone_seart", "wheel_channeling"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire"] }
+    }
+  ],
+  "faros": [
+    {
+      "settingName": "범용",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_in_the_hard_rain", "substitutes": ["wheel_birth_of_soul"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_sleep_under_iceburg"] },
+      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit", "covenant_reEvolve"] }
+    }
+  ],
+  "vortice": [
+    {
+      "settingName": "추격 딜러",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_eden", "substitutes": ["wheel_voltex_of_memory", "wheel_you_and_me_will_meet"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_stucked_madness"] },
+      "covenant": { "main_id": "covenant_ocean", "substitutes": ["covenant_deus"] }
+    },
+    {
+      "settingName": "광기 폭발 딜러",
+      "recommendStep": "3돌 이상",
+      "myeongryun_ssr": { "main_id": "wheel_eden", "substitutes": ["wheel_voltex_of_memory", "wheel_you_and_me_will_meet"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_stucked_madness"] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_ocean"] }
+    }
+  ],
+  "doresain": [
+    {
+      "settingName": "범용",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_kiss_of_rest", "substitutes": ["wheel_caro_party", "wheel_amber_death"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet", "covenant_blood", "covenant_36rings"] }
+    }
+  ],
+  "leigh": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_tale_of_gluttony"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
+      "covenant": { "main_id": "covenant_rabbit", "substitutes": ["covenant_grave"] }
+    }
+  ],
+  "salvador": [
+    {
+      "settingName": "서폿",
+      "recommendStep": "2돌",
+      "myeongryun_ssr": { "main_id": "wheel_stone_tablet_god_word", "substitutes": ["wheel_backward_clock", "wheel_last_poem"] },
+      "myeongryun_sr": { "main_id": "wheel_info_is_life", "substitutes": ["wheel_man_in_mirror"] },
+      "covenant": { "main_id": "covenant_betray", "substitutes": ["covenant_rabbit", "covenant_grave"] }
+    },
+    {
+      "settingName": "딜러",
+      "recommendStep": "2돌",
+      "myeongryun_ssr": { "main_id": "wheel_stone_tablet_god_word", "substitutes": ["wheel_sword_of_giant", "wheel_last_poem"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_betray", "substitutes": ["covenant_April", "covenant_grave"] }
+    }
+  ],
+  "xu": [
+    {
+      "settingName": "범용",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_wasted_frown", "substitutes": ["wheel_silent_party"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_reEvolve", "covenant_grave"] }
+    },
+    {
+      "settingName": "잡몹전 + 범용",
+      "recommendStep": "초한",
+      "myeongryun_ssr": { "main_id": "wheel_wasted_frown", "substitutes": ["wheel_silent_party"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_reEvolve", "covenant_grave"] }
+    }
+  ],
+  "sorel": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_name_of_a_rose", "substitutes": ["wheel_caro_party", "wheel_pathless_path"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_million_eyes"] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_36rings"] }
+    }
+  ],
+  "agrippa": [
+    {
+      "settingName": "딜러",
+      "recommendStep": "명힘",
+      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_medicine"] }
+    },
+    {
+      "settingName": "서폿",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_backward_clock", "substitutes": ["wheel_pale_descencdant"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_man_in_mirror"] },
+      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit"] }
+    }
+  ],
+  "aigis": [
+    {
+      "settingName": "범용",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_memories_of_winter_night", "wheel_backward_clock"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_meeting_moment"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_blood", "covenant_grave"] }
+    }
+  ],
+  "uvhash": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_caro_party", "substitutes": ["wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
+    }
+  ],
+  "thais": [
+    {
+      "settingName": "범용",
+      "recommendStep": "2돌 이상",
+      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_never_ending_calculation", "wheel_over_the_death"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_reEvolve"] }
+    }
+  ],
+  "faint": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함 이상",
+      "myeongryun_ssr": { "main_id": "wheel_dusk_and_dawn", "substitutes": ["wheel_hymn_of_godking"] },
+      "myeongryun_sr": { "main_id": "wheel_int_the_nightshadow", "substitutes": ["wheel_magic_of_35mm"] },
+      "covenant": { "main_id": "covenant_grave", "substitutes": ["covenant_rabbit"] }
+    }
+  ],
+  "pickman": [
+    {
+      "settingName": "서폿",
+      "recommendStep": "2돌",
+      "myeongryun_ssr": { "main_id": "wheel_paradox_of_factualism", "substitutes": ["wheel_never_ending_calculation", "wheel_doll_falls_void", "wheel_over_the_death"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_reEvolve", "covenant_blood"] }
+    },
+    {
+      "settingName": "서브 딜러",
+      "recommendStep": "2돌",
+      "myeongryun_ssr": { "main_id": "wheel_sink_to_crimson", "substitutes": ["wheel_sword_of_giant", "wheel_the_day_threw_off_shackles"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
+    }
+  ],
+  "helot_catena": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함 ~ 3돌",
+      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_sink_to_crimson", "wheel_star_beast"] },
+      "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
+    }
+  ],
+  "helot": [
+    {
+      "settingName": "서폿",
+      "recommendStep": "명함 이상",
+      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_in_the_hard_rain"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
+    },
+    {
+      "settingName": "딜러",
+      "recommendStep": "명함 이상",
+      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_sink_to_crimson"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
+    }
+  ],
+  "dafoodil": [
+    {
+      "settingName": "범용",
+      "recommendStep": "2돌 미만",
+      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_favorite_collection", "wheel_falling_sun"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_betray", "substitutes": [] }
+    },
+    {
+      "settingName": "범용",
+      "recommendStep": "2돌 이상",
+      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_favorite_collection", "wheel_falling_sun"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_wolf"] }
+    }
+  ],
+  "liz": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_turn_and_turn", "wheel_intolerable_freedom", "wheel_the_day_threw_off_shackles", "wheel_gift_of_corruption"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_hat_of_witch", "wheel_critical_point"] },
+      "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_April"] }
+    }
+  ],
+  "winkle": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함, 1돌",
+      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_of_never_ending_calculation", "wheel_over_the_death", "wheel_doll_falls_void", "wheel_hymn_of_godking", "wheel_magical_performance"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire"] }
+    },
+    {
+      "settingName": "망각편 범용",
+      "recommendStep": "명함, 1돌",
+      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_of_never_ending_calculation", "wheel_over_the_death", "wheel_doll_falls_void", "wheel_hymn_of_godking", "wheel_magical_performance"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
+      "covenant": { "main_id": "covenant_butterfly", "substitutes": [] }
+    }
+  ],
+  "erica": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_pure_silver_light", "substitutes": ["wheel_core_meltdown"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_meeting_moment"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_rabbit"] }
+    }
+  ],
+  "horla": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함 이상",
+      "myeongryun_ssr": { "main_id": "wheel_dusk_and_dawn", "substitutes": ["wheel_last_poem"] },
+      "myeongryun_sr": { "main_id": "wheel_memory_syndrom", "substitutes": ["wheel_flowers_and_poems"] },
+      "covenant": { "main_id": "covenant_grave", "substitutes": [] }
+    },
+    {
+      "settingName": "허약/취약 필요",
+      "recommendStep": "1돌 이상",
+      "myeongryun_ssr": { "main_id": "wheel_dusk_and_dawn", "substitutes": ["wheel_last_poem"] },
+      "myeongryun_sr": { "main_id": "wheel_memory_syndrom", "substitutes": ["wheel_flowers_and_poems"] },
+      "covenant": { "main_id": "covenant_twins_black", "substitutes": ["covenant_twins_white"] }
+    }
+  ],
+  "wanda": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함, 3돌",
+      "myeongryun_ssr": { "main_id": "wheel_queens_precepts", "substitutes": ["wheel_fin_of_pain","wheel_wandering_desire"] },
+      "myeongryun_sr": { "main_id": "wheel_int_the_nightshadow", "substitutes": ["wheel_channeling"] },
+      "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_medicine"] }
+    }
+  ],
+  "jenkin": [
+    {
+      "settingName": "딜러",
+      "recommendStep": "명함, 1돌",
+      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_amber_death", "wheel_favorite_collection", "wheel_pathless_path"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_critical_point"] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
+    },
+    {
+      "settingName": "서폿",
+      "recommendStep": "명함, 1돌",
+      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_dusk_and_dawn"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_man_in_mirror"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
+    }
+  ],
+  "castor": [
+    {
+      "settingName": "일반/딜러",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_the_day_threw_off_shackles", "wheel_sink_to_crimson"] },
+      "myeongryun_sr": { "main_id": "wheel_cut_and_hurt", "substitutes": ["wheel_isallu_eye", "wheel_alone_feather"] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_twins_black", "covenant_wolf"] }
+    },
+    {
+      "settingName": "탱커",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_intolerable_freedom", "substitutes": ["wheel_in_the_hard_rain", "wheel_voltex_of_memory"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_isallu_eye"] },
+      "covenant": { "main_id": "covenant_rabbit", "substitutes": ["covenant_party"] }
+    },
+    {
+      "settingName": "서폿",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_intolerable_freedom", "substitutes": ["wheel_in_the_hard_rain"] },
+      "myeongryun_sr": { "main_id": "wheel_cut_and_hurt", "substitutes": ["wheel_isallu_eye"] },
+      "covenant": { "main_id": "covenant_twins_black", "substitutes": ["covenant_sungood", "covenant_twins_white"] }
+    }
+  ],
+  "casiah": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_in_the_hard_rain", "substitutes": ["wheel_magical_performance"] },
+      "myeongryun_sr": { "main_id": "wheel_cut_and_hurt", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_grave", "covenant_blood"] }
+    }
+  ],
+  "clementine": [
+    {
+      "settingName": "범용",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_in_the_hard_rain"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_twins_black", "covenant_sungood", "covenant_medicine"] }
+    }
+  ],
+  "tinct": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함",
+      "myeongryun_ssr": { "main_id": "wheel_secret_birth", "substitutes": ["wheel_voltex_of_memory"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_blue_stone_seat"] },
+      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_vampire"] }
+    }
+  ],
+  "pollux": [
+    {
+      "settingName": "범용",
+      "recommendStep": "3돌, 초한",
+      "myeongryun_ssr": { "main_id": "wheel_twisted_knight_poem", "substitutes": ["wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
+    }
+  ],
+  "doll": [
+    {
+      "settingName": "범용",
+      "recommendStep": "풀돌",
+      "myeongryun_ssr": { "main_id": "wheel_over_the_death", "substitutes": ["wheel_doll_falls_void"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_heavy_of_duty"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire", "covenant_grave"] }
+    }
+  ],
+  "ramona": [
+    {
+      "settingName": "범용",
+      "recommendStep": "풀돌",
+      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_backward_clock", "wheel_memories_of_winter_night"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_deus"] }
+    }
+  ],
+  "lotan": [
+    {
+      "settingName": "범용",
+      "recommendStep": "풀돌",
+      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_start_beast", "wheel_the_day_threw_off_shackles", "wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": ["wheel_cut_and_hurt"] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_scarlet"] }
+    }
+  ],
+  "ogier": [
+    {
+      "settingName": "범용",
+      "recommendStep": "풀돌",
+      "myeongryun_ssr": { "main_id": "wheel_auth_of_knight", "substitutes": ["wheel_birth_of_soul"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit"] }
+    }
+  ],
+  "ramona_timeworn": [
+    {
+      "settingName": "서폿",
+      "recommendStep": "풀돌",
+      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_backward_clock"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_reEvolve"] }
+    },
+    {
+      "settingName": "딜러",
+      "recommendStep": "풀돌",
+      "myeongryun_ssr": { "main_id": "wheel_eternal_requiem", "substitutes": ["wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
+      "covenant": { "main_id": "covenant_betray", "substitutes": ["covenant_April", "covenant_grave"] }
+    }
+  ]
 }
 </file>
 
@@ -4796,208 +4493,6 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
 ]
 </file>
 
-<file path="detail.html">
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>캐릭터 상세</title>
-
-    <script src="config/config.js"></script>
-    <script>
-        loadCSS('css/common.css');
-        loadCSS('css/components.css');
-        loadCSS('css/detail.css');
-        loadCSS('css/responsive.css');
-    </script>
-</head>
-
-<body>
-<main class="container">
-
-    <nav aria-label="탐색">
-        <a href="list.html" class="back-button">&larr; 목록으로 돌아가기</a>
-    </nav>
-
-    <article class="detail-layout">
-
-        <aside class="char-profile">
-            <img id="char-image" src="https://via.placeholder.com/400x600?text=Loading..." alt="캐릭터 일러스트">
-            <h2 id="char-name">...</h2>
-            <div class="tags" id="char-tags"></div>
-            <div class="lore">
-                <h4>배경 스토리</h4>
-                <p id="char-lore">...</p>
-            </div>
-            <h4>기본 스탯 (Lv.1)</h4>
-            <div id="stats-table-container"></div>
-        </div>
-
-        <section class="char-data">
-
-            <div class="data-tabs" id="data-tabs" role="tablist" aria-label="캐릭터 정보 탭">
-                <button class="tab-link active" data-tab="tab-skills" role="tab" aria-selected="true" aria-controls="tab-skills">스킬</button>
-                <button class="tab-link" data-tab="tab-covenant" role="tab" aria-selected="false" aria-controls="tab-covenant">비밀계약</button>
-                <button class="tab-link" data-tab="tab-myeongryun" role="tab" aria-selected="false" aria-controls="tab-myeongryun">명륜</button>
-                <button class="tab-link" data-tab="tab-team" role="tab" aria-selected="false" aria-controls="tab-team">조합</button>
-                <button class="tab-link" data-tab="tab-growth" role="tab" aria-selected="false" aria-controls="tab-growth">영지 계발/특성</button>
-            </div>
-
-            <div class="tab-content active" id="tab-skills" role="tabpanel" aria-labelledby="tab-skills"></div>
-            <div class="tab-content" id="tab-covenant" role="tabpanel" aria-labelledby="tab-covenant"></div>
-            <div class="tab-content" id="tab-myeongryun" role="tabpanel" aria-labelledby="tab-myeongryun"></div>
-            <div class="tab-content team-grid" id="tab-team" role="tabpanel" aria-labelledby="tab-team"></div>
-            <div class="tab-content" id="tab-growth" role="tabpanel" aria-labelledby="tab-growth">
-                <h4>영지 계발 (돌파)</h4>
-                <div id="breakthrough-content"></div>
-                <hr style="border-color: #555; margin: 25px 0;">
-                <h4>특성</h4>
-                <div id="talents-content"></div>
-            </div>
-
-        </section>
-    </article>
-</main>
-
-<div class="modal-overlay" id="derived-modal" role="dialog" aria-modal="true" aria-labelledby="derived-modal-title">
-    <div class="modal-content">
-        <h3 id="derived-modal-title">파생 카드</h3>
-        <div class="derived-carousel-container">
-            <button class="modal-carousel-arrow left" id="modal-prev" aria-label="이전 카드">&lt;</button>
-            <div class="derived-card-slide" id="modal-skill-slide">
-            </div>
-            <button class="modal-carousel-arrow right" id="modal-next" aria-label="다음 카드">&gt;</button>
-        </div>
-    </div>
-</div>
-
-<script src="config/constants.js"></script>
-<script src="js/detail.js"></script>
-
-<div id="report-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
-    <div class="modal-content">
-        <h2 id="report-modal-title" class="form-title">버그 제보 or 피드백</h2>
-        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
-
-        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
-
-            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
-            <input type="text" id="reporter-email" name="_replyto" class="form-input"
-                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
-
-            <label for="report-message" class="form-field-label">
-                제보할 내용 (버그 or 피드백) (필수)
-                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
-                        ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
-                    </span>
-            </label>
-            <textarea id="report-message" name="message" class="form-textarea" required
-                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 스킬 설명 오타', '이 링크(URL) 접속이 안 돼요')"></textarea>
-
-            <input type="hidden" name="report_source_url" id="report-source-url">
-            <button type="submit" class="form-submit-btn">제보 보내기</button>
-            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
-        </form>
-    </div>
-</div>
-
-<script>
-    function openReportModal() {
-        const modal = document.getElementById('report-modal');
-        const sourceUrlInput = document.getElementById('report-source-url');
-        const modalStatus = document.getElementById('modal-form-status');
-        if (modalStatus) {
-            modalStatus.style.display = 'none';
-            modalStatus.textContent = '제보를 전송 중입니다...';
-            modalStatus.style.color = '#ffc107';
-        }
-        if (sourceUrlInput) { sourceUrlInput.value = window.location.href; }
-        modal.classList.add('show');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const reportModal = document.getElementById('report-modal');
-        if (reportModal) {
-            reportModal.addEventListener('click', (e) => {
-                if (e.target === reportModal) reportModal.classList.remove('show');
-            });
-        }
-    });
-
-    async function sendToDiscord(event) {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-        const modalStatus = document.getElementById('modal-form-status');
-        const modal = document.getElementById('report-modal');
-
-        if (modalStatus) {
-            modalStatus.style.display = 'block';
-            modalStatus.textContent = '제보를 전송 중입니다...';
-            modalStatus.style.color = '#ffc107';
-        }
-
-        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
-        const message = formData.get('message');
-        const sourceUrl = formData.get('report_source_url') || window.location.href;
-
-        const payload = {
-            username: "Morimens Wiki Bot",
-            embeds: [{
-                title: "📩 새로운 제보가 도착했습니다!",
-                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
-                color: 0xFF9F43,
-                fields: [
-                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
-                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
-                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
-                ],
-                footer: { text: "Morimens Wiki Report System" },
-                timestamp: new Date().toISOString()
-            }]
-        };
-
-        try {
-            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
-            if(!webhookUrl) throw new Error("Config Error");
-
-            await fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (modalStatus) {
-                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
-                modalStatus.style.color = "#2ecc71";
-            }
-            form.reset();
-            setTimeout(() => {
-                modal.classList.remove('show');
-                if (modalStatus) {
-                    modalStatus.style.display = 'none';
-                    modalStatus.textContent = '전송 중...';
-                }
-            }, 1500);
-        } catch (error) {
-            console.error(error);
-            if (modalStatus) {
-                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
-                modalStatus.style.color = "#e74c3c";
-            }
-        }
-    }
-</script>
-<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고" aria-label="버그 제보하기">
-    <span aria-hidden="true">🚨</span>
-</button>
-</body>
-</html>
-</file>
-
 <file path="css/components.css">
 /* ============================================
    컴포넌트 스타일 (Reusable Components)
@@ -5429,6 +4924,428 @@ select:focus {
     margin: 0 auto;
     transition: all 0.3s ease;
 }
+</file>
+
+<file path="list.html">
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>각성체 목록</title>
+
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/list.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+
+<body>
+<main class="container">
+
+    <div class="header-area">
+        <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 돌아가기</a></nav>
+        <h1>각성체 목록</h1>
+    </div>
+
+    <section class="controls-container" aria-label="검색 및 필터">
+        <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색..." aria-label="캐릭터 이름 검색">
+        <div class="filter-container">
+            <select id="relems-filter" aria-label="계역 필터">
+                <option value="all">계역 (전체)</option>
+                <option value="chaos">혼돈</option>
+                <option value="aequor">심해</option>
+                <option value="caro">혈육</option>
+                <option value="ultra">초차원</option>
+            </select>
+            <select id="grade-filter" aria-label="등급 필터">
+                <option value="all">등급 (전체)</option>
+                <option value="ssr">SSR</option>
+                <option value="sr">SR</option>
+            </select>
+            <select id="class-filter" aria-label="클래스 필터">
+                <option value="all">클래스 (전체)</option>
+                <option value="assault">공격</option>
+                <option value="warden">방어</option>
+                <option value="chorus">보조</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="character-grid" id="character-grid" aria-label="캐릭터 목록">
+    </section>
+</main>
+
+<script src="config/constants.js"></script>
+<script src="js/index.js"></script>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content" style="position: relative;">
+        <button type="button" class="close-btn" onclick="closeReportModal()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
+            &times;
+        </button>
+
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<script>
+    // 2. 모달 닫기 이벤트
+    document.addEventListener('DOMContentLoaded', () => {
+        const reportModal = document.getElementById('report-modal');
+        if (reportModal) {
+            reportModal.addEventListener('click', (e) => {
+                if (e.target === reportModal) {
+                    reportModal.classList.remove('show');
+                }
+            });
+        }
+    });
+
+    // 3. 디스코드 전송 로직
+    async function sendToDiscord(event) {
+        event.preventDefault();
+        const form = event.target;
+        const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const modal = document.getElementById('report-modal');
+
+        if (modalStatus) {
+            modalStatus.style.display = 'block';
+            modalStatus.textContent = '제보를 전송 중입니다...';
+            modalStatus.style.color = '#ffc107';
+        }
+
+        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
+        const message = formData.get('message');
+        const sourceUrl = formData.get('report_source_url') || window.location.href;
+
+        const payload = {
+            username: "Morimens Wiki Bot",
+            embeds: [{
+                title: "📩 새로운 제보가 도착했습니다!",
+                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
+                color: 0xFF9F43,
+                fields: [
+                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
+                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
+                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
+                ],
+                footer: { text: "Morimens Wiki Report System" },
+                timestamp: new Date().toISOString()
+            }]
+        };
+
+        try {
+            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
+            if(!webhookUrl) throw new Error("Config Error");
+
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (modalStatus) {
+                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
+                modalStatus.style.color = "#2ecc71";
+            }
+            form.reset();
+            setTimeout(() => {
+                modal.classList.remove('show');
+                if (modalStatus) {
+                    modalStatus.style.display = 'none';
+                    modalStatus.textContent = '전송 중...';
+                }
+            }, 1500);
+        } catch (error) {
+            console.error(error);
+            if (modalStatus) {
+                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
+                modalStatus.style.color = "#e74c3c";
+            }
+        }
+    }
+
+    function closeReportModal() {
+        const modal = document.getElementById('report-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('show');
+        }
+    }
+
+    function openReportModal() {
+        const modal = document.getElementById('report-modal');
+        if (modal) {
+            modal.style.display = 'flex';
+            modal.classList.add('show');
+        }
+    }
+
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('report-modal');
+        if (event.target === modal) {
+            closeReportModal();
+        }
+    });
+</script>
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고" aria-label="버그 제보하기">
+    <span aria-hidden="true">🚨</span>
+</button>
+</body>
+</html>
+</file>
+
+<file path="party_builder.html">
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/party_builder.css');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>융재금지구역 파티 시뮬레이터</title>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+</head>
+<body>
+
+<div class="builder-container">
+    <div class="sidebar" id="sidebar-tabs"></div>
+
+    <div class="main-area">
+        <div class="top-navigation-bar">
+            <div class="back-btn-wrapper">
+                <a href="javascript:void(0);" onclick="goBackToMenu()" class="back-btn">⬅ 융재 금구 메뉴로 돌아가기</a>
+            </div>
+
+            <div class="page-control-bar">
+                <div id="page-tabs" class="page-tabs"></div>
+                <button class="add-page-btn" onclick="addNewPage()" title="새 세트 추가">+</button>
+            </div>
+        </div>
+
+        <div class="header-wrapper">
+            <div class="header-left">
+                <h2 id="team-title-text">TEAM I</h2>
+                <svg class="edit-icon" onclick="editTeamName()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" />
+                </svg>
+                <div id="team-domain-container" class="header-domain-wrap"></div>
+            </div>
+            <div class="header-right" style="display: flex; gap: 8px;">
+                <button class="btn btn-blue btn-sm" onclick="copyTeamToClipboard()">팀 복사</button>
+                <button class="btn btn-blue btn-sm" onclick="pasteTeamFromClipboard()">팀 붙여넣기</button>
+                <button class="btn btn-red btn-sm" onclick="resetCurrentTeam()">팀 초기화</button>
+            </div>
+        </div>
+
+        <div class="content-row">
+            <div class="slots-container" id="team-slots"></div>
+        </div>
+
+        <div class="bottom-section">
+            <div class="silverkey-box" onclick="openKeyModal()">
+                <div class="key-circle" id="key-icon">+</div>
+                <div class="key-info">
+                    <div>은열쇠</div>
+                    <div id="key-name">장착 안 함</div>
+                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-blue" onclick="openQuickSetup()">빠른 편성</button>
+                <button class="btn btn-yellow" onclick="saveAllData()">저장</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-char" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>배치할 각성체 선택 (최대 4명)</h3>
+            <button class="close-btn" onclick="closeModal('modal-char')">&times;</button>
+        </div>
+        <div class="char-search-section">
+            <div class="search-container">
+                <div class="search-input-box">
+                    <div class="search-input-wrapper">
+                        <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <input type="text" id="char-search-input" placeholder="이름 또는 특성 검색 (예: 죽저, 크리티컬)..." autocomplete="off">
+                    </div>
+                    <div id="char-search-suggestions" class="suggestions-dropdown"></div>
+                </div>
+            </div>
+            <div class="char-filter-container">
+                <div class="filter-group">
+                    <span class="filter-label">영역:</span>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'chaos')">혼돈</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'aequor')">심해</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'caro')">혈육</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'ultra')">초차원</div>
+                </div>
+                <div class="filter-group" style="border-left:1px solid #444; padding-left:20px;">
+                    <span class="filter-label">역할:</span>
+                    <div class="filter-chip" onclick="toggleCharFilter('class', 'assault')">공격형</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('class', 'warden')">방어형</div>
+                    <div class="filter-chip" onclick="toggleCharFilter('class', 'chorus')">보조형</div>
+                </div>
+            </div>
+            <div id="active-char-search-tags" class="active-tags-list"></div>
+        </div>
+        <div class="modal-grid" id="grid-char"></div>
+        <div class="modal-footer">
+            <span id="char-count" style="color:#aaa; margin-right:15px; font-size:0.9em;">0 / 4 선택됨</span>
+            <div style="display: inline-flex; gap: 10px;">
+                <button id="btn-remove-support" class="btn btn-red" onclick="removeSupport()" style="display: none;">조력자 해제</button>
+                <button class="btn btn-yellow" onclick="confirmQuickSetup()">배치 확정</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-wheel" class="modal-overlay">
+    <div class="modal-box-wide">
+        <div class="wheel-list-wrapper">
+            <div class="search-container">
+                <input type="text" id="wheel-search-input" placeholder="명륜 검색..." autocomplete="off">
+                <div id="active-tags-area" class="active-tags-list"></div>
+            </div>
+            <div class="wheel-list-panel" id="grid-wheel"></div>
+        </div>
+        <div class="wheel-equip-panel">
+            <h3 style="color:#eee; margin-bottom:20px;">장착 슬롯 선택</h3>
+            <div class="wheel-equip-slots">
+                <div class="large-slot" id="equip-slot-0" onclick="selectWheelSlot(0)"><div class="slot-placeholder">+</div></div>
+                <div class="large-slot" id="equip-slot-1" onclick="selectWheelSlot(1)"><div class="slot-placeholder">+</div></div>
+            </div>
+            <div class="equip-info-text" id="equip-slot-desc" style="color:#777; margin-bottom:20px; text-align:center; min-height:40px;">슬롯을 선택하세요.</div>
+            <button class="btn btn-red" onclick="unequipSelectedWheel()">해제</button>
+            <button class="btn btn-blue" onclick="closeModal('modal-wheel')" style="margin-top:15px; width: 100px;">닫기</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-key" class="modal-overlay">
+    <div class="modal-box" style="max-width:600px; height:80vh;">
+        <div class="modal-header">
+            <h3>은열쇠 선택</h3>
+            <button class="close-btn" onclick="closeModal('modal-key')">&times;</button>
+        </div>
+        <div class="search-container" style="flex-direction: row; align-items: center;">
+            <div class="search-input-box" style="flex: 1;">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="text" id="key-search-input" placeholder="은열쇠 검색..." autocomplete="off">
+                </div>
+            </div>
+            <select id="key-sort-select" onchange="renderKeyGrid()" style="padding: 12px; background: #1e1e22; border: 1px solid #555; color: #eee; border-radius: 4px; outline: none; cursor: pointer; font-size: 0.9em; font-family: 'Pretendard', sans-serif;">
+                <option value="recent">최근 사용순</option>
+                <option value="default">기본 정렬</option>
+            </select>
+        </div>
+        <div class="modal-grid" id="grid-key"></div>
+        <div class="modal-footer">
+            <button class="btn btn-red" onclick="unequipKey()">해제</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-system" class="modal-overlay">
+    <div class="modal-box" style="max-width: 450px; height: auto; min-height: 200px; border-color: #777;">
+        <div class="modal-header">
+            <h3 id="sys-modal-title" style="color: var(--highlight);">알림</h3>
+            <button class="close-btn" onclick="closeModal('modal-system')">&times;</button>
+        </div>
+        <div id="sys-modal-msg" style="padding: 30px 30px 10px 30px; text-align: center; color: #e0e0e0; font-size: 1.1em; line-height: 1.5; white-space: pre-line;">내용</div>
+
+        <div id="sys-input-wrapper" style="padding: 0 40px 20px 40px; display: none;">
+            <input type="text" id="sys-modal-input" class="form-input"
+                   style="width: 100%; text-align: center; background:#333; border:1px solid #555; color:#fff; padding:10px; border-radius:4px;">
+            <div id="sys-modal-char-count" style="text-align: right; color: #888; font-size: 0.8em; margin-top: 5px;">0 / 15</div>
+        </div>
+
+        <div class="modal-footer" style="justify-content: center; gap: 15px; padding-bottom: 25px;">
+            <button id="sys-btn-yes" class="btn btn-yellow" style="min-width: 80px;">확인</button>
+            <button id="sys-btn-no" class="btn btn-red" style="min-width: 80px; display: none;">취소</button>
+        </div>
+    </div>
+</div>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content" style="position: relative;">
+        <button type="button" class="close-btn" onclick="closeReportModal()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
+            &times;
+        </button>
+
+        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
+                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
+                </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<div id="global-tooltip" class="item-tooltip">
+    <div class="tooltip-title" id="tt-title"></div>
+    <div class="tooltip-desc" id="tt-desc"></div>
+    <div class="tooltip-tags" id="tt-tags"></div>
+</div>
+
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">🚨</button>
+
+<script>
+    loadJS('js/party_builder.js');
+</script>
+</body>
+</html>
 </file>
 
 <file path="css/party_builder.css">
@@ -6284,428 +6201,6 @@ body {
 }
 </file>
 
-<file path="list.html">
-<!DOCTYPE html>
-<html lang="ko">
-
-<head>
-    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
-    <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>각성체 목록</title>
-
-    <script src="config/config.js"></script>
-    <script>
-        loadCSS('css/common.css');
-        loadCSS('css/components.css');
-        loadCSS('css/pages/list.css');
-        loadCSS('css/responsive.css');
-    </script>
-</head>
-
-<body>
-<main class="container">
-
-    <div class="header-area">
-        <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 돌아가기</a></nav>
-        <h1>각성체 목록</h1>
-    </div>
-
-    <section class="controls-container" aria-label="검색 및 필터">
-        <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색..." aria-label="캐릭터 이름 검색">
-        <div class="filter-container">
-            <select id="relems-filter" aria-label="계역 필터">
-                <option value="all">계역 (전체)</option>
-                <option value="chaos">혼돈</option>
-                <option value="aequor">심해</option>
-                <option value="caro">혈육</option>
-                <option value="ultra">초차원</option>
-            </select>
-            <select id="grade-filter" aria-label="등급 필터">
-                <option value="all">등급 (전체)</option>
-                <option value="ssr">SSR</option>
-                <option value="sr">SR</option>
-            </select>
-            <select id="class-filter" aria-label="클래스 필터">
-                <option value="all">클래스 (전체)</option>
-                <option value="assault">공격</option>
-                <option value="warden">방어</option>
-                <option value="chorus">보조</option>
-            </select>
-        </div>
-    </section>
-
-    <section class="character-grid" id="character-grid" aria-label="캐릭터 목록">
-    </section>
-</main>
-
-<script src="config/constants.js"></script>
-<script src="js/index.js"></script>
-
-<div id="report-modal" class="modal-overlay">
-    <div class="modal-content" style="position: relative;">
-        <button type="button" class="close-btn" onclick="closeReportModal()"
-                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
-            &times;
-        </button>
-
-        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
-        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
-
-        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
-            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
-            <input type="text" id="reporter-email" name="_replyto" class="form-input"
-                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
-
-            <label for="report-message" class="form-field-label">
-                제보할 내용 (버그 or 피드백) (필수)
-                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
-                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
-                </span>
-            </label>
-            <textarea id="report-message" name="message" class="form-textarea" required
-                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
-
-            <input type="hidden" name="report_source_url" id="report-source-url">
-            <button type="submit" class="form-submit-btn">제보 보내기</button>
-            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
-        </form>
-    </div>
-</div>
-
-<script>
-    // 2. 모달 닫기 이벤트
-    document.addEventListener('DOMContentLoaded', () => {
-        const reportModal = document.getElementById('report-modal');
-        if (reportModal) {
-            reportModal.addEventListener('click', (e) => {
-                if (e.target === reportModal) {
-                    reportModal.classList.remove('show');
-                }
-            });
-        }
-    });
-
-    // 3. 디스코드 전송 로직
-    async function sendToDiscord(event) {
-        event.preventDefault();
-        const form = event.target;
-        const formData = new FormData(form);
-        const modalStatus = document.getElementById('modal-form-status');
-        const modal = document.getElementById('report-modal');
-
-        if (modalStatus) {
-            modalStatus.style.display = 'block';
-            modalStatus.textContent = '제보를 전송 중입니다...';
-            modalStatus.style.color = '#ffc107';
-        }
-
-        const reporterEmail = formData.get('_replyto') || '익명(Anonymous)';
-        const message = formData.get('message');
-        const sourceUrl = formData.get('report_source_url') || window.location.href;
-
-        const payload = {
-            username: "Morimens Wiki Bot",
-            embeds: [{
-                title: "📩 새로운 제보가 도착했습니다!",
-                description: "위키에서 유저 피드백/버그 제보가 접수되었습니다.",
-                color: 0xFF9F43,
-                fields: [
-                    { name: "👤 제보자", value: `\`${reporterEmail}\``, inline: true },
-                    { name: "📍 발생 페이지", value: `[바로가기(Click)](${sourceUrl})`, inline: true },
-                    { name: "📝 상세 내용", value: `>>> ${message}`, inline: false }
-                ],
-                footer: { text: "Morimens Wiki Report System" },
-                timestamp: new Date().toISOString()
-            }]
-        };
-
-        try {
-            const webhookUrl = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
-            if(!webhookUrl) throw new Error("Config Error");
-
-            await fetch(webhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (modalStatus) {
-                modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
-                modalStatus.style.color = "#2ecc71";
-            }
-            form.reset();
-            setTimeout(() => {
-                modal.classList.remove('show');
-                if (modalStatus) {
-                    modalStatus.style.display = 'none';
-                    modalStatus.textContent = '전송 중...';
-                }
-            }, 1500);
-        } catch (error) {
-            console.error(error);
-            if (modalStatus) {
-                modalStatus.textContent = '❌ 설정 오류 또는 네트워크 오류입니다.';
-                modalStatus.style.color = "#e74c3c";
-            }
-        }
-    }
-
-    function closeReportModal() {
-        const modal = document.getElementById('report-modal');
-        if (modal) {
-            modal.style.display = 'none';
-            modal.classList.remove('show');
-        }
-    }
-
-    function openReportModal() {
-        const modal = document.getElementById('report-modal');
-        if (modal) {
-            modal.style.display = 'flex';
-            modal.classList.add('show');
-        }
-    }
-
-    window.addEventListener('click', function(event) {
-        const modal = document.getElementById('report-modal');
-        if (event.target === modal) {
-            closeReportModal();
-        }
-    });
-</script>
-<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고" aria-label="버그 제보하기">
-    <span aria-hidden="true">🚨</span>
-</button>
-</body>
-</html>
-</file>
-
-<file path="party_builder.html">
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <script src="config/config.js"></script>
-    <script>
-        loadCSS('css/common.css');
-        loadCSS('css/party_builder.css');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>융재금지구역 파티 시뮬레이터</title>
-    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
-</head>
-<body>
-
-<div class="builder-container">
-    <div class="sidebar" id="sidebar-tabs"></div>
-
-    <div class="main-area">
-        <div class="top-navigation-bar">
-            <div class="back-btn-wrapper">
-                <a href="javascript:void(0);" onclick="goBackToMenu()" class="back-btn">⬅ 융재 금구 메뉴로 돌아가기</a>
-            </div>
-
-            <div class="page-control-bar">
-                <div id="page-tabs" class="page-tabs"></div>
-                <button class="add-page-btn" onclick="addNewPage()" title="새 세트 추가">+</button>
-            </div>
-        </div>
-
-        <div class="header-wrapper">
-            <div class="header-left">
-                <h2 id="team-title-text">TEAM I</h2>
-                <svg class="edit-icon" onclick="editTeamName()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" />
-                </svg>
-                <div id="team-domain-container" class="header-domain-wrap"></div>
-            </div>
-            <div class="header-right" style="display: flex; gap: 8px;">
-                <button class="btn btn-blue btn-sm" onclick="copyTeamToClipboard()">팀 복사</button>
-                <button class="btn btn-blue btn-sm" onclick="pasteTeamFromClipboard()">팀 붙여넣기</button>
-                <button class="btn btn-red btn-sm" onclick="resetCurrentTeam()">팀 초기화</button>
-            </div>
-        </div>
-
-        <div class="content-row">
-            <div class="slots-container" id="team-slots"></div>
-        </div>
-
-        <div class="bottom-section">
-            <div class="silverkey-box" onclick="openKeyModal()">
-                <div class="key-circle" id="key-icon">+</div>
-                <div class="key-info">
-                    <div>은열쇠</div>
-                    <div id="key-name">장착 안 함</div>
-                </div>
-            </div>
-            <div class="btn-group">
-                <button class="btn btn-blue" onclick="openQuickSetup()">빠른 편성</button>
-                <button class="btn btn-yellow" onclick="saveAllData()">저장</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="modal-char" class="modal-overlay">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3>배치할 각성체 선택 (최대 4명)</h3>
-            <button class="close-btn" onclick="closeModal('modal-char')">&times;</button>
-        </div>
-        <div class="char-search-section">
-            <div class="search-container">
-                <div class="search-input-box">
-                    <div class="search-input-wrapper">
-                        <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                        <input type="text" id="char-search-input" placeholder="이름 또는 특성 검색 (예: 죽저, 크리티컬)..." autocomplete="off">
-                    </div>
-                    <div id="char-search-suggestions" class="suggestions-dropdown"></div>
-                </div>
-            </div>
-            <div class="char-filter-container">
-                <div class="filter-group">
-                    <span class="filter-label">영역:</span>
-                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'chaos')">혼돈</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'aequor')">심해</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'caro')">혈육</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'ultra')">초차원</div>
-                </div>
-                <div class="filter-group" style="border-left:1px solid #444; padding-left:20px;">
-                    <span class="filter-label">역할:</span>
-                    <div class="filter-chip" onclick="toggleCharFilter('class', 'assault')">공격형</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('class', 'warden')">방어형</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('class', 'chorus')">보조형</div>
-                </div>
-            </div>
-            <div id="active-char-search-tags" class="active-tags-list"></div>
-        </div>
-        <div class="modal-grid" id="grid-char"></div>
-        <div class="modal-footer">
-            <span id="char-count" style="color:#aaa; margin-right:15px; font-size:0.9em;">0 / 4 선택됨</span>
-            <div style="display: inline-flex; gap: 10px;">
-                <button id="btn-remove-support" class="btn btn-red" onclick="removeSupport()" style="display: none;">조력자 해제</button>
-                <button class="btn btn-yellow" onclick="confirmQuickSetup()">배치 확정</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="modal-wheel" class="modal-overlay">
-    <div class="modal-box-wide">
-        <div class="wheel-list-wrapper">
-            <div class="search-container">
-                <input type="text" id="wheel-search-input" placeholder="명륜 검색..." autocomplete="off">
-                <div id="active-tags-area" class="active-tags-list"></div>
-            </div>
-            <div class="wheel-list-panel" id="grid-wheel"></div>
-        </div>
-        <div class="wheel-equip-panel">
-            <h3 style="color:#eee; margin-bottom:20px;">장착 슬롯 선택</h3>
-            <div class="wheel-equip-slots">
-                <div class="large-slot" id="equip-slot-0" onclick="selectWheelSlot(0)"><div class="slot-placeholder">+</div></div>
-                <div class="large-slot" id="equip-slot-1" onclick="selectWheelSlot(1)"><div class="slot-placeholder">+</div></div>
-            </div>
-            <div class="equip-info-text" id="equip-slot-desc" style="color:#777; margin-bottom:20px; text-align:center; min-height:40px;">슬롯을 선택하세요.</div>
-            <button class="btn btn-red" onclick="unequipSelectedWheel()">해제</button>
-            <button class="btn btn-blue" onclick="closeModal('modal-wheel')" style="margin-top:15px; width: 100px;">닫기</button>
-        </div>
-    </div>
-</div>
-
-<div id="modal-key" class="modal-overlay">
-    <div class="modal-box" style="max-width:600px; height:80vh;">
-        <div class="modal-header">
-            <h3>은열쇠 선택</h3>
-            <button class="close-btn" onclick="closeModal('modal-key')">&times;</button>
-        </div>
-        <div class="search-container" style="flex-direction: row; align-items: center;">
-            <div class="search-input-box" style="flex: 1;">
-                <div class="search-input-wrapper">
-                    <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                    <input type="text" id="key-search-input" placeholder="은열쇠 검색..." autocomplete="off">
-                </div>
-            </div>
-            <select id="key-sort-select" onchange="renderKeyGrid()" style="padding: 12px; background: #1e1e22; border: 1px solid #555; color: #eee; border-radius: 4px; outline: none; cursor: pointer; font-size: 0.9em; font-family: 'Pretendard', sans-serif;">
-                <option value="recent">최근 사용순</option>
-                <option value="default">기본 정렬</option>
-            </select>
-        </div>
-        <div class="modal-grid" id="grid-key"></div>
-        <div class="modal-footer">
-            <button class="btn btn-red" onclick="unequipKey()">해제</button>
-        </div>
-    </div>
-</div>
-
-<div id="modal-system" class="modal-overlay">
-    <div class="modal-box" style="max-width: 450px; height: auto; min-height: 200px; border-color: #777;">
-        <div class="modal-header">
-            <h3 id="sys-modal-title" style="color: var(--highlight);">알림</h3>
-            <button class="close-btn" onclick="closeModal('modal-system')">&times;</button>
-        </div>
-        <div id="sys-modal-msg" style="padding: 30px 30px 10px 30px; text-align: center; color: #e0e0e0; font-size: 1.1em; line-height: 1.5; white-space: pre-line;">내용</div>
-
-        <div id="sys-input-wrapper" style="padding: 0 40px 20px 40px; display: none;">
-            <input type="text" id="sys-modal-input" class="form-input"
-                   style="width: 100%; text-align: center; background:#333; border:1px solid #555; color:#fff; padding:10px; border-radius:4px;">
-            <div id="sys-modal-char-count" style="text-align: right; color: #888; font-size: 0.8em; margin-top: 5px;">0 / 15</div>
-        </div>
-
-        <div class="modal-footer" style="justify-content: center; gap: 15px; padding-bottom: 25px;">
-            <button id="sys-btn-yes" class="btn btn-yellow" style="min-width: 80px;">확인</button>
-            <button id="sys-btn-no" class="btn btn-red" style="min-width: 80px; display: none;">취소</button>
-        </div>
-    </div>
-</div>
-
-<div id="report-modal" class="modal-overlay">
-    <div class="modal-content" style="position: relative;">
-        <button type="button" class="close-btn" onclick="closeReportModal()"
-                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
-            &times;
-        </button>
-
-        <h2 class="form-title">🚨 버그 제보 or 피드백</h2>
-        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
-
-        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
-            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
-            <input type="text" id="reporter-email" name="_replyto" class="form-input"
-                   placeholder="패치노트에 언급을 원하시면 적어주세요.">
-
-            <label for="report-message" class="form-field-label">
-                제보할 내용 (버그 or 피드백) (필수)
-                <span style="display:block; margin-top:5px; font-size:0.9em; color:#ff9f43; font-weight:normal;">
-                    ※ 특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요!
-                </span>
-            </label>
-            <textarea id="report-message" name="message" class="form-textarea" required
-                      placeholder="내용을 입력해주세요. (예: 'XX 캐릭터 공략 링크가 안 열려요', '이 링크(URL) 접속이 안 돼요')"></textarea>
-
-            <input type="hidden" name="report_source_url" id="report-source-url">
-            <button type="submit" class="form-submit-btn">제보 보내기</button>
-            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
-        </form>
-    </div>
-</div>
-
-<div id="global-tooltip" class="item-tooltip">
-    <div class="tooltip-title" id="tt-title"></div>
-    <div class="tooltip-desc" id="tt-desc"></div>
-    <div class="tooltip-tags" id="tt-tags"></div>
-</div>
-
-<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고">🚨</button>
-
-<script>
-    loadJS('js/party_builder.js');
-</script>
-</body>
-</html>
-</file>
-
 <file path="data/character_manifest.json">
 [
   { "id": "24", "name": "「24」", "image_thumb": "images/24-thumb.png", "relems": "chaos", "class": "assault", "grade": "ssr" },
@@ -6916,7 +6411,7 @@ body {
     </nav>
 
     <footer>
-        &copy; 2025 미사그 대학 한국 캠퍼스 |
+        &copy; 2026 미사그 대학 한국 캠퍼스 |
         <span id="open-patch-modal" class="patch-link">Patch Notes</span> |
         <a href="https://litt.ly/mythag.univ.kr" target="_blank" class="sponsor-link"> 후원하기(리틀리) |</a>
         <a href="https://buymeacoffee.com/Mythag.Univ.kr" target="_blank" rel="noopener noreferrer" class="sponsor-link"> 후원하기 (Buy me a Coffee)</a>
@@ -6973,6 +6468,158 @@ body {
 </button>
 </body>
 </html>
+</file>
+
+<file path="data/patch_notes.json">
+[
+  {
+    "version": "v1.3.10",
+    "date": "2026-04-16",
+    "changes": [
+      "버그 신고 창에서 닉네임을 적는 곳과 버그 내용을 적는 내용의 폰트가 다르던 버그 수정",
+      "'버그 / 피드백 제보하기'를 누르면 아무것도 뜨지 않던 버그 수정.",
+      "모바일에서 버그/피드백 제보 모달을 지울 수 없던 버그 수정.,",
+      "각성체 목록의 각성체 썸네일 화질 개선.",
+      "모바일 추천 세팅 UI가 변경",
+      "비밀계약 정보에서 각 비밀계약의 획득처에 대한 정보 추가."
+    ]
+  },
+  {
+    "version": "v1.3.9",
+    "date": "2026-04-07",
+    "changes": [
+      "각성체 페이지 추천 세팅 추가",
+      "명륜 페이지 개편",
+      "은열쇠 페이지 개편",
+      "비밀계약 페이지 개편"
+    ]
+  },
+  {
+    "version": "v1.3.8",
+    "date": "2026-03-09",
+    "changes": [
+      "모스크 추가"
+    ]
+  },
+  {
+    "version": "v1.3.7",
+    "date": "2026-01-31",
+    "changes": [
+      "융재 금구 시뮬레이터 - 머피 이미지 수정",
+      "서 추가"
+    ]
+  },
+  {
+    "version": "v1.3.6",
+    "date": "2026-01-20",
+    "changes": [
+      "파티 위치 변경 기능 추가",
+      "파티 멤버를 변경할 시 다른 멤버가 장착중인 명륜이 해제되는 버그 수정",
+      "명륜의 주옵션이 보다 잘 보이도록 수정",
+      "명륜 검색 로직 변경",
+      "융재 금구 메뉴로 돌아가기 버튼의 링크 연결 버그 수정"
+    ]
+  },
+  {
+    "version": "v1.3.5",
+    "date": "2026-01-10",
+    "changes": [
+      "세트 기능 추가"
+    ]
+  },
+  {
+  "version": "v1.3.4",
+  "date": "2026-01-07",
+  "changes": [
+    "각성체 검색 로직 업데이트"
+  ]
+},
+  {
+    "version": "v1.3.3",
+    "date": "2026-01-06",
+    "changes": [
+      "명륜 검색 로직 업데이트  ",
+      "교환 코드 UI 수정"
+      ]
+  },
+  {
+    "version": "v1.3.2",
+    "date": "2026-01-02",
+    "changes": [
+      "융재금구 시뮬레이터 - 조력 기능 추가",
+      "모샤 관련 내용 추가"
+    ]
+  },
+  {
+    "version": "v1.3.1",
+    "date": "2025-12-21",
+    "changes": [
+      "버그 수정",
+      "후원 링크 개선"
+    ]
+  },
+  {
+    "version": "v1.3.0",
+    "date": "2025-12-15",
+    "changes": [
+      "융재 금구 파티 편성 시뮬레이터 기능 추가"
+    ]
+  },
+  {
+    "version": "v1.2.1",
+    "date": "2025-12-03",
+    "changes": [
+      "'이벤트 관련 정보', '이번주 융재 금구 팁' 추가"
+    ]
+  },
+  {
+    "version": "v1.2.0",
+    "date": "2025-11-29",
+    "changes": [
+      "타이틀 변경 (망각전야 (Morimens) → 미사그 대학 한국 캠퍼스)",
+      "링크 카드 UI 개선",
+      "플로팅 신고 버튼 추가",
+      "후원 기능 추가",
+      "코드 구조 개편"
+    ]
+  },
+  {
+    "version": "v1.0.4",
+    "date": "2025-11-26",
+    "changes": [
+      "계역별 팁, 은열쇠 정보, 페이즈 체스 카테고리 추가",
+      "링크 카드 썸네일 비율 조정",
+      "뒤로 가기 버튼 UI 수정"
+    ]
+  },
+  {
+    "version": "v1.0.3",
+    "date": "2025-11-26",
+    "changes": [
+      "모바일 환경에서 스크롤 하면 배경이 움직이던 버그 수정",
+      "배너 수정 및 UI 개선 (공식 유튜브, 디스코드로 연결)",
+      "PC/모바일 레이아웃 여백 동기화",
+      "404 경로 문제 해결 및 안정성 강화"
+    ]
+  },
+  {
+    "version": "v1.0.2",
+    "date": "2025-11-256",
+    "changes": [
+      "★채널 공지에 올라감★",
+      "교환 코드 페이지 UI 개편 (클릭 시 자동 복사 기능 추가)",
+      "제보하기 텍스트 수정",
+      "모바일 환경 가독성 개선 및 다크 모드로 배경 통일"
+    ]
+  },
+  {
+    "version": "v1.0.1",
+    "date": "2025-11-25",
+    "changes": [
+      "사이트 오픈 및 기본 가이드 데이터 구축"
+    ]
+  }
+]
 </file>
 
 <file path="data/wheel_list.json">
@@ -8852,7 +8499,7 @@ body {
                                 return `<div class="sub-link disabled">대체 정보 없음</div>`;
                             };
                             gridContainer.innerHTML += `
-                                <div class="ㅐ">
+                                <div class="recommend-box">
                                     <div class="recommend-left">
                                         <img src="${charData.image_thumb}" class="recommend-thumb" onerror="this.src='images/smile_Ramona.webp';">
                                         <div class="recommend-role">${setInfo.settingName} 세팅</div>
@@ -9122,158 +8769,6 @@ body {
 </button>
 </body>
 </html>
-</file>
-
-<file path="data/patch_notes.json">
-[
-  {
-    "version": "v1.3.10",
-    "date": "2026-04-16",
-    "changes": [
-      "버그 신고 창에서 닉네임을 적는 곳과 버그 내용을 적는 내용의 폰트가 다르던 버그 수정",
-      "'버그 / 피드백 제보하기'를 누르면 아무것도 뜨지 않던 버그 수정.",
-      "모바일에서 버그/피드백 제보 모달을 지울 수 없던 버그 수정.,",
-      "각성체 목록의 각성체 썸네일 화질 개선.",
-      "모바일 추천 세팅 UI가 변경",
-      "비밀계약 정보에서 각 비밀계약의 획득처에 대한 정보 추가."
-    ]
-  },
-  {
-    "version": "v1.3.9",
-    "date": "2026-04-07",
-    "changes": [
-      "각성체 페이지 추천 세팅 추가",
-      "명륜 페이지 개편",
-      "은열쇠 페이지 개편",
-      "비밀계약 페이지 개편"
-    ]
-  },
-  {
-    "version": "v1.3.8",
-    "date": "2026-03-09",
-    "changes": [
-      "모스크 추가"
-    ]
-  },
-  {
-    "version": "v1.3.7",
-    "date": "2026-01-31",
-    "changes": [
-      "융재 금구 시뮬레이터 - 머피 이미지 수정",
-      "서 추가"
-    ]
-  },
-  {
-    "version": "v1.3.6",
-    "date": "2026-01-20",
-    "changes": [
-      "파티 위치 변경 기능 추가",
-      "파티 멤버를 변경할 시 다른 멤버가 장착중인 명륜이 해제되는 버그 수정",
-      "명륜의 주옵션이 보다 잘 보이도록 수정",
-      "명륜 검색 로직 변경",
-      "융재 금구 메뉴로 돌아가기 버튼의 링크 연결 버그 수정"
-    ]
-  },
-  {
-    "version": "v1.3.5",
-    "date": "2026-01-10",
-    "changes": [
-      "세트 기능 추가"
-    ]
-  },
-  {
-  "version": "v1.3.4",
-  "date": "2026-01-07",
-  "changes": [
-    "각성체 검색 로직 업데이트"
-  ]
-},
-  {
-    "version": "v1.3.3",
-    "date": "2026-01-06",
-    "changes": [
-      "명륜 검색 로직 업데이트  ",
-      "교환 코드 UI 수정"
-      ]
-  },
-  {
-    "version": "v1.3.2",
-    "date": "2026-01-02",
-    "changes": [
-      "융재금구 시뮬레이터 - 조력 기능 추가",
-      "모샤 관련 내용 추가"
-    ]
-  },
-  {
-    "version": "v1.3.1",
-    "date": "2025-12-21",
-    "changes": [
-      "버그 수정",
-      "후원 링크 개선"
-    ]
-  },
-  {
-    "version": "v1.3.0",
-    "date": "2025-12-15",
-    "changes": [
-      "융재 금구 파티 편성 시뮬레이터 기능 추가"
-    ]
-  },
-  {
-    "version": "v1.2.1",
-    "date": "2025-12-03",
-    "changes": [
-      "'이벤트 관련 정보', '이번주 융재 금구 팁' 추가"
-    ]
-  },
-  {
-    "version": "v1.2.0",
-    "date": "2025-11-29",
-    "changes": [
-      "타이틀 변경 (망각전야 (Morimens) → 미사그 대학 한국 캠퍼스)",
-      "링크 카드 UI 개선",
-      "플로팅 신고 버튼 추가",
-      "후원 기능 추가",
-      "코드 구조 개편"
-    ]
-  },
-  {
-    "version": "v1.0.4",
-    "date": "2025-11-26",
-    "changes": [
-      "계역별 팁, 은열쇠 정보, 페이즈 체스 카테고리 추가",
-      "링크 카드 썸네일 비율 조정",
-      "뒤로 가기 버튼 UI 수정"
-    ]
-  },
-  {
-    "version": "v1.0.3",
-    "date": "2025-11-26",
-    "changes": [
-      "모바일 환경에서 스크롤 하면 배경이 움직이던 버그 수정",
-      "배너 수정 및 UI 개선 (공식 유튜브, 디스코드로 연결)",
-      "PC/모바일 레이아웃 여백 동기화",
-      "404 경로 문제 해결 및 안정성 강화"
-    ]
-  },
-  {
-    "version": "v1.0.2",
-    "date": "2025-11-256",
-    "changes": [
-      "★채널 공지에 올라감★",
-      "교환 코드 페이지 UI 개편 (클릭 시 자동 복사 기능 추가)",
-      "제보하기 텍스트 수정",
-      "모바일 환경 가독성 개선 및 다크 모드로 배경 통일"
-    ]
-  },
-  {
-    "version": "v1.0.1",
-    "date": "2025-11-25",
-    "changes": [
-      "사이트 오픈 및 기본 가이드 데이터 구축"
-    ]
-  }
-]
 </file>
 
 <file path="js/party_builder.js">
@@ -11222,6 +10717,7 @@ function openReportModal() {
         { "title": "DC5000", "desc": "특별 승인 약재 5개", "expiry": null },
         { "title": "RCSV-DPLV-KQPP", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-23" },
         { "title": "MistSequence", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-28" },
+        { "title": "TWPB-NCNV-AHXK,", "desc": "은심 200개", "expiry": "2026-04-28" },
         { "title": "RMUE-RVQY-XKWE", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-04-29" },
         { "title": "YouSavedMorimens", "desc": "무구의 은핵 100개", "expiry": "2026-05-12" },
         { "title": "SayaNoUta", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-08-17" }
@@ -11231,6 +10727,12 @@ function openReportModal() {
       "title": "🎭 계역별 정보",
       "links": 
       [
+        {
+          "url": "https://arca.live/b/forgettingeve/167800946",
+          "title": "초차원 입문 가이드-개정판",
+          "desc": "ㅎㅇ언제나 초차원과 즐거운 하루 보내고 있길 바란다다름이 아니라 아라크네 출시도 얼마 남지 않은 김에 초차원 입문 가이드를 재작성하려고 함시작하기 전에 이 글은 정말 아무것도 모르겠고 이해가 잘 안되는데 초차원 기믹",
+          "image": "https://ac-p1.namu.la/20260415sac/e5495ccc48b0c9d139a4b95a1b286ffc4e5b13e3f35e363af75e806d541bacfa.png?expires=1776342919&key=WyrKu-GjN1sb6E3owZTzBw"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/166598676",
           "title": "심해 계역 TMI",
