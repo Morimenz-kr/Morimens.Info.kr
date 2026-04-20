@@ -594,6 +594,15 @@
     "image_path": "images/wheel_turn_and_turn.png"
   },
   {
+    "grade": "SSR",
+    "korean_name": "태고의 그물",
+    "english_name": "wheel_web_of_ancient",
+    "optimized_for": ["아라크네"],
+    "main_stat": "영역 숙련 36",
+    "description": "파티 유일 : 장비자가 가하는 보호막이 13/17/21/25% 증가하고, 장비자가「추격」시 + 25/30/35/40% 임시 강화, 매턴 최대 5회 발동.「차원 이동」발동 시마다 장비자가 4/6/8/10포인트의 광기를 획득한다.",
+    "image_path": "images/wheel_web_of_ancient.png"
+  },
+  {
     "grade": "SR",
     "korean_name": "책임의 무게",
     "english_name": "wheel_heavy_of_duty",
@@ -821,7 +830,8 @@
     "english_name": "wheel_goodbye_kiss",
     "main_stat": "광기 회복 3.6",
     "description": "팀 유일: 장비자가 광기 폭발을 사용한 후, 공격력의 1.5/2/2.5/3%만큼 힘을 획득한다. 현재 영역이 \"혈육\"일 경우, 광기 폭발 발동 시 배아 융합이 4/6/8/10% 증가한다.",
-    "image_path": "images/wheel_goodbye_kiss.png"
+    "image_path": "images/wheel_goodbye_kiss.png",
+    "oprimized_for" : [""]
   },
   {
     "grade": "SR",
@@ -829,7 +839,8 @@
     "english_name": "wheel_call_of_abyss",
     "main_stat": "크리티컬 피해 10.8%",
     "description": "팀 유일: 전투 시작 후, 장비자 공격력 5/6/7/8%의 힘을 획득한다. 현재 영역이 \"심해\"일 경우, 장비자의 공격력 5/6/7/8%만큼 촉수 피해가 증가한다.",
-    "image_path": "images/wheel_call_of_abyss.png"
+    "image_path": "images/wheel_call_of_abyss.png",
+    "optimized_for" : [""]
   },
   {
     "grade": "SR",
@@ -974,6 +985,15 @@
     "description": "팀 유일 : \"몰아치는 파도\"자세로 전환할 떄 현재 영역 숙련의 11/14/17/20%에 해당하는 임시 영역 숙련을 획득하며, 3턴 쿨다운.",
     "image_path": "images/wheel_stucked_madness.png",
     "optimized_for" : ["모스크"]
+  },
+  {
+    "grade": "SR",
+    "korean_name": "숙명의 물레",
+    "english_name": "wheel_wheel_of_fate",
+    "main_stat": "영역 숙련 18",
+    "description": "파티 유일 : 장비자가 가하는 보호막이 4/6/8/10% 증가하고, 장비자가「추격」시 +9/11/13/15% 임시 강화, 매턴 최대 5회 발동",
+    "image_path": "images/wheel_wheel_of_fate.png",
+    "optimized_for" : ["아라크네"]
   },
   {
     "grade": "R",

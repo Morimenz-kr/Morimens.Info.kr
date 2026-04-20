@@ -327,5 +327,12 @@
     "description": "1명의 각성체를 선택하여 15점의 광기를 획득하고, 다른 각성체는 5점의 광기를 획득합니다. 만약 Mosk가 팀에 있다면, 즉시 \"소용돌이! 유동! 발사!\"를 사용하여 추격합니다.",
     "image_path": "images/key_mosk.png",
     "tags": ["모스크","광기 획득", "추격"]
+  },
+  {
+    "korean_name": "운명의 궤도",
+    "english_name": "key_arachne",
+    "description": "62의 방어막을 얻고 임시 피해 증폭을 50% 얻습니다. 만약 아라크네가 팀에 있다면, '영원한 베틀'을 1코스트 줄이고 드로우합니다.",
+    "image_path": "images/key_arachne.png",
+    "tags": ["아라크네","방어막 획득", "임시 피해 증폭"]
   }
 ]
