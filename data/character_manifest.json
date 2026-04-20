@@ -49,7 +49,7 @@
   { "id": "clementine", "name": "클레멘타인", "image_thumb": "images/Clementine-thumb.png", "relems": "ultra", "class": "chorus", "grade": "ssr" },
   { "id": "tinct", "name": "틴커트", "image_thumb": "images/Tinct-thumb.png", "relems": "ultra", "class": "chorus", "grade": "ssr" },
   { "id": "pollux", "name": "플룩스", "image_thumb": "images/Pollux-thumb.png", "relems": "ultra", "class": "assault", "grade": "ssr" },
-  { "id": "arachne", "name": "아라크네", "image_thumb": "images/Arachne-thumb.png", "relems": "ultra", "class": "chorus", "grade": "ssr" },
+  { "id": "arachne", "name": "아라크네", "image_thumb": "images/arachne-thumb.png", "relems": "ultra", "class": "chorus", "grade": "ssr" },
   { "id": "doll", "name": "돌", "image_thumb": "images/Doll-thumb.png", "relems": "chaos", "class": "chorus", "grade": "sr" },
   { "id": "ramona", "name": "라모나", "image_thumb": "images/Ramona-thumb.png", "relems": "chaos", "class": "chorus", "grade": "sr" },
   { "id": "lotan", "name": "로탄", "image_thumb": "images/Lotan-thumb.png", "relems": "chaos", "class": "assault", "grade": "sr" },
