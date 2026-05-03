@@ -7,8 +7,8 @@
     position: relative;
     z-index: 999;
     width: 100%;
-    max-width: 1080px;
-    padding: 20px 14px 60px;
+    max-width: 800px;
+    padding: 40px 20px 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,7 +22,7 @@ header {
     flex: 0 0 auto;
     width: 100%;
     text-align: center;
-    margin-bottom: 22px;
+    margin-bottom: 40px;
 }
 
 header h1 {
@@ -43,7 +43,7 @@ header h1 {
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
     border: 1px solid #555;
-    margin-bottom: 26px;
+    margin-bottom: 45px;
 }
 
 .banner-track {
@@ -182,198 +182,6 @@ header h1 {
     justify-content: center;
 }
 
-/* --- 4-1. 랜딩 메뉴: 인게임 감성 기반 정보 카드 --- */
-.menu-grid.landing-menu {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-    align-items: stretch;
-}
-
-.landing-menu .menu-card {
-    position: relative;
-    isolation: isolate;
-    min-height: 148px;
-    padding: 12px;
-    overflow: hidden;
-    align-items: stretch;
-    justify-content: space-between;
-    border: 1px solid rgba(202, 190, 151, 0.38);
-    border-radius: 6px;
-    background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 38%),
-        linear-gradient(180deg, rgba(28, 31, 30, 0.94), rgba(10, 13, 13, 0.96));
-    box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.04),
-        inset 0 -28px 50px rgba(0, 0, 0, 0.36),
-        0 12px 22px rgba(0, 0, 0, 0.32);
-    text-decoration: none;
-    transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
-}
-
-.landing-menu .menu-card::before,
-.landing-menu .menu-card::after {
-    content: "";
-    position: absolute;
-    inset: 8px;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.landing-menu .menu-card::before {
-    border: 1px solid rgba(204, 190, 148, 0.13);
-    background:
-        linear-gradient(90deg, transparent 49%, rgba(204, 190, 148, 0.08) 50%, transparent 51%),
-        linear-gradient(0deg, transparent 49%, rgba(204, 190, 148, 0.06) 50%, transparent 51%);
-}
-
-.landing-menu .menu-card::after {
-    inset: 0;
-    background:
-        radial-gradient(circle at 50% 24%, rgba(225, 210, 160, 0.16), transparent 28%),
-        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 8px);
-    opacity: 0.62;
-}
-
-.landing-menu .menu-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(247, 198, 104, 0.82);
-    background:
-        linear-gradient(135deg, rgba(247, 198, 104, 0.1), transparent 38%),
-        linear-gradient(180deg, rgba(34, 38, 36, 0.96), rgba(13, 16, 16, 0.98));
-    box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-        inset 0 -28px 50px rgba(0, 0, 0, 0.36),
-        0 16px 28px rgba(0, 0, 0, 0.42);
-}
-
-.landing-menu .menu-card:focus-visible {
-    outline: 2px solid #f7c668;
-    outline-offset: 3px;
-}
-
-.landing-menu .menu-featured {
-    grid-column: span 2;
-    min-height: 150px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-}
-
-.menu-badge {
-    position: absolute;
-    top: 9px;
-    right: 9px;
-    z-index: 2;
-    padding: 3px 7px;
-    border: 1px solid rgba(247, 198, 104, 0.48);
-    background: rgba(9, 11, 11, 0.72);
-    color: #f7d58a;
-    font-size: 0.62rem;
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: 0;
-}
-
-.menu-art {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 66px;
-    margin-top: 8px;
-}
-
-.menu-art img {
-    width: min(70%, 86px);
-    height: 66px;
-    object-fit: contain;
-    opacity: 0.78;
-    filter: grayscale(0.55) sepia(0.2) brightness(0.88) contrast(1.06);
-    transition: opacity 0.18s ease, filter 0.18s ease, transform 0.18s ease;
-}
-
-.menu-card:hover .menu-art img {
-    opacity: 0.98;
-    filter: grayscale(0.12) sepia(0.08) brightness(1) contrast(1.08);
-    transform: scale(1.04);
-}
-
-.menu-art-stack {
-    gap: 0;
-}
-
-.menu-art-stack img {
-    width: 46px;
-    height: 46px;
-    margin: 0 -8px;
-}
-
-.menu-art-mark {
-    min-height: 78px;
-    color: rgba(223, 211, 176, 0.74);
-    font-size: clamp(1.2rem, 2.3vw, 1.65rem);
-    font-weight: 800;
-    letter-spacing: 0;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.8);
-}
-
-.menu-art-mark::before {
-    content: "";
-    position: absolute;
-    width: 76px;
-    height: 76px;
-    border: 1px solid rgba(204, 190, 148, 0.22);
-    transform: rotate(45deg);
-}
-
-.menu-copy {
-    position: relative;
-    z-index: 2;
-    display: grid;
-    gap: 5px;
-    margin-top: 8px;
-    text-align: left;
-}
-
-.menu-copy strong {
-    color: #f5efe0;
-    font-size: 0.9rem;
-    line-height: 1.25;
-    word-break: keep-all;
-}
-
-.menu-copy small {
-    color: rgba(222, 216, 199, 0.68);
-    font-size: 0.72rem;
-    line-height: 1.35;
-    word-break: keep-all;
-}
-
-.landing-menu .menu-featured .menu-art {
-    flex-basis: auto;
-    min-height: 58px;
-    margin-top: 0;
-}
-
-.landing-menu .menu-featured .menu-art img {
-    width: 66px;
-    height: 66px;
-}
-
-.landing-menu .menu-featured .menu-copy {
-    flex: 1;
-    margin-top: 0;
-}
-
-.landing-menu .menu-featured .menu-copy strong {
-    font-size: 0.98rem;
-}
-
-.landing-menu .menu-featured .menu-copy small {
-    font-size: 0.76rem;
-}
-
 /* --- 5. 푸터 --- */
 footer {
     flex: 0 0 auto;
@@ -429,7 +237,7 @@ footer {
    ========================================= */
 
 /* 1. 컨테이너: 가로 2칸 차지 + 텍스트는 무조건 아래로 */
-.menu-grid.landing-menu .menu-wrapper.wide-menu {
+.menu-grid .menu-wrapper.wide-menu {
     grid-column: span 2 !important;
     width: 100% !important;
 
@@ -440,153 +248,52 @@ footer {
     justify-content: flex-start !important;
 }
 
-/* --- 7. 랜딩 메뉴 반응형 확장: mobile-first --- */
-@media (min-width: 601px) {
-    .landing-container {
-        padding: 28px 20px 70px;
-    }
+/* 2. 회색 박스(.menu-item) 납작하게 누르기 */
+.menu-grid .menu-wrapper.wide-menu .menu-item {
+    width: 100% !important;
 
-    header {
-        margin-bottom: 32px;
-    }
+    /* [핵심 수정] 비율을 2.2가 아니라 4.2로 변경! */
+    /* 가로가 2배 넓어졌으니, 비율 수치도 2배 커져야 높이가 그대로 유지됩니다. */
+    /* (기본 비율 약 2:1 -> 와이드 비율 약 4.2:1) */
+    aspect-ratio: 4.2 / 1 !important;
 
-    .banner-container {
-        margin-bottom: 36px;
-    }
+    /* 높이가 튀는 것을 방지하기 위한 초기화 */
+    height: auto !important;
+    padding: 0 !important;
+    margin-bottom: 8px !important;
 
-    .menu-grid.landing-menu {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-    }
+    /* 내부 아이콘 정렬 */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
 
-    .landing-menu .menu-card {
-        min-height: 154px;
-    }
-
-    .menu-grid.landing-menu .menu-featured {
-        grid-column: span 2 !important;
-        min-height: 132px;
-        flex-direction: row !important;
-        align-items: center !important;
-        gap: 14px;
-    }
-
-    .landing-menu .menu-featured .menu-art {
-        flex: 0 0 86px;
-        min-height: 76px;
-    }
-
-    .landing-menu .menu-featured .menu-art img {
-        width: 72px;
-        height: 72px;
-    }
-
-    .landing-menu .menu-featured .menu-copy strong {
-        font-size: 1.06rem;
-    }
-
-    .landing-menu .menu-featured .menu-copy small {
-        font-size: 0.82rem;
-    }
+    font-size: 2rem !important;
 }
 
-@media (min-width: 769px) {
-    .menu-grid.landing-menu {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 14px;
-    }
+/* 3. 텍스트 라벨 */
+.menu-grid .menu-wrapper.wide-menu .menu-label {
+    text-align: center !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+    font-size: 1.0em !important;
+    font-weight: bold !important;
 
-    .menu-grid.landing-menu .menu-featured {
+    /* 텍스트가 옆으로 붙는 것 방지 */
+    display: block !important;
+    position: static !important;
+}
+
+/* --- 모바일 반응형 --- */
+/* 모바일에서는 가로폭이 좁아서 비율을 다시 조정해야 예쁩니다 */
+@media (max-width: 600px) {
+    .menu-grid .menu-wrapper.wide-menu {
         grid-column: span 2 !important;
     }
 
-    .menu-art {
-        min-height: 72px;
-    }
-
-    .menu-art img {
-        height: 76px;
-    }
-
-    .menu-art-stack img {
-        width: 52px;
-        height: 52px;
-    }
-
-    .menu-copy strong {
-        font-size: 0.96rem;
-    }
-
-    .menu-copy small {
-        font-size: 0.75rem;
-    }
-}
-
-@media (min-width: 1025px) {
-    .landing-container {
-        padding: 36px 24px 80px;
-    }
-
-    header {
-        margin-bottom: 40px;
-    }
-
-    .banner-container {
-        margin-bottom: 45px;
-    }
-
-    .landing-menu .menu-card {
-        min-height: 158px;
-        padding: 14px;
-    }
-
-    .landing-menu .menu-featured {
-        min-height: 126px;
-        gap: 18px;
-    }
-
-    .menu-badge {
-        top: 12px;
-        right: 12px;
-        font-size: 0.68rem;
-    }
-
-    .menu-art {
-        min-height: 78px;
-    }
-
-    .menu-art img {
-        height: 86px;
-    }
-
-    .menu-art-stack img {
-        width: 58px;
-        height: 58px;
-    }
-
-    .menu-copy strong {
-        font-size: 1rem;
-    }
-
-    .menu-copy small {
-        font-size: 0.78rem;
-    }
-
-    .landing-menu .menu-featured .menu-art {
-        flex-basis: 120px;
-        min-height: 86px;
-    }
-
-    .landing-menu .menu-featured .menu-art img {
-        width: 96px;
-        height: 96px;
-    }
-
-    .landing-menu .menu-featured .menu-copy strong {
-        font-size: clamp(1.05rem, 2vw, 1.35rem);
-    }
-
-    .landing-menu .menu-featured .menu-copy small {
-        font-size: 0.86rem;
+    .menu-grid .menu-wrapper.wide-menu .menu-item {
+        /* 모바일에서는 그리드 비율이 달라지므로 비율 조정 */
+        /* 화면이 좁을 땐 3.5 정도가 적당합니다 */
+        aspect-ratio: 3.5 / 1 !important;
+        font-size: 1.6em !important;
     }
 }
