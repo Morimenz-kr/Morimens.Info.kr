@@ -7,11 +7,12 @@
     position: relative;
     z-index: 999;
     width: 100%;
+    min-height: 100dvh;
     max-width: 1080px;
-    padding: 20px 14px 60px;
+    padding: 20px 14px 12px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     gap: 0;
     margin: 0 auto;
@@ -192,7 +193,8 @@ header h1 {
 .landing-menu .menu-card {
     position: relative;
     isolation: isolate;
-    min-height: 148px;
+    height: 118px;
+    min-height: 0;
     padding: 12px;
     overflow: hidden;
     align-items: stretch;
@@ -252,11 +254,16 @@ header h1 {
 }
 
 .landing-menu .menu-featured {
-    grid-column: span 2;
-    min-height: 150px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
+    grid-column: 1 / -1;
+    height: 118px;
+    min-height: 0;
+    max-height: 118px;
+    aspect-ratio: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 12px;
 }
 
 .menu-badge {
@@ -272,6 +279,30 @@ header h1 {
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: 0;
+}
+
+.menu-badge.badge-live {
+    border-color: rgba(247, 198, 104, 0.62);
+    background: rgba(22, 16, 8, 0.78);
+    color: #ffd778;
+}
+
+.menu-badge.badge-pick {
+    border-color: rgba(221, 151, 107, 0.58);
+    background: rgba(29, 14, 13, 0.78);
+    color: #ffb991;
+}
+
+.menu-badge.badge-data {
+    border-color: rgba(172, 194, 174, 0.48);
+    background: rgba(10, 18, 15, 0.76);
+    color: #cddfcb;
+}
+
+.menu-badge.badge-guide {
+    border-color: rgba(164, 184, 209, 0.48);
+    background: rgba(10, 15, 22, 0.76);
+    color: #cbd8e8;
 }
 
 .menu-art {
@@ -332,8 +363,21 @@ header h1 {
     z-index: 2;
     display: grid;
     gap: 5px;
-    margin-top: 8px;
+    margin-top: 2px;
     text-align: left;
+    transform: translateY(-6px);
+}
+
+.landing-menu .menu-card:not(.menu-featured) .menu-copy {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    margin-top: 0;
+    padding-top: 18px;
+    transform: none;
+    background: linear-gradient(180deg, transparent, rgba(8, 10, 10, 0.86) 42%);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
 }
 
 .menu-copy strong {
@@ -351,27 +395,28 @@ header h1 {
 }
 
 .landing-menu .menu-featured .menu-art {
-    flex-basis: auto;
-    min-height: 58px;
+    flex: 0 0 56px;
+    min-height: 54px;
     margin-top: 0;
 }
 
 .landing-menu .menu-featured .menu-art img {
-    width: 66px;
-    height: 66px;
+    width: 50px;
+    height: 50px;
 }
 
 .landing-menu .menu-featured .menu-copy {
     flex: 1;
     margin-top: 0;
+    transform: none;
 }
 
 .landing-menu .menu-featured .menu-copy strong {
-    font-size: 0.98rem;
+    font-size: 0.94rem;
 }
 
 .landing-menu .menu-featured .menu-copy small {
-    font-size: 0.76rem;
+    display: none;
 }
 
 /* --- 5. 푸터 --- */
@@ -383,7 +428,7 @@ footer {
     font-size: 0.8em;
     color: #888;
     padding: 15px 20px 10px;
-    margin: 0 auto;
+    margin: auto auto 0;
 }
 
 .patch-link {
@@ -424,26 +469,61 @@ footer {
     font-size: 0.85em;
 }
 
-/* =========================================
-   2x1 와이드 메뉴 (높이 1배 유지, 가로 2배 확장)
-   ========================================= */
-
-/* 1. 컨테이너: 가로 2칸 차지 + 텍스트는 무조건 아래로 */
+/* --- 4-2. 와이드 메뉴 높이 보정 --- */
 .menu-grid.landing-menu .menu-wrapper.wide-menu {
-    grid-column: span 2 !important;
+    grid-column: 1 / -1 !important;
     width: 100% !important;
-
-    /* 텍스트가 오른쪽으로 가는 현상 방지 (세로 정렬 강제) */
+    height: 118px !important;
+    min-height: 0 !important;
+    max-height: 118px !important;
+    aspect-ratio: auto !important;
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
     align-items: center !important;
-    justify-content: flex-start !important;
+    justify-content: center !important;
 }
 
 /* --- 7. 랜딩 메뉴 반응형 확장: mobile-first --- */
+@media (min-width: 481px) {
+    .menu-grid.landing-menu .menu-featured {
+        height: 118px !important;
+        max-height: 118px !important;
+        min-height: 0 !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px;
+        padding: 10px 12px;
+    }
+
+    .landing-menu .menu-featured .menu-art {
+        flex: 0 0 58px;
+        min-height: 54px;
+    }
+
+    .landing-menu .menu-featured .menu-art img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .landing-menu .menu-featured .menu-copy {
+        max-width: 360px;
+        flex: 0 1 360px;
+        margin-top: 0;
+    }
+
+    .landing-menu .menu-featured .menu-copy strong {
+        font-size: 0.96rem;
+    }
+
+    .landing-menu .menu-featured .menu-copy small {
+        display: none;
+    }
+}
+
 @media (min-width: 601px) {
     .landing-container {
-        padding: 28px 20px 70px;
+        padding: 28px 20px 14px;
     }
 
     header {
@@ -460,33 +540,44 @@ footer {
     }
 
     .landing-menu .menu-card {
-        min-height: 154px;
+        height: 122px;
+        min-height: 0;
     }
 
     .menu-grid.landing-menu .menu-featured {
-        grid-column: span 2 !important;
-        min-height: 132px;
+        grid-column: 1 / -1 !important;
+        height: 122px !important;
+        max-height: 122px !important;
+        min-height: 0 !important;
         flex-direction: row !important;
         align-items: center !important;
-        gap: 14px;
+        justify-content: center !important;
+        gap: 10px;
+        padding: 10px 12px;
     }
 
     .landing-menu .menu-featured .menu-art {
-        flex: 0 0 86px;
-        min-height: 76px;
+        flex: 0 0 72px;
+        min-height: 66px;
     }
 
     .landing-menu .menu-featured .menu-art img {
-        width: 72px;
-        height: 72px;
+        width: 64px;
+        height: 64px;
+    }
+
+    .landing-menu .menu-featured .menu-copy {
+        max-width: 360px;
+        flex: 0 1 360px;
+        margin-top: 0;
     }
 
     .landing-menu .menu-featured .menu-copy strong {
-        font-size: 1.06rem;
+        font-size: 0.96rem;
     }
 
     .landing-menu .menu-featured .menu-copy small {
-        font-size: 0.82rem;
+        display: none;
     }
 }
 
@@ -496,8 +587,11 @@ footer {
         gap: 14px;
     }
 
-    .menu-grid.landing-menu .menu-featured {
+    .menu-grid.landing-menu .menu-wrapper.menu-featured {
         grid-column: span 2 !important;
+        height: 122px !important;
+        min-height: 0 !important;
+        max-height: 122px !important;
     }
 
     .menu-art {
@@ -524,7 +618,7 @@ footer {
 
 @media (min-width: 1025px) {
     .landing-container {
-        padding: 36px 24px 80px;
+        padding: 36px 24px 16px;
     }
 
     header {
@@ -536,13 +630,28 @@ footer {
     }
 
     .landing-menu .menu-card {
-        min-height: 158px;
+        height: 148px;
+        min-height: 0;
         padding: 14px;
     }
 
+    .landing-menu .menu-card:not(.menu-featured) .menu-copy {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+    }
+
     .landing-menu .menu-featured {
-        min-height: 126px;
+        height: 148px;
+        min-height: 0;
+        max-height: 148px;
         gap: 18px;
+    }
+
+    .menu-grid.landing-menu .menu-wrapper.menu-featured {
+        grid-column: span 2 !important;
+        height: 148px !important;
+        max-height: 148px !important;
     }
 
     .menu-badge {
@@ -574,7 +683,7 @@ footer {
 
     .landing-menu .menu-featured .menu-art {
         flex-basis: 120px;
-        min-height: 86px;
+        min-height: 0;
     }
 
     .landing-menu .menu-featured .menu-art img {
