@@ -202,12 +202,12 @@ header h1 {
     border: 1px solid rgba(202, 190, 151, 0.38);
     border-radius: 6px;
     background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.055), transparent 38%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent 38%),
         linear-gradient(180deg, rgba(28, 31, 30, 0.94), rgba(10, 13, 13, 0.96));
     box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, 0.04),
-        inset 0 -28px 50px rgba(0, 0, 0, 0.36),
-        0 12px 22px rgba(0, 0, 0, 0.32);
+        inset 0 -20px 38px rgba(0, 0, 0, 0.28),
+        0 10px 18px rgba(0, 0, 0, 0.28);
     text-decoration: none;
     transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
@@ -222,18 +222,18 @@ header h1 {
 }
 
 .landing-menu .menu-card::before {
-    border: 1px solid rgba(204, 190, 148, 0.13);
+    border: 1px solid rgba(204, 190, 148, 0.09);
     background:
-        linear-gradient(90deg, transparent 49%, rgba(204, 190, 148, 0.08) 50%, transparent 51%),
-        linear-gradient(0deg, transparent 49%, rgba(204, 190, 148, 0.06) 50%, transparent 51%);
+        linear-gradient(90deg, transparent 49%, rgba(204, 190, 148, 0.025) 50%, transparent 51%),
+        linear-gradient(0deg, transparent 49%, rgba(204, 190, 148, 0.02) 50%, transparent 51%);
 }
 
 .landing-menu .menu-card::after {
     inset: 0;
     background:
-        radial-gradient(circle at 50% 24%, rgba(225, 210, 160, 0.16), transparent 28%),
-        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 8px);
-    opacity: 0.62;
+        radial-gradient(circle at 50% 24%, rgba(225, 210, 160, 0.06), transparent 30%),
+        repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.012) 0 1px, transparent 1px 10px);
+    opacity: 0.35;
 }
 
 .landing-menu .menu-card:hover {
@@ -244,7 +244,7 @@ header h1 {
         linear-gradient(180deg, rgba(34, 38, 36, 0.96), rgba(13, 16, 16, 0.98));
     box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-        inset 0 -28px 50px rgba(0, 0, 0, 0.36),
+        inset 0 -20px 38px rgba(0, 0, 0, 0.3),
         0 16px 28px rgba(0, 0, 0, 0.42);
 }
 
@@ -324,6 +324,16 @@ header h1 {
     transition: opacity 0.18s ease, filter 0.18s ease, transform 0.18s ease;
 }
 
+.menu-art img.menu-art-awakener {
+    width: min(86%, 104px);
+    height: 82px;
+}
+
+.menu-art img.menu-art-dtide {
+    width: min(88%, 108px);
+    height: 82px;
+}
+
 .menu-card:hover .menu-art img {
     opacity: 0.98;
     filter: grayscale(0.12) sepia(0.08) brightness(1) contrast(1.08);
@@ -338,6 +348,18 @@ header h1 {
     width: 46px;
     height: 46px;
     margin: 0 -8px;
+}
+
+.menu-art-factions {
+    gap: 1px;
+    min-height: 66px;
+}
+
+.menu-art-factions img {
+    width: 32px;
+    height: 48px;
+    object-fit: contain;
+    margin: 0;
 }
 
 .menu-art-mark {
@@ -374,21 +396,21 @@ header h1 {
     right: 12px;
     bottom: 12px;
     margin-top: 0;
-    padding-top: 18px;
+    padding-top: 14px;
     transform: none;
-    background: linear-gradient(180deg, transparent, rgba(8, 10, 10, 0.86) 42%);
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+    background: linear-gradient(180deg, transparent, rgba(8, 10, 10, 0.54) 56%);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.82);
 }
 
 .menu-copy strong {
-    color: #f5efe0;
+    color: rgba(245, 239, 224, 0.9);
     font-size: 0.9rem;
     line-height: 1.25;
     word-break: keep-all;
 }
 
 .menu-copy small {
-    color: rgba(222, 216, 199, 0.68);
+    color: rgba(222, 216, 199, 0.52);
     font-size: 0.72rem;
     line-height: 1.35;
     word-break: keep-all;
@@ -607,6 +629,11 @@ footer {
         height: 52px;
     }
 
+    .menu-art-factions img {
+        width: 36px;
+        height: 54px;
+    }
+
     .menu-copy strong {
         font-size: 0.96rem;
     }
@@ -668,9 +695,28 @@ footer {
         height: 86px;
     }
 
+    .menu-art img.menu-art-awakener {
+        width: min(88%, 124px);
+        height: 104px;
+    }
+
+    .menu-art img.menu-art-dtide {
+        width: min(90%, 130px);
+        height: 106px;
+    }
+
     .menu-art-stack img {
         width: 58px;
         height: 58px;
+    }
+
+    .menu-art-factions {
+        gap: 2px;
+    }
+
+    .menu-art-factions img {
+        width: 42px;
+        height: 64px;
     }
 
     .menu-copy strong {
