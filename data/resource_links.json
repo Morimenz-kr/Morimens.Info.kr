@@ -3,7 +3,13 @@
     "event": {
       "title": "🎉 진행 중인 이벤트 정보",
       "links": 
-      [ 
+      [
+        {
+          "url": "https://arca.live/b/forgettingeve/169700426",
+          "title": "지금까지 해본 열차 조합 대충 정리",
+          "desc": "심심해서 씀내가 굴려본거 기억에 의존해 쓰는 거라, 실제 성능이나 정확도같은 건 기대하지 마셈. 개씹힙스터라 이상한조합 많이 함. 전부 어려움 이상 기준임대부분 아라크네 출시 이전에 해본 거라, 풀돌효과 포함 안 된",
+          "image": "https://ac-p1.namu.la/20251121sac/17afad82661d23dd15ce700f7cb3619678060bbd36281d6c17f6ef48fca7fd48.png?expires=1777977463&key=mgl1D-vBVAhX1omhITdQoQ"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/163172807",
           "title": "이벤트 효율계산",
@@ -178,6 +184,12 @@
       "title": "🐣 뉴비 필독 가이드",
       "links": 
       [
+        {
+          "url": "https://arca.live/b/forgettingeve/169627704",
+          "title": "유입뉴비를 위한 픽업가이드 5월 17일까지유효",
+          "desc": "유입 뉴비를 위한 픽업가이드이며 #돌계를 기준으로 작성되었고 #깡계기준에서는 어느정도 과금이 필요하다 . #무과금이라면 가이드 순서대로 명함 전무 정도 챙겨가면된다. (게임 초기에 과금이 돌계를 포함하여 효율이좋다)",
+          "image": "https://ac-p1.namu.la/20260423sac/ad77c9640754358de4fbb2876787afec43593a617e15eedd0af99557a31a352b.jpg?expires=1777977523&key=8jXhJjsdRSToYTnLgt6iZw"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/168766664",
           "title": "누비를 위한 '검은 인장' 주옵에 대한 이해",
