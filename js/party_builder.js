@@ -165,6 +165,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (e.target === reportModal) reportModal.classList.remove('show');
         });
     }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        const open = document.querySelector('.modal-overlay.show, .modal-overlay[style*="flex"]');
+        if (open) closeModal(open.id);
+    });
+
+    ['modal-char', 'modal-wheel', 'modal-key'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', (e) => { if (e.target === el) closeModal(id); });
+    });
+
+    document.addEventListener('touchstart', hideTooltip, { passive: true });
 });
 
 async function loadExternalData() {
@@ -246,7 +259,17 @@ function loadFromLocalStorage() {
 
 function saveAllData(silent = false) {
     localStorage.setItem('morimens_v2_pages', JSON.stringify(allPages));
-    if (!silent) openSystemAlert("저장 완료", "모든 페이지 정보가 저장되었습니다.");
+    if (!silent) showToast('저장됨 ✓');
+}
+
+function showToast(msg) {
+    const existing = document.querySelector('.save-toast');
+    if (existing) existing.remove();
+    const t = document.createElement('div');
+    t.className = 'save-toast';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => { if (t.parentNode) t.remove(); }, 2000);
 }
 
 // [7] 페이지 및 팀 관리 기능
@@ -518,7 +541,7 @@ function renderMain() {
             div.onclick = (e) => { if(!e.target.closest('.slot-wheel')) openQuickSetup(); };
         } else {
             div.className += ' empty';
-            div.innerHTML = `<div class="empty-cross"></div><div class="empty-text">배치할 각성체 선택</div>`;
+            div.innerHTML = `<div class="empty-cross"></div><div class="empty-text">탭하여 각성체 선택</div>`;
             div.onclick = () => openQuickSetup();
         }
 
@@ -564,7 +587,11 @@ function renderTeamDomainImage(team) {
 
 function resetCurrentTeam() {
     const team = allPages[currentPageIdx].teams[currentTeamIdx];
-    openSystemConfirm("팀 초기화", `[${team.name}] 팀 설정을 정말 초기화하시겠습니까?`, () => {
+    const charNames = team.chars
+        .filter(id => id)
+        .map(id => { const c = DB.chars.find(x => x.id === id); return c ? c.name : id; });
+    const preview = charNames.length ? `\n현재 편성: ${charNames.join(', ')}` : '';
+    openSystemConfirm("팀 초기화", `[${team.name}] 팀 설정을 초기화합니다.${preview}\n\n되돌릴 수 없습니다.`, () => {
         team.chars = [null, null, null, null];
         team.wheels = [[null,null],[null,null],[null,null],[null,null]];
         team.key = null; team.supportIdx = -1;
@@ -620,6 +647,9 @@ function initCharModal() {
     renderCharGrid();
 
     document.getElementById('modal-char').classList.add('show');
+
+    const header = document.querySelector('#modal-char .modal-header h3');
+    if (header) header.textContent = isSupportSelectionMode ? '조력자 선택 (1명)' : '배치할 각성체 선택 (최대 4명)';
 
     // [기존 오타 수정] 조력자 모드에서도 푸터가 보이도록 'block'으로 고정
     document.querySelector('#modal-char .modal-footer').style.display = 'block';
@@ -882,6 +912,7 @@ function renderWheelModalUI() {
     renderWheelList();
 }
 function renderWheelList() {
+    hideTooltip();
     const box = document.getElementById('grid-wheel');
     if (!box) return;
     box.innerHTML = '';
