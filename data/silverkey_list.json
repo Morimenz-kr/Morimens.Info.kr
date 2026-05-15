@@ -334,5 +334,12 @@
     "description": "62의 방어막을 얻고 임시 피해 증폭을 50% 얻습니다. 만약 아라크네가 팀에 있다면, '영원한 베틀'을 1코스트 줄이고 드로우합니다.",
     "image_path": "images/key_arachne.png",
     "tags": ["아라크네","방어막 획득", "임시 피해 증폭"]
+  },
+  {
+    "korean_name": "신세계를 위하여",
+    "english_name": "key_saya",
+    "description": "48의 방어막을 얻고「스킬」2장을 드로우하며 해당 카드에「인지 혼란」을 부여합니다. 만약 사야가 팀에 있다면,「우종」1스택을 획득합니다.",
+    "image_path": "images/key_saya.png",
+    "tags": ["사야","방어막 획득", "드로우"]
   }
 ]

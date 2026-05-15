@@ -36,6 +36,7 @@
   { "id": "faint", "name": "파인트", "image_thumb": "images/Faint-thumb.png", "relems": "caro", "class": "warden", "grade": "ssr" },
   { "id": "pickman", "name": "픽맨", "image_thumb": "images/Pickman-thumb.png", "relems": "caro", "class": "chorus", "grade": "ssr" },
   { "id": "helot_catena", "name": "혈쇄 · 히로", "image_thumb": "images/Helot_Catena-thumb.png", "relems": "caro", "class": "assault", "grade": "ssr" },
+  { "id": "saya", "name": "사야", "image_thumb": "images/Saya-thumb.png", "relems": "caro", "class": "chorus", "grade": "ssr" },
   { "id": "helot", "name": "히로", "image_thumb": "images/Helot-thumb.png", "relems": "caro", "class": "assault", "grade": "ssr" },
   { "id": "dafoodil", "name": "다포딜", "image_thumb": "images/Dafoodil-thumb.png", "relems": "ultra", "class": "assault", "grade": "ssr" },
   { "id": "liz", "name": "리즈", "image_thumb": "images/Liz-thumb.png", "relems": "ultra", "class": "assault", "grade": "ssr" },

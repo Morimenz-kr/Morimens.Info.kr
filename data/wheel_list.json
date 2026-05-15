@@ -55,6 +55,24 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "다시 만날 거야",
+    "english_name": "wheel_you_and_me_will_meet",
+    "optimized_for": [""],
+    "main_stat": "영역 숙련 36",
+    "description": "팀 유일: 촉수 자세를 변경하거나, 핏빛 용광로를 사용하거나, 소멸을 사용할 경우 장비자의 명령 카드 1장을 뽑는다. 이 효과에는 각각 3턴의 쿨타임이 있다. 탐험 완료 후, 모든 각성체가 얻는 동조율이 4/6/8/10% 증가한다.",
+    "image_path": "images/wheel_you_and_me_will_meet.png"
+  },
+  {
+    "grade": "SSR",
+    "korean_name": "별들을 위하여",
+    "english_name": "wheel_for_the_star",
+    "optimized_for": [""],
+    "main_stat": "검은 인장 드롭 10.8%",
+    "description": "장비자 자신, 명륜, 비밀 계약이 각각 1%의 검은 인장 드롭을 가질 때마다, 전투 종료 후 최대 HP의 0.15/0.2/0.25/0.3%만큼 회복됩니다. 매 턴 종료 시 해당 회복 효과가 30%씩 감소하며, 여러 번 독립적으로 계산됩니다.「잿빛 유적」에서「감지」를 사용한 후, 이번「재의 유적」새로고침은 검은 인장을 소모하지 않습니다.",
+    "image_path": "images/wheel_for_the_star.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "개학일",
     "english_name": "wheel_firstday_of_school",
     "optimized_for": [""],
@@ -70,15 +88,6 @@
     "main_stat": "크리티컬 확률 14.4%",
     "description": "팀 유일: 은열쇠 발동 후, 장비자의 크리티컬 확률이 임시로 20/25/30/35% 증가한다.",
     "image_path": "images/wheel_training_partner.png"
-  },
-  {
-    "grade": "SSR",
-    "korean_name": "다시 만날 거야",
-    "english_name": "wheel_you_and_me_will_meet",
-    "optimized_for": [""],
-    "main_stat": "영역 숙련 36",
-    "description": "팀 유일: 촉수 자세를 변경하거나, 핏빛 용광로를 사용하거나, 소멸을 사용할 경우 장비자의 명령 카드 1장을 뽑는다. 이 효과에는 각각 3턴의 쿨타임이 있다. 탐험 완료 후, 모든 각성체가 얻는 동조율이 4/6/8/10% 증가한다.",
-    "image_path": "images/wheel_you_and_me_will_meet.png"
   },
   {
     "grade": "SSR",
@@ -106,6 +115,15 @@
     "main_stat": "크리티컬 피해 21.6%",
     "description": "팀 유일: 탐험이 시작된 후, 1장의 \"대박의 지혜\"를 드로우 덱에 섞습니다. \"대박의 지혜\": 1 산출력을 소모합니다. 손에 있는 모든 명령카드를 무작위로 드로우 덱에 섞으며, 섞인 명령카드는 다음에 사용할 때 13/17/21/25% 확률로 1번 추가로 발동합니다. 또한, 1장의 명령 카드를 섞을 떄마다 모든 각성체가 2점의 광기를 얻습니다. 보존, 소모, 고유",
     "image_path": "images/wheel_wisdom_of_gamble.png"
+  },
+  {
+    "grade": "SSR",
+    "korean_name": "벚꽃 환상",
+    "english_name": "wheel_illusion_of_sakura",
+    "optimized_for": [""],
+    "main_stat": "영역 숙련 36",
+    "description": "탐색 시작 후「봄의 편지」1장을 생성하여 덱에 넣습니다. \n 「봄의 편지」: 산출력 1, 은열쇠 에너지 100/150/200/250을 획득하고, 사용 후 영구적으로 「만개한 벚꽃」으로 변화합니다. 보존. \n「만개한 벚꽃」 : 산출력 1, 은열쇠 에너지 200/300/400/500을 획득하고, 사용 후 영구적으로 「꽃가루 눈」으로 변화합니다. 보존. \n「꽃가루 눈」: 산출력 1, 은열쇠 에너지 300/450/600/750을 획득하고, 사용 후 영구적으로 「일기일회」로 변화합니다. 보존. \n 「일기일회」: 산출력 1, 이미 해제된 3개의 무작위 은열쇠중 1개를 선택하여 즉시 발동하며, 2회 적용됩니다. 사용 후 영구적으로 「봄의 편지」로 변화합니다. 보존.",
+    "image_path": "images/wheel_illusion_of_sakura.png"
   },
   {
     "grade": "SSR",
@@ -484,6 +502,15 @@
     "main_stat": "피해 증폭 14.4%",
     "description": "팀 유일 : 장비자가 주는 고정 중독과 발동 중독 효과가 15/20/25/30% 증가하며, 혈육 영역에서 자동 회복되는 배아 융합이 15/20/25/30% 증가합니다. 장비자가 매 턴 처음으로 공명이 발동될 때 다른 각성체가 4/6/8/10점의 광기를 획득합니다.",
     "image_path": "images/wheel_wasted_frown.png"
+  },
+  {
+  "grade": "SSR",
+  "korean_name": "세상이 향기가 되길",
+  "english_name": "wheel_saya_ssr",
+  "optimized_for": ["사야"],
+  "main_stat": "검은 인장 드롭 10.8%",
+  "description": "산출력 상한 +1, 동일한 유형의 효과는 중첩되지 않는다. 장비자의 기초 광기 10당 가하는 침식이 2/3/4/5%씩 증가하며, 가하는 배아 융햡이 0.9/1.1/1.3/1.5% 증가한다.",
+  "image_path": "images/wheel_saya_ssr.png"
   },
   {
     "grade": "SSR",
@@ -994,6 +1021,15 @@
     "description": "파티 유일 : 장비자가 가하는 보호막이 4/6/8/10% 증가하고, 장비자가「추격」시 +9/11/13/15% 임시 강화, 매턴 최대 5회 발동",
     "image_path": "images/wheel_wheel_of_fate.png",
     "optimized_for" : ["아라크네"]
+  },
+  {
+    "grade": "SR",
+    "korean_name": "진흙 속의 동화",
+    "english_name": "wheel_saya_sr",
+    "main_stat": "검은 인장 드롭 5.4%",
+    "description": "'핏빛 용광로'를 사용한 이후, 장비자가 기초 광기의 4/6/8/10%에 해당하는 광기를 획득하며, 쿨타임은 3턴입니다.",
+    "image_path": "images/wheel_saya_sr.png",
+    "optimized_for" : ["사야"]
   },
   {
     "grade": "R",
