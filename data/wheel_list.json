@@ -118,6 +118,15 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "은밀한 오후 휴식 시간",
+    "english_name": "wheel_fontain",
+    "optimized_for": [""],
+    "main_stat": "크리티컬 피해 21.6%",
+    "description": "파티 유일 : 탐색 시작 후,「은밀한 낮잠 시간」1장을 드로우 더미에 셔플.「은밀한 낮잠 시간」: 산출력 1 소모, 임시 크리티컬 피해 50/60/70/80%. 보존, 소모",
+    "image_path": "images/wheel_fontain.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "벚꽃 환상",
     "english_name": "wheel_illusion_of_sakura",
     "optimized_for": [""],
