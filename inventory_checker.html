@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보유량 체크</title>
+
+    <script src="config/config.js?v=inventory-20260519"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/inventory_checker.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+
+<body>
+<div class="bg-image"></div>
+<div class="background-overlay"></div>
+
+<main class="container inventory-page">
+    <div class="header-area">
+        <nav aria-label="탐색"><a href="index.html" class="back-link">← 돌아가기</a></nav>
+    </div>
+
+    <section class="inventory-shell" aria-label="보유량 체크 도구">
+        <div class="inventory-summary">
+            <h2>각성체 / 명륜 보유 현황</h2>
+            <div class="summary-counts" aria-live="polite">
+                <span>각성체 <strong id="character-count">0</strong></span>
+                <span>명륜 <strong id="wheel-count">0</strong></span>
+            </div>
+        </div>
+
+        <section class="checker-panel" aria-label="보유 항목 선택">
+            <div class="chrome-tabs-container checker-tabs" role="tablist" aria-label="체크 대상">
+                <div class="tab-buttons">
+                    <button type="button" class="chrome-tab active" data-tab-button="characters">각성체</button>
+                    <button type="button" class="chrome-tab" data-tab-button="wheels">명륜</button>
+                </div>
+                <div class="capture-actions">
+                    <button type="button" id="copy-image-btn" class="primary-action">이미지 복사</button>
+                    <button type="button" id="preview-image-btn" class="ghost-action">미리보기</button>
+                    <button type="button" id="clear-selection-btn" class="ghost-action">전체 초기화</button>
+                </div>
+            </div>
+
+            <div class="checker-controls">
+                <input type="search" id="inventory-search" class="search-bar" placeholder="이름 검색..." aria-label="이름 검색">
+                <div class="filter-row">
+                    <div id="character-filters" class="filter-pills" aria-label="각성체 필터">
+                        <button type="button" class="filter-pill active" data-character-filter="all">전체</button>
+                        <button type="button" class="filter-pill" data-character-filter="standard">통상</button>
+                        <button type="button" class="filter-pill" data-character-filter="forgotten">망각편</button>
+                        <button type="button" class="filter-pill" data-character-filter="celestial">성신편</button>
+                    </div>
+                    <div id="wheel-filters" class="filter-pills hidden" aria-label="명륜 필터">
+                        <button type="button" class="filter-pill active" data-wheel-filter="all">전체</button>
+                        <button type="button" class="filter-pill" data-wheel-filter="SSR">SSR</button>
+                        <button type="button" class="filter-pill" data-wheel-filter="SR">SR</button>
+                    </div>
+                    <div class="bulk-actions" aria-label="일괄 선택">
+                        <button type="button" id="select-visible-btn" class="ghost-action">모두 선택</button>
+                        <button type="button" id="deselect-visible-btn" class="ghost-action">모두 해제</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="character-grid" class="inventory-grid character-inventory-grid" aria-label="각성체 목록"></div>
+            <div id="wheel-grid" class="inventory-grid wheel-inventory-grid hidden" aria-label="명륜 목록"></div>
+        </section>
+
+        <section class="capture-panel" aria-label="공유용 결과">
+            <div id="copy-status" class="copy-status" role="status" aria-live="polite"></div>
+        </section>
+    </section>
+</main>
+
+<div id="preview-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="preview-modal-title">
+    <div class="modal-content preview-modal-content">
+        <div class="modal-header">
+            <h2 id="preview-modal-title">공유 이미지 미리보기</h2>
+            <button type="button" id="close-preview-modal" class="close-btn" aria-label="닫기">&times;</button>
+        </div>
+        <div class="preview-image-frame">
+            <img id="preview-image" alt="공유 이미지 미리보기">
+        </div>
+    </div>
+</div>
+
+<script>
+    loadJS('js/inventory_checker.js');
+</script>
+</body>
+</html>

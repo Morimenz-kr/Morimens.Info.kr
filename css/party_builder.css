@@ -107,6 +107,9 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
+    min-height: 0;
+    padding: 28px 0;
+    box-sizing: border-box;
     overflow: hidden;
 }
 
@@ -131,12 +134,15 @@ body {
 
 /* 슬롯 컨테이너 */
 .slots-container {
+    --party-card-height: min(100%, 548px);
     flex: 1;
     display: flex;
     gap: 40px;
     justify-content: center;
     padding-left: 0;
     align-items: center;
+    height: 100%;
+    min-height: 0;
 }
 
 /* 하단 바 */
@@ -167,7 +173,8 @@ body {
 
 /* --- [캐릭터 카드 & 휠 슬롯] --- */
 .char-card {
-    width: 240px;
+    width: auto;
+    height: var(--party-card-height);
     max-width: 100%;
     flex-shrink: 1;
     aspect-ratio: 294 / 672;
@@ -179,6 +186,20 @@ body {
 }
 .char-card:hover { border-color: #777; }
 .char-card.empty { justify-content: center; align-items: center; background-color: #222226; }
+
+.slot-wrapper {
+    position: relative;
+    width: auto;
+    height: var(--party-card-height);
+    max-width: 100%;
+    flex-shrink: 1;
+    aspect-ratio: 294 / 672;
+}
+
+.slot-wrapper .char-card {
+    width: 100%;
+    height: 100%;
+}
 .empty-cross { width: 50px; height: 50px; position: relative; display: flex; justify-content: center; align-items: center; }
 .empty-cross::before { content: ''; position: absolute; background: #444; width: 40px; height: 2px; }
 .empty-cross::after { content: ''; position: absolute; background: #444; width: 2px; height: 40px; }
@@ -204,8 +225,8 @@ body {
     z-index: 1; pointer-events: none;
 }
 .wheels-wrapper {
-    position: absolute; bottom: 30px; left: 0; right: 0;
-    display: flex; justify-content: center; gap: 24px; z-index: 2; pointer-events: auto;
+    position: absolute; bottom: 10px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 14px; z-index: 2; pointer-events: auto;
 }
 .slot-wheel {
     width: 84px; height: 170px; border: 1px solid #888; background: rgba(0,0,0,0.5);
@@ -747,7 +768,8 @@ body {
 
 /* 1. 노트북/작은 데스크탑 (1025px ~ 1400px) */
 @media (max-width: 1400px) {
-    .char-card { width: 180px; }
+    .slots-container { --party-card-height: min(100%, 411px); }
+    .char-card { width: auto; height: var(--party-card-height); }
     .slots-container { gap: 20px; padding-left: 30px; }
     .slot-wheel { width: 70px; height: 142px; }
     .slot-covenant { width: 50px; height: 60px; bottom: 140px; }
@@ -758,8 +780,9 @@ body {
 @media (max-width: 1024px) {
     .content-row { flex-direction: column; overflow-y: auto; }
     .domain-side-panel { width: 100%; margin-top: 20px; margin-bottom: 20px; justify-content: center; padding-left: 0; }
-    .slots-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 40px; width: 100%; max-width: 700px; justify-content: center; }
-    .char-card { width: 100%; aspect-ratio: 294 / 672; }
+    .slots-container { --party-card-height: auto; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; padding: 0 40px; width: 100%; max-width: 700px; justify-content: center; }
+    .char-card { width: 100%; height: auto; aspect-ratio: 294 / 672; }
+    .slot-wrapper { width: 100%; height: auto; aspect-ratio: 294 / 672; }
     .modal-box-wide { flex-direction: column; width: 95%; height: 90vh; }
     .wheel-list-wrapper { border-right: none; border-bottom: 1px solid #444; height: 55%; }
     .wheel-equip-panel { width: 100%; height: 45%; padding: 15px; }
@@ -786,8 +809,9 @@ body {
     .content-row { flex-direction: column; height: auto; gap: 20px; }
     .domain-side-panel { width: 100%; height: auto; margin: 0; padding: 0; justify-content: center; }
 
-    .slots-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0; width: 100%; }
-    .char-card { width: 100%; aspect-ratio: 294/672; }
+    .slots-container { --party-card-height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0; width: 100%; }
+    .char-card { width: 100%; height: auto; aspect-ratio: 294/672; }
+    .slot-wrapper { width: 100%; height: auto; aspect-ratio: 294/672; }
     .char-top-name { font-size: 1em; }
     .char-top-icon { width: 20px; height: 20px; }
     .slot-wheel { width: 44px; height: 89px; font-size: 1.2em; }
