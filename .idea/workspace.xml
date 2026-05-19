@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/party_builder.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/party_builder.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wheel_list.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/wheel_list.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-    </list>
+    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -182,7 +176,7 @@
       <workItem from="1778859454883" duration="7483000" />
       <workItem from="1779027500667" duration="1439000" />
       <workItem from="1779112226215" duration="320000" />
-      <workItem from="1779181364314" duration="7479000" />
+      <workItem from="1779181364314" duration="8388000" />
     </task>
     <servers />
   </component>
