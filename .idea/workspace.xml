@@ -65,7 +65,6 @@
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;codex/inventory-checker&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/김희준/Desktop/Morimens.Info.kr&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -180,6 +179,7 @@
       <workItem from="1779027500667" duration="1439000" />
       <workItem from="1779112226215" duration="320000" />
       <workItem from="1779181364314" duration="8388000" />
+      <workItem from="1779227810543" duration="567000" />
     </task>
     <servers />
   </component>
