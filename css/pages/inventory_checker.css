@@ -204,6 +204,7 @@
 .relems-character-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+    align-items: start;
     gap: 12px;
 }
 
@@ -253,10 +254,10 @@
 
 .breakthrough-stepper {
     display: grid;
-    grid-template-columns: 20px minmax(38px, auto) 20px;
+    grid-template-columns: 24px minmax(42px, auto) 24px;
     align-items: center;
     max-width: 100%;
-    min-height: 24px;
+    min-height: 30px;
     margin-top: -2px;
     border: 1px solid rgba(255, 255, 255, 0.72);
     border-radius: 999px;
@@ -268,13 +269,13 @@
 .breakthrough-stepper-btn {
     display: grid;
     place-items: center;
-    width: 20px;
-    height: 24px;
+    width: 24px;
+    height: 30px;
     padding: 0;
     border: 0;
     background: transparent;
     color: #fff;
-    font-size: 0.72rem;
+    font-size: 0.88rem;
     font-weight: 900;
     line-height: 1;
     cursor: pointer;
@@ -287,14 +288,24 @@
 }
 
 .breakthrough-stepper-label {
-    min-width: 38px;
-    padding: 0 3px;
+    min-width: 42px;
+    padding: 0 4px;
     color: #fff;
-    font-size: 0.72rem;
-    font-weight: 400;
-    line-height: 24px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 30px;
     text-align: center;
     white-space: nowrap;
+}
+
+.wheel-inventory-card .breakthrough-stepper {
+    margin-top: -2px;
+    margin-bottom: 0;
+}
+
+.character-inventory-card .breakthrough-stepper {
+    margin-top: 8px;
+    margin-bottom: 8px;
 }
 
 .wheel-inventory-card img {
@@ -311,6 +322,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.character-inventory-card .inventory-card-name {
+    display: none;
 }
 
 .check-mark {

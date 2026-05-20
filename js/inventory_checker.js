@@ -16,6 +16,16 @@
     const RELEMS_ORDER = ['chaos', 'aequor', 'caro', 'ultra'];
     const BREAKTHROUGH_LABELS = ['명함', '1돌', '2돌', '3돌', '4돌', '5돌', '6돌', '초한', '8돌', '9돌', '10돌', '11돌', '12돌', '13돌', '14돌', '풀돌'];
 
+    const LINKED_CHARACTER_BREAKTHROUGH_GROUPS = [
+        ['ramona', 'ramona_timeworn']
+    ];
+    const LINKED_CHARACTER_BREAKTHROUGH_MAP = LINKED_CHARACTER_BREAKTHROUGH_GROUPS.reduce((map, group) => {
+        group.forEach(id => {
+            map[id] = group;
+        });
+        return map;
+    }, {});
+
     const state = {
         tab: 'characters',
         characterFilter: 'all',
@@ -312,7 +322,7 @@
             delete state.characterBreakthroughs[id];
         } else {
             state.selectedCharacters.add(id);
-            state.characterBreakthroughs[id] = getCharacterBreakthrough(id);
+            setCharacterBreakthrough(id, getCharacterBreakthrough(id));
         }
         saveState();
         renderAll();
@@ -338,7 +348,7 @@
     function updateBreakthrough(type, id, direction) {
         if (type === 'character') {
             if (!state.selectedCharacters.has(id)) return;
-            state.characterBreakthroughs[id] = stepBreakthrough(getCharacterBreakthrough(id), direction);
+            setCharacterBreakthrough(id, stepBreakthrough(getCharacterBreakthrough(id), direction));
         }
         if (type === 'wheel') {
             if (!state.selectedWheels.has(id)) return;
@@ -349,7 +359,23 @@
     }
 
     function getCharacterBreakthrough(id) {
-        return clampBreakthrough(state.characterBreakthroughs[id]);
+        return getLinkedCharacterBreakthroughIds(id).reduce((value, linkedId) => {
+            if (!Object.prototype.hasOwnProperty.call(state.characterBreakthroughs, linkedId)) return value;
+            return Math.max(value, clampBreakthrough(state.characterBreakthroughs[linkedId]));
+        }, 0);
+    }
+
+    function setCharacterBreakthrough(id, value) {
+        const breakthrough = clampBreakthrough(value);
+        getLinkedCharacterBreakthroughIds(id).forEach(linkedId => {
+            if (state.selectedCharacters.has(linkedId)) {
+                state.characterBreakthroughs[linkedId] = breakthrough;
+            }
+        });
+    }
+
+    function getLinkedCharacterBreakthroughIds(id) {
+        return LINKED_CHARACTER_BREAKTHROUGH_MAP[id] || [id];
     }
 
     function getWheelBreakthrough(id) {
@@ -380,7 +406,7 @@
         if (state.tab === 'characters') {
             ids.forEach(id => {
                 state.selectedCharacters.add(id);
-                state.characterBreakthroughs[id] = getCharacterBreakthrough(id);
+                setCharacterBreakthrough(id, getCharacterBreakthrough(id));
             });
         } else {
             ids.forEach(id => {
@@ -545,6 +571,7 @@
             gap,
             sectionWidth,
             drawName: true,
+            showName: false,
             getImage: item => item.image_thumb,
             getName: item => item.name,
             getBadge: item => getBreakthroughLabel(getCharacterBreakthrough(item.id))
@@ -569,6 +596,7 @@
 
     async function drawSection(ctx, title, items, options) {
         const { x, cols, card, gap, drawName, getImage, getName, getBadge } = options;
+        const showName = options.showName !== false;
         let y = options.y;
         const contentWidth = options.sectionWidth || (cols * card.width + (cols - 1) * gap);
         const gridWidth = cols * card.width + (cols - 1) * gap;
@@ -614,7 +642,7 @@
             const imgY = cardY + 5;
             drawImageCover(ctx, image, imgX, imgY, imgWidth, imgHeight);
 
-            if (drawName) {
+            if (drawName && showName) {
                 ctx.fillStyle = '#dddddd';
                 ctx.font = '700 11px Pretendard, sans-serif';
                 ctx.textAlign = 'center';
@@ -623,8 +651,20 @@
                     drawBreakthroughBadge(ctx, getBadge(item), cardX + card.width / 2, cardY + card.imageHeight + 34);
                 }
                 ctx.textAlign = 'left';
+            } else if (drawName && getBadge) {
+                drawBreakthroughBadge(ctx, getBadge(item), cardX + card.width / 2, cardY + card.imageHeight + 18, {
+                    fontSize: 17,
+                    minWidth: 54,
+                    paddingX: 24,
+                    height: 30
+                });
             } else if (getBadge) {
-                drawBreakthroughBadge(ctx, getBadge(item), cardX + card.width / 2, cardY + card.imageHeight + 18);
+                drawBreakthroughBadge(ctx, getBadge(item), cardX + card.width / 2, cardY + card.imageHeight + 11, {
+                    fontSize: 17,
+                    minWidth: 54,
+                    paddingX: 24,
+                    height: 30
+                });
             }
         }
 
@@ -665,21 +705,22 @@
         ctx.stroke();
     }
 
-    function drawBreakthroughBadge(ctx, label, centerX, y) {
+    function drawBreakthroughBadge(ctx, label, centerX, y, options = {}) {
         ctx.save();
-        ctx.font = '700 12px Pretendard, sans-serif';
-        const width = Math.max(38, ctx.measureText(label).width + 16);
-        const height = 20;
+        const fontSize = options.fontSize || 12;
+        const height = options.height || 20;
+        ctx.font = `700 ${fontSize}px Pretendard, sans-serif`;
+        const width = Math.max(options.minWidth || 38, ctx.measureText(label).width + (options.paddingX || 16));
         const x = centerX - width / 2;
 
         ctx.fillStyle = 'rgba(10, 10, 10, 0.78)';
-        roundRect(ctx, x, y, width, height, 10);
+        roundRect(ctx, x, y, width, height, height / 2);
         ctx.fill();
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
         ctx.stroke();
         ctx.fillStyle = '#ffffff';
         ctx.textAlign = 'center';
-        ctx.fillText(label, centerX, y + 14);
+        ctx.fillText(label, centerX, y + Math.round(height / 2 + fontSize * 0.35));
         ctx.textAlign = 'left';
         ctx.restore();
     }
@@ -793,9 +834,21 @@
 
         state.selectedCharacters.forEach(id => {
             if (!Object.prototype.hasOwnProperty.call(state.characterBreakthroughs, id)) {
-                state.characterBreakthroughs[id] = 0;
+                setCharacterBreakthrough(id, getCharacterBreakthrough(id));
                 changed = true;
             }
+        });
+
+        LINKED_CHARACTER_BREAKTHROUGH_GROUPS.forEach(group => {
+            const selectedIds = group.filter(id => state.selectedCharacters.has(id));
+            if (selectedIds.length < 2) return;
+            const breakthrough = selectedIds.reduce((value, id) => Math.max(value, getCharacterBreakthrough(id)), 0);
+            selectedIds.forEach(id => {
+                if (state.characterBreakthroughs[id] !== breakthrough) {
+                    state.characterBreakthroughs[id] = breakthrough;
+                    changed = true;
+                }
+            });
         });
 
         if (changed) saveState();
