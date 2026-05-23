@@ -147,7 +147,7 @@
     "grade": "SSR",
     "korean_name": "영원한 진혼곡",
     "english_name": "wheel_eternal_requiem",
-    "optimized_for": ["라이커"],
+    "optimized_for": ["하멜른"],
     "main_stat": "은열쇠 충전 21.6",
     "description": "팀 유일: 탐색 시작 시, '은열쇠 새벽빛' 1장을 드로우 덱에 섞는다. 은열쇠 발동 시 장비자의 크리티컬 피해가 2/3/4/5% 증가한다. 장비자가 피해를 입힐 경우, 장비자의 은열쇠 충전의 50/60/70/80%에 해당하는 은열쇠 에너지를 획득하고, 임시 크리티컬 확률이 5/6/7/8% 증가한다. 이 효과는 매 턴 최대 5회까지 발동한다.",
     "image_path": "images/wheel_eternal_requiem.png"
