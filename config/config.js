@@ -1,7 +1,7 @@
 // 웹사이트 설정 파일
 const CONFIG = {
     // 1. 패치노트와 맞출 버전 (배포 시 이 부분을 수정)
-    VERSION: "v1.3.6",
+    VERSION: "v1.3.7",
     LAST_UPDATED: "2026-05-26",
 
     // 2. 피드백 접수용 Cloudflare Worker URL
