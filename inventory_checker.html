@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>보유량 체크</title>
 
-    <script src="config/config.js?v=inventory-20260519"></script>
+    <script src="config/config.js?v=inventory-20260526"></script>
     <script>
         loadCSS('css/common.css');
         loadCSS('css/components.css');
@@ -56,6 +56,12 @@
                         <button type="button" class="filter-pill" data-character-filter="standard">통상</button>
                         <button type="button" class="filter-pill" data-character-filter="forgotten">망각편</button>
                         <button type="button" class="filter-pill" data-character-filter="celestial">성신편</button>
+                    </div>
+                    <div id="character-class-filters" class="filter-pills" aria-label="각성체 역할 필터">
+                        <button type="button" class="filter-pill active" data-character-class-filter="all">전체 역할</button>
+                        <button type="button" class="filter-pill" data-character-class-filter="assault">공격형</button>
+                        <button type="button" class="filter-pill" data-character-class-filter="warden">방어형</button>
+                        <button type="button" class="filter-pill" data-character-class-filter="chorus">보조형</button>
                     </div>
                     <div id="wheel-filters" class="filter-pills hidden" aria-label="명륜 필터">
                         <button type="button" class="filter-pill active" data-wheel-filter="all">전체</button>

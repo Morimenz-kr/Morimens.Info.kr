@@ -126,6 +126,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    min-width: 0;
 }
 
 .filter-row {
@@ -133,6 +134,7 @@
     align-items: flex-start;
     justify-content: space-between;
     gap: 12px;
+    flex-wrap: wrap;
 }
 
 .filter-pill {
@@ -529,6 +531,10 @@
         flex-direction: column;
     }
 
+    .filter-pills {
+        width: 100%;
+    }
+
     .bulk-actions {
         justify-content: flex-start;
         margin-left: 0;
@@ -536,6 +542,30 @@
 
     .wheel-inventory-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .wheel-inventory-card {
+        padding: 7px 5px;
+    }
+
+    .wheel-inventory-card .breakthrough-stepper {
+        grid-template-columns: 18px minmax(26px, 1fr) 18px;
+        width: 100%;
+        max-width: 62px;
+        min-height: 28px;
+    }
+
+    .wheel-inventory-card .breakthrough-stepper-btn {
+        width: 18px;
+        height: 28px;
+        font-size: 0.78rem;
+    }
+
+    .wheel-inventory-card .breakthrough-stepper-label {
+        min-width: 26px;
+        padding: 0 2px;
+        font-size: 0.78rem;
+        line-height: 28px;
     }
 
     .relems-character-grid {

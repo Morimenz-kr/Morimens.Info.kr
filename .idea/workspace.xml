@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="" />
+    <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/detail.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/detail.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/pages/inventory_checker.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/pages/inventory_checker.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/css/responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/responsive.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inventory_checker.html" beforeDir="false" afterPath="$PROJECT_DIR$/inventory_checker.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/inventory_checker.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inventory_checker.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -180,6 +187,8 @@
       <workItem from="1779227810543" duration="567000" />
       <workItem from="1779497401219" duration="2496000" />
       <workItem from="1779608312403" duration="1871000" />
+      <workItem from="1779710561541" duration="357000" />
+      <workItem from="1779787583075" duration="351000" />
     </task>
     <servers />
   </component>
