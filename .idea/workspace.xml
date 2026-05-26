@@ -5,15 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/config/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/landing.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/landing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/party_builder.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/party_builder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/links.html" beforeDir="false" afterPath="$PROJECT_DIR$/links.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/list.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/party_builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/party_builder.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/repomix-output.xml" beforeDir="false" afterPath="$PROJECT_DIR$/repomix-output.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/resource_links.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/resource_links.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -191,7 +183,7 @@
       <workItem from="1779497401219" duration="2496000" />
       <workItem from="1779608312403" duration="1871000" />
       <workItem from="1779710561541" duration="357000" />
-      <workItem from="1779787583075" duration="2159000" />
+      <workItem from="1779787583075" duration="2899000" />
     </task>
     <servers />
   </component>
