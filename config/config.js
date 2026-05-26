@@ -4,8 +4,9 @@ const CONFIG = {
     VERSION: "v1.3.5",
     LAST_UPDATED: "2026-01-06",
 
-    // 2. Discord Webhook URL - 기존 주소 유지
-    DISCORD_WEBHOOK_URL: 'https://discordapp.com/api/webhooks/1442726767222718554/i3QtvZ6-giYqwtlheMm3ugxcJoVsoVYmExBPX2n-uEoFHpWwmGqaaO_f6gnlBNXCZYas'
+    // 2. 피드백 접수용 Cloudflare Worker URL
+    // 예: https://morimens-feedback.<your-subdomain>.workers.dev
+    FEEDBACK_ENDPOINT_URL: 'https://carriepigeon.khj613401.workers.dev'
 };
 
 // CSS를 버전 붙여서 로드하는 함수
