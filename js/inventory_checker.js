@@ -7,6 +7,11 @@
         forgotten: '망각편',
         celestial: '성신편'
     };
+    const CLASS_LABELS = {
+        assault: '공격형',
+        warden: '방어형',
+        chorus: '보조형'
+    };
     const RELEMS_LABELS = {
         chaos: '혼돈',
         aequor: '심해',
@@ -29,6 +34,7 @@
     const state = {
         tab: 'characters',
         characterFilter: 'all',
+        characterClassFilter: 'all',
         wheelFilter: 'all',
         search: '',
         characters: [],
@@ -73,11 +79,13 @@
     function cacheElements() {
         els.tabButtons = document.querySelectorAll('[data-tab-button]');
         els.characterFilters = document.querySelectorAll('[data-character-filter]');
+        els.characterClassFilters = document.querySelectorAll('[data-character-class-filter]');
         els.wheelFilters = document.querySelectorAll('[data-wheel-filter]');
         els.search = document.getElementById('inventory-search');
         els.characterGrid = document.getElementById('character-grid');
         els.wheelGrid = document.getElementById('wheel-grid');
         els.characterFiltersBox = document.getElementById('character-filters');
+        els.characterClassFiltersBox = document.getElementById('character-class-filters');
         els.wheelFiltersBox = document.getElementById('wheel-filters');
         els.characterCount = document.getElementById('character-count');
         els.wheelCount = document.getElementById('wheel-count');
@@ -105,6 +113,13 @@
         els.characterFilters.forEach(button => {
             button.addEventListener('click', () => {
                 state.characterFilter = button.dataset.characterFilter;
+                renderAll();
+            });
+        });
+
+        els.characterClassFilters.forEach(button => {
+            button.addEventListener('click', () => {
+                state.characterClassFilter = button.dataset.characterClassFilter;
                 renderAll();
             });
         });
@@ -171,7 +186,8 @@
         const map = {};
         Object.entries(gachatype).forEach(([group, ids]) => {
             ids.forEach(id => {
-                map[id] = group;
+                if (!map[id]) map[id] = [];
+                map[id].push(group);
             });
         });
         return map;
@@ -216,12 +232,16 @@
         els.characterGrid.classList.toggle('hidden', state.tab !== 'characters');
         els.wheelGrid.classList.toggle('hidden', state.tab !== 'wheels');
         els.characterFiltersBox.classList.toggle('hidden', state.tab !== 'characters');
+        els.characterClassFiltersBox.classList.toggle('hidden', state.tab !== 'characters');
         els.wheelFiltersBox.classList.toggle('hidden', state.tab !== 'wheels');
     }
 
     function renderFilters() {
         els.characterFilters.forEach(button => {
             button.classList.toggle('active', button.dataset.characterFilter === state.characterFilter);
+        });
+        els.characterClassFilters.forEach(button => {
+            button.classList.toggle('active', button.dataset.characterClassFilter === state.characterClassFilter);
         });
         els.wheelFilters.forEach(button => {
             button.classList.toggle('active', button.dataset.wheelFilter === state.wheelFilter);
@@ -230,10 +250,10 @@
 
     function renderCharacters() {
         const filtered = state.characters.filter(character => {
-            const group = state.groupByCharacterId[character.id] || 'standard';
-            const groupMatch = state.characterFilter === 'all' || group === state.characterFilter;
+            const groupMatch = matchesCharacterGroup(character);
+            const classMatch = matchesCharacterClass(character);
             const textMatch = !state.search || character.name.toLowerCase().includes(state.search);
-            return groupMatch && textMatch;
+            return groupMatch && classMatch && textMatch;
         });
 
         const grouped = RELEMS_ORDER.map(relems => ({
@@ -253,12 +273,15 @@
 
     function renderCharacterCard(character) {
             const selected = state.selectedCharacters.has(character.id);
-            const group = state.groupByCharacterId[character.id] || 'standard';
+            const groups = getCharacterGroups(character.id);
+            const group = groups[0];
+            const groupLabel = groups.map(item => GROUP_LABELS[item] || item).join(', ');
+            const className = CLASS_LABELS[character.class] || character.class || '역할 미상';
             const breakthrough = getCharacterBreakthrough(character.id);
             return `
                 <div role="button" tabindex="0" class="inventory-card character-inventory-card ${selected ? 'selected' : ''}"
                         data-character-id="${escapeAttribute(character.id)}"
-                        title="${escapeAttribute(character.name)} (${GROUP_LABELS[group] || '통상'})">
+                        title="${escapeAttribute(character.name)} (${groupLabel || GROUP_LABELS[group] || '통상'} / ${className})">
                     <span class="check-mark">✓</span>
                     <img src="${escapeAttribute(character.image_thumb)}" alt="${escapeAttribute(character.name)}" loading="lazy" onerror="this.src='${FALLBACK_IMAGE}'">
                     <span class="inventory-card-name">${escapeHtml(character.name)}</span>
@@ -441,10 +464,10 @@
         if (state.tab === 'characters') {
             return state.characters
                 .filter(character => {
-                    const group = state.groupByCharacterId[character.id] || 'standard';
-                    const groupMatch = state.characterFilter === 'all' || group === state.characterFilter;
+                    const groupMatch = matchesCharacterGroup(character);
+                    const classMatch = matchesCharacterClass(character);
                     const textMatch = !state.search || character.name.toLowerCase().includes(state.search);
-                    return groupMatch && textMatch;
+                    return groupMatch && classMatch && textMatch;
                 })
                 .map(character => character.id);
         }
@@ -461,11 +484,11 @@
     }
 
     async function copySelectionImage() {
-        const selectedCharacters = state.characters.filter(character => state.selectedCharacters.has(character.id));
-        const selectedWheels = state.wheels.filter(wheel => state.selectedWheels.has(wheel.english_name));
+        const selectedCharacters = getFilteredSelectedCharacters();
+        const selectedWheels = getFilteredSelectedWheels();
 
         if (selectedCharacters.length + selectedWheels.length === 0) {
-            setStatus('복사할 항목을 먼저 선택해주세요.', 'error');
+            setStatus('현재 필터에 표시되는 선택 항목이 없습니다.', 'error');
             return;
         }
 
@@ -495,11 +518,11 @@
     }
 
     async function openPreviewModal() {
-        const selectedCharacters = state.characters.filter(character => state.selectedCharacters.has(character.id));
-        const selectedWheels = state.wheels.filter(wheel => state.selectedWheels.has(wheel.english_name));
+        const selectedCharacters = getFilteredSelectedCharacters();
+        const selectedWheels = getFilteredSelectedWheels();
 
         if (selectedCharacters.length + selectedWheels.length === 0) {
-            setStatus('미리보기할 항목을 먼저 선택해주세요.', 'error');
+            setStatus('현재 필터에 표시되는 선택 항목이 없습니다.', 'error');
             return;
         }
 
@@ -749,6 +772,42 @@
         const url = URL.createObjectURL(blob);
         window.open(url, '_blank', 'noopener,noreferrer');
         setTimeout(() => URL.revokeObjectURL(url), 60000);
+    }
+
+    function matchesCharacterGroup(character) {
+        if (state.characterFilter === 'all') return true;
+        return getCharacterGroups(character.id).includes(state.characterFilter);
+    }
+
+    function matchesCharacterClass(character) {
+        return state.characterClassFilter === 'all' || character.class === state.characterClassFilter;
+    }
+
+    function getCharacterGroups(id) {
+        const groups = state.groupByCharacterId[id];
+        return Array.isArray(groups) && groups.length > 0 ? groups : ['standard'];
+    }
+
+    function getFilteredSelectedCharacters() {
+        return state.characters.filter(character => {
+            const textMatch = !state.search || character.name.toLowerCase().includes(state.search);
+            return state.selectedCharacters.has(character.id)
+                && matchesCharacterGroup(character)
+                && matchesCharacterClass(character)
+                && textMatch;
+        });
+    }
+
+    function getFilteredSelectedWheels() {
+        return state.wheels.filter(wheel => {
+            const gradeMatch = state.wheelFilter === 'all' || wheel.grade === state.wheelFilter;
+            const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`.toLowerCase();
+            const textMatch = !state.search || text.includes(state.search);
+            return state.selectedWheels.has(wheel.english_name)
+                && isShareWheel(wheel)
+                && gradeMatch
+                && textMatch;
+        });
     }
 
     function normalizeGrade(grade) {

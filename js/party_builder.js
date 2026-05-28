@@ -1263,68 +1263,7 @@ async function pasteTeamFromClipboard() {
 /* js/party_builder.js - [12] 제보 시스템 수정본 */
 
 async function sendToDiscord(event) {
-    event.preventDefault();
-    const form = event.target;
-    const modalStatus = document.getElementById('modal-form-status');
-
-    if (modalStatus) {
-        modalStatus.style.display = 'block';
-        modalStatus.textContent = '전송 중...';
-        modalStatus.style.color = '#ffc107';
-    }
-
-    // [체크] 웹훅 URL 존재 여부 확인
-    const webhook = (typeof CONFIG !== 'undefined') ? CONFIG.DISCORD_WEBHOOK_URL : '';
-
-    if (!webhook || webhook.trim() === '') {
-        console.error("디버그 에러: CONFIG.DISCORD_WEBHOOK_URL이 비어있습니다. config/config.js 파일을 확인하세요.");
-        if (modalStatus) {
-            modalStatus.textContent = "❌ 설정 오류: 웹훅 URL이 없습니다.";
-            modalStatus.style.color = "#e74c3c";
-        }
-        return;
-    }
-
-    const payload = {
-        username: "Morimens Wiki Bot",
-        embeds: [{
-            title: "📩 새로운 제보!",
-            description: form.message.value,
-            fields: [
-                { name: "제보자", value: form._replyto.value || "익명" },
-                { name: "출처 URL", value: window.location.href }
-            ],
-            timestamp: new Date().toISOString()
-        }]
-    };
-
-    try {
-        const response = await fetch(webhook, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) throw new Error(`HTTP 에러! 상태코드: ${response.status}`);
-
-        if (modalStatus) {
-            modalStatus.textContent = "✅ 전송 완료! 감사합니다.";
-            modalStatus.style.color = "#2ecc71";
-        }
-
-        setTimeout(() => {
-            closeModal('report-modal');
-            form.reset();
-            if (modalStatus) modalStatus.style.display = 'none';
-        }, 1500);
-
-    } catch (e) {
-        console.error("제보 전송 실패:", e);
-        if (modalStatus) {
-            modalStatus.textContent = `❌ 전송 실패: ${e.message}`;
-            modalStatus.style.color = "#e74c3c";
-        }
-    }
+    return sendFeedbackToWorker(event);
 }
 function openReportModal() {
     document.getElementById('report-source-url').value = window.location.href;
