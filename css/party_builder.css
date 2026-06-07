@@ -469,7 +469,7 @@ body {
 .grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .grid-item.selected { border-color: var(--highlight); }
 .grid-item.selected::after { content: '✔'; position: absolute; top: 0; right: 0; background: var(--highlight); color: #000; font-size: 0.8em; padding: 2px 4px; }
-.grid-item.disabled { pointer-events: none; filter: grayscale(100%) brightness(0.4); }
+.grid-item.disabled { cursor: not-allowed; filter: grayscale(100%) brightness(0.4); }
 .grid-item.conflict {
     cursor: not-allowed;
     filter: none !important; /* 전체 필터 해제 */
@@ -479,7 +479,7 @@ body {
 
 .item-tooltip {
     display: none; position: fixed; z-index: 9999; background: rgba(18, 18, 18, 0.95);
-    border: 1px solid #777; border-radius: 4px; padding: 12px; max-width: 300px;
+    border: 1px solid #777; border-radius: 4px; padding: 12px; max-width: 300px; max-height: calc(100vh - 20px); overflow-y: auto;
     box-shadow: 0 4px 15px rgba(0,0,0,0.8); pointer-events: none; color: #eee; font-size: 0.9rem; line-height: 1.4;
 }
 .tooltip-title { color: var(--highlight); font-weight: bold; margin-bottom: 6px; font-size: 1.1em; border-bottom: 1px solid #444; padding-bottom: 4px; }

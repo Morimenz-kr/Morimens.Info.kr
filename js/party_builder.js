@@ -538,6 +538,13 @@ function renderMain() {
             let topInfoHTML = info ? `<div class="char-top-info"><img src="images/character_${info.relems}.png" class="char-top-icon"><span class="char-top-name">${displayName}</span></div>` : '';
 
             div.innerHTML = `<img src="${charImg}" class="char-tide-img" onerror="this.src='${info?.image_thumb}'">${conflictHTML}${topInfoHTML}<div class="card-bottom-overlay"><div class="wheels-wrapper"><div class="slot-wheel" onclick="openWheelModal(${i},0,event)">${w1Info ? `<img src="${w1Info.image_path}">` : '+'}</div><div class="slot-wheel" onclick="openWheelModal(${i},1,event)">${w2Info ? `<img src="${w2Info.image_path}">` : '+'}</div></div></div>`;
+            [w1Info, w2Info].forEach((wheelInfo, slotIdx) => {
+                if (!wheelInfo) return;
+                const slotEl = div.querySelectorAll('.slot-wheel')[slotIdx];
+                slotEl.onmouseenter = (e) => showTooltip(wheelInfo, e);
+                slotEl.onmousemove = moveTooltip;
+                slotEl.onmouseleave = hideTooltip;
+            });
             div.onclick = (e) => { if(!e.target.closest('.slot-wheel')) openQuickSetup(); };
         } else {
             div.className += ' empty';
@@ -1139,37 +1146,69 @@ const tooltipEl = document.getElementById('global-tooltip');
 function showTooltip(item, e) {
     document.getElementById('tt-title').textContent = item.korean_name;
 
-    // --- [수정 시작]: 주옵션 강조 표시 ---
     const descCont = document.getElementById('tt-desc');
-    let contentHtml = "";
+    let contentHtml = '';
 
-    // 주옵션(main_stat)이 있는 경우 상단에 강조된 레이아웃 추가
     if (item.main_stat) {
         contentHtml += `<div class="tooltip-main-stat">주옵션: ${item.main_stat}</div>`;
     }
 
-    // 기존 설명 추가
-    contentHtml += `<div class="tooltip-effect-desc">${item.description}</div>`;
-    descCont.innerHTML = contentHtml; // textContent 대신 innerHTML 사용
-    // --- [수정 완료] ---
+    if (item.description) {
+        contentHtml += `<div class="tooltip-effect-desc">${item.description}</div>`;
+    }
+
+    if (item.set_effect_3) {
+        contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[3세트 효과]</div>`;
+        contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_3}</div>`;
+    }
+    if (item.set_effect_6) {
+        contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[6세트 효과]</div>`;
+        contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_6}</div>`;
+    }
+
+    if (item.source) {
+        contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 15px; font-weight: bold;">[획득처]</div>`;
+        contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px; color: #d9d9d9;">${item.source}</div>`;
+    }
+
+    descCont.innerHTML = contentHtml;
 
     const tagsCont = document.getElementById('tt-tags');
     tagsCont.innerHTML = '';
-    (item.tags || []).forEach(t => {
-        const s = document.createElement('span');
-        s.className = 'tooltip-tag';
-        s.textContent = t;
-        tagsCont.appendChild(s);
-    });
+    (item.tags || item.optimized_for || [])
+        .map(t => String(t || '').trim())
+        .filter(Boolean)
+        .forEach(t => {
+            const s = document.createElement('span');
+            s.className = 'tooltip-tag';
+            s.textContent = t;
+            tagsCont.appendChild(s);
+        });
 
     tooltipEl.style.display = 'block';
     moveTooltip(e);
 }
 function moveTooltip(e) {
-    let x = e.clientX + 15, y = e.clientY + 15;
-    if (x + 320 > window.innerWidth) x = e.clientX - 325;
-    if (y + 150 > window.innerHeight) y = e.clientY - 155;
-    tooltipEl.style.left = x + 'px'; tooltipEl.style.top = y + 'px';
+    if (!tooltipEl || tooltipEl.style.display === 'none') return;
+
+    const gap = 15;
+    const margin = 10;
+    const rect = tooltipEl.getBoundingClientRect();
+    let x = e.clientX + gap;
+    let y = e.clientY + gap;
+
+    if (x + rect.width > window.innerWidth - margin) {
+        x = e.clientX - rect.width - gap;
+    }
+    if (y + rect.height > window.innerHeight - margin) {
+        y = e.clientY - rect.height - gap;
+    }
+
+    x = Math.max(margin, Math.min(x, window.innerWidth - rect.width - margin));
+    y = Math.max(margin, Math.min(y, window.innerHeight - rect.height - margin));
+
+    tooltipEl.style.left = x + 'px';
+    tooltipEl.style.top = y + 'px';
 }
 function hideTooltip() { tooltipEl.style.display = 'none'; }
 

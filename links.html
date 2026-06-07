@@ -575,7 +575,9 @@
         ttTags.innerHTML = '';
 
         // 비밀계약/은열쇠(tags) 또는 명륜(optimized_for) 배열을 감지하여 태그 뱃지 생성
-        const tagArray = item.tags || item.optimized_for || [];
+        const tagArray = (item.tags || item.optimized_for || [])
+            .map(tag => String(tag || '').trim())
+            .filter(Boolean);
         tagArray.forEach(tag => {
             const s = document.createElement('span');
             s.className = 'tooltip-tag';
