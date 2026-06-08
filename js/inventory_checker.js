@@ -2,6 +2,8 @@
     const STORAGE_KEY = 'morimens_inventory_checker_v2';
     const LEGACY_STORAGE_KEYS = ['morimens_inventory_checker_v1'];
     const FALLBACK_IMAGE = 'images/smile_Ramona.webp';
+    const SHARE_IMAGE_TYPE = 'image/jpeg';
+    const SHARE_IMAGE_QUALITY = 0.9;
     const GROUP_LABELS = {
         standard: '통상',
         forgotten: '망각편',
@@ -492,28 +494,22 @@
             return;
         }
 
-        setStatus('이미지를 만드는 중입니다...', '');
+        setStatus('공유 이미지를 압축하는 중입니다...', '');
 
         try {
-            const canvas = await createShareCanvas(selectedCharacters, getShareWheels(selectedWheels));
-            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-            if (!blob) throw new Error('이미지 변환 실패');
-
-            if (navigator.clipboard && window.ClipboardItem) {
-                try {
-                    await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
-                    setStatus('이미지를 클립보드에 복사했습니다.', 'success');
-                    return;
-                } catch (error) {
-                    console.warn('클립보드 이미지 쓰기 실패, fallback을 엽니다.', error);
-                }
+            if (!navigator.clipboard || !window.ClipboardItem) {
+                throw new Error('클립보드 이미지 복사를 지원하지 않는 브라우저입니다.');
             }
 
-            openImageFallback(blob);
-            setStatus('브라우저가 이미지 복사를 막아 새 탭으로 열었습니다.', 'error');
+            const canvas = await createShareCanvas(selectedCharacters, getShareWheels(selectedWheels));
+            const imageType = getClipboardImageType();
+            const blob = await createImageBlob(canvas, imageType);
+            await navigator.clipboard.write([new ClipboardItem({ [imageType]: blob })]);
+            const label = imageType === SHARE_IMAGE_TYPE ? '압축 이미지' : 'PNG 이미지';
+            setStatus(`${label}를 클립보드에 복사했습니다.`, 'success');
         } catch (error) {
             console.error('이미지 복사 실패:', error);
-            setStatus('이미지 복사에 실패했습니다. 브라우저 권한을 확인해주세요.', 'error');
+            setStatus('이미지 복사에 실패했습니다. 클립보드 권한을 확인해주세요.', 'error');
         }
     }
 
@@ -530,7 +526,7 @@
 
         try {
             const canvas = await createShareCanvas(selectedCharacters, getShareWheels(selectedWheels));
-            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+            const blob = await createImageBlob(canvas, SHARE_IMAGE_TYPE);
             if (!blob) throw new Error('이미지 변환 실패');
             closePreviewModal();
             const url = URL.createObjectURL(blob);
@@ -552,6 +548,25 @@
         }
         els.previewImage.removeAttribute('src');
         els.previewModal.classList.remove('show');
+    }
+
+    function getClipboardImageType() {
+        if (typeof ClipboardItem.supports === 'function' && ClipboardItem.supports(SHARE_IMAGE_TYPE)) {
+            return SHARE_IMAGE_TYPE;
+        }
+        return 'image/png';
+    }
+
+    function createImageBlob(canvas, type) {
+        return new Promise((resolve, reject) => {
+            canvas.toBlob(blob => {
+                if (blob) {
+                    resolve(blob);
+                } else {
+                    reject(new Error('이미지 변환 실패'));
+                }
+            }, type, type === SHARE_IMAGE_TYPE ? SHARE_IMAGE_QUALITY : undefined);
+        });
     }
 
     async function createShareCanvas(characters, wheels) {
@@ -766,12 +781,6 @@
             value = value.slice(0, -1);
         }
         return `${value}…`;
-    }
-
-    function openImageFallback(blob) {
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank', 'noopener,noreferrer');
-        setTimeout(() => URL.revokeObjectURL(url), 60000);
     }
 
     function matchesCharacterGroup(character) {

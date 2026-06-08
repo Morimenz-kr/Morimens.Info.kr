@@ -1323,6 +1323,12 @@ if (btnSr) {
     btnSr.onclick = () => equipDedicatedWheel('SR');
 }
 
+function normalizeDedicatedTarget(value) {
+    return String(value || '')
+        .replace(/[「」｢｣]/g, '')
+        .trim();
+}
+
 function equipDedicatedWheel(grade) {
     const team = allPages[currentPageIdx].teams[currentTeamIdx];
     const charId = team.chars[editingCharIdx];
@@ -1338,9 +1344,16 @@ function equipDedicatedWheel(grade) {
     if (!charInfo) return;
 
     // 3. 해당 등급의 전용 명륜 찾기
+    const charTargets = new Set([
+        normalizeDedicatedTarget(charId),
+        normalizeDedicatedTarget(charInfo.id),
+        normalizeDedicatedTarget(charInfo.name)
+    ]);
     const targetWheel = DB.wheels.find(function(wheel) {
         const optFor = wheel.optimized_for;
-        return wheel.grade === grade && Array.isArray(optFor) && optFor[0] === charInfo.name;
+        return wheel.grade === grade
+            && Array.isArray(optFor)
+            && optFor.some(target => charTargets.has(normalizeDedicatedTarget(target)));
     });
 
     if (!targetWheel) {

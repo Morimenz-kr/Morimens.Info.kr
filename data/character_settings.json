@@ -596,6 +596,38 @@
       "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
     }
   ],
+  "arachne": [
+    {
+      "settingName": "범용",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_web_of_ancient", "substitutes": ["wheel_voltex_of_memory", "wheel_birth_of_soul", "wheel_we_will_meet_again", "wheel_illusion_of_sakura"] },
+      "myeongryun_sr": { "main_id": "wheel_wheel_of_fate", "substitutes": [] },
+      "covenant": { "main_id": "covenant_deus", "substitutes": [] }
+    },
+    {
+      "settingName": "탱커",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_web_of_ancient", "substitutes": ["wheel_voltex_of_memory", "wheel_birth_of_soul", "wheel_we_will_meet_again", "wheel_illusion_of_sakura"] },
+      "myeongryun_sr": { "main_id": "wheel_wheel_of_fate", "substitutes": [] },
+      "covenant": { "main_id": "covenant_rabbit", "substitutes": [] }
+    },
+    {
+      "settingName": "딜러",
+      "recommendStep": "3돌",
+      "myeongryun_ssr": { "main_id": "wheel_web_of_ancient", "substitutes": ["wheel_voltex_of_memory", "wheel_birth_of_soul", "wheel_we_will_meet_again", "wheel_illusion_of_sakura"] },
+      "myeongryun_sr": { "main_id": "wheel_wheel_of_fate", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": [] }
+    }
+  ],
+  "saya": [
+    {
+      "settingName": "범용",
+      "recommendStep": "명함, 3돌",
+      "myeongryun_ssr": { "main_id": "wheel_saya_ssr", "substitutes": ["wheel_auth_of_knight", "wheel_stone_tablet_god_word", "wheel_pale_descendant", "wheel_time_of_luck"] },
+      "myeongryun_sr": { "main_id": "wheel_saya_sr", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": [] }
+    }
+  ],
   "doll": [
     {
       "settingName": "범용",

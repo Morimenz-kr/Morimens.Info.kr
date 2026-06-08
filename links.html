@@ -614,6 +614,18 @@
         }
     }
 
+    function bindDynamicTooltips(root) {
+        if (!root) return;
+        root.querySelectorAll('[data-tooltip-kind][data-tooltip-id]').forEach(el => {
+            const map = el.dataset.tooltipKind === 'wheel' ? window.wheelMap : window.covMap;
+            const item = map && map[el.dataset.tooltipId];
+            if (!item) return;
+            el.onmouseenter = e => showTooltip(item, e);
+            el.onmousemove = moveTooltip;
+            el.onmouseleave = hideTooltip;
+        });
+    }
+
     // 아이콘 리스트 렌더링 로직 (비율 및 크기 분기 처리)
     function renderDictionary(data, category) {
         const grid = document.getElementById('dictionary-grid');
@@ -736,8 +748,10 @@
                         settingsList.forEach((setInfo, idx) => {
                             const getWheel = (id) => window.wheelMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
                             const getCov = (id) => window.covMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
-                            const ssrWheel = getWheel(setInfo.myeongryun_ssr.main_id);
-                            const srWheel = getWheel(setInfo.myeongryun_sr.main_id);
+                            const ssrWheelId = setInfo.myeongryun_ssr.main_id;
+                            const srWheelId = setInfo.myeongryun_sr.main_id;
+                            const ssrWheel = getWheel(ssrWheelId);
+                            const srWheel = getWheel(srWheelId);
                             const mainCov = getCov(setInfo.covenant.main_id);
                             const renderSubLink = (type, list, charId, idx) => {
                                 const label = type === 'covenant' ? '대체 비밀계약' : '대체 명륜';
@@ -754,13 +768,13 @@
                                     <div class="recommend-right">
                                         <div class="equip-slot">
                                             <div class="equip-label">추천 SSR 명륜</div>
-                                            <img src="${ssrWheel.image_path}" class="equip-img-myeongryun" onerror="this.src='images/placeholder.png';">
+                                            <img src="${ssrWheel.image_path}" class="equip-img-myeongryun" data-tooltip-kind="wheel" data-tooltip-id="${ssrWheelId}" onerror="this.src='images/placeholder.png';">
                                             <div class="equip-name-label">${ssrWheel.korean_name}</div>
                                             ${renderSubLink('ssr', setInfo.myeongryun_ssr.substitutes, charId, idx)}
                                         </div>
                                         <div class="equip-slot">
                                             <div class="equip-label">추천 SR 명륜</div>
-                                            <img src="${srWheel.image_path}" class="equip-img-myeongryun" onerror="this.src='images/placeholder.png';">
+                                            <img src="${srWheel.image_path}" class="equip-img-myeongryun" data-tooltip-kind="wheel" data-tooltip-id="${srWheelId}" onerror="this.src='images/placeholder.png';">
                                             <div class="equip-name-label">${srWheel.korean_name}</div>
                                             ${renderSubLink('sr', setInfo.myeongryun_sr.substitutes, charId, idx)}
                                         </div>
@@ -773,6 +787,7 @@
                                     </div>
                                 </div>`;
                         });
+                        bindDynamicTooltips(gridContainer);
                     } else {
                         gridContainer.innerHTML = `<div class="no-setting-notice"><div style="font-size: 24px;">📝</div><div>아직 추천 세팅 정보가 등록되지 않았습니다.</div></div>`;
                     }
@@ -869,8 +884,10 @@
                 if (data) {
                     html += `
                     <div class="sub-item-vertical" style="min-width: 120px;">
-                        <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}" 
+                        <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}"
                              class="${isWheel ? 'sub-img-myeongryun' : 'sub-img-covenant'}"
+                             data-tooltip-kind="${isWheel ? 'wheel' : 'covenant'}"
+                             data-tooltip-id="${id}"
                              onerror="this.src='images/placeholder.png';">
                         <div class="sub-item-name">${data.korean_name}</div>
                     </div>`;
@@ -880,6 +897,7 @@
         }
 
         body.innerHTML = html;
+        bindDynamicTooltips(body);
         modal.classList.add('show');
     }
 

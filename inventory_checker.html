@@ -14,6 +14,33 @@
         loadCSS('css/components.css');
         loadCSS('css/pages/inventory_checker.css');
         loadCSS('css/responsive.css');
+        loadJS('js/feedback.js');
+
+        function openReportModal() {
+            const modal = document.getElementById('report-modal');
+            const sourceUrlInput = document.getElementById('report-source-url');
+            const modalStatus = document.getElementById('modal-form-status');
+
+            if (modalStatus) {
+                modalStatus.style.display = 'none';
+                modalStatus.textContent = '전송 중...';
+                modalStatus.style.color = '#ffc107';
+            }
+            if (sourceUrlInput) sourceUrlInput.value = window.location.href;
+            if (modal) modal.classList.add('show');
+        }
+
+        function closeReportModal() {
+            const modal = document.getElementById('report-modal');
+            if (modal) modal.classList.remove('show');
+        }
+
+        document.addEventListener('click', function(event) {
+            const reportModal = document.getElementById('report-modal');
+            if (reportModal && reportModal.classList.contains('show') && event.target === reportModal) {
+                closeReportModal();
+            }
+        });
     </script>
 </head>
 
@@ -96,6 +123,37 @@
         </div>
     </div>
 </div>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content" style="position: relative;">
+        <button type="button" class="close-btn" onclick="closeReportModal()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
+            &times;
+        </button>
+
+        <h2 class="form-title">버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 닉네임을 원하시면 적어주세요.">
+
+            <label for="report-message" class="form-field-label">제보할 내용 (필수)</label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요."></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<button class="floating-report-btn" onclick="openReportModal()"
+        title="버그 신고" aria-label="버그 제보하기">
+    <span aria-hidden="true">🚨</span>
+</button>
 
 <script>
     loadJS('js/inventory_checker.js');
