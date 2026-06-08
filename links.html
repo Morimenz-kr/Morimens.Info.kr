@@ -623,8 +623,15 @@
             el.onmouseenter = e => showTooltip(item, e);
             el.onmousemove = moveTooltip;
             el.onmouseleave = hideTooltip;
+            el.onclick = e => {
+                e.preventDefault();
+                e.stopPropagation();
+                showTooltip(item, e);
+            };
         });
     }
+
+    document.addEventListener('click', hideTooltip);
 
     // 아이콘 리스트 렌더링 로직 (비율 및 크기 분기 처리)
     function renderDictionary(data, category) {
@@ -780,7 +787,7 @@
                                         </div>
                                         <div class="equip-slot">
                                             <div class="equip-label">추천 비밀계약</div>
-                                            <img src="${mainCov.image_path}" class="equip-img-covenant" onerror="this.src='images/placeholder.png';">
+                                            <img src="${mainCov.image_path}" class="equip-img-covenant" data-tooltip-kind="covenant" data-tooltip-id="${setInfo.covenant.main_id}" onerror="this.src='images/placeholder.png';">
                                             <div class="equip-name-label">${mainCov.korean_name}</div>
                                             ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
                                         </div>
