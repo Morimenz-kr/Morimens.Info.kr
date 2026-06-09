@@ -6,10 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/party_builder.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/party_builder.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/silverkey_list.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/silverkey_list.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/party_builder.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/party_builder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/links.html" beforeDir="false" afterPath="$PROJECT_DIR$/links.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +191,9 @@
       <workItem from="1780407702673" duration="342000" />
       <workItem from="1780566417049" duration="1394000" />
       <workItem from="1780745667829" duration="1852000" />
-      <workItem from="1780826013174" duration="5368000" />
+      <workItem from="1780826013174" duration="6106000" />
+      <workItem from="1780920904203" duration="6473000" />
+      <workItem from="1780960175347" duration="782000" />
     </task>
     <servers />
   </component>
