@@ -153,6 +153,7 @@ function openPageInputModal(mode) {
 // [6] 초기화 및 데이터 로드 로직
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("Party Builder JS (Full Version) Loaded!");
+    updateBackButtonLabel();
     await loadExternalData();
     assignTagsToWheels();
     assignTagsToKeys();
@@ -1245,13 +1246,22 @@ function closeModal(id) {
     }
 }
 function goBackToMenu() {
-    // 이전 페이지가 정보 페이지(links.html)라면 히스토리 뒤로 가기 수행
-    if (document.referrer.includes('links.html')) {
-        history.back();
-    } else {
-        // 직접 접속 등 이전 기록이 없을 경우를 대비한 대체 경로 (파라미터 포함)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('from') === 'weapon') {
         location.href = 'links.html?category=weapon';
+    } else {
+        location.href = 'index.html';
     }
+}
+
+function updateBackButtonLabel() {
+    const backButton = document.querySelector('.back-btn');
+    if (!backButton) return;
+
+    const params = new URLSearchParams(window.location.search);
+    backButton.textContent = params.get('from') === 'weapon'
+        ? '⬅ 융재 금구 메뉴로 돌아가기'
+        : '⬅ 홈으로 돌아가기';
 }
 
 function copyTeamToClipboard() {
@@ -1325,8 +1335,10 @@ if (btnSr) {
 
 function normalizeDedicatedTarget(value) {
     return String(value || '')
+        .normalize('NFKC')
         .replace(/[「」｢｣]/g, '')
-        .trim();
+        .trim()
+        .toLowerCase();
 }
 
 function equipDedicatedWheel(grade) {
