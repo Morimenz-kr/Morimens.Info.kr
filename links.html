@@ -671,6 +671,12 @@
                 img.style.borderColor = '#444';
                 hideTooltip();
             };
+            img.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                img.style.borderColor = '#ffc107';
+                showTooltip(item, e);
+            };
 
             grid.appendChild(img);
         });
