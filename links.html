@@ -572,7 +572,7 @@
         }
         if (mainStats.length > 0) {
             contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 15px; font-weight: bold;">[추천 주옵]</div>`;
-            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px; color: #d9d9d9;">${mainStats.join(', ')}</div>`;
+            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px; color: #d9d9d9;">${formatTooltipMainStats(mainStats)}</div>`;
         }
 
         ttDesc.innerHTML = contentHtml;
@@ -649,6 +649,12 @@
         } catch (error) {
             return [];
         }
+    }
+
+    function formatTooltipMainStats(stats) {
+        const partLabels = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
+        if (stats.length !== partLabels.length) return stats.join(', ');
+        return stats.map((stat, index) => `${partLabels[index]} ${stat}`).join('<br>');
     }
 
     document.addEventListener('click', hideTooltip);
