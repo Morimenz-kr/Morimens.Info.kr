@@ -538,7 +538,7 @@
     document.body.appendChild(tooltipEl);
 
     // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환 + 파밍처 추가) ㅁㄴㅇ
-    function showTooltip(item, e) {
+    function showTooltip(item, e, mainStats = []) {
         const ttTitle = document.getElementById('tt-title');
         const ttDesc = document.getElementById('tt-desc');
         const ttTags = document.getElementById('tt-tags');
@@ -569,6 +569,10 @@
         if (item.source) {
             contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 15px; font-weight: bold;">[획득처]</div>`;
             contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px; color: #d9d9d9;">${item.source}</div>`;
+        }
+        if (mainStats.length > 0) {
+            contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 15px; font-weight: bold;">[추천 주옵]</div>`;
+            contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px; color: #d9d9d9;">${mainStats.join(', ')}</div>`;
         }
 
         ttDesc.innerHTML = contentHtml;
@@ -620,15 +624,31 @@
             const map = el.dataset.tooltipKind === 'wheel' ? window.wheelMap : window.covMap;
             const item = map && map[el.dataset.tooltipId];
             if (!item) return;
-            el.onmouseenter = e => showTooltip(item, e);
+            const mainStats = decodeTooltipMainStats(el.dataset.tooltipMainStats);
+            el.onmouseenter = e => showTooltip(item, e, mainStats);
             el.onmousemove = moveTooltip;
             el.onmouseleave = hideTooltip;
             el.onclick = e => {
                 e.preventDefault();
                 e.stopPropagation();
-                showTooltip(item, e);
+                showTooltip(item, e, mainStats);
             };
         });
+    }
+
+    function encodeTooltipMainStats(stats) {
+        if (!Array.isArray(stats) || stats.length === 0) return '';
+        return encodeURIComponent(JSON.stringify(stats));
+    }
+
+    function decodeTooltipMainStats(value) {
+        if (!value) return [];
+        try {
+            const parsed = JSON.parse(decodeURIComponent(value));
+            return Array.isArray(parsed) ? parsed.map(String).filter(Boolean) : [];
+        } catch (error) {
+            return [];
+        }
     }
 
     document.addEventListener('click', hideTooltip);
@@ -766,6 +786,7 @@
                             const ssrWheel = getWheel(ssrWheelId);
                             const srWheel = getWheel(srWheelId);
                             const mainCov = getCov(setInfo.covenant.main_id);
+                            const mainCovStats = encodeTooltipMainStats(setInfo.covenant.main_stats);
                             const renderSubLink = (type, list, charId, idx) => {
                                 const label = type === 'covenant' ? '대체 비밀계약' : '대체 명륜';
                                 if (list && list.length > 0) return `<div class="sub-link" onclick="openDynamicSubModal('${type}', '${charId}', ${idx})">${label}</div>`;
@@ -793,7 +814,7 @@
                                         </div>
                                         <div class="equip-slot">
                                             <div class="equip-label">추천 비밀계약</div>
-                                            <img src="${mainCov.image_path}" class="equip-img-covenant" data-tooltip-kind="covenant" data-tooltip-id="${setInfo.covenant.main_id}" onerror="this.src='images/placeholder.png';">
+                                            <img src="${mainCov.image_path}" class="equip-img-covenant" data-tooltip-kind="covenant" data-tooltip-id="${setInfo.covenant.main_id}" data-tooltip-main-stats="${mainCovStats}" onerror="this.src='images/placeholder.png';">
                                             <div class="equip-name-label">${mainCov.korean_name}</div>
                                             ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
                                         </div>
@@ -895,12 +916,14 @@
             ids.forEach(id => {
                 const data = isWheel ? window.wheelMap[id] : window.covMap[id];
                 if (data) {
+                    const mainStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_main_stats?.[id]) : '';
                     html += `
                     <div class="sub-item-vertical" style="min-width: 120px;">
                         <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}"
                              class="${isWheel ? 'sub-img-myeongryun' : 'sub-img-covenant'}"
                              data-tooltip-kind="${isWheel ? 'wheel' : 'covenant'}"
                              data-tooltip-id="${id}"
+                             data-tooltip-main-stats="${mainStats}"
                              onerror="this.src='images/placeholder.png';">
                         <div class="sub-item-name">${data.korean_name}</div>
                     </div>`;
