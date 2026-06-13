@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비밀계약 시뮬레이터</title>
+
+    <script src="config/config.js?v=covenant-simulator-20260613"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/covenant_simulator.css');
+        loadCSS('css/responsive.css');
+        loadJS('js/feedback.js');
+
+        function openReportModal() {
+            const modal = document.getElementById('report-modal');
+            const sourceUrlInput = document.getElementById('report-source-url');
+            const modalStatus = document.getElementById('modal-form-status');
+            if (modalStatus) {
+                modalStatus.style.display = 'none';
+                modalStatus.textContent = '전송 중...';
+                modalStatus.style.color = '#ffc107';
+            }
+            if (sourceUrlInput) sourceUrlInput.value = window.location.href;
+            if (modal) modal.classList.add('show');
+        }
+
+        function closeReportModal() {
+            const modal = document.getElementById('report-modal');
+            if (modal) modal.classList.remove('show');
+        }
+
+        document.addEventListener('click', function(event) {
+            const reportModal = document.getElementById('report-modal');
+            if (reportModal && reportModal.classList.contains('show') && event.target === reportModal) {
+                closeReportModal();
+            }
+        });
+    </script>
+</head>
+
+<body>
+<div class="bg-image"></div>
+<div class="background-overlay"></div>
+
+<main class="container covenant-page">
+    <div class="header-area">
+        <nav aria-label="탐색"><a href="index.html" class="back-link">← 돌아가기</a></nav>
+    </div>
+
+    <section class="covenant-shell" aria-label="비밀계약 시뮬레이터">
+        <div class="covenant-summary">
+            <h2>비밀계약 시뮬레이터</h2>
+            <div class="resource-summary" aria-live="polite">
+                <span>전사 <strong id="summary-rerolls">0</strong>회</span>
+                <span>금권 <strong id="summary-gold">0</strong></span>
+                <span>천면 인장 <strong id="summary-seals">0</strong></span>
+                <span>잔본 <strong id="summary-fragments">0</strong></span>
+                <span>깃펜 <strong id="summary-quills">0</strong></span>
+            </div>
+        </div>
+
+        <section class="simulator-panel" aria-label="비밀계약 선택">
+            <div class="section-heading">
+                <h3>비밀계약 선택</h3>
+                <span id="selected-contract-name" class="muted-text"></span>
+            </div>
+            <div id="contract-grid" class="contract-grid" aria-label="비밀계약 목록"></div>
+        </section>
+
+        <section class="simulator-panel" aria-label="시뮬레이션 모드">
+            <div class="chrome-tabs-container simulator-tabs" role="tablist" aria-label="시뮬레이션 모드">
+                <div class="tab-buttons">
+                    <button type="button" class="chrome-tab active" data-mode-tab="manual">직접 시뮬레이션</button>
+                    <button type="button" class="chrome-tab" data-mode-tab="target">목표 시뮬레이션</button>
+                </div>
+                <div class="capture-actions">
+                    <button type="button" id="copy-result-btn" class="primary-action">결과 이미지 복사</button>
+                    <button type="button" id="preview-result-btn" class="ghost-action">미리보기</button>
+                    <button type="button" id="reset-sim-btn" class="ghost-action">초기화</button>
+                </div>
+            </div>
+
+            <div id="manual-panel" class="mode-panel">
+                <div class="ingame-layout">
+                    <section class="ingame-focus-panel" aria-label="선택한 비밀계약">
+                        <div class="side-part-grid left-parts" id="left-part-grid" role="tablist" aria-label="왼쪽 파츠 선택"></div>
+                        <div class="focus-image-frame">
+                            <img id="manual-focus-image" src="" alt="">
+                        </div>
+                        <div class="side-part-grid right-parts" id="right-part-grid" role="tablist" aria-label="오른쪽 파츠 선택"></div>
+                        <div class="focus-part-name" id="manual-focus-name">Ⅰ</div>
+                    </section>
+
+                    <section class="config-card compact-card ingame-detail-panel" aria-label="현재 파츠 설정">
+                        <div class="section-heading">
+                            <h3 id="manual-part-title">Ⅰ 파츠</h3>
+                            <span id="manual-completion" class="completion-badge">0%</span>
+                        </div>
+                        <div class="manual-controls">
+                            <div>
+                                <label class="field-label" for="manual-main-option">주옵</label>
+                                <select id="manual-main-option" class="sim-select"></select>
+                                <div class="substat-editor" id="manual-substats"></div>
+                            </div>
+                            <div>
+                                <div class="section-heading">
+                                    <h3>전사</h3>
+                                    <span id="manual-cost" class="muted-text"></span>
+                                </div>
+                                <div class="lock-cost-row">
+                                    <label class="radio-option">
+                                        <input type="radio" name="manual-lock-cost" value="fragment" checked>
+                                        잔본 우선
+                                    </label>
+                                    <label class="radio-option">
+                                        <input type="radio" name="manual-lock-cost" value="quill">
+                                        깃펜 우선
+                                    </label>
+                                </div>
+                                <div id="manual-result" class="result-list empty-result">전사 결과가 여기에 표시됩니다.</div>
+                                <div class="action-row">
+                                    <button type="button" id="manual-reroll-btn" class="primary-action">전사</button>
+                                    <button type="button" id="manual-apply-btn" class="ghost-action" disabled>교체</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div id="target-panel" class="mode-panel hidden">
+                <div class="target-toolbar">
+                    <div class="contract-picker target-scope-picker">
+                        <label class="field-label">대상 파츠</label>
+                        <div id="target-scope-buttons" class="target-scope-buttons" aria-label="대상 파츠 선택"></div>
+                    </div>
+                    <div class="contract-picker">
+                        <label class="field-label" for="target-lock-strategy">잠금 전략</label>
+                        <select id="target-lock-strategy" class="sim-select">
+                            <option value="none">잠금 없음</option>
+                            <option value="one">목표 부옵 1개 이상이면 잠금</option>
+                            <option value="two" selected>목표 부옵 2개까지 잠금</option>
+                        </select>
+                    </div>
+                    <div class="contract-picker">
+                        <label class="field-label" for="target-lock-cost">잠금 1개 비용</label>
+                        <select id="target-lock-cost" class="sim-select">
+                            <option value="fragment" selected>잔본 우선</option>
+                            <option value="quill">깃펜 우선</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="target-parts" class="target-parts"></div>
+
+                <div class="target-actions">
+                    <button type="button" id="run-target-btn" class="primary-action">목표까지 시뮬레이션</button>
+                    <button type="button" id="run-average-btn" class="ghost-action">평균 비용 계산</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="capture-panel" aria-label="시뮬레이션 결과">
+            <div class="result-summary-card">
+                <div class="section-heading">
+                    <h3>결과</h3>
+                    <span id="result-status" class="copy-status" role="status" aria-live="polite"></span>
+                </div>
+                <div id="result-summary" class="summary-output"></div>
+            </div>
+        </section>
+    </section>
+</main>
+
+<div id="preview-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="preview-modal-title">
+    <div class="modal-content preview-modal-content">
+        <div class="modal-header">
+            <h2 id="preview-modal-title">결과 이미지 미리보기</h2>
+            <button type="button" id="close-preview-modal" class="close-btn" aria-label="닫기">&times;</button>
+        </div>
+        <div class="preview-image-frame">
+            <img id="preview-image" alt="결과 이미지 미리보기">
+        </div>
+    </div>
+</div>
+
+<div id="report-modal" class="modal-overlay">
+    <div class="modal-content" style="position: relative;">
+        <button type="button" class="close-btn" onclick="closeReportModal()"
+                style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer;">
+            &times;
+        </button>
+        <h2 class="form-title">버그 제보 or 피드백</h2>
+        <p style="color:#aaa; font-size:0.9em;">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+        <form id="bug-report-form" action="javascript:void(0);" onsubmit="sendToDiscord(event)" method="POST">
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 닉네임을 원하시면 적어주세요.">
+            <label for="report-message" class="form-field-label">제보할 내용 (필수)</label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요."></textarea>
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" style="margin-top: 15px; color:#ffc107; text-align:center; display: none;">전송 중...</p>
+        </form>
+    </div>
+</div>
+
+<button class="floating-report-btn" onclick="openReportModal()" title="버그 신고" aria-label="버그 제보하기">
+    <span aria-hidden="true">🚨</span>
+</button>
+
+<script>
+    loadJS('js/covenant_simulator.js');
+</script>
+</body>
+</html>
