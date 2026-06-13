@@ -319,7 +319,7 @@
     function renderWheels() {
         const filtered = state.wheels.filter(wheel => {
             if (!isShareWheel(wheel)) return false;
-            const gradeMatch = state.wheelFilter === 'all' || wheel.grade === state.wheelFilter;
+            const gradeMatch = state.wheelFilter === 'all' || normalizeGrade(wheel.grade) === state.wheelFilter;
             const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`.toLowerCase();
             const textMatch = !state.search || text.includes(state.search);
             return gradeMatch && textMatch;
@@ -477,7 +477,7 @@
         return state.wheels
             .filter(wheel => {
                 if (!isShareWheel(wheel)) return false;
-                const gradeMatch = state.wheelFilter === 'all' || wheel.grade === state.wheelFilter;
+                const gradeMatch = state.wheelFilter === 'all' || normalizeGrade(wheel.grade) === state.wheelFilter;
                 const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`.toLowerCase();
                 const textMatch = !state.search || text.includes(state.search);
                 return gradeMatch && textMatch;
@@ -809,7 +809,7 @@
 
     function getFilteredSelectedWheels() {
         return state.wheels.filter(wheel => {
-            const gradeMatch = state.wheelFilter === 'all' || wheel.grade === state.wheelFilter;
+            const gradeMatch = state.wheelFilter === 'all' || normalizeGrade(wheel.grade) === state.wheelFilter;
             const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`.toLowerCase();
             const textMatch = !state.search || text.includes(state.search);
             return state.selectedWheels.has(wheel.english_name)
@@ -848,7 +848,7 @@
     }
 
     function getShareWheels(wheels) {
-        return wheels.filter(isSsrWheel);
+        return wheels.filter(isShareWheel);
     }
 
     function getInventoryWheels(wheels) {
@@ -858,10 +858,6 @@
     function isShareWheel(wheel) {
         const grade = normalizeGrade(wheel.grade);
         return grade === 'SSR' || grade === 'SR';
-    }
-
-    function isSsrWheel(wheel) {
-        return normalizeGrade(wheel.grade) === 'SSR';
     }
 
     function removeUnavailableWheelSelections() {
