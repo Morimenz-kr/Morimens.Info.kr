@@ -55,7 +55,7 @@
             'contract-grid', 'selected-contract-name', 'left-part-grid', 'right-part-grid', 'manual-panel', 'target-panel',
             'manual-part-title', 'manual-completion', 'manual-main-option', 'manual-substats',
             'manual-cost', 'manual-result', 'manual-reroll-btn', 'manual-apply-btn',
-            'manual-focus-image', 'manual-focus-name',
+            'manual-focus-image',
             'target-scope-buttons', 'target-lock-strategy', 'target-lock-cost', 'target-parts',
             'run-target-btn', 'run-average-btn', 'result-summary', 'result-status',
             'copy-result-btn', 'preview-result-btn', 'reset-sim-btn', 'preview-modal',
@@ -187,8 +187,7 @@
 
     function renderManual() {
         const part = getSelectedPart();
-        els.manualPartTitle.textContent = `${ROMANS[state.selectedPart]} 파츠`;
-        els.manualFocusName.textContent = `${state.selectedContract ? state.selectedContract.korean_name : ''} ${ROMANS[state.selectedPart]}`;
+        els.manualPartTitle.textContent = getContractPartName(state.selectedPart);
         if (state.selectedContract) {
             els.manualFocusImage.src = state.selectedContract.image_path;
             els.manualFocusImage.alt = state.selectedContract.korean_name;
@@ -252,7 +251,7 @@
             return `
                 <section class="target-part-card" data-target-part="${index}">
                     <div class="target-part-header">
-                        <div class="target-part-title">${ROMANS[index]} 파츠</div>
+                        <div class="target-part-title">${escapeHtml(getContractPartName(index))}</div>
                         <div class="contract-picker">
                             <label class="field-label">주옵</label>
                             <select class="sim-select target-main-option">
@@ -312,7 +311,7 @@
         state.result = {
             type: 'manual',
             contract: state.selectedContract.korean_name,
-            part: ROMANS[state.selectedPart],
+            part: getContractPartName(state.selectedPart),
             attempts: state.totals.rerolls,
             cost: { ...state.totals },
             finalSubstats: cloneSubstats(state.manualPreview),
@@ -517,7 +516,8 @@
     function renderAllPartResults(parts) {
         return `<div class="part-result-grid">${parts.map(part => `
             <div class="part-result-card">
-                <h4>${ROMANS[part.partIndex]} ${escapeHtml(getOptionName(part.mainOption))}</h4>
+                <h4>${escapeHtml(getContractPartName(part.partIndex))}</h4>
+                <div class="part-main-label">${escapeHtml(getOptionName(part.mainOption))}</div>
                 ${part.substats.map(renderStatLine).join('')}
             </div>
         `).join('')}</div>`;
@@ -636,7 +636,7 @@
             return lines;
         }
         const parts = result.type === 'target' ? getAllPartSnapshots() : (result.allParts || getAllPartSnapshots());
-        parts.forEach(part => lines.push(`${ROMANS[part.partIndex]}: ${part.substats.map(getSubstatText).join(' / ')}`));
+        parts.forEach(part => lines.push(`${getContractPartName(part.partIndex)}: ${part.substats.map(getSubstatText).join(' / ')}`));
         return lines;
     }
 
@@ -747,6 +747,11 @@
 
     function getOptionName(optionId) {
         return optionById[optionId] ? optionById[optionId].name : optionId;
+    }
+
+    function getContractPartName(partIndex) {
+        const contractName = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
+        return `${contractName} ${ROMANS[partIndex]}`;
     }
 
     function getSubstatText(substat) {

@@ -310,16 +310,6 @@
     filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.46));
 }
 
-.focus-part-name {
-    position: absolute;
-    right: 18px;
-    bottom: 16px;
-    z-index: 1;
-    color: var(--color-accent);
-    font-size: 1.25rem;
-    font-weight: 900;
-}
-
 .ingame-detail-panel {
     align-self: stretch;
 }
@@ -561,6 +551,13 @@
 .part-result-card h4 {
     margin-bottom: 8px;
     color: var(--color-accent);
+}
+
+.part-main-label {
+    margin: -2px 0 8px;
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    font-weight: bold;
 }
 
 .copy-status {
