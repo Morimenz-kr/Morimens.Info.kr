@@ -17,7 +17,7 @@
   { "id": "murphy", "name": "머피", "image_thumb": "images/Murphy-thumb.png", "relems": "aequor", "class": "warden", "grade": "ssr" },
   { "id": "miryam", "name": "미리암", "image_thumb": "images/Miryam-thumb.png", "relems": "aequor", "class": "chorus", "grade": "ssr" },
   { "id": "sanga", "name": "산", "image_thumb": "images/Sanga-thumb.png", "relems": "aequor", "class": "warden", "grade": "ssr" },
-  { "id": "celeste", "name": "살레스트", "image_thumb": "images/Celeste-thumb.png", "relems": "aequor", "class": "chorus", "grade": "ssr" },
+  { "id": "celeste", "name": "셀레스트", "image_thumb": "images/Celeste-thumb.png", "relems": "aequor", "class": "chorus", "grade": "ssr" },
   { "id": "aurita", "name": "오레타", "image_thumb": "images/Aurita-thumb.png", "relems": "aequor", "class": "assault", "grade": "ssr" },
   { "id": "caecus", "name": "카이커스", "image_thumb": "images/Caecus-thumb.png", "relems": "aequor", "class": "warden", "grade": "ssr" },
   { "id": "Murphy_Fauxborn", "name": "탄망 · 머피", "image_thumb": "images/Murphy_Fauxborn-thumb.png", "relems": "aequor", "class": "chorus", "grade": "ssr" },
