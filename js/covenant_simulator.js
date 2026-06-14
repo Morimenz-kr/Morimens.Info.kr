@@ -55,7 +55,7 @@
             'contract-grid', 'selected-contract-name', 'left-part-grid', 'right-part-grid', 'manual-panel', 'target-panel',
             'manual-part-title', 'manual-completion', 'manual-main-option', 'manual-substats',
             'manual-cost', 'manual-result', 'manual-reroll-btn', 'manual-apply-btn',
-            'manual-focus-image',
+            'manual-focus-image', 'manual-focus-name', 'manual-current-result',
             'target-scope-buttons', 'target-lock-strategy', 'target-lock-cost', 'target-parts',
             'run-target-btn', 'run-average-btn', 'result-summary', 'result-status',
             'copy-result-btn', 'preview-result-btn', 'reset-sim-btn', 'preview-modal',
@@ -188,6 +188,7 @@
     function renderManual() {
         const part = getSelectedPart();
         els.manualPartTitle.textContent = getContractPartName(state.selectedPart);
+        els.manualFocusName.textContent = getContractPartName(state.selectedPart);
         if (state.selectedContract) {
             els.manualFocusImage.src = state.selectedContract.image_path;
             els.manualFocusImage.alt = state.selectedContract.korean_name;
@@ -220,6 +221,7 @@
             });
         });
         els.manualCost.textContent = formatCost(getRerollCost(countLocked(part.substats), getManualLockCostMode()));
+        els.manualCurrentResult.innerHTML = part.substats.map(renderStatLine).join('');
         renderManualPreview();
     }
 
