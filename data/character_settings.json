@@ -57,7 +57,7 @@
       "recommendStep": "2돌, 3돌, 초한",
       "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_sword_of_giant", "wheel_star_beast", "wheel_doomsday_rampage"] },
       "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_magic_of_35mm", "wheel_doomsday_rampage"] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_medicine", "covenant_scarlet"], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "죽음 저항"], "substitute_main_stats": { "covenant_medicine": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "죽음 저항"], "covenant_scarlet": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "죽음 저항"] } }
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_medicine", "covenant_scarlet"] }
     }
   ],
   "doll_inferno": [
@@ -75,7 +75,7 @@
       "recommendStep": "명함",
       "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_voltex_of_memory"] },
       "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_isallu_eye", "wheel_magic_of_35mm"] },
-      "covenant": { "main_id": "covenant_twins_white", "substitutes": ["covenant_party","covenant_betray"] }
+      "covenant": { "main_id": "covenant_twins_white", "substitutes": ["covenant_party", "covenant_betray"] }
     },
     {
       "settingName": "딜러",
@@ -191,7 +191,7 @@
       "recommendStep": "2돌",
       "myeongryun_ssr": { "main_id": "wheel_power_of_faith", "substitutes": ["wheel_never_ending_calculation", "wheel_merciful_upbringing"] },
       "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_medicine"] }
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire"] }
     }
   ],
   "sanga": [

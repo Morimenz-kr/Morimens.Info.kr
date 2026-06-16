@@ -56,13 +56,6 @@
     <section class="covenant-shell" aria-label="비밀계약 시뮬레이터">
         <div class="covenant-summary">
             <h2>비밀계약 시뮬레이터</h2>
-            <div class="resource-summary" aria-live="polite">
-                <span>전사 <strong id="summary-rerolls">0</strong>회</span>
-                <span>금권 <strong id="summary-gold">0</strong></span>
-                <span>천면 인장 <strong id="summary-seals">0</strong></span>
-                <span>잔본 <strong id="summary-fragments">0</strong></span>
-                <span>깃펜 <strong id="summary-quills">0</strong></span>
-            </div>
         </div>
 
         <section class="simulator-panel" aria-label="비밀계약 선택">
@@ -76,12 +69,17 @@
         <section class="simulator-panel" aria-label="시뮬레이션 모드">
             <div class="chrome-tabs-container simulator-tabs" role="tablist" aria-label="시뮬레이션 모드">
                 <div class="tab-buttons">
-                    <button type="button" class="chrome-tab active" data-mode-tab="manual">직접 시뮬레이션</button>
-                    <button type="button" class="chrome-tab" data-mode-tab="target">목표 시뮬레이션</button>
+                    <button type="button" class="chrome-tab active" data-mode-tab="manual" role="tab" aria-selected="true">직접 시뮬레이션</button>
+                    <button type="button" class="chrome-tab" data-mode-tab="target" role="tab" aria-selected="false">목표 시뮬레이션</button>
                 </div>
                 <div class="capture-actions">
-                    <button type="button" id="copy-result-btn" class="primary-action">결과 이미지 복사</button>
-                    <button type="button" id="preview-result-btn" class="ghost-action">미리보기</button>
+                    <div class="preset-controls" aria-label="프리셋 관리">
+                        <input type="text" id="preset-name-input" class="preset-name-input" placeholder="프리셋 이름">
+                        <select id="preset-select" class="sim-select preset-select" aria-label="저장된 프리셋"></select>
+                        <button type="button" id="save-preset-btn" class="ghost-action">프리셋 저장</button>
+                        <button type="button" id="load-preset-btn" class="ghost-action">불러오기</button>
+                        <button type="button" id="delete-preset-btn" class="ghost-action">삭제</button>
+                    </div>
                     <button type="button" id="reset-sim-btn" class="ghost-action">초기화</button>
                 </div>
             </div>
@@ -93,6 +91,7 @@
                         <div class="focus-image-frame">
                             <img id="manual-focus-image" src="" alt="">
                             <div class="focus-part-name" id="manual-focus-name">비밀계약 Ⅰ</div>
+                            <div class="focus-total-completion" id="manual-total-completion">전체 완성도 0%</div>
                         </div>
                         <div class="side-part-grid right-parts" id="right-part-grid" role="tablist" aria-label="오른쪽 파츠 선택"></div>
                     </section>
@@ -100,13 +99,14 @@
                     <section class="config-card compact-card ingame-detail-panel" aria-label="현재 파츠 설정">
                         <div class="section-heading">
                             <h3 id="manual-part-title">비밀계약 1</h3>
-                            <span id="manual-completion" class="completion-badge">0%</span>
                         </div>
                         <div class="manual-controls">
-                            <div>
+                            <div class="manual-main-field">
                                 <label class="field-label" for="manual-main-option">주옵</label>
-                                <select id="manual-main-option" class="sim-select"></select>
-                                <div class="substat-editor" id="manual-substats"></div>
+                                <div class="main-option-controls">
+                                    <select id="manual-main-option" class="sim-select"></select>
+                                    <select id="manual-main-level" class="sim-select"></select>
+                                </div>
                             </div>
                             <div>
                                 <div class="section-heading">
@@ -123,17 +123,26 @@
                                         깃펜 우선
                                     </label>
                                 </div>
+                                <div class="reroll-completion-row" aria-live="polite">
+                                    <div class="completion-panel">
+                                        <span class="completion-label">전사 전</span>
+                                        <strong id="manual-before-completion">0%</strong>
+                                    </div>
+                                    <div class="completion-panel">
+                                        <span class="completion-label">전사 후</span>
+                                        <strong id="manual-after-completion">-</strong>
+                                    </div>
+                                </div>
                                 <div class="reroll-compare">
                                     <div class="compare-column">
-                                        <h4>기존 옵션</h4>
                                         <div id="manual-current-result" class="result-list"></div>
                                     </div>
                                     <div class="compare-column">
-                                        <h4>전사 후 옵션</h4>
                                         <div id="manual-result" class="result-list empty-result">전사 결과가 여기에 표시됩니다.</div>
                                     </div>
                                 </div>
                                 <div class="action-row">
+                                    <span id="manual-status" class="manual-status" role="status" aria-live="polite"></span>
                                     <button type="button" id="manual-reroll-btn" class="primary-action">전사</button>
                                     <button type="button" id="manual-apply-btn" class="ghost-action" disabled>교체</button>
                                 </div>
@@ -148,14 +157,6 @@
                     <div class="contract-picker target-scope-picker">
                         <label class="field-label">대상 파츠</label>
                         <div id="target-scope-buttons" class="target-scope-buttons" aria-label="대상 파츠 선택"></div>
-                    </div>
-                    <div class="contract-picker">
-                        <label class="field-label" for="target-lock-strategy">잠금 전략</label>
-                        <select id="target-lock-strategy" class="sim-select">
-                            <option value="none">잠금 없음</option>
-                            <option value="one">목표 부옵 1개 이상이면 잠금</option>
-                            <option value="two" selected>목표 부옵 2개까지 잠금</option>
-                        </select>
                     </div>
                     <div class="contract-picker">
                         <label class="field-label" for="target-lock-cost">잠금 1개 비용</label>
@@ -179,7 +180,7 @@
             <div class="result-summary-card">
                 <div class="section-heading">
                     <h3>결과</h3>
-                    <span id="result-status" class="copy-status" role="status" aria-live="polite"></span>
+                    <span id="result-status" class="result-status" role="status" aria-live="polite"></span>
                 </div>
                 <div id="result-summary" class="summary-output"></div>
             </div>
@@ -187,14 +188,15 @@
     </section>
 </main>
 
-<div id="preview-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="preview-modal-title">
-    <div class="modal-content preview-modal-content">
-        <div class="modal-header">
-            <h2 id="preview-modal-title">결과 이미지 미리보기</h2>
-            <button type="button" id="close-preview-modal" class="close-btn" aria-label="닫기">&times;</button>
-        </div>
-        <div class="preview-image-frame">
-            <img id="preview-image" alt="결과 이미지 미리보기">
+<div id="contract-change-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="contract-change-title">
+    <div class="modal-content contract-change-content">
+        <h2 id="contract-change-title" class="form-title">비밀계약 변경</h2>
+        <p class="contract-change-message">
+            현재 세팅이 프리셋으로 저장되지 않았습니다. 저장하지 않고 비밀계약을 변경할까요?
+        </p>
+        <div class="contract-change-actions">
+            <button type="button" id="cancel-contract-change-btn" class="ghost-action">취소</button>
+            <button type="button" id="confirm-contract-change-btn" class="primary-action">변경하기</button>
         </div>
     </div>
 </div>

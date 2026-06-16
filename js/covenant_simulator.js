@@ -1,8 +1,9 @@
 (function() {
+    const STORAGE_KEY = 'morimens_covenant_simulator_state_v1';
+    const PRESET_STORAGE_KEY = 'morimens_covenant_simulator_presets_v1';
     const ROMANS = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
-    const SHARE_IMAGE_TYPE = 'image/jpeg';
-    const SHARE_IMAGE_QUALITY = 0.88;
     const AVERAGE_RUNS = 300;
+    const TARGET_PART_ORDER = [3, 0, 4, 1, 5, 2];
     const OPTIONS = [
         { id: 'critRate', name: '크리티컬 확률', step: 0.2, unit: '%' },
         { id: 'critDamage', name: '크리티컬 피해', step: 0.3, unit: '%' },
@@ -37,6 +38,10 @@
         manualPreview: null,
         result: null,
         totals: createEmptyTotals(),
+        presets: [],
+        pendingContractName: '',
+        hasUnsavedPresetChanges: false,
+        isSimulating: false,
         targetParts: [0, 1, 2, 3, 4, 5],
         parts: Array.from({ length: 6 }, (_, index) => createDefaultPart(index))
     };
@@ -53,17 +58,18 @@
     function cacheElements() {
         [
             'contract-grid', 'selected-contract-name', 'left-part-grid', 'right-part-grid', 'manual-panel', 'target-panel',
-            'manual-part-title', 'manual-completion', 'manual-main-option', 'manual-substats',
-            'manual-cost', 'manual-result', 'manual-reroll-btn', 'manual-apply-btn',
-            'manual-focus-image', 'manual-focus-name', 'manual-current-result',
-            'target-scope-buttons', 'target-lock-strategy', 'target-lock-cost', 'target-parts',
+            'manual-part-title', 'manual-before-completion', 'manual-after-completion', 'manual-main-option', 'manual-main-level',
+            'manual-cost', 'manual-status', 'manual-result', 'manual-reroll-btn', 'manual-apply-btn',
+            'manual-focus-image', 'manual-focus-name', 'manual-total-completion', 'manual-current-result',
+            'target-scope-buttons', 'target-lock-cost', 'target-parts',
             'run-target-btn', 'run-average-btn', 'result-summary', 'result-status',
-            'copy-result-btn', 'preview-result-btn', 'reset-sim-btn', 'preview-modal',
-            'preview-image', 'close-preview-modal', 'summary-rerolls', 'summary-gold',
-            'summary-seals', 'summary-fragments', 'summary-quills'
+            'preset-name-input', 'preset-select', 'save-preset-btn', 'load-preset-btn', 'delete-preset-btn',
+            'contract-change-modal', 'confirm-contract-change-btn', 'cancel-contract-change-btn',
+            'reset-sim-btn'
         ].forEach(id => {
             els[toCamel(id)] = document.getElementById(id);
         });
+        els.contractChangeMessage = document.querySelector('.contract-change-message');
         els.modeTabs = Array.from(document.querySelectorAll('[data-mode-tab]'));
     }
 
@@ -72,23 +78,41 @@
             tab.addEventListener('click', () => {
                 state.mode = tab.dataset.modeTab;
                 renderMode();
+                saveCurrentState();
             });
         });
         els.manualMainOption.addEventListener('change', () => {
             getSelectedPart().mainOption = els.manualMainOption.value;
             renderParts();
+            renderManual();
+            markSettingsChanged();
         });
+        els.manualMainLevel.addEventListener('change', () => {
+            getSelectedPart().mainLevel = Number(els.manualMainLevel.value);
+            renderParts();
+            renderManual();
+            markSettingsChanged();
+        });
+        document.querySelectorAll('input[name="manual-lock-cost"]').forEach(input => {
+            input.addEventListener('change', () => {
+                renderManual();
+                markSettingsChanged();
+            });
+        });
+        els.targetLockCost.addEventListener('change', markSettingsChanged);
         els.manualRerollBtn.addEventListener('click', manualReroll);
         els.manualApplyBtn.addEventListener('click', applyManualPreview);
         els.runTargetBtn.addEventListener('click', runTargetSimulation);
         els.runAverageBtn.addEventListener('click', runAverageSimulation);
-        els.resetSimBtn.addEventListener('click', resetSimulation);
-        els.copyResultBtn.addEventListener('click', copyResultImage);
-        els.previewResultBtn.addEventListener('click', previewResultImage);
-        els.closePreviewModal.addEventListener('click', closePreviewModal);
-        els.previewModal.addEventListener('click', event => {
-            if (event.target === els.previewModal) closePreviewModal();
+        els.savePresetBtn.addEventListener('click', savePreset);
+        els.loadPresetBtn.addEventListener('click', loadSelectedPreset);
+        els.deletePresetBtn.addEventListener('click', deleteSelectedPreset);
+        els.confirmContractChangeBtn.addEventListener('click', confirmContractChange);
+        els.cancelContractChangeBtn.addEventListener('click', closeContractChangeModal);
+        els.contractChangeModal.addEventListener('click', event => {
+            if (event.target === els.contractChangeModal) closeContractChangeModal();
         });
+        els.resetSimBtn.addEventListener('click', resetSimulation);
     }
 
     async function loadContracts() {
@@ -96,6 +120,8 @@
         if (!response.ok) throw new Error('비밀계약 데이터를 불러오지 못했습니다.');
         state.contracts = await response.json();
         state.selectedContract = state.contracts[0];
+        loadPresets();
+        loadSavedState();
     }
 
     function renderAll() {
@@ -104,14 +130,15 @@
         renderTargetScopeButtons();
         renderMode();
         renderTargetParts();
+        renderPresetControls();
         renderTotals();
         showResultMessage('전사 시뮬레이션 결과가 여기에 표시됩니다.');
     }
 
     function renderTargetScopeButtons() {
-        els.targetScopeButtons.innerHTML = ROMANS.map((roman, index) => `
+        els.targetScopeButtons.innerHTML = TARGET_PART_ORDER.map(index => `
             <button type="button" class="target-scope-btn ${state.targetParts.includes(index) ? 'active' : ''}" data-target-scope-index="${index}">
-                ${roman}
+                ${ROMANS[index]}
             </button>
         `).join('');
         els.targetScopeButtons.querySelectorAll('[data-target-scope-index]').forEach(button => {
@@ -128,6 +155,7 @@
                 }
                 renderTargetScopeButtons();
                 renderTargetParts();
+                markSettingsChanged();
             });
         });
     }
@@ -139,6 +167,9 @@
             els.manualFocusImage.src = state.selectedContract.image_path;
             els.manualFocusImage.alt = state.selectedContract.korean_name;
         }
+        if (els.manualFocusName) {
+            els.manualFocusName.textContent = state.selectedContract.korean_name;
+        }
         els.contractGrid.innerHTML = state.contracts.map(contract => `
             <button type="button" class="contract-card ${contract.english_name === state.selectedContract.english_name ? 'active' : ''}" data-contract="${escapeHtml(contract.english_name)}">
                 <img src="${escapeHtml(contract.image_path)}" alt="">
@@ -147,11 +178,104 @@
         `).join('');
         els.contractGrid.querySelectorAll('[data-contract]').forEach(button => {
             button.addEventListener('click', () => {
-                state.selectedContract = state.contracts.find(contract => contract.english_name === button.dataset.contract);
-                renderContract();
-                showResultMessage('계약을 변경했습니다.');
+                requestContractChange(button.dataset.contract);
             });
         });
+    }
+
+    function requestContractChange(contractName) {
+        if (!state.selectedContract || contractName === state.selectedContract.english_name) return;
+        const nextContract = state.contracts.find(contract => contract.english_name === contractName);
+        if (!nextContract) return;
+        state.pendingContractName = contractName;
+        if (shouldConfirmContractChange()) {
+            openContractChangeModal();
+            return;
+        }
+        applyContractChange(contractName);
+    }
+
+    function shouldConfirmContractChange() {
+        return state.hasUnsavedPresetChanges || hasConfiguredSettings();
+    }
+
+    function hasConfiguredSettings() {
+        const defaultTargetParts = [0, 1, 2, 3, 4, 5];
+        const targetPartsChanged = state.targetParts.length !== defaultTargetParts.length
+            || state.targetParts.some((partIndex, index) => partIndex !== defaultTargetParts[index]);
+        const manualLockChanged = getManualLockCostMode() !== 'fragment';
+        const targetLockChanged = els.targetLockCost && els.targetLockCost.value !== 'fragment';
+        return targetPartsChanged
+            || manualLockChanged
+            || targetLockChanged
+            || state.parts.some((part, index) => isPartConfigured(part, index));
+    }
+
+    function isPartConfigured(part, index) {
+        const base = createDefaultPart(index);
+        if (part.mainOption !== base.mainOption || part.mainLevel !== base.mainLevel || part.lastTouched) return true;
+        const substatsChanged = part.substats.some((substat, substatIndex) => {
+            const baseSubstat = base.substats[substatIndex];
+            return substat.option !== baseSubstat.option
+                || substat.level !== baseSubstat.level
+                || substat.locked !== baseSubstat.locked;
+        });
+        if (substatsChanged) return true;
+        return part.goals.some((goal, goalIndex) => {
+            const baseGoal = base.goals[goalIndex];
+            return goal.option !== baseGoal.option
+                || goal.level !== baseGoal.level
+                || goal.enabled !== baseGoal.enabled;
+        });
+    }
+
+    function openContractChangeModal() {
+        if (els.contractChangeMessage) {
+            els.contractChangeMessage.textContent = state.hasUnsavedPresetChanges
+                ? '현재 세팅이 프리셋으로 저장되지 않았습니다. 저장하지 않고 비밀계약을 변경할까요?'
+                : '현재 세팅이 초기화됩니다. 비밀계약을 변경할까요?';
+        }
+        els.contractChangeModal.classList.add('show');
+    }
+
+    function closeContractChangeModal() {
+        state.pendingContractName = '';
+        els.contractChangeModal.classList.remove('show');
+    }
+
+    function confirmContractChange() {
+        const contractName = state.pendingContractName;
+        closeContractChangeModal();
+        if (contractName) applyContractChange(contractName);
+    }
+
+    function applyContractChange(contractName) {
+        const nextContract = state.contracts.find(contract => contract.english_name === contractName);
+        if (!nextContract) return;
+        state.selectedContract = nextContract;
+        resetSettingsForContract();
+        renderContract();
+        renderParts();
+        renderTargetScopeButtons();
+        renderMode();
+        renderTargetParts();
+        renderTotals();
+        saveCurrentState();
+        showResultMessage('비밀계약을 변경하고 세팅을 초기화했습니다.');
+    }
+
+    function resetSettingsForContract() {
+        state.selectedPart = 0;
+        state.mode = 'manual';
+        state.targetParts = [0, 1, 2, 3, 4, 5];
+        state.parts = Array.from({ length: 6 }, (_, index) => createDefaultPart(index));
+        state.manualPreview = null;
+        state.result = null;
+        state.totals = createEmptyTotals();
+        state.hasUnsavedPresetChanges = false;
+        const manualLockInput = document.querySelector('input[name="manual-lock-cost"][value="fragment"]');
+        if (manualLockInput) manualLockInput.checked = true;
+        if (els.targetLockCost) els.targetLockCost.value = 'fragment';
     }
 
     function renderParts() {
@@ -160,7 +284,7 @@
             return `
             <button type="button" class="part-button ${index === state.selectedPart ? 'active' : ''} ${part.lastTouched ? 'has-result' : ''}" data-part-index="${index}">
                 <span class="part-roman">${ROMANS[index]}</span>
-                <span class="part-main">${escapeHtml(getOptionName(part.mainOption))}</span>
+                <span class="part-main part-completion">완성도 ${formatNumber(getPartCompletion(part), 1)}%</span>
             </button>
         `;
         }).join('');
@@ -178,25 +302,49 @@
     }
 
     function renderMode() {
-        els.modeTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.modeTab === state.mode));
+        els.modeTabs.forEach(tab => {
+            const isActive = tab.dataset.modeTab === state.mode;
+            tab.classList.toggle('active', isActive);
+            tab.setAttribute('aria-selected', String(isActive));
+            applyModeTabVisualState(tab, isActive);
+        });
         els.manualPanel.classList.toggle('hidden', state.mode !== 'manual');
         els.targetPanel.classList.toggle('hidden', state.mode !== 'target');
         if (state.mode === 'manual') renderManual();
         if (state.mode === 'target') renderTargetParts();
     }
 
+    function applyModeTabVisualState(tab, isActive) {
+        tab.style.setProperty('background-color', isActive ? '#2a2a2e' : '#3f3f46', 'important');
+        tab.style.setProperty('border-color', isActive ? '#55555e' : '#444', 'important');
+        tab.style.setProperty('border-bottom-color', isActive ? '#2a2a2e' : '#444', 'important');
+        tab.style.setProperty('color', isActive ? '#ffc107' : '#9a9a9f', 'important');
+        tab.style.setProperty('font-weight', isActive ? '800' : '600', 'important');
+    }
+
     function renderManual() {
         const part = getSelectedPart();
         els.manualPartTitle.textContent = getContractPartName(state.selectedPart);
-        els.manualFocusName.textContent = getContractPartName(state.selectedPart);
+        els.manualFocusName.textContent = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
+        els.manualTotalCompletion.textContent = `전체 완성도 ${formatTotalCompletion(getTotalCompletion())}%`;
         if (state.selectedContract) {
             els.manualFocusImage.src = state.selectedContract.image_path;
             els.manualFocusImage.alt = state.selectedContract.korean_name;
         }
-        els.manualCompletion.textContent = `${formatNumber(getPartCompletion(part), 1)}%`;
+        els.manualBeforeCompletion.textContent = `${formatNumber(getPartCompletion(part), 1)}%`;
+        els.manualAfterCompletion.textContent = state.manualPreview
+            ? `${formatNumber(getPartCompletion(part, state.manualPreview), 1)}%`
+            : '-';
         renderManualMainOption();
-        els.manualSubstats.innerHTML = part.substats.map((substat, index) => `
-            <div class="substat-row" data-substat-index="${index}">
+        els.manualCost.textContent = formatCost(getRerollCost(countLocked(part.substats), getManualLockCostMode()));
+        renderManualCurrentResult(part);
+        renderManualPreview();
+        renderResultSummary();
+    }
+
+    function renderManualCurrentResult(part) {
+        els.manualCurrentResult.innerHTML = part.substats.map((substat, index) => `
+            <div class="substat-row current-stat-row" data-substat-index="${index}">
                 <button type="button" class="lock-toggle ${substat.locked ? 'active' : ''}" aria-label="${index + 1}번 부옵 잠금">${substat.locked ? '🔒' : '🔓'}</button>
                 <select class="sim-select substat-option">
                     ${OPTIONS.map(option => `<option value="${option.id}" ${option.id === substat.option ? 'selected' : ''}>${escapeHtml(option.name)}</option>`).join('')}
@@ -206,23 +354,24 @@
                 </select>
             </div>
         `).join('');
-        els.manualSubstats.querySelectorAll('[data-substat-index]').forEach(row => {
+        els.manualCurrentResult.querySelectorAll('[data-substat-index]').forEach(row => {
             const index = Number(row.dataset.substatIndex);
             row.querySelector('.lock-toggle').addEventListener('click', () => toggleManualLock(index));
             row.querySelector('.substat-option').addEventListener('change', event => {
                 part.substats[index].option = event.target.value;
                 state.manualPreview = null;
+                renderParts();
                 renderManual();
+                markSettingsChanged();
             });
             row.querySelector('.substat-level').addEventListener('change', event => {
                 part.substats[index].level = Number(event.target.value);
                 state.manualPreview = null;
+                renderParts();
                 renderManual();
+                markSettingsChanged();
             });
         });
-        els.manualCost.textContent = formatCost(getRerollCost(countLocked(part.substats), getManualLockCostMode()));
-        els.manualCurrentResult.innerHTML = part.substats.map(renderStatLine).join('');
-        renderManualPreview();
     }
 
     function renderManualMainOption() {
@@ -232,6 +381,12 @@
             .map(optionId => `<option value="${optionId}">${escapeHtml(getOptionName(optionId))}</option>`)
             .join('');
         els.manualMainOption.value = part.mainOption;
+        if (els.manualMainLevel) {
+            els.manualMainLevel.innerHTML = MAIN_COMPLETION
+                .map((_, level) => `<option value="${level}">+ ${level}</option>`)
+                .join('');
+            els.manualMainLevel.value = String(part.mainLevel);
+        }
     }
 
     function renderManualPreview() {
@@ -289,17 +444,22 @@
         card.querySelector('.target-main-option').addEventListener('change', event => {
             part.mainOption = event.target.value;
             renderParts();
+            renderManual();
+            markSettingsChanged();
         });
         card.querySelectorAll('[data-goal-index]').forEach(row => {
             const goalIndex = Number(row.dataset.goalIndex);
             row.querySelector('.target-goal-option').addEventListener('change', event => {
                 part.goals[goalIndex].option = event.target.value;
+                markSettingsChanged();
             });
             row.querySelector('.target-goal-level').addEventListener('change', event => {
                 part.goals[goalIndex].level = Number(event.target.value);
+                markSettingsChanged();
             });
             row.querySelector('.goal-enabled').addEventListener('change', event => {
                 part.goals[goalIndex].enabled = event.target.checked;
+                markSettingsChanged();
             });
         });
     }
@@ -322,6 +482,7 @@
         renderManual();
         renderTotals();
         renderResultSummary('전사 결과가 생성되었습니다. 교체 버튼으로 현재 부옵에 반영할 수 있습니다.');
+        saveCurrentState();
     }
 
     function applyManualPreview() {
@@ -333,32 +494,42 @@
             state.result.allParts = getAllPartSnapshots();
         }
         state.manualPreview = null;
+        renderParts();
         renderManual();
         renderResultSummary('전사 결과를 현재 부옵으로 교체했습니다.');
+        markSettingsChanged();
     }
 
-    function runTargetSimulation() {
+    async function runTargetSimulation() {
+        if (state.isSimulating) return;
         const config = getTargetConfig();
         if (!config.targets.length) {
             setStatus('목표로 사용할 부옵을 하나 이상 선택해주세요.', 'error');
             return;
         }
-        const result = simulateUntilTargets(config);
-        state.result = result;
-        addTotals(state.totals, result.cost);
-        state.totals.rerolls += result.attempts;
-        result.partResults.forEach(partResult => {
-            state.parts[partResult.partIndex].substats = cloneSubstats(partResult.finalSubstats);
-            state.parts[partResult.partIndex].lastTouched = true;
-        });
-        renderManual();
-        renderParts();
-        renderTargetParts();
-        renderTotals();
-        renderResultSummary('목표까지 시뮬레이션을 완료했습니다.');
+        setSimulationBusy(true, '목표 시뮬레이션을 계산 중입니다...');
+        try {
+            const result = await simulateUntilTargets(config);
+            state.result = result;
+            addTotals(state.totals, result.cost);
+            state.totals.rerolls += result.attempts;
+            result.partResults.forEach(partResult => {
+                state.parts[partResult.partIndex].substats = cloneSubstats(partResult.finalSubstats);
+                state.parts[partResult.partIndex].lastTouched = true;
+            });
+            renderManual();
+            renderParts();
+            renderTargetParts();
+            renderTotals();
+            renderResultSummary('목표까지 시뮬레이션을 완료했습니다.');
+            markSettingsChanged();
+        } finally {
+            setSimulationBusy(false);
+        }
     }
 
-    function runAverageSimulation() {
+    async function runAverageSimulation() {
+        if (state.isSimulating) return;
         const config = getTargetConfig();
         if (!config.targets.length) {
             setStatus('목표로 사용할 부옵을 하나 이상 선택해주세요.', 'error');
@@ -366,41 +537,56 @@
         }
         const totalCost = createEmptyTotals();
         let totalAttempts = 0;
-        for (let i = 0; i < AVERAGE_RUNS; i += 1) {
-            const result = simulateUntilTargets(config);
-            addTotals(totalCost, result.cost);
-            totalAttempts += result.attempts;
+        setSimulationBusy(true, '평균값을 계산 중입니다...');
+        try {
+            for (let i = 0; i < AVERAGE_RUNS; i += 1) {
+                const result = await simulateUntilTargets(config, false);
+                addTotals(totalCost, result.cost);
+                totalAttempts += result.attempts;
+                if (i % 10 === 9) {
+                    setStatus(`평균값을 계산 중입니다... ${i + 1}/${AVERAGE_RUNS}`, '');
+                    await yieldToBrowser();
+                }
+            }
+            state.result = {
+                type: 'average',
+                contract: state.selectedContract.korean_name,
+                scope: config.scopeLabel,
+                runs: AVERAGE_RUNS,
+                attempts: totalAttempts / AVERAGE_RUNS,
+                cost: divideTotals(totalCost, AVERAGE_RUNS)
+            };
+            renderResultSummary('몬테카를로 방식으로 여러 번 반복한 평균값입니다.');
+        } finally {
+            setSimulationBusy(false);
         }
-        state.result = {
-            type: 'average',
-            contract: state.selectedContract.korean_name,
-            scope: config.scopeLabel,
-            runs: AVERAGE_RUNS,
-            attempts: totalAttempts / AVERAGE_RUNS,
-            cost: divideTotals(totalCost, AVERAGE_RUNS)
-        };
-        renderResultSummary('몬테카를로 방식으로 여러 번 반복한 평균값입니다.');
     }
 
-    function simulateUntilTargets(config) {
+    async function simulateUntilTargets(config, shouldYield = true) {
         const totalCost = createEmptyTotals();
         const partResults = [];
         let attempts = 0;
-        config.targetsByPart.forEach(targetPart => {
+        for (const targetPart of config.targetsByPart) {
             let current = cloneSubstats(state.parts[targetPart.partIndex].substats);
+            let safetySteps = 0;
             while (!matchesGoals(current, targetPart.goals)) {
-                const locked = getStrategyLockedIndexes(current, targetPart.goals, config.lockStrategy);
-                const cost = getRerollCost(locked.length, config.lockCostMode);
-                current = rerollSubstats(current.map((substat, index) => ({ ...substat, locked: locked.includes(index) })));
-                addTotals(totalCost, cost);
-                attempts += 1;
+                if (safetySteps >= 8) {
+                    current = forceCompleteGoals(current, targetPart.goals);
+                    break;
+                }
+                const step = advanceTowardGoals(current, targetPart.goals, config);
+                current = step.substats;
+                addScaledTotals(totalCost, step.cost, step.attempts);
+                attempts += step.attempts;
+                safetySteps += 1;
             }
             partResults.push({
                 partIndex: targetPart.partIndex,
                 goals: targetPart.goals,
                 finalSubstats: current.map(substat => ({ ...substat, locked: false }))
             });
-        });
+            if (shouldYield) await yieldToBrowser();
+        }
         return {
             type: 'target',
             contract: state.selectedContract.korean_name,
@@ -422,20 +608,25 @@
             targetsByPart,
             targets: targetsByPart.flatMap(item => item.goals),
             scopeLabel: state.targetParts.length === 6 ? '전체' : state.targetParts.map(index => ROMANS[index]).join(', '),
-            lockStrategy: els.targetLockStrategy.value,
+            lockStrategy: 'two',
             lockCostMode: els.targetLockCost.value
         };
     }
 
     function getTargetPartIndexes() {
-        return state.targetParts;
+        return TARGET_PART_ORDER.filter(index => state.targetParts.includes(index));
     }
 
     function getStrategyLockedIndexes(substats, goals, strategy) {
         if (strategy === 'none') return [];
         const matches = [];
+        const usedGoals = new Set();
         substats.forEach((substat, index) => {
-            if (goals.some(goal => substat.option === goal.option && substat.level >= goal.level)) {
+            const goalIndex = goals.findIndex((goal, index) => {
+                return !usedGoals.has(index) && substat.option === goal.option && substat.level >= goal.level;
+            });
+            if (goalIndex !== -1) {
+                usedGoals.add(goalIndex);
                 matches.push(index);
             }
         });
@@ -454,6 +645,96 @@
         });
     }
 
+    function advanceTowardGoals(current, goals, config) {
+        const locked = getStrategyLockedIndexes(current, goals, config.lockStrategy);
+        const unlocked = [0, 1, 2].filter(index => !locked.includes(index));
+        const missingGoals = getMissingGoals(current, goals, locked);
+        const targetGoal = pickWeightedGoal(missingGoals);
+        const chance = getAnyGoalHitProbability(missingGoals, unlocked.length);
+        const attempts = sampleGeometric(chance);
+        const next = current.map((substat, index) => {
+            if (locked.includes(index)) return { ...substat, locked: true };
+            return { option: randomOptionId(), level: randomInt(1, 8), locked: false };
+        });
+        if (targetGoal && unlocked.length) {
+            const targetSlot = unlocked[randomInt(0, unlocked.length - 1)];
+            next[targetSlot] = createSubstatForGoal(targetGoal);
+        }
+        return {
+            attempts,
+            cost: getRerollCost(locked.length, config.lockCostMode),
+            substats: next.map(substat => ({ ...substat, locked: false }))
+        };
+    }
+
+    function getMissingGoals(substats, goals, lockedIndexes) {
+        const matchedGoals = new Set();
+        lockedIndexes.forEach(substatIndex => {
+            const substat = substats[substatIndex];
+            const goalIndex = goals.findIndex((goal, index) => {
+                return !matchedGoals.has(index) && substat.option === goal.option && substat.level >= goal.level;
+            });
+            if (goalIndex !== -1) matchedGoals.add(goalIndex);
+        });
+        return goals.filter((_, index) => !matchedGoals.has(index));
+    }
+
+    function pickWeightedGoal(goals) {
+        if (!goals.length) return null;
+        const totalWeight = goals.reduce((sum, goal) => sum + getGoalHitProbability(goal), 0);
+        let cursor = Math.random() * totalWeight;
+        for (const goal of goals) {
+            cursor -= getGoalHitProbability(goal);
+            if (cursor <= 0) return goal;
+        }
+        return goals[goals.length - 1];
+    }
+
+    function getAnyGoalHitProbability(goals, slotCount) {
+        if (!goals.length || slotCount <= 0) return 1;
+        const uniqueGoals = new Map();
+        goals.forEach(goal => {
+            uniqueGoals.set(`${goal.option}:${goal.level}`, goal);
+        });
+        const slotChance = Array.from(uniqueGoals.values())
+            .reduce((sum, goal) => sum + getGoalHitProbability(goal), 0);
+        return Math.max(0.000001, Math.min(1, 1 - Math.pow(1 - slotChance, slotCount)));
+    }
+
+    function getGoalHitProbability(goal) {
+        return (9 - goal.level) / 64;
+    }
+
+    function sampleGeometric(successChance) {
+        if (successChance >= 1) return 1;
+        const chance = Math.max(0.000001, Math.min(0.999999, successChance));
+        return Math.max(1, Math.ceil(Math.log(1 - Math.random()) / Math.log(1 - chance)));
+    }
+
+    function createSubstatForGoal(goal) {
+        return {
+            option: goal.option,
+            level: randomInt(goal.level, 8),
+            locked: false
+        };
+    }
+
+    function forceCompleteGoals(current, goals) {
+        const next = current.map(substat => ({ ...substat, locked: false }));
+        const usedSlots = new Set();
+        goals.slice(0, 3).forEach(goal => {
+            let slot = next.findIndex((substat, index) => {
+                return !usedSlots.has(index) && substat.option === goal.option && substat.level >= goal.level;
+            });
+            if (slot === -1) {
+                slot = [0, 1, 2].find(index => !usedSlots.has(index));
+                if (slot !== undefined) next[slot] = createSubstatForGoal(goal);
+            }
+            if (slot !== -1 && slot !== undefined) usedSlots.add(slot);
+        });
+        return next;
+    }
+
     function rerollSubstats(substats) {
         return substats.map(substat => {
             if (substat.locked) return { ...substat };
@@ -464,26 +745,29 @@
     function toggleManualLock(index) {
         const substats = getSelectedPart().substats;
         if (!substats[index].locked && countLocked(substats) >= 2) {
-            setStatus('부옵 잠금은 최대 2개까지 가능합니다.', 'error');
+            setManualStatus('부옵 잠금은 최대 2개까지 가능합니다.', 'error');
             return;
         }
         substats[index].locked = !substats[index].locked;
+        setManualStatus('', '');
         state.manualPreview = null;
+        renderParts();
         renderManual();
+        markSettingsChanged();
     }
 
     function renderTotals() {
-        els.summaryRerolls.textContent = formatInteger(state.totals.rerolls);
-        els.summaryGold.textContent = formatInteger(state.totals.gold);
-        els.summarySeals.textContent = formatInteger(state.totals.seals);
-        els.summaryFragments.textContent = formatInteger(state.totals.fragments);
-        els.summaryQuills.textContent = formatInteger(state.totals.quills);
+        return;
     }
 
     function renderResultSummary(message) {
+        const statGrid = renderCovenantStatGrid();
         if (!state.result) {
-            els.resultSummary.innerHTML = '<p class="muted-text">전사 시뮬레이션 결과가 여기에 표시됩니다.</p>';
-            setStatus(message || '', '');
+            els.resultSummary.innerHTML = `
+                ${statGrid}
+                <p class="muted-text">${escapeHtml(message || '전사 시뮬레이션 결과가 여기에 표시됩니다.')}</p>
+            `;
+            setStatus('', '');
             return;
         }
         const result = state.result;
@@ -491,14 +775,13 @@
         const attempts = result.type === 'average' ? formatNumber(result.attempts, 1) : formatInteger(result.attempts);
         els.resultSummary.innerHTML = `
             ${message ? `<p class="muted-text">${escapeHtml(message)}</p>` : ''}
+            ${statGrid}
             <div class="summary-grid">
-                <div class="summary-item"><span class="summary-label">계약</span><span class="summary-value">${escapeHtml(result.contract)}</span></div>
-                <div class="summary-item"><span class="summary-label">대상</span><span class="summary-value">${escapeHtml(result.part || result.scope || '-')}</span></div>
-                <div class="summary-item"><span class="summary-label">전사</span><span class="summary-value">${attempts}회</span></div>
-                <div class="summary-item"><span class="summary-label">금권</span><span class="summary-value">${formatNumber(cost.gold, 1)}</span></div>
-                <div class="summary-item"><span class="summary-label">천면 인장</span><span class="summary-value">${formatNumber(cost.seals, 1)}</span></div>
-                <div class="summary-item"><span class="summary-label">잔본</span><span class="summary-value">${formatNumber(cost.fragments, 1)}</span></div>
-                <div class="summary-item"><span class="summary-label">깃펜</span><span class="summary-value">${formatNumber(cost.quills, 1)}</span></div>
+                <div class="summary-item"><span class="summary-label">전사 횟수</span><span class="summary-value">${attempts}회</span></div>
+                <div class="summary-item"><span class="summary-label">소모한 금권</span><span class="summary-value">${formatNumber(cost.gold, 1)}</span></div>
+                <div class="summary-item"><span class="summary-label">소모한 천면인장</span><span class="summary-value">${formatNumber(cost.seals, 1)}</span></div>
+                <div class="summary-item"><span class="summary-label">소모한 비밀 계약 잔본</span><span class="summary-value">${formatNumber(cost.fragments, 1)}</span></div>
+                <div class="summary-item"><span class="summary-label">소모한 깃펜</span><span class="summary-value">${formatNumber(cost.quills, 1)}</span></div>
             </div>
             ${renderResultDetails(result)}
         `;
@@ -518,11 +801,52 @@
     function renderAllPartResults(parts) {
         return `<div class="part-result-grid">${parts.map(part => `
             <div class="part-result-card">
-                <h4>${escapeHtml(getContractPartName(part.partIndex))}</h4>
+                <h4>${escapeHtml(ROMANS[part.partIndex])}</h4>
                 <div class="part-main-label">${escapeHtml(getOptionName(part.mainOption))}</div>
-                ${part.substats.map(renderStatLine).join('')}
+                ${part.substats.map(renderCompactStatLine).join('')}
             </div>
         `).join('')}</div>`;
+    }
+
+    function renderCovenantStatGrid() {
+        const totals = getCovenantStatTotals();
+        const rows = range(0, 3).map(rowIndex => {
+            const left = totals[rowIndex * 2];
+            const right = totals[rowIndex * 2 + 1];
+            return `
+                <tr>
+                    <th scope="row">${escapeHtml(left.name)}</th>
+                    <td>${escapeHtml(formatStatValue(left.value, left.unit))}</td>
+                    <th scope="row">${escapeHtml(right.name)}</th>
+                    <td>${escapeHtml(formatStatValue(right.value, right.unit))}</td>
+                </tr>
+            `;
+        }).join('');
+        return `
+            <div class="covenant-stat-summary">
+                <div class="stat-table-title">현재 비밀계약 스탯</div>
+                <table class="covenant-stat-table">
+                    <tbody>${rows}</tbody>
+                </table>
+            </div>
+        `;
+    }
+
+    function getCovenantStatTotals() {
+        const totals = Object.fromEntries(OPTIONS.map(option => [option.id, {
+            name: option.name,
+            unit: option.unit,
+            value: 0
+        }]));
+        state.parts.forEach(part => {
+            const mainOption = optionById[part.mainOption];
+            if (mainOption) totals[part.mainOption].value += mainOption.step * part.mainLevel;
+            part.substats.forEach(substat => {
+                const option = optionById[substat.option];
+                if (option) totals[substat.option].value += option.step * substat.level;
+            });
+        });
+        return OPTIONS.map(option => totals[option.id]);
     }
 
     function showResultMessage(message) {
@@ -531,124 +855,230 @@
 
     function setStatus(message, type) {
         els.resultStatus.textContent = message;
-        els.resultStatus.className = `copy-status ${type || ''}`.trim();
+        els.resultStatus.className = `result-status ${type || ''}`.trim();
     }
 
-    async function copyResultImage() {
-        if (!state.result) {
-            setStatus('복사할 결과가 없습니다.', 'error');
+    function setSimulationBusy(isBusy, message = '') {
+        state.isSimulating = isBusy;
+        if (els.runTargetBtn) els.runTargetBtn.disabled = isBusy;
+        if (els.runAverageBtn) els.runAverageBtn.disabled = isBusy;
+        if (message) setStatus(message, '');
+    }
+
+    function yieldToBrowser() {
+        return new Promise(resolve => setTimeout(resolve, 0));
+    }
+
+    function setManualStatus(message, type) {
+        if (!els.manualStatus) return;
+        els.manualStatus.textContent = message;
+        els.manualStatus.className = `manual-status ${type || ''}`.trim();
+    }
+
+    function markSettingsChanged() {
+        state.hasUnsavedPresetChanges = true;
+        saveCurrentState();
+    }
+
+    function saveCurrentState() {
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(createStateSnapshot()));
+        } catch (error) {
+            console.warn('비밀계약 시뮬레이터 상태 저장에 실패했습니다.', error);
+        }
+    }
+
+    function loadSavedState() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (saved) applyStateSnapshot(saved);
+        } catch (error) {
+            localStorage.removeItem(STORAGE_KEY);
+        }
+    }
+
+    function createStateSnapshot() {
+        return {
+            version: 1,
+            selectedContract: state.selectedContract ? state.selectedContract.english_name : '',
+            selectedPart: state.selectedPart,
+            mode: state.mode,
+            manualLockCostMode: getManualLockCostMode(),
+            targetLockCostMode: els.targetLockCost ? els.targetLockCost.value : 'fragment',
+            hasUnsavedPresetChanges: state.hasUnsavedPresetChanges,
+            targetParts: [...state.targetParts],
+            parts: state.parts.map(part => ({
+                mainOption: part.mainOption,
+                mainLevel: part.mainLevel,
+                substats: part.substats.map(substat => ({ ...substat })),
+                goals: part.goals.map(goal => ({ ...goal })),
+                lastTouched: !!part.lastTouched
+            }))
+        };
+    }
+
+    function applyStateSnapshot(snapshot) {
+        const contract = state.contracts.find(item => item.english_name === snapshot.selectedContract);
+        if (contract) state.selectedContract = contract;
+        state.selectedPart = clampIndex(snapshot.selectedPart, 0, 5, 0);
+        state.mode = snapshot.mode === 'target' ? 'target' : 'manual';
+        state.targetParts = normalizeTargetParts(snapshot.targetParts);
+        state.parts = Array.from({ length: 6 }, (_, index) => normalizePartSnapshot(snapshot.parts && snapshot.parts[index], index));
+        state.hasUnsavedPresetChanges = !!snapshot.hasUnsavedPresetChanges;
+        state.manualPreview = null;
+        state.result = null;
+        state.totals = createEmptyTotals();
+        applyStoredControlValues(snapshot);
+    }
+
+    function loadPresets() {
+        try {
+            const presets = JSON.parse(localStorage.getItem(PRESET_STORAGE_KEY));
+            state.presets = Array.isArray(presets) ? presets.filter(preset => preset && preset.id && preset.snapshot) : [];
+        } catch (error) {
+            state.presets = [];
+            localStorage.removeItem(PRESET_STORAGE_KEY);
+        }
+    }
+
+    function persistPresets() {
+        localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(state.presets));
+    }
+
+    function renderPresetControls() {
+        if (!els.presetSelect) return;
+        const selectedId = els.presetSelect.value;
+        els.presetSelect.innerHTML = [
+            '<option value="">프리셋 선택</option>',
+            ...state.presets.map(preset => `<option value="${escapeHtml(preset.id)}">${escapeHtml(preset.name)}</option>`)
+        ].join('');
+        if (state.presets.some(preset => preset.id === selectedId)) {
+            els.presetSelect.value = selectedId;
+        }
+    }
+
+    function savePreset() {
+        const selectedId = els.presetSelect.value;
+        const existing = state.presets.find(preset => preset.id === selectedId);
+        const inputName = els.presetNameInput.value.trim();
+        const name = inputName || (existing ? existing.name : getDefaultPresetName());
+        if (!name) return;
+        const now = new Date().toISOString();
+        let activePresetId = selectedId;
+        state.hasUnsavedPresetChanges = false;
+        if (existing) {
+            existing.name = name;
+            existing.snapshot = createStateSnapshot();
+            existing.updatedAt = now;
+            setManualStatus(`프리셋 "${existing.name}"을 저장했습니다.`, '');
+        } else {
+            const preset = {
+                id: `preset-${Date.now()}`,
+                name,
+                createdAt: now,
+                updatedAt: now,
+                snapshot: createStateSnapshot()
+            };
+            state.presets.push(preset);
+            activePresetId = preset.id;
+            setManualStatus(`프리셋 "${name}"을 저장했습니다.`, '');
+        }
+        els.presetNameInput.value = '';
+        persistPresets();
+        renderPresetControls();
+        els.presetSelect.value = activePresetId;
+        saveCurrentState();
+    }
+
+    function loadSelectedPreset() {
+        const preset = state.presets.find(item => item.id === els.presetSelect.value);
+        if (!preset) {
+            setManualStatus('불러올 프리셋을 선택해주세요.', 'error');
             return;
         }
-        try {
-            if (!navigator.clipboard || !window.ClipboardItem) throw new Error('이미지 클립보드 미지원');
-            const canvas = await createResultCanvas();
-            const imageType = getClipboardImageType();
-            const blob = await createImageBlob(canvas, imageType);
-            await navigator.clipboard.write([new ClipboardItem({ [imageType]: blob })]);
-            setStatus('결과 이미지를 클립보드에 복사했습니다.', 'success');
-        } catch (error) {
-            console.error('결과 이미지 복사 실패:', error);
-            setStatus('이미지 복사에 실패했습니다. 클립보드 권한을 확인해주세요.', 'error');
-        }
+        applyStateSnapshot(preset.snapshot);
+        state.hasUnsavedPresetChanges = false;
+        renderContract();
+        renderParts();
+        renderTargetScopeButtons();
+        renderMode();
+        renderTargetParts();
+        renderPresetControls();
+        renderTotals();
+        saveCurrentState();
+        showResultMessage(`프리셋 "${preset.name}"을 불러왔습니다.`);
     }
 
-    async function previewResultImage() {
-        if (!state.result) {
-            setStatus('미리볼 결과가 없습니다.', 'error');
+    function deleteSelectedPreset() {
+        const preset = state.presets.find(item => item.id === els.presetSelect.value);
+        if (!preset) {
+            setManualStatus('삭제할 프리셋을 선택해주세요.', 'error');
             return;
         }
-        try {
-            const canvas = await createResultCanvas();
-            const blob = await createImageBlob(canvas, SHARE_IMAGE_TYPE);
-            closePreviewModal();
-            const url = URL.createObjectURL(blob);
-            els.previewImage.src = url;
-            els.previewImage.dataset.objectUrl = url;
-            els.previewModal.classList.add('show');
-        } catch (error) {
-            console.error('결과 이미지 미리보기 실패:', error);
-            setStatus('미리보기를 만들지 못했습니다.', 'error');
+        state.presets = state.presets.filter(item => item.id !== preset.id);
+        persistPresets();
+        els.presetSelect.value = '';
+        renderPresetControls();
+        setManualStatus(`프리셋 "${preset.name}"을 삭제했습니다.`, '');
+    }
+
+    function getDefaultPresetName() {
+        const contractName = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
+        return `${contractName} ${formatTotalCompletion(getTotalCompletion())}%`;
+    }
+
+    function normalizePartSnapshot(part, index) {
+        const base = createDefaultPart(index);
+        if (!part || typeof part !== 'object') return base;
+        const substats = Array.from({ length: 3 }, (_, substatIndex) => normalizeSubstat(part.substats && part.substats[substatIndex], base.substats[substatIndex]));
+        const goals = Array.from({ length: 3 }, (_, goalIndex) => normalizeGoal(part.goals && part.goals[goalIndex], base.goals[goalIndex]));
+        return {
+            mainOption: MAIN_OPTIONS[index].includes(part.mainOption) ? part.mainOption : base.mainOption,
+            mainLevel: clampIndex(part.mainLevel, 0, MAIN_COMPLETION.length - 1, base.mainLevel),
+            substats,
+            goals,
+            lastTouched: !!part.lastTouched
+        };
+    }
+
+    function normalizeSubstat(substat, fallback) {
+        if (!substat || typeof substat !== 'object') return { ...fallback };
+        return {
+            option: optionById[substat.option] ? substat.option : fallback.option,
+            level: clampIndex(substat.level, 1, 8, fallback.level),
+            locked: !!substat.locked
+        };
+    }
+
+    function normalizeGoal(goal, fallback) {
+        if (!goal || typeof goal !== 'object') return { ...fallback };
+        return {
+            option: optionById[goal.option] ? goal.option : fallback.option,
+            level: clampIndex(goal.level, 1, 8, fallback.level),
+            enabled: typeof goal.enabled === 'boolean' ? goal.enabled : fallback.enabled
+        };
+    }
+
+    function normalizeTargetParts(targetParts) {
+        const unique = Array.from(new Set((Array.isArray(targetParts) ? targetParts : [0, 1, 2, 3, 4, 5])
+            .map(value => Number(value))
+            .filter(value => Number.isInteger(value) && value >= 0 && value <= 5)));
+        return unique.length ? unique.sort((a, b) => a - b) : [0, 1, 2, 3, 4, 5];
+    }
+
+    function applyStoredControlValues(snapshot) {
+        const manualLockCostMode = snapshot.manualLockCostMode === 'quill' ? 'quill' : 'fragment';
+        const manualLockInput = document.querySelector(`input[name="manual-lock-cost"][value="${manualLockCostMode}"]`);
+        if (manualLockInput) manualLockInput.checked = true;
+        if (els.targetLockCost) {
+            els.targetLockCost.value = snapshot.targetLockCostMode === 'quill' ? 'quill' : 'fragment';
         }
     }
 
-    function closePreviewModal() {
-        const url = els.previewImage.dataset.objectUrl;
-        if (url) URL.revokeObjectURL(url);
-        delete els.previewImage.dataset.objectUrl;
-        els.previewImage.removeAttribute('src');
-        els.previewModal.classList.remove('show');
-    }
-
-    async function createResultCanvas() {
-        const result = state.result;
-        const detailLines = getCanvasDetailLines(result);
-        const width = 920;
-        const padding = 30;
-        const height = 250 + detailLines.length * 28;
-        const canvas = document.createElement('canvas');
-        const scale = Math.max(1, window.devicePixelRatio || 1);
-        canvas.width = width * scale;
-        canvas.height = height * scale;
-        const ctx = canvas.getContext('2d');
-        ctx.scale(scale, scale);
-        ctx.fillStyle = '#202024';
-        ctx.fillRect(0, 0, width, height);
-        ctx.fillStyle = '#2a2a2e';
-        roundRect(ctx, padding, padding, width - padding * 2, height - padding * 2, 8);
-        ctx.fill();
-        ctx.fillStyle = '#fff';
-        ctx.font = '800 28px Pretendard, sans-serif';
-        ctx.fillText('비밀계약 시뮬레이터 결과', padding + 24, padding + 44);
-        ctx.fillStyle = '#ffc107';
-        ctx.font = '700 22px Pretendard, sans-serif';
-        ctx.fillText(result.contract, padding + 24, padding + 82);
-        try {
-            const image = await loadImage(state.selectedContract.image_path);
-            ctx.drawImage(image, width - padding - 172, padding + 18, 138, 107);
-        } catch (error) {
-            ctx.fillStyle = '#38383e';
-            roundRect(ctx, width - padding - 172, padding + 18, 138, 107, 6);
-            ctx.fill();
-            ctx.fillStyle = '#888';
-            ctx.font = '700 14px Pretendard, sans-serif';
-            ctx.fillText('이미지 없음', width - padding - 142, padding + 76);
-        }
-        drawMetric(ctx, padding + 24, padding + 116, '대상', result.part || result.scope || '-');
-        drawMetric(ctx, padding + 190, padding + 116, '전사', `${formatNumber(result.attempts, result.type === 'average' ? 1 : 0)}회`);
-        drawMetric(ctx, padding + 356, padding + 116, '금권', formatNumber(result.cost.gold, 1));
-        drawMetric(ctx, padding + 522, padding + 116, '천면 인장', formatNumber(result.cost.seals, 1));
-        let y = padding + 172;
-        ctx.fillStyle = '#ccc';
-        ctx.font = '700 17px Pretendard, sans-serif';
-        detailLines.forEach(line => {
-            ctx.fillText(line, padding + 24, y);
-            y += 28;
-        });
-        return canvas;
-    }
-
-    function getCanvasDetailLines(result) {
-        const lines = [`잔본 ${formatNumber(result.cost.fragments, 1)} / 깃펜 ${formatNumber(result.cost.quills, 1)}`];
-        if (result.type === 'average') {
-            lines.push(`평균 비용 계산: ${result.runs}회 반복`);
-            return lines;
-        }
-        if (result.type === 'manual') {
-            result.finalSubstats.forEach((substat, index) => lines.push(`${index + 1}. ${getSubstatText(substat)}`));
-            return lines;
-        }
-        const parts = result.type === 'target' ? getAllPartSnapshots() : (result.allParts || getAllPartSnapshots());
-        parts.forEach(part => lines.push(`${getContractPartName(part.partIndex)}: ${part.substats.map(getSubstatText).join(' / ')}`));
-        return lines;
-    }
-
-    function drawMetric(ctx, x, y, label, value) {
-        ctx.fillStyle = '#888';
-        ctx.font = '700 13px Pretendard, sans-serif';
-        ctx.fillText(label, x, y);
-        ctx.fillStyle = '#fff';
-        ctx.font = '800 21px Pretendard, sans-serif';
-        ctx.fillText(value, x, y + 28);
+    function clampIndex(value, min, max, fallback) {
+        const number = Number(value);
+        if (!Number.isInteger(number)) return fallback;
+        return Math.min(max, Math.max(min, number));
     }
 
     function resetSimulation() {
@@ -658,12 +1088,14 @@
         state.manualPreview = null;
         state.result = null;
         state.totals = createEmptyTotals();
+        state.hasUnsavedPresetChanges = false;
         renderParts();
         renderTargetScopeButtons();
         renderManual();
         renderTargetParts();
         renderTotals();
         showResultMessage('초기화했습니다.');
+        saveCurrentState();
     }
 
     function createDefaultPart(index) {
@@ -702,9 +1134,17 @@
         return cost;
     }
 
-    function getPartCompletion(part) {
-        const totalLevel = part.substats.reduce((sum, substat) => sum + substat.level, 0);
+    function getPartCompletion(part, substats = part.substats) {
+        const totalLevel = substats.reduce((sum, substat) => sum + substat.level, 0);
         return MAIN_COMPLETION[part.mainLevel] + SUB_COMPLETION[totalLevel];
+    }
+
+    function getTotalCompletion() {
+        return state.parts.reduce((sum, part) => sum + getPartCompletion(part), 0);
+    }
+
+    function formatTotalCompletion(value) {
+        return value >= 99.5 ? '100' : formatNumber(value, 1);
     }
 
     function getSelectedPart() {
@@ -739,6 +1179,13 @@
         target.quills += source.quills || 0;
     }
 
+    function addScaledTotals(target, source, multiplier) {
+        target.gold += (source.gold || 0) * multiplier;
+        target.seals += (source.seals || 0) * multiplier;
+        target.fragments += (source.fragments || 0) * multiplier;
+        target.quills += (source.quills || 0) * multiplier;
+    }
+
     function divideTotals(totals, divisor) {
         return { gold: totals.gold / divisor, seals: totals.seals / divisor, fragments: totals.fragments / divisor, quills: totals.quills / divisor };
     }
@@ -766,6 +1213,11 @@
         return `<div class="stat-line"><span class="stat-name">${escapeHtml(optionName)}</span><span class="stat-value">${escapeHtml(getSubstatText(substat).replace(`${optionName} `, ''))}</span></div>`;
     }
 
+    function renderCompactStatLine(substat) {
+        const optionName = getOptionName(substat.option);
+        return `<div class="compact-stat-line"><span class="stat-name">${escapeHtml(optionName)}</span><span class="stat-value">${escapeHtml(getSubstatText(substat).replace(`${optionName} `, ''))}</span></div>`;
+    }
+
     function formatCost(cost) {
         const parts = [`금권 ${formatInteger(cost.gold)}`, `천면 인장 ${formatInteger(cost.seals)}`];
         if (cost.fragments) parts.push(`잔본 ${formatInteger(cost.fragments)}`);
@@ -782,46 +1234,16 @@
         return Number(value).toLocaleString('ko-KR', { minimumFractionDigits: 0, maximumFractionDigits: digits });
     }
 
+    function formatStatValue(value, unit) {
+        return `${formatNumber(value, 2)}${unit}`;
+    }
+
     function range(start, end) {
         return Array.from({ length: end - start + 1 }, (_, index) => start + index);
     }
 
     function escapeHtml(value) {
         return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-    }
-
-    function getClipboardImageType() {
-        if (typeof ClipboardItem.supports === 'function' && ClipboardItem.supports(SHARE_IMAGE_TYPE)) return SHARE_IMAGE_TYPE;
-        return 'image/png';
-    }
-
-    function createImageBlob(canvas, type) {
-        return new Promise((resolve, reject) => {
-            canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('이미지 변환 실패')), type, type === SHARE_IMAGE_TYPE ? SHARE_IMAGE_QUALITY : undefined);
-        });
-    }
-
-    function loadImage(src) {
-        return new Promise((resolve, reject) => {
-            const image = new Image();
-            image.onload = () => resolve(image);
-            image.onerror = reject;
-            image.src = src;
-        });
-    }
-
-    function roundRect(ctx, x, y, width, height, radius) {
-        ctx.beginPath();
-        ctx.moveTo(x + radius, y);
-        ctx.lineTo(x + width - radius, y);
-        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-        ctx.lineTo(x + width, y + height - radius);
-        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-        ctx.lineTo(x + radius, y + height);
-        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-        ctx.lineTo(x, y + radius);
-        ctx.quadraticCurveTo(x, y, x + radius, y);
-        ctx.closePath();
     }
 
     function toCamel(id) {
