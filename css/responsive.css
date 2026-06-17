@@ -86,23 +86,41 @@
         gap: 10px;
     }
 
+    .search-bar,
+    .filter-container {
+        width: 100%;
+        min-width: 0;
+    }
+
     .filter-container {
         justify-content: space-between;
     }
 
     select {
+        min-width: 0;
         flex: 1;
         font-size: 0.9em;
         padding: 10px;
     }
 
     .character-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
     }
 
     .character-card h3 {
-        font-size: 0.95em;
+        font-size: 0.78em;
+    }
+
+    .character-card p {
+        font-size: 0.72em;
+    }
+
+    .relems-tag {
+        top: 5px;
+        left: 5px;
+        padding: 3px 5px;
+        font-size: 0.62em;
     }
 
     /* Links (links.html) - 모바일 소형 북마크 축소 */
@@ -222,9 +240,27 @@
         flex-direction: column;
     }
 
+    .search-bar,
+    .filter-container {
+        width: 100%;
+        min-width: 0;
+    }
+
+    select {
+        min-width: 0;
+    }
+
     .character-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .character-card h3 {
+        font-size: 0.88em;
+    }
+
+    .character-card p {
+        font-size: 0.78em;
     }
 
     /* Links - 북마크 크기 조정 */
