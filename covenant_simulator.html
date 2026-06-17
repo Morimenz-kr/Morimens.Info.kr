@@ -10,7 +10,7 @@
 
     <script src="config/config.js?v=covenant-simulator-20260613"></script>
     <script>
-        CONFIG.VERSION = 'covenant-simulator-20260614-4';
+        CONFIG.VERSION = 'covenant-simulator-20260617-5';
         loadCSS('css/common.css');
         loadCSS('css/components.css');
         loadCSS('css/pages/covenant_simulator.css');
@@ -167,11 +167,38 @@
                     </div>
                 </div>
 
-                <div id="target-parts" class="target-parts"></div>
+                <div class="target-preset-bar" aria-label="목표 프리셋 관리">
+                    <div class="target-preset-heading">
+                        <span class="target-preset-title">목표 프리셋</span>
+                        <span class="target-preset-desc">대상 파츠와 목표 조건만 저장합니다.</span>
+                    </div>
+                    <div class="target-preset-controls">
+                        <input type="text" id="target-preset-name-input" class="preset-name-input" placeholder="목표 프리셋 이름">
+                        <select id="target-preset-select" class="sim-select preset-select" aria-label="저장된 목표 프리셋"></select>
+                        <button type="button" id="save-target-preset-btn" class="ghost-action">저장</button>
+                        <button type="button" id="load-target-preset-btn" class="ghost-action">불러오기</button>
+                        <button type="button" id="delete-target-preset-btn" class="ghost-action">삭제</button>
+                    </div>
+                </div>
+
+                <details class="target-fold-section" open>
+                    <summary class="target-fold-summary">
+                        <span>현재 세팅</span>
+                        <small>목표 계산을 시작할 현재 부옵 상태입니다.</small>
+                    </summary>
+                    <div id="target-current-parts" class="target-parts"></div>
+                </details>
+
+                <details class="target-fold-section" open>
+                    <summary class="target-fold-summary">
+                        <span>목표 세팅</span>
+                        <small>달성할 목표 옵션과 레벨을 설정합니다.</small>
+                    </summary>
+                    <div id="target-parts" class="target-parts"></div>
+                </details>
 
                 <div class="target-actions">
                     <button type="button" id="run-target-btn" class="primary-action">목표까지 시뮬레이션</button>
-                    <button type="button" id="run-average-btn" class="ghost-action">평균 비용 계산</button>
                 </div>
             </div>
         </section>

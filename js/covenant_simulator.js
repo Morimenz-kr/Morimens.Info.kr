@@ -1,8 +1,8 @@
 (function() {
     const STORAGE_KEY = 'morimens_covenant_simulator_state_v1';
     const PRESET_STORAGE_KEY = 'morimens_covenant_simulator_presets_v1';
+    const TARGET_PRESET_STORAGE_KEY = 'morimens_covenant_target_presets_v1';
     const ROMANS = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
-    const AVERAGE_RUNS = 300;
     const TARGET_PART_ORDER = [3, 0, 4, 1, 5, 2];
     const OPTIONS = [
         { id: 'critRate', name: '크리티컬 확률', step: 0.2, unit: '%' },
@@ -36,14 +36,17 @@
         selectedPart: 0,
         mode: 'manual',
         manualPreview: null,
-        result: null,
+        manualResult: null,
+        targetResult: null,
         totals: createEmptyTotals(),
         presets: [],
+        targetPresets: [],
         pendingContractName: '',
         hasUnsavedPresetChanges: false,
         isSimulating: false,
         targetParts: [0, 1, 2, 3, 4, 5],
-        parts: Array.from({ length: 6 }, (_, index) => createDefaultPart(index))
+        parts: Array.from({ length: 6 }, (_, index) => createDefaultPart(index)),
+        targetSimParts: Array.from({ length: 6 }, (_, index) => createDefaultPart(index))
     };
 
     document.addEventListener('DOMContentLoaded', init);
@@ -61,8 +64,9 @@
             'manual-part-title', 'manual-before-completion', 'manual-after-completion', 'manual-main-option', 'manual-main-level',
             'manual-cost', 'manual-status', 'manual-result', 'manual-reroll-btn', 'manual-apply-btn',
             'manual-focus-image', 'manual-focus-name', 'manual-total-completion', 'manual-current-result',
-            'target-scope-buttons', 'target-lock-cost', 'target-parts',
-            'run-target-btn', 'run-average-btn', 'result-summary', 'result-status',
+            'target-scope-buttons', 'target-lock-cost', 'target-current-parts', 'target-parts',
+            'run-target-btn', 'result-summary', 'result-status',
+            'target-preset-name-input', 'target-preset-select', 'save-target-preset-btn', 'load-target-preset-btn', 'delete-target-preset-btn',
             'preset-name-input', 'preset-select', 'save-preset-btn', 'load-preset-btn', 'delete-preset-btn',
             'contract-change-modal', 'confirm-contract-change-btn', 'cancel-contract-change-btn',
             'reset-sim-btn'
@@ -99,14 +103,16 @@
                 markSettingsChanged();
             });
         });
-        els.targetLockCost.addEventListener('change', markSettingsChanged);
+        els.targetLockCost.addEventListener('change', markTargetSettingsChanged);
         els.manualRerollBtn.addEventListener('click', manualReroll);
         els.manualApplyBtn.addEventListener('click', applyManualPreview);
         els.runTargetBtn.addEventListener('click', runTargetSimulation);
-        els.runAverageBtn.addEventListener('click', runAverageSimulation);
         els.savePresetBtn.addEventListener('click', savePreset);
         els.loadPresetBtn.addEventListener('click', loadSelectedPreset);
         els.deletePresetBtn.addEventListener('click', deleteSelectedPreset);
+        els.saveTargetPresetBtn.addEventListener('click', saveTargetPreset);
+        els.loadTargetPresetBtn.addEventListener('click', loadSelectedTargetPreset);
+        els.deleteTargetPresetBtn.addEventListener('click', deleteSelectedTargetPreset);
         els.confirmContractChangeBtn.addEventListener('click', confirmContractChange);
         els.cancelContractChangeBtn.addEventListener('click', closeContractChangeModal);
         els.contractChangeModal.addEventListener('click', event => {
@@ -121,6 +127,7 @@
         state.contracts = await response.json();
         state.selectedContract = state.contracts[0];
         loadPresets();
+        loadTargetPresets();
         loadSavedState();
     }
 
@@ -129,8 +136,10 @@
         renderParts();
         renderTargetScopeButtons();
         renderMode();
+        renderTargetCurrentParts();
         renderTargetParts();
         renderPresetControls();
+        renderTargetPresetControls();
         renderTotals();
         showResultMessage('전사 시뮬레이션 결과가 여기에 표시됩니다.');
     }
@@ -154,8 +163,9 @@
                     state.targetParts = [...state.targetParts, index].sort((a, b) => a - b);
                 }
                 renderTargetScopeButtons();
+                renderTargetCurrentParts();
                 renderTargetParts();
-                markSettingsChanged();
+                markTargetSettingsChanged();
             });
         });
     }
@@ -208,7 +218,8 @@
         return targetPartsChanged
             || manualLockChanged
             || targetLockChanged
-            || state.parts.some((part, index) => isPartConfigured(part, index));
+            || state.parts.some((part, index) => isPartConfigured(part, index))
+            || state.targetSimParts.some((part, index) => isPartConfigured(part, index));
     }
 
     function isPartConfigured(part, index) {
@@ -269,8 +280,10 @@
         state.mode = 'manual';
         state.targetParts = [0, 1, 2, 3, 4, 5];
         state.parts = Array.from({ length: 6 }, (_, index) => createDefaultPart(index));
+        state.targetSimParts = Array.from({ length: 6 }, (_, index) => createDefaultPart(index));
         state.manualPreview = null;
-        state.result = null;
+        state.manualResult = null;
+        state.targetResult = null;
         state.totals = createEmptyTotals();
         state.hasUnsavedPresetChanges = false;
         const manualLockInput = document.querySelector('input[name="manual-lock-cost"][value="fragment"]');
@@ -311,7 +324,11 @@
         els.manualPanel.classList.toggle('hidden', state.mode !== 'manual');
         els.targetPanel.classList.toggle('hidden', state.mode !== 'target');
         if (state.mode === 'manual') renderManual();
-        if (state.mode === 'target') renderTargetParts();
+        if (state.mode === 'target') {
+            renderTargetCurrentParts();
+            renderTargetParts();
+        }
+        renderResultSummary();
     }
 
     function applyModeTabVisualState(tab, isActive) {
@@ -404,7 +421,7 @@
     function renderTargetParts() {
         const indexes = getTargetPartIndexes();
         els.targetParts.innerHTML = indexes.map(index => {
-            const part = state.parts[index];
+            const part = state.targetSimParts[index];
             return `
                 <section class="target-part-card" data-target-part="${index}">
                     <div class="target-part-header">
@@ -438,28 +455,70 @@
         els.targetParts.querySelectorAll('[data-target-part]').forEach(card => bindTargetCard(card));
     }
 
+    function renderTargetCurrentParts() {
+        const indexes = getTargetPartIndexes();
+        els.targetCurrentParts.innerHTML = indexes.map(index => {
+            const part = state.targetSimParts[index];
+            return `
+                <section class="target-part-card" data-target-current-part="${index}">
+                    <div class="target-part-header">
+                        <div class="target-part-title">${escapeHtml(getContractPartName(index))}</div>
+                        <div class="muted-text target-current-caption">현재 부옵</div>
+                    </div>
+                    <div class="target-goals">
+                        ${part.substats.map((substat, substatIndex) => `
+                            <div class="target-current-row" data-substat-index="${substatIndex}">
+                                <select class="sim-select target-current-option">
+                                    ${OPTIONS.map(option => `<option value="${option.id}" ${option.id === substat.option ? 'selected' : ''}>${escapeHtml(option.name)}</option>`).join('')}
+                                </select>
+                                <select class="sim-select target-current-level">
+                                    ${range(1, 8).map(level => `<option value="${level}" ${level === substat.level ? 'selected' : ''}>Lv ${level}</option>`).join('')}
+                                </select>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+            `;
+        }).join('');
+        els.targetCurrentParts.querySelectorAll('[data-target-current-part]').forEach(card => bindTargetCurrentCard(card));
+    }
+
+    function bindTargetCurrentCard(card) {
+        const partIndex = Number(card.dataset.targetCurrentPart);
+        const part = state.targetSimParts[partIndex];
+        card.querySelectorAll('[data-substat-index]').forEach(row => {
+            const substatIndex = Number(row.dataset.substatIndex);
+            row.querySelector('.target-current-option').addEventListener('change', event => {
+                part.substats[substatIndex].option = event.target.value;
+                markTargetSettingsChanged();
+            });
+            row.querySelector('.target-current-level').addEventListener('change', event => {
+                part.substats[substatIndex].level = Number(event.target.value);
+                markTargetSettingsChanged();
+            });
+        });
+    }
+
     function bindTargetCard(card) {
         const partIndex = Number(card.dataset.targetPart);
-        const part = state.parts[partIndex];
+        const part = state.targetSimParts[partIndex];
         card.querySelector('.target-main-option').addEventListener('change', event => {
             part.mainOption = event.target.value;
-            renderParts();
-            renderManual();
-            markSettingsChanged();
+            markTargetSettingsChanged();
         });
         card.querySelectorAll('[data-goal-index]').forEach(row => {
             const goalIndex = Number(row.dataset.goalIndex);
             row.querySelector('.target-goal-option').addEventListener('change', event => {
                 part.goals[goalIndex].option = event.target.value;
-                markSettingsChanged();
+                markTargetSettingsChanged();
             });
             row.querySelector('.target-goal-level').addEventListener('change', event => {
                 part.goals[goalIndex].level = Number(event.target.value);
-                markSettingsChanged();
+                markTargetSettingsChanged();
             });
             row.querySelector('.goal-enabled').addEventListener('change', event => {
                 part.goals[goalIndex].enabled = event.target.checked;
-                markSettingsChanged();
+                markTargetSettingsChanged();
             });
         });
     }
@@ -470,7 +529,7 @@
         state.manualPreview = rerollSubstats(part.substats);
         addTotals(state.totals, cost);
         state.totals.rerolls += 1;
-        state.result = {
+        state.manualResult = {
             type: 'manual',
             contract: state.selectedContract.korean_name,
             part: getContractPartName(state.selectedPart),
@@ -489,9 +548,9 @@
         if (!state.manualPreview) return;
         getSelectedPart().substats = cloneSubstats(state.manualPreview);
         getSelectedPart().lastTouched = true;
-        if (state.result && state.result.type === 'manual') {
-            state.result.finalSubstats = cloneSubstats(state.manualPreview);
-            state.result.allParts = getAllPartSnapshots();
+        if (state.manualResult) {
+            state.manualResult.finalSubstats = cloneSubstats(state.manualPreview);
+            state.manualResult.allParts = getAllPartSnapshots();
         }
         state.manualPreview = null;
         renderParts();
@@ -507,56 +566,19 @@
             setStatus('목표로 사용할 부옵을 하나 이상 선택해주세요.', 'error');
             return;
         }
+        const startMessage = '이번 실행 기준: 현재 세팅에 입력된 부옵 상태에서 시작했습니다.';
+        await executeTargetSimulation(config, startMessage);
+    }
+
+    async function executeTargetSimulation(config, startMessage) {
         setSimulationBusy(true, '목표 시뮬레이션을 계산 중입니다...');
         try {
             const result = await simulateUntilTargets(config);
-            state.result = result;
-            addTotals(state.totals, result.cost);
-            state.totals.rerolls += result.attempts;
-            result.partResults.forEach(partResult => {
-                state.parts[partResult.partIndex].substats = cloneSubstats(partResult.finalSubstats);
-                state.parts[partResult.partIndex].lastTouched = true;
-            });
-            renderManual();
-            renderParts();
+            result.startMessage = startMessage;
+            state.targetResult = result;
+            state.targetResult.allParts = getTargetResultPartSnapshots(result);
             renderTargetParts();
-            renderTotals();
             renderResultSummary('목표까지 시뮬레이션을 완료했습니다.');
-            markSettingsChanged();
-        } finally {
-            setSimulationBusy(false);
-        }
-    }
-
-    async function runAverageSimulation() {
-        if (state.isSimulating) return;
-        const config = getTargetConfig();
-        if (!config.targets.length) {
-            setStatus('목표로 사용할 부옵을 하나 이상 선택해주세요.', 'error');
-            return;
-        }
-        const totalCost = createEmptyTotals();
-        let totalAttempts = 0;
-        setSimulationBusy(true, '평균값을 계산 중입니다...');
-        try {
-            for (let i = 0; i < AVERAGE_RUNS; i += 1) {
-                const result = await simulateUntilTargets(config, false);
-                addTotals(totalCost, result.cost);
-                totalAttempts += result.attempts;
-                if (i % 10 === 9) {
-                    setStatus(`평균값을 계산 중입니다... ${i + 1}/${AVERAGE_RUNS}`, '');
-                    await yieldToBrowser();
-                }
-            }
-            state.result = {
-                type: 'average',
-                contract: state.selectedContract.korean_name,
-                scope: config.scopeLabel,
-                runs: AVERAGE_RUNS,
-                attempts: totalAttempts / AVERAGE_RUNS,
-                cost: divideTotals(totalCost, AVERAGE_RUNS)
-            };
-            renderResultSummary('몬테카를로 방식으로 여러 번 반복한 평균값입니다.');
         } finally {
             setSimulationBusy(false);
         }
@@ -567,7 +589,7 @@
         const partResults = [];
         let attempts = 0;
         for (const targetPart of config.targetsByPart) {
-            let current = cloneSubstats(state.parts[targetPart.partIndex].substats);
+            let current = cloneSubstats(state.targetSimParts[targetPart.partIndex].substats);
             let safetySteps = 0;
             while (!matchesGoals(current, targetPart.goals)) {
                 if (safetySteps >= 8) {
@@ -599,7 +621,7 @@
 
     function getTargetConfig() {
         const targetsByPart = getTargetPartIndexes().map(partIndex => {
-            const goals = state.parts[partIndex].goals
+            const goals = state.targetSimParts[partIndex].goals
                 .filter(goal => goal.enabled)
                 .map(goal => ({ option: goal.option, level: goal.level }));
             return { partIndex, goals };
@@ -761,8 +783,9 @@
     }
 
     function renderResultSummary(message) {
-        const statGrid = renderCovenantStatGrid();
-        if (!state.result) {
+        const result = getActiveResult();
+        const statGrid = renderCovenantStatGrid(getActiveStatParts(result));
+        if (!result) {
             els.resultSummary.innerHTML = `
                 ${statGrid}
                 <p class="muted-text">${escapeHtml(message || '전사 시뮬레이션 결과가 여기에 표시됩니다.')}</p>
@@ -770,11 +793,12 @@
             setStatus('', '');
             return;
         }
-        const result = state.result;
         const cost = result.cost;
-        const attempts = result.type === 'average' ? formatNumber(result.attempts, 1) : formatInteger(result.attempts);
+        const attempts = formatInteger(result.attempts);
+        const resultMessage = message || result.startMessage || '';
         els.resultSummary.innerHTML = `
-            ${message ? `<p class="muted-text">${escapeHtml(message)}</p>` : ''}
+            ${resultMessage ? `<p class="muted-text">${escapeHtml(resultMessage)}</p>` : ''}
+            ${result.startMessage && resultMessage !== result.startMessage ? `<p class="muted-text">${escapeHtml(result.startMessage)}</p>` : ''}
             ${statGrid}
             <div class="summary-grid">
                 <div class="summary-item"><span class="summary-label">전사 횟수</span><span class="summary-value">${attempts}회</span></div>
@@ -793,9 +817,19 @@
             return renderAllPartResults(result.allParts || getAllPartSnapshots());
         }
         if (result.type === 'target') {
-            return renderAllPartResults(getAllPartSnapshots());
+            return renderAllPartResults(result.allParts || getAllTargetPartSnapshots());
         }
         return '';
+    }
+
+    function getActiveResult() {
+        return state.mode === 'target' ? state.targetResult : state.manualResult;
+    }
+
+    function getActiveStatParts(result) {
+        if (result && result.type === 'target') return result.allParts || getAllTargetPartSnapshots();
+        if (result && result.type === 'manual') return result.allParts || getAllPartSnapshots();
+        return state.mode === 'target' ? getAllTargetPartSnapshots() : getAllPartSnapshots();
     }
 
     function renderAllPartResults(parts) {
@@ -808,8 +842,8 @@
         `).join('')}</div>`;
     }
 
-    function renderCovenantStatGrid() {
-        const totals = getCovenantStatTotals();
+    function renderCovenantStatGrid(parts = getAllPartSnapshots()) {
+        const totals = getCovenantStatTotals(parts);
         const rows = range(0, 3).map(rowIndex => {
             const left = totals[rowIndex * 2];
             const right = totals[rowIndex * 2 + 1];
@@ -832,15 +866,15 @@
         `;
     }
 
-    function getCovenantStatTotals() {
+    function getCovenantStatTotals(parts = getAllPartSnapshots()) {
         const totals = Object.fromEntries(OPTIONS.map(option => [option.id, {
             name: option.name,
             unit: option.unit,
             value: 0
         }]));
-        state.parts.forEach(part => {
+        parts.forEach(part => {
             const mainOption = optionById[part.mainOption];
-            if (mainOption) totals[part.mainOption].value += mainOption.step * part.mainLevel;
+            if (mainOption) totals[part.mainOption].value += mainOption.step * (part.mainLevel || 0);
             part.substats.forEach(substat => {
                 const option = optionById[substat.option];
                 if (option) totals[substat.option].value += option.step * substat.level;
@@ -861,7 +895,6 @@
     function setSimulationBusy(isBusy, message = '') {
         state.isSimulating = isBusy;
         if (els.runTargetBtn) els.runTargetBtn.disabled = isBusy;
-        if (els.runAverageBtn) els.runAverageBtn.disabled = isBusy;
         if (message) setStatus(message, '');
     }
 
@@ -878,6 +911,12 @@
     function markSettingsChanged() {
         state.hasUnsavedPresetChanges = true;
         saveCurrentState();
+    }
+
+    function markTargetSettingsChanged() {
+        state.targetResult = null;
+        if (state.mode === 'target') renderResultSummary('목표 설정이 변경되었습니다. 목표까지 시뮬레이션을 다시 실행해주세요.');
+        markSettingsChanged();
     }
 
     function saveCurrentState() {
@@ -913,6 +952,13 @@
                 substats: part.substats.map(substat => ({ ...substat })),
                 goals: part.goals.map(goal => ({ ...goal })),
                 lastTouched: !!part.lastTouched
+            })),
+            targetSimParts: state.targetSimParts.map(part => ({
+                mainOption: part.mainOption,
+                mainLevel: part.mainLevel,
+                substats: part.substats.map(substat => ({ ...substat })),
+                goals: part.goals.map(goal => ({ ...goal })),
+                lastTouched: !!part.lastTouched
             }))
         };
     }
@@ -924,9 +970,12 @@
         state.mode = snapshot.mode === 'target' ? 'target' : 'manual';
         state.targetParts = normalizeTargetParts(snapshot.targetParts);
         state.parts = Array.from({ length: 6 }, (_, index) => normalizePartSnapshot(snapshot.parts && snapshot.parts[index], index));
+        const storedTargetParts = snapshot.targetSimParts || snapshot.parts;
+        state.targetSimParts = Array.from({ length: 6 }, (_, index) => normalizePartSnapshot(storedTargetParts && storedTargetParts[index], index));
         state.hasUnsavedPresetChanges = !!snapshot.hasUnsavedPresetChanges;
         state.manualPreview = null;
-        state.result = null;
+        state.manualResult = null;
+        state.targetResult = null;
         state.totals = createEmptyTotals();
         applyStoredControlValues(snapshot);
     }
@@ -941,8 +990,22 @@
         }
     }
 
+    function loadTargetPresets() {
+        try {
+            const presets = JSON.parse(localStorage.getItem(TARGET_PRESET_STORAGE_KEY));
+            state.targetPresets = Array.isArray(presets) ? presets.filter(preset => preset && preset.id && preset.snapshot) : [];
+        } catch (error) {
+            state.targetPresets = [];
+            localStorage.removeItem(TARGET_PRESET_STORAGE_KEY);
+        }
+    }
+
     function persistPresets() {
         localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(state.presets));
+    }
+
+    function persistTargetPresets() {
+        localStorage.setItem(TARGET_PRESET_STORAGE_KEY, JSON.stringify(state.targetPresets));
     }
 
     function renderPresetControls() {
@@ -954,6 +1017,18 @@
         ].join('');
         if (state.presets.some(preset => preset.id === selectedId)) {
             els.presetSelect.value = selectedId;
+        }
+    }
+
+    function renderTargetPresetControls() {
+        if (!els.targetPresetSelect) return;
+        const selectedId = els.targetPresetSelect.value;
+        els.targetPresetSelect.innerHTML = [
+            '<option value="">목표 프리셋 선택</option>',
+            ...state.targetPresets.map(preset => `<option value="${escapeHtml(preset.id)}">${escapeHtml(preset.name)}</option>`)
+        ].join('');
+        if (state.targetPresets.some(preset => preset.id === selectedId)) {
+            els.targetPresetSelect.value = selectedId;
         }
     }
 
@@ -1022,10 +1097,107 @@
         setManualStatus(`프리셋 "${preset.name}"을 삭제했습니다.`, '');
     }
 
+    function saveTargetPreset() {
+        const selectedId = els.targetPresetSelect.value;
+        const existing = state.targetPresets.find(preset => preset.id === selectedId);
+        const inputName = els.targetPresetNameInput.value.trim();
+        const name = inputName || (existing ? existing.name : getDefaultTargetPresetName());
+        if (!name) return;
+        const now = new Date().toISOString();
+        let activePresetId = selectedId;
+        const snapshot = createTargetPresetSnapshot();
+        if (existing) {
+            existing.name = name;
+            existing.snapshot = snapshot;
+            existing.updatedAt = now;
+            setStatus(`목표 프리셋 "${existing.name}"을 저장했습니다.`, '');
+        } else {
+            const preset = {
+                id: `target-preset-${Date.now()}`,
+                name,
+                createdAt: now,
+                updatedAt: now,
+                snapshot
+            };
+            state.targetPresets.push(preset);
+            activePresetId = preset.id;
+            setStatus(`목표 프리셋 "${name}"을 저장했습니다.`, '');
+        }
+        els.targetPresetNameInput.value = '';
+        persistTargetPresets();
+        renderTargetPresetControls();
+        els.targetPresetSelect.value = activePresetId;
+    }
+
+    function loadSelectedTargetPreset() {
+        const preset = state.targetPresets.find(item => item.id === els.targetPresetSelect.value);
+        if (!preset) {
+            setStatus('불러올 목표 프리셋을 선택해주세요.', 'error');
+            return;
+        }
+        applyTargetPresetSnapshot(preset.snapshot);
+        renderTargetScopeButtons();
+        renderTargetCurrentParts();
+        renderTargetParts();
+        renderTargetPresetControls();
+        els.targetPresetSelect.value = preset.id;
+        markTargetSettingsChanged();
+        renderResultSummary(`목표 프리셋 "${preset.name}"을 불러왔습니다.`);
+    }
+
+    function deleteSelectedTargetPreset() {
+        const preset = state.targetPresets.find(item => item.id === els.targetPresetSelect.value);
+        if (!preset) {
+            setStatus('삭제할 목표 프리셋을 선택해주세요.', 'error');
+            return;
+        }
+        state.targetPresets = state.targetPresets.filter(item => item.id !== preset.id);
+        persistTargetPresets();
+        els.targetPresetSelect.value = '';
+        renderTargetPresetControls();
+        setStatus(`목표 프리셋 "${preset.name}"을 삭제했습니다.`, '');
+    }
+
     function getDefaultPresetName() {
         const contractName = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
         return `${contractName} ${formatTotalCompletion(getTotalCompletion())}%`;
     }
+
+    function getDefaultTargetPresetName() {
+        const contractName = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
+        return `${contractName} 목표 ${state.targetParts.map(index => ROMANS[index]).join('')}`;
+    }
+
+    function createTargetPresetSnapshot() {
+        return {
+            version: 1,
+            targetParts: [...state.targetParts],
+            targetLockCostMode: els.targetLockCost ? els.targetLockCost.value : 'fragment',
+            targets: state.targetSimParts.map(part => ({
+                mainOption: part.mainOption,
+                goals: part.goals.map(goal => ({ ...goal }))
+            }))
+        };
+    }
+
+    function applyTargetPresetSnapshot(snapshot) {
+        state.targetParts = normalizeTargetParts(snapshot.targetParts);
+        if (els.targetLockCost) {
+            els.targetLockCost.value = snapshot.targetLockCostMode === 'quill' ? 'quill' : 'fragment';
+        }
+        state.targetSimParts = state.targetSimParts.map((part, index) => {
+            const target = snapshot.targets && snapshot.targets[index];
+            if (!target || typeof target !== 'object') return part;
+            return {
+                ...part,
+                mainOption: MAIN_OPTIONS[index].includes(target.mainOption) ? target.mainOption : part.mainOption,
+                goals: Array.from({ length: 3 }, (_, goalIndex) => normalizeGoal(target.goals && target.goals[goalIndex], part.goals[goalIndex])),
+                lastTouched: false
+            };
+        });
+        state.targetResult = null;
+    }
+
 
     function normalizePartSnapshot(part, index) {
         const base = createDefaultPart(index);
@@ -1083,15 +1255,18 @@
 
     function resetSimulation() {
         state.parts = Array.from({ length: 6 }, (_, index) => createDefaultPart(index));
+        state.targetSimParts = Array.from({ length: 6 }, (_, index) => createDefaultPart(index));
         state.selectedPart = 0;
         state.targetParts = [0, 1, 2, 3, 4, 5];
         state.manualPreview = null;
-        state.result = null;
+        state.manualResult = null;
+        state.targetResult = null;
         state.totals = createEmptyTotals();
         state.hasUnsavedPresetChanges = false;
         renderParts();
         renderTargetScopeButtons();
         renderManual();
+        renderTargetCurrentParts();
         renderTargetParts();
         renderTotals();
         showResultMessage('초기화했습니다.');
@@ -1120,8 +1295,31 @@
         return state.parts.map((part, index) => ({
             partIndex: index,
             mainOption: part.mainOption,
+            mainLevel: part.mainLevel,
             substats: cloneSubstats(index === previewPartIndex && previewSubstats ? previewSubstats : part.substats)
         }));
+    }
+
+    function getAllTargetPartSnapshots() {
+        return state.targetSimParts.map((part, index) => ({
+            partIndex: index,
+            mainOption: part.mainOption,
+            mainLevel: part.mainLevel,
+            substats: cloneSubstats(part.substats)
+        }));
+    }
+
+    function getTargetResultPartSnapshots(result) {
+        const resultByPart = new Map(result.partResults.map(partResult => [partResult.partIndex, partResult]));
+        return state.targetSimParts.map((part, index) => {
+            const partResult = resultByPart.get(index);
+            return {
+                partIndex: index,
+                mainOption: part.mainOption,
+                mainLevel: part.mainLevel,
+                substats: cloneSubstats(partResult ? partResult.finalSubstats : part.substats)
+            };
+        });
     }
 
     function getRerollCost(lockedCount, lockCostMode) {
@@ -1184,10 +1382,6 @@
         target.seals += (source.seals || 0) * multiplier;
         target.fragments += (source.fragments || 0) * multiplier;
         target.quills += (source.quills || 0) * multiplier;
-    }
-
-    function divideTotals(totals, divisor) {
-        return { gold: totals.gold / divisor, seals: totals.seals / divisor, fragments: totals.fragments / divisor, quills: totals.quills / divisor };
     }
 
     function cloneSubstats(substats) {
