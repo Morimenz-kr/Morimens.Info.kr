@@ -209,10 +209,12 @@ header h1 {
 }
 
 .menu-section-title {
-    display: none;
-    margin: 0;
-    color: rgba(255, 255, 255, 0.84);
-    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.9rem;
     font-weight: 800;
     line-height: 1.2;
     letter-spacing: 0;
@@ -406,7 +408,7 @@ footer {
     }
 
     .menu-section-title {
-        margin: 0;
+        margin: 0 0 9px;
         font-size: 0.92rem;
     }
 
@@ -447,7 +449,7 @@ footer {
     }
 
     .menu-section-title {
-        margin: 0;
+        margin: 0 0 8px;
         font-size: 0.86rem;
     }
 
