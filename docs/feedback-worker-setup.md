@@ -26,7 +26,13 @@ DISCORD_APPLICATION_ID=<Discord application id>
 DISCORD_CHANNEL_ID=<Discord channel id for approval messages>
 DISCORD_APPROVER_USER_IDS=<comma-separated Discord user ids allowed to approve>
 GITHUB_BASE_BRANCH=main
+ARCA_LIST_URLS=https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4
+https://arca.live/b/forgettingeve?category=dwrr
+ARCA_LIST_SCAN_LIMIT=20
+ARCA_MAX_PROPOSALS_PER_RUN=5
 ```
+
+`ARCA_LIST_URLS` can be comma-separated or line-separated. If it is empty, the scheduled monitor does nothing and the existing feedback/resource-link endpoints keep working.
 
 ## GitHub token permissions
 
@@ -50,6 +56,42 @@ resource-links/pending
 ```
 
 The Worker creates or reuses one open PR from `resource-links/pending` into `main`. Review and merge that PR manually.
+
+## Resource link approval UI
+
+Discord approval messages support both recommended targets and manual target selection.
+
+- `추천대로 OK`: approve the Worker's suggested targets.
+- `선택 반영`: approve the manually selected categories and characters.
+- `선택 초기화`: clear manual selections without closing the GitHub Issue.
+- `보류`: close the request without changing `resource_links`.
+
+Manual selections are saved in the GitHub Issue body. Category selections and character selections do not update the PR by themselves; use `선택 반영` after choosing all targets. Character selections are grouped by relems tabs: `혼돈`, `심해`, `혈육`, `초차원`.
+
+## Arca scheduled monitor
+
+The Worker can periodically scan Arca list pages and send new posts to the same Discord approval workflow.
+
+Required setup:
+
+- Add a KV namespace and bind it to this Worker as `RESOURCE_LINK_STATE`.
+- Add a Cron Trigger: `*/30 * * * *`.
+- Set `ARCA_LIST_URLS` to the list pages to watch.
+
+Current watch list:
+
+```text
+https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4
+https://arca.live/b/forgettingeve?category=dwrr
+```
+
+Behavior:
+
+- If `ARCA_LIST_URLS` or `RESOURCE_LINK_STATE` is missing, the scheduled monitor exits without changing anything.
+- Each run checks only the top `ARCA_LIST_SCAN_LIMIT` posts per list.
+- Each run sends at most `ARCA_MAX_PROPOSALS_PER_RUN` Discord approval requests.
+- A post is saved to KV only after the GitHub Issue and Discord approval message are created successfully.
+- Automatic monitoring only creates approval requests. Updating `data/resource_links.json` still requires Discord approval.
 
 ## Discord interaction setup
 

@@ -3,11 +3,16 @@ const RESOURCE_LINKS_PATH = 'data/resource_links.json';
 const RESOURCE_LINKS_PENDING_BRANCH = 'resource-links/pending';
 const DEFAULT_BASE_BRANCH = 'main';
 const RESOURCE_PROPOSAL_MARKER = 'resource-link-proposal';
+const RESOURCE_SELECTION_MARKER = 'resource-link-selection';
 const INTERACTION_PING = 1;
 const INTERACTION_MESSAGE_COMPONENT = 3;
 const RESPONSE_PONG = 1;
 const RESPONSE_CHANNEL_MESSAGE = 4;
 const RESPONSE_DEFERRED_UPDATE = 6;
+const DEFAULT_ACTIVE_RELEMS = 'chaos';
+const DEFAULT_ARCA_LIST_SCAN_LIMIT = 20;
+const DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN = 5;
+const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
 
 const RESOURCE_CATEGORIES = [
     'event',
@@ -40,6 +45,76 @@ const RESOURCE_CATEGORY_LABELS = {
     chess: '페이즈 체스',
     etc: '기타'
 };
+
+const RELEMS_ORDER = ['chaos', 'aequor', 'caro', 'ultra'];
+const RELEMS_LABELS = {
+    chaos: '혼돈',
+    aequor: '심해',
+    caro: '혈육',
+    ultra: '초차원'
+};
+
+const RESOURCE_CHARACTERS = [
+    { id: '24', name: '「24」', relems: 'chaos' },
+    { id: 'nymphaea', name: '님피아', relems: 'chaos' },
+    { id: 'nautila', name: '노틸라', relems: 'chaos' },
+    { id: 'ryker', name: '라이커', relems: 'chaos' },
+    { id: 'lily', name: '릴리', relems: 'chaos' },
+    { id: 'mouchette', name: '모샤', relems: 'chaos' },
+    { id: 'doll_inferno', name: '융해 · 돌', relems: 'chaos' },
+    { id: 'alva', name: '엘바', relems: 'chaos' },
+    { id: 'karen', name: '카렌', relems: 'chaos' },
+    { id: 'kathigu-ra', name: '카티구라', relems: 'chaos' },
+    { id: 'tawil', name: '타비', relems: 'chaos' },
+    { id: 'pandia', name: '판디아', relems: 'chaos' },
+    { id: 'hameln', name: '하멜른', relems: 'chaos' },
+    { id: 'goliath', name: '골리아', relems: 'aequor' },
+    { id: 'coporsant', name: '코퍼산트', relems: 'aequor' },
+    { id: 'murphy', name: '머피', relems: 'aequor' },
+    { id: 'miryam', name: '미리암', relems: 'aequor' },
+    { id: 'sanga', name: '산', relems: 'aequor' },
+    { id: 'celeste', name: '셀레스트', relems: 'aequor' },
+    { id: 'aurita', name: '오레타', relems: 'aequor' },
+    { id: 'caecus', name: '카이커스', relems: 'aequor' },
+    { id: 'Murphy_Fauxborn', name: '탄망 · 머피', relems: 'aequor' },
+    { id: 'tulu', name: '툴루', relems: 'aequor' },
+    { id: 'faros', name: '파로스', relems: 'aequor' },
+    { id: 'vortice', name: '모스크', relems: 'aequor' },
+    { id: 'doresain', name: '도어세인', relems: 'caro' },
+    { id: 'leigh', name: '레이아', relems: 'caro' },
+    { id: 'salvador', name: '살바도르', relems: 'caro' },
+    { id: 'xu', name: '서', relems: 'caro' },
+    { id: 'sorel', name: '소렐', relems: 'caro' },
+    { id: 'agrippa', name: '아그리파', relems: 'caro' },
+    { id: 'aigis', name: '아이기스', relems: 'caro' },
+    { id: 'uvhash', name: '유우하시', relems: 'caro' },
+    { id: 'thais', name: '타이스', relems: 'caro' },
+    { id: 'faint', name: '파인트', relems: 'caro' },
+    { id: 'pickman', name: '픽맨', relems: 'caro' },
+    { id: 'helot_catena', name: '혈쇄 · 히로', relems: 'caro' },
+    { id: 'saya', name: '사야', relems: 'caro' },
+    { id: 'helot', name: '히로', relems: 'caro' },
+    { id: 'dafoodil', name: '다포딜', relems: 'ultra' },
+    { id: 'liz', name: '리즈', relems: 'ultra' },
+    { id: 'winkle', name: '웬코르', relems: 'ultra' },
+    { id: 'erica', name: '에리카', relems: 'ultra' },
+    { id: 'horla', name: '오를라', relems: 'ultra' },
+    { id: 'wanda', name: '완다', relems: 'ultra' },
+    { id: 'jenkin', name: '젠킨', relems: 'ultra' },
+    { id: 'castor', name: '카스토르', relems: 'ultra' },
+    { id: 'casiah', name: '카시아', relems: 'ultra' },
+    { id: 'clementine', name: '클레멘타인', relems: 'ultra' },
+    { id: 'tinct', name: '틴커트', relems: 'ultra' },
+    { id: 'pollux', name: '폴룩스', relems: 'ultra' },
+    { id: 'arachne', name: '아라크네', relems: 'ultra' },
+    { id: 'doll', name: '돌', relems: 'chaos' },
+    { id: 'ramona', name: '라모나', relems: 'chaos' },
+    { id: 'lotan', name: '로탄', relems: 'chaos' },
+    { id: 'ogier', name: '오지에', relems: 'chaos' },
+    { id: 'ramona_timeworn', name: '환행 · 라모나', relems: 'chaos' }
+];
+
+const RESOURCE_CHARACTER_BY_ID = Object.fromEntries(RESOURCE_CHARACTERS.map(character => [character.id, character]));
 
 export default {
     async fetch(request, env, ctx) {
@@ -77,6 +152,12 @@ export default {
                 'Access-Control-Allow-Headers': 'Content-Type'
             });
         }
+    },
+
+    async scheduled(event, env, ctx) {
+        ctx.waitUntil(handleArcaMonitor(env).catch(error => {
+            console.error('Arca monitor failed', error);
+        }));
     }
 };
 
@@ -109,7 +190,9 @@ function handleGet(url, env, corsHeaders) {
         hasDiscordBotToken: Boolean(env.DISCORD_BOT_TOKEN),
         hasDiscordApplicationId: Boolean(env.DISCORD_APPLICATION_ID),
         hasDiscordChannelId: Boolean(env.DISCORD_CHANNEL_ID),
-        hasDiscordPublicKey: Boolean(env.DISCORD_PUBLIC_KEY)
+        hasDiscordPublicKey: Boolean(env.DISCORD_PUBLIC_KEY),
+        hasArcaListUrls: Boolean(env.ARCA_LIST_URLS),
+        hasResourceLinkState: Boolean(env.RESOURCE_LINK_STATE)
     }, 200, corsHeaders);
 }
 
@@ -212,6 +295,244 @@ async function handleResourceLinkProposal(request, env, corsHeaders) {
     }, 200, corsHeaders);
 }
 
+async function handleArcaMonitor(env) {
+    const listUrls = parseArcaListUrls(env.ARCA_LIST_URLS);
+    if (listUrls.length === 0) {
+        console.log('Arca monitor skipped: ARCA_LIST_URLS is empty');
+        return { ok: true, skipped: 'missing ARCA_LIST_URLS' };
+    }
+
+    if (!env.RESOURCE_LINK_STATE) {
+        console.log('Arca monitor skipped: RESOURCE_LINK_STATE KV binding is missing');
+        return { ok: true, skipped: 'missing RESOURCE_LINK_STATE binding' };
+    }
+
+    requireEnv(env, ['GITHUB_TOKEN', 'GITHUB_OWNER', 'GITHUB_REPO', 'DISCORD_BOT_TOKEN', 'DISCORD_CHANNEL_ID']);
+
+    const scanLimit = getPositiveIntegerEnv(env.ARCA_LIST_SCAN_LIMIT, DEFAULT_ARCA_LIST_SCAN_LIMIT, 1, 50);
+    const maxProposals = getPositiveIntegerEnv(env.ARCA_MAX_PROPOSALS_PER_RUN, DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN, 1, 10);
+    const submittedAt = new Date().toISOString();
+    const seenThisRun = new Set();
+    const result = {
+        ok: true,
+        lists: listUrls.length,
+        scanned: 0,
+        skippedSeen: 0,
+        proposed: 0,
+        failed: 0
+    };
+
+    for (const listUrl of listUrls) {
+        if (result.proposed >= maxProposals) break;
+
+        let posts;
+        try {
+            const html = await fetchText(listUrl);
+            posts = extractArcaPostsFromList(html, listUrl).slice(0, scanLimit);
+        } catch (error) {
+            result.failed += 1;
+            console.warn(`Arca list fetch failed: ${listUrl}`, error);
+            continue;
+        }
+
+        for (const post of posts) {
+            if (result.proposed >= maxProposals) break;
+            if (seenThisRun.has(post.id)) continue;
+            seenThisRun.add(post.id);
+            result.scanned += 1;
+
+            const seenKey = `${ARCA_SEEN_KEY_PREFIX}${post.id}`;
+            const alreadySeen = await env.RESOURCE_LINK_STATE.get(seenKey);
+            if (alreadySeen) {
+                result.skippedSeen += 1;
+                continue;
+            }
+
+            try {
+                const detail = await fetchArcaPostDetail(post, listUrl);
+                const proposal = normalizeResourceProposal({
+                    url: detail.url,
+                    title: detail.title,
+                    desc: detail.desc,
+                    image: detail.image,
+                    sourceTab: detail.sourceTab,
+                    submittedBy: 'arca-monitor',
+                    submittedAt
+                });
+
+                if (!proposal.link.url || !proposal.link.title) continue;
+
+                const issue = await createResourceProposalIssue(env, proposal);
+                const discordMessage = await sendResourceProposalMessage(env, proposal, issue);
+                await env.RESOURCE_LINK_STATE.put(seenKey, JSON.stringify({
+                    id: post.id,
+                    url: proposal.link.url,
+                    title: proposal.link.title,
+                    sourceListUrl: listUrl,
+                    issueUrl: issue.html_url,
+                    discordMessageId: discordMessage.id,
+                    firstSeenAt: submittedAt,
+                    notifiedAt: new Date().toISOString()
+                }));
+                result.proposed += 1;
+            } catch (error) {
+                result.failed += 1;
+                console.warn(`Arca post proposal failed: ${post.url}`, error);
+            }
+        }
+    }
+
+    console.log('Arca monitor result', result);
+    return result;
+}
+
+function parseArcaListUrls(value) {
+    return String(value || '')
+        .split(/[\n,]/)
+        .map(url => url.trim())
+        .filter(Boolean)
+        .map(url => {
+            try {
+                return new URL(url).toString();
+            } catch (error) {
+                return null;
+            }
+        })
+        .filter(Boolean);
+}
+
+async function fetchText(url) {
+    const response = await fetch(url, {
+        headers: {
+            'Accept': 'text/html,application/xhtml+xml',
+            'User-Agent': 'morimens-resource-link-monitor/1.0'
+        }
+    });
+    if (!response.ok) {
+        throw new Error(`Fetch failed: ${response.status}`);
+    }
+    return response.text();
+}
+
+function extractArcaPostsFromList(html, listUrl) {
+    const posts = [];
+    const seenIds = new Set();
+    const anchorRegex = /<a\b([^>]*?)href=["']([^"']+)["']([^>]*)>([\s\S]*?)<\/a>/gi;
+    let match;
+
+    while ((match = anchorRegex.exec(html)) !== null) {
+        let url;
+        try {
+            url = new URL(decodeHtmlEntities(match[2]), listUrl);
+        } catch (error) {
+            continue;
+        }
+
+        if (url.hostname !== 'arca.live') continue;
+        const idMatch = url.pathname.match(/^\/b\/forgettingeve\/(\d+)\/?$/);
+        if (!idMatch) continue;
+
+        const id = idMatch[1];
+        if (seenIds.has(id)) continue;
+        seenIds.add(id);
+
+        posts.push({
+            id,
+            url: `https://arca.live${url.pathname}`,
+            title: cleanResourceTitle(stripHtml(match[4] || '')),
+            sourceTab: getArcaSourceTab(listUrl)
+        });
+    }
+
+    return posts;
+}
+
+async function fetchArcaPostDetail(post, listUrl) {
+    const html = await fetchText(post.url);
+    const title = cleanResourceTitle(
+        extractMetaContent(html, 'property', 'og:title') ||
+        extractTitle(html) ||
+        post.title ||
+        post.id
+    );
+    const image = normalizeImageUrl(extractMetaContent(html, 'property', 'og:image') || '', post.url);
+
+    return {
+        url: post.url,
+        title,
+        desc: decodeHtmlEntities(extractMetaContent(html, 'property', 'og:description') || ''),
+        image,
+        sourceTab: post.sourceTab || getArcaSourceTab(listUrl)
+    };
+}
+
+function getArcaSourceTab(listUrl) {
+    try {
+        const category = new URL(listUrl).searchParams.get('category') || '';
+        if (category === 'dwrr') return '진행중인 융재금구 팁';
+        return decodeHtmlEntities(category);
+    } catch (error) {
+        return '';
+    }
+}
+
+function extractMetaContent(html, attrName, attrValue) {
+    const escapedAttr = escapeRegExp(attrValue);
+    const regex = new RegExp(`<meta\\b(?=[^>]*\\b${attrName}=["']${escapedAttr}["'])([^>]*)>`, 'i');
+    const match = html.match(regex);
+    if (!match) return '';
+    const contentMatch = match[1].match(/\bcontent=["']([^"']*)["']/i);
+    return contentMatch ? decodeHtmlEntities(contentMatch[1]) : '';
+}
+
+function extractTitle(html) {
+    const match = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i);
+    return match ? decodeHtmlEntities(stripHtml(match[1])) : '';
+}
+
+function cleanResourceTitle(title) {
+    return String(title || '')
+        .replace(/\s*[-–—|]\s*망각전야\s*채널\s*$/i, '')
+        .trim();
+}
+
+function normalizeImageUrl(value, baseUrl) {
+    const image = String(value || '').trim();
+    if (!image) return '';
+    try {
+        return new URL(image, baseUrl).toString();
+    } catch (error) {
+        return image.startsWith('//') ? `https:${image}` : image;
+    }
+}
+
+function stripHtml(value) {
+    return decodeHtmlEntities(String(value || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim());
+}
+
+function decodeHtmlEntities(value) {
+    return String(value || '')
+        .replace(/&#x([0-9a-f]+);/gi, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+        .replace(/&#(\d+);/g, (_, decimal) => String.fromCodePoint(parseInt(decimal, 10)))
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&apos;/g, "'");
+}
+
+function getPositiveIntegerEnv(value, fallback, min, max) {
+    const number = Number.parseInt(value, 10);
+    if (!Number.isFinite(number)) return fallback;
+    return Math.min(max, Math.max(min, number));
+}
+
+function escapeRegExp(value) {
+    return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 async function handleDiscordInteraction(request, env, ctx) {
     const rawBody = await request.text();
     const isVerified = await verifyDiscordRequest(request, rawBody, env);
@@ -306,7 +627,7 @@ function normalizeTargets(targets) {
         result.push(normalized);
     }
 
-    return result.slice(0, 30);
+    return result.slice(0, 80);
 }
 
 function normalizeTarget(target) {
@@ -432,7 +753,7 @@ async function sendResourceProposalMessage(env, proposal, issue) {
         : '추천 대상 없음';
 
     const payload = {
-        content: 'resource_links 등록 승인이 필요합니다.',
+        content: buildResourceMessageContent(defaultResourceSelection()),
         allowed_mentions: { parse: [] },
         embeds: [{
             title: proposal.link.title,
@@ -447,7 +768,7 @@ async function sendResourceProposalMessage(env, proposal, issue) {
             footer: { text: `Submitted by ${proposal.submittedBy}` },
             timestamp: new Date().toISOString()
         }],
-        components: buildResourceComponents(issue.number)
+        components: buildResourceComponents(issue.number, false, defaultResourceSelection())
     };
 
     const response = await fetch(`https://discord.com/api/v10/channels/${env.DISCORD_CHANNEL_ID}/messages`, {
@@ -464,7 +785,11 @@ async function sendResourceProposalMessage(env, proposal, issue) {
     return response.json();
 }
 
-function buildResourceComponents(issueNumber, disabled = false) {
+function buildResourceComponents(issueNumber, disabled = false, selection = defaultResourceSelection()) {
+    const activeRelems = normalizeRelems(selection.activeRelems);
+    const selectedKeys = new Set(normalizeTargets(selection.targets || []).map(target => `${target.type}:${target.id}`));
+    const activeCharacters = RESOURCE_CHARACTERS.filter(character => character.relems === activeRelems);
+
     return [
         {
             type: 1,
@@ -472,8 +797,22 @@ function buildResourceComponents(issueNumber, disabled = false) {
                 {
                     type: 2,
                     style: 3,
-                    label: 'OK',
+                    label: '추천대로 OK',
                     custom_id: `rl:approve:${issueNumber}`,
+                    disabled
+                },
+                {
+                    type: 2,
+                    style: 1,
+                    label: '선택 반영',
+                    custom_id: `rl:approve-selected:${issueNumber}`,
+                    disabled
+                },
+                {
+                    type: 2,
+                    style: 2,
+                    label: '선택 초기화',
+                    custom_id: `rl:clear-selection:${issueNumber}`,
                     disabled
                 },
                 {
@@ -491,19 +830,135 @@ function buildResourceComponents(issueNumber, disabled = false) {
                 {
                     type: 3,
                     custom_id: `rl:categories:${issueNumber}`,
-                    placeholder: '선택 즉시 해당 카테고리로 PR 반영',
-                    min_values: 1,
+                    placeholder: '일반 카테고리 선택',
+                    min_values: 0,
                     max_values: RESOURCE_CATEGORIES.length,
                     disabled,
                     options: RESOURCE_CATEGORIES.map(id => ({
                         label: RESOURCE_CATEGORY_LABELS[id] || id,
                         value: `category:${id}`,
-                        description: id
+                        description: id,
+                        default: selectedKeys.has(`category:${id}`)
+                    }))
+                }
+            ]
+        },
+        {
+            type: 1,
+            components: RELEMS_ORDER.map(relems => ({
+                type: 2,
+                style: relems === activeRelems ? 1 : 2,
+                label: RELEMS_LABELS[relems] || relems,
+                custom_id: `rl:relems:${relems}:${issueNumber}`,
+                disabled
+            }))
+        },
+        {
+            type: 1,
+            components: [
+                {
+                    type: 3,
+                    custom_id: `rl:characters:${activeRelems}:${issueNumber}`,
+                    placeholder: `${RELEMS_LABELS[activeRelems] || activeRelems} 캐릭터 선택`,
+                    min_values: 0,
+                    max_values: activeCharacters.length,
+                    disabled,
+                    options: activeCharacters.map(character => ({
+                        label: character.name || character.id,
+                        value: `character:${character.id}`,
+                        description: character.id,
+                        default: selectedKeys.has(`character:${character.id}`)
                     }))
                 }
             ]
         }
     ];
+}
+
+function buildResourceMessageContent(selection = defaultResourceSelection()) {
+    return [
+        'resource_links 등록 승인이 필요합니다.',
+        `현재 선택: ${formatSelectionSummary(selection)}`,
+        `캐릭터 탭: ${RELEMS_LABELS[normalizeRelems(selection.activeRelems)]}`
+    ].join('\n');
+}
+
+function formatSelectionSummary(selection) {
+    const targets = normalizeTargets(selection.targets || []);
+    if (targets.length === 0) return '없음';
+
+    const labels = targets.map(formatTargetLabel);
+    const visible = labels.slice(0, 20).join(', ');
+    const hiddenCount = labels.length - 20;
+    return hiddenCount > 0 ? `${visible} 외 ${hiddenCount}개` : visible;
+}
+
+function formatTargetLabel(target) {
+    if (!target) return 'unknown';
+    if (target.type === 'category') return RESOURCE_CATEGORY_LABELS[target.id] || target.id;
+    if (target.type === 'character') return RESOURCE_CHARACTER_BY_ID[target.id]?.name || target.id;
+    return formatTarget(target);
+}
+
+function defaultResourceSelection() {
+    return {
+        targets: [],
+        activeRelems: DEFAULT_ACTIVE_RELEMS
+    };
+}
+
+function normalizeResourceSelection(selection) {
+    return {
+        targets: normalizeTargets(selection?.targets || []),
+        activeRelems: normalizeRelems(selection?.activeRelems),
+        updatedAt: selection?.updatedAt || null,
+        updatedBy: selection?.updatedBy || null
+    };
+}
+
+function normalizeRelems(relems) {
+    return RELEMS_ORDER.includes(relems) ? relems : DEFAULT_ACTIVE_RELEMS;
+}
+
+function replaceTargetsByType(currentTargets, type, replacementTargets) {
+    return normalizeTargets([
+        ...normalizeTargets(currentTargets || []).filter(target => target.type !== type),
+        ...normalizeTargets(replacementTargets || []).filter(target => target.type === type)
+    ]);
+}
+
+function replaceCharacterTargetsByRelems(currentTargets, relems, replacementTargets) {
+    const normalizedRelems = normalizeRelems(relems);
+    const retainedTargets = normalizeTargets(currentTargets || []).filter(target => {
+        if (target.type !== 'character') return true;
+        return RESOURCE_CHARACTER_BY_ID[target.id]?.relems !== normalizedRelems;
+    });
+    const selectedTargets = normalizeTargets(replacementTargets || []).filter(target => {
+        return target.type === 'character' && RESOURCE_CHARACTER_BY_ID[target.id]?.relems === normalizedRelems;
+    });
+
+    return normalizeTargets([...retainedTargets, ...selectedTargets]);
+}
+
+function extractResourceSelection(body) {
+    const encodedRegex = new RegExp(`<!--\\s*${RESOURCE_SELECTION_MARKER}:([A-Za-z0-9+/=]+)\\s*-->`);
+    const encodedMatch = body.match(encodedRegex);
+    if (!encodedMatch) return defaultResourceSelection();
+
+    try {
+        return normalizeResourceSelection(JSON.parse(base64ToUtf8(encodedMatch[1])));
+    } catch (error) {
+        return defaultResourceSelection();
+    }
+}
+
+function upsertResourceSelection(body, selection) {
+    const marker = `<!-- ${RESOURCE_SELECTION_MARKER}:${utf8ToBase64(JSON.stringify(normalizeResourceSelection(selection)))} -->`;
+    const markerRegex = new RegExp(`<!--\\s*${RESOURCE_SELECTION_MARKER}:[A-Za-z0-9+/=]+\\s*-->`);
+    if (markerRegex.test(body)) {
+        return body.replace(markerRegex, marker);
+    }
+    return `${body}\n${marker}`;
 }
 
 async function notifyDiscord(env, feedback, issue) {
@@ -539,21 +994,56 @@ function parseResourceDecision(interaction) {
     if (parts[0] !== 'rl') return null;
 
     const action = parts[1];
-    const issueNumber = Number(parts[2]);
-    if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
 
     if (action === 'approve') {
+        const issueNumber = Number(parts[2]);
+        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
         return { action, issueNumber, targets: null };
     }
 
+    if (action === 'approve-selected') {
+        const issueNumber = Number(parts[2]);
+        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
+        return { action, issueNumber, targets: null };
+    }
+
+    if (action === 'clear-selection') {
+        const issueNumber = Number(parts[2]);
+        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
+        return { action, issueNumber, targets: [] };
+    }
+
     if (action === 'hold') {
+        const issueNumber = Number(parts[2]);
+        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
         return { action, issueNumber, targets: [] };
     }
 
     if (action === 'categories') {
+        const issueNumber = Number(parts[2]);
+        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
         return {
-            action: 'approve',
+            action,
             issueNumber,
+            targets: normalizeTargets(interaction.data?.values || [])
+        };
+    }
+
+    if (action === 'relems') {
+        const relems = normalizeRelems(parts[2]);
+        const issueNumber = Number(parts[3]);
+        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
+        return { action, issueNumber, relems };
+    }
+
+    if (action === 'characters') {
+        const relems = normalizeRelems(parts[2]);
+        const issueNumber = Number(parts[3]);
+        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
+        return {
+            action,
+            issueNumber,
+            relems,
             targets: normalizeTargets(interaction.data?.values || [])
         };
     }
@@ -565,22 +1055,86 @@ async function processResourceDecision(env, interaction, decision) {
     try {
         const issue = await getGitHubIssue(env, decision.issueNumber);
         const proposal = extractResourceProposal(issue.body || '');
+        const selection = extractResourceSelection(issue.body || '');
 
         if (decision.action === 'hold') {
             await commentGitHubIssue(env, decision.issueNumber, `Held without updating resource_links. Handler: ${getInteractionUserLabel(interaction)}`);
             await closeGitHubIssue(env, decision.issueNumber);
             await editDiscordMessage(env, interaction, {
                 content: `보류 처리됨: resource_links를 변경하지 않았습니다. (${getInteractionUserLabel(interaction)})`,
-                components: buildResourceComponents(decision.issueNumber, true)
+                components: buildResourceComponents(decision.issueNumber, true, selection)
             });
             return;
         }
 
-        const targets = decision.targets || proposal.targets;
+        if (decision.action === 'categories') {
+            const updatedSelection = {
+                ...selection,
+                targets: replaceTargetsByType(selection.targets, 'category', decision.targets),
+                updatedAt: new Date().toISOString(),
+                updatedBy: getInteractionUserLabel(interaction)
+            };
+            await updateResourceSelection(env, issue, updatedSelection);
+            await editDiscordMessage(env, interaction, {
+                content: buildResourceMessageContent(updatedSelection),
+                components: buildResourceComponents(decision.issueNumber, false, updatedSelection)
+            });
+            return;
+        }
+
+        if (decision.action === 'relems') {
+            const updatedSelection = {
+                ...selection,
+                activeRelems: decision.relems,
+                updatedAt: new Date().toISOString(),
+                updatedBy: getInteractionUserLabel(interaction)
+            };
+            await updateResourceSelection(env, issue, updatedSelection);
+            await editDiscordMessage(env, interaction, {
+                content: buildResourceMessageContent(updatedSelection),
+                components: buildResourceComponents(decision.issueNumber, false, updatedSelection)
+            });
+            return;
+        }
+
+        if (decision.action === 'characters') {
+            const updatedSelection = {
+                ...selection,
+                activeRelems: decision.relems,
+                targets: replaceCharacterTargetsByRelems(selection.targets, decision.relems, decision.targets),
+                updatedAt: new Date().toISOString(),
+                updatedBy: getInteractionUserLabel(interaction)
+            };
+            await updateResourceSelection(env, issue, updatedSelection);
+            await editDiscordMessage(env, interaction, {
+                content: buildResourceMessageContent(updatedSelection),
+                components: buildResourceComponents(decision.issueNumber, false, updatedSelection)
+            });
+            return;
+        }
+
+        if (decision.action === 'clear-selection') {
+            const updatedSelection = {
+                ...selection,
+                targets: [],
+                updatedAt: new Date().toISOString(),
+                updatedBy: getInteractionUserLabel(interaction)
+            };
+            await updateResourceSelection(env, issue, updatedSelection);
+            await editDiscordMessage(env, interaction, {
+                content: buildResourceMessageContent(updatedSelection),
+                components: buildResourceComponents(decision.issueNumber, false, updatedSelection)
+            });
+            return;
+        }
+
+        const targets = decision.action === 'approve-selected'
+            ? selection.targets
+            : proposal.targets;
         if (!targets || targets.length === 0) {
             await editDiscordMessage(env, interaction, {
                 content: '처리 안 됨: 선택된 등록 대상이 없습니다. resource_links를 변경하지 않았습니다.',
-                components: buildResourceComponents(decision.issueNumber, false)
+                components: buildResourceComponents(decision.issueNumber, false, selection)
             });
             return;
         }
@@ -606,7 +1160,7 @@ async function processResourceDecision(env, interaction, decision) {
                 `이미 존재: ${result.skipped.map(formatTarget).join(', ') || 'none'}`,
                 `누락 대상: ${result.missing.map(formatTarget).join(', ') || 'none'}`
             ].join('\n'),
-            components: buildResourceComponents(decision.issueNumber, true)
+            components: buildResourceComponents(decision.issueNumber, true, selection)
         });
     } catch (error) {
         console.error(error);
@@ -793,11 +1347,28 @@ function extractResourceProposal(body) {
     return normalizeResourceProposal(JSON.parse(match[1]));
 }
 
+async function updateResourceSelection(env, issue, selection) {
+    const body = upsertResourceSelection(issue.body || '', selection);
+    await updateGitHubIssueBody(env, issue.number, body);
+}
+
 async function getGitHubIssue(env, issueNumber) {
     const response = await githubJsonFetch(env, `/issues/${issueNumber}`, { method: 'GET' });
     if (!response.ok) {
         const detail = await response.text();
         throw new Error(`GitHub issue fetch failed: ${response.status} ${detail.slice(0, 300)}`);
+    }
+    return response.json();
+}
+
+async function updateGitHubIssueBody(env, issueNumber, body) {
+    const response = await githubJsonFetch(env, `/issues/${issueNumber}`, {
+        method: 'PATCH',
+        body: { body }
+    });
+    if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`GitHub issue update failed: ${response.status} ${detail.slice(0, 300)}`);
     }
     return response.json();
 }
