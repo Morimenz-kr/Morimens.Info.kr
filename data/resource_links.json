@@ -2,8 +2,7 @@
   "categories": {
     "event": {
       "title": "🎉 2.5주년 + 진행 중인 이벤트 정보",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/173237010",
           "title": "남은 로테 최소의 최소 어느 정도 뽑아야할까?",
@@ -17,11 +16,11 @@
           "image": "https://ac-p3.namu.la/20260605sac/af6f8e34a1d36bf3ec14551facda5a52665a4a957e3cfaefc42c2179626a1a3e.jpg?expires=1780764152&key=x3oSuv3TKeiCEIT1PEi8AA"
         },
         {
-        "url": "https://arca.live/b/forgettingeve/172710816",
-        "title": "고양이 깨고 싶은 뉴비들을 위한 소소한 팁",
-        "desc": "챈에 할배들 친추도 물론 좋지만 그걸로는 모자랄거임고양이의 보은 이벤트는 한번 쓴 친구는 다시 못쓰기 때문에랭킹쪽이나 그냥 친구 찾기쪽에서 새로 고침 하면서 찾기 추천함팔로우 걸면 거의 웬만하면 팔로우 받아 줄 거임",
-        "image": "https://ac-p1.namu.la/20260604sac/139e8f2eb996130a88059edbc534074cd44740a92323aa3435ab8814efb5f6aa.png?expires=1780570548&key=cSxJI0raac8zd4IAnCi8bQ"
-      },
+          "url": "https://arca.live/b/forgettingeve/172710816",
+          "title": "고양이 깨고 싶은 뉴비들을 위한 소소한 팁",
+          "desc": "챈에 할배들 친추도 물론 좋지만 그걸로는 모자랄거임고양이의 보은 이벤트는 한번 쓴 친구는 다시 못쓰기 때문에랭킹쪽이나 그냥 친구 찾기쪽에서 새로 고침 하면서 찾기 추천함팔로우 걸면 거의 웬만하면 팔로우 받아 줄 거임",
+          "image": "https://ac-p1.namu.la/20260604sac/139e8f2eb996130a88059edbc534074cd44740a92323aa3435ab8814efb5f6aa.png?expires=1780570548&key=cSxJI0raac8zd4IAnCi8bQ"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/172342729",
           "title": "사야 3/3은 필수일까?",
@@ -116,8 +115,7 @@
     },
     "weekly_yungjae": {
       "title": "🔥 진행중인 융재금구 팁",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/173670315",
           "title": "3파5급 할배모샤 가져오면 쓰는법 대략적으로라도 보고 하시면 좋을거같아 올려요",
@@ -404,8 +402,13 @@
     },
     "newbie": {
       "title": "🐣 뉴비 필독 가이드",
-      "links": 
-      [
+      "links": [
+        {
+          "url": "https://arca.live/b/forgettingeve/174123125",
+          "title": "아라크네 그거 초차원 턴에만 쎄지는 거 아님??",
+          "desc": "A: 아님아라크네 쓰는 뉴비들이 오해하는 게초차원에 담근 카드만 스펙업 시켜주는 걸로 알던데그게 아님이거는 초차원에 담궜을 때의 효과고이건 전자와는 별개로 작동되는 상시효과임초차원에 담궈야만 저 특이점 비콘 효과를",
+          "image": "https://ac-p1.namu.la/20260617sac/7f49ca49cb54984ad27daa54d33b134b8529e94df68a1c5dc2f256b104b0b34c.jpg?expires=1781775971&key=giCViGYF71zWhERmiHNUXQ"
+        },
         {
           "url": "https://arca.live/b/forgettingeve/173458322",
           "title": "융재 유물 고급팁",
@@ -695,10 +698,10 @@
           "image": "https://ac-p3.namu.la/20260327sac/6e2d838a518d3cf5dd46ce4f92ec37b4c4b1c5ce87139ba16554792b43cf96ff.jpg?expires=1774675633&key=n9TLUYALSWrh9442w2ZEtw"
         },
         {
-        "url": "https://arca.live/b/forgettingeve/165071265",
-        "title": "오레타가 작성한 조합 가이드 1",
-        "desc": "※ 주관적인 견해가 많이 들어가있기 때문에 틀렸다고 생각하는 부분에서 지적을 해준다면 보러 오는 사람들에게 큰 도움이 될 것만약 내가 틀린 것이라면 가급적 빠른 수정을 할 수 있도록 노력해보겠읍니다----플레이스토어",
-        "image": "https://ac-p1.namu.la/20260316sac/0dea790fabbe38889a893003b4dc42f5d321de6da2c36ef54844613120b4f43c.png?expires=1773754955&key=jqXJurcaIuFEv6eAWrTmRg"
+          "url": "https://arca.live/b/forgettingeve/165071265",
+          "title": "오레타가 작성한 조합 가이드 1",
+          "desc": "※ 주관적인 견해가 많이 들어가있기 때문에 틀렸다고 생각하는 부분에서 지적을 해준다면 보러 오는 사람들에게 큰 도움이 될 것만약 내가 틀린 것이라면 가급적 빠른 수정을 할 수 있도록 노력해보겠읍니다----플레이스토어",
+          "image": "https://ac-p1.namu.la/20260316sac/0dea790fabbe38889a893003b4dc42f5d321de6da2c36ef54844613120b4f43c.png?expires=1773754955&key=jqXJurcaIuFEv6eAWrTmRg"
         },
         {
           "url": "https://arca.live/b/forgettingeve/165014807",
@@ -812,8 +815,7 @@
     },
     "system": {
       "title": "⚙️ 시스템 정보",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/173675075",
           "title": "열차 랭킹 절대평가임",
@@ -1076,8 +1078,7 @@
     },
     "weapon": {
       "title": "🗡️ 융재금구 정보",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/173636165",
           "title": "2.5주년학번들을 위한 모스도 이해하는 융재금구학개론 - 1",
@@ -1137,7 +1138,7 @@
           "title": "실전 융재금구용 안겹치는 9파티",
           "desc": "ㅎㅇ ㅎㅇ 요새 유입도 꽤 많이 생겼고융재금구에 관심을 가지는 사람들이 많이 생겼기 때문에이 참에 내가 자주 쓰는 파티들을 소개해 보겠음간단하게 내 소개를 하면 저저번 시즌 융재금구최저레벨 425점을 달성했고 (70",
           "image": "https://ac-p3.namu.la/20260520sac/321e390703afb9c3a4e391e72b064049ccf5f42c34428bf9a45fc4ef075abbe4.png?expires=1779501152&key=fL7MxPeGtzUqxb6MlWnn4Q"
-        },  
+        },
         {
           "url": "https://arca.live/b/forgettingeve/171013531",
           "title": "패키지로 알아보는 융재의 가치",
@@ -1229,16 +1230,16 @@
           "image": "https://ac-p1.namu.la/20251130sac/188595dff6d41afbb3112168e05ec32195a47b41e2e307485168b0b8bc500285.jpg?expires=1764633113&key=hWBm57YZkIAa6Uu2PUT2pA"
         },
         {
-        "url": "https://arca.live/b/forgettingeve/154947617",
-        "title": "융재금구 재밌는 조합 3개 그리고 육성에 대한 생각",
-        "desc": "최근 죽다 살아나서 그냥 웨이크업바디가 되었나너무 상쾌한 아침에 챈에 이것저것 써봄최근 패치로 융재 금구 리플레이 볼수있는게 너무 재미있어서 그동안 고인물들 대체 어떻게 깨나보는데 보는것만으로도 재밌고, 어~? 나도",
-        "image": "https://ac-p1.namu.la/20251126sac/74ef9acdf2f2024d7781b9f20565da72bbb255814da30cd87d6e0a27d37e45e3.png?expires=1764238014&key=BN_8k0Glgv5J2-JHvTdJ1w"
+          "url": "https://arca.live/b/forgettingeve/154947617",
+          "title": "융재금구 재밌는 조합 3개 그리고 육성에 대한 생각",
+          "desc": "최근 죽다 살아나서 그냥 웨이크업바디가 되었나너무 상쾌한 아침에 챈에 이것저것 써봄최근 패치로 융재 금구 리플레이 볼수있는게 너무 재미있어서 그동안 고인물들 대체 어떻게 깨나보는데 보는것만으로도 재밌고, 어~? 나도",
+          "image": "https://ac-p1.namu.la/20251126sac/74ef9acdf2f2024d7781b9f20565da72bbb255814da30cd87d6e0a27d37e45e3.png?expires=1764238014&key=BN_8k0Glgv5J2-JHvTdJ1w"
         },
         {
-        "url": "https://arca.live/b/forgettingeve/154667440",
-        "title": "융재금구 물어보는 뉴비가 많아서 쓰는 간단 덱짜는법 ",
-        "desc": "제일 먼저 알아둬야할건 무리하게 325점 350점 노리지는 말자는거야...그정도 노릴려면 60렙작 133333스킬작 성심특성작도 어느정도 해놔야하고, 지금 이 글을 읽을게 아니라 덱 하나하나 찾아보고 보스패턴 뭔지 ",
-        "image": "/static/apple-icon.png?t=e1bf30f61b2b9534c5a27e707b0b299719a603ac"
+          "url": "https://arca.live/b/forgettingeve/154667440",
+          "title": "융재금구 물어보는 뉴비가 많아서 쓰는 간단 덱짜는법 ",
+          "desc": "제일 먼저 알아둬야할건 무리하게 325점 350점 노리지는 말자는거야...그정도 노릴려면 60렙작 133333스킬작 성심특성작도 어느정도 해놔야하고, 지금 이 글을 읽을게 아니라 덱 하나하나 찾아보고 보스패턴 뭔지 ",
+          "image": "/static/apple-icon.png?t=e1bf30f61b2b9534c5a27e707b0b299719a603ac"
         },
         {
           "url": "https://arca.live/b/forgettingeve/154583224",
@@ -1268,8 +1269,7 @@
     },
     "dreamdive": {
       "title": "🌊 환몽심잠 공략",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/170845506",
           "title": "환몽심잠 3턴 쌀먹맵 정리",
@@ -1304,8 +1304,7 @@
     },
     "myeongryun": {
       "title": "🔘 명륜 정보",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/173538775",
           "title": "대체가 어렵다고 보는 전용 명륜들 몇 개",
@@ -1384,7 +1383,7 @@
           "desc": "계속 수정중여느 티어표가 그렇듯 참고만 해줘1. 최상단 (주황색/갈색 배경)\"필수 불가결한 명륜 (반드시 있어야 함)\" & \"+12 고강화 추천 명륜\"영혼의 탄생 : 0각성(명함)부터 사용 가능. 속도가 느린",
           "image": "https://ac-p1.namu.la/20251215sac/0be14f1d4db4b0df8ea78daaf51b57e663277cdc479348cac17258930f49f6ca.png?expires=1765882486&key=xZmfV2Ip_Q3AWhgo9QN1XA"
         },
-        {          
+        {
           "url": "https://arca.live/b/forgettingeve/155954978",
           "title": "모든 한정명륜 간단리뷰&추천",
           "desc": "안녕 망붕이들아~ 슬슬 융재도 준비하며 파티짜구선택권 어떻게 쓸지 고민하는 망붕이들을 위해서 써봤어각 캐릭터 이름/명륜이름으로 검색하면 찾기 쉬울거야!융재금지구역 기준으로 많이 썼으니 참고해줘.늘 그렇지만, 나랑 의",
@@ -1472,8 +1471,7 @@
     },
     "covenant": {
       "title": "📜 비밀계약 정보",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/173136003",
           "title": "이 비밀계약 어디에 써요?의 이것들을 알아보자",
@@ -1581,26 +1579,81 @@
     "code": {
       "title": "🎟️ 교환 코드",
       "links": [
-        { "title": "SILVERKEY", "desc": "무구의 은핵 10개", "expiry": null },
-        { "title": "CATSGIFT", "desc": "은심 1000개", "expiry": null },
-        { "title": "HVGX-HLDX-QKKN", "desc": "무구의 은핵 5개", "expiry": null },
-        { "title": "QKBQ-SSDG-JZYU", "desc": "무구의 은핵 5개", "expiry": null },
-        { "title": "DC5000", "desc": "특별 승인 약재 5개", "expiry": null },
-        { "title": "WULA-GZXK-UGSS", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-06-03" },
-        { "title": "CCNP-AHXY-YMHF", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-06-09" },
-        { "title": "FHFW-WVQQ-SVSG", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-06-11" },
-        { "title": "MSBL-TEWJ-PUBC", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-06-12" },
-        { "title": "DPXW-TFCU-GTWF", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-06-16" },
-        { "title": "DC50000", "desc": "은심 1000개, 광휘의 은핵 5개", "expiry": "2026-06-19" },
-        { "title": "VCHB-LEGT-KUUY", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-06-22" },
-        { "title": "SayaNoUta", "desc": "은심 500개, 무구의 은핵 5개", "expiry": "2026-08-17" },
-        { "title": "YouSavedMorimens", "desc": "무구의 은핵 100개", "expiry": "2026-08-24" }
+        {
+          "title": "SILVERKEY",
+          "desc": "무구의 은핵 10개",
+          "expiry": null
+        },
+        {
+          "title": "CATSGIFT",
+          "desc": "은심 1000개",
+          "expiry": null
+        },
+        {
+          "title": "HVGX-HLDX-QKKN",
+          "desc": "무구의 은핵 5개",
+          "expiry": null
+        },
+        {
+          "title": "QKBQ-SSDG-JZYU",
+          "desc": "무구의 은핵 5개",
+          "expiry": null
+        },
+        {
+          "title": "DC5000",
+          "desc": "특별 승인 약재 5개",
+          "expiry": null
+        },
+        {
+          "title": "WULA-GZXK-UGSS",
+          "desc": "은심 500개, 무구의 은핵 5개",
+          "expiry": "2026-06-03"
+        },
+        {
+          "title": "CCNP-AHXY-YMHF",
+          "desc": "은심 500개, 무구의 은핵 5개",
+          "expiry": "2026-06-09"
+        },
+        {
+          "title": "FHFW-WVQQ-SVSG",
+          "desc": "은심 500개, 무구의 은핵 5개",
+          "expiry": "2026-06-11"
+        },
+        {
+          "title": "MSBL-TEWJ-PUBC",
+          "desc": "은심 500개, 무구의 은핵 5개",
+          "expiry": "2026-06-12"
+        },
+        {
+          "title": "DPXW-TFCU-GTWF",
+          "desc": "은심 500개, 무구의 은핵 5개",
+          "expiry": "2026-06-16"
+        },
+        {
+          "title": "DC50000",
+          "desc": "은심 1000개, 광휘의 은핵 5개",
+          "expiry": "2026-06-19"
+        },
+        {
+          "title": "VCHB-LEGT-KUUY",
+          "desc": "은심 500개, 무구의 은핵 5개",
+          "expiry": "2026-06-22"
+        },
+        {
+          "title": "SayaNoUta",
+          "desc": "은심 500개, 무구의 은핵 5개",
+          "expiry": "2026-08-17"
+        },
+        {
+          "title": "YouSavedMorimens",
+          "desc": "무구의 은핵 100개",
+          "expiry": "2026-08-24"
+        }
       ]
-    },     
+    },
     "faction": {
       "title": "🎭 계역별 정보",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/172691130",
           "title": "순수초차원덱 가이드",
@@ -1710,10 +1763,10 @@
           "image": "https://ac-p3.namu.la/20251125sac/af2c3daaef689cb31c9d7d0257f8b0288d7b46351755bee07b7e69eb82870b4b.jpg?expires=1764116671&key=JfGmYJrVWW7UHeStO0SlCA"
         },
         {
-        "url": "https://arca.live/b/forgettingeve/153844025",
-        "title": "초차원 입문 가이드 ",
-        "desc": "ㅎㅇ오늘도 초차원과 즐거운 시간 보내고 있길 바란다다름이 아니라 초차원기믹에 대해 물어보는 글이 드문드문 보여서 초차원에 입문하고 싶은 뉴비를 위해 작성해봄내가 일본어로 플레이하고 있기 때문에 모든 스샷이 일본어임 ",
-        "image": "https://ac-p3.namu.la/20251115sac/ac81922f0c07c1d4f3c76ff8350357acebdef7a38db6d32eefa34550a54eba28.png?expires=1764042889&key=HV4Uv7EzRGm0iDJC5g7gcw"
+          "url": "https://arca.live/b/forgettingeve/153844025",
+          "title": "초차원 입문 가이드 ",
+          "desc": "ㅎㅇ오늘도 초차원과 즐거운 시간 보내고 있길 바란다다름이 아니라 초차원기믹에 대해 물어보는 글이 드문드문 보여서 초차원에 입문하고 싶은 뉴비를 위해 작성해봄내가 일본어로 플레이하고 있기 때문에 모든 스샷이 일본어임 ",
+          "image": "https://ac-p3.namu.la/20251115sac/ac81922f0c07c1d4f3c76ff8350357acebdef7a38db6d32eefa34550a54eba28.png?expires=1764042889&key=HV4Uv7EzRGm0iDJC5g7gcw"
         },
         {
           "url": "https://arca.live/b/forgettingeve/154178168",
@@ -1734,11 +1787,10 @@
           "image": "https://ac-p1.namu.la/20250324sac/c16b91ad4df2cc0696e1018cc88014be680306c2802247a1d0fa064b997ac792.png?expires=1771420685&key=KqOStpAxW74O05BM7Ld74A"
         }
       ]
-    },    
+    },
     "silverkey": {
       "title": "🔑 은열쇠 정보",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/126532317",
           "title": "특파 기록 - 각 열쇠의 효과 (20250117) ",
@@ -1758,11 +1810,10 @@
           "image": "/static/apple-icon.png?t=e1bf30f61b2b9534c5a27e707b0b299719a603ac"
         }
       ]
-    },    
+    },
     "chess": {
       "title": "♟️ 페이즈 체스",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/171959891",
           "title": "스압, 장문) 체스 덱짜는 법 강의 2편(명륜편)",
@@ -1774,7 +1825,7 @@
           "title": "체스 덱짜는 법 강의 1편(각성체편)",
           "desc": "2편: 스압, 장문) 체스 덱짜는 법 강의 2편(명륜편) - 망각전야 채널일단 강사 경력 인증부터이번시즌 3800까지 찍었다가 예능덱 한다고 내려옴.최고기록은 시즌 전체 8위인가? in10은 찍어봤음.각설하고, 체스",
           "image": "https://ac-p1.namu.la/20260525sac/d32a978d697e0284fbcc075b8392a14225b62e0947a49ee98456b340b187bc2b.jpg?expires=1779897923&key=3ppa6Ds_wC01pj_Pifwnyw"
-        },        
+        },
         {
           "url": "https://arca.live/b/forgettingeve/167367497",
           "title": "[체스 기초] 덱 타입에 대해 알아보자",
@@ -1821,8 +1872,7 @@
     },
     "etc": {
       "title": "🎸 기타(과금 효율, 기타 등등..)",
-      "links": 
-      [
+      "links": [
         {
           "url": "https://arca.live/b/forgettingeve/173310086",
           "title": "참고로 좀 적극적으로 의견을 어필하고 싶다면",
@@ -2098,13 +2148,12 @@
           "title": "오늘 시간많아서 쓰는 덱 구성할때 참고하면 좋은팁 ",
           "desc": "나도 뉴비지만, 일단 내 기준에서 어떻게 덱짜거나 하는지 써볼게물론 각성체 특성에 따라서 달라지는 특수한부분도있지만,기본기라고만 생각해줘그리고 다른겜처럼 딱 덱갖춰서 딱딱되는게 아니라 일단 로그라이크겜이라운빨도있고,",
           "image": "https://ac-p3.namu.la/20250922sac/f1471102ef444b0618bdae10a639c74b5d1c2bf1edae2a1f6b5b7f1a9fb588d6.png?expires=1764044659&key=GR0oclybXOIolf3KGu9IqA"
-        }        
+        }
       ]
     }
   },
   "characters": {
-    "24": 
-    [
+    "24": [
       {
         "url": "https://arca.live/b/forgettingeve/171265931",
         "title": "버프받은 혼돈 24 테스트해보자",
@@ -2124,8 +2173,7 @@
         "image": "https://ac-p1.namu.la/20251126sac/3327dc095fa4d6cae897192663f58504d856963455ff771b4deea47458a98400.jpg?expires=1764238171&key=D9MNTD9HiHiCX6WnYGJA_A"
       }
     ],
-    "nymphaea": 
-    [
+    "nymphaea": [
       {
         "url": "https://arca.live/b/forgettingeve/171981425",
         "title": "미친 중독머신, 님피아를 알아보자!",
@@ -2139,8 +2187,7 @@
         "image": "https://ac-p1.namu.la/20260215sac/ba86fc6792cc0429379c27d223b2f004c137af05b17a88fbf73d05e30c38004b.png?expires=1771420480&key=vJytrsRnpBDJbYtgtYrJ1w"
       }
     ],
-    "nautila": 
-    [
+    "nautila": [
       {
         "url": "https://arca.live/b/forgettingeve/159259422",
         "title": "노틸라 캐릭터 정보",
@@ -2148,8 +2195,7 @@
         "image": "https://ac-p1.namu.la/20260110sac/3128b72ee464265674acea942f60a6b0738810d8bc9b1881557b710123506c42.jpg?expires=1768095736&key=Bfi0angeHzqcgzb6ntoOEw"
       }
     ],
-    "ryker": 
-    [
+    "ryker": [
       {
         "url": "https://arca.live/b/forgettingeve/155298417",
         "title": "라이커 캐릭터 정보",
@@ -2163,8 +2209,7 @@
         "image": "https://ac-p3.namu.la/20251116sac/162ccffed944c923fd898431a7d2c3757d2884e90bd3f826052837885b0d73e7.png?expires=1764042703&key=8WB04So_8XR4yyLuwINkzQ"
       }
     ],
-    "lily": 
-    [
+    "lily": [
       {
         "url": "https://arca.live/b/forgettingeve/173425191",
         "title": "의외로 잘모르는 릴리의 장점!!!",
@@ -2184,8 +2229,7 @@
         "image": "https://ac-p1.namu.la/20251206sac/b06338210e7e67c67ee592d04dbd55ccae5eef33bbb42eaf37988e23cf72be67.png?expires=1765205082&key=wdFllRXg8tZTL9c6d7H5yg"
       }
     ],
-    "doll_inferno": 
-    [
+    "doll_inferno": [
       {
         "url": "https://arca.live/b/forgettingeve/155710746",
         "title": "융돌 명륜 다른 선택",
@@ -2211,8 +2255,7 @@
         "image": "https://ac-p3.namu.la/20251107sac/3025b9ef6ad64b10601245fca2ce89ef8780dd8e05cbb2dd2f236cf4fa553f71.jpg?expires=1764043651&key=a--hzUPEXx3wqxfwSRh_3g"
       }
     ],
-    "mouchette": 
-    [
+    "mouchette": [
       {
         "url": "https://arca.live/b/forgettingeve/172391234",
         "title": "개씹씹 뉴비의 모샤덱 초간단 설명",
@@ -2274,8 +2317,7 @@
         "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
       }
     ],
-    "alva": 
-    [
+    "alva": [
       {
         "url": "https://arca.live/b/forgettingeve/172505142",
         "title": "모 보스전에서 엘바가 가지고 있는 버그",
@@ -2301,8 +2343,7 @@
         "image": "https://ac-p1.namu.la/20260218sac/d0f684bf08f26d702fc726690b6c1f5074ac9daebe810ef75ffc23c9417d2156.png?expires=1771420508&key=S3JAwk3stQMzL0nvwy0lww"
       }
     ],
-    "karen": 
-    [
+    "karen": [
       {
         "url": "https://arca.live/b/forgettingeve/155953318",
         "title": "카렌 캐릭터 정보",
@@ -2310,8 +2351,7 @@
         "image": "https://ac-p1.namu.la/20251206sac/fe1049261abd137bbaabcd3e11be37a2ff3d7d6ad9362be43a000ec6d635c4dd.jpg?expires=1765010678&key=wp3OlXpX0PW2r-1Mb1jWRg"
       }
     ],
-    "kathigu-ra": 
-    [
+    "kathigu-ra": [
       {
         "url": "https://arca.live/b/forgettingeve/173203007",
         "title": "카팅커트 간단한 소개 (약간 장문)",
@@ -2403,8 +2443,7 @@
         "image": "https://ac-p3.namu.la/20251117sac/c17439540828b14984301d3183169ea0153a5be9b14c0f6bb56b64614fd79dc5.jpg?expires=1764042579&key=Jry890ilwx-niVQ3NEEgBw"
       }
     ],
-    "tawil": 
-    [
+    "tawil": [
       {
         "url": "https://arca.live/b/forgettingeve/173564882",
         "title": "범용성 원탑 개사기 서폿, '풀돌'타비를 알아보자",
@@ -2454,8 +2493,7 @@
         "image": "https://ac-p3.namu.la/20250512sac/8b88ef6d01b226b6064916dd67d40ea56368e3ddfc335b0b0042970a045856c4.jpg?expires=1764044825&key=8PKKGsHF_AhnFzbX6e2MYw"
       }
     ],
-    "pandia": 
-    [
+    "pandia": [
       {
         "url": "https://arca.live/b/forgettingeve/162513474",
         "title": "판디아 캐릭터 정보",
@@ -2463,8 +2501,7 @@
         "image": "https://ac-p1.namu.la/20260215sac/d86eceb333ab3671c8389f321d89b99f3118af273f4ccc7d33fdfd8ebf47a0fb.png?expires=1771420496&key=ho6YlJwfVFC0yokaaUkpmw"
       }
     ],
-    "hameln": 
-    [
+    "hameln": [
       {
         "url": "https://arca.live/b/forgettingeve/172719815",
         "title": "왜 자꾸 좋다고 하는거임? - 하멜른, 라모나",
@@ -2478,8 +2515,7 @@
         "image": "https://ac-p3.namu.la/20251110sac/ae40a2673ff8a6c48931f9a0ccd2cb670e6ab58ec05570109d547206deb48cd0.png?expires=1764043373&key=mqj0s4w1ztZn5eL2HuT8dg"
       }
     ],
-    "goliath": 
-    [
+    "goliath": [
       {
         "url": "https://arca.live/b/forgettingeve/154859352",
         "title": "힘 그 자체, 골리앗을 알아보자",
@@ -2487,8 +2523,7 @@
         "image": "https://ac-p3.namu.la/20251125sac/53dc780dce1028889ed9233d3623adcbc5d24997535ce9e69d0710432eeb457e.jpg?expires=1764116481&key=v_HbhE5q1w55wImwz2FV0g"
       }
     ],
-    "coporsant": 
-    [
+    "coporsant": [
       {
         "url": "https://arca.live/b/forgettingeve/173282531",
         "title": "뉴-네오 여파덱 소개",
@@ -2538,8 +2573,7 @@
         "image": "https://ac-p3.namu.la/20251118sac/71df4e69e8777ef4e1f51d83c395616d7b419cfb11a33c7069f2ad47c5847dc6.png?expires=1764042229&key=6uw1WqMpaPavEVdzCasZhQ"
       }
     ],
-    "murphy": 
-    [
+    "murphy": [
       {
         "url": "https://arca.live/b/forgettingeve/171943196",
         "title": "머피&픽맨&완다&모스 초한 후기",
@@ -2553,8 +2587,7 @@
         "image": "https://ac-p1.namu.la/20251126sac/f1ed1bf69a0cb5565015c3630ef686d9809ed2436feb17ba041b1319ecfb0ce4.jpg?expires=1764238146&key=bKc6zUM5DRXCC3kCJP_UGQ"
       }
     ],
-    "miryam": 
-    [
+    "miryam": [
       {
         "url": "https://arca.live/b/forgettingeve/155114645",
         "title": "심해의 이모, 촉수의 어머니 미리암을 ARABOZA",
@@ -2562,8 +2595,7 @@
         "image": "https://ac-p1.namu.la/20251127sac/09ca73a82aa66dc33934eae0f61bcd91d3673207d4c7af0fba67bb8d367dc527.jpg?expires=1764247204&key=zMowgYj3_Z4MmL_-EK55_A"
       }
     ],
-    "sanga": 
-    [
+    "sanga": [
       {
         "url": "https://arca.live/b/forgettingeve/164273824",
         "title": "산 캐릭터 정보",
@@ -2577,8 +2609,7 @@
         "image": "https://ac-p1.namu.la/20251204sac/7c88e15e3c7ea69436436a6b27d463e6ee52bcefd6b5a02b38a088af60771c00.jpg?expires=1764851176&key=-CwI5QVuXXGO7CMR0QMpkg"
       }
     ],
-    "celeste": 
-    [
+    "celeste": [
       {
         "url": "https://arca.live/b/forgettingeve/155708206",
         "title": "셀레스트 캐릭터 정보",
@@ -2586,8 +2617,7 @@
         "image": "https://ac-p1.namu.la/20251203sac/d74c4c6df8b64fd279791374a3d36be9d0b6569c78d1b4017d03cbf579921209.jpg?expires=1764850967&key=MfUm32mzqPPzt2uGkwBdGg"
       }
     ],
-    "aurita": 
-    [
+    "aurita": [
       {
         "url": "https://arca.live/b/forgettingeve/173282531",
         "title": "뉴-네오 여파덱 소개",
@@ -2625,8 +2655,7 @@
         "image": "https://ac-p1.namu.la/20251206sac/7bd7442754d4c4969b1ec4150b2694eb9660342e226ad5f6802a1ed2bf3c7d16.jpg?expires=1765010750&key=8Losd-s_WRh5lTchNzZHqA"
       }
     ],
-    "caecus": 
-    [
+    "caecus": [
       {
         "url": "https://arca.live/b/forgettingeve/160533667",
         "title": "카이커스 캐릭터 정보",
@@ -2640,8 +2669,7 @@
         "image": "https://ac-p1.namu.la/20251211sac/c437697a2d3f9e4a9544e028903f31f34faaf790ebc2f93653bb698f75145f27.jpg?expires=1765506555&key=2dMDsVwnX0y1uV7WMUrl2A"
       }
     ],
-    "Murphy_Fauxborn": 
-    [
+    "Murphy_Fauxborn": [
       {
         "url": "https://arca.live/b/forgettingeve/173254131",
         "title": "왜 자꾸 좋다고 하는거임? - 탄피",
@@ -2715,8 +2743,7 @@
         "image": "https://ac-p3.namu.la/20251125sac/64a6be30def1566e966658c42387d650b3d01b294e00337a247b8c519927b8bc.jpg?expires=1764044975&key=DmhC3u7sAoCIC0yy1WtLiw"
       }
     ],
-    "tulu": 
-    [
+    "tulu": [
       {
         "url": "https://arca.live/b/forgettingeve/171491784",
         "title": "랭킹권은 생각보다 여파덱에 툴루 많이 안썼음",
@@ -2736,8 +2763,7 @@
         "image": "https://ac-p1.namu.la/20260220sac/6645d5e787a03e181c371fb3dd28321f26440fda1494ec2bd6a6ac99c954091f.png?expires=1771673433&key=7z_gZJ1Fxcbjr1DUIClASg"
       }
     ],
-    "faros": 
-    [
+    "faros": [
       {
         "url": "https://arca.live/b/forgettingeve/171590372",
         "title": "3파 4급 클 테스트",
@@ -2757,8 +2783,7 @@
         "image": "https://ac-p1.namu.la/20251127sac/189ac8a0565c91970cd98f0495c325309f2cccb6dfc65950ca9ccba3b9fba63c.png?expires=1764292171&key=1wZx0YsNf1xbp47uoTSY7Q"
       }
     ],
-    "vortice":
-    [
+    "vortice": [
       {
         "url": "https://arca.live/b/forgettingeve/173250165",
         "title": "모스사야덱 가이드",
@@ -2844,8 +2869,7 @@
         "image": "https://ac-p1.namu.la/20260309sac/0ce35dfefd76c35dd6929d242cc154d26c325f2e5d1393cc97cf838a895b73d7.png?expires=1773066220&key=KCoov9do3rCUJTaqdhpxYQ"
       }
     ],
-    "doresain": 
-    [
+    "doresain": [
       {
         "url": "https://arca.live/b/forgettingeve/172737077",
         "title": "도로롱과 침식의 시너?지?",
@@ -2883,8 +2907,7 @@
         "image": "/static/apple-icon.png?t=0bcc23cf52acc4d02cec1a96774250835477da25"
       }
     ],
-    "leigh": 
-    [
+    "leigh": [
       {
         "url": "https://arca.live/b/forgettingeve/171266357",
         "title": "패치되고 사기가 된 레이아를 알아보자 (꽤나 장문)",
@@ -2898,8 +2921,7 @@
         "image": "https://ac-p1.namu.la/20251215sac/a98d185d19a63ff572b50424154a742202196091d4d11bda97cbd5a2138e1025.png?expires=1765882565&key=Vd_zgmmNz4xKS7N7r-slUw"
       }
     ],
-    "salvador": 
-    [
+    "salvador": [
       {
         "url": "https://arca.live/b/forgettingeve/172831942",
         "title": "혈육덱의 탱커, 뉴비들의 친구 살바도르를 알아보자",
@@ -2919,8 +2941,7 @@
         "image": "https://ac-p1.namu.la/20260104sac/973ebf49c230e6636ffa90802710b09fb37afd4b2c7fb5ca014727b2ef0d63bb.png?expires=1767522584&key=0zeNwOKonsb3UKp4rwPNcA"
       }
     ],
-    "sorel": 
-    [
+    "sorel": [
       {
         "url": "https://arca.live/b/forgettingeve/172824209",
         "title": "소렐 사야 팟 공략",
@@ -2952,8 +2973,7 @@
         "image": "https://ac-p1.namu.la/20260218sac/730fb4c6c442c8c7415368fcaa34d7b77b7f4cdd06588aee6328ac5f6bdde258.png?expires=1771506140&key=M1IouVynICvispYBKjBtVw"
       }
     ],
-    "agrippa": 
-    [
+    "agrippa": [
       {
         "url": "https://arca.live/b/forgettingeve/164302595",
         "title": "아그리파 캐릭터 정보",
@@ -2961,8 +2981,7 @@
         "image": "https://ac-p1.namu.la/20260308sac/2679aeea8ddc31246ee7764dce79cf6645eb967a203dccf61f0f81d2271f8aef.png?expires=1772969625&key=L8S6YOMbiZfoEoZHsUzfCg"
       }
     ],
-    "aigis": 
-    [
+    "aigis": [
       {
         "url": "https://arca.live/b/forgettingeve/164332092",
         "title": "아이기스 캐릭터 정보",
@@ -2970,8 +2989,7 @@
         "image": "https://ac-p1.namu.la/20260308sac/28c223e284534d0bdacbc7ed97f7a4bffc2ebe7f7d10d1816ec3e5d7016d98be.png?expires=1772986287&key=RxZEYtrtFOdUsaRZdsxeaQ"
       }
     ],
-    "uvhash": 
-    [
+    "uvhash": [
       {
         "url": "https://arca.live/b/forgettingeve/163615018",
         "title": "우브하시 캐릭터 정보",
@@ -2979,8 +2997,7 @@
         "image": "https://ac-p1.namu.la/20260228sac/5f33ee19a69ba9c190dacece080571beb202614704416fee7077fd19fb22d54a.png?expires=1772467233&key=kHLHzD-dW9thIE2Z-nPpTA"
       }
     ],
-    "thais": 
-    [
+    "thais": [
       {
         "url": "https://arca.live/b/forgettingeve/162884037",
         "title": "타이스와 조합하면 좋은 캐릭에 대해 알아보자",
@@ -2994,8 +3011,7 @@
         "image": "https://ac-p3.namu.la/20251111sac/bbde320cc87dac737c28b4ab990680702bd6dd095d94399436acac37093fd1cc.jpg?expires=1764043316&key=ud_49VIwC7Ow6ObU9pfgDQ"
       }
     ],
-    "faint": 
-    [
+    "faint": [
       {
         "url": "https://arca.live/b/forgettingeve/171443983",
         "title": "버프된 파인트는 풀돌해줄 가치가 있는지 알아보자",
@@ -3015,8 +3031,7 @@
         "image": "https://ac-p1.namu.la/20260313sac/a0a4a8efaf1b53b686e3fa3acbc4c1e99e02d23df6a9dcfdf5188ea88bc3d258.png?expires=1773421080&key=2fxZq14HKd74z3K_CX0yFQ"
       }
     ],
-    "pickman": 
-    [
+    "pickman": [
       {
         "url": "https://arca.live/b/forgettingeve/173107537",
         "title": "곧 픽업인 픽맨에 대해 알아보자(부제 : 2돌 필수 아님)",
@@ -3066,8 +3081,7 @@
         "image": "https://ac-p3.namu.la/20251002sac/e5cc91401b6e050c442cdf1c127f90161802fb8ee266c5f7e791ffe1b525598f.png?expires=1764044633&key=asQPKKNSg3RIQBtVUAgu6w"
       }
     ],
-    "helot_catena": 
-    [
+    "helot_catena": [
       {
         "url": "https://arca.live/b/forgettingeve/156876046",
         "title": "레이아+혈히로 생각보다 엄청 상성이 좋은데?",
@@ -3093,8 +3107,7 @@
         "image": "https://ac-p3.namu.la/20250812sac/631b6837929e9c6b9c3360cd5864cf7f8216277161b7cdba8adf8a295e7ed2d0.png?expires=1764044126&key=tu03Ud1rh9qP1dZKDupcjQ"
       }
     ],
-    "helot": 
-    [
+    "helot": [
       {
         "url": "https://arca.live/b/forgettingeve/163631068",
         "title": "히로를 어떻게든 딜러로 써먹어보자",
@@ -3102,8 +3115,7 @@
         "image": "https://ac-p1.namu.la/20260228sac/bd2e258dc82de3f114d908814487cf8dc9393071b7ca7be837e19ef589e107fb.jpg?expires=1772467420&key=105-VLubr7L4MiYp36LU3g"
       }
     ],
-    "xu" : 
-    [
+    "xu": [
       {
         "url": "https://arca.live/b/forgettingeve/171590372",
         "title": "3파 4급 클 테스트",
@@ -3129,8 +3141,7 @@
         "image": "https://ac-p3.namu.la/20260126sac/0636d50989a8e205ca2e67c9f731608393317c7c3cb187c2bea78e5e971ed298.jpg?expires=1769841019&key=cFNjVIAtj-djJ4xTEIYINA"
       }
     ],
-    "saya": 
-    [
+    "saya": [
       {
         "url": "https://arca.live/b/forgettingeve/173282531",
         "title": "뉴-네오 여파덱 소개",
@@ -3246,8 +3257,7 @@
         "image": "https://ac-p1.namu.la/20260514sac/e8a0c8ed1c659765cf50e66fa9d6111e4d37c76279ff2d086306812f605fe581.png?expires=1778867875&key=utAiFaLd0PvBwe4dFpCYXQ"
       }
     ],
-    "dafoodil": 
-    [
+    "dafoodil": [
       {
         "url": "https://arca.live/b/forgettingeve/172725614",
         "title": "다포딜 반격덱",
@@ -3267,8 +3277,7 @@
         "image": "https://ac-p1.namu.la/20260603sac/c005ce630cc1246e67bd05a7bda22f3acbf9463a0a200e983322c7b4451e39e8.jpg?expires=1780570481&key=ggiRGO8Vil4Udd8Ux4oy-Q"
       }
     ],
-    "liz": 
-    [
+    "liz": [
       {
         "url": "https://arca.live/b/forgettingeve/171510353",
         "title": "(장문)리즈아라크네 덱 운영법",
@@ -3282,8 +3291,7 @@
         "image": "https://ac-p1.namu.la/20260423sac/de9593c4559e1963abd940d62626494829e20b375d5024fc5a9b353504594e89.jpg?expires=1776961655&key=YYN910CpP1fbShNzGs7RXQ"
       }
     ],
-    "winkle": 
-    [
+    "winkle": [
       {
         "url": "https://arca.live/b/forgettingeve/164795286",
         "title": "웬코르 캐릭터 정보",
@@ -3291,8 +3299,7 @@
         "image": "https://ac-p1.namu.la/20260313sac/1a7d1be7d0d560100e4b01716a784b84925a1ce8ac223511b029361f318129d5.png?expires=1773670194&key=R4MIYig7DQ7By5FcW0rjkQ"
       }
     ],
-    "erica": 
-    [
+    "erica": [
       {
         "url": "https://arca.live/b/forgettingeve/154340449",
         "title": "실드삥빵 배포캐 에리카를 아라보자 ",
@@ -3300,8 +3307,7 @@
         "image": "https://ac-p3.namu.la/20251120sac/d24750b4714ad3e9cc863edc6b0cd08c7255d582e4750415e75c8ac7ed41ef45.jpg?expires=1764041928&key=pk9VG5cgtmGQ8Sr0hkTKOw"
       }
     ],
-    "horla": 
-    [
+    "horla": [
       {
         "url": "https://arca.live/b/forgettingeve/172002594",
         "title": "오를라 꿀팁",
@@ -3327,8 +3333,7 @@
         "image": "https://ac-p3.namu.la/20251110sac/1bdff93129528497e194a3661b9906575aa6ee1f326e3c2f8e7bca1974d4a02f.jpg?expires=1764043395&key=DApc8Gw1Z-alR262eDsNvg"
       }
     ],
-    "wanda": 
-    [
+    "wanda": [
       {
         "url": "https://arca.live/b/forgettingeve/173090982",
         "title": "얘 누가 써요?에서 얘를 맡고 있는 완다를 알아보자",
@@ -3354,8 +3359,7 @@
         "image": "https://ac-p1.namu.la/20260206sac/442ef27f884dd54dbb65e027b097c10b588d4c8ff0f0092ba1b44f8083423f5b.jpg?expires=1770383432&key=GkG49LfocZBN7sGdFP5E8Q"
       }
     ],
-    "jenkin": 
-    [
+    "jenkin": [
       {
         "url": "https://arca.live/b/forgettingeve/162849847",
         "title": "상시캐 딜러의 희망이였던 젠킨에 대하여",
@@ -3369,8 +3373,7 @@
         "image": "https://ac-p1.namu.la/20251209sac/fbeae771d750f18561f5aadaec2ca23b4bb7f2b4c0efa995736f987155f4e5e5.jpg?expires=1765366848&key=4FyeQ-3ysTWaWKFlf0gzcg"
       }
     ],
-    "castor": 
-    [
+    "castor": [
       {
         "url": "https://arca.live/b/forgettingeve/166459908",
         "title": "생각보다 좋은 서& 카스토르 조합",
@@ -3408,8 +3411,7 @@
         "image": "https://ac-p3.namu.la/20251103sac/3b39669bb5f4a54f7b6c32742496d3277d86b255f472b680344db75d90b0ce73.png?expires=1764044026&key=tik0ZYD7rFOBgLgFJHgG1A"
       }
     ],
-    "casiah": 
-    [
+    "casiah": [
       {
         "url": "https://arca.live/b/forgettingeve/156459663",
         "title": "융재 초차원 접대시즌 할배의 팁",
@@ -3423,8 +3425,7 @@
         "image": "https://ac-p3.namu.la/20251122sac/9c2693b395415be552f7b0b94c5010a6c682cdc0cd990b8d977a569d932f5082.png?expires=1764041459&key=zajG8y-V_O9khYoEjqi0VA"
       }
     ],
-    "clementine": 
-    [
+    "clementine": [
       {
         "url": "https://arca.live/b/forgettingeve/173453621",
         "title": "뫼엥캐리 후기 및 운영",
@@ -3462,8 +3463,7 @@
         "image": "https://ac-p3.namu.la/20251118sac/309ff059e5886749fc5a64cb40b51d8d20e356beafc2c8b1630aead412f3f679.png?expires=1764042357&key=E5YARGfJSPxuBgF7CZlbqQ"
       }
     ],
-    "tinct": 
-    [
+    "tinct": [
       {
         "url": "https://arca.live/b/forgettingeve/173203007",
         "title": "카팅커트 간단한 소개 (약간 장문)",
@@ -3483,8 +3483,7 @@
         "image": "https://ac-p1.namu.la/20251209sac/edaa0792f9b3d7d8213c7be4220f5e7e204dc7dcac9e63a7003ec1dcb30f6b4c.jpg?expires=1765366730&key=DkpIAXRJv4Hx5dR83g6kkQ"
       }
     ],
-    "pollux": 
-    [
+    "pollux": [
       {
         "url": "https://arca.live/b/forgettingeve/173350125",
         "title": "심심해서 끄적여본 각성체 스킬 정보 (폴룩스)",
@@ -3544,10 +3543,9 @@
         "title": "폴룩스 메인딜 가이드-보충편 ",
         "desc": "ㅎㅇ오늘도 초차원과 행복한 하루 보내고 있기를 바란다이 글은 폴룩스 기초 운용법을 안다는 가정 하에 작성되었다 모르는 사람은 전 글을 읽고오면 좀 더 수월하게 읽을 수 있을거임시작에 앞서 이 글은 거인의 검과 초한,",
         "image": "https://ac-p3.namu.la/20251112sac/c4ebd28d55699c720357c6922f76d5c0baf6034d1aa8cb4386d7acbca9ff49c3.png?expires=1764042965&key=ZcZqbagT_R7lYnU3QeQw6Q"
-      }      
+      }
     ],
-    "arachne": 
-    [
+    "arachne": [
       {
         "url": "https://arca.live/b/forgettingeve/172732656",
         "title": "9배 강해지는 비브라늄 자동주행 제트팩 휠체어",
@@ -3571,7 +3569,7 @@
         "title": "아라크네 매커니즘 + 3돌효과 정리",
         "desc": "아라크네 매커니즘 정리아라크네 영겁의 베틀 카드 사용 후 -> 실로 이끄는 운명 카드 사용-> 운명을 짜는 자 스택 1 상승이걸 3돌시 5스택까지 보유 가능운명을 짜는 자 스택이 있는 상태에서 1.소멸 사",
         "image": "https://ac-p1.namu.la/20260515sac/4449e694bc68e38d1cef82ee8642f16ea902d5622a259595d8c9889eb35417af.jpg?expires=1779031036&key=B6RalzsbeBNvGPgVZ_y0wg"
-      }, 
+      },
       {
         "url": "https://arca.live/b/forgettingeve/169567718",
         "title": "아라크네 딜량을 올리는 방법",
@@ -3627,8 +3625,7 @@
         "image": "https://ac-p1.namu.la/20260420sac/efb6d6b08696e594c637eec7903012e9d700aa93e656a864721699f52d964618.png?expires=1776701368&key=MiMLrC0zqaKWqJWyFB0Nsg"
       }
     ],
-    "doll": 
-    [
+    "doll": [
       {
         "url": "https://arca.live/b/forgettingeve/158666388",
         "title": "오지에,돌,로탄 캐릭터 정보",
@@ -3636,8 +3633,7 @@
         "image": "https://ac-p1.namu.la/20260103sac/83d34f422bef50d0b712c23b1ca40f052cdc9dae549201cc1f66f693318c8552.jpg?expires=1767490080&key=Bk6D8C96vvtN02yCtsJHFQ"
       }
     ],
-    "ramona": 
-    [
+    "ramona": [
       {
         "url": "https://arca.live/b/forgettingeve/172719815",
         "title": "왜 자꾸 좋다고 하는거임? - 하멜른, 라모나",
@@ -3651,8 +3647,7 @@
         "image": "https://ac-p1.namu.la/20251130sac/5910924bd5a98972331e8e64a7c827fd1c24bdb76b4386021c6ded27f80d05ee.png?expires=1764478560&key=V8rNfMKijRYji_o9IyR6HQ"
       }
     ],
-    "lotan": 
-    [
+    "lotan": [
       {
         "url": "https://arca.live/b/forgettingeve/158666388",
         "title": "오지에,돌,로탄 캐릭터 정보",
@@ -3660,8 +3655,7 @@
         "image": "https://ac-p1.namu.la/20260103sac/83d34f422bef50d0b712c23b1ca40f052cdc9dae549201cc1f66f693318c8552.jpg?expires=1767490080&key=Bk6D8C96vvtN02yCtsJHFQ"
       }
     ],
-    "ogier": 
-    [
+    "ogier": [
       {
         "url": "https://arca.live/b/forgettingeve/158666388",
         "title": "오지에,돌,로탄 캐릭터 정보",
@@ -3669,8 +3663,7 @@
         "image": "https://ac-p1.namu.la/20260103sac/83d34f422bef50d0b712c23b1ca40f052cdc9dae549201cc1f66f693318c8552.jpg?expires=1767490080&key=Bk6D8C96vvtN02yCtsJHFQ"
       }
     ],
-    "ramona_timeworn": 
-    [
+    "ramona_timeworn": [
       {
         "url": "https://arca.live/b/forgettingeve/159945212",
         "title": "회귀 라모나 캐릭터 정보",
@@ -3679,5 +3672,4 @@
       }
     ]
   }
-
 }
