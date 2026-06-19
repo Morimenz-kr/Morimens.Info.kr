@@ -13,6 +13,7 @@ const DEFAULT_ACTIVE_RELEMS = 'chaos';
 const DEFAULT_ARCA_LIST_SCAN_LIMIT = 20;
 const DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN = 5;
 const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
+const ARCA_FETCH_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
 
 const RESOURCE_CATEGORIES = [
     'event',
@@ -404,8 +405,9 @@ function parseArcaListUrls(value) {
 async function fetchText(url) {
     const response = await fetch(url, {
         headers: {
-            'Accept': 'text/html,application/xhtml+xml',
-            'User-Agent': 'morimens-resource-link-monitor/1.0'
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+            'User-Agent': ARCA_FETCH_USER_AGENT
         }
     });
     if (!response.ok) {
