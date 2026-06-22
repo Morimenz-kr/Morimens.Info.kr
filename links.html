@@ -310,6 +310,57 @@
             color: #ffc107; /* 태그 강조 색상 */
             white-space: nowrap;
         }
+
+        .dictionary-filter-panel {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 18px;
+            padding: 12px;
+            background: #1e1e24;
+            border: 1px solid #444;
+            border-radius: 8px;
+        }
+        .dictionary-filter-panel.show {
+            display: grid;
+        }
+        .dictionary-filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .dictionary-filter-field label {
+            font-size: 0.78em;
+            color: #aaa;
+        }
+        .dictionary-filter-field input,
+        .dictionary-filter-field select {
+            min-width: 0;
+            height: 34px;
+            padding: 0 9px;
+            color: #eee;
+            background: #2a2a32;
+            border: 1px solid #555;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .dictionary-filter-summary {
+            align-self: end;
+            min-height: 34px;
+            display: flex;
+            align-items: center;
+            color: #aaa;
+            font-size: 0.82em;
+        }
+        .dictionary-empty {
+            grid-column: 1 / -1;
+            padding: 30px 10px;
+            color: #aaa;
+            text-align: center;
+            background: #1e1e24;
+            border: 1px dashed #444;
+            border-radius: 8px;
+        }
     </style>
 </head>
 
@@ -327,6 +378,7 @@
         </div>
 
         <div id="tab-content-dictionary" class="tab-content active">
+            <div id="dictionary-filter-panel" class="dictionary-filter-panel" aria-label="도감 필터"></div>
             <div id="dictionary-grid" class="dictionary-grid">
             </div>
         </div>
@@ -659,8 +711,133 @@
 
     document.addEventListener('click', hideTooltip);
 
+    function getDictionaryFilterMeta(item, category) {
+        const tags = (item.tags || item.optimized_for || [])
+            .map(tag => String(tag || '').trim())
+            .filter(Boolean);
+        return {
+            text: [
+                item.korean_name,
+                item.english_name,
+                item.description,
+                item.set_effect_3,
+                item.set_effect_6,
+                item.main_stat,
+                item.source,
+                tags.join(' ')
+            ].filter(Boolean).join(' ').toLowerCase(),
+            grade: category === 'myeongryun' ? String(item.grade || '').trim() : '',
+            mainStat: category === 'myeongryun' ? String(item.main_stat || '').trim() : '',
+            source: category === 'myeongryun' ? '' : String(item.source || '').trim(),
+            tags
+        };
+    }
+
+    function uniqueSortedValues(values) {
+        return [...new Set(values.map(value => String(value || '').trim()).filter(Boolean))]
+            .sort((a, b) => a.localeCompare(b, 'ko'));
+    }
+
+    function escapeHtml(value) {
+        return String(value || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function buildFilterOptions(values) {
+        return values.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+    }
+
+    function renderDictionaryFilters(data, category, onFilterChange) {
+        const panel = document.getElementById('dictionary-filter-panel');
+        if (!panel) return;
+
+        const metaByItem = new Map(data.map(item => [item, getDictionaryFilterMeta(item, category)]));
+        const tags = uniqueSortedValues([...metaByItem.values()].flatMap(meta => meta.tags));
+        const mainStats = uniqueSortedValues([...metaByItem.values()].map(meta => meta.mainStat));
+        const sources = uniqueSortedValues([...metaByItem.values()].map(meta => meta.source));
+        const isMyeongryun = category === 'myeongryun';
+
+        panel.classList.add('show');
+        panel.innerHTML = `
+            <div class="dictionary-filter-field">
+                <label for="dictionary-search">검색</label>
+                <input id="dictionary-search" type="search" placeholder="이름, 설명, 효과 검색">
+            </div>
+            ${isMyeongryun ? `
+                <div class="dictionary-filter-field">
+                    <label for="dictionary-grade-filter">등급</label>
+                    <select id="dictionary-grade-filter">
+                        <option value="">전체 등급</option>
+                        ${buildFilterOptions(uniqueSortedValues([...metaByItem.values()].map(meta => meta.grade)))}
+                    </select>
+                </div>
+                <div class="dictionary-filter-field">
+                    <label for="dictionary-main-filter">주옵션</label>
+                    <select id="dictionary-main-filter">
+                        <option value="">전체 주옵션</option>
+                        ${buildFilterOptions(mainStats)}
+                    </select>
+                </div>
+            ` : `
+                <div class="dictionary-filter-field">
+                    <label for="dictionary-source-filter">획득처</label>
+                    <select id="dictionary-source-filter">
+                        <option value="">전체 획득처</option>
+                        ${buildFilterOptions(sources)}
+                    </select>
+                </div>
+            `}
+            <div class="dictionary-filter-field">
+                <label for="dictionary-tag-filter">태그</label>
+                <select id="dictionary-tag-filter">
+                    <option value="">전체 태그</option>
+                    ${buildFilterOptions(tags)}
+                </select>
+            </div>
+            <div id="dictionary-filter-summary" class="dictionary-filter-summary"></div>
+        `;
+
+        const controls = {
+            search: panel.querySelector('#dictionary-search'),
+            grade: panel.querySelector('#dictionary-grade-filter'),
+            mainStat: panel.querySelector('#dictionary-main-filter'),
+            source: panel.querySelector('#dictionary-source-filter'),
+            tag: panel.querySelector('#dictionary-tag-filter'),
+            summary: panel.querySelector('#dictionary-filter-summary')
+        };
+
+        const applyFilters = () => {
+            const query = controls.search.value.trim().toLowerCase();
+            const grade = controls.grade?.value || '';
+            const mainStat = controls.mainStat?.value || '';
+            const source = controls.source?.value || '';
+            const tag = controls.tag.value || '';
+            const filtered = data.filter(item => {
+                const meta = metaByItem.get(item);
+                if (query && !meta.text.includes(query)) return false;
+                if (grade && meta.grade !== grade) return false;
+                if (mainStat && meta.mainStat !== mainStat) return false;
+                if (source && meta.source !== source) return false;
+                if (tag && !meta.tags.includes(tag)) return false;
+                return true;
+            });
+            controls.summary.textContent = `${filtered.length} / ${data.length}개 표시`;
+            onFilterChange(filtered);
+        };
+
+        [controls.search, controls.grade, controls.mainStat, controls.source, controls.tag]
+            .filter(Boolean)
+            .forEach(control => control.addEventListener(control.tagName === 'INPUT' ? 'input' : 'change', applyFilters));
+
+        applyFilters();
+    }
+
     // 아이콘 리스트 렌더링 로직 (비율 및 크기 분기 처리)
-    function renderDictionary(data, category) {
+    function renderDictionaryItems(data, category) {
         const grid = document.getElementById('dictionary-grid');
         grid.innerHTML = '';
 
@@ -706,6 +883,14 @@
 
             grid.appendChild(img);
         });
+
+        if (data.length === 0) {
+            grid.innerHTML = '<div class="dictionary-empty">조건에 맞는 항목이 없습니다.</div>';
+        }
+    }
+
+    function renderDictionary(data, category) {
+        renderDictionaryFilters(data, category, filtered => renderDictionaryItems(filtered, category));
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -778,7 +963,12 @@
                 targetItems = linksDB.characters[charId] || [];
                 // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
                 const gridContainer = document.getElementById('dictionary-grid');
+                const filterPanel = document.getElementById('dictionary-filter-panel');
                 const settings = settingsDB[charId] || settingsDB[charData.name];
+                if (filterPanel) {
+                    filterPanel.classList.remove('show');
+                    filterPanel.innerHTML = '';
+                }
                 if (gridContainer) {
                     gridContainer.className = '';
                     gridContainer.innerHTML = '';
