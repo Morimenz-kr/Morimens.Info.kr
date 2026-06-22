@@ -13,12 +13,27 @@
         return `<span class="character-effect-cost">${escapeHtml(cost.type)} ${escapeHtml(cost.value)}</span>`;
     }
 
-    function renderLevels(levels) {
+    function getDefaultLevel(levels) {
+        return levels?.length ? levels[levels.length - 1].level : '';
+    }
+
+    function renderLevelSelect(levels) {
         if (!levels?.length) return '';
 
         const options = levels.map((level, index) => `
             <option value="${level.level}"${index === levels.length - 1 ? ' selected' : ''}>Lv.${level.level}</option>
         `).join('');
+
+        return `
+            <select class="character-effect-level-select" aria-label="스킬 레벨 선택">
+                ${options}
+            </select>
+        `;
+    }
+
+    function renderLevelStats(levels) {
+        if (!levels?.length) return '';
+
         const rows = levels.map((level, index) => {
             const stats = Object.entries(level)
                 .filter(([key]) => key !== 'level')
@@ -37,21 +52,72 @@
 
         return `
             <div class="character-effect-levels">
-                <label>
-                    스킬 레벨
-                    <select class="character-effect-level-select" aria-label="스킬 레벨 선택">
-                        ${options}
-                    </select>
-                </label>
-                <div>${rows}</div>
+                ${rows}
             </div>
         `;
     }
 
+    function splitCompoundValue(value) {
+        return String(value || '').split('/').map(part => part.trim()).filter(Boolean);
+    }
+
+    function replaceCompoundPlaceholders(text, entries, star) {
+        const pattern = star
+            ? /\*l%?\s*\/\s*\*m%?\s*\/\s*\*n%?/g
+            : /(?<!\*)\bl%?\s*\/\s*m%?\s*\/\s*n%?/g;
+
+        return text.replace(pattern, match => {
+            const index = entries.findIndex(entry => {
+                const keyMatches = star ? entry.key.startsWith('*') : !entry.key.startsWith('*');
+                return keyMatches && String(entry.value || '').includes('/');
+            });
+            if (index < 0) return match;
+
+            const [entry] = entries.splice(index, 1);
+            const parts = splitCompoundValue(entry.value);
+            return parts.length === 3 ? parts.join('/') : entry.value;
+        });
+    }
+
+    function interpolateEffect(effect, levels, selectedLevel) {
+        if (!levels?.length) return effect;
+
+        const level = levels.find(item => String(item.level) === String(selectedLevel)) || levels[levels.length - 1];
+        const entries = Object.entries(level)
+            .filter(([key]) => key !== 'level')
+            .map(([key, value]) => ({ key, value: String(value) }));
+        let nextIndex = 0;
+        let text = String(effect || '');
+
+        text = replaceCompoundPlaceholders(text, entries, true);
+        text = replaceCompoundPlaceholders(text, entries, false);
+
+        text = text.replace(/\*n%?|(?<!\*)\bn%?/g, match => {
+            const entry = entries[nextIndex];
+            if (!entry) return match;
+            nextIndex += 1;
+            return entry.value;
+        });
+
+        return text;
+    }
+
     function renderEffectBody(effect) {
+        const defaultLevel = getDefaultLevel(effect.levels);
+        const interpolatedEffect = interpolateEffect(effect.effect, effect.levels, defaultLevel);
+
         return `
-            <p class="character-effect-description">${escapeHtml(effect.effect)}</p>
-            ${renderLevels(effect.levels)}
+            <p class="character-effect-description" data-effect-template="${escapeHtml(effect.effect)}">${escapeHtml(interpolatedEffect)}</p>
+            ${renderLevelStats(effect.levels)}
+        `;
+    }
+
+    function renderHeaderControls(effect) {
+        return `
+            <span class="character-effect-header-controls">
+                ${renderCost(effect.cost)}
+                ${renderLevelSelect(effect.levels)}
+            </span>
         `;
     }
 
@@ -65,7 +131,7 @@
                             <div class="character-effect-variant-header">
                                 ${variant.condition ? `<span class="character-effect-condition">${escapeHtml(variant.condition)}</span>` : ''}
                                 <strong>${escapeHtml(variant.name)}</strong>
-                                ${renderCost(variant.cost)}
+                                ${renderHeaderControls(variant)}
                             </div>
                             ${renderEffectBody(variant)}
                         </section>
@@ -81,7 +147,7 @@
                 <summary>
                     <span class="character-effect-type">${escapeHtml(skill.type)}</span>
                     <strong>${escapeHtml(skill.name)}</strong>
-                    ${renderCost(skill.cost)}
+                    ${renderHeaderControls(skill)}
                 </summary>
                 <div class="character-effect-body">${body}</div>
             </details>
@@ -94,20 +160,26 @@
             container.innerHTML = '<div class="character-effects-empty">등록된 스킬/돌파 정보가 없습니다.</div>';
             return;
         }
+        const visibleSkills = character.skills.filter(skill => skill.type !== '최종 법칙');
+        const finalLaw = character.skills.find(skill => skill.type === '최종 법칙');
 
         container.innerHTML = `
-            <div class="character-effects-summary">
-                <strong>${escapeHtml(characterName)} 스킬 정보</strong>
-                <span>스킬 ${character.skills.length}개 · 돌파 ${character.breakthroughs.length}개</span>
-            </div>
             <div class="character-effects-switch" role="tablist" aria-label="스킬과 돌파">
                 <button type="button" class="active" data-effect-panel="skills" role="tab" aria-selected="true">스킬</button>
                 <button type="button" data-effect-panel="breakthroughs" role="tab" aria-selected="false">돌파</button>
             </div>
             <div class="character-effect-panel active" data-effect-content="skills" role="tabpanel">
                 <div class="character-effect-list">
-                    ${character.skills.map(renderSkill).join('')}
+                    ${visibleSkills.map(renderSkill).join('')}
                 </div>
+                ${character.derivedCards?.length ? `
+                    <section class="character-derived-section">
+                        <h3>파생 카드</h3>
+                        <div class="character-effect-list">
+                            ${character.derivedCards.map((card, index) => renderSkill(card, index)).join('')}
+                        </div>
+                    </section>
+                ` : ''}
             </div>
             <div class="character-effect-panel" data-effect-content="breakthroughs" role="tabpanel">
                 <div class="character-breakthrough-list">
@@ -118,6 +190,13 @@
                             <p>${escapeHtml(item.effect)}</p>
                         </article>
                     `).join('')}
+                    ${finalLaw ? `
+                        <article class="character-breakthrough-card final-law">
+                            <span class="character-breakthrough-step">최종 법칙</span>
+                            <h3>${escapeHtml(finalLaw.name)}</h3>
+                            <p>${escapeHtml(finalLaw.effect)}</p>
+                        </article>
+                    ` : ''}
                 </div>
             </div>
         `;
@@ -138,10 +217,35 @@
 
         container.addEventListener('change', event => {
             if (!event.target.matches('.character-effect-level-select')) return;
-            const levels = event.target.closest('.character-effect-levels');
-            levels.querySelectorAll('.character-effect-level-row').forEach(row => {
+            const scope = event.target.closest('.character-effect-variant, .character-effect-card');
+            if (!scope) return;
+
+            scope.querySelectorAll('.character-effect-level-row').forEach(row => {
                 row.classList.toggle('active', row.dataset.level === event.target.value);
             });
+            const description = scope.querySelector('.character-effect-description');
+            if (description) {
+                const levels = [...scope.querySelectorAll('.character-effect-level-row')].map(row => {
+                    const level = { level: row.dataset.level };
+                    row.querySelectorAll('.character-effect-stat').forEach(stat => {
+                        const key = stat.querySelector('span')?.textContent;
+                        const value = stat.querySelector('strong')?.textContent;
+                        if (key) level[key] = value;
+                    });
+                    return level;
+                });
+                description.textContent = interpolateEffect(
+                    description.dataset.effectTemplate,
+                    levels,
+                    event.target.value
+                );
+            }
+        });
+
+        container.addEventListener('click', event => {
+            if (event.target.closest('.character-effect-level-select')) {
+                event.stopPropagation();
+            }
         });
     }
 
