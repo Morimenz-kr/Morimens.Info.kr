@@ -313,25 +313,36 @@
 
         .dictionary-filter-panel {
             display: none;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-bottom: 18px;
-            padding: 12px;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding: 16px;
             background: #1e1e24;
             border: 1px solid #444;
             border-radius: 8px;
         }
         .dictionary-filter-panel.show {
-            display: grid;
+            display: flex;
+            flex-direction: column;
         }
         .dictionary-filter-field {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 8px;
         }
         .dictionary-filter-field label {
             font-size: 0.78em;
             color: #aaa;
+        }
+        .dictionary-filter-top {
+            display: grid;
+            grid-template-columns: minmax(220px, 360px) 1fr;
+            gap: 12px;
+            align-items: end;
+        }
+        .dictionary-filter-section-title {
+            font-size: 0.82em;
+            color: #cfcfcf;
+            font-weight: bold;
         }
         .dictionary-filter-field input,
         .dictionary-filter-field select {
@@ -345,38 +356,70 @@
             box-sizing: border-box;
         }
         .dictionary-filter-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            max-height: 118px;
-            overflow-y: auto;
-            padding-right: 2px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+            gap: 8px;
         }
         .dictionary-filter-option {
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 5px;
-            padding: 5px 8px;
+            gap: 8px;
+            min-height: 36px;
+            padding: 7px 10px;
             color: #ddd;
             background: #2a2a32;
             border: 1px solid #555;
-            border-radius: 999px;
-            font-size: 0.78em;
+            border-radius: 7px;
+            font-size: 0.82em;
             cursor: pointer;
             user-select: none;
         }
+        .dictionary-filter-option:hover {
+            border-color: #777;
+            background: #32323c;
+        }
+        .dictionary-filter-option:has(input:checked) {
+            border-color: #ffc107;
+            background: rgba(255, 193, 7, 0.12);
+            color: #fff;
+        }
         .dictionary-filter-option input {
+            flex: 0 0 auto;
             width: auto;
             height: auto;
             margin: 0;
         }
+        .dictionary-filter-option span {
+            min-width: 0;
+            line-height: 1.25;
+            overflow-wrap: anywhere;
+        }
+        .dictionary-filter-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-top: 2px;
+        }
         .dictionary-filter-summary {
-            align-self: end;
             min-height: 34px;
             display: flex;
             align-items: center;
             color: #aaa;
             font-size: 0.82em;
+        }
+        .dictionary-filter-reset {
+            min-height: 34px;
+            padding: 0 12px;
+            color: #ddd;
+            background: #2a2a32;
+            border: 1px solid #555;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .dictionary-filter-reset:hover {
+            background: #383842;
+            border-color: #777;
         }
         .dictionary-empty {
             grid-column: 1 / -1;
@@ -386,6 +429,36 @@
             background: #1e1e24;
             border: 1px dashed #444;
             border-radius: 8px;
+        }
+        @media (min-width: 900px) {
+            .link-container.dictionary-wide {
+                max-width: 1180px;
+            }
+        }
+        @media (max-width: 640px) {
+            .dictionary-filter-panel {
+                padding: 12px;
+                gap: 12px;
+            }
+            .dictionary-filter-top {
+                grid-template-columns: 1fr;
+            }
+            .dictionary-filter-options {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 7px;
+            }
+            .dictionary-filter-option {
+                min-height: 34px;
+                font-size: 0.78em;
+                padding: 6px 8px;
+            }
+            .dictionary-filter-footer {
+                align-items: stretch;
+                flex-direction: column;
+            }
+            .dictionary-filter-reset {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -850,39 +923,46 @@
         const effects = uniqueSortedValues([...metaByItem.values()].flatMap(meta => meta.effectFilters));
         const isMyeongryun = category === 'myeongryun';
         const grades = uniqueSortedValues([...metaByItem.values()].map(meta => meta.grade));
+        const optionFieldHtml = isMyeongryun ? `
+            <div class="dictionary-filter-field">
+                <span class="dictionary-filter-section-title">등급</span>
+                <div class="dictionary-filter-options">
+                    ${buildFilterCheckboxes('dictionary-grade-filter', grades)}
+                </div>
+            </div>
+            <div class="dictionary-filter-field">
+                <span class="dictionary-filter-section-title">주옵션</span>
+                <div class="dictionary-filter-options">
+                    ${buildFilterCheckboxes('dictionary-main-filter', mainStats)}
+                </div>
+            </div>
+        ` : `
+            <div class="dictionary-filter-field">
+                <span class="dictionary-filter-section-title">효과</span>
+                <div class="dictionary-filter-options">
+                    ${buildFilterCheckboxes('dictionary-effect-filter', effects)}
+                </div>
+            </div>
+        `;
 
         panel.classList.add('show');
         panel.innerHTML = `
-            <div class="dictionary-filter-field">
-                <label for="dictionary-search">검색</label>
-                <input id="dictionary-search" type="search" placeholder="이름, 설명, 효과 검색">
+            <div class="dictionary-filter-top">
+                <div class="dictionary-filter-field">
+                    <label for="dictionary-search">검색</label>
+                    <input id="dictionary-search" type="search" placeholder="이름, 설명, 효과 검색">
+                </div>
+                <div class="dictionary-filter-footer">
+                    <div id="dictionary-filter-summary" class="dictionary-filter-summary"></div>
+                    <button type="button" id="dictionary-filter-reset" class="dictionary-filter-reset">필터 초기화</button>
+                </div>
             </div>
-            ${isMyeongryun ? `
-                <div class="dictionary-filter-field">
-                    <label>등급</label>
-                    <div class="dictionary-filter-options">
-                        ${buildFilterCheckboxes('dictionary-grade-filter', grades)}
-                    </div>
-                </div>
-                <div class="dictionary-filter-field">
-                    <label>주옵션</label>
-                    <div class="dictionary-filter-options">
-                        ${buildFilterCheckboxes('dictionary-main-filter', mainStats)}
-                    </div>
-                </div>
-            ` : `
-                <div class="dictionary-filter-field">
-                    <label>효과</label>
-                    <div class="dictionary-filter-options">
-                        ${buildFilterCheckboxes('dictionary-effect-filter', effects)}
-                    </div>
-                </div>
-            `}
-            <div id="dictionary-filter-summary" class="dictionary-filter-summary"></div>
+            ${optionFieldHtml}
         `;
 
         const controls = {
             search: panel.querySelector('#dictionary-search'),
+            reset: panel.querySelector('#dictionary-filter-reset'),
             summary: panel.querySelector('#dictionary-filter-summary')
         };
 
@@ -906,6 +986,13 @@
         controls.search.addEventListener('input', applyFilters);
         panel.querySelectorAll('input[type="checkbox"]').forEach(control => {
             control.addEventListener('change', applyFilters);
+        });
+        controls.reset.addEventListener('click', () => {
+            controls.search.value = '';
+            panel.querySelectorAll('input[type="checkbox"]').forEach(input => {
+                input.checked = false;
+            });
+            applyFilters();
         });
 
         applyFilters();
@@ -975,10 +1062,14 @@
         const titleEl = document.getElementById('page-title');
         const listEl = document.getElementById('links-list');
         const tabsContainer = document.querySelector('.chrome-tabs-container');
+        const linkContainer = document.querySelector('.link-container');
         const partySlot = document.getElementById('party-link-slot');
 
         const isCharacterPage = (category === 'character');
         const isDictionaryPage = (category === 'myeongryun' || category === 'silverkey' || category === 'covenant');
+        if (linkContainer) {
+            linkContainer.classList.toggle('dictionary-wide', isDictionaryPage);
+        }
 
         // 1. 탭 표시 설정 및 명칭 수정
         if (tabsContainer) {
