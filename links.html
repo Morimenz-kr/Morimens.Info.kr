@@ -344,6 +344,32 @@
             border-radius: 6px;
             box-sizing: border-box;
         }
+        .dictionary-filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            max-height: 118px;
+            overflow-y: auto;
+            padding-right: 2px;
+        }
+        .dictionary-filter-option {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 8px;
+            color: #ddd;
+            background: #2a2a32;
+            border: 1px solid #555;
+            border-radius: 999px;
+            font-size: 0.78em;
+            cursor: pointer;
+            user-select: none;
+        }
+        .dictionary-filter-option input {
+            width: auto;
+            height: auto;
+            margin: 0;
+        }
         .dictionary-filter-summary {
             align-self: end;
             min-height: 34px;
@@ -718,7 +744,10 @@
         const mainStatFilter = category === 'myeongryun' ? normalizeDictionaryFilterValue(item.main_stat, 'mainStat') : '';
         const effectFilters = category === 'myeongryun'
             ? []
-            : tags.map(tag => normalizeDictionaryFilterValue(tag, 'effect')).filter(Boolean);
+            : tags
+                .filter(tag => !isExcludedDictionaryEffect(tag, category))
+                .map(tag => normalizeDictionaryFilterValue(tag, 'effect'))
+                .filter(Boolean);
         return {
             text: [
                 item.korean_name,
@@ -727,14 +756,16 @@
                 item.set_effect_3,
                 item.set_effect_6,
                 item.main_stat,
-                item.source,
                 tags.join(' ')
             ].filter(Boolean).join(' ').toLowerCase(),
             grade: category === 'myeongryun' ? String(item.grade || '').trim() : '',
             mainStat: mainStatFilter,
-            source: category === 'myeongryun' ? '' : String(item.source || '').trim(),
             effectFilters
         };
+    }
+
+    function isExcludedDictionaryEffect(tag, category) {
+        return category === 'silverkey' && window.characterNameSet?.has(String(tag || '').trim());
     }
 
     function normalizeDictionaryFilterValue(value, type) {
@@ -797,8 +828,17 @@
             .replace(/'/g, '&#39;');
     }
 
-    function buildFilterOptions(values) {
-        return values.map(value => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`).join('');
+    function buildFilterCheckboxes(name, values) {
+        return values.map(value => `
+            <label class="dictionary-filter-option">
+                <input type="checkbox" name="${escapeHtml(name)}" value="${escapeHtml(value)}">
+                <span>${escapeHtml(value)}</span>
+            </label>
+        `).join('');
+    }
+
+    function getCheckedFilterValues(panel, name) {
+        return [...panel.querySelectorAll(`input[name="${name}"]:checked`)].map(input => input.value);
     }
 
     function renderDictionaryFilters(data, category, onFilterChange) {
@@ -807,9 +847,9 @@
 
         const metaByItem = new Map(data.map(item => [item, getDictionaryFilterMeta(item, category)]));
         const mainStats = uniqueSortedValues([...metaByItem.values()].map(meta => meta.mainStat));
-        const sources = uniqueSortedValues([...metaByItem.values()].map(meta => meta.source));
         const effects = uniqueSortedValues([...metaByItem.values()].flatMap(meta => meta.effectFilters));
         const isMyeongryun = category === 'myeongryun';
+        const grades = uniqueSortedValues([...metaByItem.values()].map(meta => meta.grade));
 
         panel.classList.add('show');
         panel.innerHTML = `
@@ -819,33 +859,23 @@
             </div>
             ${isMyeongryun ? `
                 <div class="dictionary-filter-field">
-                    <label for="dictionary-grade-filter">등급</label>
-                    <select id="dictionary-grade-filter">
-                        <option value="">전체 등급</option>
-                        ${buildFilterOptions(uniqueSortedValues([...metaByItem.values()].map(meta => meta.grade)))}
-                    </select>
+                    <label>등급</label>
+                    <div class="dictionary-filter-options">
+                        ${buildFilterCheckboxes('dictionary-grade-filter', grades)}
+                    </div>
                 </div>
                 <div class="dictionary-filter-field">
-                    <label for="dictionary-main-filter">주옵션</label>
-                    <select id="dictionary-main-filter">
-                        <option value="">전체 주옵션</option>
-                        ${buildFilterOptions(mainStats)}
-                    </select>
+                    <label>주옵션</label>
+                    <div class="dictionary-filter-options">
+                        ${buildFilterCheckboxes('dictionary-main-filter', mainStats)}
+                    </div>
                 </div>
             ` : `
                 <div class="dictionary-filter-field">
-                    <label for="dictionary-source-filter">획득처</label>
-                    <select id="dictionary-source-filter">
-                        <option value="">전체 획득처</option>
-                        ${buildFilterOptions(sources)}
-                    </select>
-                </div>
-                <div class="dictionary-filter-field">
-                    <label for="dictionary-effect-filter">효과</label>
-                    <select id="dictionary-effect-filter">
-                        <option value="">전체 효과</option>
-                        ${buildFilterOptions(effects)}
-                    </select>
+                    <label>효과</label>
+                    <div class="dictionary-filter-options">
+                        ${buildFilterCheckboxes('dictionary-effect-filter', effects)}
+                    </div>
                 </div>
             `}
             <div id="dictionary-filter-summary" class="dictionary-filter-summary"></div>
@@ -853,35 +883,30 @@
 
         const controls = {
             search: panel.querySelector('#dictionary-search'),
-            grade: panel.querySelector('#dictionary-grade-filter'),
-            mainStat: panel.querySelector('#dictionary-main-filter'),
-            source: panel.querySelector('#dictionary-source-filter'),
-            effect: panel.querySelector('#dictionary-effect-filter'),
             summary: panel.querySelector('#dictionary-filter-summary')
         };
 
         const applyFilters = () => {
             const query = controls.search.value.trim().toLowerCase();
-            const grade = controls.grade?.value || '';
-            const mainStat = controls.mainStat?.value || '';
-            const source = controls.source?.value || '';
-            const effect = controls.effect?.value || '';
+            const grades = getCheckedFilterValues(panel, 'dictionary-grade-filter');
+            const mainStats = getCheckedFilterValues(panel, 'dictionary-main-filter');
+            const effects = getCheckedFilterValues(panel, 'dictionary-effect-filter');
             const filtered = data.filter(item => {
                 const meta = metaByItem.get(item);
                 if (query && !meta.text.includes(query)) return false;
-                if (grade && meta.grade !== grade) return false;
-                if (mainStat && meta.mainStat !== mainStat) return false;
-                if (source && meta.source !== source) return false;
-                if (effect && !meta.effectFilters.includes(effect)) return false;
+                if (grades.length > 0 && !grades.includes(meta.grade)) return false;
+                if (mainStats.length > 0 && !mainStats.includes(meta.mainStat)) return false;
+                if (effects.length > 0 && !effects.some(effect => meta.effectFilters.includes(effect))) return false;
                 return true;
             });
             controls.summary.textContent = `${filtered.length} / ${data.length}개 표시`;
             onFilterChange(filtered);
         };
 
-        [controls.search, controls.grade, controls.mainStat, controls.source, controls.effect]
-            .filter(Boolean)
-            .forEach(control => control.addEventListener(control.tagName === 'INPUT' ? 'input' : 'change', applyFilters));
+        controls.search.addEventListener('input', applyFilters);
+        panel.querySelectorAll('input[type="checkbox"]').forEach(control => {
+            control.addEventListener('change', applyFilters);
+        });
 
         applyFilters();
     }
@@ -993,6 +1018,7 @@
                 window.covMap[c.english_name] = c;
                 window.covMap[c.korean_name] = c;
             });
+            window.characterNameSet = new Set(manifest.map(character => character.name).filter(Boolean));
             window.currentSettings = settingsDB;
 
             const charData = manifest.find(c => c.id === charId);
