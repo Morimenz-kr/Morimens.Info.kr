@@ -137,13 +137,6 @@
     overflow-wrap: anywhere;
 }
 
-.character-effect-levels {
-    display: block;
-    padding: 12px;
-    background: #28282d;
-    border-radius: 6px;
-}
-
 .character-effect-level-select {
     width: auto;
     min-width: 76px;
@@ -153,36 +146,6 @@
     border-radius: 5px;
     background: #18181b;
     color: #fff;
-}
-
-.character-effect-level-row {
-    display: none;
-}
-
-.character-effect-level-row.active {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(105px, 1fr));
-    gap: 8px;
-}
-
-.character-effect-stat {
-    display: grid;
-    gap: 3px;
-    min-width: 0;
-    padding: 8px 10px;
-    background: #1d1d21;
-    border-radius: 5px;
-}
-
-.character-effect-stat span {
-    color: #999;
-    font-size: 0.74rem;
-    overflow-wrap: anywhere;
-}
-
-.character-effect-stat strong {
-    color: #fff;
-    font-size: 0.92rem;
 }
 
 .character-effect-variants {
@@ -210,10 +173,6 @@
 
 .character-effect-variant-header .character-effect-cost {
     margin-left: 0;
-}
-
-.character-effect-variant .character-effect-levels {
-    background: #1d1d21;
 }
 
 .character-breakthrough-card {
@@ -285,10 +244,6 @@
 
     .character-effect-level-select {
         margin-left: auto;
-    }
-
-    .character-effect-level-row.active {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .character-effect-variant-header {

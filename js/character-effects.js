@@ -23,37 +23,12 @@
         const options = levels.map((level, index) => `
             <option value="${level.level}"${index === levels.length - 1 ? ' selected' : ''}>Lv.${level.level}</option>
         `).join('');
+        const levelsJson = escapeHtml(JSON.stringify(levels));
 
         return `
-            <select class="character-effect-level-select" aria-label="스킬 레벨 선택">
+            <select class="character-effect-level-select" aria-label="스킬 레벨 선택" data-levels="${levelsJson}">
                 ${options}
             </select>
-        `;
-    }
-
-    function renderLevelStats(levels) {
-        if (!levels?.length) return '';
-
-        const rows = levels.map((level, index) => {
-            const stats = Object.entries(level)
-                .filter(([key]) => key !== 'level')
-                .map(([key, value]) => `
-                    <div class="character-effect-stat">
-                        <span>${escapeHtml(key)}</span>
-                        <strong>${escapeHtml(value)}</strong>
-                    </div>
-                `).join('');
-            return `
-                <div class="character-effect-level-row${index === levels.length - 1 ? ' active' : ''}" data-level="${level.level}">
-                    ${stats}
-                </div>
-            `;
-        }).join('');
-
-        return `
-            <div class="character-effect-levels">
-                ${rows}
-            </div>
         `;
     }
 
@@ -108,7 +83,6 @@
 
         return `
             <p class="character-effect-description" data-effect-template="${escapeHtml(effect.effect)}">${escapeHtml(interpolatedEffect)}</p>
-            ${renderLevelStats(effect.levels)}
         `;
     }
 
@@ -220,20 +194,9 @@
             const scope = event.target.closest('.character-effect-variant, .character-effect-card');
             if (!scope) return;
 
-            scope.querySelectorAll('.character-effect-level-row').forEach(row => {
-                row.classList.toggle('active', row.dataset.level === event.target.value);
-            });
             const description = scope.querySelector('.character-effect-description');
             if (description) {
-                const levels = [...scope.querySelectorAll('.character-effect-level-row')].map(row => {
-                    const level = { level: row.dataset.level };
-                    row.querySelectorAll('.character-effect-stat').forEach(stat => {
-                        const key = stat.querySelector('span')?.textContent;
-                        const value = stat.querySelector('strong')?.textContent;
-                        if (key) level[key] = value;
-                    });
-                    return level;
-                });
+                const levels = JSON.parse(event.target.dataset.levels || '[]');
                 description.textContent = interpolateEffect(
                     description.dataset.effectTemplate,
                     levels,
