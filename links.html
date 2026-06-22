@@ -715,6 +715,10 @@
         const tags = (item.tags || item.optimized_for || [])
             .map(tag => String(tag || '').trim())
             .filter(Boolean);
+        const mainStatFilter = category === 'myeongryun' ? normalizeDictionaryFilterValue(item.main_stat, 'mainStat') : '';
+        const effectFilters = category === 'myeongryun'
+            ? []
+            : tags.map(tag => normalizeDictionaryFilterValue(tag, 'effect')).filter(Boolean);
         return {
             text: [
                 item.korean_name,
@@ -727,10 +731,56 @@
                 tags.join(' ')
             ].filter(Boolean).join(' ').toLowerCase(),
             grade: category === 'myeongryun' ? String(item.grade || '').trim() : '',
-            mainStat: category === 'myeongryun' ? String(item.main_stat || '').trim() : '',
+            mainStat: mainStatFilter,
             source: category === 'myeongryun' ? '' : String(item.source || '').trim(),
-            tags
+            effectFilters
         };
+    }
+
+    function normalizeDictionaryFilterValue(value, type) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+
+        let normalized = raw
+            .replace(/\s+/g, ' ')
+            .replace(/드롭율/g, '드롭')
+            .replace(/겅은 인장/g, '검은 인장')
+            .trim();
+
+        if (type === 'mainStat') {
+            return normalized
+                .replace(/^영역숙련/, '영역 숙련')
+                .replace(/검은 인장 드롭\s*(\d)/, '검은 인장 드롭 $1')
+                .replace(/\s+\d+(?:\.\d+)?%?$/, '');
+        }
+
+        const compact = normalized.replace(/\s+/g, '');
+        if (/^광기(회복|획득|부여|획득량증가)$/.test(compact)) return '광기';
+        if (/^HP회복(량증가)?$/.test(compact)) return 'HP 회복';
+        if (/^은열쇠게이지(획득)?$/.test(compact)) return '은열쇠 게이지';
+        if (/^배아융합(증가)?$/.test(compact)) return '배아 융합';
+        if (/^죽음저항(제거)?$/.test(compact)) return '죽음 저항';
+        if (/^검은인장드롭$/.test(compact)) return '검은 인장 드롭';
+        if (/^방어막증가$/.test(compact)) return '방어막';
+
+        const effectAliases = {
+            광기소모량증가: '광기 소모량 증가',
+            은열쇠소모량증가: '은열쇠 소모량 증가',
+            은열쇠에너지회복: '은열쇠 에너지 회복',
+            최대광기증가: '최대 광기 증가',
+            최대은열쇠에너지증가: '최대 은열쇠 에너지 증가',
+            최종피해증가: '최종 피해 증가',
+            산출력획득: '산출력',
+            힘획득: '힘',
+            방어추가: '방어 추가',
+            타격추가: '타격 추가',
+            명령카드복제: '명령 카드 복제',
+            크리티컬피해: '크리티컬 피해',
+            크리티컬확률: '크리티컬 확률',
+            피해증폭: '피해 증폭'
+        };
+
+        return effectAliases[compact] || raw;
     }
 
     function uniqueSortedValues(values) {
@@ -756,9 +806,9 @@
         if (!panel) return;
 
         const metaByItem = new Map(data.map(item => [item, getDictionaryFilterMeta(item, category)]));
-        const tags = uniqueSortedValues([...metaByItem.values()].flatMap(meta => meta.tags));
         const mainStats = uniqueSortedValues([...metaByItem.values()].map(meta => meta.mainStat));
         const sources = uniqueSortedValues([...metaByItem.values()].map(meta => meta.source));
+        const effects = uniqueSortedValues([...metaByItem.values()].flatMap(meta => meta.effectFilters));
         const isMyeongryun = category === 'myeongryun';
 
         panel.classList.add('show');
@@ -790,14 +840,14 @@
                         ${buildFilterOptions(sources)}
                     </select>
                 </div>
+                <div class="dictionary-filter-field">
+                    <label for="dictionary-effect-filter">효과</label>
+                    <select id="dictionary-effect-filter">
+                        <option value="">전체 효과</option>
+                        ${buildFilterOptions(effects)}
+                    </select>
+                </div>
             `}
-            <div class="dictionary-filter-field">
-                <label for="dictionary-tag-filter">태그</label>
-                <select id="dictionary-tag-filter">
-                    <option value="">전체 태그</option>
-                    ${buildFilterOptions(tags)}
-                </select>
-            </div>
             <div id="dictionary-filter-summary" class="dictionary-filter-summary"></div>
         `;
 
@@ -806,7 +856,7 @@
             grade: panel.querySelector('#dictionary-grade-filter'),
             mainStat: panel.querySelector('#dictionary-main-filter'),
             source: panel.querySelector('#dictionary-source-filter'),
-            tag: panel.querySelector('#dictionary-tag-filter'),
+            effect: panel.querySelector('#dictionary-effect-filter'),
             summary: panel.querySelector('#dictionary-filter-summary')
         };
 
@@ -815,21 +865,21 @@
             const grade = controls.grade?.value || '';
             const mainStat = controls.mainStat?.value || '';
             const source = controls.source?.value || '';
-            const tag = controls.tag.value || '';
+            const effect = controls.effect?.value || '';
             const filtered = data.filter(item => {
                 const meta = metaByItem.get(item);
                 if (query && !meta.text.includes(query)) return false;
                 if (grade && meta.grade !== grade) return false;
                 if (mainStat && meta.mainStat !== mainStat) return false;
                 if (source && meta.source !== source) return false;
-                if (tag && !meta.tags.includes(tag)) return false;
+                if (effect && !meta.effectFilters.includes(effect)) return false;
                 return true;
             });
             controls.summary.textContent = `${filtered.length} / ${data.length}개 표시`;
             onFilterChange(filtered);
         };
 
-        [controls.search, controls.grade, controls.mainStat, controls.source, controls.tag]
+        [controls.search, controls.grade, controls.mainStat, controls.source, controls.effect]
             .filter(Boolean)
             .forEach(control => control.addEventListener(control.tagName === 'INPUT' ? 'input' : 'change', applyFilters));
 
