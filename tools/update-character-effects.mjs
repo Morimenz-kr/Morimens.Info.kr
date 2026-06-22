@@ -5,6 +5,9 @@ import process from 'node:process';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DATA_PATH = path.join(ROOT, 'data', 'character_effects.json');
 const MANIFEST_PATH = path.join(ROOT, 'data', 'character_manifest.json');
+const MAIN_CARD_TYPES = new Set(['명령', '영지 각성', '최종 법칙', '광기 폭발', '초월 폭발']);
+const DERIVED_CARD_TYPES = new Set(['파생 명령', '버프', '증상', '추가 공격']);
+const ALL_CARD_TYPES = new Set([...MAIN_CARD_TYPES, ...DERIVED_CARD_TYPES]);
 
 function decodeEntities(value) {
     return value
@@ -129,12 +132,19 @@ function parseLevelTable(block) {
     return levels.length > 0 ? levels : undefined;
 }
 
-function extractSkills(section) {
-    const pattern =
-        /(?:^|\n)\s*(명령|영지 각성|최종 법칙|광기 폭발|초월 폭발)\s*\n\s*([^\n]+?)(?:\s+(산출력|광기) 소모:\s*(\d+)|\s+영지 각성 강화)\s*(?:\n|$)/g;
+function extractCards(section, allowedTypes) {
+    const typePattern = [...ALL_CARD_TYPES]
+        .map((type) => type.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        .join('|');
+    const pattern = new RegExp(
+        `(?:^|\\n)\\s*(${typePattern})\\s*\\n\\s*([^\\n]+?)(?:\\s+(산출력|광기) 소모:\\s*(\\d+)|\\s+영지 각성 강화)\\s*(?:\\n|$)`,
+        'g'
+    );
     const matches = [...section.matchAll(pattern)];
 
-    const skills = matches.map((match, index) => {
+    return matches.flatMap((match, index) => {
+        if (!allowedTypes.has(match[1])) return [];
+
         const next = matches[index + 1];
         const precedingText = section.slice(0, match.index);
         const headingMatches = [
@@ -152,26 +162,65 @@ function extractSkills(section) {
             .split('\n')
             .map((line) => line.trim())
             .find(Boolean);
-        const skill = {
+        const card = {
             type: match[1],
             name: match[2].trim(),
             context
         };
 
         if (match[3]) {
-            skill.cost = {
+            card.cost = {
                 type: match[3],
                 value: Number(match[4])
             };
         }
 
-        skill.effect = cleanEffect(effect);
+        card.effect = cleanEffect(effect);
         const levels = parseLevelTable(block);
-        if (levels) skill.levels = levels;
-        return skill;
+        if (levels) card.levels = levels;
+        return [card];
     });
+}
+
+function extractSkills(section) {
+    const skills = extractCards(section, MAIN_CARD_TYPES);
 
     return groupSkillVariants(skills);
+}
+
+function extractDerivedCards(section) {
+    const cards = extractCards(section, DERIVED_CARD_TYPES).map(({ context, ...card }) => ({
+        ...card,
+        ...(context ? { context } : {})
+    }));
+
+    return groupNamedVariants(cards);
+}
+
+function groupNamedVariants(cards) {
+    const groups = new Map();
+    for (const card of cards) {
+        const key = `${card.type}::${card.name}`;
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(card);
+    }
+
+    return [...groups.values()].map((group) => {
+        if (group.length === 1) {
+            const { context, ...single } = group[0];
+            return single;
+        }
+
+        const { type, name } = group[0];
+        return {
+            type,
+            name,
+            variants: group.map(({ type: _type, context, ...variant }) => {
+                if (context) variant.condition = context;
+                return variant;
+            })
+        };
+    });
 }
 
 function groupSkillVariants(skills) {
@@ -322,6 +371,7 @@ const skillsSection = extractSection(text, '스킬', '계령');
 const breakthroughsSection = extractSection(text, '계령', '특성');
 const character = {
     skills: extractSkills(skillsSection),
+    derivedCards: extractDerivedCards(skillsSection),
     breakthroughs: extractBreakthroughs(breakthroughsSection)
 };
 
@@ -339,5 +389,5 @@ const ordered = Object.fromEntries(
 
 await fs.writeFile(DATA_PATH, `${JSON.stringify(ordered, null, 2)}\n`, 'utf8');
 console.log(
-    `${characterId}: 스킬 ${character.skills.length}개, 계령 ${character.breakthroughs.length}개 저장`
+    `${characterId}: 스킬 ${character.skills.length}개, 파생 ${character.derivedCards.length}개, 계령 ${character.breakthroughs.length}개 저장`
 );
