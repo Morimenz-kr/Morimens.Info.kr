@@ -310,6 +310,156 @@
             color: #ffc107; /* 태그 강조 색상 */
             white-space: nowrap;
         }
+
+        .dictionary-filter-panel {
+            display: none;
+            gap: 14px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: #1e1e24;
+            border: 1px solid #444;
+            border-radius: 8px;
+        }
+        .dictionary-filter-panel.show {
+            display: flex;
+            flex-direction: column;
+        }
+        .dictionary-filter-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .dictionary-filter-field label {
+            font-size: 0.78em;
+            color: #aaa;
+        }
+        .dictionary-filter-top {
+            display: grid;
+            grid-template-columns: minmax(220px, 360px) 1fr;
+            gap: 12px;
+            align-items: end;
+        }
+        .dictionary-filter-section-title {
+            font-size: 0.82em;
+            color: #cfcfcf;
+            font-weight: bold;
+        }
+        .dictionary-filter-field input,
+        .dictionary-filter-field select {
+            min-width: 0;
+            height: 34px;
+            padding: 0 9px;
+            color: #eee;
+            background: #2a2a32;
+            border: 1px solid #555;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .dictionary-filter-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+            gap: 8px;
+        }
+        .dictionary-filter-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 36px;
+            padding: 7px 10px;
+            color: #ddd;
+            background: #2a2a32;
+            border: 1px solid #555;
+            border-radius: 7px;
+            font-size: 0.82em;
+            cursor: pointer;
+            user-select: none;
+        }
+        .dictionary-filter-option:hover {
+            border-color: #777;
+            background: #32323c;
+        }
+        .dictionary-filter-option:has(input:checked) {
+            border-color: #ffc107;
+            background: rgba(255, 193, 7, 0.12);
+            color: #fff;
+        }
+        .dictionary-filter-option input {
+            flex: 0 0 auto;
+            width: auto;
+            height: auto;
+            margin: 0;
+        }
+        .dictionary-filter-option span {
+            min-width: 0;
+            line-height: 1.25;
+            overflow-wrap: anywhere;
+        }
+        .dictionary-filter-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-top: 2px;
+        }
+        .dictionary-filter-summary {
+            min-height: 34px;
+            display: flex;
+            align-items: center;
+            color: #aaa;
+            font-size: 0.82em;
+        }
+        .dictionary-filter-reset {
+            min-height: 34px;
+            padding: 0 12px;
+            color: #ddd;
+            background: #2a2a32;
+            border: 1px solid #555;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .dictionary-filter-reset:hover {
+            background: #383842;
+            border-color: #777;
+        }
+        .dictionary-empty {
+            grid-column: 1 / -1;
+            padding: 30px 10px;
+            color: #aaa;
+            text-align: center;
+            background: #1e1e24;
+            border: 1px dashed #444;
+            border-radius: 8px;
+        }
+        @media (min-width: 900px) {
+            .link-container.dictionary-wide {
+                max-width: 1180px;
+            }
+        }
+        @media (max-width: 640px) {
+            .dictionary-filter-panel {
+                padding: 12px;
+                gap: 12px;
+            }
+            .dictionary-filter-top {
+                grid-template-columns: 1fr;
+            }
+            .dictionary-filter-options {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 7px;
+            }
+            .dictionary-filter-option {
+                min-height: 34px;
+                font-size: 0.78em;
+                padding: 6px 8px;
+            }
+            .dictionary-filter-footer {
+                align-items: stretch;
+                flex-direction: column;
+            }
+            .dictionary-filter-reset {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -327,6 +477,7 @@
         </div>
 
         <div id="tab-content-dictionary" class="tab-content active">
+            <div id="dictionary-filter-panel" class="dictionary-filter-panel" aria-label="도감 필터"></div>
             <div id="dictionary-grid" class="dictionary-grid">
             </div>
         </div>
@@ -659,8 +810,196 @@
 
     document.addEventListener('click', hideTooltip);
 
+    function getDictionaryFilterMeta(item, category) {
+        const tags = (item.tags || item.optimized_for || [])
+            .map(tag => String(tag || '').trim())
+            .filter(Boolean);
+        const mainStatFilter = category === 'myeongryun' ? normalizeDictionaryFilterValue(item.main_stat, 'mainStat') : '';
+        const effectFilters = category === 'myeongryun'
+            ? []
+            : tags
+                .filter(tag => !isExcludedDictionaryEffect(tag, category))
+                .map(tag => normalizeDictionaryFilterValue(tag, 'effect'))
+                .filter(Boolean);
+        return {
+            text: [
+                item.korean_name,
+                item.english_name,
+                item.description,
+                item.set_effect_3,
+                item.set_effect_6,
+                item.main_stat,
+                tags.join(' ')
+            ].filter(Boolean).join(' ').toLowerCase(),
+            grade: category === 'myeongryun' ? String(item.grade || '').trim() : '',
+            mainStat: mainStatFilter,
+            effectFilters
+        };
+    }
+
+    function isExcludedDictionaryEffect(tag, category) {
+        return category === 'silverkey' && window.characterNameSet?.has(String(tag || '').trim());
+    }
+
+    function normalizeDictionaryFilterValue(value, type) {
+        const raw = String(value || '').trim();
+        if (!raw) return '';
+
+        let normalized = raw
+            .replace(/\s+/g, ' ')
+            .replace(/드롭율/g, '드롭')
+            .replace(/겅은 인장/g, '검은 인장')
+            .trim();
+
+        if (type === 'mainStat') {
+            return normalized
+                .replace(/^영역숙련/, '영역 숙련')
+                .replace(/검은 인장 드롭\s*(\d)/, '검은 인장 드롭 $1')
+                .replace(/\s+\d+(?:\.\d+)?%?$/, '');
+        }
+
+        const compact = normalized.replace(/\s+/g, '');
+        if (/^광기(회복|획득|부여|획득량증가)$/.test(compact)) return '광기';
+        if (/^HP회복(량증가)?$/.test(compact)) return 'HP 회복';
+        if (/^은열쇠게이지(획득)?$/.test(compact)) return '은열쇠 게이지';
+        if (/^배아융합(증가)?$/.test(compact)) return '배아 융합';
+        if (/^죽음저항(제거)?$/.test(compact)) return '죽음 저항';
+        if (/^검은인장드롭$/.test(compact)) return '검은 인장 드롭';
+        if (/^방어막증가$/.test(compact)) return '방어막';
+
+        const effectAliases = {
+            광기소모량증가: '광기 소모량 증가',
+            은열쇠소모량증가: '은열쇠 소모량 증가',
+            은열쇠에너지회복: '은열쇠 에너지 회복',
+            최대광기증가: '최대 광기 증가',
+            최대은열쇠에너지증가: '최대 은열쇠 에너지 증가',
+            최종피해증가: '최종 피해 증가',
+            산출력획득: '산출력',
+            힘획득: '힘',
+            방어추가: '방어 추가',
+            타격추가: '타격 추가',
+            명령카드복제: '명령 카드 복제',
+            크리티컬피해: '크리티컬 피해',
+            크리티컬확률: '크리티컬 확률',
+            피해증폭: '피해 증폭'
+        };
+
+        return effectAliases[compact] || raw;
+    }
+
+    function uniqueSortedValues(values) {
+        return [...new Set(values.map(value => String(value || '').trim()).filter(Boolean))]
+            .sort((a, b) => a.localeCompare(b, 'ko'));
+    }
+
+    function escapeHtml(value) {
+        return String(value || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function buildFilterCheckboxes(name, values) {
+        return values.map(value => `
+            <label class="dictionary-filter-option">
+                <input type="checkbox" name="${escapeHtml(name)}" value="${escapeHtml(value)}">
+                <span>${escapeHtml(value)}</span>
+            </label>
+        `).join('');
+    }
+
+    function getCheckedFilterValues(panel, name) {
+        return [...panel.querySelectorAll(`input[name="${name}"]:checked`)].map(input => input.value);
+    }
+
+    function renderDictionaryFilters(data, category, onFilterChange) {
+        const panel = document.getElementById('dictionary-filter-panel');
+        if (!panel) return;
+
+        const metaByItem = new Map(data.map(item => [item, getDictionaryFilterMeta(item, category)]));
+        const mainStats = uniqueSortedValues([...metaByItem.values()].map(meta => meta.mainStat));
+        const effects = uniqueSortedValues([...metaByItem.values()].flatMap(meta => meta.effectFilters));
+        const isMyeongryun = category === 'myeongryun';
+        const grades = uniqueSortedValues([...metaByItem.values()].map(meta => meta.grade));
+        const optionFieldHtml = isMyeongryun ? `
+            <div class="dictionary-filter-field">
+                <span class="dictionary-filter-section-title">등급</span>
+                <div class="dictionary-filter-options">
+                    ${buildFilterCheckboxes('dictionary-grade-filter', grades)}
+                </div>
+            </div>
+            <div class="dictionary-filter-field">
+                <span class="dictionary-filter-section-title">주옵션</span>
+                <div class="dictionary-filter-options">
+                    ${buildFilterCheckboxes('dictionary-main-filter', mainStats)}
+                </div>
+            </div>
+        ` : `
+            <div class="dictionary-filter-field">
+                <span class="dictionary-filter-section-title">효과</span>
+                <div class="dictionary-filter-options">
+                    ${buildFilterCheckboxes('dictionary-effect-filter', effects)}
+                </div>
+            </div>
+        `;
+
+        panel.classList.add('show');
+        panel.innerHTML = `
+            <div class="dictionary-filter-top">
+                <div class="dictionary-filter-field">
+                    <label for="dictionary-search">검색</label>
+                    <input id="dictionary-search" type="search" placeholder="이름, 설명, 효과 검색">
+                </div>
+                <div class="dictionary-filter-footer">
+                    <div id="dictionary-filter-summary" class="dictionary-filter-summary"></div>
+                    <button type="button" id="dictionary-filter-reset" class="dictionary-filter-reset">필터 초기화</button>
+                </div>
+            </div>
+            ${optionFieldHtml}
+        `;
+
+        const controls = {
+            search: panel.querySelector('#dictionary-search'),
+            reset: panel.querySelector('#dictionary-filter-reset'),
+            summary: panel.querySelector('#dictionary-filter-summary')
+        };
+
+        const applyFilters = () => {
+            const query = controls.search.value.trim().toLowerCase();
+            const grades = getCheckedFilterValues(panel, 'dictionary-grade-filter');
+            const mainStats = getCheckedFilterValues(panel, 'dictionary-main-filter');
+            const effects = getCheckedFilterValues(panel, 'dictionary-effect-filter');
+            const filtered = data.filter(item => {
+                const meta = metaByItem.get(item);
+                if (query && !meta.text.includes(query)) return false;
+                if (grades.length > 0 && !grades.includes(meta.grade)) return false;
+                if (mainStats.length > 0 && !mainStats.includes(meta.mainStat)) return false;
+                if (effects.length > 0 && !effects.some(effect => meta.effectFilters.includes(effect))) return false;
+                return true;
+            });
+            controls.summary.textContent = `${filtered.length} / ${data.length}개 표시`;
+            onFilterChange(filtered);
+        };
+
+        controls.search.addEventListener('input', applyFilters);
+        panel.querySelectorAll('input[type="checkbox"]').forEach(control => {
+            control.addEventListener('change', applyFilters);
+        });
+        controls.reset.addEventListener('click', () => {
+            controls.search.value = '';
+            panel.querySelectorAll('input[type="checkbox"]').forEach(input => {
+                input.checked = false;
+            });
+            applyFilters();
+        });
+
+        applyFilters();
+    }
+
     // 아이콘 리스트 렌더링 로직 (비율 및 크기 분기 처리)
-    function renderDictionary(data, category) {
+    function renderDictionaryItems(data, category) {
         const grid = document.getElementById('dictionary-grid');
         grid.innerHTML = '';
 
@@ -706,6 +1045,14 @@
 
             grid.appendChild(img);
         });
+
+        if (data.length === 0) {
+            grid.innerHTML = '<div class="dictionary-empty">조건에 맞는 항목이 없습니다.</div>';
+        }
+    }
+
+    function renderDictionary(data, category) {
+        renderDictionaryFilters(data, category, filtered => renderDictionaryItems(filtered, category));
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -715,10 +1062,14 @@
         const titleEl = document.getElementById('page-title');
         const listEl = document.getElementById('links-list');
         const tabsContainer = document.querySelector('.chrome-tabs-container');
+        const linkContainer = document.querySelector('.link-container');
         const partySlot = document.getElementById('party-link-slot');
 
         const isCharacterPage = (category === 'character');
         const isDictionaryPage = (category === 'myeongryun' || category === 'silverkey' || category === 'covenant');
+        if (linkContainer) {
+            linkContainer.classList.toggle('dictionary-wide', isDictionaryPage);
+        }
 
         // 1. 탭 표시 설정 및 명칭 수정
         if (tabsContainer) {
@@ -758,6 +1109,7 @@
                 window.covMap[c.english_name] = c;
                 window.covMap[c.korean_name] = c;
             });
+            window.characterNameSet = new Set(manifest.map(character => character.name).filter(Boolean));
             window.currentSettings = settingsDB;
 
             const charData = manifest.find(c => c.id === charId);
@@ -778,7 +1130,12 @@
                 targetItems = linksDB.characters[charId] || [];
                 // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
                 const gridContainer = document.getElementById('dictionary-grid');
+                const filterPanel = document.getElementById('dictionary-filter-panel');
                 const settings = settingsDB[charId] || settingsDB[charData.name];
+                if (filterPanel) {
+                    filterPanel.classList.remove('show');
+                    filterPanel.innerHTML = '';
+                }
                 if (gridContainer) {
                     gridContainer.className = '';
                     gridContainer.innerHTML = '';

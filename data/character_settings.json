@@ -56,7 +56,7 @@
       "settingName": "범용",
       "recommendStep": "2돌, 3돌, 초한",
       "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_sword_of_giant", "wheel_star_beast", "wheel_doomsday_rampage"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_magic_of_35mm", "wheel_doomsday_rampage"] },
+      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_magic_of_35mm"] },
       "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_medicine", "covenant_scarlet"] }
     }
   ],
