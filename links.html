@@ -223,6 +223,31 @@
             max-height: 80vh;
         }
 
+        #substitute-modal .modal-content {
+            width: fit-content;
+            min-width: min(420px, calc(100vw - 40px));
+            max-width: calc(100vw - 40px);
+            box-sizing: border-box;
+        }
+
+        #sub-modal-body {
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        .substitute-grid {
+            display: grid;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+            max-width: 100%;
+        }
+
+        .substitute-grid.cols-1 { grid-template-columns: minmax(120px, 150px); }
+        .substitute-grid.cols-2 { grid-template-columns: repeat(2, minmax(120px, 150px)); }
+        .substitute-grid.cols-3 { grid-template-columns: repeat(3, minmax(120px, 150px)); }
+        .substitute-grid.cols-4 { grid-template-columns: repeat(4, minmax(120px, 150px)); }
+
         /* 비밀계약 전용 모달 크기 (넓은 레이아웃) */
         .modal-covenant {
             width: 600px;
@@ -255,6 +280,7 @@
             padding: 15px;
             border-radius: 8px;
             border: 1px solid #444;
+            min-width: 0;
         }
 
         /* 모달 내 명륜 이미지 비율 */
@@ -280,6 +306,27 @@
             color: #eee;
             font-weight: bold;
             text-align: center;
+            overflow-wrap: anywhere;
+        }
+
+        @media (max-width: 680px) {
+            #substitute-modal .modal-content {
+                min-width: 0;
+                width: calc(100vw - 32px);
+            }
+
+            .substitute-grid.cols-3,
+            .substitute-grid.cols-4 {
+                grid-template-columns: repeat(2, minmax(120px, 150px));
+            }
+        }
+
+        @media (max-width: 380px) {
+            .substitute-grid.cols-2,
+            .substitute-grid.cols-3,
+            .substitute-grid.cols-4 {
+                grid-template-columns: minmax(120px, 150px);
+            }
         }
         /* 세팅 정보가 없을 때 표시할 안내 박스 */
         .no-setting-notice {
@@ -619,7 +666,7 @@
             title.textContent = type === 'ssr' ? 'SSR 명륜 대체' : 'SR 명륜 대체';
 
             // 명륜용 2열 그리드 (이미지 아래 이름)
-            content = '<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-top: 15px;">';
+            content = '<div class="substitute-grid cols-2">';
             content += `
             <div class="sub-item-vertical">
                 <img src="${placeholderImg}" class="sub-img-myeongryun">
@@ -636,7 +683,7 @@
             title.textContent = '비밀계약 대체';
 
             // 비밀계약용 3열 그리드 (이미지 아래 이름)
-            content = '<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px;">';
+            content = '<div class="substitute-grid cols-3">';
             content += `
             <div class="sub-item-vertical">
                 <img src="${placeholderImg}" class="sub-img-covenant">
@@ -1269,9 +1316,9 @@
         }
 
         const itemCount = ids.length;
-        const gridCols = itemCount > 0 ? itemCount : 1;
+        const gridCols = Math.min(Math.max(itemCount, 1), 4);
 
-        let html = `<div style="display: grid; grid-template-columns: repeat(${gridCols}, auto); gap: 20px; justify-content: center; margin-top: 15px;">`;
+        let html = `<div class="substitute-grid cols-${gridCols}">`;
 
         if (itemCount === 0) {
             html = '<div style="text-align:center; padding:20px; color:#777;">등록된 대체 정보가 없습니다.</div>';
@@ -1281,7 +1328,7 @@
                 if (data) {
                     const mainStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_main_stats?.[id]) : '';
                     html += `
-                    <div class="sub-item-vertical" style="min-width: 120px;">
+                    <div class="sub-item-vertical">
                         <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}"
                              class="${isWheel ? 'sub-img-myeongryun' : 'sub-img-covenant'}"
                              data-tooltip-kind="${isWheel ? 'wheel' : 'covenant'}"

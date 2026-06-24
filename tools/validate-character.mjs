@@ -1,0 +1,248 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
+
+const ROOT = path.resolve(import.meta.dirname, '..');
+
+const paths = {
+  manifest: path.join(ROOT, 'data', 'character_manifest.json'),
+  settings: path.join(ROOT, 'data', 'character_settings.json'),
+  effects: path.join(ROOT, 'data', 'character_effects.json'),
+  gachatype: path.join(ROOT, 'data', 'gachatype.json'),
+  resourceLinks: path.join(ROOT, 'data', 'resource_links.json'),
+  wheels: path.join(ROOT, 'data', 'wheel_list.json'),
+  silverkeys: path.join(ROOT, 'data', 'silverkey_list.json'),
+  covenants: path.join(ROOT, 'data', 'covenant_list.json')
+};
+
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+}
+
+function asArray(value) {
+  if (Array.isArray(value)) return value;
+  if (value === undefined || value === null || value === '') return [];
+  return [value];
+}
+
+function normalize(value) {
+  return String(value ?? '')
+    .normalize('NFKC')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, '');
+}
+
+function relPath(filePath) {
+  return path.relative(ROOT, filePath).replace(/\\/g, '/');
+}
+
+function existsRelative(relativePath) {
+  return fs.existsSync(path.join(ROOT, relativePath));
+}
+
+function addIssue(list, code, message) {
+  list.push({ code, message });
+}
+
+function buildIdSet(items, field = 'english_name') {
+  return new Set(items.map((item) => item?.[field]).filter(Boolean));
+}
+
+function hasTarget(values, targets) {
+  return asArray(values).some((value) => targets.has(normalize(value)));
+}
+
+function itemMatchesCharacter(item, character, fields) {
+  const targets = new Set([normalize(character.id), normalize(character.name)]);
+
+  if (hasTarget(item.owner_character_ids, targets)) return { matched: true, via: 'owner_character_ids' };
+
+  for (const field of fields) {
+    if (hasTarget(item[field], targets)) return { matched: true, via: field };
+  }
+
+  const itemId = normalize(item.english_name);
+  const charId = normalize(character.id);
+  if (charId && itemId.includes(charId)) return { matched: true, via: 'english_name' };
+
+  return { matched: false, via: null };
+}
+
+function collectSettingIds(settingsList, fieldName) {
+  const ids = [];
+  for (const setting of settingsList) {
+    const block = setting?.[fieldName];
+    if (!block) continue;
+    ids.push(block.main_id);
+    ids.push(...asArray(block.substitutes));
+  }
+  return ids.filter(Boolean);
+}
+
+function validateCharacter(character, db) {
+  const errors = [];
+  const warnings = [];
+  const details = [];
+
+  if (!character.id) addIssue(errors, 'manifest.id', 'Character has no id.');
+  if (!character.name) addIssue(errors, 'manifest.name', `${character.id} has no name.`);
+  if (!character.image_thumb) {
+    addIssue(errors, 'manifest.image_thumb', `${character.id} has no image_thumb.`);
+  } else if (!existsRelative(character.image_thumb)) {
+    addIssue(errors, 'manifest.image_thumb.missing', `${character.image_thumb} does not exist.`);
+  }
+
+  const tidePath = `images/${character.id}_tide.webp`;
+  if (!existsRelative(tidePath)) {
+    addIssue(errors, 'image.tide.missing', `${tidePath} does not exist.`);
+  }
+
+  const settings = db.settings[character.id] ?? db.settings[character.name];
+  const settingsList = Array.isArray(settings) ? settings : settings ? [settings] : [];
+  if (settingsList.length === 0) {
+    addIssue(errors, 'settings.missing', `${character.id} has no character_settings entry.`);
+  } else {
+    const wheelIds = [
+      ...collectSettingIds(settingsList, 'myeongryun_ssr'),
+      ...collectSettingIds(settingsList, 'myeongryun_sr')
+    ];
+    for (const wheelId of wheelIds) {
+      if (!db.wheelIds.has(wheelId)) {
+        addIssue(errors, 'settings.wheel.missing', `${character.id} references missing wheel: ${wheelId}`);
+      }
+    }
+
+    const covenantIds = collectSettingIds(settingsList, 'covenant');
+    for (const covenantId of covenantIds) {
+      if (!db.covenantIds.has(covenantId)) {
+        addIssue(errors, 'settings.covenant.missing', `${character.id} references missing covenant: ${covenantId}`);
+      }
+    }
+  }
+
+  if (!db.effects[character.id]) {
+    addIssue(errors, 'effects.missing', `${character.id} has no character_effects entry.`);
+  }
+
+  const gachaGroups = Object.entries(db.gachatype)
+    .filter(([, ids]) => asArray(ids).includes(character.id))
+    .map(([group]) => group);
+  if (gachaGroups.length === 0) {
+    addIssue(errors, 'gachatype.missing', `${character.id} is not included in gachatype.json.`);
+  }
+
+  const resourceItems = db.resourceLinks.characters?.[character.id] ?? [];
+  if (!Array.isArray(resourceItems) || resourceItems.length === 0) {
+    addIssue(warnings, 'resource_links.empty', `${character.id} has no resource link entries.`);
+  }
+
+  for (const grade of ['SSR', 'SR']) {
+    const dedicatedWheels = db.wheels.map((wheel) => {
+      if (String(wheel.grade || '').toUpperCase() !== grade) return false;
+      const match = itemMatchesCharacter(wheel, character, ['optimized_for']);
+      return match.matched ? { wheel, via: match.via } : false;
+    }).filter(Boolean);
+
+    if (dedicatedWheels.length === 0) {
+      addIssue(warnings, `dedicated_wheel.${grade}.missing`, `${character.id} has no detected dedicated ${grade} wheel.`);
+    } else {
+      for (const { wheel, via } of dedicatedWheels) {
+        details.push(`${grade} wheel ${wheel.english_name} matched via ${via}.`);
+        if (wheel.image_path && !existsRelative(wheel.image_path)) {
+          addIssue(errors, `dedicated_wheel.${grade}.image_missing`, `${wheel.english_name} image does not exist: ${wheel.image_path}`);
+        }
+      }
+    }
+  }
+
+  const dedicatedKeys = db.silverkeys.map((key) => {
+    const match = itemMatchesCharacter(key, character, ['tags']);
+    return match.matched ? { key, via: match.via } : false;
+  }).filter(Boolean);
+  if (dedicatedKeys.length === 0) {
+    addIssue(warnings, 'dedicated_key.missing', `${character.id} has no detected dedicated silverkey.`);
+  } else {
+    for (const { key, via } of dedicatedKeys) {
+      details.push(`silverkey ${key.english_name} matched via ${via}.`);
+      if (key.image_path && !existsRelative(key.image_path)) {
+        addIssue(errors, 'dedicated_key.image_missing', `${key.english_name} image does not exist: ${key.image_path}`);
+      }
+    }
+  }
+
+  return { character, errors, warnings, details };
+}
+
+function printResult(result, options = {}) {
+  const label = `${result.character.id} (${result.character.name})`;
+  if (result.errors.length === 0 && result.warnings.length === 0) {
+    console.log(`[OK] ${label}`);
+    if (options.verbose) {
+      for (const detail of result.details) console.log(`  - ${detail}`);
+    }
+    return;
+  }
+
+  if (result.errors.length > 0) {
+    console.log(`[ERROR] ${label}`);
+    for (const issue of result.errors) console.log(`  - ${issue.code}: ${issue.message}`);
+  } else {
+    console.log(`[OK] ${label}`);
+  }
+
+  if (result.warnings.length > 0) {
+    console.log(`  Warnings:`);
+    for (const issue of result.warnings) console.log(`  - ${issue.code}: ${issue.message}`);
+  }
+
+  if (options.verbose && result.details.length > 0) {
+    console.log(`  Details:`);
+    for (const detail of result.details) console.log(`  - ${detail}`);
+  }
+}
+
+function main() {
+  const args = process.argv.slice(2);
+  const verbose = args.includes('--verbose');
+  const target = args.find((arg) => arg !== '--verbose');
+  if (!target) {
+    console.error('Usage: node tools/validate-character.mjs <characterId|--all> [--verbose]');
+    process.exit(2);
+  }
+
+  const db = {
+    manifest: readJson(paths.manifest),
+    settings: readJson(paths.settings),
+    effects: readJson(paths.effects),
+    gachatype: readJson(paths.gachatype),
+    resourceLinks: readJson(paths.resourceLinks),
+    wheels: readJson(paths.wheels),
+    silverkeys: readJson(paths.silverkeys),
+    covenants: readJson(paths.covenants)
+  };
+  db.wheelIds = buildIdSet(db.wheels);
+  db.covenantIds = buildIdSet(db.covenants);
+
+  const characters = target === '--all'
+    ? db.manifest
+    : db.manifest.filter((character) => character.id === target);
+
+  if (characters.length === 0) {
+    console.error(`[ERROR] Character id not found in ${relPath(paths.manifest)}: ${target}`);
+    process.exit(1);
+  }
+
+  const results = characters.map((character) => validateCharacter(character, db));
+  for (const result of results) printResult(result, { verbose });
+
+  const errorCount = results.reduce((sum, result) => sum + result.errors.length, 0);
+  const warningCount = results.reduce((sum, result) => sum + result.warnings.length, 0);
+
+  console.log('');
+  console.log(`Summary: ${results.length} character(s), ${errorCount} error(s), ${warningCount} warning(s).`);
+
+  if (errorCount > 0) process.exit(1);
+}
+
+main();

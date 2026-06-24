@@ -37,7 +37,7 @@
     {
       "settingName": "범용",
       "recommendStep": "명함 ~ 1돌",
-      "myeongryun_ssr": { "main_id": "wheel_time_of_luck", "substitutes": ["wheel_pathliss_path"] },
+      "myeongryun_ssr": { "main_id": "wheel_time_of_luck", "substitutes": ["wheel_pathless_path"] },
       "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_roullet_of_destiny"] },
       "covenant": { "main_id": "covenant_blood", "substitutes": ["covenant_scarlet"] }
     }
@@ -265,7 +265,7 @@
       "settingName": "범용",
       "recommendStep": "1돌",
       "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_never_ending_calculation"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_blue_stone_seart", "wheel_channeling"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_blue_stone_seat", "wheel_channeling"] },
       "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire"] }
     }
   ],
@@ -475,14 +475,14 @@
     {
       "settingName": "범용",
       "recommendStep": "명함, 1돌",
-      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_of_never_ending_calculation", "wheel_over_the_death", "wheel_doll_falls_void", "wheel_hymn_of_godking", "wheel_magical_performance"] },
+      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_never_ending_calculation", "wheel_over_the_death", "wheel_doll_falls_void", "wheel_hymn_of_godking", "wheel_magical_performance"] },
       "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
       "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire"] }
     },
     {
       "settingName": "망각편 범용",
       "recommendStep": "명함, 1돌",
-      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_of_never_ending_calculation", "wheel_over_the_death", "wheel_doll_falls_void", "wheel_hymn_of_godking", "wheel_magical_performance"] },
+      "myeongryun_ssr": { "main_id": "wheel_hidden_pain", "substitutes": ["wheel_never_ending_calculation", "wheel_over_the_death", "wheel_doll_falls_void", "wheel_hymn_of_godking", "wheel_magical_performance"] },
       "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
       "covenant": { "main_id": "covenant_butterfly", "substitutes": [] }
     }
@@ -600,21 +600,21 @@
     {
       "settingName": "범용",
       "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_web_of_ancient", "substitutes": ["wheel_voltex_of_memory", "wheel_birth_of_soul", "wheel_we_will_meet_again", "wheel_illusion_of_sakura"] },
+      "myeongryun_ssr": { "main_id": "wheel_web_of_ancient", "substitutes": ["wheel_voltex_of_memory", "wheel_birth_of_soul", "wheel_you_and_me_will_meet", "wheel_illusion_of_sakura"] },
       "myeongryun_sr": { "main_id": "wheel_wheel_of_fate", "substitutes": [] },
       "covenant": { "main_id": "covenant_deus", "substitutes": [] }
     },
     {
       "settingName": "탱커",
       "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_web_of_ancient", "substitutes": ["wheel_voltex_of_memory", "wheel_birth_of_soul", "wheel_we_will_meet_again", "wheel_illusion_of_sakura"] },
+      "myeongryun_ssr": { "main_id": "wheel_web_of_ancient", "substitutes": ["wheel_voltex_of_memory", "wheel_birth_of_soul", "wheel_you_and_me_will_meet", "wheel_illusion_of_sakura"] },
       "myeongryun_sr": { "main_id": "wheel_wheel_of_fate", "substitutes": [] },
       "covenant": { "main_id": "covenant_rabbit", "substitutes": [] }
     },
     {
       "settingName": "딜러",
       "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_web_of_ancient", "substitutes": ["wheel_voltex_of_memory", "wheel_birth_of_soul", "wheel_we_will_meet_again", "wheel_illusion_of_sakura"] },
+      "myeongryun_ssr": { "main_id": "wheel_web_of_ancient", "substitutes": ["wheel_voltex_of_memory", "wheel_birth_of_soul", "wheel_you_and_me_will_meet", "wheel_illusion_of_sakura"] },
       "myeongryun_sr": { "main_id": "wheel_wheel_of_fate", "substitutes": [] },
       "covenant": { "main_id": "covenant_medicine", "substitutes": [] }
     }
@@ -623,7 +623,7 @@
     {
       "settingName": "범용",
       "recommendStep": "명함, 3돌",
-      "myeongryun_ssr": { "main_id": "wheel_saya_ssr", "substitutes": ["wheel_auth_of_knight", "wheel_stone_tablet_god_word", "wheel_pale_descendant", "wheel_time_of_luck"] },
+      "myeongryun_ssr": { "main_id": "wheel_saya_ssr", "substitutes": ["wheel_auth_of_knight", "wheel_stone_tablet_god_word", "wheel_pale_descencdant", "wheel_time_of_luck"] },
       "myeongryun_sr": { "main_id": "wheel_saya_sr", "substitutes": [] },
       "covenant": { "main_id": "covenant_medicine", "substitutes": [] }
     }
@@ -650,7 +650,7 @@
     {
       "settingName": "범용",
       "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_start_beast", "wheel_the_day_threw_off_shackles", "wheel_sword_of_giant"] },
+      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_star_beast", "wheel_the_day_threw_off_shackles", "wheel_sword_of_giant"] },
       "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": ["wheel_cut_and_hurt"] },
       "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_scarlet"] }
     }

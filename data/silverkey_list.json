@@ -397,6 +397,7 @@
     "description": "48의 방어막을 얻고「스킬」2장을 드로우하며 해당 카드에「인지 혼란」을 부여합니다. 만약 사야가 팀에 있다면,「우종」1스택을 획득합니다.",
     "image_path": "images/key_saya.png",
     "tags": ["사야","방어막 획득", "드로우"],
+    "owner_character_ids": ["saya"],
     "source": "다차원 연결 - 잊혀진 사랑의 씨앗"
   }
 ]
