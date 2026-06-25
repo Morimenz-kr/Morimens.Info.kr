@@ -397,6 +397,15 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "살아있는 감옥",
+    "english_name": "wheel_living_prison",
+    "optimized_for": ["폰토스"],
+    "main_stat": "크리티컬 피해 21.6%",
+    "description": "장착자가 힘 감소 효과를 20/25/30/35%만큼 증가시킨다. 적을 1명 처치할 때마다 장착자의 이번 탐색 턴 종료 시 고정 회복되는 광기가 2점 증가하며, 최대 4/6/8/10회 중첩된다. \"성난 파도\"자세로 전환 시 임시 치명타 피해가 증가하며, 증가량은 자신의 치명타 피해의 20/25/30/35%에 해당한다. 재사용 대기 시간 3턴.",
+    "image_path": "images/wheel_living_prison.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "장미의 이름으로",
     "english_name": "wheel_name_of_a_rose",
     "optimized_for": ["소렐"],
