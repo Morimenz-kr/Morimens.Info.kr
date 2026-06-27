@@ -274,7 +274,7 @@
   {
     "korean_name": "포효하는 피와 모래",
     "english_name": "key_blood",
-    "description": "1명의 각성체를 선하여 20점의 힘을 얻습니다. 현재 경계역이 ‘혈육’인 경우, 배아 융합이 20% 증가하지만, 현재 생명의 10%를 잃습니다.",
+    "description": "1명의 각성체를 선택하여 20점의 힘을 얻습니다. 현재 경계역이 ‘혈육’인 경우, 배아 융합이 20% 증가하지만, 현재 생명의 10%를 잃습니다.",
     "image_path": "images/key_blood.png",
     "tags": ["","힘 증가", "체력 감소"],
     "source": "의식잠항 - 피와 모래"
@@ -399,5 +399,14 @@
     "tags": ["사야","방어막 획득", "드로우"],
     "owner_character_ids": ["saya"],
     "source": "다차원 연결 - 잊혀진 사랑의 씨앗"
+  },
+  {
+    "korean_name": "마음이 험한 사람",
+    "english_name": "key_pontos",
+    "description": "임시 크리티컬 피해 +30%, 모든 적의 힘을 임시로 35 감소시킨다. 폰토스 : 「사냥」 1스택 획득",
+    "image_path": "images/key_pontos.png",
+    "tags": ["폰토스","임시 크리티컬 피해 증가", "임시 힘 감소"],
+    "owner_character_ids": ["pontos"],
+    "source": "의식 잠항 - 영원한 에뷔노스"
   }
 ]
