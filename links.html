@@ -475,7 +475,7 @@
 
         <div class="chrome-tabs-container">
             <div class="chrome-tab active" data-tab="dictionary" onclick="switchTab('dictionary')">명륜 리스트</div>
-            <div class="chrome-tab" data-tab="character-effects" onclick="switchTab('character-effects')" hidden>스킬/돌파</div>
+            <div class="chrome-tab" data-tab="character-effects" onclick="switchTab('character-effects')" hidden>스킬/돌파/특성</div>
             <div class="chrome-tab" data-tab="links" onclick="switchTab('links')">채널 정보글 링크</div>
         </div>
 
@@ -1101,14 +1101,15 @@
 
         try {
             const ts = new Date().getTime();
-            const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB] = await Promise.all([
+            const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipsDB] = await Promise.all([
                 fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
                 fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
                 fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
                 fetch(`data/covenant_list.json?t=${ts}`).then(res => res.json()),
                 fetch(`data/character_settings.json?t=${ts}`).then(res => res.json()),
                 fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => []),
-                fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({}))
+                fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
+                fetch(`data/db_tooltips.json?t=${ts}`).then(res => res.json()).catch(() => ({}))
             ]);
 
             window.wheelMap = {};
@@ -1143,7 +1144,8 @@
                 CharacterEffects.render(
                     document.getElementById('character-effects-root'),
                     characterEffectsDB[charId],
-                    charData.name
+                    charData.name,
+                    tooltipsDB
                 );
                 // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
                 const gridContainer = document.getElementById('dictionary-grid');

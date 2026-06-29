@@ -34,7 +34,8 @@
 }
 
 .character-effect-list,
-.character-breakthrough-list {
+.character-breakthrough-list,
+.character-trait-list {
     display: grid;
     gap: 10px;
 }
@@ -96,6 +97,7 @@
 .character-effect-type,
 .character-effect-cost,
 .character-breakthrough-step,
+.character-trait-level,
 .character-effect-condition {
     display: inline-flex;
     align-items: center;
@@ -181,6 +183,79 @@
     border: 1px solid #444;
     border-left: 4px solid #ffc107;
     border-radius: 8px;
+}
+
+.character-trait-card {
+    padding: 16px;
+    background: #1e1e22;
+    border: 1px solid #444;
+    border-left: 4px solid #55b7a6;
+    border-radius: 8px;
+}
+
+.character-trait-level {
+    background: rgba(85, 183, 166, 0.14);
+    color: #72d1c0;
+}
+
+.character-trait-card h3 {
+    margin: 8px 0 10px;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.character-trait-card p {
+    margin: 0;
+    color: #ccc;
+    line-height: 1.65;
+}
+
+.tooltip-trigger {
+    color: inherit;
+    font-weight: 700;
+    border: 0;
+    text-decoration: none;
+    cursor: help;
+}
+
+.character-effect-tooltip-box {
+    position: fixed;
+    z-index: 1010;
+    width: min(380px, calc(100vw - 20px));
+    max-height: min(280px, calc(100dvh - 20px));
+    padding: 9px 11px;
+    overflow-y: auto;
+    color: #d7d7dc;
+    background: #252529;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    font-size: 0.86rem;
+    line-height: 1.45;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+    overscroll-behavior: contain;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: opacity 0.1s ease;
+}
+
+.character-effect-tooltip-box.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+@media (max-width: 600px) {
+    .character-effect-tooltip-box {
+        width: calc(100vw - 20px);
+        max-height: min(240px, calc(100dvh - 20px));
+        padding: 8px 10px;
+        font-size: 0.84rem;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
 }
 
 .character-breakthrough-card h3 {
