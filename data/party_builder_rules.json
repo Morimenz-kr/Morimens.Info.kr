@@ -1,0 +1,283 @@
+{
+  "exclusive_groups": [
+    [
+      "ramona",
+      "ramona_timeworn"
+    ]
+  ],
+  "character_tags": {
+    "허약/약화": [
+      "doll_inferno",
+      "nymphaea",
+      "karen",
+      "24",
+      "celeste",
+      "murphy",
+      "miryam",
+      "coporsant",
+      "salvador",
+      "thais",
+      "horla",
+      "ryker",
+      "winkle",
+      "dafoodil",
+      "doll",
+      "erica",
+      "castor"
+    ],
+    "취약": [
+      "doll_inferno",
+      "nymphaea",
+      "24",
+      "caecus",
+      "murphy",
+      "miryam",
+      "aigis",
+      "salvador",
+      "thais",
+      "doresain",
+      "horla",
+      "ogier",
+      "ryker",
+      "dafoodil",
+      "alva",
+      "erica"
+    ],
+    "광기부여": [
+      "miryam",
+      "doll_inferno",
+      "thais",
+      "horla",
+      "winkle",
+      "dafoodil",
+      "doll",
+      "nautila"
+    ],
+    "드로우": [
+      "ramona",
+      "ramona_timeworn",
+      "faros",
+      "jenkin",
+      "casiah",
+      "ryker",
+      "dafoodil",
+      "hameln",
+      "miryam"
+    ],
+    "힐": [
+      "doll_inferno",
+      "karen",
+      "lily",
+      "celeste",
+      "caecus",
+      "doresain",
+      "clementine",
+      "horla",
+      "doll",
+      "leigh",
+      "sorel",
+      "faint"
+    ],
+    "영구 힘 추가": [
+      "tawil",
+      "kathigu-ra",
+      "helot_catena",
+      "ramona",
+      "nymphaea",
+      "24",
+      "goliath",
+      "tulu",
+      "miryam",
+      "uvhash",
+      "thais",
+      "doresain",
+      "pickman",
+      "casiah",
+      "clementine",
+      "horla",
+      "ogier",
+      "lotan",
+      "ryker",
+      "dafoodil",
+      "pandia",
+      "hameln",
+      "leigh",
+      "agrippa",
+      "sorel",
+      "tinct",
+      "faint"
+    ],
+    "힘 감소": [
+      "ramona",
+      "ramona_timeworn",
+      "24",
+      "tulu",
+      "clementine",
+      "horla",
+      "wanda",
+      "miryam",
+      "xu"
+    ],
+    "힘 강탈": [
+      "faint",
+      "pickman",
+      "pandia",
+      "hameln",
+      "tinct"
+    ],
+    "힘 감소 제거": [
+      "helot"
+    ],
+    "경계": [
+      "alva",
+      "erica",
+      "agrippa"
+    ],
+    "중독": [
+      "doll_inferno",
+      "nymphaea",
+      "karen",
+      "lily",
+      "24",
+      "faros",
+      "miryam",
+      "thais",
+      "dafoodil",
+      "agrippa",
+      "liz",
+      "xu"
+    ],
+    "출혈": [
+      "helot_catena",
+      "24",
+      "thais",
+      "pollux",
+      "helot"
+    ],
+    "반격": [
+      "24",
+      "caecus",
+      "faint",
+      "thais",
+      "winkle",
+      "wanda",
+      "nautila",
+      "pandia"
+    ],
+    "석화/기절": [
+      "aigis",
+      "mouchette"
+    ],
+    "배아 추가": [
+      "24",
+      "thais",
+      "aigis",
+      "leigh",
+      "agrippa",
+      "sorel"
+    ],
+    "스칼렛 용광로 축적": [
+      "24",
+      "salvador"
+    ],
+    "크리티컬 확률 증가": [
+      "tinct",
+      "leigh"
+    ],
+    "크리티컬 피해 증가": [
+      "jenkin",
+      "dafoodil",
+      "tinct",
+      "leigh"
+    ],
+    "둔화제거": [
+      "karen",
+      "celeste"
+    ],
+    "중상제거": [
+      "celeste"
+    ],
+    "취약제거": [
+      "faros",
+      "doll",
+      "leigh",
+      "tinct"
+    ],
+    "허약제거": [
+      "caecus",
+      "tulu",
+      "lotan",
+      "helot",
+      "tinct",
+      "erica"
+    ],
+    "손상제거": [
+      "sanga",
+      "ogier",
+      "winkle",
+      "tinct"
+    ],
+    "취약/허약/손상 면역": [
+      "nautila"
+    ],
+    "힘제거": [
+      "goliath"
+    ],
+    "장벽제거": [
+      "winkle"
+    ],
+    "반격제거": [
+      "pandia"
+    ],
+    "광기/광란제거": [
+      "clementine"
+    ],
+    "죽음 저항 추가": [
+      "faint"
+    ],
+    "희생": [
+      "murphy",
+      "Murphy_Fauxborn"
+    ],
+    "부식": [
+      "castor"
+    ],
+    "추격": [
+      "mouchette"
+    ],
+    "산출력 획득": [
+      "doll_inferno",
+      "xu"
+    ]
+  },
+  "tag_aliases": {
+    "크리티컬 피해 증가": [
+      "치피 증가",
+      "치명타 피해 증가",
+      "치피",
+      "크뎀"
+    ],
+    "크리티컬 확률 증가": [
+      "치확 증가",
+      "치명타 확률 증가",
+      "치확",
+      "크확"
+    ],
+    "죽음 저항 추가": [
+      "죽음 저항",
+      "죽저",
+      "데스 레지스턴스"
+    ],
+    "영구 힘 추가": [
+      "공격력 증가",
+      "버프",
+      "영구 힘"
+    ],
+    "허약/약화": [
+      "공격력 감소"
+    ],
+    "취약": [
+      "받는 피해 증가"
+    ]
+  }
+}

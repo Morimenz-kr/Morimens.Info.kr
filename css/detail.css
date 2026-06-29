@@ -251,7 +251,7 @@ h4 { color: var(--color-accent); border-bottom: 1px solid var(--color-border-lig
     opacity: 0;
     position: fixed;
     z-index: 1010;
-    width: 280px;
+    width: min(420px, calc(100vw - 24px));
     padding: 10px 12px;
     background-color: var(--color-bg-dark);
     color: #f0f0f0;
@@ -260,6 +260,7 @@ h4 { color: var(--color-accent); border-bottom: 1px solid var(--color-border-lig
     font-size: 0.9em;
     text-align: left;
     line-height: 1.4;
+    white-space: pre-line;
     transition: opacity 0.2s, visibility 0.2s;
     pointer-events: none;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);

@@ -136,6 +136,15 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "이상한 나라의 릴리",
+    "english_name": "wheel_alice_lily",
+    "optimized_for": [""],
+    "main_stat": "피해 증폭 14.4%",
+    "description": "탐색 시작 후, 「이상한 나라의 릴리」 1장을 덱에 추가. 「이상한 나라의 릴리」: 행동력 2 소모, 장비자가 광기 20/30/40/50과 「의식 간섭」 3스택 획득. 보존, 소모. 「의식 간섭」: 행동 불가. 턴 종료 시 의식 간섭 1층 제거. 모드ㅜ 제거되면 각성체가 다음 1회 광기 폭발 발동 시 초월 폭발 발동으로 간주하며, 발동 시 이미 초월 폭발 상태라면 기초 광기 100% 반환으로 변경된다.",
+    "image_path": "images/wheel_alice_lily.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "행운의 시간",
     "english_name": "wheel_time_of_luck",
     "optimized_for": ["라이커"],
@@ -309,7 +318,7 @@
     "grade": "SSR",
     "korean_name": "바다의 꿈",
     "english_name": "wheel_dream_of_ocean",
-    "optimized_for": ["오리타"],
+    "optimized_for": ["오렢타"],
     "main_stat": "크리티컬 확률 14.4%",
     "description": "팀 유일: 장비자가 카드를 사용한 후, 장비자는 1 광기를 획득한다. 전투 시작 시, 장비자의 공격력 6/7/8/9%의 힘을 획득한다. 현재 영역이 \"심해\"일 경우, 추가로 3/4/5/6%만큼 촉수 피해가 증가한다. 이후 매 턴 시작 시, 장비자의 공격력 2.1/2.4/2.7/3%의 힘을 획득한다. 현재 영역이 \"심해\"일 경우, 추가로 1.1/1.4/1.7/2%만큼 촉수 피해가 증가한다.",
     "image_path": "images/wheel_dream_of_ocean.png"
@@ -322,6 +331,15 @@
     "main_stat": "죽음 저항 50.4%",
     "description": "팀 유일: 장비자의 카드를 사용한 후, 장비자 방어력의 6/8/10/12%에 해당하는 방어막을 획득하며, 촉수 1개마다 방어막이 장비자 방어력의 1.5/2/2.5/3%만큼 증가한다. 이 효과는 1턴에 1번만 적용된다.",
     "image_path": "images/wheel_death_of_coral_woman.png"
+  },
+  {
+    "grade": "SSR",
+    "korean_name": "살아있는 감옥",
+    "english_name": "wheel_living_prison",
+    "optimized_for": ["폰토스"],
+    "main_stat": "크리티컬 피해 21.6%",
+    "description": "장착자가 힘 감소 효과를 20/25/30/35%만큼 증가시킨다. 적을 1명 처치할 때마다 장착자의 이번 탐색 턴 종료 시 고정 회복되는 광기가 2점 증가하며, 최대 4/6/8/10회 중첩된다. \"성난 파도\"자세로 전환 시 임시 치명타 피해가 증가하며, 증가량은 자신의 치명타 피해의 20/25/30/35%에 해당한다. 재사용 대기 시간 3턴.",
+    "image_path": "images/wheel_living_prison.png"
   },
   {
     "grade": "SSR",
@@ -513,13 +531,13 @@
     "image_path": "images/wheel_wasted_frown.png"
   },
   {
-  "grade": "SSR",
-  "korean_name": "세상이 향기가 되길",
-  "english_name": "wheel_saya_ssr",
-  "optimized_for": ["사야"],
-  "main_stat": "검은 인장 드롭 10.8%",
-  "description": "산출력 상한 +1, 동일한 유형의 효과는 중첩되지 않는다. 장비자의 기초 광기 10당 가하는 침식이 2/3/4/5%씩 증가하며, 가하는 배아 융햡이 0.9/1.1/1.3/1.5% 증가한다.",
-  "image_path": "images/wheel_saya_ssr.png"
+    "grade": "SSR",
+    "korean_name": "세상이 향기가 되길",
+    "english_name": "wheel_saya_ssr",
+    "optimized_for": ["사야"],
+    "main_stat": "검은 인장 드롭 10.8%",
+    "description": "산출력 상한 +1, 동일한 유형의 효과는 중첩되지 않는다. 장비자의 기초 광기 10당 가하는 침식이 2/3/4/5%씩 증가하며, 가하는 배아 융햡이 0.9/1.1/1.3/1.5% 증가한다.",
+    "image_path": "images/wheel_saya_ssr.png"
   },
   {
     "grade": "SSR",
@@ -645,7 +663,7 @@
     "main_stat": "영역 숙련 18",
     "description": "팀 유일: 장비자가 광기 폭발을 사용한 후, 모든 아군이 2/3/4/5 광기를 획득한다.",
     "image_path": "images/wheel_heavy_of_duty.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -654,7 +672,7 @@
     "main_stat": "은열쇠 충전 10.8",
     "description": "팀 유일: 은열쇠 발동 후, 장비자는 9/11/13/15 광기를 획득한다.",
     "image_path": "images/wheel_channeling.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -663,7 +681,7 @@
     "main_stat": "피해 증폭 7.2%",
     "description": "팀 유일: 장비자가 입히는 중독이 6/8/10/12% 증가한다. '타격'이 대상 적에게 공격력 9/11/13/15%만큼의 중독을 부여한다. 이 효과는 턴당 최대 3회 발동된다.",
     "image_path": "images/wheel_pain_curse.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -672,7 +690,7 @@
     "main_stat": "피해 증폭 7.2%",
     "description": "팀 유일: 장비자의 '타격'은 목표 적이 장비자 공격력 6/8/10/12%만큼의 임시 힘을 잃게 한다. 이 효과는 턴당 최대 3회 발동된다.",
     "image_path": "images/wheel_cut_and_hurt.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -681,7 +699,7 @@
     "main_stat": "죽음 저항 25.2%",
     "description": "팀 유일: 장비자가 입히는 반격이 6/8/10/12% 증가한다. '방어'가 장비자 방어력 15/20/25/30%만큼의 임시 반격을 획득하게 하며, 보스 전투에서는 3배의 임시 반격을 획득한다. 죽음 저항 발동 후, 모든 적에게 보유한 반격 수치의 40/60/80/100%만큼 고정 피해를 입힌다.",
     "image_path": "images/wheel_int_the_nightshadow.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -690,7 +708,7 @@
     "main_stat": "검은 인장 드롭율 5.4%",
     "description": "팀 유일: 장비자의 '방어'를 발동한 후, 장비자의 공격력 9/12/15/18%만큼의 임시 힘을 획득한다.",
     "image_path": "images/wheel_adventure_bag.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -699,7 +717,7 @@
     "main_stat": "크리티컬 확률 7.2%",
     "description": "팀 유일: 장비자가 적을 처치한 후 11/14/17/20 광기와 1% 크리티컬 피해를 획득한다. 이 효과는 전체 탐색 동안 유효하다.",
     "image_path": "images/wheel_dessection_of_death.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -708,7 +726,7 @@
     "main_stat": "크리티컬 피해 10.8%",
     "description": "팀 유일: 장비자가 광기 폭발을 사용한 후, 이 턴 모든 아군의 크리티컬 확률이 13/17/21/25% 증가한다.",
     "image_path": "images/wheel_dear_my_friend.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -717,7 +735,7 @@
     "main_stat": "죽음 저항 25.2%",
     "description": "팀 유일: 증상 카드를 1장 사용할 때마다 장비자는 9/10/11/12 광기를 획득한다. 이 효과는 한 턴에 2번까지 발동할 수 있다. 장비자가 명령 카드를 1장 사용한 후, 1 광기를 획득한다.",
     "image_path": "images/wheel_memory_syndrom.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -726,7 +744,7 @@
     "main_stat": "광기 회복 3.6",
     "description": "팀 유일: 장비자가 광기 폭발을 사용한 후, 장비자의 방어력 16/19/22/25%만큼의 방어막을 획득한다.",
     "image_path": "images/wheel_mind_wall.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -735,7 +753,7 @@
     "main_stat": "크리티컬 피해 10.8%",
     "description": "팀 유일: 장비자가 피해를 입혔을 때 크리티컬 확률이 4/6/8/10% 증가하고, 크리티컬을 발동한 후 이 효과로 얻은 크리티컬 확률은 사라진다.",
     "image_path": "images/wheel_critical_point.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -744,7 +762,7 @@
     "main_stat": "광기 회복 3.6",
     "description": "팀 유일: 장비자의 광기 폭발 기본 피해가 15/20/25/30% 증가하고, 방어막과 HP 회복이 9/11/13/15% 증가한다.",
     "image_path": "images/wheel_lords_cane.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -753,7 +771,7 @@
     "main_stat": "영역 숙련 18",
     "description": "팀 유일: 장비자 명령 카드의 기본 피해가 15/20/25/30% 증가하고, 방어막과 HP 회복이 9/11/13/15% 증가한다.",
     "image_path": "images/wheel_info_is_life.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -762,7 +780,7 @@
     "main_stat": "은열쇠 충전 10.8",
     "description": "팀 유일: 장비자의 카드를 1장 사용할 때마다 20/30/40/50 은열쇠 에너지를 획득한다. 이 효과는 한 턴에 최대 3번 적용된다.",
     "image_path": "images/wheel_meeting_moment.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -771,7 +789,7 @@
     "main_stat": "검은 인장 드롭율 5.4%",
     "description": "팀 유일: 탐색 시작 시 장비자의 '방어' 1장을 덱에 추가하고, 장비자의 '방어' 방어막이 22/28/34/40% 증가한다.",
     "image_path": "images/wheel_non-existent.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -780,7 +798,7 @@
     "main_stat": "크리티컬 확률 7.2%",
     "description": "팀 유일: 탐색 시작 시 장비자의 '타격' 1장을 덱에 추가하고, 장비자의 '타격' 기본 피해가 22/28/34/40% 증가한다.",
     "image_path": "images/wheel_hand_of_forget.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -789,7 +807,7 @@
     "main_stat": "광기 회복 3.6",
     "description": "팀 유일: 전투 시작 시, 드로우 덱에서 산출력 소모가 3 이상인 장비자의 모든 명령 카드에 \"불멸의 지배\" 효과를 부여한다: 이 카드는 보존 효과를 가지며, 사용 후 모든 각성체의 임시 크리티컬 확률이 4/6/8/10% 증가하고 \"불멸의 지배\"가 제거된다. 현재 영역이 \"심해\"일 경우, \"불멸의 지배\"가 제거된 후 1점 산출력을 획득한다.",
     "image_path": "images/wheel_blue_stone_seat.png",
-    "optimized_for" : ["툴루"]    
+    "optimized_for": ["툴루"]
   },
   {
     "grade": "SR",
@@ -798,7 +816,7 @@
     "main_stat": "피해 증폭 7.2%",
     "description": "팀 유일: 장비자가 각 턴에 사용하는 첫 번째 명령 카드가 주는 기본 피해가 30/40/50/60% 증가한다. 만약 그 카드가 초차원 공간에 진입하면, 장비자는 5/6/7/8 광기를 획득한다.",
     "image_path": "images/wheel_hat_of_witch.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -807,7 +825,7 @@
     "main_stat": "크리티컬 확률 7.2%",
     "description": "팀 유일: 장비자가 입히는 피해가 장비자의 공격력 6/8/10/12%만큼 증가한다. 현재 영역이 \"혈육\"일 경우, 장비자가 포식을 발동할 때마다 장비자가 입히는 피해가 장비자 공격력 3%만큼 추가로 증가한다.",
     "image_path": "images/wheel_million_eyes.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -816,7 +834,7 @@
     "main_stat": "은열쇠 충전 10.8",
     "description": "팀 유일: 장착자의 은열쇠 충전, 광기 폭발로 발생하는 최종 피해 및 방어막이 5/6/7/8% 증가합니다.",
     "image_path": "images/wheel_blue_ring_poison.png",
-    "optimized_for" : ["탄망 · 머피"]
+    "optimized_for": ["탄망 · 머피"]
   },
   {
     "grade": "SR",
@@ -841,7 +859,7 @@
     "main_stat": "피해 증폭 7.2%",
     "description": "팀 유일: 장비자의 방어막과 반격이 4/6/8/10% 증가한다. 공격을 받을 때마다 70/80/90/100% 확률로 모든 각성체에게 1 광기를 부여한다.",
     "image_path": "images/wheel_isallu_eye.png",
-    "optimized_for" : ["완다"]
+    "optimized_for": ["완다"]
   },
   {
     "grade": "SR",
@@ -858,7 +876,7 @@
     "main_stat": "크리티컬 확률 7.2%",
     "description": "팀 유일: 탐색 시작 후, 장비자는 은대구 인격 상태에 진입한다. 장비자가 광기 폭발을 사용한 후 은대구 인격과 고양이 인격 사이에서 전환된다. 은대구 인격: 장비자가 피해를 입힌 후 25/30/35/40 은열쇠 에너지를 획득한다. 고양이 인격: 장비자가 피해를 입힌 후, 장비자의 임시 크리티컬 피해가 1/2/3/4% 증가한다. 이 두 효과는 매 턴 최대 5회 발동 가능하다.",
     "image_path": "images/wheel_silver_fish.png",
-    "optimized_for" : ["24"]
+    "optimized_for": ["24"]
   },
   {
     "grade": "SR",
@@ -867,7 +885,9 @@
     "main_stat": "광기 회복 3.6",
     "description": "팀 유일: 장비자가 광기 폭발을 사용한 후, 공격력의 1.5/2/2.5/3%만큼 힘을 획득한다. 현재 영역이 \"혈육\"일 경우, 광기 폭발 발동 시 배아 융합이 4/6/8/10% 증가한다.",
     "image_path": "images/wheel_goodbye_kiss.png",
-    "oprimized_for" : [""]
+    "oprimized_for": [
+      ""
+    ]
   },
   {
     "grade": "SR",
@@ -876,7 +896,7 @@
     "main_stat": "크리티컬 피해 10.8%",
     "description": "팀 유일: 전투 시작 후, 장비자 공격력 5/6/7/8%의 힘을 획득한다. 현재 영역이 \"심해\"일 경우, 장비자의 공격력 5/6/7/8%만큼 촉수 피해가 증가한다.",
     "image_path": "images/wheel_call_of_abyss.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -885,7 +905,7 @@
     "main_stat": "죽음 저항 25.2%",
     "description": "팀 유일: 전투 시작 시 장비자의 명령 카드를 1장 뽑으며, 40/60/80/100% 확률로 그 산출력 소모가 1 감소한다. 죽음 저항이 발동할 때마다 해당 효과는 1회 반복된다.",
     "image_path": "images/wheel_flowers_and_poems.png",
-    "optimized_for" : ["오를라"]
+    "optimized_for": ["오를라"]
   },
   {
     "grade": "SR",
@@ -903,7 +923,7 @@
     "main_stat": "검은 인장 드롭율 5.4%",
     "description": "팀 유일: 장비자의 크리티컬 확률이 5/6/7/8% 증가한다. 장비자가 적을 처치한 뒤 3/4/5/6개의 검은 인장을 획득하며, 탐색 중 최대 3회까지 발동할 수 있다. 3회 발동 후, 이번 탐색에서 장비자의 크리티컬 확률이 영구적으로 3/4/5/6% 증가한다.",
     "image_path": "images/wheel_roullet_of_destiny.png",
-    "optimized_for" : ["라이커"]
+    "optimized_for": ["라이커"]
   },
   {
     "grade": "SR",
@@ -912,7 +932,7 @@
     "main_stat": "크리티컬 확률 7.2%",
     "description": "팀 유일: 턴 종료 시 장비자는 5 광기를 얻는다. 장비자가 광기 폭발을 사용한 후, 장비자가 이번 턴에 사용하는 다음 명령 카드의 크리티컬 확률, 크리티컬 피해, 방어막, HP 회복이 11/14/17/20% 증가한다.",
     "image_path": "images/wheel_never_stop_show.png",
-    "optimized_for" : ["하멜른"]
+    "optimized_for": ["하멜른"]
   },
   {
     "grade": "SR",
@@ -921,7 +941,7 @@
     "main_stat": "피해 증폭 7.2%",
     "description": "팀 유일: 장비자가 입히는 기본 피해가 9/11/13/15% 증가한다. 전투 시작 시, 장비자는 25스택의 '빙설'을 획득하며, 장비자가 카드를 사용하면 2 광기를 획득하고 1스택을 제거한다. '빙설'이 모두 제거된 뒤, 장비자는 11/14/17/20% 크리티컬 확률을 획득한다.",
     "image_path": "images/wheel_until_snowmt_melt.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -930,7 +950,7 @@
     "main_stat": "은열쇠 충전 10.8",
     "description": "팀 유일: 전투 시작 후, 장비자의 은열쇠 충전량 350/400/450/500%에 해당하는 은열쇠 에너지를 획득한다. 매 전투에서 처음 은열쇠를 발동한 뒤, 이 효과를 다시 발동한다.",
     "image_path": "images/wheel_door_of_truth.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -939,7 +959,7 @@
     "main_stat": "광기 회복 3.6",
     "description": "팀 유일: 전투 시작 시, 장비자는 장비자의 광기 회복 70/80/90/100%만큼의 광기를 획득한다. 장비자가 각 전투에서 처음 광기 폭발을 사용한 후, 해당 효과가 한 번 더 발동된다.",
     "image_path": "images/wheel_stick_of_shepered.png",
-    "optimized_for" : [""]
+    "optimized_for": [""]
   },
   {
     "grade": "SR",
@@ -948,7 +968,7 @@
     "main_stat": "은열쇠 충전 10.8",
     "description": "팀 유일: 장비자의 은열쇠 충전이 4/6/8/10% 증가한다. 첫 번째 전투 시작 후, 모든 적에게 1턴 허약과 취약을 부여한다.",
     "image_path": "images/wheel_hypnotic_pendulum.png",
-    "optimized_for" : ["클레멘타인"]
+    "optimized_for": ["클레멘타인"]
   },
   {
     "grade": "SR",
@@ -957,7 +977,7 @@
     "main_stat": "죽음 저항 25.2%",
     "description": "팀 유일: 전투 시작 시 장비자의 방어력 15/20/25/30%만큼의 방어막을 획득한다. 죽음 저항 발동 후, 다음 턴 시작 시 이 효과가 다시 발동된다.",
     "image_path": "images/wheel_guide_sea.png",
-    "optimized_for" : ["코퍼산트"]
+    "optimized_for": ["코퍼산트"]
   },
   {
     "grade": "SR",
@@ -966,7 +986,7 @@
     "main_stat": "피해 증폭 7.2%",
     "description": "팀 유일: 장비자가 생성하는 방어막이 6/8/10/12% 증가한다. 턴 종료 시 장비자 방어력 4/6/8/10%만큼의 방어막을 획득하고, 매 턴 방어력이 2% 증가한다.",
     "image_path": "images/wheel_alone_feather.png",
-    "optimized_for" : ["카스토르"]
+    "optimized_for": ["카스토르"]
   },
   {
     "grade": "SR",
@@ -975,7 +995,7 @@
     "main_stat": "크리티컬 피해 10.8%",
     "description": "팀 유일: 장비자가 입히는 기본 피해가 9/11/13/15% 증가한다. 현재 영역이 \"혈육\"일 경우, 장비자가 적을 처치할 때 장비자의 공격력 8/12/16/20%만큼 핏빛 용광로를 축적한다.",
     "image_path": "images/wheel_great_dish.png",
-    "optimized_for" : ["도어세인"]
+    "optimized_for": ["도어세인"]
   },
   {
     "grade": "SR",
@@ -984,7 +1004,7 @@
     "main_stat": "크리티컬 피해 10.8%",
     "description": "팀 유일: 장비자가 입히는 기본 피해가 9/11/13/15% 증가한다. 장비자의 명령 카드를 5장 사용한 후, 장비자는 14/16/18/20%의 크리티컬 확률을 획득한다. 이 효과는 매 턴 1회만 발동된다.",
     "image_path": "images/wheel_comming_sun.png",
-    "optimized_for" : ["카티구라"]
+    "optimized_for": ["카티구라"]
   },
   {
     "grade": "SR",
@@ -993,7 +1013,7 @@
     "main_stat": "광기 회복 3.6",
     "description": "팀 유일: 장비자가 광기 폭발을 발동한 후 1개의 \"공창\"을 획득한다. 이번 턴 다른 각성체의 광기 폭발은 \"공창\"을 소모할 수 있으며, 소모 후 이번 광기 폭발의 크리티컬 확률이 13/17/21/25% 증가한다. 또한 \"공창\"을 소모한 각성체는 장비자의 광기 회복 13/17/21/25%만큼 광기를 획득한다.",
     "image_path": "images/wheel_brush_of_yearning.png",
-    "optimized_for" : ["픽맨"]
+    "optimized_for": ["픽맨"]
   },
   {
     "grade": "SR",
@@ -1002,7 +1022,7 @@
     "main_stat": "크리티컬 확률 7.2%",
     "description": "팀 유일: 초차원 턴에 장비자는 '심장의 불' 3스택을 얻고, 장비자가 그 턴 명령 카드를 사용할 때 1스택을 소모하여 최종 피해와 방어막을 9/11/13/15% 증가시킨다.",
     "image_path": "images/wheel_holy_face.png",
-    "optimized_for" : ["폴룩스"]
+    "optimized_for": ["폴룩스"]
   },
   {
     "grade": "SR",
@@ -1011,7 +1031,7 @@
     "main_stat": "피해 증폭 7.2%",
     "description": "팀 유일 : 장비자가 초래하는 고정 중독과 발동 중독 효과가 4/6/8/10% 증가합니다. 장비자가 매 턴 처음으로 '공명'을 발동할 때 4/6/8/10의 광기를 획득합니다.",
     "image_path": "images/wheel_otori_lily.png",
-    "optimized_for" : ["서"]
+    "optimized_for": ["서"]
   },
   {
     "grade": "SR",
@@ -1020,7 +1040,7 @@
     "main_stat": "영역 숙련 18",
     "description": "팀 유일 : \"몰아치는 파도\"자세로 전환할 떄 현재 영역 숙련의 11/14/17/20%에 해당하는 임시 영역 숙련을 획득하며, 3턴 쿨다운.",
     "image_path": "images/wheel_stucked_madness.png",
-    "optimized_for" : ["모스크"]
+    "optimized_for": ["모스크"]
   },
   {
     "grade": "SR",
@@ -1029,7 +1049,7 @@
     "main_stat": "영역 숙련 18",
     "description": "파티 유일 : 장비자가 가하는 보호막이 4/6/8/10% 증가하고, 장비자가「추격」시 +9/11/13/15% 임시 강화, 매턴 최대 5회 발동",
     "image_path": "images/wheel_wheel_of_fate.png",
-    "optimized_for" : ["아라크네"]
+    "optimized_for": ["아라크네"]
   },
   {
     "grade": "SR",
@@ -1038,6 +1058,18 @@
     "main_stat": "검은 인장 드롭 5.4%",
     "description": "'핏빛 용광로'를 사용한 이후, 장비자가 기초 광기의 4/6/8/10%에 해당하는 광기를 획득하며, 쿨타임은 3턴입니다.",
     "image_path": "images/wheel_saya_sr.png",
-    "optimized_for" : ["사야"]
+    "optimized_for": ["사야"]
+  },
+  {
+    "grade": "SR",
+    "korean_name": "잘못된 길로 향하는 나침반",
+    "english_name": "wheel_pontos_sr",
+    "main_stat": "크리티컬 피해 10.8%",
+    "description": "장착자의 힘 감소 효과가 9/11/13/15% 증가한다. 「노도」자세로 전환한 후 임시 치명타 피해가 증가하며, 증가량은 자신의 크리티컬 피해의 9/11/13/15%에 해당한다. 재사용 대기 시간 3턴",
+    "image_path": "images/wheel_pontos_sr.png",
+    "optimized_for": ["폰토스"],
+    "owner_character_ids": [
+      "pontos"
+    ]
   }
 ]
