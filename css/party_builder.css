@@ -512,38 +512,43 @@ body {
 }
 .active-tag-chip:hover { background: rgba(247, 161, 21, 0.4); }
 .active-tag-chip::after { content: '×'; font-weight: bold; font-size: 1.1em; }
+.wheel-main-stat-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+}
+.wheel-filter-label {
+    color: #aaa;
+    font-size: 0.82em;
+    font-weight: 700;
+    margin-right: 2px;
+}
+.wheel-filter-chip {
+    padding: 5px 9px;
+    border: 1px solid #555;
+    border-radius: 14px;
+    background: #1e1e22;
+    color: #bbb;
+    font: inherit;
+    font-size: 0.78em;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.wheel-filter-chip:hover {
+    border-color: var(--highlight);
+    color: var(--highlight);
+}
+.wheel-filter-chip.active {
+    border-color: var(--highlight);
+    background: rgba(247, 161, 21, 0.2);
+    color: var(--highlight);
+}
 .no-result-message { width: 100%; text-align: center; color: #777; padding: 60px 0; font-size: 1.1em; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .no-result-message::before { content: '🔍'; font-size: 2em; opacity: 0.5; margin-bottom: 5px; }
 
 @keyframes expandDropdown { from { max-height: 0; opacity: 0; } to { max-height: 200px; opacity: 1; } }
-
-/* --- [신고 모달 스타일] --- */
-.floating-report-btn {
-    position: fixed; right: 20px; top: 50%; transform: translateY(-50%); z-index: 2000;
-    background: #3a3a3a; width: 56px; height: 56px; border-radius: 12px;
-    display: flex; align-items: center; justify-content: center; font-size: 28px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); cursor: pointer; transition: all 0.3s ease; border: none;
-}
-.floating-report-btn:hover { background: #4a4a4a; transform: translateY(-50%) scale(1.1); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5); }
-
-#report-modal .modal-content {
-    width: 90%; max-width: 500px; background-color: var(--modal-bg); border-radius: var(--modal-radius);
-    padding: 20px; border: 1px solid var(--modal-border); max-height: 80vh; display: flex; flex-direction: column; text-align: left; color: #eee;
-}
-#report-modal .form-title { color: var(--modal-accent); border-bottom: 1px solid var(--modal-border); padding-bottom: 10px; margin-top: 0; font-size: 1.5em; }
-#report-modal p { color: #aaa; font-size: 0.9em; margin-bottom: 15px; }
-#report-modal .form-field-label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; color: #ccc; font-size: 1em; }
-#report-modal .form-input, #report-modal .form-textarea {
-    width: 100%; padding: 12px; border: 1px solid #555; border-radius: 6px; background-color: #383838;
-    color: #eee; font-size: 1em; box-sizing: border-box; font-family: 'Pretendard', sans-serif;
-}
-#report-modal .form-textarea { min-height: 120px; resize: vertical; }
-#report-modal .form-input:focus, #report-modal .form-textarea:focus { outline: none; border-color: var(--modal-accent); }
-#report-modal .form-submit-btn {
-    display: block; width: 100%; padding: 12px; margin-top: 20px; background-color: #007bff; color: white;
-    border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; font-size: 1em;
-}
-#report-modal .form-submit-btn:hover { background-color: #0056b3; }
 
 /* --- [시스템 알림 모달] --- */
 #modal-system .modal-box {
@@ -917,7 +922,6 @@ body {
     .tab-name-text { max-width: 80px; }
     .top-navigation-bar { gap: 10px; }
     .modal-header h3 { font-size: 1rem; }
-    .floating-report-btn { width: 44px; height: 44px; font-size: 22px; right: 10px; }
 }
 
 /* 5. 모바일 키보드 대응: 모달 높이 축소 */

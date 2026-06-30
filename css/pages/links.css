@@ -9,6 +9,11 @@
     padding: 0 10px;
 }
 
+.links-page-shell {
+    position: relative;
+    z-index: 2;
+}
+
 /* --- 2. 카테고리 타이틀 --- */
 .category-title {
     color: #ffc107;
@@ -167,6 +172,72 @@
     background-color: #0056b3;
 }
 
+.sub-modal-body {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.sub-modal-close-btn {
+    margin-top: 20px;
+    background-color: #444;
+}
+
+.tooltip-effect-heading {
+    color: #d9d9d9;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.tooltip-effect-heading-large {
+    margin-top: 15px;
+}
+
+.tooltip-effect-body {
+    margin-top: 2px;
+}
+
+.tooltip-effect-muted {
+    color: #d9d9d9;
+}
+
+.no-setting-icon {
+    font-size: 24px;
+}
+
+.sub-modal-empty {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+}
+
+.bookmark-favicon {
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+.notion-bookmark-full {
+    width: 100%;
+}
+
+.notion-bookmark-fallback {
+    padding: 15px;
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    display: block;
+}
+
+.notion-bookmark-fallback-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    word-break: break-all;
+}
+
+.notion-bookmark-fallback-desc {
+    font-size: 0.8em;
+    color: #aaa;
+}
+
 /* ============================================
    크롬 스타일 폴더형 탭 및 화면 스위칭 로직
    ============================================ */
@@ -256,5 +327,491 @@
         background: rgba(25, 25, 30, 0.98); border: 1px solid #ffc107;
         box-shadow: 0 -5px 20px rgba(0,0,0,0.7); text-align: left;
         padding: 15px; z-index: 2000; border-radius: 8px; pointer-events: none;
+    }
+}
+
+/* Moved from links.html inline styles. */
+/* 융재금구 시뮬레이터 버튼 스타일 최종 수정 */
+.party-link-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    /* 상단 마진(패딩)을 0으로 줄여 타이틀과의 간격을 밀착시킵니다 */
+    margin: -35px 0 20px 0;
+    background-color: #3498db !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.95em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: none;
+    box-sizing: border-box;
+}
+
+/* 호버 상태 유지 */
+.party-link-btn:hover {
+    background-color: #3498db !important;
+    color: #ffffff !important;
+    cursor: pointer;
+}
+.party-credit-text {
+    display: block;
+    font-size: 0.8em;
+    color: #aaa;
+    text-align: center;
+    margin-top: 10px;
+    padding-bottom: 20px;
+}
+/* 기존 .report-btn 스타일 */
+.report-btn {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    background-color: #333;
+    color: #ccc;
+    text-align: center;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid #555;
+    cursor: pointer;
+    font-size: 0.95em;
+    margin-top: 10px;
+}
+.report-btn:hover {
+    background-color: #444;
+    color: #fff;
+}
+.recommend-role, .recommend-step {
+    display: inline-block; /* 텍스트 크기에 맞게 조절 */
+    background-color: #2a2a32;
+    border: 1px solid #555;
+    border-radius: 12px;
+    padding: 3px 12px;
+    font-size: 0.75em;
+    color: #eee;
+    text-align: center;
+    white-space: nowrap;
+    width: fit-content;
+}
+.recommend-box {
+    width: 100%;
+    aspect-ratio: 2 / 0.9;
+    background-color: #1e1e22;
+    border: 1px solid #444;
+    border-radius: 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    color: #ddd;
+    padding: 0; /* 이중 패딩 방지를 위해 0으로 변경 */
+    margin-bottom: 25px;
+}
+/* 마지막 박스의 하단 마진만 제거하여 레이아웃 균형을 맞춤 */
+.recommend-box:last-child {
+    margin-bottom: 0;
+}
+/* [수정] 좌측 영역의 너비를 고정하여 완벽한 중앙 배치 공간 확보 */
+.recommend-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 10px;
+    width: 140px; /* 왼쪽 벽부터 세로선까지의 너비를 고정 */
+    min-width: 140px;
+    padding: 0; /* 내부 패딩 제거 (중앙 정렬로 대체) */
+    border-right: 1px solid #444;
+    box-sizing: border-box;
+}
+
+/* [유지] 기존 8px 라운드 사각형 디자인과 크기 그대로 유지 */
+.recommend-thumb {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 8px; /* 기존 스타일 유지 */
+    border: 1px solid #555;
+}
+
+.recommend-right {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;            /* [수정] 이 수치를 조절해서 원하는 공백을 맞추세요 */
+    height: 100%;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.equip-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 100%;
+    width: fit-content;    /* 너비를 내용물에 맞춤 */
+    min-width: 0;          /* 고정 너비 삭제 */
+}
+
+.equip-img-myeongryun {
+    height: 60%;
+    aspect-ratio: 225 / 456;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #555;
+}
+
+.equip-img-covenant {
+    height: 60%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #555;
+}
+
+/* 슬롯 하단 라벨 텍스트 */
+.equip-label {
+    font-size: 0.8em;
+    color: #aaa;
+    white-space: nowrap;
+}
+
+/* 대체 텍스트 버튼 스타일 */
+.sub-link {
+    font-size: 0.75em;
+    color: #aaa;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: color 0.2s;
+}
+.sub-link:hover {
+    color: #ffc107;
+}
+.sub-link.disabled {
+    color: #444;           /* 어둡게 처리 */
+    text-decoration: none; /* 밑줄 제거 */
+    cursor: default;      /* 커서 기본으로 */
+    pointer-events: none;  /* 클릭 차단 */
+}
+
+
+/* 모달 내 대체 아이템 리스트 스타일 */
+.sub-item-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+.sub-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #2a2a32;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+.sub-item img {
+    width: 40px;
+    border-radius: 4px;
+}
+
+/* 명륜 전용 모달 크기 (세로형 아이템 위주) */
+.modal-myeongryun {
+    width: 400px;
+    max-height: 80vh;
+}
+
+#substitute-modal .modal-content {
+    width: fit-content;
+    min-width: min(420px, calc(100vw - 40px));
+    max-width: calc(100vw - 40px);
+    box-sizing: border-box;
+}
+
+#sub-modal-body {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.substitute-grid {
+    display: grid;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 15px;
+    max-width: 100%;
+}
+
+.substitute-grid.cols-1 { grid-template-columns: minmax(120px, 150px); }
+.substitute-grid.cols-2 { grid-template-columns: repeat(2, minmax(120px, 150px)); }
+.substitute-grid.cols-3 { grid-template-columns: repeat(3, minmax(120px, 150px)); }
+.substitute-grid.cols-4 { grid-template-columns: repeat(4, minmax(120px, 150px)); }
+
+/* 비밀계약 전용 모달 크기 (넓은 레이아웃) */
+.modal-covenant {
+    width: 600px;
+    max-height: 70vh;
+}
+
+/* 비밀계약 이름 텍스트 스타일 */
+.equip-name {
+    font-size: 0.85em;
+    color: #fff;
+    font-weight: bold;
+    margin-top: 2px;
+}
+/* 메인 박스 내 이름 텍스트 스타일 */
+.equip-name-label {
+    font-size: 0.8em;
+    color: #eee;
+    margin-top: 4px;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+}
+/* 모달 내 아이템 공통 (수직 배치) */
+.sub-item-vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: #2a2a32;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    min-width: 0;
+}
+
+/* 모달 내 명륜 이미지 비율 */
+.sub-img-myeongryun {
+    width: 80px;
+    aspect-ratio: 225 / 456;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #555;
+}
+
+/* 모달 내 비밀계약 이미지 비율 */
+.sub-img-covenant {
+    width: 100px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #555;
+}
+
+.sub-item-name {
+    font-size: 0.85em;
+    color: #eee;
+    font-weight: bold;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 680px) {
+    #substitute-modal .modal-content {
+        min-width: 0;
+        width: calc(100vw - 32px);
+    }
+
+    .substitute-grid.cols-3,
+    .substitute-grid.cols-4 {
+        grid-template-columns: repeat(2, minmax(120px, 150px));
+    }
+}
+
+@media (max-width: 380px) {
+    .substitute-grid.cols-2,
+    .substitute-grid.cols-3,
+    .substitute-grid.cols-4 {
+        grid-template-columns: minmax(120px, 150px);
+    }
+}
+/* 세팅 정보가 없을 때 표시할 안내 박스 */
+.no-setting-notice {
+    width: 100%;
+    height: 180px; /* 기존 recommend-box와 비슷한 높이 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #1e1e24;
+    border: 1px dashed #444;
+    border-radius: 12px;
+    color: #888;
+    gap: 10px;
+}
+.no-setting-notice i {
+    font-size: 2em;
+}
+.tooltip-tag {
+    display: inline-block;
+    background-color: #3a3a42;
+    border: 1px solid #666;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-right: 5px;
+    margin-top: 5px;
+    font-size: 0.75em;
+    color: #ffc107; /* 태그 강조 색상 */
+    white-space: nowrap;
+}
+
+.dictionary-filter-panel {
+    display: none;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #1e1e24;
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+.dictionary-filter-panel.show {
+    display: flex;
+    flex-direction: column;
+}
+.dictionary-filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.dictionary-filter-field label {
+    font-size: 0.78em;
+    color: #aaa;
+}
+.dictionary-filter-top {
+    display: grid;
+    grid-template-columns: minmax(220px, 360px) 1fr;
+    gap: 12px;
+    align-items: end;
+}
+.dictionary-filter-section-title {
+    font-size: 0.82em;
+    color: #cfcfcf;
+    font-weight: bold;
+}
+.dictionary-filter-field input,
+.dictionary-filter-field select {
+    min-width: 0;
+    height: 34px;
+    padding: 0 9px;
+    color: #eee;
+    background: #2a2a32;
+    border: 1px solid #555;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+.dictionary-filter-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    gap: 8px;
+}
+.dictionary-filter-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 7px 10px;
+    color: #ddd;
+    background: #2a2a32;
+    border: 1px solid #555;
+    border-radius: 7px;
+    font-size: 0.82em;
+    cursor: pointer;
+    user-select: none;
+}
+.dictionary-filter-option:hover {
+    border-color: #777;
+    background: #32323c;
+}
+.dictionary-filter-option:has(input:checked) {
+    border-color: #ffc107;
+    background: rgba(255, 193, 7, 0.12);
+    color: #fff;
+}
+.dictionary-filter-option input {
+    flex: 0 0 auto;
+    width: auto;
+    height: auto;
+    margin: 0;
+}
+.dictionary-filter-option span {
+    min-width: 0;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+}
+.dictionary-filter-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-top: 2px;
+}
+.dictionary-filter-summary {
+    min-height: 34px;
+    display: flex;
+    align-items: center;
+    color: #aaa;
+    font-size: 0.82em;
+}
+.dictionary-filter-reset {
+    min-height: 34px;
+    padding: 0 12px;
+    color: #ddd;
+    background: #2a2a32;
+    border: 1px solid #555;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.dictionary-filter-reset:hover {
+    background: #383842;
+    border-color: #777;
+}
+.dictionary-empty {
+    grid-column: 1 / -1;
+    padding: 30px 10px;
+    color: #aaa;
+    text-align: center;
+    background: #1e1e24;
+    border: 1px dashed #444;
+    border-radius: 8px;
+}
+@media (min-width: 900px) {
+    .link-container.dictionary-wide {
+        max-width: 1180px;
+    }
+}
+@media (max-width: 640px) {
+    .dictionary-filter-panel {
+        padding: 12px;
+        gap: 12px;
+    }
+    .dictionary-filter-top {
+        grid-template-columns: 1fr;
+    }
+    .dictionary-filter-options {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 7px;
+    }
+    .dictionary-filter-option {
+        min-height: 34px;
+        font-size: 0.78em;
+        padding: 6px 8px;
+    }
+    .dictionary-filter-footer {
+        align-items: stretch;
+        flex-direction: column;
+    }
+    .dictionary-filter-reset {
+        width: 100%;
     }
 }

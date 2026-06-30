@@ -7,7 +7,8 @@ const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
 const DEFAULT_PARTY_BUILDER_RULES = {
     exclusive_groups: [["ramona", "ramona_timeworn"]],
     character_tags: {},
-    tag_aliases: {}
+    tag_aliases: {},
+    dedicated_wheel_aliases: {}
 };
 let draggedIdx = -1;
 let lastHoverIdx = -1;
@@ -45,6 +46,7 @@ let PARTY_BUILDER_RULES = { ...DEFAULT_PARTY_BUILDER_RULES };
 let activeCharFilters = { domain: new Set(), class: new Set() };
 let activeCharSearchTags = new Set();
 let activeWheelTags = new Set();
+let activeWheelMainStats = new Set();
 let activeKeyTags = new Set();
 let tempChars = [];
 let isSupportSelectionMode = false;
@@ -137,13 +139,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadFromLocalStorage();
     renderAll();
 
-    const reportModal = document.getElementById('report-modal');
-    if (reportModal) {
-        reportModal.addEventListener('click', (e) => {
-            if (e.target === reportModal) reportModal.classList.remove('show');
-        });
-    }
-
     document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
         const open = document.querySelector('.modal-overlay.show, .modal-overlay[style*="flex"]');
@@ -194,7 +189,10 @@ async function loadPartyBuilderRules(response) {
                 : DEFAULT_PARTY_BUILDER_RULES.character_tags,
             tag_aliases: rules.tag_aliases && typeof rules.tag_aliases === 'object'
                 ? rules.tag_aliases
-                : DEFAULT_PARTY_BUILDER_RULES.tag_aliases
+                : DEFAULT_PARTY_BUILDER_RULES.tag_aliases,
+            dedicated_wheel_aliases: rules.dedicated_wheel_aliases && typeof rules.dedicated_wheel_aliases === 'object'
+                ? rules.dedicated_wheel_aliases
+                : DEFAULT_PARTY_BUILDER_RULES.dedicated_wheel_aliases
         };
     } catch (error) {
         console.warn("Party builder rules load failed:", error);
@@ -878,6 +876,7 @@ function openWheelModal(charIdx, slotIdx, e) {
     selectedWheelSlotIdx = slotIdx;
     if(e) e.stopPropagation();
     activeWheelTags.clear();
+    activeWheelMainStats.clear();
 
     const input = document.getElementById('wheel-search-input');
     if (input) {
@@ -909,6 +908,52 @@ function setupWheelSearchEvents() {
         renderWheelList(); // 입력 시마다 리스트를 다시 필터링하여 렌더링
     };
 }
+function normalizeWheelMainStat(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return '';
+
+    return raw
+        .replace(/\s+/g, ' ')
+        .replace(/드롭율/g, '드롭')
+        .replace(/겅은 인장/g, '검은 인장')
+        .trim()
+        .replace(/^영역숙련/, '영역 숙련')
+        .replace(/검은 인장 드롭\s*(\d)/, '검은 인장 드롭 $1')
+        .replace(/\s+\d+(?:\.\d+)?%?$/, '');
+}
+function renderWheelMainStatFilters() {
+    const container = document.getElementById('wheel-main-stat-filters');
+    if (!container) return;
+
+    const options = [...new Set(DB.wheels
+        .map(wheel => normalizeWheelMainStat(wheel.main_stat))
+        .filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b, 'ko'));
+
+    container.innerHTML = '';
+    const label = document.createElement('span');
+    label.className = 'wheel-filter-label';
+    label.textContent = '주옵';
+    container.appendChild(label);
+
+    options.forEach(option => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `wheel-filter-chip${activeWheelMainStats.has(option) ? ' active' : ''}`;
+        button.textContent = option;
+        button.setAttribute('aria-pressed', String(activeWheelMainStats.has(option)));
+        button.onclick = () => {
+            if (activeWheelMainStats.has(option)) {
+                activeWheelMainStats.delete(option);
+            } else {
+                activeWheelMainStats.add(option);
+            }
+            renderWheelMainStatFilters();
+            renderWheelList();
+        };
+        container.appendChild(button);
+    });
+}
 function selectWheelSlot(idx) { selectedWheelSlotIdx = idx; renderWheelModalUI(); }
 function renderWheelModalUI() {
     const wheels = allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx];
@@ -919,6 +964,7 @@ function renderWheelModalUI() {
         el.innerHTML = wInfo ? `<img src="${wInfo.image_path}">` : `<div class="slot-placeholder">+</div>`;
         if(i === selectedWheelSlotIdx) document.getElementById('equip-slot-desc').textContent = wInfo ? wInfo.korean_name : "명륜을 선택하세요";
     }
+    renderWheelMainStatFilters();
     renderWheelList();
 }
 function renderWheelList() {
@@ -944,6 +990,9 @@ function renderWheelList() {
     DB.wheels.filter(w => {
         // 태그 필터
         if(activeWheelTags.size && !Array.from(activeWheelTags).every(t => (w.tags || []).includes(t))) return false;
+
+        const normalizedMainStat = normalizeWheelMainStat(w.main_stat);
+        if (activeWheelMainStats.size && !activeWheelMainStats.has(normalizedMainStat)) return false;
 
         // 검색어 필터 (주옵션인 main_stat 추가)
         if(search) {
@@ -1310,16 +1359,6 @@ async function pasteTeamFromClipboard() {
     }
 }
 
-// [12] 제보 시스템
-/* js/party_builder.js - [12] 제보 시스템 수정본 */
-
-async function sendToDiscord(event) {
-    return sendFeedbackToWorker(event);
-}
-function openReportModal() {
-    document.getElementById('report-source-url').value = window.location.href;
-    document.getElementById('report-modal').classList.add('show');
-}
 // =========================================
 // 전용 명륜 자동 장착 및 포커스 이동 로직
 // =========================================
@@ -1361,7 +1400,10 @@ function equipDedicatedWheel(grade) {
     const charTargets = new Set([
         normalizeDedicatedTarget(charId),
         normalizeDedicatedTarget(charInfo.id),
-        normalizeDedicatedTarget(charInfo.name)
+        normalizeDedicatedTarget(charInfo.name),
+        ...((PARTY_BUILDER_RULES.dedicated_wheel_aliases || {})[charId] || [])
+            .map(normalizeDedicatedTarget)
+            .filter(Boolean)
     ]);
     const targetWheel = DB.wheels.find(function(wheel) {
         const optFor = wheel.optimized_for;

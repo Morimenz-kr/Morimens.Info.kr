@@ -250,6 +250,16 @@
       "xu"
     ]
   },
+  "dedicated_wheel_aliases": {
+    "mouchette": [
+      "무셰트",
+      "모샤"
+    ],
+    "winkle": [
+      "윙클",
+      "웬코르"
+    ]
+  },
   "tag_aliases": {
     "크리티컬 피해 증가": [
       "치피 증가",

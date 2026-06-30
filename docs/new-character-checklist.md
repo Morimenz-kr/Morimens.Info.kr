@@ -4,6 +4,12 @@
 
 체크리스트는 최종 해결책이 아니다. 최종 목표는 데이터 관계를 명시하고 검증 스크립트로 누락을 자동으로 잡는 것이다. 이 문서는 `tools/validate-character.mjs`와 함께 사용하는 보조 문서다.
 
+작업 순서는 다음처럼 잡는다.
+
+1. 데이터 파일을 수정한다.
+2. `node tools\validate-character.mjs <characterId> --verbose`를 실행한다.
+3. 스크립트가 잡지 못하는 화면 동작만 수동으로 확인한다.
+
 ## 1. 기본 원칙
 
 - 기존 표시명 필드는 실제 인게임 이름 그대로 유지한다.
@@ -117,16 +123,17 @@
 
 ## 7. 파티 빌더 확인
 
-현재는 일부 파티 빌더 규칙이 `js/party_builder.js` 안에 있다.
+파티 빌더의 데이터성 규칙은 `data/party_builder_rules.json`에서 관리한다.
 
 확인할 항목:
 
-- 캐릭터 검색 태그가 필요한지
-- 변형 캐릭터라서 동시 편성 제한이 필요한지
+- 캐릭터 검색 태그가 필요하면 `character_tags`에 캐릭터 `id`를 추가한다.
+- 검색 별칭이 필요하면 `tag_aliases`에 별칭을 추가한다.
+- 변형 캐릭터라서 동시 편성 제한이 필요하면 `exclusive_groups`에 캐릭터 `id` 묶음을 추가한다.
 - 전용 명륜 자동 장착이 정상 동작하는지
 - 전용 은열쇠 자동 장착이 정상 동작하는지
 
-향후에는 이 규칙을 `data/party_builder_rules.json`로 옮기는 방향이다.
+`tools/validate-character.mjs`는 `party_builder_rules.json` 안의 캐릭터 ID가 `character_manifest.json`에 존재하는지 확인한다. 다만 어떤 태그가 실제로 필요한지는 게임 내용 판단이 필요하므로 사람이 확인해야 한다.
 
 ## 8. 검증 명령
 
@@ -136,19 +143,46 @@
 node tools\validate-character.mjs <characterId>
 ```
 
+전용 장비 관계를 어떤 필드로 인식했는지까지 보려면 다음처럼 실행한다.
+
+```powershell
+node tools\validate-character.mjs <characterId> --verbose
+```
+
 전체 캐릭터를 검사하려면 다음을 실행한다.
 
 ```powershell
 node tools\validate-character.mjs --all
 ```
 
-기본 데이터, 추천 세팅 참조, 이미지, 스킬/돌파, 가챠 타입 누락은 오류로 처리한다.
+기본 데이터, 추천 세팅 참조, 썸네일 이미지, 파티 빌더/융재금구용 이미지, 전용 장비 이미지, 스킬/돌파, 가챠 타입 누락은 오류로 처리한다.
 
 전용 장비와 정보글 링크는 기존 데이터 현실을 고려해 우선 경고로 처리한다. 새 캐릭터가 전용 장비를 가져야 하는 경우에는 이 경고를 해결해야 한다.
+
+스크립트가 자동으로 잡는 항목:
+
+- manifest의 `id`, `name`, `image_thumb`
+- manifest 썸네일 이미지 파일 존재 여부
+- `images/{id}_tide.webp` 파일 존재 여부
+- 추천 세팅의 명륜/계약 ID가 사전에 존재하는지
+- `character_effects.json`의 스킬/돌파 데이터 존재 여부
+- `gachatype.json` 포함 여부
+- 전용 SSR/SR 명륜 관계와 이미지 파일 존재 여부
+- 전용 은열쇠 관계와 이미지 파일 존재 여부
+- `party_builder_rules.json`의 캐릭터 ID 참조 유효성
+
+사람이 최종 판단해야 하는 항목:
+
+- 추천 세팅 내용이 실제 공략 기준으로 맞는지
+- 캐릭터가 어떤 검색 태그에 들어가야 하는지
+- 변형 캐릭터 동시 편성 제한이 필요한지
+- 정보글 링크를 지금 넣을 수 있는지
+- 패치 노트에 노출할 내용이 있는지
 
 ## 9. 최종 수동 확인
 
 - `links.html?category=character&id=<characterId>`에서 추천 세팅이 깨지지 않는지 확인한다.
 - `스킬/돌파` 탭이 정상 표시되는지 확인한다.
 - `party_builder.html`에서 캐릭터 이미지와 전용 장비 자동 장착이 정상 동작하는지 확인한다.
+- `covenant_simulator.html`에서 캐릭터 이미지가 정상 표시되는지 확인한다.
 - 명륜/은열쇠/계약 이미지가 placeholder로 떨어지지 않는지 확인한다.

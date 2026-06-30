@@ -12,7 +12,8 @@ const paths = {
   resourceLinks: path.join(ROOT, 'data', 'resource_links.json'),
   wheels: path.join(ROOT, 'data', 'wheel_list.json'),
   silverkeys: path.join(ROOT, 'data', 'silverkey_list.json'),
-  covenants: path.join(ROOT, 'data', 'covenant_list.json')
+  covenants: path.join(ROOT, 'data', 'covenant_list.json'),
+  partyBuilderRules: path.join(ROOT, 'data', 'party_builder_rules.json')
 };
 
 function readJson(filePath) {
@@ -174,6 +175,97 @@ function validateCharacter(character, db) {
   return { character, errors, warnings, details };
 }
 
+function validatePartyBuilderRules(db) {
+  const errors = [];
+  const warnings = [];
+  const details = [];
+  const rules = db.partyBuilderRules;
+  const manifestIds = new Set(db.manifest.map((character) => String(character.id)));
+
+  function validateCharacterId(id, location) {
+    const normalizedId = String(id ?? '').trim();
+    if (!normalizedId) {
+      addIssue(errors, 'party_builder_rules.character_id.empty', `${location} contains an empty character id.`);
+      return;
+    }
+    if (!manifestIds.has(normalizedId)) {
+      addIssue(errors, 'party_builder_rules.character_id.missing', `${location} references missing character id: ${normalizedId}`);
+    }
+  }
+
+  if (!rules || typeof rules !== 'object' || Array.isArray(rules)) {
+    addIssue(errors, 'party_builder_rules.invalid', `${relPath(paths.partyBuilderRules)} must be a JSON object.`);
+    return { errors, warnings, details };
+  }
+
+  if (!Array.isArray(rules.exclusive_groups)) {
+    addIssue(errors, 'party_builder_rules.exclusive_groups.invalid', 'exclusive_groups must be an array.');
+  } else {
+    rules.exclusive_groups.forEach((group, groupIndex) => {
+      if (!Array.isArray(group)) {
+        addIssue(errors, 'party_builder_rules.exclusive_groups.group_invalid', `exclusive_groups[${groupIndex}] must be an array.`);
+        return;
+      }
+      if (group.length < 2) {
+        addIssue(warnings, 'party_builder_rules.exclusive_groups.too_small', `exclusive_groups[${groupIndex}] has fewer than 2 character ids.`);
+      }
+      group.forEach((id, idIndex) => validateCharacterId(id, `exclusive_groups[${groupIndex}][${idIndex}]`));
+    });
+  }
+
+  if (!rules.character_tags || typeof rules.character_tags !== 'object' || Array.isArray(rules.character_tags)) {
+    addIssue(errors, 'party_builder_rules.character_tags.invalid', 'character_tags must be an object.');
+  } else {
+    for (const [tagName, characterIds] of Object.entries(rules.character_tags)) {
+      if (!Array.isArray(characterIds)) {
+        addIssue(errors, 'party_builder_rules.character_tags.tag_invalid', `character_tags.${tagName} must be an array.`);
+        continue;
+      }
+      if (characterIds.length === 0) {
+        addIssue(warnings, 'party_builder_rules.character_tags.empty', `character_tags.${tagName} has no character ids.`);
+      }
+      characterIds.forEach((id, idIndex) => validateCharacterId(id, `character_tags.${tagName}[${idIndex}]`));
+    }
+  }
+
+  if (rules.tag_aliases !== undefined && (!rules.tag_aliases || typeof rules.tag_aliases !== 'object' || Array.isArray(rules.tag_aliases))) {
+    addIssue(errors, 'party_builder_rules.tag_aliases.invalid', 'tag_aliases must be an object when present.');
+  } else if (rules.tag_aliases) {
+    for (const [tagName, aliases] of Object.entries(rules.tag_aliases)) {
+      if (!rules.character_tags?.[tagName]) {
+        addIssue(warnings, 'party_builder_rules.tag_aliases.unknown_tag', `tag_aliases.${tagName} has no matching character_tags entry.`);
+      }
+      if (!Array.isArray(aliases)) {
+        addIssue(errors, 'party_builder_rules.tag_aliases.aliases_invalid', `tag_aliases.${tagName} must be an array.`);
+      }
+    }
+  }
+
+  if (errors.length === 0 && warnings.length === 0) {
+    details.push(`${relPath(paths.partyBuilderRules)} references valid character ids.`);
+  }
+
+  return { errors, warnings, details };
+}
+
+function printGlobalResult(label, result, options = {}) {
+  if (result.errors.length === 0 && result.warnings.length === 0) {
+    if (options.verbose) {
+      console.log(`[OK] ${label}`);
+      for (const detail of result.details) console.log(`  - ${detail}`);
+    }
+    return;
+  }
+
+  console.log(result.errors.length > 0 ? `[ERROR] ${label}` : `[OK] ${label}`);
+  for (const issue of result.errors) console.log(`  - ${issue.code}: ${issue.message}`);
+
+  if (result.warnings.length > 0) {
+    console.log(`  Warnings:`);
+    for (const issue of result.warnings) console.log(`  - ${issue.code}: ${issue.message}`);
+  }
+}
+
 function printResult(result, options = {}) {
   const label = `${result.character.id} (${result.character.name})`;
   if (result.errors.length === 0 && result.warnings.length === 0) {
@@ -219,7 +311,8 @@ function main() {
     resourceLinks: readJson(paths.resourceLinks),
     wheels: readJson(paths.wheels),
     silverkeys: readJson(paths.silverkeys),
-    covenants: readJson(paths.covenants)
+    covenants: readJson(paths.covenants),
+    partyBuilderRules: readJson(paths.partyBuilderRules)
   };
   db.wheelIds = buildIdSet(db.wheels);
   db.covenantIds = buildIdSet(db.covenants);
@@ -236,8 +329,11 @@ function main() {
   const results = characters.map((character) => validateCharacter(character, db));
   for (const result of results) printResult(result, { verbose });
 
-  const errorCount = results.reduce((sum, result) => sum + result.errors.length, 0);
-  const warningCount = results.reduce((sum, result) => sum + result.warnings.length, 0);
+  const partyBuilderRulesResult = validatePartyBuilderRules(db);
+  printGlobalResult('party_builder_rules', partyBuilderRulesResult, { verbose });
+
+  const errorCount = results.reduce((sum, result) => sum + result.errors.length, 0) + partyBuilderRulesResult.errors.length;
+  const warningCount = results.reduce((sum, result) => sum + result.warnings.length, 0) + partyBuilderRulesResult.warnings.length;
 
   console.log('');
   console.log(`Summary: ${results.length} character(s), ${errorCount} error(s), ${warningCount} warning(s).`);

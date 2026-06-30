@@ -428,3 +428,34 @@ select:focus {
     margin: 0 auto;
     transition: all 0.3s ease;
 }
+
+.report-modal-content {
+    position: relative;
+}
+
+.report-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+}
+
+.report-modal-description {
+    color: #aaa;
+    font-size: 0.9em;
+}
+
+.report-modal-help {
+    display: block;
+    margin-top: 5px;
+    color: #ff9f43;
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.report-modal-status {
+    display: none;
+    margin-top: 15px;
+    color: #ffc107;
+    text-align: center;
+}

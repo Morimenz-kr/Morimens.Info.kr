@@ -119,36 +119,4 @@ document.addEventListener('DOMContentLoaded', () => {
     closeBtn.addEventListener('click', () => modal.classList.remove('show'));
     modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
 
-    // 모달 닫기 이벤트 리스너 바인딩
-    const reportModal = document.getElementById('report-modal');
-    if (reportModal) {
-        reportModal.addEventListener('click', (e) => {
-            if (e.target === reportModal) {
-                reportModal.classList.remove('show');
-            }
-        });
-    }
 });
-
-// --- 신고 모달 함수 ---
-function openReportModal() {
-    const modal = document.getElementById('report-modal');
-    const modalStatus = document.getElementById('modal-form-status');
-    const sourceUrlInput = document.getElementById('report-source-url');
-
-    if (modalStatus) {
-        modalStatus.style.display = 'none';
-        modalStatus.textContent = '제보를 전송 중입니다...';
-        modalStatus.style.color = '#ffc107';
-    }
-
-    if (sourceUrlInput) {
-        sourceUrlInput.value = window.location.href;
-    }
-
-    modal.classList.add('show');
-}
-
-async function sendToDiscord(event) {
-    return sendFeedbackToWorker(event);
-}

@@ -321,6 +321,8 @@ HTML은 DOM 뼈대만 담당하고, 로직은 JavaScript 파일로 옮긴다.
 
 현재 `data/db_*`와 `data/awakener/{id}.json`은 주요 사이트 흐름에서는 사용하지 않는 legacy 후보로 보인다.
 
+상세 페이지 데이터 이전 기준은 `docs/detail-data-migration-map.md`에 별도로 정리한다.
+
 `db_*`라는 방향성 자체는 맞다. 하지만 현재 있는 `db_*` 파일을 그대로 메인 데이터로 부활시키는 것은 추천하지 않는다. 지금의 실제 주요 흐름은 `links.html`, `character_settings.json`, `character_effects.json`, `wheel_list.json`, `silverkey_list.json` 중심이다.
 
 따라서 방향은 다음과 같다.
@@ -329,6 +331,52 @@ HTML은 DOM 뼈대만 담당하고, 로직은 JavaScript 파일로 옮긴다.
 - 기존 `db_*` 그대로 복구: 비추천
 - 새 정규화 데이터 레이어 설계: 추천
 - `detail.html`, `data/awakener/*`, `data/db_*`는 사용 여부를 확인한 뒤 legacy로 문서화하거나 제거 후보로 분류
+
+현재 감사 결과:
+
+```powershell
+node tools\audit-legacy-data.mjs
+```
+
+- `data/db_awakener_stats.json`: `js/detail.js`에서 직접 참조 중
+- `data/db_cards.json`: `js/detail.js`에서 직접 참조 중
+- `data/db_tooltips.json`: `js/detail.js`에서 직접 참조 중
+- `data/awakener/*.json`: `js/detail.js`에서 `data/awakener/${charId}.json` 형태로 동적 참조 중
+
+따라서 이 파일들은 "지금 당장 삭제 가능한 미사용 파일"이 아니다. 현재 분류는 **detail 페이지 전용 legacy 데이터 흐름**이다.
+
+다음 정리 순서는 다음과 같다.
+
+1. `detail.js`가 현재 어떤 데이터를 `data/awakener/*`, `data/db_*`에서 읽는지 명세한다.
+2. 같은 정보를 `character_manifest.json`, `character_effects.json`, `wheel_list.json`, `covenant_list.json`, `character_settings.json` 중심 흐름으로 대체할 수 있는지 확인한다.
+3. `detail.js`가 새 정규화 데이터 흐름을 사용하도록 전환한다.
+4. 전환 후 `node tools\audit-legacy-data.mjs`를 다시 실행한다.
+5. 참조가 사라진 파일만 삭제 후보로 올린다.
+
+상세 페이지 마이그레이션 가능성은 다음 명령으로 확인한다.
+
+```powershell
+node tools\audit-detail-data-migration.mjs
+```
+
+현재 결과:
+
+- `data/awakener/tawil.json`은 `character_manifest.json`, `character_settings.json`, `character_effects.json`에 대응 항목이 있다.
+- legacy 카드 ID 7개는 모두 `data/db_cards.json`에 존재한다.
+- legacy 카드 이름과 `character_effects.json`의 스킬 이름은 4/7개만 겹친다.
+- `recommended_wheel_id: wheel_tawil_unique`는 현재 `wheel_list.json`에 없다.
+- 추천 비밀계약/시너지 ID 14개는 현재 `covenant_list.json`에 없다.
+- `db_tooltips.json`에는 상세 페이지 툴팁용 항목 9개가 있다.
+
+즉, `detail.js`를 지금 바로 정규화 데이터만 사용하도록 바꾸면 타비 상세 페이지의 카드 UI, 파생 카드, 추천 명륜, 추천 비밀계약, 툴팁 일부가 손실될 가능성이 높다.
+
+따라서 다음 실제 마이그레이션 작업은 삭제가 아니라 **상세 페이지 데이터 매핑 정의**다.
+
+- `character_effects.json`의 스킬 데이터를 상세 카드 UI에 필요한 형태로 변환할 수 있는지 결정
+- 파생 카드(`derives_cards`) 표현 위치 결정
+- 상세 페이지 기본 스탯/돌파/특성의 원천 결정
+- `wheel_tawil_unique`와 타비 추천 계약 ID들을 현재 장비/계약 데이터로 흡수할지, 별도 상세 전용 데이터를 유지할지 결정
+- `db_tooltips.json`을 공통 툴팁 데이터로 승격할지 결정
 
 ## 6. 최종 데이터 방향
 
