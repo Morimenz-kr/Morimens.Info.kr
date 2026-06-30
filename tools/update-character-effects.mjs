@@ -88,9 +88,18 @@ function extractSection(text, heading, nextHeading) {
     return text.slice(start, end).trim();
 }
 
-function cleanEffect(value) {
+function normalizeTerminology(value) {
     return value
+        .replaceAll('리모리아', '레무리아')
+        .replaceAll('나선원무', '레무리아의 왈츠')
+        .replaceAll('나선역류', '레무리아의 역류')
+        .replaceAll('나선재림', '레무리아의 재림');
+}
+
+function cleanEffect(value) {
+    return normalizeTerminology(value)
         .replace(/\s*\[[^\]]+]\s*/g, ' ')
+        .replace(/\s*[\(\{]\s*돌파\s*\d+\s*\|[^)\}]*[\)\}]\s*/g, ' ')
         .replace(/\s+/g, ' ')
         .replace(/\s+([,.])/g, '$1')
         .trim();
@@ -152,8 +161,9 @@ function extractCards(section, allowedTypes) {
                 /(?:^|\n)\s*\d+(?:\.\d+)+\.\s*([^\n]+?)\s*\[편집\]/g
             )
         ];
-        const context =
-            headingMatches.at(-1)?.[1]?.replace(/\s+/g, ' ').trim() ?? '';
+        const context = normalizeTerminology(
+            headingMatches.at(-1)?.[1]?.replace(/\s+/g, ' ').trim() ?? ''
+        );
         const block = section.slice(
             match.index + match[0].length,
             next?.index ?? section.length
@@ -164,7 +174,7 @@ function extractCards(section, allowedTypes) {
             .find(Boolean);
         const card = {
             type: match[1],
-            name: match[2].trim(),
+            name: normalizeTerminology(match[2].trim()),
             context
         };
 
@@ -280,7 +290,7 @@ function extractEnlighten(section) {
 
     for (let index = 0; index + 1 < lines.length; index += 2) {
         items.push({
-            name: lines[index],
+            name: normalizeTerminology(lines[index]),
             effect: cleanEffect(lines[index + 1])
         });
     }
@@ -319,9 +329,9 @@ function validateCharacter(character) {
     if (character.skills.length === 0) {
         throw new Error('스킬을 찾지 못했습니다.');
     }
-    if (character.enlighten.length !== 3) {
+    if (character.enlighten.length !== 5) {
         throw new Error(
-            `계령은 3개여야 하지만 ${character.enlighten.length}개를 찾았습니다.`
+            `계령 3개, 초월 폭발, 최종 법칙을 합쳐 5개여야 하지만 ${character.enlighten.length}개를 찾았습니다.`
         );
     }
     if (character.skills.some((skill) => !skill.effect)) {
@@ -343,10 +353,16 @@ function validateCharacter(character) {
         throw new Error('영지 각성은 캐릭터당 하나여야 합니다.');
     }
     if (
-        character.skills.filter((skill) => skill.type === '최종 법칙').length !==
+        character.enlighten.filter((item) => item.type === '최종 법칙').length !==
         1
     ) {
         throw new Error('최종 법칙은 캐릭터당 하나여야 합니다.');
+    }
+    if (
+        character.enlighten.filter((item) => item.type === '초월 폭발').length !==
+        1
+    ) {
+        throw new Error('초월 폭발은 캐릭터당 하나여야 합니다.');
     }
 }
 
@@ -369,10 +385,21 @@ const html = await readSource(source);
 const text = htmlToText(html);
 const skillsSection = extractSection(text, '스킬', '계령');
 const enlightenSection = extractSection(text, '계령', '특성');
+const extractedSkills = extractSkills(skillsSection);
+const enlightenTypes = new Set(['초월 폭발', '최종 법칙']);
+const enlightenOrder = new Map([
+    ['초월 폭발', 0],
+    ['최종 법칙', 1]
+]);
 const character = {
-    skills: extractSkills(skillsSection),
+    skills: extractedSkills.filter((skill) => !enlightenTypes.has(skill.type)),
     derivedCards: extractDerivedCards(skillsSection),
-    enlighten: extractEnlighten(enlightenSection)
+    enlighten: [
+        ...extractEnlighten(enlightenSection),
+        ...extractedSkills
+            .filter((skill) => enlightenTypes.has(skill.type))
+            .sort((left, right) => enlightenOrder.get(left.type) - enlightenOrder.get(right.type))
+    ]
 };
 
 validateCharacter(character);

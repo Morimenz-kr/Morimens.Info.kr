@@ -370,10 +370,13 @@
             ['초월 폭발', 0],
             ['최종 법칙', 1]
         ]);
-        const enlightenSkills = allSkills
-            .filter(skill => enlightenTypes.has(skill.type))
+        const storedEnlighten = character.enlighten || character.breakthroughs || [];
+        const enlighten = storedEnlighten.filter(item => !enlightenTypes.has(item.type));
+        const enlightenSkills = [
+            ...allSkills.filter(skill => enlightenTypes.has(skill.type)),
+            ...storedEnlighten.filter(item => enlightenTypes.has(item.type))
+        ]
             .sort((left, right) => enlightenOrder.get(left.type) - enlightenOrder.get(right.type));
-        const enlighten = character.enlighten || character.breakthroughs || [];
         const traits = character.traits || [];
 
         container.innerHTML = `

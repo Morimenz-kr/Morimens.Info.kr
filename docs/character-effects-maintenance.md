@@ -18,6 +18,7 @@ node tools/update-character-effects.mjs nautila https://namu.wiki/w/노틸라
 
 스크립트는 해당 ID의 `data/character_effects.json`에서 `skills`, `derivedCards`,
 `enlighten`만 갱신한다. 기존 `traits`와 `dimensionalImage`는 유지한다.
+`enlighten`에는 계령 3개, 초월 폭발, 최종 법칙을 순서대로 저장한다.
 스킬이 없거나 계령이 3개가 아니면 파일을 수정하지 않고 오류를 출력한다.
 영지 각성과 최종 법칙은 캐릭터당 하나인지 검증한다. 영역별 효과나 단계별
 연계 카드가 여러 개 있으면 스킬을 중복 생성하지 않고 `variants`에 묶는다.

@@ -131,6 +131,13 @@ function validateCharacter(character, db) {
     }
     if (!Array.isArray(effects.enlighten) || effects.enlighten.length === 0) {
       addIssue(errors, 'effects.enlighten.missing', `${character.id} has no enlighten data.`);
+    } else if (
+      effects.enlighten.length !== 5 ||
+      effects.enlighten.slice(0, 3).some((item) => item.type) ||
+      effects.enlighten[3]?.type !== '초월 폭발' ||
+      effects.enlighten[4]?.type !== '최종 법칙'
+    ) {
+      addIssue(errors, 'effects.enlighten.invalid', `${character.id} enlighten must contain 3 enlighten effects, transcend burst, and final law in order.`);
     }
     if (!Array.isArray(effects.traits) || effects.traits.length === 0) {
       addIssue(errors, 'effects.traits.missing', `${character.id} has no traits.`);
