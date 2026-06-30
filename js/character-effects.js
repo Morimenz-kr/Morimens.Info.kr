@@ -101,9 +101,24 @@
         return text;
     }
 
+    function sanitizeDisplayedEffect(text) {
+        return String(text || '')
+            .replace(/\s*[\(\{]\s*돌파\s*\d+\s*\|[^)\}]*[\)\}]\s*/g, ' ')
+            .replace(/\(\s*효과는 기본 ['"]?타격['"]?의 레벨에 따라 증가한다\.?\s*\)/g, '')
+            .replace(
+                /기본 '타격' 사용 시 공격력 n% 반격 을 획득한다\./g,
+                "기본 '타격' 사용 시 공격력의 15 ~ 30%에 해당하는 반격을 획득한다."
+            )
+            .replace(/\s+/g, ' ')
+            .replace(/\s+([,.])/g, '$1')
+            .trim();
+    }
+
     function renderEffectBody(effect) {
         const defaultLevel = getDefaultLevel(effect.levels);
-        const interpolatedEffect = interpolateEffect(effect.effect, effect.levels, defaultLevel);
+        const interpolatedEffect = sanitizeDisplayedEffect(
+            interpolateEffect(effect.effect, effect.levels, defaultLevel)
+        );
 
         return `
             <p class="character-effect-description" data-effect-template="${escapeHtml(effect.effect)}">${renderRichText(interpolatedEffect)}</p>
@@ -169,7 +184,9 @@
                             <article class="character-breakthrough-card">
                                 <span class="character-breakthrough-step">계령 ${index + 1}</span>
                                 <h3>${escapeHtml(item.name)}</h3>
-                                <p>${renderRichText(item.effect)}</p>
+                                <p>${renderRichText(sanitizeDisplayedEffect(
+                                    interpolateEffect(item.effect, item.levels, getDefaultLevel(item.levels))
+                                ))}</p>
                             </article>
                         `).join('')}
                     </div>
@@ -194,7 +211,7 @@
                     <article class="character-trait-card">
                         ${item.level_range ? `<span class="character-trait-level">${escapeHtml(item.level_range)}</span>` : ''}
                         <h3>${escapeHtml(item.name)}</h3>
-                        <p>${renderRichText(item.effect)}</p>
+                        <p>${renderRichText(sanitizeDisplayedEffect(item.effect))}</p>
                     </article>
                 `).join('')}
             </div>
@@ -207,7 +224,7 @@
         return `
             <article class="character-dimensional-card">
                 <h3>${escapeHtml(item.name || `차원 영상: ${characterName}`)}</h3>
-                <p>${renderRichText(item.effect)}</p>
+                <p>${renderRichText(sanitizeDisplayedEffect(item.effect))}</p>
             </article>
         `;
     }
