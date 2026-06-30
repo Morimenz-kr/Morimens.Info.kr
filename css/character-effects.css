@@ -44,7 +44,12 @@
     margin-top: 22px;
 }
 
-.character-derived-section h3 {
+.character-enlighten-section + .character-enlighten-section {
+    margin-top: 22px;
+}
+
+.character-derived-section h3,
+.character-enlighten-section > h3 {
     margin: 0 0 10px;
     color: #ffc107;
     font-size: 1.05rem;

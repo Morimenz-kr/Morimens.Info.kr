@@ -156,19 +156,34 @@
         return `<div class="character-effects-empty">${escapeHtml(message)}</div>`;
     }
 
-    function renderEnlighten(items) {
-        if (!items.length) return renderEmpty('등록된 계령 정보가 없습니다.');
+    function renderEnlighten(items, skills) {
+        if (!items.length && !skills.length) {
+            return renderEmpty('등록된 계령 정보가 없습니다.');
+        }
 
         return `
-            <div class="character-breakthrough-list">
-                ${items.map((item, index) => `
-                    <article class="character-breakthrough-card">
-                        <span class="character-breakthrough-step">계령 ${index + 1}</span>
-                        <h3>${escapeHtml(item.name)}</h3>
-                        <p>${renderRichText(item.effect)}</p>
-                    </article>
-                `).join('')}
-            </div>
+            ${skills.length ? `
+                <section class="character-enlighten-section">
+                    <h3>계령 스킬</h3>
+                    <div class="character-effect-list">
+                        ${skills.map(renderSkill).join('')}
+                    </div>
+                </section>
+            ` : ''}
+            ${items.length ? `
+                <section class="character-enlighten-section">
+                    <h3>계령 효과</h3>
+                    <div class="character-breakthrough-list">
+                        ${items.map((item, index) => `
+                            <article class="character-breakthrough-card">
+                                <span class="character-breakthrough-step">계령 ${index + 1}</span>
+                                <h3>${escapeHtml(item.name)}</h3>
+                                <p>${renderRichText(item.effect)}</p>
+                            </article>
+                        `).join('')}
+                    </div>
+                </section>
+            ` : ''}
         `;
     }
 
@@ -322,7 +337,10 @@
             return;
         }
 
-        const skills = character.skills || [];
+        const allSkills = character.skills || [];
+        const enlightenTypes = new Set(['초월 폭발', '최종 법칙']);
+        const skills = allSkills.filter(skill => !enlightenTypes.has(skill.type));
+        const enlightenSkills = allSkills.filter(skill => enlightenTypes.has(skill.type));
         const enlighten = character.enlighten || character.breakthroughs || [];
         const traits = character.traits || [];
 
@@ -349,7 +367,7 @@
                 ` : ''}
             </div>
             <div class="character-effect-panel" data-effect-content="enlighten" role="tabpanel">
-                ${renderEnlighten(enlighten)}
+                ${renderEnlighten(enlighten, enlightenSkills)}
             </div>
             <div class="character-effect-panel" data-effect-content="traits" role="tabpanel">
                 ${renderTraits(traits)}
