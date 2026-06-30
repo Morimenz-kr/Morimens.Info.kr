@@ -162,17 +162,9 @@
         }
 
         return `
-            ${skills.length ? `
-                <section class="character-enlighten-section">
-                    <h3>계령 스킬</h3>
-                    <div class="character-effect-list">
-                        ${skills.map(renderSkill).join('')}
-                    </div>
-                </section>
-            ` : ''}
             ${items.length ? `
                 <section class="character-enlighten-section">
-                    <h3>계령 효과</h3>
+                    <h3>계령</h3>
                     <div class="character-breakthrough-list">
                         ${items.map((item, index) => `
                             <article class="character-breakthrough-card">
@@ -181,6 +173,13 @@
                                 <p>${renderRichText(item.effect)}</p>
                             </article>
                         `).join('')}
+                    </div>
+                </section>
+            ` : ''}
+            ${skills.length ? `
+                <section class="character-enlighten-section">
+                    <div class="character-effect-list">
+                        ${skills.map(renderSkill).join('')}
                     </div>
                 </section>
             ` : ''}
@@ -340,7 +339,13 @@
         const allSkills = character.skills || [];
         const enlightenTypes = new Set(['초월 폭발', '최종 법칙']);
         const skills = allSkills.filter(skill => !enlightenTypes.has(skill.type));
-        const enlightenSkills = allSkills.filter(skill => enlightenTypes.has(skill.type));
+        const enlightenOrder = new Map([
+            ['초월 폭발', 0],
+            ['최종 법칙', 1]
+        ]);
+        const enlightenSkills = allSkills
+            .filter(skill => enlightenTypes.has(skill.type))
+            .sort((left, right) => enlightenOrder.get(left.type) - enlightenOrder.get(right.type));
         const enlighten = character.enlighten || character.breakthroughs || [];
         const traits = character.traits || [];
 
