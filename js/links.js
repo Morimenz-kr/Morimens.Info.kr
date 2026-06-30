@@ -98,12 +98,11 @@ function switchTab(tabName) {
     document.querySelectorAll('.chrome-tab').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
 
-    if (tabName === 'dictionary') {
-        document.querySelectorAll('.chrome-tab')[0].classList.add('active');
-        document.getElementById('tab-content-dictionary').classList.add('active');
-    } else {
-        document.querySelectorAll('.chrome-tab')[1].classList.add('active');
-        document.getElementById('tab-content-links').classList.add('active');
+    const tab = document.querySelector(`.chrome-tab[data-tab-target="${tabName}"]`);
+    const content = document.getElementById(`tab-content-${tabName}`);
+    if (tab && content) {
+        tab.classList.add('active');
+        content.classList.add('active');
     }
 }
 
@@ -516,29 +515,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1. 탭 표시 설정 및 명칭 수정
     if (tabsContainer) {
         tabsContainer.style.display = (isDictionaryPage || isCharacterPage) ? 'flex' : 'none';
-        const tabs = document.querySelectorAll('.chrome-tab');
-        if (tabs.length >= 1) {
-            if (isCharacterPage) {
-                tabs[0].textContent = '추천 세팅';
-                if (tabs[1]) tabs[1].textContent = "채널 정보글 리스트";
-            } else if (isDictionaryPage) {
-                if (category === 'myeongryun') tabs[0].textContent = '명륜 리스트';
-                else if (category === 'silverkey') tabs[0].textContent = '은열쇠 리스트';
-                else if (category === 'covenant') tabs[0].textContent = '비밀계약 리스트';
-                if (tabs[1]) tabs[1].textContent = '채널 정보글 리스트';
-            }
+        const dictionaryTab = document.querySelector('[data-tab-target="dictionary"]');
+        const effectsTab = document.querySelector('[data-tab-target="character-effects"]');
+        const linksTab = document.querySelector('[data-tab-target="links"]');
+        if (effectsTab) effectsTab.hidden = !isCharacterPage;
+        if (isCharacterPage) {
+            if (dictionaryTab) dictionaryTab.textContent = '추천 세팅';
+            if (linksTab) linksTab.textContent = '채널 정보글 리스트';
+        } else if (isDictionaryPage) {
+            if (category === 'myeongryun' && dictionaryTab) dictionaryTab.textContent = '명륜 리스트';
+            else if (category === 'silverkey' && dictionaryTab) dictionaryTab.textContent = '은열쇠 리스트';
+            else if (category === 'covenant' && dictionaryTab) dictionaryTab.textContent = '비밀계약 리스트';
+            if (linksTab) linksTab.textContent = '채널 정보글 리스트';
         }
     }
 
     try {
         const ts = new Date().getTime();
-        const [manifest, linksDB, wheelList, covList, settingsDB, keyList] = await Promise.all([
+        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB] = await Promise.all([
             fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
             fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
             fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
             fetch(`data/covenant_list.json?t=${ts}`).then(res => res.json()),
             fetch(`data/character_settings.json?t=${ts}`).then(res => res.json()),
-            fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => [])
+            fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => []),
+            fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({}))
         ]);
 
         window.wheelMap = {};
@@ -570,6 +571,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (isCharacterPage && charData) {
             titleEl.innerHTML = `<img src="${charData.image_thumb}" class="title-thumb"> ${charData.name} 공략 모음`;
             targetItems = linksDB.characters[charId] || [];
+            if (window.CharacterEffects) {
+                window.CharacterEffects.render(
+                    document.getElementById('character-effects-root'),
+                    characterEffectsDB[charId],
+                    charData.name
+                );
+            }
             // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
             const gridContainer = document.getElementById('dictionary-grid');
             const filterPanel = document.getElementById('dictionary-filter-panel');
