@@ -9,6 +9,7 @@
 }
 
 .character-effects-switch button {
+    position: relative;
     min-width: 100px;
     padding: 9px 18px;
     border: 0;
@@ -16,8 +17,22 @@
     background: transparent;
     color: #aaa;
     font: inherit;
+    font-size: 0.95rem;
     font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
     cursor: pointer;
+}
+
+.character-effects-switch button + button::before {
+    content: "|";
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    color: #666;
+    font-weight: 400;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
 }
 
 .character-effects-switch button.active {

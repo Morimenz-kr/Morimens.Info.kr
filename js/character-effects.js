@@ -164,7 +164,6 @@
         return `
             ${items.length ? `
                 <section class="character-enlighten-section">
-                    <h3>계령</h3>
                     <div class="character-breakthrough-list">
                         ${items.map((item, index) => `
                             <article class="character-breakthrough-card">
