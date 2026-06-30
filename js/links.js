@@ -532,14 +532,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const ts = new Date().getTime();
-        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB] = await Promise.all([
+        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB] = await Promise.all([
             fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
             fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
             fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
             fetch(`data/covenant_list.json?t=${ts}`).then(res => res.json()),
             fetch(`data/character_settings.json?t=${ts}`).then(res => res.json()),
             fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => []),
-            fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({}))
+            fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
+            fetch(`data/db_tooltips.json?t=${ts}`).then(res => res.json()).catch(() => ({}))
         ]);
 
         window.wheelMap = {};
@@ -575,7 +576,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 window.CharacterEffects.render(
                     document.getElementById('character-effects-root'),
                     characterEffectsDB[charId],
-                    charData.name
+                    charData.name,
+                    tooltipDB
                 );
             }
             // (생략: 추천 세팅 렌더링 로직은 기존과 동일)

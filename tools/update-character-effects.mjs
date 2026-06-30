@@ -264,7 +264,7 @@ function groupSkillVariants(skills) {
     return result;
 }
 
-function extractBreakthroughs(section) {
+function extractEnlighten(section) {
     const tableStart = section.match(
         /(?:^|\n)\s*(?:돌파|계령)\s*\n\s*설명\s*(?:\n|$)/
     );
@@ -319,9 +319,9 @@ function validateCharacter(character) {
     if (character.skills.length === 0) {
         throw new Error('스킬을 찾지 못했습니다.');
     }
-    if (character.breakthroughs.length !== 3) {
+    if (character.enlighten.length !== 3) {
         throw new Error(
-            `계령은 3개여야 하지만 ${character.breakthroughs.length}개를 찾았습니다.`
+            `계령은 3개여야 하지만 ${character.enlighten.length}개를 찾았습니다.`
         );
     }
     if (character.skills.some((skill) => !skill.effect)) {
@@ -368,17 +368,20 @@ if (!manifest.some((character) => String(character.id) === characterId)) {
 const html = await readSource(source);
 const text = htmlToText(html);
 const skillsSection = extractSection(text, '스킬', '계령');
-const breakthroughsSection = extractSection(text, '계령', '특성');
+const enlightenSection = extractSection(text, '계령', '특성');
 const character = {
     skills: extractSkills(skillsSection),
     derivedCards: extractDerivedCards(skillsSection),
-    breakthroughs: extractBreakthroughs(breakthroughsSection)
+    enlighten: extractEnlighten(enlightenSection)
 };
 
 validateCharacter(character);
 
 const data = await readJson(DATA_PATH, {});
-data[characterId] = character;
+data[characterId] = {
+    ...data[characterId],
+    ...character
+};
 
 const ordered = Object.fromEntries(
     manifest
@@ -389,5 +392,5 @@ const ordered = Object.fromEntries(
 
 await fs.writeFile(DATA_PATH, `${JSON.stringify(ordered, null, 2)}\n`, 'utf8');
 console.log(
-    `${characterId}: 스킬 ${character.skills.length}개, 파생 ${character.derivedCards.length}개, 계령 ${character.breakthroughs.length}개 저장`
+    `${characterId}: 스킬 ${character.skills.length}개, 파생 ${character.derivedCards.length}개, 계령 ${character.enlighten.length}개 저장`
 );

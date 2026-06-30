@@ -32,7 +32,7 @@
 
 - 캐릭터 기본 정보: `data/character_manifest.json`
 - 추천 세팅: `data/character_settings.json`
-- 스킬/돌파: `data/character_effects.json`
+- 스킬/계령: `data/character_effects.json`
 - 획득 구분: `data/gachatype.json`
 - 정보글 링크: `data/resource_links.json`
 - 전용 명륜: `data/wheel_list.json`
@@ -104,7 +104,7 @@
   - 사전 렌더링
   - 캐릭터 추천 세팅
   - 캐릭터 정보글 링크
-  - 스킬/돌파 탭
+  - 스킬/계령 탭
   - 툴팁
   - 대체 장비 모달
   - 신고 모달
@@ -197,7 +197,7 @@ JSON으로 기능 로직을 옮기지 않는다.
   - 우선순위: `owner_character_ids` -> `optimized_for`
 - 전용 은열쇠가 캐릭터와 연결되어 있는지 확인
   - 우선순위: `owner_character_ids` -> `tags`
-- `data/character_effects.json`에 스킬/돌파 데이터가 있는지 확인
+- `data/character_effects.json`에 스킬/계령 데이터가 있는지 확인
 - `data/gachatype.json`에 캐릭터 ID가 포함되어 있는지 확인
 - `data/resource_links.json`의 정보글 링크는 없을 수 있으므로 경고로만 출력
 
@@ -222,7 +222,7 @@ JSON으로 기능 로직을 옮기지 않는다.
 - `data/wheel_list.json` 전용 SSR 명륜 텍스트 추가
 - `data/wheel_list.json` 전용 SR 명륜 텍스트 추가
 - `data/character_settings.json` 추천 세팅 추가
-- `data/character_effects.json` 스킬/돌파 추가
+- `data/character_effects.json` 스킬/계령 추가
 - `data/gachatype.json` 추가
 - `data/resource_links.json` 정보글 링크 추가
 - `js/party_builder.js` 태그/변형 관계 확인
@@ -400,7 +400,7 @@ data/
 - 명륜 설명/이미지/전용 관계: `wheel_list.json`
 - 은열쇠 설명/이미지/전용 관계: `silverkey_list.json`
 - 추천 세팅: `character_settings.json`
-- 스킬/돌파: `character_effects.json`
+- 스킬/계령: `character_effects.json`
 - 가챠 타입: `gachatype.json`
 - 파티 빌더 태그/변형 관계: `party_builder_rules.json`
 

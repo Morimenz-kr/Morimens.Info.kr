@@ -122,8 +122,25 @@ function validateCharacter(character, db) {
     }
   }
 
-  if (!db.effects[character.id]) {
+  const effects = db.effects[character.id];
+  if (!effects) {
     addIssue(errors, 'effects.missing', `${character.id} has no character_effects entry.`);
+  } else {
+    if (!Array.isArray(effects.skills) || effects.skills.length === 0) {
+      addIssue(errors, 'effects.skills.missing', `${character.id} has no skills.`);
+    }
+    if (!Array.isArray(effects.enlighten) || effects.enlighten.length === 0) {
+      addIssue(errors, 'effects.enlighten.missing', `${character.id} has no enlighten data.`);
+    }
+    if (!Array.isArray(effects.traits) || effects.traits.length === 0) {
+      addIssue(errors, 'effects.traits.missing', `${character.id} has no traits.`);
+    }
+    if (!effects.dimensionalImage?.effect) {
+      addIssue(errors, 'effects.dimensional_image.missing', `${character.id} has no dimensionalImage effect.`);
+    }
+    if (effects.breakthroughs !== undefined) {
+      addIssue(warnings, 'effects.breakthroughs.legacy', `${character.id} still uses legacy breakthroughs data.`);
+    }
   }
 
   const gachaGroups = Object.entries(db.gachatype)

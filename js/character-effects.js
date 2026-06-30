@@ -1,4 +1,6 @@
 (function () {
+    let tooltipDictionary = {};
+
     function escapeHtml(value) {
         return String(value ?? '')
             .replace(/&/g, '&amp;')
@@ -11,6 +13,28 @@
     function renderCost(cost) {
         if (!cost) return '';
         return `<span class="character-effect-cost">${escapeHtml(cost.type)} ${escapeHtml(cost.value)}</span>`;
+    }
+
+    function renderRichText(value) {
+        const text = String(value ?? '');
+        const parts = [];
+        let lastIndex = 0;
+
+        text.replace(/\[([^\]]+)\]/g, (match, keyword, offset) => {
+            parts.push(escapeHtml(text.slice(lastIndex, offset)));
+            if (tooltipDictionary[keyword]) {
+                parts.push(
+                    `<span class="tooltip-trigger" data-keyword="${escapeHtml(keyword)}" tabindex="0">${escapeHtml(keyword)}</span>`
+                );
+            } else {
+                parts.push(escapeHtml(keyword));
+            }
+            lastIndex = offset + match.length;
+            return match;
+        });
+        parts.push(escapeHtml(text.slice(lastIndex)));
+
+        return parts.join('').replace(/\n/g, '<br>');
     }
 
     function getDefaultLevel(levels) {
@@ -82,7 +106,7 @@
         const interpolatedEffect = interpolateEffect(effect.effect, effect.levels, defaultLevel);
 
         return `
-            <p class="character-effect-description" data-effect-template="${escapeHtml(effect.effect)}">${escapeHtml(interpolatedEffect)}</p>
+            <p class="character-effect-description" data-effect-template="${escapeHtml(effect.effect)}">${renderRichText(interpolatedEffect)}</p>
         `;
     }
 
@@ -117,7 +141,7 @@
         }
 
         return `
-            <details class="character-effect-card"${index === 0 ? ' open' : ''}>
+            <details class="character-effect-card" data-effect-name="${escapeHtml(skill.name)}"${index === 0 ? ' open' : ''}>
                 <summary>
                     <span class="character-effect-type">${escapeHtml(skill.type)}</span>
                     <strong>${escapeHtml(skill.name)}</strong>
@@ -128,52 +152,130 @@
         `;
     }
 
-    function render(container, character, characterName) {
-        if (!container) return;
-        if (!character) {
-            container.innerHTML = '<div class="character-effects-empty">등록된 스킬/돌파 정보가 없습니다.</div>';
-            return;
-        }
-        const visibleSkills = character.skills.filter(skill => skill.type !== '최종 법칙');
-        const finalLaw = character.skills.find(skill => skill.type === '최종 법칙');
+    function renderEmpty(message) {
+        return `<div class="character-effects-empty">${escapeHtml(message)}</div>`;
+    }
 
-        container.innerHTML = `
-            <div class="character-effects-switch" role="tablist" aria-label="스킬과 돌파">
-                <button type="button" class="active" data-effect-panel="skills" role="tab" aria-selected="true">스킬</button>
-                <button type="button" data-effect-panel="breakthroughs" role="tab" aria-selected="false">돌파</button>
-            </div>
-            <div class="character-effect-panel active" data-effect-content="skills" role="tabpanel">
-                <div class="character-effect-list">
-                    ${visibleSkills.map(renderSkill).join('')}
-                </div>
-                ${character.derivedCards?.length ? `
-                    <section class="character-derived-section">
-                        <h3>파생 카드</h3>
-                        <div class="character-effect-list">
-                            ${character.derivedCards.map((card, index) => renderSkill(card, index)).join('')}
-                        </div>
-                    </section>
-                ` : ''}
-            </div>
-            <div class="character-effect-panel" data-effect-content="breakthroughs" role="tabpanel">
-                <div class="character-breakthrough-list">
-                    ${character.breakthroughs.map((item, index) => `
-                        <article class="character-breakthrough-card">
-                            <span class="character-breakthrough-step">돌파 ${index + 1}</span>
-                            <h3>${escapeHtml(item.name)}</h3>
-                            <p>${escapeHtml(item.effect)}</p>
-                        </article>
-                    `).join('')}
-                    ${finalLaw ? `
-                        <article class="character-breakthrough-card final-law">
-                            <span class="character-breakthrough-step">최종 법칙</span>
-                            <h3>${escapeHtml(finalLaw.name)}</h3>
-                            <p>${escapeHtml(finalLaw.effect)}</p>
-                        </article>
-                    ` : ''}
-                </div>
+    function renderEnlighten(items) {
+        if (!items.length) return renderEmpty('등록된 계령 정보가 없습니다.');
+
+        return `
+            <div class="character-breakthrough-list">
+                ${items.map((item, index) => `
+                    <article class="character-breakthrough-card">
+                        <span class="character-breakthrough-step">계령 ${index + 1}</span>
+                        <h3>${escapeHtml(item.name)}</h3>
+                        <p>${renderRichText(item.effect)}</p>
+                    </article>
+                `).join('')}
             </div>
         `;
+    }
+
+    function renderTraits(items) {
+        if (!items.length) return renderEmpty('등록된 특성 정보가 없습니다.');
+
+        return `
+            <div class="character-trait-list">
+                ${items.map(item => `
+                    <article class="character-trait-card">
+                        ${item.level_range ? `<span class="character-trait-level">${escapeHtml(item.level_range)}</span>` : ''}
+                        <h3>${escapeHtml(item.name)}</h3>
+                        <p>${renderRichText(item.effect)}</p>
+                    </article>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function renderDimensionalImage(item, characterName) {
+        if (!item) return renderEmpty('등록된 차원영상 정보가 없습니다.');
+
+        return `
+            <article class="character-dimensional-card">
+                <h3>${escapeHtml(item.name || `차원 영상: ${characterName}`)}</h3>
+                <p>${renderRichText(item.effect)}</p>
+            </article>
+        `;
+    }
+
+    function setupTooltips(container) {
+        if (container.dataset.tooltipEventsBound === 'true') return;
+        container.dataset.tooltipEventsBound = 'true';
+
+        let tooltipBox = document.getElementById('character-effect-tooltip-box');
+        if (!tooltipBox) {
+            tooltipBox = document.createElement('div');
+            tooltipBox.id = 'character-effect-tooltip-box';
+            tooltipBox.className = 'character-effect-tooltip-box';
+            tooltipBox.setAttribute('role', 'tooltip');
+            document.body.appendChild(tooltipBox);
+        }
+
+        function showTooltip(trigger) {
+            const description = tooltipDictionary[trigger.dataset.keyword];
+            if (!description) return;
+
+            tooltipBox.textContent = description;
+            tooltipBox.classList.add('visible');
+
+            const rect = trigger.getBoundingClientRect();
+            const boxRect = tooltipBox.getBoundingClientRect();
+            const margin = 10;
+            const gap = 7;
+            const left = Math.min(
+                window.innerWidth - boxRect.width / 2 - margin,
+                Math.max(boxRect.width / 2 + margin, rect.left + rect.width / 2)
+            );
+            const placeBelow = window.innerHeight - rect.bottom >= boxRect.height + gap;
+            const preferredTop = placeBelow
+                ? rect.bottom + gap
+                : rect.top - boxRect.height - gap;
+            const top = Math.min(
+                window.innerHeight - boxRect.height - margin,
+                Math.max(margin, preferredTop)
+            );
+
+            tooltipBox.style.left = `${left}px`;
+            tooltipBox.style.top = `${top}px`;
+        }
+
+        function hideTooltip() {
+            tooltipBox.classList.remove('visible');
+        }
+
+        container.addEventListener('mouseover', event => {
+            if (!window.matchMedia('(hover: hover)').matches) return;
+            const trigger = event.target.closest('.tooltip-trigger');
+            if (trigger && container.contains(trigger)) showTooltip(trigger);
+        });
+        container.addEventListener('mouseout', event => {
+            if (!window.matchMedia('(hover: hover)').matches) return;
+            if (event.target.closest('.tooltip-trigger')) hideTooltip();
+        });
+        container.addEventListener('focusin', event => {
+            const trigger = event.target.closest('.tooltip-trigger');
+            if (trigger && container.contains(trigger)) showTooltip(trigger);
+        });
+        container.addEventListener('focusout', event => {
+            if (event.target.closest('.tooltip-trigger')) hideTooltip();
+        });
+        container.addEventListener('click', event => {
+            const trigger = event.target.closest('.tooltip-trigger');
+            if (trigger && container.contains(trigger)) {
+                event.stopPropagation();
+                showTooltip(trigger);
+            } else {
+                hideTooltip();
+            }
+        });
+        window.addEventListener('resize', hideTooltip);
+        window.addEventListener('scroll', hideTooltip, { passive: true });
+    }
+
+    function bindEvents(container) {
+        if (container.dataset.characterEffectEventsBound === 'true') return;
+        container.dataset.characterEffectEventsBound = 'true';
 
         container.addEventListener('click', event => {
             const button = event.target.closest('[data-effect-panel]');
@@ -197,11 +299,11 @@
             const description = scope.querySelector('.character-effect-description');
             if (description) {
                 const levels = JSON.parse(event.target.dataset.levels || '[]');
-                description.textContent = interpolateEffect(
+                description.innerHTML = renderRichText(interpolateEffect(
                     description.dataset.effectTemplate,
                     levels,
                     event.target.value
-                );
+                ));
             }
         });
 
@@ -210,6 +312,55 @@
                 event.stopPropagation();
             }
         });
+    }
+
+    function render(container, character, characterName, tooltips = {}) {
+        if (!container) return;
+        tooltipDictionary = tooltips;
+        if (!character) {
+            container.innerHTML = renderEmpty('등록된 캐릭터 정보가 없습니다.');
+            return;
+        }
+
+        const skills = character.skills || [];
+        const enlighten = character.enlighten || character.breakthroughs || [];
+        const traits = character.traits || [];
+
+        container.innerHTML = `
+            <div class="character-effects-switch" role="tablist" aria-label="스킬, 계령, 특성, 차원영상">
+                <button type="button" class="active" data-effect-panel="skills" role="tab" aria-selected="true">스킬</button>
+                <button type="button" data-effect-panel="enlighten" role="tab" aria-selected="false">계령</button>
+                <button type="button" data-effect-panel="traits" role="tab" aria-selected="false">특성</button>
+                <button type="button" data-effect-panel="dimensional-image" role="tab" aria-selected="false">차원영상</button>
+            </div>
+            <div class="character-effect-panel active" data-effect-content="skills" role="tabpanel">
+                ${skills.length ? `
+                    <div class="character-effect-list">
+                        ${skills.map(renderSkill).join('')}
+                    </div>
+                ` : renderEmpty('등록된 스킬 정보가 없습니다.')}
+                ${character.derivedCards?.length ? `
+                    <section class="character-derived-section">
+                        <h3>파생 카드</h3>
+                        <div class="character-effect-list">
+                            ${character.derivedCards.map((card, index) => renderSkill(card, index)).join('')}
+                        </div>
+                    </section>
+                ` : ''}
+            </div>
+            <div class="character-effect-panel" data-effect-content="enlighten" role="tabpanel">
+                ${renderEnlighten(enlighten)}
+            </div>
+            <div class="character-effect-panel" data-effect-content="traits" role="tabpanel">
+                ${renderTraits(traits)}
+            </div>
+            <div class="character-effect-panel" data-effect-content="dimensional-image" role="tabpanel">
+                ${renderDimensionalImage(character.dimensionalImage, characterName)}
+            </div>
+        `;
+
+        bindEvents(container);
+        setupTooltips(container);
     }
 
     window.CharacterEffects = { render };

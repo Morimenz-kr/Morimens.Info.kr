@@ -106,7 +106,7 @@
 ## 5. 캐릭터 효과와 획득 타입
 
 - `data/character_effects.json`
-  - 캐릭터 `id`를 키로 스킬/돌파 데이터를 추가한다.
+  - 캐릭터 `id`를 키로 스킬/계령 데이터를 추가한다.
   - 나무위키 기반 갱신이 필요하면 `tools/update-character-effects.mjs`를 사용한다.
 
 - `data/gachatype.json`
@@ -155,7 +155,7 @@ node tools\validate-character.mjs <characterId> --verbose
 node tools\validate-character.mjs --all
 ```
 
-기본 데이터, 추천 세팅 참조, 썸네일 이미지, 파티 빌더/융재금구용 이미지, 전용 장비 이미지, 스킬/돌파, 가챠 타입 누락은 오류로 처리한다.
+기본 데이터, 추천 세팅 참조, 썸네일 이미지, 파티 빌더/융재금구용 이미지, 전용 장비 이미지, 스킬/계령, 가챠 타입 누락은 오류로 처리한다.
 
 전용 장비와 정보글 링크는 기존 데이터 현실을 고려해 우선 경고로 처리한다. 새 캐릭터가 전용 장비를 가져야 하는 경우에는 이 경고를 해결해야 한다.
 
@@ -165,7 +165,7 @@ node tools\validate-character.mjs --all
 - manifest 썸네일 이미지 파일 존재 여부
 - `images/{id}_tide.webp` 파일 존재 여부
 - 추천 세팅의 명륜/계약 ID가 사전에 존재하는지
-- `character_effects.json`의 스킬/돌파 데이터 존재 여부
+- `character_effects.json`의 스킬/계령 데이터 존재 여부
 - `gachatype.json` 포함 여부
 - 전용 SSR/SR 명륜 관계와 이미지 파일 존재 여부
 - 전용 은열쇠 관계와 이미지 파일 존재 여부
@@ -182,7 +182,7 @@ node tools\validate-character.mjs --all
 ## 9. 최종 수동 확인
 
 - `links.html?category=character&id=<characterId>`에서 추천 세팅이 깨지지 않는지 확인한다.
-- `스킬/돌파` 탭이 정상 표시되는지 확인한다.
+- `스킬/계령/특성/차원영상` 탭이 정상 표시되는지 확인한다.
 - `party_builder.html`에서 캐릭터 이미지와 전용 장비 자동 장착이 정상 동작하는지 확인한다.
 - `covenant_simulator.html`에서 캐릭터 이미지가 정상 표시되는지 확인한다.
 - 명륜/은열쇠/계약 이미지가 placeholder로 떨어지지 않는지 확인한다.

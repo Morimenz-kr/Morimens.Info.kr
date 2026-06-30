@@ -23,7 +23,7 @@
 상세 페이지도 다른 기능처럼 다음 원칙을 따라야 한다.
 
 - 캐릭터 기본 정보는 `data/character_manifest.json`을 기준으로 한다.
-- 스킬/돌파/효과 설명은 `data/character_effects.json`을 기준으로 한다.
+- 스킬/계령/효과 설명은 `data/character_effects.json`을 기준으로 한다.
 - 추천 명륜/계약은 `data/character_settings.json`을 기준으로 한다.
 - 명륜 상세 정보는 `data/wheel_list.json`을 기준으로 한다.
 - 계약 상세 정보는 `data/covenant_list.json`을 기준으로 한다.
@@ -54,7 +54,7 @@
 
 - `character_manifest.json`에 대응 캐릭터가 있다.
 - `character_settings.json`에 추천 세팅이 있다.
-- `character_effects.json`에 스킬/돌파 데이터가 있다.
+- `character_effects.json`에 스킬/계령 데이터가 있다.
 - legacy 카드 ID 7개는 모두 `data/db_cards.json`에 존재한다.
 - legacy 카드 이름과 `character_effects.json`의 스킬 이름은 4/7개만 겹친다.
 - `recommended_wheel_id: wheel_tawil_unique`는 현재 `data/wheel_list.json`에 없다.
