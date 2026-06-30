@@ -253,6 +253,7 @@
     z-index: 1010;
     width: min(520px, calc(100vw - 20px));
     max-height: calc(100dvh - 32px);
+    box-sizing: border-box;
     padding: 12px 14px;
     overflow-y: auto;
     overscroll-behavior: contain;

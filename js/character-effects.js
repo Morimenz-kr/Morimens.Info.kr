@@ -225,11 +225,13 @@
             tooltipBox.setAttribute('role', 'tooltip');
             document.body.appendChild(tooltipBox);
         }
+        let tooltipPinned = false;
 
-        function showTooltip(trigger) {
+        function showTooltip(trigger, pinned = false) {
             const description = tooltipDictionary[trigger.dataset.keyword];
             if (!description) return;
 
+            tooltipPinned = pinned;
             tooltipBox.textContent = description;
             tooltipBox.classList.add('visible');
 
@@ -254,12 +256,15 @@
             tooltipBox.style.top = `${top}px`;
         }
 
-        function hideTooltip() {
+        function hideTooltip(force = false) {
+            if (tooltipPinned && !force) return;
+            tooltipPinned = false;
             tooltipBox.classList.remove('visible');
         }
 
         container.addEventListener('mouseover', event => {
             if (!window.matchMedia('(hover: hover)').matches) return;
+            if (tooltipPinned) return;
             const trigger = event.target.closest('.tooltip-trigger');
             if (trigger && container.contains(trigger)) showTooltip(trigger);
         });
@@ -288,14 +293,26 @@
             const trigger = event.target.closest('.tooltip-trigger');
             if (trigger && container.contains(trigger)) {
                 event.stopPropagation();
-                showTooltip(trigger);
+                showTooltip(trigger, true);
             } else {
-                hideTooltip();
+                hideTooltip(true);
             }
         });
-        tooltipBox.addEventListener('mouseleave', hideTooltip);
-        window.addEventListener('resize', hideTooltip);
-        window.addEventListener('scroll', hideTooltip, { passive: true });
+        document.addEventListener('click', event => {
+            if (
+                event.target.closest('.tooltip-trigger') ||
+                tooltipBox.contains(event.target)
+            ) {
+                return;
+            }
+            hideTooltip(true);
+        });
+        tooltipBox.addEventListener('click', event => {
+            event.stopPropagation();
+        });
+        tooltipBox.addEventListener('mouseleave', () => hideTooltip());
+        window.addEventListener('resize', () => hideTooltip(true));
+        window.addEventListener('scroll', () => hideTooltip(), { passive: true });
     }
 
     function bindEvents(container) {
