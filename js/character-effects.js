@@ -265,14 +265,24 @@
         });
         container.addEventListener('mouseout', event => {
             if (!window.matchMedia('(hover: hover)').matches) return;
-            if (event.target.closest('.tooltip-trigger')) hideTooltip();
+            if (
+                event.target.closest('.tooltip-trigger') &&
+                !tooltipBox.contains(event.relatedTarget)
+            ) {
+                hideTooltip();
+            }
         });
         container.addEventListener('focusin', event => {
             const trigger = event.target.closest('.tooltip-trigger');
             if (trigger && container.contains(trigger)) showTooltip(trigger);
         });
         container.addEventListener('focusout', event => {
-            if (event.target.closest('.tooltip-trigger')) hideTooltip();
+            if (
+                event.target.closest('.tooltip-trigger') &&
+                !tooltipBox.contains(event.relatedTarget)
+            ) {
+                hideTooltip();
+            }
         });
         container.addEventListener('click', event => {
             const trigger = event.target.closest('.tooltip-trigger');
@@ -283,6 +293,7 @@
                 hideTooltip();
             }
         });
+        tooltipBox.addEventListener('mouseleave', hideTooltip);
         window.addEventListener('resize', hideTooltip);
         window.addEventListener('scroll', hideTooltip, { passive: true });
     }

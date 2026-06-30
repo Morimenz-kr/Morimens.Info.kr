@@ -244,7 +244,6 @@
 .tooltip-trigger {
     color: inherit;
     font-weight: 700;
-    border-bottom: 1px dotted currentColor;
     text-decoration: none;
     cursor: help;
 }
@@ -252,17 +251,19 @@
 .character-effect-tooltip-box {
     position: fixed;
     z-index: 1010;
-    width: min(380px, calc(100vw - 20px));
-    max-height: min(280px, calc(100dvh - 20px));
-    padding: 9px 11px;
+    width: min(520px, calc(100vw - 20px));
+    max-height: calc(100dvh - 32px);
+    padding: 12px 14px;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
     color: #d7d7dc;
     background: #252529;
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 8px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
     font-size: 0.86rem;
-    line-height: 1.45;
+    line-height: 1.55;
     white-space: pre-line;
     overflow-wrap: anywhere;
     pointer-events: none;
@@ -275,6 +276,7 @@
 .character-effect-tooltip-box.visible {
     visibility: visible;
     opacity: 1;
+    pointer-events: auto;
 }
 
 .character-effects-empty {
@@ -336,8 +338,8 @@
 
     .character-effect-tooltip-box {
         width: calc(100vw - 20px);
-        max-height: min(240px, calc(100dvh - 20px));
-        padding: 8px 10px;
+        max-height: calc(100dvh - 24px);
+        padding: 10px 12px;
         font-size: 0.84rem;
     }
 }
