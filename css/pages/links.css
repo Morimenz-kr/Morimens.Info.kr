@@ -281,6 +281,10 @@
     z-index: 2;
 }
 
+.chrome-tab[hidden] {
+    display: none !important;
+}
+
 /* 탭 전환 시 나타나는 콘텐츠 화면 (가로 폭은 부모를 따라 고정됨) */
 .tab-content {
     display: none; /* 기본적으로 화면에서 완전히 제거됨 */
@@ -302,6 +306,67 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
     gap: 15px;
+    align-items: start;
+}
+
+.dictionary-grid[data-category="myeongryun"] {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+}
+
+.dictionary-grid[data-category="silverkey"] {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.dictionary-item {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 7px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #ddd;
+    font: inherit;
+    cursor: pointer;
+}
+
+.dictionary-item-image {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    border: 1px solid #444;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dictionary-item:hover .dictionary-item-image,
+.dictionary-item:focus-visible .dictionary-item-image,
+.dictionary-item.active .dictionary-item-image {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 1px rgba(255, 193, 7, 0.25);
+}
+
+.dictionary-item:focus-visible {
+    outline: none;
+}
+
+.dictionary-item-name {
+    display: block;
+    min-height: 2.7em;
+    color: #ddd;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    text-align: center;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+.dictionary-item:hover .dictionary-item-name,
+.dictionary-item:focus-visible .dictionary-item-name,
+.dictionary-item.active .dictionary-item-name {
+    color: #ffc107;
 }
 /* ============================================
    명륜 상세 정보 툴팁 디자인
@@ -320,6 +385,12 @@
 
 /* 모바일 화면에서는 마우스가 없으므로 터치 시 화면 중앙 하단에 고정되도록 처리 */
 @media (max-width: 768px) {
+    .dictionary-grid[data-category="myeongryun"],
+    .dictionary-grid[data-category="silverkey"] {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 12px;
+    }
+
     .item-tooltip {
         position: fixed !important; top: auto !important; bottom: 90px !important;
         left: 50% !important; transform: translateX(-50%) !important;
@@ -327,6 +398,21 @@
         background: rgba(25, 25, 30, 0.98); border: 1px solid #ffc107;
         box-shadow: 0 -5px 20px rgba(0,0,0,0.7); text-align: left;
         padding: 15px; z-index: 2000; border-radius: 8px; pointer-events: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .dictionary-grid[data-category="myeongryun"],
+    .dictionary-grid[data-category="silverkey"] {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+    }
+}
+
+@media (max-width: 360px) {
+    .dictionary-grid[data-category="myeongryun"],
+    .dictionary-grid[data-category="silverkey"] {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
