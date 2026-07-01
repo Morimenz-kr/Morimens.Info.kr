@@ -360,6 +360,14 @@
     "source": "다차원 연결 - 은과 피의 세례"
   },
   {
+    "korean_name": "주점의 문",
+    "english_name": "key_door_of_beer",
+    "description": "\"리아의 동전\" 1장을 쓰레기 더미에 넣습니다. \"리아의 동전\": 산출력 소모 0. 산출력을 2 얻고, 카드 2장을 뽑습니다. 소모, 보존.",
+    "image_path": "images/key_door_of_beer.png",
+    "tags": ["카드 추가", "산출력 획득", "드로우"],
+    "source": "다차원 연결 - 역전의 턴"
+  },
+  {
     "korean_name": "심집순이의 옛이야기",
     "english_name": "key_homegirl_story",
     "description": "1포인트의 계산력을 얻고 모든 적의 38포인트의 힘을 임시로 감소시킵니다. \"서\"가 팀에 있을 경우 모든 적에게 1층의 '도취'를 부여합니다.\n",
