@@ -59,8 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const classMatch = currentFilters.class === 'all' || card.classList.contains(currentFilters.class);
 
             // 검색어 검사
-            const name = card.querySelector('h3').textContent.toLowerCase();
-            const searchMatch = name.includes(searchTerm);
+            const name = card.querySelector('h3').textContent;
+            const searchMatch = window.SearchUtils
+                ? window.SearchUtils.matchesSearchText(name, searchTerm)
+                : name.toLowerCase().includes(searchTerm);
 
             // 모든 조건이 맞으면 보이게, 아니면 숨김
             if (relemsMatch && gradeMatch && classMatch && searchMatch) {
@@ -90,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             applyFilters();
         });
         searchBar.addEventListener('input', (e) => {
-            currentFilters.search = e.target.value.toLowerCase().trim();
+            currentFilters.search = e.target.value.trim();
             applyFilters();
         });
     }
