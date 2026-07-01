@@ -431,18 +431,26 @@ function renderDictionaryFilters(data, category, onFilterChange) {
 function renderDictionaryItems(data, category) {
     const grid = document.getElementById('dictionary-grid');
     grid.innerHTML = '';
+    grid.dataset.category = category;
 
     // 카테고리에 따라 그리드의 기본 크기를 다르게 할당하여 비밀계약 아이콘을 크게 만듦
     if (category === 'covenant') {
         grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(130px, 1fr))';
     } else {
-        grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(80px, 1fr))';
+        grid.style.removeProperty('grid-template-columns');
     }
 
     data.forEach(item => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'dictionary-item';
+        card.setAttribute('aria-label', `${item.korean_name} 상세 정보`);
+
         const img = document.createElement('img');
         img.src = item.image_path;
-        img.style.width = '100%';
+        img.alt = item.korean_name;
+        img.loading = 'lazy';
+        img.className = 'dictionary-item-image';
 
         // 은열쇠와 비밀계약은 1:1, 명륜은 인게임 비율 적용
         if (category === 'silverkey' || category === 'covenant') {
@@ -451,28 +459,28 @@ function renderDictionaryItems(data, category) {
             img.style.aspectRatio = '225/456';
         }
 
-        img.style.objectFit = 'cover';
-        img.style.borderRadius = '4px';
-        img.style.cursor = 'pointer';
-        img.style.border = '1px solid #444';
+        const name = document.createElement('span');
+        name.className = 'dictionary-item-name';
+        name.textContent = item.korean_name;
 
-        img.onmouseenter = (e) => {
-            img.style.borderColor = '#ffc107';
+        card.onmouseenter = (e) => {
+            card.classList.add('active');
             showTooltip(item, e);
         };
-        img.onmousemove = moveTooltip;
-        img.onmouseleave = () => {
-            img.style.borderColor = '#444';
+        card.onmousemove = moveTooltip;
+        card.onmouseleave = () => {
+            card.classList.remove('active');
             hideTooltip();
         };
-        img.onclick = (e) => {
+        card.onclick = (e) => {
             e.preventDefault();
             e.stopPropagation();
-            img.style.borderColor = '#ffc107';
+            card.classList.add('active');
             showTooltip(item, e);
         };
 
-        grid.appendChild(img);
+        card.append(img, name);
+        grid.appendChild(card);
     });
 
     if (data.length === 0) {
