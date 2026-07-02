@@ -675,7 +675,7 @@ function renderCharGrid() {
 
     const currentPage = allPages[currentPageIdx];
     const team = currentPage.teams[currentTeamIdx];
-    const searchText = document.getElementById('char-search-input').value.trim().toLowerCase();
+    const searchText = document.getElementById('char-search-input').value.trim();
 
     // 1. 현재 세트 전체에서 조력자 정보 추출 (세트 내 1인 조력자 규칙 유지용)
     let supportInPage = null;
@@ -710,7 +710,7 @@ function renderCharGrid() {
         const dPass = !activeCharFilters.domain.size || activeCharFilters.domain.has(c.relems);
         const cPass = !activeCharFilters.class.size || activeCharFilters.class.has(c.class);
         if(!dPass || !cPass) return false;
-        if(searchText && !c.name.toLowerCase().includes(searchText)) return false;
+        if(searchText && !matchesBuilderSearch(c.name, searchText)) return false;
         return true;
     }).forEach(c => {
         const id = c.id;
@@ -788,10 +788,10 @@ function setupCharSearchEvents() {
     const suggest = document.getElementById('char-search-suggestions');
     if(!input) return;
     input.oninput = (e) => {
-        const val = e.target.value.trim().toLowerCase();
-        if(!val) { suggest.style.display = 'none'; renderCharGrid(); return; }
+        const val = e.target.value.trim();
+        if(!val || (window.SearchUtils && !window.SearchUtils.isSearchQueryActive(val))) { suggest.style.display = 'none'; renderCharGrid(); return; }
         const tagAliases = getTagAliases();
-        const matches = getAllCharTagNames().filter(t => (t.includes(val) || (tagAliases[t]||[]).some(a=>a.includes(val))) && !activeCharSearchTags.has(t));
+        const matches = getAllCharTagNames().filter(t => (matchesBuilderSearch(t, val) || (tagAliases[t]||[]).some(a=>matchesBuilderSearch(a, val))) && !activeCharSearchTags.has(t));
         suggest.innerHTML = matches.map(m => `<div class="suggestion-item" onclick="addCharTag('${m}')">${m}</div>`).join('');
         suggest.style.display = matches.length ? 'block' : 'none';
         renderCharGrid();
@@ -983,8 +983,7 @@ function renderWheelList() {
 
     const currentW = allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx];
     const searchInput = document.getElementById('wheel-search-input');
-    const search = searchInput ? searchInput.value.trim().toLowerCase() : "";
-    const searchClean = search.replace(/\s+/g, ''); // 공백 제거 검색어
+    const search = searchInput ? searchInput.value.trim() : "";
 
     // 2. 필터링 로직 확장 (이름 + 설명 + 주옵션)
     DB.wheels.filter(w => {
@@ -996,15 +995,11 @@ function renderWheelList() {
 
         // 검색어 필터 (주옵션인 main_stat 추가)
         if(search) {
-            const name = (w.korean_name || "").toLowerCase();
-            const desc = (w.description || "").toLowerCase();
-            const mainStat = (w.main_stat || "").toLowerCase(); // 주옵션 필드
-
-            const matches = name.includes(search) ||
-                desc.includes(search) ||
-                mainStat.includes(search) ||
-                name.replace(/\s+/g, '').includes(searchClean) ||
-                mainStat.replace(/\s+/g, '').includes(searchClean);
+            const matches = matchesBuilderSearchByQueryType(
+                w.korean_name || '',
+                `${w.korean_name || ''} ${w.description || ''} ${w.main_stat || ''}`,
+                search
+            );
 
             if(!matches) return false;
         }
@@ -1130,7 +1125,7 @@ function renderKeyGrid() {
 
     const currentK = allPages[currentPageIdx].teams[currentTeamIdx].key;
     const searchInput = document.getElementById('key-search-input');
-    const search = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    const search = searchInput ? searchInput.value.trim() : '';
 
     // 현재 선택된 정렬 기준 확인
     const sortSelect = document.getElementById('key-sort-select');
@@ -1138,8 +1133,7 @@ function renderKeyGrid() {
 
     // 1단계: 검색어 필터링
     let filteredKeys = DB.keys.filter(k => {
-        if (search && !k.korean_name.toLowerCase().includes(search) &&
-            !(k.tags || []).some(t => t.toLowerCase().includes(search))) {
+        if (search && !matchesBuilderSearchByQueryType(k.korean_name, `${k.korean_name || ''} ${(k.tags || []).join(' ')}`, search)) {
             return false;
         }
         return true;
@@ -1190,6 +1184,20 @@ function renderKeyGrid() {
         };
         box.appendChild(el);
     });
+}
+
+function matchesBuilderSearch(text, query) {
+    if (window.SearchUtils) return window.SearchUtils.matchesSearchText(text, query);
+    const normalizedText = String(text || '').toLowerCase().replace(/\s+/g, '');
+    const normalizedQuery = String(query || '').toLowerCase().replace(/\s+/g, '');
+    return normalizedText.includes(normalizedQuery);
+}
+
+function matchesBuilderSearchByQueryType(primaryText, fullText, query) {
+    const target = window.SearchUtils && window.SearchUtils.isChoseongQuery(query)
+        ? primaryText
+        : fullText;
+    return matchesBuilderSearch(target, query);
 }
 function unequipKey() { allPages[currentPageIdx].teams[currentTeamIdx].key = null; closeModal('modal-key'); renderAll(); }
 

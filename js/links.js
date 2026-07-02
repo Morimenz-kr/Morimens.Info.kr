@@ -251,6 +251,10 @@ function getDictionaryFilterMeta(item, category) {
             .map(tag => normalizeDictionaryFilterValue(tag, 'effect'))
             .filter(Boolean);
     return {
+        nameText: [
+            item.korean_name,
+            item.english_name
+        ].filter(Boolean).join(' ').toLowerCase(),
         text: [
             item.korean_name,
             item.english_name,
@@ -389,6 +393,7 @@ function renderDictionaryFilters(data, category, onFilterChange) {
         ${optionFieldHtml}
     `;
 
+    const searchUtils = window.SearchUtils;
     const controls = {
         search: panel.querySelector('#dictionary-search'),
         reset: panel.querySelector('#dictionary-filter-reset'),
@@ -396,13 +401,21 @@ function renderDictionaryFilters(data, category, onFilterChange) {
     };
 
     const applyFilters = () => {
-        const query = controls.search.value.trim().toLowerCase();
+        const query = controls.search.value.trim();
         const grades = getCheckedFilterValues(panel, 'dictionary-grade-filter');
         const mainStats = getCheckedFilterValues(panel, 'dictionary-main-filter');
         const effects = getCheckedFilterValues(panel, 'dictionary-effect-filter');
         const filtered = data.filter(item => {
             const meta = metaByItem.get(item);
-            if (query && !meta.text.includes(query)) return false;
+            if (query) {
+                const searchText = searchUtils && searchUtils.isChoseongQuery(query)
+                    ? meta.nameText
+                    : meta.text;
+                const matches = searchUtils
+                    ? searchUtils.matchesSearchText(searchText, query)
+                    : searchText.includes(query.toLowerCase());
+                if (!matches) return false;
+            }
             if (grades.length > 0 && !grades.includes(meta.grade)) return false;
             if (mainStats.length > 0 && !mainStats.includes(meta.mainStat)) return false;
             if (effects.length > 0 && !effects.some(effect => meta.effectFilters.includes(effect))) return false;

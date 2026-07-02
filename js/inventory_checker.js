@@ -134,7 +134,7 @@
         });
 
         els.search.addEventListener('input', event => {
-            state.search = event.target.value.trim().toLowerCase();
+            state.search = event.target.value.trim();
             renderAll();
         });
 
@@ -254,7 +254,7 @@
         const filtered = state.characters.filter(character => {
             const groupMatch = matchesCharacterGroup(character);
             const classMatch = matchesCharacterClass(character);
-            const textMatch = !state.search || character.name.toLowerCase().includes(state.search);
+            const textMatch = !state.search || matchesInventorySearch(character.name, state.search);
             return groupMatch && classMatch && textMatch;
         });
 
@@ -320,8 +320,8 @@
         const filtered = state.wheels.filter(wheel => {
             if (!isShareWheel(wheel)) return false;
             const gradeMatch = state.wheelFilter === 'all' || normalizeGrade(wheel.grade) === state.wheelFilter;
-            const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`.toLowerCase();
-            const textMatch = !state.search || text.includes(state.search);
+            const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`;
+            const textMatch = !state.search || matchesInventorySearch(text, state.search);
             return gradeMatch && textMatch;
         });
 
@@ -468,7 +468,7 @@
                 .filter(character => {
                     const groupMatch = matchesCharacterGroup(character);
                     const classMatch = matchesCharacterClass(character);
-                    const textMatch = !state.search || character.name.toLowerCase().includes(state.search);
+                    const textMatch = !state.search || matchesInventorySearch(character.name, state.search);
                     return groupMatch && classMatch && textMatch;
                 })
                 .map(character => character.id);
@@ -478,8 +478,8 @@
             .filter(wheel => {
                 if (!isShareWheel(wheel)) return false;
                 const gradeMatch = state.wheelFilter === 'all' || normalizeGrade(wheel.grade) === state.wheelFilter;
-                const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`.toLowerCase();
-                const textMatch = !state.search || text.includes(state.search);
+                const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`;
+                const textMatch = !state.search || matchesInventorySearch(text, state.search);
                 return gradeMatch && textMatch;
             })
             .map(wheel => wheel.english_name);
@@ -799,7 +799,7 @@
 
     function getFilteredSelectedCharacters() {
         return state.characters.filter(character => {
-            const textMatch = !state.search || character.name.toLowerCase().includes(state.search);
+            const textMatch = !state.search || matchesInventorySearch(character.name, state.search);
             return state.selectedCharacters.has(character.id)
                 && matchesCharacterGroup(character)
                 && matchesCharacterClass(character)
@@ -810,13 +810,18 @@
     function getFilteredSelectedWheels() {
         return state.wheels.filter(wheel => {
             const gradeMatch = state.wheelFilter === 'all' || normalizeGrade(wheel.grade) === state.wheelFilter;
-            const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`.toLowerCase();
-            const textMatch = !state.search || text.includes(state.search);
+            const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`;
+            const textMatch = !state.search || matchesInventorySearch(text, state.search);
             return state.selectedWheels.has(wheel.english_name)
                 && isShareWheel(wheel)
                 && gradeMatch
                 && textMatch;
         });
+    }
+
+    function matchesInventorySearch(text, query) {
+        if (window.SearchUtils) return window.SearchUtils.matchesSearchText(text, query);
+        return String(text || '').toLowerCase().includes(String(query || '').toLowerCase());
     }
 
     function normalizeGrade(grade) {
