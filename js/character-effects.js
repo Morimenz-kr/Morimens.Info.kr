@@ -83,7 +83,10 @@
 
         const level = levels.find(item => String(item.level) === String(selectedLevel)) || levels[levels.length - 1];
         const entries = Object.entries(level)
-            .filter(([key]) => key !== 'level')
+            .filter(([key]) => (
+                key !== 'level' &&
+                !/(?:돌파\s*\d+|\d+\s*돌파)/.test(key)
+            ))
             .map(([key, value]) => ({ key, value: String(value) }));
         let nextIndex = 0;
         let text = String(effect || '');
