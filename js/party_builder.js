@@ -12,6 +12,8 @@ const DEFAULT_PARTY_BUILDER_RULES = {
 };
 let draggedIdx = -1;
 let lastHoverIdx = -1;
+let teamTabTouchState = null;
+let skipNextTeamTabClick = false;
 
 // 최근 사용한 은열쇠 식별자 저장소 (로컬 스토리지 연동)
 let recentKeys = JSON.parse(localStorage.getItem('morimens_recent_keys')) || [];
@@ -370,7 +372,7 @@ function renderSidebar() {
         tab.className = `team-tab ${i === currentTeamIdx ? 'active' : ''} ${t.chars.some(x => x) ? 'filled' : ''}`;
         tab.textContent = ROMAN_NUMS[i];
         tab.dataset.index = i;
-        tab.draggable = true;
+        tab.draggable = isVertical;
 
         // 드래그 시작 공통 로직
         const handleStart = (idx) => {
@@ -469,6 +471,98 @@ function renderSidebar() {
             renderAll();
         };
 
+        tab.ontouchstart = (e) => {
+            const touch = e.touches && e.touches[0];
+            if (!touch) return;
+
+            window.clearTimeout(teamTabTouchState && teamTabTouchState.timer);
+            teamTabTouchState = {
+                index: i,
+                startX: touch.clientX,
+                startY: touch.clientY,
+                dragging: false,
+                moved: false,
+                timer: window.setTimeout(() => {
+                    if (!teamTabTouchState || teamTabTouchState.index !== i || teamTabTouchState.moved) return;
+                    teamTabTouchState.dragging = true;
+                    handleStart(i);
+                    if (navigator.vibrate) navigator.vibrate(10);
+                }, 420)
+            };
+        };
+
+        tab.ontouchmove = (e) => {
+            if (!teamTabTouchState || teamTabTouchState.index !== i) return;
+            const touch = e.touches && e.touches[0];
+            if (!touch) return;
+
+            const deltaX = touch.clientX - teamTabTouchState.startX;
+            const deltaY = touch.clientY - teamTabTouchState.startY;
+            const movedEnough = Math.hypot(deltaX, deltaY) > 8;
+
+            if (!teamTabTouchState.dragging) {
+                if (movedEnough) {
+                    teamTabTouchState.moved = true;
+                    window.clearTimeout(teamTabTouchState.timer);
+                }
+                return;
+            }
+
+            e.preventDefault();
+
+            tab.style.pointerEvents = 'none';
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            tab.style.pointerEvents = 'auto';
+
+            if (target && target.classList.contains('team-tab')) {
+                const hIdx = parseInt(target.dataset.index);
+                handleMove(hIdx);
+            }
+        };
+
+        tab.ontouchend = () => {
+            if (!teamTabTouchState || teamTabTouchState.index !== i) return;
+
+            window.clearTimeout(teamTabTouchState.timer);
+            const wasDragging = teamTabTouchState.dragging;
+            const wasMoved = teamTabTouchState.moved;
+            teamTabTouchState = null;
+            skipNextTeamTabClick = true;
+            window.setTimeout(() => { skipNextTeamTabClick = false; }, 350);
+
+            if (wasDragging) {
+                handleEnd();
+                return;
+            }
+
+            draggedIdx = -1;
+            lastHoverIdx = -1;
+            tab.classList.remove('dragging');
+            document.querySelectorAll('.team-tab').forEach(el => {
+                el.style.transform = '';
+                el.style.pointerEvents = 'auto';
+            });
+
+            if (!wasMoved) {
+                currentTeamIdx = i;
+                renderAll();
+            }
+        };
+
+        tab.ontouchcancel = () => {
+            if (teamTabTouchState && teamTabTouchState.index === i) {
+                window.clearTimeout(teamTabTouchState.timer);
+                teamTabTouchState = null;
+            }
+            handleEnd();
+        };
+
+        tab.onclick = () => {
+            if (skipNextTeamTabClick) return;
+            currentTeamIdx = i;
+            renderAll();
+        };
+
         container.appendChild(tab);
     });
 }
@@ -529,7 +623,7 @@ function renderMain() {
             let conflictText = isAlterConflict ? "출전 불가" : (isGlobalDuplicate ? "사용중" : "");
             let conflictHTML = conflictText ? `<div class="card-conflict-overlay"><div class="conflict-bar">${conflictText}</div></div>` : '';
             let displayName = info ? info.name : '';
-            if (isSupport) displayName += ' <span style="color:#3498db; font-size:0.8em; font-weight:bold;">(조력)</span>';
+            let supportBadgeHTML = isSupport ? '<div class="char-top-support">조력</div>' : '';
 
             const w1 = team.wheels[i][0]; const w2 = team.wheels[i][1];
             const w1Info = DB.wheels.find(x => x.english_name === w1);
@@ -537,7 +631,7 @@ function renderMain() {
             const charImg = info ? `images/${info.id}_tide.webp` : 'images/smile_Ramona.webp';
             let topInfoHTML = info ? `<div class="char-top-info"><img src="images/character_${info.relems}.png" class="char-top-icon"><span class="char-top-name">${displayName}</span></div>` : '';
 
-            div.innerHTML = `<img src="${charImg}" class="char-tide-img" onerror="this.src='${info?.image_thumb}'">${conflictHTML}${topInfoHTML}<div class="card-bottom-overlay"><div class="wheels-wrapper"><div class="slot-wheel" onclick="openWheelModal(${i},0,event)">${w1Info ? `<img src="${w1Info.image_path}">` : '+'}</div><div class="slot-wheel" onclick="openWheelModal(${i},1,event)">${w2Info ? `<img src="${w2Info.image_path}">` : '+'}</div></div></div>`;
+            div.innerHTML = `<img src="${charImg}" class="char-tide-img" onerror="this.src='${info?.image_thumb}'">${conflictHTML}${topInfoHTML}${supportBadgeHTML}<div class="card-bottom-overlay"><div class="wheels-wrapper"><div class="slot-wheel" onclick="openWheelModal(${i},0,event)">${w1Info ? `<img src="${w1Info.image_path}">` : '+'}</div><div class="slot-wheel" onclick="openWheelModal(${i},1,event)">${w2Info ? `<img src="${w2Info.image_path}">` : '+'}</div></div></div>`;
             [w1Info, w2Info].forEach((wheelInfo, slotIdx) => {
                 if (!wheelInfo) return;
                 const slotEl = div.querySelectorAll('.slot-wheel')[slotIdx];
@@ -555,7 +649,7 @@ function renderMain() {
         if (i === 3) {
             container.appendChild(div);
             const btn = document.createElement('div');
-            btn.className = 'support-setup-btn'; btn.innerHTML = '조력 설정';
+            btn.className = 'support-setup-btn'; btn.innerHTML = '<span class="support-label-full">조력 설정</span><span class="support-label-short">조력</span>';
             btn.onclick = (e) => { e.stopPropagation(); openSupportSelector(e); };
             container.appendChild(btn);
             sBox.appendChild(container);
@@ -735,8 +829,8 @@ function renderCharGrid() {
         const isSelected = tempChars.includes(id) || (isSupportSelectionMode && team.supportIdx !== -1 && team.chars[team.supportIdx] === id);
 
         const el = document.createElement('div');
-        el.className = `grid-item ${isSelected ? 'selected' : ''} ${conflictReason ? 'conflict' : ''}`;
-        el.innerHTML = `<img src="${c.image_thumb}">`;
+        el.className = `grid-item grid-item-character has-label ${isSelected ? 'selected' : ''} ${conflictReason ? 'conflict' : ''}`;
+        el.innerHTML = `<img src="${c.image_thumb}" alt=""><span class="grid-item-label">${c.name}</span>`;
 
         if (conflictReason) {
             const overlay = document.createElement('div');
@@ -897,7 +991,21 @@ function openWheelModal(charIdx, slotIdx, e) {
     }
 
     renderWheelModalUI();
+    ensureWheelDoneButton();
     document.getElementById('modal-wheel').classList.add('show');
+}
+
+function ensureWheelDoneButton() {
+    const container = document.getElementById('modal-action-buttons');
+    if (!container || document.getElementById('btn-wheel-done')) return;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.id = 'btn-wheel-done';
+    button.className = 'btn btn-modal btn-wheel-done';
+    button.textContent = '완료';
+    button.onclick = () => closeModal('modal-wheel');
+    container.appendChild(button);
 }
 
 function setupWheelSearchEvents() {
@@ -1010,10 +1118,10 @@ function renderWheelList() {
         const isUsed = used.has(w.english_name) && !isSel;
 
         const el = document.createElement('div');
-        el.className = `grid-item grid-item-wheel ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
+        el.className = `grid-item grid-item-wheel has-label ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
 
         // 원본과 동일하게 이미지 삽입
-        el.innerHTML = `<img src="${w.image_path}">`;
+        el.innerHTML = `<img src="${w.image_path}" alt=""><span class="grid-item-label">${w.korean_name}</span>`;
 
         // 툴팁 이벤트
         el.onmouseenter = (e) => showTooltip(w, e);
@@ -1021,11 +1129,14 @@ function renderWheelList() {
         el.onmousemove = moveTooltip; // 툴팁 따라다니게 추가
 
         // 클릭 이벤트 (데이터 업데이트)
-        el.onclick = () => {
+        el.onclick = (e) => {
             if(isUsed) return;
             allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx] = w.english_name;
             renderWheelModalUI();
             renderAll();
+            if (isTouchTooltipEvent(e)) {
+                showTooltip(w, e);
+            }
             // 데이터 변경 후 저장 (필요 시)
             if (typeof saveAllData === 'function') saveAllData(true);
         };
@@ -1159,9 +1270,8 @@ function renderKeyGrid() {
         const isUsed = used.has(k.english_name);
 
         const el = document.createElement('div');
-        el.className = `grid-item ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
-        el.style.borderRadius = "50%";
-        el.innerHTML = `<img src="${k.image_path}" style="border-radius:50%;">`;
+        el.className = `grid-item grid-item-key has-label ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
+        el.innerHTML = `<img src="${k.image_path}" alt=""><span class="grid-item-label">${k.korean_name}</span>`;
 
         el.onmouseenter = (e) => showTooltip(k, e);
         el.onmouseleave = hideTooltip;
@@ -1203,6 +1313,16 @@ function unequipKey() { allPages[currentPageIdx].teams[currentTeamIdx].key = nul
 
 // [11] 시스템 유틸리티 및 모달 기능
 const tooltipEl = document.getElementById('global-tooltip');
+function isTouchTooltipEvent(e) {
+    return !!(
+        e &&
+        (
+            e.pointerType === 'touch' ||
+            (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches)
+        )
+    );
+}
+
 function showTooltip(item, e) {
     document.getElementById('tt-title').textContent = item.korean_name;
 
