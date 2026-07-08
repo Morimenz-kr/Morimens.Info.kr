@@ -75,6 +75,7 @@ body {
     cursor: grabbing;
     touch-action: none;
 }
+
 /* --- [메인 레이아웃] --- */
 .main-area {
     flex: 1; display: flex; flex-direction: column; padding: 30px 50px;
@@ -2999,5 +3000,109 @@ body {
 
     #modal-wheel .btn-wheel-done {
         grid-column: span 1;
+    }
+}
+
+/* Party builder desktop picker guard: prevent wheel/key rows from collapsing after labels were added. */
+#grid-wheel .grid-item-wheel.has-label,
+#grid-key .grid-item-key.has-label {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: start;
+    height: auto;
+}
+
+#grid-wheel .grid-item-wheel.has-label {
+    aspect-ratio: auto !important;
+}
+
+#grid-wheel .grid-item-wheel.has-label > img {
+    display: block;
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: 225 / 456;
+    object-fit: cover;
+    flex: 0 0 auto;
+}
+
+#grid-key .grid-item-key.has-label > img {
+    display: block;
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    flex: 0 0 auto;
+}
+
+#grid-wheel .grid-item-label,
+#grid-key .grid-item-label {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+}
+
+@media (min-width: 769px) {
+    .char-top-support {
+        top: 19px;
+        right: 15px;
+        padding: 3px 7px;
+        border: 1px solid rgba(130, 190, 235, 0.45);
+        border-left: 3px solid rgba(130, 190, 235, 0.85);
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.52);
+        color: #dff2ff;
+        font-size: 0.72rem;
+        font-weight: 800;
+        line-height: 1;
+        box-shadow: none;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    #grid-wheel.wheel-list-panel {
+        grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+        grid-auto-rows: max-content;
+        align-items: start;
+        gap: 14px 12px;
+    }
+
+    #grid-wheel .grid-item-wheel.has-label {
+        max-width: 132px;
+        justify-self: center;
+        gap: 6px;
+        overflow: hidden;
+    }
+
+    #grid-wheel .grid-item-label {
+        min-height: 2.8em;
+        padding: 7px 2px 0;
+        line-height: 1.25;
+    }
+
+    #grid-key {
+        grid-auto-rows: max-content;
+        align-items: start;
+        gap: 22px 18px;
+    }
+
+    #grid-key .grid-item-key.has-label {
+        max-width: 104px;
+        justify-self: center;
+        gap: 7px;
+        overflow: hidden;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    #grid-key .grid-item-key.has-label > img {
+        width: 86px;
+        border-radius: 50%;
+    }
+
+    #grid-key .grid-item-label {
+        min-height: 2.6em;
+        padding: 6px 2px 0;
+        line-height: 1.25;
     }
 }
