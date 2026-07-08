@@ -720,17 +720,65 @@ function openSupportSelector(e) {
     initCharModal();
 }
 
+function findCharacterInPage(page, charId, preferredTeamIdx) {
+    const teamOrder = [];
+    if (preferredTeamIdx >= 0 && preferredTeamIdx < page.teams.length) teamOrder.push(preferredTeamIdx);
+    page.teams.forEach((_, idx) => {
+        if (idx !== preferredTeamIdx) teamOrder.push(idx);
+    });
+
+    for (const teamIdx of teamOrder) {
+        const team = page.teams[teamIdx];
+        for (let slotIdx = 0; slotIdx < team.chars.length; slotIdx++) {
+            if (team.chars[slotIdx] === charId) {
+                return {
+                    teamIdx,
+                    slotIdx,
+                    wheels: team.wheels[slotIdx] ? [...team.wheels[slotIdx]] : [null, null]
+                };
+            }
+        }
+    }
+
+    return null;
+}
+
+function applySupportToCurrentTeam(charId) {
+    const currentPage = allPages[currentPageIdx];
+    const targetTeam = currentPage.teams[currentTeamIdx];
+    const source = findCharacterInPage(currentPage, charId, currentTeamIdx);
+    const supportWheels = source ? source.wheels : [null, null];
+
+    currentPage.teams.forEach(t => {
+        if (t.supportIdx !== -1) {
+            t.chars[t.supportIdx] = null;
+            t.wheels[t.supportIdx] = [null, null];
+            t.supportIdx = -1;
+        }
+    });
+
+    if (source) {
+        const sourceTeam = currentPage.teams[source.teamIdx];
+        sourceTeam.chars[source.slotIdx] = null;
+        sourceTeam.wheels[source.slotIdx] = [null, null];
+    }
+
+    targetTeam.chars[3] = charId;
+    targetTeam.wheels[3] = supportWheels;
+    targetTeam.supportIdx = 3;
+}
+
 function removeSupport() {
     const currentPage = allPages[currentPageIdx];
-    const team = currentPage.teams[currentTeamIdx];
 
     // 현재 세트 내 모든 팀의 조력자 정보 초기화 (1세트 1조력자 규칙 준수)
     currentPage.teams.forEach(t => {
+        if (t.supportIdx !== -1) {
+            t.chars[t.supportIdx] = null;
+            t.wheels[t.supportIdx] = [null, null];
+        }
         t.supportIdx = -1;
     });
-
-    team.chars[3] = null; // 4번 슬롯 비움
-    team.wheels[3] = [null, null]; // 장비 비움
 
     closeModal('modal-char');
     renderAll();
@@ -813,8 +861,6 @@ function renderCharGrid() {
         if (isSupportSelectionMode) {
             // [조력자 선택 모드]
             if (tempChars.includes(id)) conflictReason = "파티 내 중복";
-            else if (usedInOtherTeamsNormal.has(id)) conflictReason = "사용중";
-            else if (activeDomains.size >= 2 && !activeDomains.has(c.relems)) conflictReason = "영역 충돌";
         } else {
             // [일반 대원 편성 모드]
             if (usedInOtherTeamsNormal.has(id)) {
@@ -848,9 +894,7 @@ function renderCharGrid() {
 
             if (isSupportSelectionMode) {
                 const applySupport = () => {
-                    currentPage.teams.forEach(t => { t.supportIdx = -1; });
-                    team.chars[3] = id;
-                    team.supportIdx = 3;
+                    applySupportToCurrentTeam(id);
                     closeModal('modal-char');
                     renderAll();
                     saveAllData(true);
