@@ -668,6 +668,19 @@ function getActiveDomains(team) {
     return domSet;
 }
 
+function getDomainsWithSupportCandidate(team, candidateId) {
+    const domSet = new Set();
+    team.chars.forEach((cid, idx) => {
+        if (!cid || idx === team.supportIdx || cid === candidateId) return;
+        const ch = DB.chars.find(x => String(x.id) === cid);
+        if (ch) domSet.add(ch.relems);
+    });
+
+    const candidate = DB.chars.find(x => String(x.id) === String(candidateId));
+    if (candidate) domSet.add(candidate.relems);
+    return domSet;
+}
+
 function renderTeamDomainImage(team) {
     const container = document.getElementById('team-domain-container');
     container.innerHTML = '';
@@ -861,6 +874,7 @@ function renderCharGrid() {
         if (isSupportSelectionMode) {
             // [조력자 선택 모드]
             if (tempChars.includes(id)) conflictReason = "파티 내 중복";
+            else if (getDomainsWithSupportCandidate(team, id).size > 2) conflictReason = "영역 충돌";
         } else {
             // [일반 대원 편성 모드]
             if (usedInOtherTeamsNormal.has(id)) {
@@ -876,7 +890,7 @@ function renderCharGrid() {
 
         const el = document.createElement('div');
         el.className = `grid-item grid-item-character has-label ${isSelected ? 'selected' : ''} ${conflictReason ? 'conflict' : ''}`;
-        el.innerHTML = `<img src="${c.image_thumb}" alt=""><span class="grid-item-label">${c.name}</span>`;
+        el.innerHTML = `<div class="grid-item-thumb" style="width:100%;aspect-ratio:1/1;overflow:hidden;flex:0 0 auto;"><img src="${c.image_thumb}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div><span class="grid-item-label">${c.name}</span>`;
 
         if (conflictReason) {
             const overlay = document.createElement('div');

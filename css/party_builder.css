@@ -489,6 +489,11 @@ body {
 .modal-grid { flex: 1; overflow-y: auto; padding: 20px; display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; align-content: start; }
 .modal-footer { padding: 15px 20px; background: #2e2e34; border-top: 1px solid #444; text-align: right; }
 
+#grid-char {
+    grid-auto-rows: max-content;
+    align-items: start;
+}
+
 .grid-item { position: relative; aspect-ratio: 1/1; background: #333338; cursor: pointer; border: 2px solid transparent; }
 .grid-item-wheel { aspect-ratio: 225/456; }
 .grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -543,6 +548,19 @@ body {
     white-space: normal;
     word-break: keep-all;
     overflow-wrap: anywhere;
+}
+.grid-item-thumb {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    flex: 0 0 auto;
+    background: #26262c;
+}
+.grid-item-thumb > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 .grid-item-key .grid-item-label {
     color: #c7c7cc;
@@ -3040,6 +3058,41 @@ body {
 #grid-key .grid-item-label {
     flex: 0 0 auto;
     box-sizing: border-box;
+}
+
+/* Party builder character picker guard: keep portrait thumbs and labels in one stable card. */
+#grid-char .grid-item-character.has-label {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    overflow: hidden !important;
+}
+
+#grid-char .grid-item-character .grid-item-thumb {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+    overflow: hidden;
+}
+
+#grid-char .grid-item-character .grid-item-thumb > img {
+    display: block;
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+}
+
+#grid-char .grid-item-character .grid-item-label {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 @media (min-width: 769px) {
