@@ -85,17 +85,28 @@
             <div class="char-filter-container">
                 <div class="filter-group">
                     <span class="filter-label">영역:</span>
-                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'chaos')">혼돈</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'aequor')">심해</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'caro')">혈육</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('domain', 'ultra')">초차원</div>
+                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="chaos"
+                            aria-pressed="false" onclick="toggleCharFilter('domain', 'chaos')">혼돈</button>
+                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="aequor"
+                            aria-pressed="false" onclick="toggleCharFilter('domain', 'aequor')">심해</button>
+                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="caro"
+                            aria-pressed="false" onclick="toggleCharFilter('domain', 'caro')">혈육</button>
+                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="ultra"
+                            aria-pressed="false" onclick="toggleCharFilter('domain', 'ultra')">초차원</button>
                 </div>
                 <div class="filter-group" style="border-left:1px solid #444; padding-left:20px;">
                     <span class="filter-label">역할:</span>
-                    <div class="filter-chip" onclick="toggleCharFilter('class', 'assault')">공격형</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('class', 'warden')">방어형</div>
-                    <div class="filter-chip" onclick="toggleCharFilter('class', 'chorus')">보조형</div>
+                    <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="assault"
+                            aria-pressed="false" onclick="toggleCharFilter('class', 'assault')">공격형</button>
+                    <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="warden"
+                            aria-pressed="false" onclick="toggleCharFilter('class', 'warden')">방어형</button>
+                    <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="chorus"
+                            aria-pressed="false" onclick="toggleCharFilter('class', 'chorus')">보조형</button>
                 </div>
+                <button type="button" id="owned-char-toggle" class="owned-only-toggle" role="switch"
+                        aria-checked="false" onclick="toggleOwnedOnly('characters')">
+                    보유만 보기
+                </button>
             </div>
             <div id="active-char-search-tags" class="active-tags-list"></div>
         </div>
@@ -119,6 +130,10 @@
             <div class="search-container">
                 <input type="text" id="wheel-search-input" placeholder="명륜 검색..." autocomplete="off">
                 <div id="wheel-main-stat-filters" class="wheel-main-stat-filters" aria-label="명륜 주옵 필터"></div>
+                <button type="button" id="owned-wheel-toggle" class="owned-only-toggle" role="switch"
+                        aria-checked="false" onclick="toggleOwnedOnly('wheels')">
+                    보유만 보기
+                </button>
             </div>
             <div class="wheel-list-panel" id="grid-wheel"></div>
         </div>
