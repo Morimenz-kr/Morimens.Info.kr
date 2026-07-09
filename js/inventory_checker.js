@@ -4,6 +4,9 @@
     const FALLBACK_IMAGE = 'images/smile_Ramona.webp';
     const SHARE_IMAGE_TYPE = 'image/jpeg';
     const SHARE_IMAGE_QUALITY = 0.9;
+    const SHARE_IMAGE_BLOB_TIMEOUT_MS = 20000;
+    const MAX_SHARE_CANVAS_PIXELS = 16000000;
+    const MAX_SHARE_CANVAS_DIMENSION = 8192;
     const GROUP_LABELS = {
         standard: '통상',
         forgotten: '망각편',
@@ -503,7 +506,7 @@
 
             const canvas = await createShareCanvas(selectedCharacters, getShareWheels(selectedWheels));
             const imageType = getClipboardImageType();
-            const blob = await createImageBlob(canvas, imageType);
+            const blob = await createImageBlobWithTimeout(canvas, imageType);
             await navigator.clipboard.write([new ClipboardItem({ [imageType]: blob })]);
             const label = imageType === SHARE_IMAGE_TYPE ? '압축 이미지' : 'PNG 이미지';
             setStatus(`${label}를 클립보드에 복사했습니다.`, 'success');
@@ -526,7 +529,7 @@
 
         try {
             const canvas = await createShareCanvas(selectedCharacters, getShareWheels(selectedWheels));
-            const blob = await createImageBlob(canvas, SHARE_IMAGE_TYPE);
+            const blob = await createImageBlobWithTimeout(canvas, SHARE_IMAGE_TYPE);
             if (!blob) throw new Error('이미지 변환 실패');
             closePreviewModal();
             const url = URL.createObjectURL(blob);
@@ -569,6 +572,36 @@
         });
     }
 
+    function createImageBlobWithTimeout(canvas, type) {
+        return new Promise((resolve, reject) => {
+            let settled = false;
+            const timeoutId = window.setTimeout(() => {
+                if (settled) return;
+                settled = true;
+                reject(new Error('이미지 압축 시간이 초과되었습니다.'));
+            }, SHARE_IMAGE_BLOB_TIMEOUT_MS);
+
+            createImageBlob(canvas, type).then(blob => {
+                if (settled) return;
+                settled = true;
+                window.clearTimeout(timeoutId);
+                resolve(blob);
+            }).catch(error => {
+                if (settled) return;
+                settled = true;
+                window.clearTimeout(timeoutId);
+                reject(error);
+            });
+        });
+    }
+
+    function getShareCanvasScale(width, height) {
+        const deviceScale = Math.max(1, window.devicePixelRatio || 1);
+        const pixelScale = Math.sqrt(MAX_SHARE_CANVAS_PIXELS / Math.max(1, width * height));
+        const dimensionScale = MAX_SHARE_CANVAS_DIMENSION / Math.max(1, width, height);
+        return Math.max(0.25, Math.min(deviceScale, pixelScale, dimensionScale));
+    }
+
     async function createShareCanvas(characters, wheels) {
         const visibleWheels = getShareWheels(wheels);
         const padding = 28;
@@ -589,9 +622,9 @@
             + 24 + sectionHeader + (wheelRows * wheelCard.height) + ((wheelRows - 1) * gap) + padding;
 
         const canvas = document.createElement('canvas');
-        const scale = Math.max(1, window.devicePixelRatio || 1);
-        canvas.width = width * scale;
-        canvas.height = height * scale;
+        const scale = getShareCanvasScale(width, height);
+        canvas.width = Math.max(1, Math.round(width * scale));
+        canvas.height = Math.max(1, Math.round(height * scale));
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
 
