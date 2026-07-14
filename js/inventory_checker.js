@@ -1,45 +1,37 @@
-import {
-    STORAGE_SCHEMA_VERSION,
-    GROUP_LABELS,
-    CLASS_LABELS,
-    RELEMS_LABELS,
-    calculateShareCanvasScale,
-    createInventoryCatalog,
-    createInventorySnapshot,
-    filterCharacters,
-    filterSelectedCharacters,
-    filterSelectedWheels,
-    filterShareWheels,
-    filterWheels,
-    getBreakthroughLabel,
-    getCharacterBreakthrough as calculateCharacterBreakthrough,
-    getCharacterGroups as findCharacterGroups,
-    getVisibleInventoryIds,
-    getWheelBreakthrough as calculateWheelBreakthrough,
-    groupCharactersByRelems,
-    matchesInventorySearch as matchesSearchText,
-    normalizeGrade,
-    normalizeInventorySnapshot,
-    reconcileCharacterBreakthroughs,
-    reconcileWheelState,
-    setCharacterBreakthrough as updateLinkedCharacterBreakthrough,
-    stepBreakthrough
-} from './inventory-checker/domain.js?v=v1.4.0-site-quality-20260713-r4';
-import {
-    INVENTORY_STORAGE_KEYS,
-    createInventoryStorage
-} from './inventory-checker/storage.js?v=v1.4.0-site-quality-20260713-r4';
-
 (function () {
-    'use strict';
-
+    const STORAGE_KEY = 'morimens_inventory_checker_v2';
+    const LEGACY_STORAGE_KEYS = ['morimens_inventory_checker_v1'];
     const FALLBACK_IMAGE = 'images/smile_Ramona.webp';
     const SHARE_IMAGE_TYPE = 'image/jpeg';
     const SHARE_IMAGE_QUALITY = 0.9;
-    const SHARE_IMAGE_BLOB_TIMEOUT_MS = 20000;
-    const MAX_SHARE_CANVAS_PIXELS = 16000000;
-    const MAX_SHARE_CANVAS_DIMENSION = 8192;
-    const inventoryStorage = createInventoryStorage(() => window.localStorage);
+    const GROUP_LABELS = {
+        standard: '통상',
+        forgotten: '망각편',
+        celestial: '성신편'
+    };
+    const CLASS_LABELS = {
+        assault: '공격형',
+        warden: '방어형',
+        chorus: '보조형'
+    };
+    const RELEMS_LABELS = {
+        chaos: '혼돈',
+        aequor: '심해',
+        caro: '혈육',
+        ultra: '초차원'
+    };
+    const RELEMS_ORDER = ['chaos', 'aequor', 'caro', 'ultra'];
+    const BREAKTHROUGH_LABELS = ['명함', '1돌', '2돌', '3돌', '4돌', '5돌', '6돌', '초한', '8돌', '9돌', '10돌', '11돌', '12돌', '13돌', '14돌', '풀돌'];
+
+    const LINKED_CHARACTER_BREAKTHROUGH_GROUPS = [
+        ['ramona', 'ramona_timeworn']
+    ];
+    const LINKED_CHARACTER_BREAKTHROUGH_MAP = LINKED_CHARACTER_BREAKTHROUGH_GROUPS.reduce((map, group) => {
+        group.forEach(id => {
+            map[id] = group;
+        });
+        return map;
+    }, {});
 
     const state = {
         tab: 'characters',
@@ -62,67 +54,28 @@ import {
 
     async function initialize() {
         cacheElements();
-        window.SiteDialog?.setup(els.previewModal, {
-            initialFocus: '#close-preview-modal',
-            onClose: releasePreviewImage
-        });
-        setInventoryControlsEnabled(false);
-        els.characterGrid.setAttribute('aria-busy', 'true');
-        els.wheelGrid.setAttribute('aria-busy', 'true');
+        bindEvents();
+        loadSavedState();
 
         try {
+            const ts = Date.now();
             const [characters, wheels, gachatype] = await Promise.all([
-                fetchJson('data/character_manifest.json'),
-                fetchJson('data/wheel_list.json'),
-                fetchJson('data/gachatype.json')
+                fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
+                fetch(`data/gachatype.json?t=${ts}`).then(res => res.json())
             ]);
 
-            const catalog = createInventoryCatalog({ characters, wheels, gachatype });
-            state.characters = catalog.characters;
-            state.wheels = catalog.wheels;
-            state.groupByCharacterId = catalog.groupByCharacterId;
-            loadSavedState();
+            state.characters = characters;
+            state.wheels = getInventoryWheels(wheels);
+            state.groupByCharacterId = buildGroupMap(gachatype);
             removeUnavailableCharacterBreakthroughs();
             removeUnavailableWheelSelections();
 
-            bindEvents();
             renderAll();
-            setInventoryControlsEnabled(true);
         } catch (error) {
             console.error('보유량 체크 데이터 로드 실패:', error);
-            renderLoadError();
-        } finally {
-            els.characterGrid.setAttribute('aria-busy', 'false');
-            els.wheelGrid.setAttribute('aria-busy', 'false');
+            els.characterGrid.innerHTML = '<div class="empty-selection">데이터를 불러오지 못했습니다.</div>';
         }
-    }
-
-    async function fetchJson(path) {
-        const response = await fetch(path, { cache: 'no-cache' });
-        if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
-        return response.json();
-    }
-
-    function renderLoadError() {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'error-state';
-        const message = document.createElement('p');
-        message.textContent = '보유 현황 데이터를 불러오지 못했습니다.';
-        const retry = document.createElement('button');
-        retry.type = 'button';
-        retry.className = 'ghost-action';
-        retry.textContent = '다시 시도';
-        retry.addEventListener('click', () => window.location.reload());
-        wrapper.append(message, retry);
-        els.characterGrid.replaceChildren(wrapper);
-        setStatus('보유 현황 데이터를 불러오지 못했습니다. 저장된 선택은 변경하지 않았습니다.', 'error');
-    }
-
-    function setInventoryControlsEnabled(enabled) {
-        document.querySelectorAll('.inventory-shell button, .inventory-shell input, .inventory-shell select')
-            .forEach(control => {
-                control.disabled = !enabled;
-            });
     }
 
     function cacheElements() {
@@ -152,9 +105,11 @@ import {
     function bindEvents() {
         els.tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                activateTab(button.dataset.tabButton);
+                state.tab = button.dataset.tabButton;
+                state.search = '';
+                els.search.value = '';
+                renderAll();
             });
-            button.addEventListener('keydown', handleTabKeydown);
         });
 
         els.characterFilters.forEach(button => {
@@ -184,8 +139,17 @@ import {
         });
 
         els.characterGrid.addEventListener('click', event => {
-            const toggle = event.target.closest('[data-character-toggle]');
-            if (toggle) toggleCharacter(toggle.dataset.characterId);
+            if (event.target.closest('[data-breakthrough-stepper]')) return;
+            const card = event.target.closest('[data-character-id]');
+            if (card) toggleCharacter(card.dataset.characterId);
+        });
+        els.characterGrid.addEventListener('keydown', event => {
+            if (event.target.closest('[data-breakthrough-stepper]')) return;
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const card = event.target.closest('[data-character-id]');
+            if (!card) return;
+            event.preventDefault();
+            toggleCharacter(card.dataset.characterId);
         });
         els.characterGrid.addEventListener('click', event => {
             const control = event.target.closest('[data-breakthrough-control]');
@@ -197,11 +161,17 @@ import {
                 updateBreakthrough(control.dataset.breakthroughType, control.dataset.breakthroughId, control.dataset.breakthroughDirection);
                 return;
             }
-            const toggle = event.target.closest('[data-wheel-toggle]');
-            if (toggle) toggleWheel(toggle.dataset.wheelId);
+            if (event.target.closest('[data-breakthrough-stepper]')) return;
+            const card = event.target.closest('[data-wheel-id]');
+            if (card) toggleWheel(card.dataset.wheelId);
         });
-        [els.characterGrid, els.wheelGrid].forEach(grid => {
-            grid.addEventListener('error', handleImageError, true);
+        els.wheelGrid.addEventListener('keydown', event => {
+            if (event.target.closest('[data-breakthrough-control]')) return;
+            if (event.key !== 'Enter' && event.key !== ' ') return;
+            const card = event.target.closest('[data-wheel-id]');
+            if (!card) return;
+            event.preventDefault();
+            toggleWheel(card.dataset.wheelId);
         });
         els.copyBtn.addEventListener('click', copySelectionImage);
         els.previewBtn.addEventListener('click', openPreviewModal);
@@ -209,80 +179,44 @@ import {
         els.selectVisibleBtn.addEventListener('click', selectVisibleItems);
         els.deselectVisibleBtn.addEventListener('click', deselectVisibleItems);
         els.closePreviewModal.addEventListener('click', closePreviewModal);
+        els.previewModal.addEventListener('click', event => {
+            if (event.target === els.previewModal) closePreviewModal();
+        });
     }
 
-    function activateTab(tab) {
-        if (!['characters', 'wheels'].includes(tab)) return;
-        state.tab = tab;
-        state.search = '';
-        els.search.value = '';
-        renderAll();
-    }
-
-    function handleTabKeydown(event) {
-        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-        event.preventDefault();
-        const tabs = Array.from(els.tabButtons);
-        const currentIndex = tabs.indexOf(event.currentTarget);
-        let nextIndex = currentIndex;
-        if (event.key === 'Home') nextIndex = 0;
-        else if (event.key === 'End') nextIndex = tabs.length - 1;
-        else {
-            const direction = event.key === 'ArrowRight' ? 1 : -1;
-            nextIndex = (currentIndex + direction + tabs.length) % tabs.length;
-        }
-        tabs[nextIndex].focus();
-        activateTab(tabs[nextIndex].dataset.tabButton);
-    }
-
-    function handleImageError(event) {
-        const image = event.target;
-        if (!(image instanceof HTMLImageElement) || image.dataset.fallbackApplied === 'true') return;
-        image.dataset.fallbackApplied = 'true';
-        image.src = FALLBACK_IMAGE;
+    function buildGroupMap(gachatype) {
+        const map = {};
+        Object.entries(gachatype).forEach(([group, ids]) => {
+            ids.forEach(id => {
+                if (!map[id]) map[id] = [];
+                map[id].push(group);
+            });
+        });
+        return map;
     }
 
     function loadSavedState() {
-        const result = inventoryStorage.readLatest();
-        if (!result.ok) {
-            console.warn('저장된 보유량 체크 상태를 읽지 못했습니다.', result.error);
-            if (result.sourceKey) inventoryStorage.remove(result.sourceKey);
-            setStatus(
-                '저장된 보유 현황을 읽지 못했습니다. 현재 변경은 새로고침 후 유지되지 않을 수 있습니다.',
-                'error'
-            );
-            return;
-        }
-        if (!result.found) return;
+        LEGACY_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
 
-        const saved = normalizeInventorySnapshot(result.value);
-        if (!saved) {
-            console.warn('저장된 보유량 체크 상태를 읽지 못했습니다.', new TypeError('저장 데이터 형식이 올바르지 않습니다.'));
-            inventoryStorage.remove(result.sourceKey);
-            setStatus('저장 데이터 형식이 올바르지 않아 기본 상태로 시작했습니다.', 'error');
-            return;
-        }
-
-        state.selectedCharacters = new Set(saved.characters);
-        state.selectedWheels = new Set(saved.wheels);
-        state.characterBreakthroughs = saved.characterBreakthroughs;
-        state.wheelBreakthroughs = saved.wheelBreakthroughs;
-
-        if (result.sourceKey !== INVENTORY_STORAGE_KEYS.current
-            || saved.schemaVersion !== STORAGE_SCHEMA_VERSION) {
-            if (saveState()) {
-                const cleanup = inventoryStorage.removeLegacy();
-                if (!cleanup.ok) console.warn('이전 보유량 저장 데이터를 정리하지 못했습니다.', cleanup.error);
-            }
+        try {
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (!saved) return;
+            state.selectedCharacters = new Set(saved.characters || []);
+            state.selectedWheels = new Set(saved.wheels || []);
+            state.characterBreakthroughs = normalizeBreakthroughs(saved.characterBreakthroughs || {});
+            state.wheelBreakthroughs = normalizeBreakthroughs(saved.wheelBreakthroughs || {});
+        } catch (error) {
+            console.warn('저장된 보유량 체크 상태를 읽지 못했습니다.', error);
         }
     }
 
     function saveState() {
-        const result = inventoryStorage.write(createInventorySnapshot(state));
-        if (result.ok) return true;
-        console.warn('보유 현황을 브라우저에 저장하지 못했습니다.', result.error);
-        setStatus('변경은 적용됐지만 저장하지 못했습니다. 새로고침하면 되돌아갈 수 있습니다.', 'error');
-        return false;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            characters: Array.from(state.selectedCharacters),
+            wheels: Array.from(state.selectedWheels),
+            characterBreakthroughs: state.characterBreakthroughs,
+            wheelBreakthroughs: state.wheelBreakthroughs
+        }));
     }
 
     function renderAll() {
@@ -295,16 +229,10 @@ import {
 
     function renderTabs() {
         els.tabButtons.forEach(button => {
-            const active = button.dataset.tabButton === state.tab;
-            button.classList.toggle('active', active);
-            button.setAttribute('aria-selected', String(active));
-            button.tabIndex = active ? 0 : -1;
+            button.classList.toggle('active', button.dataset.tabButton === state.tab);
         });
-        const charactersActive = state.tab === 'characters';
-        els.characterGrid.classList.toggle('hidden', !charactersActive);
-        els.characterGrid.hidden = !charactersActive;
-        els.wheelGrid.classList.toggle('hidden', charactersActive);
-        els.wheelGrid.hidden = charactersActive;
+        els.characterGrid.classList.toggle('hidden', state.tab !== 'characters');
+        els.wheelGrid.classList.toggle('hidden', state.tab !== 'wheels');
         els.characterFiltersBox.classList.toggle('hidden', state.tab !== 'characters');
         els.characterClassFiltersBox.classList.toggle('hidden', state.tab !== 'characters');
         els.wheelFiltersBox.classList.toggle('hidden', state.tab !== 'wheels');
@@ -312,36 +240,32 @@ import {
 
     function renderFilters() {
         els.characterFilters.forEach(button => {
-            const active = button.dataset.characterFilter === state.characterFilter;
-            button.classList.toggle('active', active);
-            button.setAttribute('aria-pressed', String(active));
+            button.classList.toggle('active', button.dataset.characterFilter === state.characterFilter);
         });
         els.characterClassFilters.forEach(button => {
-            const active = button.dataset.characterClassFilter === state.characterClassFilter;
-            button.classList.toggle('active', active);
-            button.setAttribute('aria-pressed', String(active));
+            button.classList.toggle('active', button.dataset.characterClassFilter === state.characterClassFilter);
         });
         els.wheelFilters.forEach(button => {
-            const active = button.dataset.wheelFilter === state.wheelFilter;
-            button.classList.toggle('active', active);
-            button.setAttribute('aria-pressed', String(active));
+            button.classList.toggle('active', button.dataset.wheelFilter === state.wheelFilter);
         });
     }
 
     function renderCharacters() {
-        const filtered = filterCharacters({
-            characters: state.characters,
-            groupByCharacterId: state.groupByCharacterId,
-            groupFilter: state.characterFilter,
-            classFilter: state.characterClassFilter,
-            search: state.search,
-            matchesSearch: matchesInventorySearch
+        const filtered = state.characters.filter(character => {
+            const groupMatch = matchesCharacterGroup(character);
+            const classMatch = matchesCharacterClass(character);
+            const textMatch = !state.search || matchesInventorySearch(character.name, state.search);
+            return groupMatch && classMatch && textMatch;
         });
-        const grouped = groupCharactersByRelems(filtered);
+
+        const grouped = RELEMS_ORDER.map(relems => ({
+            relems,
+            characters: filtered.filter(character => character.relems === relems)
+        })).filter(group => group.characters.length > 0);
 
         els.characterGrid.innerHTML = grouped.map(group => `
             <section class="relems-section ${escapeAttribute(group.relems)}" aria-label="${escapeAttribute(RELEMS_LABELS[group.relems] || group.relems)}">
-                <h3 class="relems-section-title">${escapeHtml(RELEMS_LABELS[group.relems] || group.relems)}</h3>
+                <div class="relems-section-title">${escapeHtml(RELEMS_LABELS[group.relems] || group.relems)}</div>
                 <div class="relems-character-grid">
                     ${group.characters.map(character => renderCharacterCard(character)).join('')}
                 </div>
@@ -357,18 +281,14 @@ import {
             const className = CLASS_LABELS[character.class] || character.class || '역할 미상';
             const breakthrough = getCharacterBreakthrough(character.id);
             return `
-                <article class="inventory-card character-inventory-card ${selected ? 'selected' : ''}">
-                    <button type="button" class="inventory-select-toggle"
-                            data-character-toggle data-character-id="${escapeAttribute(character.id)}"
-                            aria-pressed="${selected}"
-                            title="${escapeAttribute(character.name)} (${groupLabel || GROUP_LABELS[group] || '통상'} / ${className})">
-                        <span class="check-mark" aria-hidden="true">✓</span>
-                        <img src="${escapeAttribute(character.image_thumb)}"
-                             alt="" width="180" height="180" loading="lazy" decoding="async">
-                        <span class="inventory-card-name">${escapeHtml(character.name)}</span>
-                    </button>
+                <div role="button" tabindex="0" class="inventory-card character-inventory-card ${selected ? 'selected' : ''}"
+                        data-character-id="${escapeAttribute(character.id)}"
+                        title="${escapeAttribute(character.name)} (${groupLabel || GROUP_LABELS[group] || '통상'} / ${className})">
+                    <span class="check-mark">✓</span>
+                    <img src="${escapeAttribute(character.image_thumb)}" alt="${escapeAttribute(character.name)}" loading="lazy" onerror="this.src='${FALLBACK_IMAGE}'">
+                    <span class="inventory-card-name">${escapeHtml(character.name)}</span>
                     ${selected ? renderBreakthroughStepper('character', character.id, breakthrough) : ''}
-                </article>
+                </div>
             `;
     }
 
@@ -397,30 +317,26 @@ import {
     }
 
     function renderWheels() {
-        const filtered = filterWheels({
-            wheels: state.wheels,
-            gradeFilter: state.wheelFilter,
-            search: state.search,
-            matchesSearch: matchesInventorySearch
+        const filtered = state.wheels.filter(wheel => {
+            if (!isShareWheel(wheel)) return false;
+            const gradeMatch = state.wheelFilter === 'all' || normalizeGrade(wheel.grade) === state.wheelFilter;
+            const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`;
+            const textMatch = !state.search || matchesInventorySearch(text, state.search);
+            return gradeMatch && textMatch;
         });
 
         els.wheelGrid.innerHTML = filtered.map(wheel => {
             const selected = state.selectedWheels.has(wheel.english_name);
             const breakthrough = getWheelBreakthrough(wheel.english_name);
             return `
-                <article class="inventory-card wheel-inventory-card ${selected ? 'selected' : ''}"
-                         data-wheel-grade="${escapeAttribute(normalizeGrade(wheel.grade))}">
-                    <button type="button" class="inventory-select-toggle"
-                            data-wheel-toggle data-wheel-id="${escapeAttribute(wheel.english_name)}"
-                            aria-pressed="${selected}"
-                            title="${escapeAttribute(wheel.korean_name || wheel.english_name)}">
-                        <span class="check-mark" aria-hidden="true">✓</span>
-                        <img src="${escapeAttribute(wheel.image_path)}" alt=""
-                             width="225" height="456" loading="lazy" decoding="async">
-                        <span class="inventory-card-name">${escapeHtml(wheel.korean_name || wheel.english_name)}</span>
-                    </button>
+                <div role="button" tabindex="0" class="inventory-card wheel-inventory-card ${selected ? 'selected' : ''}"
+                        data-wheel-id="${escapeAttribute(wheel.english_name)}"
+                        data-wheel-grade="${escapeAttribute(normalizeGrade(wheel.grade))}"
+                        title="${escapeAttribute(wheel.korean_name || wheel.english_name)}">
+                    <span class="check-mark">✓</span>
+                    <img src="${escapeAttribute(wheel.image_path)}" alt="${escapeAttribute(wheel.korean_name || wheel.english_name)}" loading="lazy" onerror="this.src='${FALLBACK_IMAGE}'">
                     ${selected ? renderBreakthroughStepper('wheel', wheel.english_name, breakthrough) : ''}
-                </article>
+                </div>
             `;
         }).join('');
     }
@@ -435,7 +351,6 @@ import {
         }
         saveState();
         renderAll();
-        restoreToggleFocus('character', id);
     }
 
     function toggleWheel(id) {
@@ -448,7 +363,11 @@ import {
         }
         saveState();
         renderAll();
-        restoreToggleFocus('wheel', id);
+    }
+
+    function toggleSetValue(set, value) {
+        if (set.has(value)) set.delete(value);
+        else set.add(value);
     }
 
     function updateBreakthrough(type, id, direction) {
@@ -462,46 +381,30 @@ import {
         }
         saveState();
         renderAll();
-        restoreStepperFocus(type, id, String(direction));
-    }
-
-    function restoreToggleFocus(type, id) {
-        window.requestAnimationFrame(() => {
-            const selector = type === 'character' ? '[data-character-toggle]' : '[data-wheel-toggle]';
-            const key = type === 'character' ? 'characterId' : 'wheelId';
-            Array.from(document.querySelectorAll(selector))
-                .find(element => element.dataset[key] === id)
-                ?.focus();
-        });
-    }
-
-    function restoreStepperFocus(type, id, direction) {
-        window.requestAnimationFrame(() => {
-            Array.from(document.querySelectorAll('[data-breakthrough-control]'))
-                .find(element =>
-                    element.dataset.breakthroughType === type
-                    && element.dataset.breakthroughId === id
-                    && element.dataset.breakthroughDirection === direction
-                )
-                ?.focus();
-        });
     }
 
     function getCharacterBreakthrough(id) {
-        return calculateCharacterBreakthrough(state.characterBreakthroughs, id);
+        return getLinkedCharacterBreakthroughIds(id).reduce((value, linkedId) => {
+            if (!Object.prototype.hasOwnProperty.call(state.characterBreakthroughs, linkedId)) return value;
+            return Math.max(value, clampBreakthrough(state.characterBreakthroughs[linkedId]));
+        }, 0);
     }
 
     function setCharacterBreakthrough(id, value) {
-        state.characterBreakthroughs = updateLinkedCharacterBreakthrough(
-            state.characterBreakthroughs,
-            state.selectedCharacters,
-            id,
-            value
-        );
+        const breakthrough = clampBreakthrough(value);
+        getLinkedCharacterBreakthroughIds(id).forEach(linkedId => {
+            if (state.selectedCharacters.has(linkedId)) {
+                state.characterBreakthroughs[linkedId] = breakthrough;
+            }
+        });
+    }
+
+    function getLinkedCharacterBreakthroughIds(id) {
+        return LINKED_CHARACTER_BREAKTHROUGH_MAP[id] || [id];
     }
 
     function getWheelBreakthrough(id) {
-        return calculateWheelBreakthrough(state.wheelBreakthroughs, id);
+        return clampBreakthrough(state.wheelBreakthroughs[id]);
     }
 
     function renderSelection() {
@@ -518,22 +421,13 @@ import {
         state.selectedWheels.clear();
         state.characterBreakthroughs = {};
         state.wheelBreakthroughs = {};
-        const persisted = saveState();
-        setStatus(
-            persisted
-                ? '선택을 초기화했습니다.'
-                : '선택은 초기화했지만 저장하지 못했습니다. 새로고침하면 되돌아갈 수 있습니다.',
-            persisted ? 'success' : 'error'
-        );
+        saveState();
+        setStatus('선택을 초기화했습니다.', 'success');
         renderAll();
     }
 
     function selectVisibleItems() {
         const ids = getVisibleIds();
-        if (ids.length === 0) {
-            setStatus('현재 목록에 선택할 항목이 없습니다.', 'error');
-            return;
-        }
         if (state.tab === 'characters') {
             ids.forEach(id => {
                 state.selectedCharacters.add(id);
@@ -545,22 +439,13 @@ import {
                 state.wheelBreakthroughs[id] = getWheelBreakthrough(id);
             });
         }
-        const persisted = saveState();
-        setStatus(
-            persisted
-                ? '현재 목록을 모두 선택했습니다.'
-                : '현재 목록은 선택했지만 저장하지 못했습니다. 새로고침하면 되돌아갈 수 있습니다.',
-            persisted ? 'success' : 'error'
-        );
+        saveState();
+        setStatus('현재 목록을 모두 선택했습니다.', 'success');
         renderAll();
     }
 
     function deselectVisibleItems() {
         const ids = getVisibleIds();
-        if (ids.length === 0) {
-            setStatus('현재 목록에 해제할 항목이 없습니다.', 'error');
-            return;
-        }
         if (state.tab === 'characters') {
             ids.forEach(id => {
                 state.selectedCharacters.delete(id);
@@ -572,21 +457,32 @@ import {
                 delete state.wheelBreakthroughs[id];
             });
         }
-        const persisted = saveState();
-        setStatus(
-            persisted
-                ? '현재 목록을 모두 해제했습니다.'
-                : '현재 목록은 해제했지만 저장하지 못했습니다. 새로고침하면 되돌아갈 수 있습니다.',
-            persisted ? 'success' : 'error'
-        );
+        saveState();
+        setStatus('현재 목록을 모두 해제했습니다.', 'success');
         renderAll();
     }
 
     function getVisibleIds() {
-        return getVisibleInventoryIds({
-            ...state,
-            matchesSearch: matchesInventorySearch
-        });
+        if (state.tab === 'characters') {
+            return state.characters
+                .filter(character => {
+                    const groupMatch = matchesCharacterGroup(character);
+                    const classMatch = matchesCharacterClass(character);
+                    const textMatch = !state.search || matchesInventorySearch(character.name, state.search);
+                    return groupMatch && classMatch && textMatch;
+                })
+                .map(character => character.id);
+        }
+
+        return state.wheels
+            .filter(wheel => {
+                if (!isShareWheel(wheel)) return false;
+                const gradeMatch = state.wheelFilter === 'all' || normalizeGrade(wheel.grade) === state.wheelFilter;
+                const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`;
+                const textMatch = !state.search || matchesInventorySearch(text, state.search);
+                return gradeMatch && textMatch;
+            })
+            .map(wheel => wheel.english_name);
     }
 
     async function copySelectionImage() {
@@ -599,24 +495,21 @@ import {
         }
 
         setStatus('공유 이미지를 압축하는 중입니다...', '');
-        els.copyBtn.disabled = true;
 
         try {
             if (!navigator.clipboard || !window.ClipboardItem) {
                 throw new Error('클립보드 이미지 복사를 지원하지 않는 브라우저입니다.');
             }
 
-            const canvas = await createShareCanvas(selectedCharacters, filterShareWheels(selectedWheels));
+            const canvas = await createShareCanvas(selectedCharacters, getShareWheels(selectedWheels));
             const imageType = getClipboardImageType();
-            const blob = await createImageBlobWithTimeout(canvas, imageType);
+            const blob = await createImageBlob(canvas, imageType);
             await navigator.clipboard.write([new ClipboardItem({ [imageType]: blob })]);
             const label = imageType === SHARE_IMAGE_TYPE ? '압축 이미지' : 'PNG 이미지';
             setStatus(`${label}를 클립보드에 복사했습니다.`, 'success');
         } catch (error) {
             console.error('이미지 복사 실패:', error);
-            setStatus(error.message || '이미지 복사에 실패했습니다. 클립보드 권한을 확인해 주세요.', 'error');
-        } finally {
-            els.copyBtn.disabled = false;
+            setStatus('이미지 복사에 실패했습니다. 클립보드 권한을 확인해주세요.', 'error');
         }
     }
 
@@ -630,43 +523,31 @@ import {
         }
 
         setStatus('미리보기를 준비하는 중입니다...', '');
-        els.previewBtn.disabled = true;
 
         try {
-            const canvas = await createShareCanvas(selectedCharacters, filterShareWheels(selectedWheels));
-            const blob = await createImageBlobWithTimeout(canvas, SHARE_IMAGE_TYPE);
+            const canvas = await createShareCanvas(selectedCharacters, getShareWheels(selectedWheels));
+            const blob = await createImageBlob(canvas, SHARE_IMAGE_TYPE);
             if (!blob) throw new Error('이미지 변환 실패');
-            releasePreviewImage();
+            closePreviewModal();
             const url = URL.createObjectURL(blob);
             els.previewImage.src = url;
             els.previewImage.dataset.objectUrl = url;
-            if (window.SiteDialog) window.SiteDialog.open(els.previewModal, els.previewBtn);
-            else els.previewModal.classList.add('show');
+            els.previewModal.classList.add('show');
             setStatus('', '');
         } catch (error) {
             console.error('이미지 미리보기 실패:', error);
             setStatus('미리보기를 만들지 못했습니다.', 'error');
-        } finally {
-            els.previewBtn.disabled = false;
         }
     }
 
     function closePreviewModal() {
-        if (window.SiteDialog) {
-            window.SiteDialog.close(els.previewModal);
-        } else {
-            els.previewModal.classList.remove('show');
-            releasePreviewImage();
-        }
-    }
-
-    function releasePreviewImage() {
         const url = els.previewImage.dataset.objectUrl;
         if (url) {
             URL.revokeObjectURL(url);
             delete els.previewImage.dataset.objectUrl;
         }
         els.previewImage.removeAttribute('src');
+        els.previewModal.classList.remove('show');
     }
 
     function getClipboardImageType() {
@@ -688,38 +569,8 @@ import {
         });
     }
 
-    function createImageBlobWithTimeout(canvas, type) {
-        return new Promise((resolve, reject) => {
-            let settled = false;
-            const timeoutId = window.setTimeout(() => {
-                if (settled) return;
-                settled = true;
-                reject(new Error('이미지 압축 시간이 초과되었습니다.'));
-            }, SHARE_IMAGE_BLOB_TIMEOUT_MS);
-
-            createImageBlob(canvas, type).then(blob => {
-                if (settled) return;
-                settled = true;
-                window.clearTimeout(timeoutId);
-                resolve(blob);
-            }).catch(error => {
-                if (settled) return;
-                settled = true;
-                window.clearTimeout(timeoutId);
-                reject(error);
-            });
-        });
-    }
-
     async function createShareCanvas(characters, wheels) {
-        const visibleWheels = filterShareWheels(wheels);
-        const imageSources = [...new Set([
-            ...characters.map(item => item.image_thumb),
-            ...visibleWheels.map(item => item.image_path)
-        ].filter(Boolean))];
-        const loadedImages = new Map(await Promise.all(
-            imageSources.map(async source => [source, await loadImage(source)])
-        ));
+        const visibleWheels = getShareWheels(wheels);
         const padding = 28;
         const gap = 12;
         const titleHeight = 0;
@@ -738,12 +589,9 @@ import {
             + 24 + sectionHeader + (wheelRows * wheelCard.height) + ((wheelRows - 1) * gap) + padding;
 
         const canvas = document.createElement('canvas');
-        const scale = calculateShareCanvasScale(width, height, window.devicePixelRatio, {
-            maxPixels: MAX_SHARE_CANVAS_PIXELS,
-            maxDimension: MAX_SHARE_CANVAS_DIMENSION
-        });
-        canvas.width = Math.max(1, Math.round(width * scale));
-        canvas.height = Math.max(1, Math.round(height * scale));
+        const scale = Math.max(1, window.devicePixelRatio || 1);
+        canvas.width = width * scale;
+        canvas.height = height * scale;
         canvas.style.width = `${width}px`;
         canvas.style.height = `${height}px`;
 
@@ -763,7 +611,6 @@ import {
             drawName: true,
             showName: false,
             getImage: item => item.image_thumb,
-            loadedImages,
             getName: item => item.name,
             getBadge: item => getBreakthroughLabel(getCharacterBreakthrough(item.id))
         });
@@ -778,7 +625,6 @@ import {
             sectionWidth,
             drawName: false,
             getImage: item => item.image_path,
-            loadedImages,
             getName: item => item.korean_name || item.english_name,
             getBadge: item => getBreakthroughLabel(getWheelBreakthrough(item.english_name))
         });
@@ -827,8 +673,7 @@ import {
             roundRect(ctx, cardX, cardY, card.width, card.height, 6);
             ctx.fill();
 
-            const imageSource = getImage(item);
-            const image = options.loadedImages?.get(imageSource) || await loadImage(imageSource);
+            const image = await loadImage(getImage(item));
             const imgWidth = drawName ? card.width - 10 : card.width;
             const imgHeight = card.imageHeight;
             const imgX = cardX + (card.width - imgWidth) / 2;
@@ -864,24 +709,16 @@ import {
         return y + Math.ceil(items.length / cols) * card.height + (Math.ceil(items.length / cols) - 1) * gap;
     }
 
-    function loadImage(src, timeoutMs = 10000) {
+    function loadImage(src) {
         return new Promise(resolve => {
             const image = new Image();
-            let settled = false;
-            const finish = result => {
-                if (settled) return;
-                settled = true;
-                window.clearTimeout(timeoutId);
-                resolve(result);
-            };
-            const timeoutId = window.setTimeout(() => finish(null), timeoutMs);
             image.crossOrigin = 'anonymous';
-            image.onload = () => finish(image);
+            image.onload = () => resolve(image);
             image.onerror = () => {
                 if (src !== FALLBACK_IMAGE) {
-                    loadImage(FALLBACK_IMAGE, timeoutMs).then(finish);
+                    loadImage(FALLBACK_IMAGE).then(resolve);
                 } else {
-                    finish(null);
+                    resolve(null);
                 }
             };
             image.src = src || FALLBACK_IMAGE;
@@ -946,63 +783,149 @@ import {
         return `${value}…`;
     }
 
+    function matchesCharacterGroup(character) {
+        if (state.characterFilter === 'all') return true;
+        return getCharacterGroups(character.id).includes(state.characterFilter);
+    }
+
+    function matchesCharacterClass(character) {
+        return state.characterClassFilter === 'all' || character.class === state.characterClassFilter;
+    }
+
     function getCharacterGroups(id) {
-        return findCharacterGroups(state.groupByCharacterId, id);
+        const groups = state.groupByCharacterId[id];
+        return Array.isArray(groups) && groups.length > 0 ? groups : ['standard'];
     }
 
     function getFilteredSelectedCharacters() {
-        return filterSelectedCharacters({
-            characters: state.characters,
-            selectedCharacters: state.selectedCharacters,
-            groupByCharacterId: state.groupByCharacterId,
-            groupFilter: state.characterFilter,
-            classFilter: state.characterClassFilter,
-            search: state.search,
-            matchesSearch: matchesInventorySearch
+        return state.characters.filter(character => {
+            const textMatch = !state.search || matchesInventorySearch(character.name, state.search);
+            return state.selectedCharacters.has(character.id)
+                && matchesCharacterGroup(character)
+                && matchesCharacterClass(character)
+                && textMatch;
         });
     }
 
     function getFilteredSelectedWheels() {
-        return filterSelectedWheels({
-            wheels: state.wheels,
-            selectedWheels: state.selectedWheels,
-            gradeFilter: state.wheelFilter,
-            search: state.search,
-            matchesSearch: matchesInventorySearch
+        return state.wheels.filter(wheel => {
+            const gradeMatch = state.wheelFilter === 'all' || normalizeGrade(wheel.grade) === state.wheelFilter;
+            const text = `${wheel.korean_name || ''} ${wheel.main_stat || ''}`;
+            const textMatch = !state.search || matchesInventorySearch(text, state.search);
+            return state.selectedWheels.has(wheel.english_name)
+                && isShareWheel(wheel)
+                && gradeMatch
+                && textMatch;
         });
     }
 
     function matchesInventorySearch(text, query) {
-        const matcher = window.SearchUtils?.matchesSearchText;
-        return matchesSearchText(text, query, matcher);
+        if (window.SearchUtils) return window.SearchUtils.matchesSearchText(text, query);
+        return String(text || '').toLowerCase().includes(String(query || '').toLowerCase());
+    }
+
+    function normalizeGrade(grade) {
+        return String(grade || '').trim().toUpperCase();
+    }
+
+    function normalizeBreakthroughs(values) {
+        return Object.entries(values).reduce((result, [id, value]) => {
+            result[id] = clampBreakthrough(value);
+            return result;
+        }, {});
+    }
+
+    function clampBreakthrough(value) {
+        const parsed = Number.parseInt(value, 10);
+        if (!Number.isFinite(parsed)) return 0;
+        return Math.max(0, Math.min(BREAKTHROUGH_LABELS.length - 1, parsed));
+    }
+
+    function stepBreakthrough(value, direction) {
+        const next = clampBreakthrough(value) + Number.parseInt(direction, 10);
+        if (next < 0) return BREAKTHROUGH_LABELS.length - 1;
+        if (next >= BREAKTHROUGH_LABELS.length) return 0;
+        return next;
+    }
+
+    function getBreakthroughLabel(value) {
+        return BREAKTHROUGH_LABELS[clampBreakthrough(value)] || BREAKTHROUGH_LABELS[0];
+    }
+
+    function getShareWheels(wheels) {
+        return wheels.filter(isShareWheel);
+    }
+
+    function getInventoryWheels(wheels) {
+        return wheels.filter(isShareWheel);
+    }
+
+    function isShareWheel(wheel) {
+        const grade = normalizeGrade(wheel.grade);
+        return grade === 'SSR' || grade === 'SR';
     }
 
     function removeUnavailableWheelSelections() {
-        const reconciled = reconcileWheelState(
-            state.wheels,
-            state.selectedWheels,
-            state.wheelBreakthroughs
-        );
-        state.selectedWheels = reconciled.selectedWheels;
-        state.wheelBreakthroughs = reconciled.wheelBreakthroughs;
-        if (reconciled.changed) saveState();
+        const available = new Set(state.wheels.filter(isShareWheel).map(wheel => wheel.english_name));
+        let changed = false;
+        state.selectedWheels.forEach(id => {
+            if (!available.has(id)) {
+                state.selectedWheels.delete(id);
+                delete state.wheelBreakthroughs[id];
+                changed = true;
+            }
+        });
+        Object.keys(state.wheelBreakthroughs).forEach(id => {
+            if (!available.has(id) || !state.selectedWheels.has(id)) {
+                delete state.wheelBreakthroughs[id];
+                changed = true;
+            }
+        });
+        state.selectedWheels.forEach(id => {
+            if (!Object.prototype.hasOwnProperty.call(state.wheelBreakthroughs, id)) {
+                state.wheelBreakthroughs[id] = 0;
+                changed = true;
+            }
+        });
+        if (changed) saveState();
     }
 
     function removeUnavailableCharacterBreakthroughs() {
-        const reconciled = reconcileCharacterBreakthroughs(
-            state.characters,
-            state.selectedCharacters,
-            state.characterBreakthroughs
-        );
-        state.characterBreakthroughs = reconciled.characterBreakthroughs;
-        if (reconciled.changed) saveState();
+        const available = new Set(state.characters.map(character => character.id));
+        let changed = false;
+
+        Object.keys(state.characterBreakthroughs).forEach(id => {
+            if (!available.has(id) || !state.selectedCharacters.has(id)) {
+                delete state.characterBreakthroughs[id];
+                changed = true;
+            }
+        });
+
+        state.selectedCharacters.forEach(id => {
+            if (!Object.prototype.hasOwnProperty.call(state.characterBreakthroughs, id)) {
+                setCharacterBreakthrough(id, getCharacterBreakthrough(id));
+                changed = true;
+            }
+        });
+
+        LINKED_CHARACTER_BREAKTHROUGH_GROUPS.forEach(group => {
+            const selectedIds = group.filter(id => state.selectedCharacters.has(id));
+            if (selectedIds.length < 2) return;
+            const breakthrough = selectedIds.reduce((value, id) => Math.max(value, getCharacterBreakthrough(id)), 0);
+            selectedIds.forEach(id => {
+                if (state.characterBreakthroughs[id] !== breakthrough) {
+                    state.characterBreakthroughs[id] = breakthrough;
+                    changed = true;
+                }
+            });
+        });
+
+        if (changed) saveState();
     }
 
     function setStatus(message, type) {
-        els.copyStatus.setAttribute('role', type === 'error' ? 'alert' : 'status');
-        els.copyStatus.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
-        els.copyStatus.className = `copy-status ${type || ''}`.trim();
-        els.copyStatus.textContent = message || '';
+        els.copyStatus.textContent = '';
+        els.copyStatus.className = 'copy-status';
         if (!message) return;
 
         const existing = document.querySelector('.inventory-toast');
@@ -1011,7 +934,6 @@ import {
         const toast = document.createElement('div');
         toast.className = `inventory-toast ${type || ''}`.trim();
         toast.textContent = message;
-        toast.setAttribute('aria-hidden', 'true');
         document.body.appendChild(toast);
 
         setTimeout(() => {

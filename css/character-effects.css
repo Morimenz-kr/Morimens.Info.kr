@@ -3,9 +3,9 @@
     gap: 4px;
     padding: 4px;
     margin-bottom: 16px;
-    background: var(--color-bg-elevated);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    background: #242429;
+    border: 1px solid #444;
+    border-radius: 8px;
 }
 
 .character-effects-switch button {
@@ -15,7 +15,7 @@
     border: 0;
     border-radius: 6px;
     background: transparent;
-    color: var(--color-text-muted);
+    color: #aaa;
     font: inherit;
     font-size: 0.95rem;
     font-weight: 700;
@@ -29,15 +29,15 @@
     position: absolute;
     left: -4px;
     top: 50%;
-    color: var(--color-border-light);
+    color: #666;
     font-weight: 400;
     transform: translate(-50%, -50%);
     pointer-events: none;
 }
 
 .character-effects-switch button.active {
-    background: var(--color-accent);
-    color: var(--color-accent-ink);
+    background: #ffc107;
+    color: #171717;
 }
 
 .character-effect-panel {
@@ -66,19 +66,19 @@
 .character-derived-section h3,
 .character-enlighten-section > h3 {
     margin: 0 0 10px;
-    color: var(--color-accent);
+    color: #ffc107;
     font-size: 1.05rem;
 }
 
 .character-effect-card {
     overflow: hidden;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    background: #1e1e22;
+    border: 1px solid #444;
+    border-radius: 8px;
 }
 
 .character-effect-card[open] {
-    border-color: var(--color-border-light);
+    border-color: #666;
 }
 
 .character-effect-card summary {
@@ -100,7 +100,7 @@
     content: "+";
     position: absolute;
     right: 15px;
-    color: var(--color-text-dim);
+    color: #999;
     font-size: 1.35rem;
 }
 
@@ -110,7 +110,7 @@
 
 .character-effect-card summary strong {
     min-width: 0;
-    color: var(--color-text-primary);
+    color: #fff;
     overflow-wrap: anywhere;
 }
 
@@ -131,13 +131,13 @@
 .character-effect-type,
 .character-breakthrough-step,
 .character-effect-condition {
-    background: color-mix(in srgb, var(--color-accent) 14%, transparent);
-    color: var(--color-accent-gold);
+    background: rgba(255, 193, 7, 0.14);
+    color: #ffc107;
 }
 
 .character-effect-cost {
-    background: var(--color-bg-hover);
-    color: var(--color-text-secondary);
+    background: #303036;
+    color: #bbb;
 }
 
 .character-effect-header-controls {
@@ -149,12 +149,12 @@
 
 .character-effect-body {
     padding: 0 14px 14px;
-    border-top: 1px solid var(--color-border-dark);
+    border-top: 1px solid #3c3c42;
 }
 
 .character-effect-description {
     margin: 14px 0;
-    color: var(--color-text-secondary);
+    color: #ccc;
     line-height: 1.65;
     overflow-wrap: anywhere;
 }
@@ -165,10 +165,10 @@
     min-width: 68px;
     min-height: 36px;
     padding: 6px 20px 6px 9px;
-    border: 1px solid var(--color-border-light);
-    border-radius: var(--radius-sm);
-    background: var(--color-bg-input);
-    color: var(--color-text-primary);
+    border: 1px solid #555;
+    border-radius: 5px;
+    background: #18181b;
+    color: #fff;
 }
 
 .character-effect-variants {
@@ -179,9 +179,9 @@
 
 .character-effect-variant {
     padding: 12px;
-    background: var(--color-bg-elevated);
-    border-left: 3px solid var(--color-accent);
-    border-radius: var(--radius-sm);
+    background: #28282d;
+    border-left: 3px solid #ffc107;
+    border-radius: 6px;
 }
 
 .character-effect-variant-header {
@@ -191,7 +191,7 @@
 }
 
 .character-effect-variant-header strong {
-    color: var(--color-text-primary);
+    color: #fff;
 }
 
 .character-effect-variant-header .character-effect-cost {
@@ -200,56 +200,56 @@
 
 .character-breakthrough-card {
     padding: 16px;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-left: 4px solid var(--color-accent);
-    border-radius: var(--radius-sm);
+    background: #1e1e22;
+    border: 1px solid #444;
+    border-left: 4px solid #ffc107;
+    border-radius: 8px;
 }
 
 .character-breakthrough-card h3 {
     margin: 8px 0 10px;
-    color: var(--color-text-primary);
+    color: #fff;
     font-size: 1.1rem;
 }
 
 .character-breakthrough-card p {
     margin: 0;
-    color: var(--color-text-secondary);
+    color: #ccc;
     line-height: 1.65;
 }
 
 .character-trait-card,
 .character-dimensional-card {
     padding: 16px;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
+    background: #1e1e22;
+    border: 1px solid #444;
+    border-radius: 8px;
 }
 
 .character-trait-card {
-    border-left: 4px solid var(--color-success);
+    border-left: 4px solid #55b7a6;
 }
 
 .character-dimensional-card {
-    border-left: 4px solid var(--color-sr);
+    border-left: 4px solid #8878d8;
 }
 
 .character-trait-level {
-    background: color-mix(in srgb, var(--color-success) 14%, transparent);
-    color: var(--color-success);
+    background: rgba(85, 183, 166, 0.14);
+    color: #72d1c0;
 }
 
 .character-trait-card h3,
 .character-dimensional-card h3 {
     margin: 0 0 10px;
-    color: var(--color-text-primary);
+    color: #fff;
     font-size: 1.1rem;
 }
 
 .character-trait-card p,
 .character-dimensional-card p {
     margin: 0;
-    color: var(--color-text-secondary);
+    color: #ccc;
     line-height: 1.65;
 }
 
@@ -258,18 +258,9 @@
 }
 
 .tooltip-trigger {
-    display: inline;
-    min-inline-size: 0;
-    min-block-size: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
     color: inherit;
-    font: inherit;
     font-weight: 700;
-    line-height: inherit;
-    text-decoration: underline dotted;
-    text-underline-offset: 0.16em;
+    text-decoration: none;
     cursor: help;
 }
 
@@ -277,17 +268,17 @@
     position: fixed;
     z-index: 1010;
     width: min(520px, calc(100vw - 20px));
-    max-block-size: calc(100dvh - max(1rem, env(safe-area-inset-top)) - max(1rem, env(safe-area-inset-bottom)));
+    max-height: calc(100dvh - 32px);
     box-sizing: border-box;
     padding: 12px 14px;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
-    color: var(--color-text-secondary);
-    background: var(--color-bg-elevated);
-    border: 1px solid color-mix(in srgb, var(--color-text-primary) 14%, transparent);
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-md);
+    color: #d7d7dc;
+    background: #252529;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
     font-size: 0.86rem;
     line-height: 1.55;
     white-space: pre-line;
@@ -303,21 +294,15 @@
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
-    touch-action: pan-y;
-}
-
-.character-effect-tooltip-box:focus-visible {
-    outline: 2px solid var(--color-focus);
-    outline-offset: 2px;
 }
 
 .character-effects-empty {
     padding: 30px 20px;
-    color: var(--color-text-dim);
+    color: #888;
     text-align: center;
-    background: var(--color-bg-card);
-    border: 1px dashed var(--color-border);
-    border-radius: var(--radius-sm);
+    background: #1e1e22;
+    border: 1px dashed #444;
+    border-radius: 8px;
 }
 
 @media (max-width: 600px) {
@@ -334,21 +319,15 @@
     }
 
     .character-effects-switch {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        display: flex;
         width: 100%;
         box-sizing: border-box;
     }
 
     .character-effects-switch button {
+        flex: 1;
         min-width: 0;
         padding-inline: 8px;
-        overflow-wrap: anywhere;
-        white-space: normal;
-    }
-
-    .character-effects-switch button + button::before {
-        display: none;
     }
 
     .character-effect-card summary {
@@ -376,7 +355,7 @@
 
     .character-effect-tooltip-box {
         width: calc(100vw - 20px);
-        max-block-size: calc(100dvh - max(0.75rem, env(safe-area-inset-top)) - max(0.75rem, env(safe-area-inset-bottom)));
+        max-height: calc(100dvh - 24px);
         padding: 10px 12px;
         font-size: 0.84rem;
     }

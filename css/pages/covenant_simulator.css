@@ -1,32 +1,6 @@
 .covenant-page {
-    --covenant-panel: color-mix(in srgb, var(--color-bg-elevated) 92%, transparent);
-    --covenant-surface: var(--color-bg-elevated);
-    --covenant-surface-muted: var(--color-bg-card);
-    --covenant-surface-raised: var(--color-bg-hover);
-    --covenant-control: color-mix(in srgb, var(--color-bg-elevated) 72%, var(--color-bg-card));
-    --covenant-control-active: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg-hover));
-    --covenant-control-hover: color-mix(in srgb, var(--color-text-primary) 5%, var(--color-bg-hover));
-    --covenant-border-subtle: var(--color-border-dark);
-    --covenant-border-strong: var(--color-border-light);
-    --covenant-border-faint: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
-    --covenant-surface-soft: color-mix(in srgb, var(--color-bg-elevated) 62%, transparent);
-    --covenant-surface-faint: color-mix(in srgb, var(--color-bg-elevated) 42%, transparent);
-    --covenant-accent-soft: color-mix(in srgb, var(--color-accent) 10%, transparent);
-    --covenant-accent-border: color-mix(in srgb, var(--color-accent) 42%, transparent);
-    --covenant-accent-surface: color-mix(in srgb, var(--color-accent) 16%, var(--color-bg-elevated));
-    --covenant-accent-glow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 22%, transparent), 0 0 18px var(--covenant-accent-soft);
-    --covenant-primary: color-mix(in srgb, var(--color-accent) 48%, var(--color-bg-dark));
-    --covenant-primary-hover: color-mix(in srgb, var(--color-accent) 52%, var(--color-bg-dark));
-    --covenant-stage-start: color-mix(in srgb, var(--color-bg-elevated) 96%, transparent);
-    --covenant-stage-end: color-mix(in srgb, var(--color-bg-card) 94%, transparent);
-    --covenant-image-shadow: 0 0.75rem 1.375rem color-mix(in srgb, var(--color-bg-dark) 46%, transparent);
     max-width: 1280px;
     min-width: 0;
-}
-
-.covenant-lede {
-    margin: calc(var(--space-4) * -1) auto var(--space-6);
-    text-align: center;
 }
 
 .covenant-shell {
@@ -35,20 +9,61 @@
     min-width: 0;
 }
 
+.covenant-summary,
 .simulator-panel,
 .capture-panel,
-.config-card {
+.config-card,
+.result-summary-card {
     box-sizing: border-box;
     min-width: 0;
-    background: var(--covenant-panel);
+    background: rgba(42, 42, 46, 0.92);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+}
+
+.covenant-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+}
+
+.covenant-summary h2 {
+    font-size: 1.55rem;
+}
+
+.resource-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.resource-summary span,
+.completion-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 6px 10px;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-sm);
+    background: #242428;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.resource-summary strong,
+.completion-badge {
+    color: var(--color-accent);
 }
 
 .simulator-panel,
 .capture-panel,
-.config-card {
+.config-card,
+.result-summary-card {
     padding: 18px;
 }
 
@@ -68,7 +83,7 @@
     appearance: none;
     -webkit-appearance: none;
     width: 100%;
-    min-height: var(--control-height, 44px);
+    min-height: 38px;
     padding: 8px 34px 8px 10px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
@@ -93,6 +108,8 @@
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 10px;
+    max-height: 260px;
+    overflow: auto;
     padding: 4px;
 }
 
@@ -104,20 +121,19 @@
     padding: 8px 6px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background: var(--covenant-control);
+    background: #27272b;
     color: var(--color-text-secondary);
 }
 
 .contract-card:hover,
 .contract-card.active {
     border-color: var(--color-accent);
-    background: var(--covenant-control-active);
+    background: #333238;
 }
 
 .contract-card img {
-    width: min(100%, 82px);
-    height: auto;
-    aspect-ratio: 82 / 64;
+    width: 82px;
+    height: 64px;
     object-fit: contain;
 }
 
@@ -125,13 +141,14 @@
     display: block;
     width: 100%;
     color: inherit;
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     font-weight: bold;
     line-height: 1.25;
     text-align: center;
     word-break: keep-all;
 }
 
+.part-grid,
 .side-part-grid {
     display: grid;
     gap: 10px;
@@ -148,21 +165,21 @@
     padding: 12px 8px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background: var(--covenant-control);
+    background: #27272b;
     color: var(--color-text-secondary);
     text-align: center;
 }
 
 .part-button.has-result {
-    border-color: var(--covenant-border-strong);
+    border-color: #5f5f66;
 }
 
 .part-button:hover,
 .part-button.active {
     border-color: var(--color-accent);
     color: var(--color-accent);
-    background: var(--covenant-control-active);
-    box-shadow: var(--covenant-accent-glow);
+    background: #333238;
+    box-shadow: 0 0 0 1px rgba(255, 193, 7, 0.22), 0 0 18px rgba(255, 193, 7, 0.1);
 }
 
 .part-roman {
@@ -175,7 +192,7 @@
     display: block;
     margin-top: 5px;
     color: var(--color-text-muted);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     line-height: 1.3;
 }
 
@@ -196,7 +213,7 @@
     gap: 12px;
     margin: -2px 0 16px;
     padding-left: 10px;
-    border-bottom: 1px solid var(--covenant-border-subtle);
+    border-bottom: 1px solid #444;
 }
 
 .tab-buttons {
@@ -210,45 +227,44 @@
     align-items: center;
     justify-content: center;
     min-width: 138px;
-    min-height: var(--control-height, 44px);
     margin-bottom: -1px;
     padding: 10px 18px;
-    background: var(--covenant-surface-raised);
-    border: 1px solid var(--covenant-border-subtle);
+    background: #3f3f46;
+    border: 1px solid #444;
     border-bottom: none;
     border-radius: 8px 8px 0 0;
-    color: var(--color-text-secondary);
+    color: #9a9a9f;
     cursor: pointer;
     font-size: 0.95rem;
     font-weight: 600;
 }
 
 .simulator-tabs .chrome-tab:hover:not(.active) {
-    background: var(--covenant-control-hover);
-    color: var(--color-text-secondary);
+    background: #35353b;
+    color: #ccc;
 }
 
 .simulator-tabs .chrome-tab.active {
     z-index: 2;
-    background: var(--covenant-control-active);
-    border-color: var(--covenant-border-strong);
-    border-bottom: 1px solid var(--covenant-control-active);
+    background: #2a2a2e;
+    border-color: #55555e;
+    border-bottom: 1px solid #2a2a2e;
     color: var(--color-accent);
     font-weight: bold;
-    box-shadow: inset 0 1px 0 var(--covenant-border-faint);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .simulator-tabs [data-mode-tab][aria-selected="false"] {
-    background: var(--covenant-surface-raised);
-    border-color: var(--covenant-border-subtle);
-    color: var(--color-text-secondary);
+    background: #3f3f46;
+    border-color: #444;
+    color: #9a9a9f;
     font-weight: 600;
 }
 
 .simulator-tabs [data-mode-tab][aria-selected="true"] {
-    background: var(--covenant-control-active);
-    border-color: var(--covenant-border-strong);
-    border-bottom-color: var(--covenant-control-active);
+    background: #2a2a2e;
+    border-color: #55555e;
+    border-bottom-color: #2a2a2e;
     color: var(--color-accent);
     font-weight: 800;
 }
@@ -278,7 +294,7 @@
 
 .preset-name-input {
     width: 100%;
-    min-height: var(--control-height, 44px);
+    min-height: 38px;
     padding: 8px 10px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
@@ -298,9 +314,9 @@
     align-items: center;
     margin: 14px 0;
     padding: 12px;
-    border: 1px solid var(--covenant-border-faint);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface-soft);
+    background: rgba(28, 28, 32, 0.62);
 }
 
 .target-preset-heading {
@@ -332,18 +348,16 @@
 
 .target-fold-section {
     margin: 14px 0;
-    border: 1px solid var(--covenant-border-faint);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface-faint);
+    background: rgba(28, 28, 32, 0.42);
 }
 
 .target-fold-summary {
-    box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 8px 12px;
-    min-height: var(--control-height, 44px);
     padding: 12px;
     color: var(--color-text-primary);
     cursor: pointer;
@@ -397,25 +411,25 @@
 
 .primary-action,
 .ghost-action {
-    min-height: var(--control-height, 44px);
+    min-height: 38px;
     padding: 8px 14px;
     border-radius: var(--radius-sm);
     font-weight: bold;
 }
 
 .primary-action {
-    border: 1px solid var(--color-accent);
-    background: var(--covenant-primary);
-    color: var(--color-text-primary);
+    border: 1px solid #b88f13;
+    background: #8d6c12;
+    color: #fff;
 }
 
 .primary-action:hover {
-    background: var(--covenant-primary-hover);
+    background: #a98217;
 }
 
 .ghost-action {
     border: 1px solid var(--color-border-light);
-    background: var(--covenant-surface-raised);
+    background: #303036;
     color: var(--color-text-secondary);
 }
 
@@ -428,6 +442,13 @@
 .primary-action:disabled {
     cursor: not-allowed;
     opacity: 0.48;
+}
+
+.simulator-layout {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
 }
 
 .ingame-layout {
@@ -444,46 +465,17 @@
     min-width: 0;
     position: relative;
     display: grid;
-    grid-template-columns: 118px minmax(260px, 430px) 118px;
-    grid-template-areas: "primary focus secondary";
+    grid-template-columns: 118px minmax(300px, 430px) 118px;
     justify-content: center;
     gap: 26px;
     align-items: center;
     width: min(100%, 920px);
-    min-height: min(500px, 62vw);
-    overflow: visible;
+    min-height: 500px;
+    overflow: hidden;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--covenant-stage-start), var(--covenant-stage-end));
+    background: linear-gradient(135deg, rgba(35, 38, 43, 0.96), rgba(27, 27, 31, 0.94));
     padding: 22px 16px;
-}
-
-.contract-load-state {
-    grid-column: 1 / -1;
-    box-sizing: border-box;
-    width: 100%;
-}
-
-.error-state.contract-load-state {
-    display: grid;
-    gap: var(--space-3);
-    justify-items: start;
-}
-
-.contract-load-message {
-    margin: 0;
-}
-
-.focus-image-frame {
-    grid-area: focus;
-}
-
-.right-parts {
-    grid-area: primary;
-}
-
-.left-parts {
-    grid-area: secondary;
 }
 
 .focus-image-frame {
@@ -500,7 +492,7 @@
     max-width: 390px;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(var(--covenant-image-shadow));
+    filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.46));
 }
 
 .focus-part-name {
@@ -517,9 +509,9 @@
     justify-content: center;
     min-height: 30px;
     padding: 5px 12px;
-    border: 1px solid var(--covenant-accent-border);
-    border-radius: var(--radius-pill);
-    background: var(--covenant-accent-soft);
+    border: 1px solid rgba(255, 193, 7, 0.42);
+    border-radius: 999px;
+    background: rgba(255, 193, 7, 0.1);
     color: var(--color-accent);
     font-size: 0.92rem;
     font-weight: 800;
@@ -563,11 +555,9 @@
     margin-bottom: 14px;
 }
 
-.section-heading h2,
 .section-heading h3 {
-    margin: 0;
     font-size: 1.08rem;
-    text-wrap: balance;
+    white-space: nowrap;
 }
 
 .muted-text {
@@ -575,6 +565,7 @@
     font-size: 0.88rem;
 }
 
+.substat-editor,
 .target-goals {
     display: grid;
     gap: 10px;
@@ -597,18 +588,18 @@
     align-items: center;
     justify-content: center;
     width: 40px;
-    min-height: var(--control-height, 44px);
+    height: 38px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface);
-    color: var(--color-text-dim);
+    background: #242428;
+    color: #777;
     font-size: 1rem;
 }
 
 .lock-toggle.active {
     border-color: var(--color-accent);
     color: var(--color-accent);
-    background: var(--covenant-accent-surface);
+    background: #3a3423;
 }
 
 .lock-cost-row {
@@ -620,7 +611,7 @@
 
 .reroll-completion-row {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
     gap: 16px;
     margin-bottom: 10px;
 }
@@ -635,27 +626,26 @@
     padding: 8px 12px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface);
+    background: #242428;
 }
 
 .completion-label {
     color: var(--color-text-muted);
     font-size: 0.86rem;
     font-weight: 800;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .completion-panel strong {
     color: var(--color-accent);
     font-size: 1rem;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .radio-option {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    min-height: var(--control-height, 44px);
     color: var(--color-text-secondary);
     font-weight: bold;
 }
@@ -671,18 +661,18 @@
     padding: 12px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface-muted);
+    background: #222226;
 }
 
 .reroll-compare {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
     gap: 16px;
     align-items: stretch;
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    overflow-x: visible;
+    overflow-x: auto;
     padding-bottom: 2px;
 }
 
@@ -711,18 +701,18 @@
     gap: 10px;
     min-height: 66px;
     padding: 7px 10px;
-    border: 1px solid var(--covenant-border-subtle);
+    border: 1px solid #38383e;
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface-raised);
+    background: #2b2b30;
 }
 
 .current-stat-row {
     min-width: 0;
     min-height: 66px;
     padding: 6px;
-    border: 1px solid var(--covenant-border-subtle);
+    border: 1px solid #38383e;
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface-raised);
+    background: #2b2b30;
 }
 
 .stat-name {
@@ -733,7 +723,7 @@
 .stat-value {
     color: var(--color-accent);
     font-weight: bold;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .target-toolbar {
@@ -754,17 +744,17 @@
 }
 
 .target-scope-btn {
-    min-height: var(--control-height, 44px);
+    min-height: 38px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background: var(--covenant-control);
+    background: #27272b;
     color: var(--color-text-secondary);
     font-weight: 800;
 }
 
 .target-scope-btn.active {
     border-color: var(--color-accent);
-    background: var(--covenant-control-active);
+    background: #333238;
     color: var(--color-accent);
 }
 
@@ -779,7 +769,7 @@
     padding: 10px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
-    background: var(--covenant-surface-muted);
+    background: #252529;
 }
 
 .target-part-header {
@@ -799,11 +789,10 @@
 }
 
 .target-part-title {
-    margin: 0;
     color: var(--color-accent);
     font-size: 1rem;
     font-weight: 800;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .target-part-card .target-goals {
@@ -813,7 +802,7 @@
 
 .target-goal-row {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 104px auto;
+    grid-template-columns: minmax(0, 1fr) 104px 34px;
     gap: 7px;
     align-items: center;
 }
@@ -830,23 +819,10 @@
     font-weight: 800;
 }
 
-.goal-enabled-control {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    min-height: var(--control-height, 44px);
-    color: var(--color-text-secondary);
-    font-size: 0.75rem;
-    font-weight: 800;
-    overflow-wrap: anywhere;
-}
-
 .goal-enabled {
     width: 22px;
     height: 22px;
-    margin: 0;
-    accent-color: var(--color-accent);
+    accent-color: #ffc107;
 }
 
 .target-actions {
@@ -877,16 +853,16 @@
     overflow: hidden;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface);
+    background: #242428;
 }
 
 .covenant-stat-table th,
 .covenant-stat-table td {
     width: 25%;
     padding: 9px 10px;
-    border-bottom: 1px solid var(--covenant-border-subtle);
+    border-bottom: 1px solid #38383e;
     text-align: left;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .covenant-stat-table tr:last-child th,
@@ -917,15 +893,15 @@
     padding: 10px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface);
+    background: #242428;
 }
 
 .summary-label {
     display: block;
     color: var(--color-text-muted);
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     line-height: 1.2;
-    overflow-wrap: anywhere;
+    white-space: nowrap;
 }
 
 .summary-value {
@@ -934,7 +910,9 @@
     color: var(--color-accent);
     font-size: clamp(0.9rem, 1.25vw, 1rem);
     font-weight: 800;
-    overflow-wrap: anywhere;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .part-result-grid {
@@ -948,10 +926,9 @@
     padding: 8px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface);
+    background: #242428;
 }
 
-.part-result-card h3,
 .part-result-card h4 {
     margin-bottom: 5px;
     color: var(--color-accent);
@@ -961,9 +938,11 @@
 .part-main-label {
     margin: -2px 0 6px;
     color: var(--color-text-muted);
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: bold;
-    overflow-wrap: anywhere;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .compact-stat-line {
@@ -972,9 +951,9 @@
     gap: 2px;
     min-height: 34px;
     padding: 5px 6px;
-    border: 1px solid var(--covenant-border-subtle);
+    border: 1px solid #38383e;
     border-radius: var(--radius-sm);
-    background: var(--covenant-surface-raised);
+    background: #2b2b30;
 }
 
 .compact-stat-line + .compact-stat-line {
@@ -983,15 +962,17 @@
 
 .compact-stat-line .stat-name,
 .compact-stat-line .stat-value {
-    overflow-wrap: anywhere;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .compact-stat-line .stat-name {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
 }
 
 .compact-stat-line .stat-value {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
 }
 
 .result-status {
@@ -1009,11 +990,13 @@
 }
 
 @media (max-width: 980px) {
+    .covenant-summary,
     .simulator-tabs {
         align-items: stretch;
         flex-direction: column;
     }
 
+    .resource-summary,
     .capture-actions {
         justify-content: flex-start;
     }
@@ -1034,6 +1017,7 @@
     }
 
     .ingame-layout,
+    .simulator-layout,
     .target-toolbar {
         grid-template-columns: 1fr;
     }
@@ -1068,7 +1052,8 @@
 @media (max-width: 560px) {
     .simulator-panel,
     .capture-panel,
-    .config-card {
+    .config-card,
+    .result-summary-card {
         padding: 12px;
     }
 
@@ -1092,14 +1077,14 @@
     }
 
     .target-goal-row {
-        grid-template-columns: minmax(0, 1fr) 110px auto;
+        grid-template-columns: minmax(0, 1fr) 110px 36px;
     }
 
     .target-current-row {
         grid-template-columns: minmax(0, 1fr) 110px;
     }
 
-    .target-goal-row .goal-enabled-control {
+    .target-goal-row .goal-enabled {
         grid-column: 3;
         grid-row: auto;
         justify-self: end;
@@ -1109,6 +1094,14 @@
     .target-goal-row .target-goal-level {
         padding-right: 34px;
         background-position: calc(100% - 22px) 50%, calc(100% - 16px) 50%;
+    }
+
+    .reroll-compare {
+        grid-template-columns: repeat(2, minmax(210px, 1fr));
+    }
+
+    .reroll-completion-row {
+        grid-template-columns: repeat(2, minmax(210px, 1fr));
     }
 
     .lock-toggle {
@@ -1124,11 +1117,11 @@
 
     .current-stat-row .lock-toggle {
         width: 44px;
-        min-height: 44px;
+        height: 44px;
     }
 
     .current-stat-row .sim-select {
-        min-height: var(--control-height, 44px);
+        min-height: 34px;
         padding: 6px;
     }
 
@@ -1172,25 +1165,19 @@
     }
 
     .part-main {
-        font-size: 0.75rem;
-        line-height: 1.25;
+        font-size: 0.58rem;
+        line-height: 1.18;
     }
 
     .ingame-focus-panel {
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-areas:
-            "focus"
-            "primary"
-            "secondary";
-        gap: 12px;
-        min-height: 0;
+        grid-template-columns: 76px minmax(100px, 1fr) 76px;
+        gap: 4px;
         padding: 12px 8px;
     }
 
     .side-part-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: 76px;
         gap: 6px;
-        width: 100%;
     }
 
     .focus-part-name {
@@ -1207,9 +1194,18 @@
         width: 100%;
     }
 
+    .floating-report-btn {
+        display: none;
+    }
 }
 
 @media (max-width: 520px) {
+    .reroll-completion-row,
+    .reroll-compare {
+        grid-template-columns: 1fr;
+        overflow-x: visible;
+    }
+
     #manual-current-result,
     #manual-result {
         min-height: 136px;
@@ -1217,43 +1213,7 @@
 }
 
 @media (max-width: 380px) {
-    .section-heading {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .completion-panel {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .part-result-grid,
-    .target-goal-row,
-    .target-current-row,
-    .main-option-controls,
-    .current-stat-row,
-    .summary-grid {
+    .part-result-grid {
         grid-template-columns: 1fr;
-    }
-
-    .side-part-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .target-scope-buttons {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .target-goal-row .goal-enabled-control {
-        grid-column: 1;
-        justify-self: start;
-    }
-
-    .target-goal-row .target-goal-level {
-        padding-right: 34px;
-    }
-
-    .current-stat-row .lock-toggle {
-        width: 100%;
     }
 }

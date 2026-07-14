@@ -1,10 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
-import {
-    getCharacterEffectShardPath,
-    serializeDeterministicJson
-} from '../shared/runtime-data-shards.js';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DATA_PATH = path.join(ROOT, 'data', 'character_effects.json');
@@ -421,12 +417,7 @@ const ordered = Object.fromEntries(
         .map((id) => [id, data[id]])
 );
 
-const shardPath = path.resolve(ROOT, ...getCharacterEffectShardPath(characterId).split('/'));
-await fs.mkdir(path.dirname(shardPath), { recursive: true });
-await Promise.all([
-    fs.writeFile(DATA_PATH, `${JSON.stringify(ordered, null, 2)}\n`, 'utf8'),
-    fs.writeFile(shardPath, serializeDeterministicJson(ordered[characterId]), 'utf8')
-]);
+await fs.writeFile(DATA_PATH, `${JSON.stringify(ordered, null, 2)}\n`, 'utf8');
 console.log(
-    `${characterId}: 스킬 ${character.skills.length}개, 파생 ${character.derivedCards.length}개, 계령 ${character.enlighten.length}개와 런타임 샤드 저장`
+    `${characterId}: 스킬 ${character.skills.length}개, 파생 ${character.derivedCards.length}개, 계령 ${character.enlighten.length}개 저장`
 );

@@ -1,85 +1,78 @@
 (function () {
-    'use strict';
-
     const REPORT_MODAL_ID = 'report-modal';
 
-    function createReportModal() {
-        const template = document.createElement('template');
-        template.innerHTML = `
-            <div id="${REPORT_MODAL_ID}" class="modal-overlay" role="dialog" aria-modal="true"
-                 aria-labelledby="report-modal-title" aria-describedby="report-modal-description">
-                <div class="modal-content report-modal-content" tabindex="-1">
-                    <button type="button" class="close-btn report-modal-close" data-dialog-close
-                            aria-label="제보 창 닫기">&times;</button>
-                    <p class="eyebrow">Feedback</p>
-                    <h2 id="report-modal-title" class="form-title">버그 및 개선 의견 제보</h2>
-                    <p id="report-modal-description" class="report-modal-description">
-                        발견한 문제와 재현 방법을 알려 주세요. 제보 내용과 현재 페이지 주소는 공개 GitHub 이슈에 기록될 수 있으므로 개인정보를 입력하지 마세요.
-                    </p>
-                    <form id="bug-report-form" novalidate>
-                        <label for="report-message" class="form-field-label">
-                            제보 내용 <span aria-hidden="true">*</span>
-                            <span class="report-modal-help">문제가 발생한 순서, 기대한 결과, 실제 결과를 적으면 빠르게 확인할 수 있습니다.</span>
-                        </label>
-                        <textarea id="report-message" name="message" class="form-textarea"
-                                  required minlength="5" maxlength="5000"
-                                  aria-describedby="report-message-help"
-                                  placeholder="예: 모바일에서 파티 탭을 누르면 마지막 팀이 보이지 않습니다."></textarea>
-                        <span id="report-message-help" class="visually-hidden">5자 이상 5,000자 이하로 입력해 주세요.</span>
-
-                        <input type="hidden" name="report_source_url" id="report-source-url">
-                        <button type="submit" class="form-submit-btn">제보 보내기</button>
-                        <p id="modal-form-status" class="report-modal-status" role="status" aria-live="polite"></p>
-                    </form>
-                </div>
-            </div>
-        `;
-        document.body.append(template.content);
-        return document.getElementById(REPORT_MODAL_ID);
-    }
-
     function ensureReportModal() {
-        const modal = document.getElementById(REPORT_MODAL_ID) || createReportModal();
-        if (modal.dataset.initialized === 'true') return modal;
-        modal.dataset.initialized = 'true';
+        let modal = document.getElementById(REPORT_MODAL_ID);
+        if (modal) return modal;
 
-        window.SiteDialog.setup(modal, {
-            initialFocus: '#report-message',
-            onClose: () => resetStatus(modal)
-        });
+        document.body.insertAdjacentHTML('beforeend', `
+<div id="report-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
+    <div class="modal-content report-modal-content">
+        <button type="button" class="close-btn report-modal-close" data-report-close aria-label="닫기">
+            &times;
+        </button>
+
+        <h2 id="report-modal-title" class="form-title">버그 제보 or 피드백</h2>
+        <p class="report-modal-description">제보하실 내용을 적어주세요. 개발자에게 즉시 알림이 전송됩니다.</p>
+
+        <form id="bug-report-form" action="javascript:void(0);" method="POST">
+            <label for="reporter-email" class="form-field-label">패치노트에 올라갈 닉네임 (선택)</label>
+            <input type="text" id="reporter-email" name="_replyto" class="form-input"
+                   placeholder="패치노트에 언급을 원하시면 적어주세요">
+
+            <label for="report-message" class="form-field-label">
+                제보할 내용 (버그 or 피드백) (필수)
+                <span class="report-modal-help">
+                    특정 게시글/정보 관련 제보라면, <u>해당 글의 링크</u>를 본문에 꼭 적어주세요.
+                </span>
+            </label>
+            <textarea id="report-message" name="message" class="form-textarea" required
+                      placeholder="내용을 입력해주세요."></textarea>
+
+            <input type="hidden" name="report_source_url" id="report-source-url">
+            <button type="submit" class="form-submit-btn">제보 보내기</button>
+            <p id="modal-form-status" class="report-modal-status">전송 중...</p>
+        </form>
+    </div>
+</div>`);
+
+        modal = document.getElementById(REPORT_MODAL_ID);
+        modal.querySelector('[data-report-close]')?.addEventListener('click', closeReportModal);
         modal.querySelector('#bug-report-form')?.addEventListener('submit', sendFeedbackToWorker);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeReportModal();
+        });
         return modal;
     }
 
-    function setStatus(modal, message = '', state = '') {
-        const status = modal?.querySelector('#modal-form-status');
-        if (!status) return;
-        status.textContent = message;
-        if (state) status.dataset.state = state;
-        else delete status.dataset.state;
+    function setFeedbackStatus(element, text, color, visible) {
+        if (!element) return;
+        element.style.display = visible ? 'block' : 'none';
+        element.textContent = text;
+        element.style.color = color;
     }
 
-    function resetStatus(modal = document.getElementById(REPORT_MODAL_ID)) {
-        setStatus(modal);
+    function resetReportModalStatus() {
+        const modalStatus = document.getElementById('modal-form-status');
+        setFeedbackStatus(modalStatus, '전송 중...', '#ffc107', false);
     }
 
-    function getPublicSourceUrl() {
-        const sourceUrl = new URL(window.location.href);
-        sourceUrl.search = '';
-        sourceUrl.hash = '';
-        return sourceUrl.toString();
-    }
-
-    function openReportModal(event) {
+    function openReportModal() {
         const modal = ensureReportModal();
-        const trigger = event?.currentTarget instanceof HTMLElement
-            ? event.currentTarget
-            : document.activeElement;
-        const sourceUrl = modal.querySelector('#report-source-url');
-        if (sourceUrl) sourceUrl.value = getPublicSourceUrl();
-        resetStatus(modal);
+        const sourceUrlInput = document.getElementById('report-source-url');
 
-        window.SiteDialog.open(modal, trigger);
+        resetReportModalStatus();
+        if (sourceUrlInput) sourceUrlInput.value = window.location.href;
+        modal.style.display = '';
+        modal.classList.add('show');
+    }
+
+    function closeReportModal() {
+        const modal = document.getElementById(REPORT_MODAL_ID);
+        if (!modal) return;
+
+        modal.classList.remove('show');
+        modal.style.display = '';
     }
 
     function initReportModal() {
@@ -93,69 +86,57 @@
 
     async function sendFeedbackToWorker(event) {
         event.preventDefault();
-        const form = event.currentTarget;
-        const modal = form.closest('.modal-overlay');
-        const submitButton = form.querySelector('[type="submit"]');
 
-        if (!form.reportValidity()) {
-            setStatus(modal, '필수 항목을 확인해 주세요.', 'error');
-            return;
-        }
-
-        const endpoint = typeof CONFIG !== 'undefined'
-            ? String(CONFIG.FEEDBACK_ENDPOINT_URL || '').trim()
-            : '';
-        if (!endpoint) {
-            setStatus(modal, '제보 접수 주소가 설정되지 않았습니다.', 'error');
-            return;
-        }
-
+        const form = event.target;
         const formData = new FormData(form);
+        const modalStatus = document.getElementById('modal-form-status');
+        const endpoint = (typeof CONFIG !== 'undefined') ? CONFIG.FEEDBACK_ENDPOINT_URL : '';
+
+        setFeedbackStatus(modalStatus, '제보를 전송 중입니다...', '#ffc107', true);
+
+        if (!endpoint || !endpoint.trim()) {
+            setFeedbackStatus(modalStatus, '설정 오류: 피드백 접수 주소가 없습니다.', '#e74c3c', true);
+            return;
+        }
+
         const payload = {
-            reporter: '익명',
-            message: String(formData.get('message') || '').trim(),
-            sourceUrl: String(formData.get('report_source_url') || getPublicSourceUrl()),
+            reporter: formData.get('_replyto') || '익명(Anonymous)',
+            message: formData.get('message') || '',
+            sourceUrl: formData.get('report_source_url') || window.location.href,
             pageTitle: document.title || '',
+            userAgent: navigator.userAgent || '',
             submittedAt: new Date().toISOString()
         };
-
-        const controller = new AbortController();
-        const timeoutId = window.setTimeout(() => controller.abort(), 15000);
-        submitButton.disabled = true;
-        submitButton.textContent = '전송 중…';
-        setStatus(modal, '제보를 안전하게 전송하고 있습니다.', 'loading');
 
         try {
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-                signal: controller.signal
+                body: JSON.stringify(payload)
             });
-            if (!response.ok) {
-                const detail = await response.json().catch(() => null);
-                throw new Error(detail?.error || `HTTP ${response.status}`);
-            }
 
-            setStatus(modal, '제보가 접수되었습니다. 감사합니다.', 'success');
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            setFeedbackStatus(modalStatus, '전송 완료! 감사합니다.', '#2ecc71', true);
             form.reset();
+            setTimeout(() => {
+                closeReportModal();
+                resetReportModalStatus();
+            }, 1500);
         } catch (error) {
-            const message = error.name === 'AbortError'
-                ? '응답 시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.'
-                : '전송하지 못했습니다. 잠시 후 다시 시도해 주세요.';
             console.error('제보 전송 실패:', error);
-            setStatus(modal, message, 'error');
-        } finally {
-            window.clearTimeout(timeoutId);
-            submitButton.disabled = false;
-            submitButton.textContent = '제보 보내기';
+            setFeedbackStatus(modalStatus, '전송에 실패했습니다. 잠시 후 다시 시도해주세요.', '#e74c3c', true);
         }
     }
 
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initReportModal, { once: true });
+        document.addEventListener('DOMContentLoaded', initReportModal);
     } else {
         initReportModal();
     }
 
+    window.openReportModal = openReportModal;
+    window.closeReportModal = closeReportModal;
+    window.sendFeedbackToWorker = sendFeedbackToWorker;
+    window.sendToDiscord = sendFeedbackToWorker;
 })();

@@ -628,10 +628,6 @@
       "covenant": { "main_id": "covenant_medicine", "substitutes": [] }
     }
   ],
-  "pontos": {
-    "status": "pending",
-    "message": "추천 세팅은 현재 검수 중입니다. 전용 명륜과 관련 공략은 각성체 자료에서 확인할 수 있습니다."
-  },
   "doll": [
     {
       "settingName": "범용",

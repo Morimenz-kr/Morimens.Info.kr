@@ -1,102 +1,122 @@
-document.addEventListener('DOMContentLoaded', () => {
-    'use strict';
+/* js/landing.js - 랜딩 페이지 캐러셀, 패치노트, 제보 모달 로직 */
 
+document.addEventListener('DOMContentLoaded', () => {
+    // --- 배너 슬라이더 로직 ---
+    const track = document.getElementById('banner-track');
+    const originalSlides = Array.from(track.children);
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const dotsContainer = document.getElementById('dots-container');
+
+    const slideCount = originalSlides.length;
+    let currentIndex = 1;
+    let autoSlideInterval;
+    let isTransitioning = false;
+
+    const firstClone = originalSlides[0].cloneNode(true);
+    const lastClone = originalSlides[slideCount - 1].cloneNode(true);
+
+    track.appendChild(firstClone);
+    track.insertBefore(lastClone, originalSlides[0]);
+
+    track.style.transform = `translateX(-100%)`;
+
+    originalSlides.forEach((_, idx) => {
+        const dot = document.createElement('div');
+        dot.classList.add('dot');
+        if (idx === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+            resetTimer();
+            moveToSlide(idx + 1);
+        });
+        dotsContainer.appendChild(dot);
+    });
+    const dots = Array.from(dotsContainer.children);
+
+    function updateDots(index) {
+        let realIndex = index - 1;
+        if (realIndex < 0) realIndex = slideCount - 1;
+        if (realIndex >= slideCount) realIndex = 0;
+
+        dots.forEach(d => d.classList.remove('active'));
+        dots[realIndex].classList.add('active');
+    }
+
+    function moveToSlide(index) {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        track.style.transition = 'transform 0.5s ease-in-out';
+        track.style.transform = `translateX(-${index * 100}%)`;
+        currentIndex = index;
+        updateDots(currentIndex);
+    }
+
+    track.addEventListener('transitionend', () => {
+        isTransitioning = false;
+        if (currentIndex === slideCount + 1) {
+            track.style.transition = 'none';
+            currentIndex = 1;
+            track.style.transform = `translateX(-100%)`;
+        }
+        if (currentIndex === 0) {
+            track.style.transition = 'none';
+            currentIndex = slideCount;
+            track.style.transform = `translateX(-${slideCount * 100}%)`;
+        }
+    });
+
+    function resetTimer() {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = setInterval(() => moveToSlide(currentIndex + 1), 5000);
+    }
+
+    nextBtn.addEventListener('click', () => {
+        resetTimer();
+        moveToSlide(currentIndex + 1);
+    });
+
+    prevBtn.addEventListener('click', () => {
+        resetTimer();
+        moveToSlide(currentIndex - 1);
+    });
+
+    resetTimer();
+
+    const bannerContainer = document.querySelector('.banner-container');
+    bannerContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+    bannerContainer.addEventListener('mouseleave', () => resetTimer());
+
+
+    // --- 패치노트 로직 ---
     const modal = document.getElementById('patch-modal');
-    const openButton = document.getElementById('open-patch-modal');
+    const openBtn = document.getElementById('open-patch-modal');
+    const closeBtn = document.getElementById('close-patch-modal');
     const listContent = document.getElementById('patch-list-content');
 
-    if (!modal || !openButton || !listContent) return;
-
-    window.SiteDialog?.setup(modal, {
-        initialFocus: '#close-patch-modal'
-    });
-
-    openButton.addEventListener('click', () => {
-        window.SiteDialog?.open(modal, openButton);
-    });
-
-    function createStatus(message, className = 'status-message') {
-        const paragraph = document.createElement('p');
-        paragraph.className = className;
-        paragraph.textContent = message;
-        return paragraph;
-    }
-
-    function renderPatchNotes(items) {
-        listContent.replaceChildren();
-
-        if (!Array.isArray(items) || items.length === 0) {
-            listContent.append(createStatus('등록된 업데이트 내역이 없습니다.', 'empty-state'));
-            return;
-        }
-
-        items.forEach((item) => {
-            const article = document.createElement('article');
-            article.className = 'patch-item';
-
-            const heading = document.createElement('div');
-            heading.className = 'patch-item-heading';
-
-            const version = document.createElement('strong');
-            version.className = 'patch-ver';
-            version.textContent = String(item?.version || '버전 정보 없음');
-
-            const date = document.createElement('time');
-            date.className = 'patch-date';
-            date.textContent = String(item?.date || '날짜 정보 없음');
-            if (/^\d{4}-\d{2}-\d{2}$/.test(item?.date || '')) {
-                date.dateTime = item.date;
-            }
-
-            heading.append(version, date);
-            article.append(heading);
-
-            const changes = Array.isArray(item?.changes) ? item.changes : [];
-            if (changes.length > 0) {
-                const list = document.createElement('ul');
-                list.className = 'patch-desc';
-                changes.forEach((change) => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = String(change);
-                    list.append(listItem);
-                });
-                article.append(list);
-            }
-
-            listContent.append(article);
-        });
-
-        openButton.textContent = `업데이트 내역 ${String(items[0]?.version || '')}`.trim();
-    }
-
-    function renderLoadError() {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'error-state';
-
-        const message = document.createElement('p');
-        message.textContent = '업데이트 내역을 불러오지 못했습니다.';
-
-        const retry = document.createElement('button');
-        retry.type = 'button';
-        retry.className = 'footer-link';
-        retry.textContent = '다시 시도';
-        retry.addEventListener('click', loadPatchNotes);
-
-        wrapper.append(message, retry);
-        listContent.replaceChildren(wrapper);
-    }
-
     async function loadPatchNotes() {
-        listContent.replaceChildren(createStatus('업데이트 내역을 불러오는 중입니다.'));
         try {
-            const response = await fetch('data/patch_notes.json', { cache: 'no-cache' });
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            renderPatchNotes(await response.json());
-        } catch (error) {
-            console.error('업데이트 내역 로드 실패:', error);
-            renderLoadError();
-        }
+            const ts = new Date().getTime();
+            const res = await fetch(`data/patch_notes.json?t=${ts}`);
+            if (!res.ok) throw new Error('Load failed');
+            const data = await res.json();
+            let html = '';
+            data.forEach(item => {
+                let changesHtml = item.changes.map(c => `<li>${c}</li>`).join('');
+                html += `<div class="patch-item"><span class="patch-ver">${item.version}</span><span class="patch-date">${item.date}</span><ul class="patch-desc">${changesHtml}</ul></div><hr style="border-color:#333; opacity:0.5;">`;
+            });
+            listContent.innerHTML = html.replace(/\<hr[^\>]*\>(?=[^\<]*$)/, '');
+
+            if (data.length > 0) {
+                openBtn.textContent = `Patch Notes ${data[0].version}`;
+            }
+        } catch (e) { listContent.innerHTML = '로드 실패'; }
     }
 
     loadPatchNotes();
+
+    openBtn.addEventListener('click', () => { modal.classList.add('show'); });
+    closeBtn.addEventListener('click', () => modal.classList.remove('show'));
+    modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+
 });

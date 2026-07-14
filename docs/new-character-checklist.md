@@ -58,7 +58,7 @@
   "korean_name": "신세계를 위하여",
   "english_name": "key_saya",
   "description": "...",
-  "image_path": "images/key_saya.webp",
+  "image_path": "images/key_saya.png",
   "tags": ["사야", "방어막 획득", "드로우"],
   "source": "...",
   "owner_character_ids": ["saya"]
@@ -88,7 +88,7 @@
   "owner_character_ids": ["saya"],
   "main_stat": "검은 인장 드롭 10.8%",
   "description": "...",
-  "image_path": "images/wheel_saya_ssr.webp"
+  "image_path": "images/wheel_saya_ssr.png"
 }
 ```
 
@@ -107,7 +107,7 @@
 
 - `data/character_effects.json`
   - 캐릭터 `id`를 키로 스킬/계령 데이터를 추가한다.
-  - 나무위키 기반 갱신이 필요하면 `tools/update-character-effects.mjs`를 사용한다. 이 도구는 `data/character-effects/{id}.json` 런타임 샤드도 함께 갱신한다.
+  - 나무위키 기반 갱신이 필요하면 `tools/update-character-effects.mjs`를 사용한다.
 
 - `data/gachatype.json`
   - 캐릭터 `id`를 알맞은 획득 그룹에 추가한다.
@@ -117,7 +117,6 @@
 - `data/resource_links.json`
   - 캐릭터 정보글 링크가 있으면 `characters[캐릭터ID]`에 추가한다.
   - 정보글이 아직 없을 수 있으므로 검증 스크립트에서는 경고로만 처리한다.
-  - 직접 수정했다면 아래 검증 전에 `npm run generate:data-shards`를 실행해 `data/resource-links/` 샤드를 함께 커밋한다. Discord 승인 Worker가 만든 PR은 원본과 해당 샤드를 자동으로 함께 갱신한다.
 
 - `data/patch_notes.json`
   - 메인 화면 업데이트 내역에 노출할 필요가 있으면 갱신한다.
@@ -141,12 +140,8 @@
 새 캐릭터 데이터를 추가한 뒤 반드시 실행한다.
 
 ```powershell
-npm run generate:data-shards
 node tools\validate-character.mjs <characterId>
-npm run check
 ```
-
-`data/character_effects.json`과 `data/resource_links.json`은 편집 기준 원본이고, 브라우저는 생성된 샤드를 읽는다. 따라서 원본만 변경된 상태는 완료가 아니며 `npm run check`의 런타임 샤드 동기화 단계가 이를 실패로 처리한다.
 
 전용 장비 관계를 어떤 필드로 인식했는지까지 보려면 다음처럼 실행한다.
 

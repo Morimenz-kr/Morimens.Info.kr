@@ -1,0 +1,266 @@
+/* detail.css - 캐릭터 상세 페이지 전용 스타일 */
+/* 기본 body/container/back-button/tag 스타일은 common.css, components.css에서 상속 */
+
+.detail-layout { display: flex; gap: 30px; }
+.char-profile { flex-basis: 35%; text-align: center; }
+.char-profile img { width: 100%; border-radius: 10px; border: 3px solid var(--color-border-light); margin-bottom: 15px; }
+.char-profile h2 { margin: 0 0 10px 0; font-size: 2.5em; }
+.char-profile .tags { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 20px; }
+.char-profile .lore { text-align: left; background-color: var(--color-bg-elevated); padding: 15px; border-radius: 5px; font-size: 0.9em; color: var(--color-text-secondary); }
+.char-data { flex-basis: 65%; }
+.data-tabs { display: flex; border-bottom: 2px solid #666; margin-bottom: 20px; overflow-x: auto; }
+.data-tabs .tab-link { padding: 10px 20px; cursor: pointer; border: none; background-color: transparent; color: var(--color-text-muted); font-size: 1.1em; font-weight: bold; }
+.data-tabs .tab-link.active { color: #fff; border-bottom: 3px solid var(--color-accent); }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+h4 { color: var(--color-accent); border-bottom: 1px solid var(--color-border-light); padding-bottom: 5px; }
+
+/* 스탯 테이블 */
+#stats-table-container ul { list-style:none; padding:0; background: var(--color-bg-elevated); border-radius: 5px; margin: 0; }
+#stats-table-container li { padding: 5px 10px; border-bottom: 1px solid var(--color-border); }
+#stats-table-container li:last-child { border: none; }
+#stats-table-container b { float: right; color: #fff; }
+
+/* (스킬 카드 CSS) */
+.skill-carousel-container { display: flex; align-items: center; justify-content: space-between; }
+.skill-card-builder { position: relative; width: 300px; height: 465px; flex-shrink: 0; margin: 0 auto; opacity: 1; transition: opacity 0.15s ease-in-out; background-color: #222; border-radius: 10px; overflow: hidden; }
+.skill-card-builder.fading { opacity: 0; }
+.card-layer { position: absolute; box-sizing: border-box; }
+.card-ui-bg { z-index: 1; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.card-illustration { z-index: 2; object-fit: cover; width: 80%; height: 60%; top: 15%; left: 10%; mask-image: linear-gradient(to bottom, black 70%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%); }
+
+/* 🚩🚩🚩 카드 이름/코스트 영역 수정 🚩🚩🚩 */
+.card-cost {
+    z-index: 3;
+    top: 0px;
+    left: 25px;
+    font-size: 2.3em;
+    font-weight: 900;
+    line-height: 1.5;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0,0,0,0.8);
+    display: inline-block;
+    transform: scaleY(1.08);
+    transform-origin: top left;
+}
+
+.card-name {
+    z-index: 3;
+    top: 12px; /* ◀ 요청대로 top: 12px로 수정 */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65%; /* ◀ 너비 조정으로 코스트 영역 침범 방지 */
+    font-size: 1.5em;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0,0,0,0.8);
+    text-align: center;
+
+    /* 🚩 스크롤링 텍스트를 위한 설정 */
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* 🚩 텍스트가 실제로 스크롤되는 내부 요소 */
+.card-name-inner {
+    display: inline-block;
+    animation: marquee 10s linear infinite; /* JS로 속도와 상태 제어 */
+    animation-play-state: paused;
+}
+
+/* 🚩 마퀴 애니메이션 정의 */
+@keyframes marquee {
+    0% { transform: translate(0, 0); }
+    100% {
+        /* 텍스트 너비 + 컨테이너 너비 만큼 이동하여 사라졌다가 다시 나타나도록 설정 */
+        transform: translateX(calc(-100% - 100%));
+    }
+}
+
+/* 🚩 텍스트가 길 때만 애니메이션 활성화 (JS가 .scrolling 클래스를 추가) */
+.card-name.scrolling .card-name-inner {
+    animation-name: marquee;
+    animation-duration: var(--marquee-duration, 10s); /* JS에서 속도 조절 */
+    animation-play-state: running;
+}
+/* 🚩🚩🚩 카드 이름/코스트 영역 수정 끝 🚩🚩🚩 */
+
+.card-desc { z-index: 3; bottom: 40px; left: 25px; right: 25px; max-height: 150px; font-size: 1.0em; color: #fff; text-shadow: 0 0 3px rgba(0,0,0,1), 0 0 3px rgba(0,0,0,1); line-height: 1.5; white-space: pre-line; overflow-y: auto; text-align: center; }
+.derived-link { color: #58DFFF; text-decoration: underline; cursor: pointer; font-weight: bold; }
+.derived-link:hover { color: #AFFFFF; }
+.main-carousel-arrow { background-color: transparent; border: none; color: #fff; font-size: 2.5em; cursor: pointer; z-index: 10; }
+.main-carousel-arrow:hover { color: #ffc107; }
+.main-carousel-arrow.hidden { visibility: hidden; }
+.special-skill-card { background-color: var(--color-bg-elevated); border-radius: var(--radius-md); padding: 15px; margin-top: 20px; border-left: 5px solid var(--color-accent); }
+.special-skill-card h4 { margin-top: 0; font-size: 1.3em; color: var(--color-accent); font-weight: bold; }
+.special-skill-card p { font-size: 0.95em; color: var(--color-text-secondary); line-height: 1.6; white-space: pre-line; }
+
+/* 모달 기본 스타일은 components.css에서 상속 */
+/* detail 페이지 모달 오버라이드 */
+.detail-layout ~ .modal-overlay .modal-content { max-width: 600px; }
+.modal-content h3 { text-align: center; color: #fff; margin-top: 0; margin-bottom: 20px; font-size: 1.5em; }
+.derived-carousel-container { display: flex; align-items: center; justify-content: space-between; }
+.derived-card-slide { flex-grow: 1; display: flex; gap: 15px; padding: 0 10px; opacity: 1; transition: opacity 0.15s ease-in-out; }
+.derived-card-slide.fading { opacity: 0; }
+.derived-card-image { flex-basis: 45%; flex-shrink: 0; }
+.derived-card-image img { width: 100%; border-radius: 8px; }
+.derived-card-desc { flex-basis: 55%; }
+.derived-card-desc h6 { display: flex; justify-content: space-between; font-size: 1.1em; margin: 0 0 10px 0; color: #fff; }
+.derived-card-desc h6 .cost { color: #aaa; font-weight: normal; }
+.derived-card-desc p { font-size: 0.9em; color: #ccc; margin: 0; white-space: pre-line; }
+.modal-carousel-arrow { background-color: rgba(0,0,0,0.3); border: none; color: #fff; font-size: 2em; cursor: pointer; padding: 10px 5px; z-index: 10; }
+.modal-carousel-arrow:hover { background-color: rgba(0,0,0,0.6); }
+.modal-carousel-arrow.hidden { visibility: hidden; }
+
+/* '비밀계약' 탭 CSS */
+.covenant-layout-container {
+    display: flex;
+    gap: 20px;
+    background-color: var(--color-bg-elevated);
+    padding: 15px;
+    border-radius: var(--radius-md);
+    align-items: center;
+    margin-bottom: 20px;
+}
+.covenant-hexagon-layout {
+    flex-basis: 40%;
+    flex-shrink: 0;
+    position: relative;
+    width: 240px;
+    height: 208px;
+    margin: 0 auto;
+}
+.covenant-piece-tri {
+    position: absolute;
+    width: 120.08px;
+    height: 104px;
+    background: #555;
+    border: 1px solid #777;
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    transform-origin: 50% 0%;
+    top: 104px;
+    left: 120px;
+    transform: translate(-50%, 0);
+    box-sizing: border-box;
+}
+.covenant-piece-tri > span { display: none; }
+.covenant-piece-tri.pos-1 { transform: translate(-50%, 0) rotate(-30deg); }
+.covenant-piece-tri.pos-2 { transform: translate(-50%, 0) rotate(30deg); }
+.covenant-piece-tri.pos-3 { transform: translate(-50%, 0) rotate(90deg); }
+.covenant-piece-tri.pos-4 { transform: translate(-50%, 0) rotate(150deg); }
+.covenant-piece-tri.pos-5 { transform: translate(-50%, 0) rotate(210deg); }
+.covenant-piece-tri.pos-6 { transform: translate(-50%, 0) rotate(270deg); }
+.synergies-container { flex-basis: 60%; }
+.synergies-container h5 { font-size: 1.2em; color: var(--color-accent); margin-top: 0; padding-left: 10px; }
+.synergies-container p { background-color: var(--color-bg-card); padding: 10px; border-radius: 5px; margin: 0 0 10px 0; }
+.synergies-container b { color: #fff; }
+
+/* '명륜' 탭 CSS */
+.myeongryun-layout {
+    background-color: var(--color-bg-elevated);
+    padding: 15px;
+    border-radius: var(--radius-md);
+}
+.myeongryun-unique { width: 100%; }
+.myeongryun-unique h5 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 0;
+    font-size: 1.2em;
+    color: var(--color-accent);
+}
+.myeongryun-unique h5 img {
+    width: 90px;
+    height: auto;
+    border-radius: 8px;
+    border: 2px solid #555;
+}
+.myeongryun-unique p {
+    font-size: 0.95em;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    white-space: pre-line;
+    background-color: var(--color-bg-card);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* '조합' 탭 CSS */
+.tab-content.team-grid {
+    gap: 15px;
+    background-color: var(--color-bg-elevated);
+    padding: 15px;
+    border-radius: var(--radius-md);
+}
+
+/* 새로 추가: Wrapper에 그리드 스타일 적용 */
+.team-cards-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+/* '조합' 탭 - 폴더형 제목 */
+.team-title-folder {
+    grid-column: 1 / -1;
+    background-color: var(--color-bg-hover);
+    color: var(--color-accent);
+    padding: 10px 15px;
+    font-size: 1.2em;
+    text-align: left;
+    margin: -15px -15px 15px -15px;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 3px solid var(--color-accent);
+}
+
+.team-member-card {
+    background-color: var(--color-bg-card);
+    border-radius: 8px;
+    text-align: center;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.team-member-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.team-member-card h5 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #fff;
+}
+
+/* 툴팁 스타일 */
+.tooltip-trigger {
+    position: relative;
+    cursor: help;
+    font-weight: bold;
+    color: var(--color-accent-gold);
+    border-bottom: 1px dashed var(--color-accent-gold);
+    display: inline-block;
+    padding: 0 1px;
+}
+
+/* 전역 툴팁 박스 (JS로 동적으로 생성/위치 지정) */
+.tooltip-box {
+    visibility: hidden;
+    opacity: 0;
+    position: fixed;
+    z-index: 1010;
+    width: 280px;
+    padding: 10px 12px;
+    background-color: var(--color-bg-dark);
+    color: #f0f0f0;
+    border: 2px solid var(--color-accent-gold);
+    border-radius: 5px;
+    font-size: 0.9em;
+    text-align: left;
+    line-height: 1.4;
+    transition: opacity 0.2s, visibility 0.2s;
+    pointer-events: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}

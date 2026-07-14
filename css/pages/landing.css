@@ -1,300 +1,375 @@
+/* ============================================
+   index.html 전용 스타일 (Landing Page)
+   ============================================ */
+
+/* --- 1. 메인 레이아웃 컨테이너 --- */
 .landing-container {
     position: relative;
-    z-index: 1;
-    inline-size: min(calc(100% - 2rem), 70rem);
-    min-block-size: 100vh;
-    min-block-size: 100dvh;
-    margin-inline: auto;
-    padding-block: clamp(1.5rem, 4vw, 3.25rem) 6rem;
-}
-
-.landing-header {
+    z-index: 999;
+    width: 100%;
+    max-width: 1320px;
+    min-height: 100vh;
+    padding: 32px 20px 88px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: clamp(1rem, 3vw, 2rem);
-    margin-block-end: clamp(1.75rem, 4vw, 3rem);
+    gap: 0;
+    margin: 0 auto;
 }
 
-.landing-header h1 {
-    margin-block-end: var(--space-2);
-    font-size: clamp(2rem, 5vw, 3.25rem);
-}
-
-.brand-mark {
-    display: grid;
+/* --- 2. 헤더 --- */
+header {
     flex: 0 0 auto;
-    place-items: center;
-    inline-size: clamp(4rem, 9vw, 6rem);
-    block-size: clamp(4rem, 9vw, 6rem);
-    border: 1px solid color-mix(in srgb, var(--color-accent) 62%, transparent);
-    border-radius: 50%;
-    background:
-        radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--color-accent-strong) 22%, transparent), transparent 42%),
-        color-mix(in srgb, var(--color-bg-dark) 72%, transparent);
-    color: var(--color-accent);
-    box-shadow:
-        inset 0 0 0 0.35rem color-mix(in srgb, var(--color-accent) 6%, transparent),
-        var(--shadow-md);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: clamp(2rem, 5vw, 3rem);
+    width: 100%;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
-.landing-lede {
-    max-inline-size: 42rem;
+header h1 {
     margin: 0;
-    color: var(--color-text-secondary);
-    font-size: clamp(0.95rem, 1.7vw, 1.08rem);
+    color: #fff;
+    font-size: 2.2em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    word-break: keep-all;
 }
 
-.featured-section {
-    margin-block-end: var(--space-6);
-    padding: clamp(1rem, 2.5vw, 1.5rem);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background: color-mix(in srgb, var(--color-bg-card) 86%, transparent);
-    box-shadow: var(--shadow-md);
-}
-
-.featured-section .section-heading {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: var(--space-6);
-    margin-block-end: var(--space-4);
-}
-
-.featured-section .section-heading h2 {
-    margin: 0;
-    font-size: 1.2rem;
-}
-
-.featured-section .section-heading > p {
-    margin: 0;
-    color: var(--color-text-muted);
-    font-size: 0.88rem;
-}
-
-.featured-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
-}
-
-.featured-card {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    gap: var(--space-3);
-    min-block-size: 5.25rem;
-    padding: var(--space-4);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-bg-elevated);
-    color: var(--color-text-primary);
-    text-decoration: none;
-    transition:
-        border-color var(--transition-fast),
-        background var(--transition-fast),
-        transform var(--transition-fast);
-}
-
-.featured-card:hover,
-.featured-card:focus-visible {
-    border-color: var(--color-accent);
-    background: var(--color-bg-hover);
-    transform: translateY(-0.12rem);
-}
-
-.featured-card > svg {
-    inline-size: 2rem;
-    block-size: 2rem;
-    fill: none;
-    stroke: var(--color-accent);
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.7;
-}
-
-.featured-card strong,
-.featured-card small {
-    display: block;
-}
-
-.featured-card strong {
-    line-height: 1.35;
-}
-
-.featured-card small {
-    margin-block-start: 0.15rem;
-    color: var(--color-text-muted);
-    font-size: 0.8rem;
-}
-
-.external-mark {
-    color: var(--color-text-muted);
-    font-size: 1.1rem;
-}
-
-.landing-menu-sections {
+/* --- 3. 배너 슬라이더 --- */
+.banner-container {
+    flex: 0 0 auto;
+    position: relative;
+    width: 100%;
+    max-width: 980px;
+    height: clamp(96px, 12vw, 140px);
+    border-radius: 12px;
     overflow: hidden;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background: color-mix(in srgb, var(--color-bg-card) 90%, transparent);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    border: 1px solid #555;
+    margin-bottom: 32px;
+}
+
+.banner-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.banner-slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.6);
+    transition: filter 0.2s;
+}
+
+.banner-slide:hover img {
+    filter: brightness(0.8);
+}
+
+.banner-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    width: 100%;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+}
+
+.banner-tag {
+    background: #ffc107;
+    color: #000;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.banner-text {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #fff;
+    vertical-align: middle;
+}
+
+/* 배너 화살표 */
+.arrow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(36px, 6vw, 50px);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.arrow:hover {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.arrow svg {
+    width: 40px;
+    height: 40px;
+    stroke: rgba(255, 255, 255, 0.6);
+    transition: stroke 0.2s, transform 0.2s;
+}
+
+.arrow:hover svg {
+    stroke: #ffc107;
+    transform: scale(1.1);
+}
+
+.arrow.left {
+    left: 0;
+}
+
+.arrow.right {
+    right: 0;
+}
+
+/* 배너 도트 */
+.dots-container {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.dot.active {
+    background: #fff;
+    transform: scale(1.2);
+    width: 20px;
+    border-radius: 4px;
+}
+
+/* --- 4. 역할별 메뉴 --- */
+.landing-menu-sections {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 16px 18px;
+    background: rgba(18, 18, 18, 0.34);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
 }
 
 .menu-section {
-    display: grid;
-    grid-template-columns: 9rem minmax(0, 1fr);
-    gap: clamp(1rem, 3vw, 2rem);
-    padding: clamp(1rem, 2.5vw, 1.5rem);
-    border-block-end: 1px solid var(--color-border-dark);
+    width: 100%;
+    min-width: 0;
+    display: block;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-section:first-child {
+    padding-top: 0;
 }
 
 .menu-section:last-child {
-    border-block-end: 0;
-}
-
-.menu-section-heading {
-    min-inline-size: 0;
-}
-
-.menu-section-index {
-    margin: 0 0 var(--space-2);
-    color: var(--color-accent);
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 0.84rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    padding-bottom: 0;
+    border-bottom: 0;
 }
 
 .menu-section-title {
-    margin: 0;
-    color: var(--color-text-secondary);
-    font-size: 0.98rem;
-    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 10px;
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.9rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0;
+}
+
+.menu-section-title::after {
+    content: none;
 }
 
 .landing-menu-sections .menu-section-grid {
+    width: 100%;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: var(--space-3);
+    gap: 12px;
+}
+
+.landing-menu-sections .menu-wrapper {
+    min-width: 0;
 }
 
 .landing-menu-sections .menu-item {
-    min-block-size: 4.75rem;
-    padding: var(--space-3);
+    font-size: 2rem;
 }
 
 .landing-menu-sections .menu-label {
-    font-size: 0.84rem;
+    max-width: 100%;
+    font-size: 0.96rem;
+    text-align: center;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
 }
 
-.landing-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
-    margin-block-start: var(--space-6);
-    color: var(--color-text-muted);
-    font-size: 0.82rem;
-}
-
-.landing-footer p {
+/* --- 5. 푸터 --- */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #1a1a1a;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8em;
+    color: #888;
+    padding: 10px 20px;
     margin: 0;
 }
 
-.landing-footer nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-}
-
-.footer-link {
-    display: inline-flex;
-    align-items: center;
-    min-block-size: 2.75rem;
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm);
-    background: transparent;
-    color: var(--color-text-secondary);
-    font-size: inherit;
+.patch-link {
+    color: #999;
     text-decoration: underline;
-    text-decoration-color: var(--color-border-light);
+    cursor: pointer;
 }
 
-.footer-link:hover {
-    border-color: var(--color-border);
-    color: var(--color-accent);
+.patch-link:hover {
+    color: #ffc107;
 }
 
-.modal-description {
-    color: var(--color-text-secondary);
-}
-
+/* --- 6. 패치노트 모달 전용 스타일 --- */
 .patch-list {
-    display: grid;
-    gap: var(--space-4);
+    overflow-y: auto;
+    padding-right: 5px;
 }
 
 .patch-item {
-    padding: var(--space-4);
-    border: 1px solid var(--color-border-dark);
-    border-radius: var(--radius-md);
-    background: var(--color-bg-input);
-}
-
-.patch-item-heading {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-2);
-    margin-block-end: var(--space-2);
+    margin-bottom: 15px;
 }
 
 .patch-ver {
-    color: var(--color-accent);
-    font-weight: 850;
+    font-weight: bold;
+    color: #eee;
 }
 
 .patch-date {
-    color: var(--color-text-muted);
-    font-size: 0.8rem;
+    font-size: 0.8em;
+    color: #777;
+    margin-left: 5px;
 }
 
 .patch-desc {
-    margin: 0;
-    padding-inline-start: 1.2rem;
-    color: var(--color-text-secondary);
-    font-size: 0.9rem;
+    margin: 5px 0 0 0;
+    padding-left: 15px;
+    color: #ccc;
+    font-size: 0.85em;
 }
 
-.patch-desc li + li {
-    margin-block-start: var(--space-1);
+/* =========================================
+   2x1 와이드 메뉴 (높이 1배 유지, 가로 2배 확장)
+   ========================================= */
+
+/* 1. 컨테이너: 가로 2칸 차지 + 텍스트는 무조건 아래로 */
+.menu-grid .menu-wrapper.wide-menu {
+    grid-column: span 2 !important;
+    width: 100% !important;
+
+    /* 텍스트가 오른쪽으로 가는 현상 방지 (세로 정렬 강제) */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
 }
 
-.icon-sprite {
-    position: absolute;
-    inline-size: 0;
-    block-size: 0;
-    overflow: hidden;
+/* 2. 회색 박스(.menu-item) 납작하게 누르기 */
+.menu-grid .menu-wrapper.wide-menu .menu-item {
+    width: 100% !important;
+
+    /* [핵심 수정] 비율을 2.2가 아니라 4.2로 변경! */
+    /* 가로가 2배 넓어졌으니, 비율 수치도 2배 커져야 높이가 그대로 유지됩니다. */
+    /* (기본 비율 약 2:1 -> 와이드 비율 약 4.2:1) */
+    aspect-ratio: 4.2 / 1 !important;
+
+    /* 높이가 튀는 것을 방지하기 위한 초기화 */
+    height: auto !important;
+    padding: 0 !important;
+    margin-bottom: 8px !important;
+
+    /* 내부 아이콘 정렬 */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    font-size: 2rem !important;
 }
 
-.floating-report-btn svg {
-    inline-size: 1.35rem;
-    block-size: 1.35rem;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.8;
+/* 3. 텍스트 라벨 */
+.menu-grid .menu-wrapper.wide-menu .menu-label {
+    text-align: center !important;
+    width: 100% !important;
+    margin-top: 0 !important;
+    font-size: 1.0em !important;
+    font-weight: bold !important;
+
+    /* 텍스트가 옆으로 붙는 것 방지 */
+    display: block !important;
+    position: static !important;
 }
 
-@media (max-width: 56rem) {
+/* --- 모바일 반응형 --- */
+/* 모바일에서는 가로폭이 좁아서 비율을 다시 조정해야 예쁩니다 */
+@media (max-width: 600px) {
+    .menu-grid .menu-wrapper.wide-menu {
+        grid-column: span 2 !important;
+    }
+
+    .menu-grid .menu-wrapper.wide-menu .menu-item {
+        /* 모바일에서는 그리드 비율이 달라지므로 비율 조정 */
+        /* 화면이 좁을 땐 3.5 정도가 적당합니다 */
+        aspect-ratio: 3.5 / 1 !important;
+        font-size: 1.6em !important;
+    }
+}
+
+@media (max-width: 768px) {
     .menu-section {
-        grid-template-columns: 7rem minmax(0, 1fr);
+        padding: 16px 0;
     }
 
     .landing-menu-sections .menu-section-grid {
@@ -302,82 +377,98 @@
     }
 }
 
-@media (max-width: 42rem) {
-    .landing-container {
-        inline-size: min(calc(100% - 1rem), 70rem);
-    }
-
-    .landing-header {
-        align-items: flex-start;
-    }
-
-    .brand-mark {
-        inline-size: 3.5rem;
-        block-size: 3.5rem;
-        font-size: 1.75rem;
-    }
-
-    .featured-section .section-heading {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: var(--space-1);
-    }
-
-    .featured-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .menu-section {
-        grid-template-columns: 1fr;
-        gap: var(--space-3);
-    }
-
-    .menu-section-heading {
-        display: flex;
-        align-items: baseline;
-        gap: var(--space-3);
-    }
-
-    .menu-section-index {
-        margin: 0;
-    }
-
-    .landing-footer {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 30rem) {
-    .landing-header {
-        gap: var(--space-3);
-    }
-
-    .landing-header .eyebrow {
-        font-size: 0.66rem;
-        letter-spacing: 0.06em;
-    }
-
-    .landing-lede {
-        font-size: 0.9rem;
+@media (max-width: 480px) {
+    .landing-menu-sections {
+        gap: 0;
+        padding: 14px;
     }
 
     .landing-menu-sections .menu-section-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: var(--space-2);
-    }
-
-    .landing-menu-sections .menu-item {
-        min-block-size: 4.25rem;
-    }
-
-    .landing-menu-sections .menu-label {
-        font-size: 0.8rem;
     }
 }
 
-@media (max-width: 20rem) {
+@media (min-width: 1025px) {
+    .landing-container {
+        padding-top: 22px;
+        padding-bottom: 48px;
+    }
+
+    header {
+        margin-bottom: 20px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .landing-menu-sections {
+        gap: 0;
+        padding: 16px 18px;
+    }
+
+    .menu-section-title {
+        margin: 0 0 9px;
+        font-size: 0.92rem;
+    }
+
     .landing-menu-sections .menu-section-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .landing-menu-sections .menu-item {
+        border-radius: 10px;
+        font-size: 1.75rem;
+    }
+
+    .landing-menu-sections .menu-label {
+        margin-top: 5px;
+        font-size: 0.9rem;
+        line-height: 1.2;
+    }
+}
+
+@media (min-width: 1025px) and (max-height: 800px) {
+    .landing-container {
+        padding-top: 14px;
+        padding-bottom: 28px;
+    }
+
+    header {
+        margin-bottom: 12px;
+    }
+
+    header h1 {
+        font-size: 1.75rem;
+    }
+
+    .landing-menu-sections {
+        gap: 0;
+        padding: 12px 14px;
+    }
+
+    .menu-section-title {
+        margin: 0 0 8px;
+        font-size: 0.86rem;
+    }
+
+    .landing-menu-sections .menu-section-grid {
+        gap: 10px;
+    }
+
+    .landing-menu-sections .menu-item {
+        font-size: 1.5rem;
+    }
+
+    .landing-menu-sections .menu-label {
+        margin-top: 3px;
+        font-size: 0.86rem;
+        line-height: 1.2;
+    }
+
+    footer {
+        padding: 5px 20px;
+        font-size: 0.72em;
     }
 }
