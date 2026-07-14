@@ -12,9 +12,7 @@
     const currentBox = document.getElementById('current-schedules');
     const gapBox = document.getElementById('rerun-gap-list');
     const historyBox = document.getElementById('rerun-history');
-    const updated = document.getElementById('schedule-updated');
-
-    if (!currentBox || !gapBox || !historyBox || !updated) return;
+    if (!currentBox || !gapBox || !historyBox) return;
 
     function createElement(tag, className, text) {
         const element = document.createElement(tag);
@@ -194,7 +192,6 @@
 
     async function initialize() {
         setBusy(true);
-        updated.textContent = '복각 정보를 불러오는 중입니다.';
         try {
             const [scheduleResponse, manifestResponse] = await Promise.all([
                 fetch('data/rerun_schedule.json', { cache: 'no-cache' }),
@@ -210,15 +207,11 @@
             const current = Array.isArray(data?.current_reruns) ? data.current_reruns : DEFAULT_CURRENT_RERUNS;
             const history = Array.isArray(data?.history) ? data.history : [];
 
-            updated.textContent = data?.updated_at
-                ? `기록 마지막 업데이트: ${String(data.updated_at)}`
-                : '업데이트 날짜 정보 없음';
             renderCurrent(current, characterMap);
             renderGapRanking(history, current, characterMap);
             renderHistory(history, characterMap);
         } catch (error) {
             console.error('복각 일정 로드 실패:', error);
-            updated.textContent = '복각 정보를 불러오지 못했습니다.';
             currentBox.replaceChildren(createEmptyState('복각 정보를 표시할 수 없습니다.', { retry: true, source: true }));
             gapBox.replaceChildren();
             historyBox.replaceChildren();

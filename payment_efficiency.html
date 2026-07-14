@@ -13,39 +13,26 @@
     <script defer src="config/config.js?v=v1.4.0-site-quality-20260713-r4"></script>
     <script defer src="js/ui/dialog.js?v=v1.4.0-site-quality-20260713-r4"></script>
     <script defer src="js/feedback.js?v=v1.4.0-site-quality-20260713-r4"></script>
-    <script defer src="js/payment_efficiency.js?v=v1.4.0-site-quality-20260713-r4"></script>
 </head>
 <body>
-<a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
 <div class="bg-image"></div>
 <div class="background-overlay"></div>
 <main id="main-content" class="container info-page">
-    <nav aria-label="현재 위치"><a href="index.html" class="back-link">홈</a></nav>
+    <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 뒤로가기</a></nav>
     <section class="info-shell">
         <header class="info-header">
             <div>
-                <p class="info-eyebrow">도서관</p>
                 <h1>과금 효율표</h1>
-                <p>이미지를 확대해 패키지별 효율을 비교할 수 있습니다.</p>
             </div>
-            <a class="primary-link" href="https://arca.live/b/forgettingeve/171274024"
-               target="_blank" rel="noopener noreferrer">원문 열기 ↗</a>
         </header>
-        <div class="viewer-toolbar" role="group" aria-label="이미지 확대 도구">
-            <button type="button" id="zoom-out" aria-label="축소">−</button>
-            <output id="zoom-level" aria-live="polite">100%</output>
-            <button type="button" id="zoom-in" aria-label="확대">＋</button>
-            <button type="button" id="zoom-reset">화면 맞춤</button>
-        </div>
         <div id="efficiency-viewer" class="image-viewer" tabindex="0" role="region" aria-label="과금효율표 이미지 영역">
             <img id="efficiency-image" src="images/과금효율표.webp" width="1073" height="787"
                  alt="망각전야 2.5.1.2V 과금 효율표. 아래 텍스트 표에서 동일한 수치를 확인할 수 있습니다."
                  aria-describedby="efficiency-data-note">
         </div>
-        <section class="efficiency-data" aria-labelledby="efficiency-data-heading">
+        <section class="efficiency-data" aria-label="과금 효율표 텍스트 데이터">
             <div class="history-heading">
                 <div>
-                    <h2 id="efficiency-data-heading">텍스트 과금 효율표</h2>
                     <p id="efficiency-data-note">이미지 버전 2.5.1.2V의 수치를 텍스트로 제공합니다. 1가챠당 원액이 20원 미만인 항목은 효율이 높은 편이며, 실제 판매 구성과 가격은 원문과 게임 내 상점에서 다시 확인하세요.</p>
                 </div>
             </div>
@@ -99,7 +86,7 @@
     </section>
 </main>
 <button class="floating-report-btn" type="button" title="버그 신고" aria-label="버그 또는 개선 의견 제보">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.8 20h18.4ZM12 9v5M12 17.5h.01"/></svg>
+    <span aria-hidden="true">🚨</span>
 </button>
 </body>
 </html>

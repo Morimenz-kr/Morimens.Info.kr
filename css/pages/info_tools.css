@@ -12,7 +12,7 @@
     padding: clamp(16px, 3vw, 30px);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    background: var(--color-surface-glass);
+    background: var(--color-bg-card);
     box-shadow: var(--shadow-md);
 }
 
