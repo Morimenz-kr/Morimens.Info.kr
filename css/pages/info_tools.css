@@ -368,6 +368,17 @@
     transform-origin: top left;
 }
 
+.info-credit {
+    margin: var(--space-4) 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.info-credit a {
+    color: var(--color-accent);
+}
+
 .efficiency-data {
     min-width: 0;
     display: grid;
