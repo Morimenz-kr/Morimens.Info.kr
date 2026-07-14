@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>복각 일정</title>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <script src="config/config.js"></script>
+    <script>
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/info_tools.css');
+        loadJS('js/feedback.js');
+    </script>
+</head>
+<body>
+<div class="bg-image"></div>
+<div class="background-overlay"></div>
+<main class="container info-page">
+    <nav aria-label="탐색"><a href="index.html" class="back-link">← 돌아가기</a></nav>
+    <section class="info-shell">
+        <header class="info-header">
+            <div>
+                <p class="info-eyebrow">도서관</p>
+                <h1>복각 일정</h1>
+                <p>현재 진행 중이거나 예정된 복각 일정을 확인하세요.</p>
+            </div>
+            <a class="primary-link" href="https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488"
+               target="_blank" rel="noopener noreferrer">전체 출시·복각표 열기 ↗</a>
+        </header>
+        <p id="schedule-updated" class="updated-at" aria-live="polite"></p>
+        <section aria-labelledby="current-heading">
+            <h2 id="current-heading">현재 복각</h2>
+            <div id="current-schedules" class="schedule-grid"></div>
+        </section>
+        <section aria-labelledby="upcoming-heading">
+            <h2 id="upcoming-heading">예정된 복각</h2>
+            <div id="upcoming-schedules" class="schedule-grid"></div>
+        </section>
+        <section aria-labelledby="history-heading">
+            <div class="history-heading">
+                <div>
+                    <h2 id="history-heading">출시·복각 기록</h2>
+                    <p>스프레드시트에서 배너 기록이 새로 시작된 달을 기준으로 정리했습니다.</p>
+                </div>
+            </div>
+            <div id="rerun-history" class="history-list"></div>
+        </section>
+    </section>
+</main>
+<button class="floating-report-btn" title="버그 신고" aria-label="버그 제보하기"><span aria-hidden="true">🚨</span></button>
+<script>loadJS('js/rerun_schedule.js');</script>
+</body>
+</html>

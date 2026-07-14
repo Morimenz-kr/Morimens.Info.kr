@@ -3,6 +3,7 @@
 // [1] 상수 및 설정 데이터
 const MAX_TEAMS = 10;
 const MAX_PAGES = 5;
+const INVENTORY_STORAGE_KEY = 'morimens_inventory_checker_v2';
 const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 const DEFAULT_PARTY_BUILDER_RULES = {
     exclusive_groups: [["ramona", "ramona_timeworn"]],
@@ -54,6 +55,45 @@ let tempChars = [];
 let isSupportSelectionMode = false;
 let editingCharIdx = -1;
 let selectedWheelSlotIdx = 0;
+let ownedOnlyFilters = { characters: false, wheels: false };
+
+function readOwnedInventory() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(INVENTORY_STORAGE_KEY));
+        return {
+            characters: new Set(Array.isArray(saved?.characters) ? saved.characters.map(String) : []),
+            wheels: new Set(Array.isArray(saved?.wheels) ? saved.wheels : [])
+        };
+    } catch (error) {
+        console.warn('보유량 체크 상태를 읽지 못했습니다.', error);
+        return { characters: new Set(), wheels: new Set() };
+    }
+}
+
+function toggleOwnedOnly(type) {
+    ownedOnlyFilters[type] = !ownedOnlyFilters[type];
+    updateOwnedOnlyToggle(type);
+    if (type === 'characters') renderCharGrid();
+    else renderWheelList();
+}
+
+function updateOwnedOnlyToggle(type) {
+    const button = document.getElementById(type === 'characters' ? 'owned-char-toggle' : 'owned-wheel-toggle');
+    if (!button) return;
+    const enabled = ownedOnlyFilters[type];
+    button.classList.toggle('active', enabled);
+    button.setAttribute('aria-checked', String(enabled));
+}
+
+function renderOwnedInventoryEmpty(container, type) {
+    const subject = type === 'characters' ? '각성체가' : '명륜이';
+    container.innerHTML = `
+        <div class="owned-inventory-empty">
+            <strong>보유 ${subject} 등록되어 있지 않습니다.</strong>
+            <span>보유량 체크에서 가진 항목을 먼저 선택해 주세요.</span>
+            <a href="inventory_checker.html">보유량 체크로 이동</a>
+        </div>`;
+}
 
 // [4] 태그 및 메타데이터 정의
 const ALL_KEY_TAGS = [ "산출력", "산출력 획득", "은열쇠 에너지", "은열쇠 게이지", "방어막 획득", "체력 회복", "힘", "힘 증가", "피해 증폭", "치명타 확률", "치명타 확률 증가", "치명타 피해", "치명타 피해 증가", "영역 숙련", "카드 추가", "드로우", "카드 뽑기", "코스트 감소", "계산 비용", "복사본", "영감", "광기", "광기 부여", "약화", "취약", "중독", "중독 부여", "힘 훔침", "힘 감소", "반격", "소멸", "경계", "희생", "터치월", "터치 손상", "출생 의식", "스칼렛 용광로", "초월 턴", "시편", "주사위" ];
@@ -805,6 +845,8 @@ function initCharModal() {
     const input = document.getElementById('char-search-input');
     if (input) input.value = '';
     renderActiveCharTags();
+    syncCharFilterControls();
+    updateOwnedOnlyToggle('characters');
     setupCharSearchEvents();
     renderCharGrid();
 
@@ -820,7 +862,16 @@ function initCharModal() {
 function toggleCharFilter(type, value) {
     if (activeCharFilters[type].has(value)) activeCharFilters[type].delete(value);
     else activeCharFilters[type].add(value);
+    syncCharFilterControls();
     renderCharGrid();
+}
+
+function syncCharFilterControls() {
+    document.querySelectorAll('.filter-chip[data-filter-type][data-filter-value]').forEach(button => {
+        const selected = activeCharFilters[button.dataset.filterType]?.has(button.dataset.filterValue) || false;
+        button.classList.toggle('active', selected);
+        button.setAttribute('aria-pressed', String(selected));
+    });
 }
 
 function renderCharGrid() {
@@ -831,6 +882,7 @@ function renderCharGrid() {
     const currentPage = allPages[currentPageIdx];
     const team = currentPage.teams[currentTeamIdx];
     const searchText = document.getElementById('char-search-input').value.trim();
+    const ownedInventory = readOwnedInventory();
 
     // 1. 현재 세트 전체에서 조력자 정보 추출 (세트 내 1인 조력자 규칙 유지용)
     let supportInPage = null;
@@ -862,6 +914,8 @@ function renderCharGrid() {
     });
 
     DB.chars.filter(c => {
+        const keepCurrent = tempChars.includes(c.id) || team.chars[team.supportIdx] === c.id;
+        if (ownedOnlyFilters.characters && !ownedInventory.characters.has(c.id) && !keepCurrent) return false;
         const dPass = !activeCharFilters.domain.size || activeCharFilters.domain.has(c.relems);
         const cPass = !activeCharFilters.class.size || activeCharFilters.class.has(c.class);
         if(!dPass || !cPass) return false;
@@ -931,6 +985,10 @@ function renderCharGrid() {
         };
         box.appendChild(el);
     });
+
+    if (!box.children.length && ownedOnlyFilters.characters && ownedInventory.characters.size === 0) {
+        renderOwnedInventoryEmpty(box, 'characters');
+    }
 
     document.getElementById('char-count').textContent = isSupportSelectionMode ? `조력자 선택` : `${tempChars.length} / 4 선택됨`;
 }
@@ -1131,6 +1189,7 @@ function renderWheelModalUI() {
         if(i === selectedWheelSlotIdx) document.getElementById('equip-slot-desc').textContent = wInfo ? wInfo.korean_name : "명륜을 선택하세요";
     }
     renderWheelMainStatFilters();
+    updateOwnedOnlyToggle('wheels');
     renderWheelList();
 }
 function renderWheelList() {
@@ -1150,9 +1209,11 @@ function renderWheelList() {
     const currentW = allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx];
     const searchInput = document.getElementById('wheel-search-input');
     const search = searchInput ? searchInput.value.trim() : "";
+    const ownedInventory = readOwnedInventory();
 
     // 2. 필터링 로직 확장 (이름 + 설명 + 주옵션)
     DB.wheels.filter(w => {
+        if (ownedOnlyFilters.wheels && !ownedInventory.wheels.has(w.english_name) && w.english_name !== currentW) return false;
         // 태그 필터
         if(activeWheelTags.size && !Array.from(activeWheelTags).every(t => (w.tags || []).includes(t))) return false;
 
@@ -1201,6 +1262,10 @@ function renderWheelList() {
 
         box.appendChild(el);
     });
+
+    if (!box.children.length && ownedOnlyFilters.wheels && ownedInventory.wheels.size === 0) {
+        renderOwnedInventoryEmpty(box, 'wheels');
+    }
 }
 function unequipSelectedWheel() { allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx] = null; renderWheelModalUI(); renderAll(); }
 
