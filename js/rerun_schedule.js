@@ -1,90 +1,229 @@
 (function () {
+    'use strict';
+
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488';
+    const FALLBACK_IMAGE = 'images/smile_Ramona.webp';
+    const DEFAULT_CURRENT_RERUNS = [
+        { id: 'helot_catena', name: '혈쇄 · 히로', start_date: '2026-07-13', end_date: '2026-08-10' },
+        { id: 'coporsant', name: '코퍼산트', start_date: '2026-07-13', end_date: '2026-08-10' },
+        { id: 'pollux', name: '폴룩스', start_date: '2026-07-13', end_date: '2026-08-10' }
+    ];
+
     const currentBox = document.getElementById('current-schedules');
-    const upcomingBox = document.getElementById('upcoming-schedules');
+    const gapBox = document.getElementById('rerun-gap-list');
     const historyBox = document.getElementById('rerun-history');
     const updated = document.getElementById('schedule-updated');
 
-    function dateOnly(value) {
-        return new Date(`${value}T00:00:00+09:00`);
+    if (!currentBox || !gapBox || !historyBox || !updated) return;
+
+    function createElement(tag, className, text) {
+        const element = document.createElement(tag);
+        if (className) element.className = className;
+        if (text !== undefined) element.textContent = text;
+        return element;
     }
 
-    function renderEmpty(container, message) {
-        container.innerHTML = `<div class="info-empty"><strong>${message}</strong><span>전체 이력과 최신 정보는 원본 복각표에서 확인할 수 있습니다.</span><a href="${SHEET_URL}" target="_blank" rel="noopener noreferrer">원본 복각표 열기 ↗</a></div>`;
+    function createSourceLink() {
+        const link = createElement('a', '', '원본 출시·복각표 열기 ↗');
+        link.href = SHEET_URL;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        return link;
     }
 
-    function renderCard(item) {
-        const article = document.createElement('article');
-        article.className = 'schedule-card';
-        const title = document.createElement('h3');
-        title.textContent = item.character;
-        const period = document.createElement('p');
-        period.className = 'schedule-period';
-        period.textContent = `${item.start_date} ~ ${item.end_date}`;
-        article.append(title, period);
-        if (item.note) {
-            const note = document.createElement('p');
-            note.textContent = item.note;
-            article.appendChild(note);
+    function createEmptyState(message, { retry = false, source = false } = {}) {
+        const wrapper = createElement('div', 'info-empty');
+        wrapper.append(createElement('strong', '', message));
+        if (retry) {
+            const button = createElement('button', 'info-retry', '다시 시도');
+            button.type = 'button';
+            button.addEventListener('click', initialize, { once: true });
+            wrapper.append(button);
         }
-        if (item.url) {
-            const link = document.createElement('a');
-            link.href = item.url;
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.textContent = '관련 정보 열기 ↗';
-            article.appendChild(link);
-        }
-        return article;
+        if (source) wrapper.append(createSourceLink());
+        return wrapper;
     }
 
-    function renderHistory(history) {
-        if (!history.length) {
-            historyBox.innerHTML = '<div class="info-empty"><strong>등록된 배너 기록이 없습니다.</strong></div>';
-            return;
-        }
-        [...history].reverse().forEach(group => {
-            const article = document.createElement('article');
-            article.className = 'history-row';
-            const month = document.createElement('h3');
-            month.textContent = group.month.replace('-', '. ');
-            const characters = document.createElement('div');
-            characters.className = 'history-characters';
-            (group.characters || []).forEach(character => {
-                const badge = document.createElement('span');
-                badge.className = `history-badge ${character.appearance === 1 ? 'release' : 'rerun'}`;
-                badge.textContent = `${character.name} · ${character.appearance === 1 ? '출시' : `${character.appearance - 1}차 복각`}`;
-                characters.appendChild(badge);
-            });
-            article.append(month, characters);
-            historyBox.appendChild(article);
+    function setBusy(busy) {
+        [currentBox, gapBox, historyBox].forEach(element => {
+            element.setAttribute('aria-busy', String(busy));
         });
     }
 
-    async function initialize() {
-        try {
-            const response = await fetch(`data/rerun_schedule.json?t=${Date.now()}`);
-            if (!response.ok) throw new Error('일정 데이터 로드 실패');
-            const data = await response.json();
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const schedules = Array.isArray(data.schedules) ? data.schedules : [];
-            const history = Array.isArray(data.history) ? data.history : [];
-            const current = schedules.filter(item => dateOnly(item.start_date) <= today && dateOnly(item.end_date) >= today);
-            const upcoming = schedules.filter(item => dateOnly(item.start_date) > today);
+    function monthDifference(month) {
+        const match = /^(\d{4})-(\d{1,2})$/.exec(String(month || ''));
+        if (!match) return 0;
+        const year = Number(match[1]);
+        const monthNumber = Number(match[2]);
+        const now = new Date();
+        return Math.max(0, (now.getFullYear() - year) * 12 + (now.getMonth() + 1 - monthNumber));
+    }
 
-            updated.textContent = data.updated_at ? `마지막 업데이트: ${data.updated_at}` : '';
-            current.forEach(item => currentBox.appendChild(renderCard(item)));
-            upcoming.forEach(item => upcomingBox.appendChild(renderCard(item)));
-            if (!current.length) renderEmpty(currentBox, '현재 등록된 복각 일정이 없습니다.');
-            if (!upcoming.length) renderEmpty(upcomingBox, '등록된 예정 일정이 없습니다.');
-            renderHistory(history);
+    function getCharacter(id, entry, characterMap) {
+        return characterMap.get(id) || {
+            id,
+            name: String(entry?.name || '이름 미상'),
+            image_thumb: FALLBACK_IMAGE
+        };
+    }
+
+    function makePortrait(character, className = 'rerun-portrait') {
+        const image = document.createElement('img');
+        image.className = className;
+        image.src = character?.image_thumb || FALLBACK_IMAGE;
+        image.alt = `${String(character?.name || '캐릭터')} 썸네일`;
+        image.width = 72;
+        image.height = 72;
+        image.loading = 'lazy';
+        image.addEventListener('error', () => {
+            if (!image.src.endsWith('/images/smile_Ramona.webp')) image.src = FALLBACK_IMAGE;
+        }, { once: true });
+        return image;
+    }
+
+    function renderCurrent(items, characterMap) {
+        if (!items.length) {
+            currentBox.replaceChildren(createEmptyState('현재 복각 정보를 준비 중입니다.', { source: true }));
+            return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        items.forEach(item => {
+            const character = getCharacter(item?.id, item, characterMap);
+            const card = createElement('article', 'character-rerun-card');
+            const content = createElement('div');
+            const name = createElement('h3', '', character.name);
+            const hasDates = item?.start_date && item?.end_date;
+            const meta = createElement(
+                'p',
+                '',
+                hasDates ? `${item.start_date} ~ ${item.end_date}` : '기간 정보는 추후 업데이트됩니다.'
+            );
+            content.append(name, meta);
+            card.append(makePortrait(character), content);
+            fragment.append(card);
+        });
+        currentBox.replaceChildren(fragment);
+    }
+
+    function collectLastAppearances(history) {
+        const result = new Map();
+        history.forEach(group => {
+            const month = String(group?.month || '');
+            const characters = Array.isArray(group?.characters) ? group.characters : [];
+            characters.forEach(entry => {
+                if (!entry?.id) return;
+                const previous = result.get(entry.id) || { release: null, rerun: null, name: entry.name };
+                previous.name = entry.name || previous.name;
+                if (Number(entry.appearance) === 1) previous.release = month;
+                if (Number(entry.appearance) > 1) previous.rerun = month;
+                result.set(entry.id, previous);
+            });
+        });
+        return result;
+    }
+
+    function renderGapRanking(history, current, characterMap) {
+        const currentIds = new Set(current.map(item => item?.id).filter(Boolean));
+        const rows = [...collectLastAppearances(history)]
+            .filter(([id]) => !currentIds.has(id))
+            .map(([id, entry]) => {
+                const lastMonth = entry.rerun || entry.release;
+                return {
+                    id,
+                    entry,
+                    lastMonth,
+                    months: monthDifference(lastMonth),
+                    neverRerun: !entry.rerun
+                };
+            })
+            .filter(row => row.lastMonth)
+            .sort((a, b) => b.months - a.months || String(a.entry.name).localeCompare(String(b.entry.name), 'ko'));
+
+        if (!rows.length) {
+            gapBox.replaceChildren(createEmptyState('공백 정보를 표시할 수 없습니다.', { source: true }));
+            return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        let displayedRank = 0;
+        let previousMonth = null;
+        rows.forEach((row, index) => {
+            if (row.lastMonth !== previousMonth) displayedRank = index + 1;
+            previousMonth = row.lastMonth;
+            const character = getCharacter(row.id, row.entry, characterMap);
+            const article = createElement('article', 'rerun-gap-card');
+            const rank = createElement('span', 'gap-rank', String(displayedRank));
+            rank.setAttribute('aria-label', `${displayedRank}위`);
+            const details = createElement('div', 'gap-details');
+            details.append(
+                createElement('h3', '', character.name),
+                createElement('p', '', row.neverRerun ? `출시 ${row.lastMonth}` : `마지막 복각 ${row.lastMonth}`)
+            );
+            const period = createElement('div', 'gap-period');
+            period.append(createElement('strong', '', `${row.months}개월 전`));
+            article.append(rank, makePortrait(character), details, period);
+            fragment.append(article);
+        });
+        gapBox.replaceChildren(fragment);
+    }
+
+    function renderHistory(history, characterMap) {
+        if (!history.length) {
+            historyBox.replaceChildren(createEmptyState('등록된 배너 기록이 없습니다.', { source: true }));
+            return;
+        }
+
+        const fragment = document.createDocumentFragment();
+        [...history].reverse().forEach(group => {
+            const article = createElement('article', 'history-row');
+            article.append(createElement('h3', '', String(group?.month || '').replace('-', '. ')));
+            const characters = createElement('div', 'history-characters');
+            const entries = Array.isArray(group?.characters) ? group.characters : [];
+            entries.forEach(entry => {
+                const character = getCharacter(entry?.id, entry, characterMap);
+                const portrait = makePortrait(character, 'rerun-portrait history-portrait');
+                portrait.title = `${character.name} · ${Number(entry?.appearance) > 1 ? `${Number(entry.appearance) - 1}차 복각` : '출시'}`;
+                characters.append(portrait);
+            });
+            article.append(characters);
+            fragment.append(article);
+        });
+        historyBox.replaceChildren(fragment);
+    }
+
+    async function initialize() {
+        setBusy(true);
+        updated.textContent = '복각 정보를 불러오는 중입니다.';
+        try {
+            const [scheduleResponse, manifestResponse] = await Promise.all([
+                fetch('data/rerun_schedule.json', { cache: 'no-cache' }),
+                fetch('data/character_manifest.json', { cache: 'no-cache' })
+            ]);
+            if (!scheduleResponse.ok || !manifestResponse.ok) {
+                throw new Error(`복각 데이터 로드 실패 (${scheduleResponse.status}/${manifestResponse.status})`);
+            }
+
+            const [data, manifest] = await Promise.all([scheduleResponse.json(), manifestResponse.json()]);
+            const manifestItems = Array.isArray(manifest) ? manifest : [];
+            const characterMap = new Map(manifestItems.filter(item => item?.id).map(item => [item.id, item]));
+            const current = Array.isArray(data?.current_reruns) ? data.current_reruns : DEFAULT_CURRENT_RERUNS;
+            const history = Array.isArray(data?.history) ? data.history : [];
+
+            updated.textContent = data?.updated_at
+                ? `기록 마지막 업데이트: ${String(data.updated_at)}`
+                : '업데이트 날짜 정보 없음';
+            renderCurrent(current, characterMap);
+            renderGapRanking(history, current, characterMap);
+            renderHistory(history, characterMap);
         } catch (error) {
-            console.error(error);
-            updated.textContent = '일정 데이터를 불러오지 못했습니다.';
-            renderEmpty(currentBox, '현재 일정을 표시할 수 없습니다.');
-            renderEmpty(upcomingBox, '예정 일정을 표시할 수 없습니다.');
-            renderHistory([]);
+            console.error('복각 일정 로드 실패:', error);
+            updated.textContent = '복각 정보를 불러오지 못했습니다.';
+            currentBox.replaceChildren(createEmptyState('복각 정보를 표시할 수 없습니다.', { retry: true, source: true }));
+            gapBox.replaceChildren();
+            historyBox.replaceChildren();
+        } finally {
+            setBusy(false);
         }
     }
 
