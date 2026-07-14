@@ -44,11 +44,11 @@
         return getChoseong(source).includes(normalizedQuery);
     }
 
-    window.SearchUtils = {
+    window.SearchUtils = Object.freeze({
         normalizeSearchText,
         getChoseong,
         isChoseongQuery,
         isSearchQueryActive,
         matchesSearchText
-    };
+    });
 })();

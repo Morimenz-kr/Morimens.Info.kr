@@ -1,35 +1,49 @@
+import {
+    MAX_PRESETS,
+    MAX_PRESET_NAME_LENGTH,
+    ROMANS,
+    TARGET_PART_ORDER,
+    OPTIONS,
+    MAIN_OPTIONS,
+    MAIN_COMPLETION,
+    OPTION_BY_ID,
+    addTotals,
+    clampIndex,
+    cloneSubstats,
+    countLocked,
+    createDefaultPart,
+    createEmptyTotals,
+    createStateSnapshot as buildStateSnapshot,
+    createTargetPresetSnapshot as buildTargetPresetSnapshot,
+    getPartCompletion,
+    getRerollCost,
+    getTotalCompletion as calculateTotalCompletion,
+    isPlainObject,
+    isStateSnapshot,
+    normalizePartSnapshot,
+    normalizePresetList,
+    normalizeStoredText,
+    normalizeTargetParts,
+    normalizeTargetPreset,
+    rerollSubstats,
+    simulateUntilTargets
+} from './covenant-simulator/domain.js?v=v1.4.0-site-quality-20260713-r4';
+import {
+    STORAGE_KEYS,
+    createJsonStorage
+} from './covenant-simulator/storage.js?v=v1.4.0-site-quality-20260713-r4';
+import { createRetryableInitializer } from './covenant-simulator/bootstrap.js?v=v1.4.0-site-quality-20260713-r4';
+
 (function() {
-    const STORAGE_KEY = 'morimens_covenant_simulator_state_v1';
-    const PRESET_STORAGE_KEY = 'morimens_covenant_simulator_presets_v1';
-    const TARGET_PRESET_STORAGE_KEY = 'morimens_covenant_target_presets_v1';
-    const ROMANS = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
-    const TARGET_PART_ORDER = [3, 0, 4, 1, 5, 2];
-    const OPTIONS = [
-        { id: 'critRate', name: '크리티컬 확률', step: 0.2, unit: '%' },
-        { id: 'critDamage', name: '크리티컬 피해', step: 0.3, unit: '%' },
-        { id: 'domainMastery', name: '영역 숙련', step: 0.5, unit: '' },
-        { id: 'damageAmp', name: '피해 증폭', step: 0.2, unit: '%' },
-        { id: 'madnessRegen', name: '광기 회복', step: 0.1, unit: '' },
-        { id: 'silverCharge', name: '은열쇠 충전', step: 0.3, unit: '' },
-        { id: 'blackSealDrop', name: '검은 인장 드롭율', step: 0.15, unit: '%' },
-        { id: 'deathResist', name: '죽음 저항', step: 0.7, unit: '%' }
-    ];
-    const MAIN_OPTIONS = [
-        ['critRate', 'critDamage', 'madnessRegen', 'silverCharge'],
-        ['critRate', 'critDamage', 'domainMastery', 'blackSealDrop'],
-        ['critRate', 'critDamage', 'damageAmp', 'deathResist'],
-        ['domainMastery', 'madnessRegen', 'silverCharge', 'blackSealDrop'],
-        ['damageAmp', 'madnessRegen', 'silverCharge', 'deathResist'],
-        ['domainMastery', 'damageAmp', 'blackSealDrop', 'deathResist']
-    ];
-    const MAIN_COMPLETION = [3, 3.4, 3.7, 4.1, 4.5, 4.9, 5.3, 5.6, 6, 6.4, 6.8, 7.2, 7.5];
-    const SUB_COMPLETION = {
-        3: 1.1, 4: 1.5, 5: 1.9, 6: 2.3, 7: 2.6, 8: 3, 9: 3.4, 10: 3.8, 11: 4.1,
-        12: 4.5, 13: 4.9, 14: 5.3, 15: 5.7, 16: 6, 17: 6.4, 18: 6.8, 19: 7.2,
-        20: 7.6, 21: 7.9, 22: 8.3, 23: 8.7, 24: 9.1
-    };
-    const optionById = Object.fromEntries(OPTIONS.map(option => [option.id, option]));
+    'use strict';
+
+    const storage = createJsonStorage(() => window.localStorage);
+    const STORAGE_KEY = STORAGE_KEYS.state;
+    const PRESET_STORAGE_KEY = STORAGE_KEYS.presets;
+    const TARGET_PRESET_STORAGE_KEY = STORAGE_KEYS.targetPresets;
+    const optionById = OPTION_BY_ID;
     const els = {};
+    let initializer = null;
     const state = {
         contracts: [],
         selectedContract: null,
@@ -44,6 +58,7 @@
         pendingContractName: '',
         hasUnsavedPresetChanges: false,
         isSimulating: false,
+        storageWarning: '',
         targetParts: [0, 1, 2, 3, 4, 5],
         parts: Array.from({ length: 6 }, (_, index) => createDefaultPart(index)),
         targetSimParts: Array.from({ length: 6 }, (_, index) => createDefaultPart(index))
@@ -53,9 +68,24 @@
 
     async function init() {
         cacheElements();
+        setupContractChangeDialog();
         bindEvents();
-        await loadContracts();
-        renderAll();
+        initializer = createRetryableInitializer({
+            load: loadContracts,
+            onLoading: renderInitializationLoading,
+            onReady: (_value, context) => {
+                setSimulatorControlsEnabled(true);
+                renderAll();
+                setInitializationBusy(false);
+                if (context.fromRetry) focusSelectedContract();
+            },
+            onError: (error) => {
+                console.error('비밀계약 시뮬레이터 초기화에 실패했습니다.', error);
+                const message = error instanceof Error ? error.message : '비밀계약 데이터를 불러오지 못했습니다.';
+                renderLoadFailure(message);
+            }
+        });
+        await initializer.run();
     }
 
     function cacheElements() {
@@ -65,11 +95,10 @@
             'manual-cost', 'manual-status', 'manual-result', 'manual-reroll-btn', 'manual-apply-btn',
             'manual-focus-image', 'manual-focus-name', 'manual-total-completion', 'manual-current-result',
             'target-scope-buttons', 'target-lock-cost', 'target-current-parts', 'target-parts',
-            'run-target-btn', 'result-summary', 'result-status',
+            'run-target-btn', 'result-summary', 'result-status', 'simulator-live-region',
             'target-preset-name-input', 'target-preset-select', 'save-target-preset-btn', 'load-target-preset-btn', 'delete-target-preset-btn',
             'preset-name-input', 'preset-select', 'save-preset-btn', 'load-preset-btn', 'delete-preset-btn',
-            'contract-change-modal', 'confirm-contract-change-btn', 'cancel-contract-change-btn',
-            'reset-sim-btn'
+            'contract-change-modal', 'confirm-contract-change-btn', 'reset-sim-btn'
         ].forEach(id => {
             els[toCamel(id)] = document.getElementById(id);
         });
@@ -77,13 +106,23 @@
         els.modeTabs = Array.from(document.querySelectorAll('[data-mode-tab]'));
     }
 
+    function setupContractChangeDialog() {
+        if (!window.SiteDialog || !els.contractChangeModal) {
+            console.error('SiteDialog를 불러오지 못해 비밀계약 변경 확인창을 초기화할 수 없습니다.');
+            return;
+        }
+        window.SiteDialog.setup(els.contractChangeModal, {
+            initialFocus: '#cancel-contract-change-btn',
+            onClose: () => {
+                state.pendingContractName = '';
+            }
+        });
+    }
+
     function bindEvents() {
         els.modeTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                state.mode = tab.dataset.modeTab;
-                renderMode();
-                saveCurrentState();
-            });
+            tab.addEventListener('click', () => selectModeTab(tab));
+            tab.addEventListener('keydown', handleModeTabKeydown);
         });
         els.manualMainOption.addEventListener('change', () => {
             getSelectedPart().mainOption = els.manualMainOption.value;
@@ -114,21 +153,129 @@
         els.loadTargetPresetBtn.addEventListener('click', loadSelectedTargetPreset);
         els.deleteTargetPresetBtn.addEventListener('click', deleteSelectedTargetPreset);
         els.confirmContractChangeBtn.addEventListener('click', confirmContractChange);
-        els.cancelContractChangeBtn.addEventListener('click', closeContractChangeModal);
-        els.contractChangeModal.addEventListener('click', event => {
-            if (event.target === els.contractChangeModal) closeContractChangeModal();
-        });
         els.resetSimBtn.addEventListener('click', resetSimulation);
     }
 
+    function selectModeTab(tab, { focus = false } = {}) {
+        if (!tab || !['manual', 'target'].includes(tab.dataset.modeTab)) return;
+        state.mode = tab.dataset.modeTab;
+        renderMode();
+        saveCurrentState();
+        if (focus) tab.focus();
+    }
+
+    function handleModeTabKeydown(event) {
+        const currentIndex = els.modeTabs.indexOf(event.currentTarget);
+        if (currentIndex < 0) return;
+        let nextIndex = currentIndex;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (currentIndex + 1) % els.modeTabs.length;
+        else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + els.modeTabs.length) % els.modeTabs.length;
+        else if (event.key === 'Home') nextIndex = 0;
+        else if (event.key === 'End') nextIndex = els.modeTabs.length - 1;
+        else return;
+        event.preventDefault();
+        selectModeTab(els.modeTabs[nextIndex], { focus: true });
+    }
+
     async function loadContracts() {
-        const response = await fetch('data/covenant_list.json');
+        const response = await fetch('data/covenant_list.json', { cache: 'no-store' });
         if (!response.ok) throw new Error('비밀계약 데이터를 불러오지 못했습니다.');
-        state.contracts = await response.json();
+        const payload = await response.json();
+        if (!Array.isArray(payload)) throw new Error('비밀계약 데이터 형식이 올바르지 않습니다.');
+        state.contracts = payload.map(normalizeContract).filter(Boolean);
+        if (state.contracts.length === 0) throw new Error('표시할 비밀계약 데이터가 없습니다.');
         state.selectedContract = state.contracts[0];
         loadPresets();
         loadTargetPresets();
         loadSavedState();
+    }
+
+    function normalizeContract(contract) {
+        if (!isPlainObject(contract)) return null;
+        const englishName = normalizeStoredText(contract.english_name, 80);
+        const koreanName = normalizeStoredText(contract.korean_name, 80);
+        const imagePath = normalizeLocalImagePath(contract.image_path);
+        if (!englishName || !koreanName || !imagePath) return null;
+        return Object.freeze({
+            english_name: englishName,
+            korean_name: koreanName,
+            image_path: imagePath
+        });
+    }
+
+    function normalizeLocalImagePath(value) {
+        const path = normalizeStoredText(value, 500);
+        if (!path) return '';
+        try {
+            const url = new URL(path, document.baseURI);
+            return url.origin === window.location.origin && ['http:', 'https:'].includes(url.protocol) ? url.href : '';
+        } catch (error) {
+            return '';
+        }
+    }
+
+    function setInitializationBusy(isBusy) {
+        document.querySelector('.covenant-shell')?.setAttribute('aria-busy', String(isBusy));
+        els.contractGrid?.setAttribute('aria-busy', String(isBusy));
+    }
+
+    function setSimulatorControlsEnabled(enabled) {
+        document.querySelectorAll('.simulator-panel button, .simulator-panel input, .simulator-panel select')
+            .forEach(control => { control.disabled = !enabled; });
+    }
+
+    function renderInitializationLoading(context = {}) {
+        setInitializationBusy(true);
+        setSimulatorControlsEnabled(false);
+        const loadingMessage = '비밀계약 데이터를 불러오는 중입니다.';
+        const status = els.contractGrid.querySelector('#contract-load-status')
+            || createStatusElement(loadingMessage);
+        status.id = 'contract-load-status';
+        status.classList.add('contract-load-state');
+        status.setAttribute('role', 'status');
+        if (status.textContent !== loadingMessage) status.textContent = loadingMessage;
+        if (context.fromRetry) status.tabIndex = -1;
+        if (status.parentNode !== els.contractGrid) els.contractGrid.replaceChildren(status);
+        els.selectedContractName.textContent = '';
+        els.resultSummary.replaceChildren(createStatusElement('데이터를 불러오면 시뮬레이터를 사용할 수 있습니다.'));
+        setStatus('', '');
+        if (context.fromRetry) {
+            requestAnimationFrame(() => status.focus({ preventScroll: true }));
+        }
+    }
+
+    function renderLoadFailure(message) {
+        setInitializationBusy(false);
+        setSimulatorControlsEnabled(false);
+        const wrapper = document.createElement('div');
+        wrapper.className = 'error-state contract-load-state';
+        const retry = document.createElement('button');
+        retry.type = 'button';
+        retry.id = 'retry-contract-load';
+        retry.className = 'ghost-action';
+        retry.textContent = '다시 시도';
+        retry.addEventListener('click', () => initializer?.run({ fromRetry: true }));
+        wrapper.append(createStatusElement(message, 'contract-load-message'), retry);
+        els.contractGrid.replaceChildren(wrapper);
+        els.selectedContractName.textContent = '';
+        els.resultSummary.replaceChildren(createStatusElement('데이터를 불러온 뒤 시뮬레이터를 사용할 수 있습니다.', 'error-state'));
+        setStatus(`${message} 다시 시도 버튼으로 데이터를 불러와 주세요.`, 'error');
+        requestAnimationFrame(() => retry.focus({ preventScroll: true }));
+    }
+
+    function focusSelectedContract() {
+        requestAnimationFrame(() => {
+            const buttons = [...els.contractGrid.querySelectorAll('[data-contract]')];
+            const selected = buttons.find(button => button.dataset.contract === state.selectedContract?.english_name);
+            (selected || buttons[0])?.focus({ preventScroll: true });
+        });
+    }
+
+    function createStatusElement(message, className = 'status-message') {
+        const element = document.createElement('p');
+        element.className = className;
+        element.textContent = message;
+        return element;
     }
 
     function renderAll() {
@@ -136,20 +283,29 @@
         renderParts();
         renderTargetScopeButtons();
         renderMode();
-        renderTargetCurrentParts();
-        renderTargetParts();
         renderPresetControls();
         renderTargetPresetControls();
-        renderTotals();
         showResultMessage('전사 시뮬레이션 결과가 여기에 표시됩니다.');
+        if (state.storageWarning) {
+            setStatus(state.storageWarning, 'error');
+            setManualStatus(state.storageWarning, 'error', { announce: false });
+        }
     }
 
     function renderTargetScopeButtons() {
-        els.targetScopeButtons.innerHTML = TARGET_PART_ORDER.map(index => `
-            <button type="button" class="target-scope-btn ${state.targetParts.includes(index) ? 'active' : ''}" data-target-scope-index="${index}">
-                ${ROMANS[index]}
-            </button>
-        `).join('');
+        const fragment = document.createDocumentFragment();
+        TARGET_PART_ORDER.forEach(index => {
+            const isActive = state.targetParts.includes(index);
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = `target-scope-btn ${isActive ? 'active' : ''}`.trim();
+            button.dataset.targetScopeIndex = String(index);
+            button.setAttribute('aria-pressed', String(isActive));
+            button.setAttribute('aria-label', `${ROMANS[index]} 파츠 대상 ${isActive ? '포함됨' : '제외됨'}`);
+            button.textContent = ROMANS[index];
+            fragment.append(button);
+        });
+        els.targetScopeButtons.replaceChildren(fragment);
         els.targetScopeButtons.querySelectorAll('[data-target-scope-index]').forEach(button => {
             button.addEventListener('click', () => {
                 const index = Number(button.dataset.targetScopeIndex);
@@ -166,6 +322,7 @@
                 renderTargetCurrentParts();
                 renderTargetParts();
                 markTargetSettingsChanged();
+                focusWithoutScroll(els.targetScopeButtons.querySelector(`[data-target-scope-index="${index}"]`));
             });
         });
     }
@@ -175,17 +332,32 @@
         els.selectedContractName.textContent = state.selectedContract.korean_name;
         if (els.manualFocusImage) {
             els.manualFocusImage.src = state.selectedContract.image_path;
-            els.manualFocusImage.alt = state.selectedContract.korean_name;
+            els.manualFocusImage.alt = '';
         }
         if (els.manualFocusName) {
             els.manualFocusName.textContent = state.selectedContract.korean_name;
         }
-        els.contractGrid.innerHTML = state.contracts.map(contract => `
-            <button type="button" class="contract-card ${contract.english_name === state.selectedContract.english_name ? 'active' : ''}" data-contract="${escapeHtml(contract.english_name)}">
-                <img src="${escapeHtml(contract.image_path)}" alt="">
-                <span class="contract-card-name">${escapeHtml(contract.korean_name)}</span>
-            </button>
-        `).join('');
+        const fragment = document.createDocumentFragment();
+        state.contracts.forEach(contract => {
+            const isActive = contract.english_name === state.selectedContract.english_name;
+            const button = document.createElement('button');
+            const image = document.createElement('img');
+            const name = document.createElement('span');
+            button.type = 'button';
+            button.className = `contract-card ${isActive ? 'active' : ''}`.trim();
+            button.dataset.contract = contract.english_name;
+            button.setAttribute('aria-pressed', String(isActive));
+            button.setAttribute('aria-label', `${contract.korean_name} ${isActive ? '선택됨' : '선택'}`);
+            image.src = contract.image_path;
+            image.alt = '';
+            image.loading = 'lazy';
+            image.decoding = 'async';
+            name.className = 'contract-card-name';
+            name.textContent = contract.korean_name;
+            button.append(image, name);
+            fragment.append(button);
+        });
+        els.contractGrid.replaceChildren(fragment);
         els.contractGrid.querySelectorAll('[data-contract]').forEach(button => {
             button.addEventListener('click', () => {
                 requestContractChange(button.dataset.contract);
@@ -246,12 +418,17 @@
                 ? '현재 세팅이 프리셋으로 저장되지 않았습니다. 저장하지 않고 비밀계약을 변경할까요?'
                 : '현재 세팅이 초기화됩니다. 비밀계약을 변경할까요?';
         }
-        els.contractChangeModal.classList.add('show');
+        if (!window.SiteDialog) {
+            state.pendingContractName = '';
+            setStatus('확인 창을 열 수 없습니다. 페이지를 새로고침해주세요.', 'error');
+            return;
+        }
+        window.SiteDialog.open(els.contractChangeModal);
     }
 
     function closeContractChangeModal() {
-        state.pendingContractName = '';
-        els.contractChangeModal.classList.remove('show');
+        if (window.SiteDialog) window.SiteDialog.close(els.contractChangeModal);
+        else state.pendingContractName = '';
     }
 
     function confirmContractChange() {
@@ -269,10 +446,11 @@
         renderParts();
         renderTargetScopeButtons();
         renderMode();
-        renderTargetParts();
-        renderTotals();
         saveCurrentState();
         showResultMessage('비밀계약을 변경하고 세팅을 초기화했습니다.');
+        const selectedButton = Array.from(els.contractGrid.querySelectorAll('[data-contract]'))
+            .find(button => button.dataset.contract === contractName);
+        focusWithoutScroll(selectedButton);
     }
 
     function resetSettingsForContract() {
@@ -286,32 +464,53 @@
         state.targetResult = null;
         state.totals = createEmptyTotals();
         state.hasUnsavedPresetChanges = false;
+        resetLockCostControls();
+    }
+
+    function resetLockCostControls() {
         const manualLockInput = document.querySelector('input[name="manual-lock-cost"][value="fragment"]');
         if (manualLockInput) manualLockInput.checked = true;
         if (els.targetLockCost) els.targetLockCost.value = 'fragment';
     }
 
     function renderParts() {
-        const renderButtons = indexes => indexes.map(index => {
-            const part = state.parts[index];
-            return `
-            <button type="button" class="part-button ${index === state.selectedPart ? 'active' : ''} ${part.lastTouched ? 'has-result' : ''}" data-part-index="${index}">
-                <span class="part-roman">${ROMANS[index]}</span>
-                <span class="part-main part-completion">완성도 ${formatNumber(getPartCompletion(part), 1)}%</span>
-            </button>
-        `;
-        }).join('');
-        els.leftPartGrid.innerHTML = renderButtons([3, 4, 5]);
-        els.rightPartGrid.innerHTML = renderButtons([0, 1, 2]);
-        document.querySelectorAll('[data-part-index]').forEach(button => {
-            button.addEventListener('click', () => {
-                state.selectedPart = Number(button.dataset.partIndex);
-                state.manualPreview = null;
-                renderParts();
-                renderManual();
+        const renderButtons = (container, indexes) => {
+            const fragment = document.createDocumentFragment();
+            indexes.forEach(index => {
+                const part = state.parts[index];
+                const isActive = index === state.selectedPart;
+                const completion = formatNumber(getPartCompletion(part), 1);
+                const button = document.createElement('button');
+                const roman = document.createElement('span');
+                const detail = document.createElement('span');
+                button.type = 'button';
+                button.className = `part-button ${isActive ? 'active' : ''} ${part.lastTouched ? 'has-result' : ''}`.trim();
+                button.dataset.partIndex = String(index);
+                button.setAttribute('aria-pressed', String(isActive));
+                button.setAttribute('aria-label', `${ROMANS[index]} 파츠, 완성도 ${completion}%${isActive ? ', 선택됨' : ''}`);
+                roman.className = 'part-roman';
+                roman.textContent = ROMANS[index];
+                detail.className = 'part-main part-completion';
+                detail.textContent = `완성도 ${completion}%`;
+                button.append(roman, detail);
+                fragment.append(button);
+            });
+            container.replaceChildren(fragment);
+        };
+        renderButtons(els.leftPartGrid, [3, 4, 5]);
+        renderButtons(els.rightPartGrid, [0, 1, 2]);
+        [els.leftPartGrid, els.rightPartGrid].forEach(container => {
+            container.querySelectorAll('[data-part-index]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const partIndex = Number(button.dataset.partIndex);
+                    state.selectedPart = partIndex;
+                    state.manualPreview = null;
+                    renderParts();
+                    renderManual();
+                    focusWithoutScroll(document.querySelector(`[data-part-index="${partIndex}"]`));
+                });
             });
         });
-        renderManualMainOption();
     }
 
     function renderMode() {
@@ -319,10 +518,14 @@
             const isActive = tab.dataset.modeTab === state.mode;
             tab.classList.toggle('active', isActive);
             tab.setAttribute('aria-selected', String(isActive));
-            applyModeTabVisualState(tab, isActive);
+            tab.tabIndex = isActive ? 0 : -1;
         });
-        els.manualPanel.classList.toggle('hidden', state.mode !== 'manual');
-        els.targetPanel.classList.toggle('hidden', state.mode !== 'target');
+        const manualHidden = state.mode !== 'manual';
+        const targetHidden = state.mode !== 'target';
+        els.manualPanel.classList.toggle('hidden', manualHidden);
+        els.manualPanel.hidden = manualHidden;
+        els.targetPanel.classList.toggle('hidden', targetHidden);
+        els.targetPanel.hidden = targetHidden;
         if (state.mode === 'manual') renderManual();
         if (state.mode === 'target') {
             renderTargetCurrentParts();
@@ -331,22 +534,14 @@
         renderResultSummary();
     }
 
-    function applyModeTabVisualState(tab, isActive) {
-        tab.style.setProperty('background-color', isActive ? '#2a2a2e' : '#3f3f46', 'important');
-        tab.style.setProperty('border-color', isActive ? '#55555e' : '#444', 'important');
-        tab.style.setProperty('border-bottom-color', isActive ? '#2a2a2e' : '#444', 'important');
-        tab.style.setProperty('color', isActive ? '#ffc107' : '#9a9a9f', 'important');
-        tab.style.setProperty('font-weight', isActive ? '800' : '600', 'important');
-    }
-
     function renderManual() {
         const part = getSelectedPart();
         els.manualPartTitle.textContent = getContractPartName(state.selectedPart);
-        els.manualFocusName.textContent = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
+        els.manualFocusName.textContent = getContractPartName(state.selectedPart);
         els.manualTotalCompletion.textContent = `전체 완성도 ${formatTotalCompletion(getTotalCompletion())}%`;
         if (state.selectedContract) {
             els.manualFocusImage.src = state.selectedContract.image_path;
-            els.manualFocusImage.alt = state.selectedContract.korean_name;
+            els.manualFocusImage.alt = '';
         }
         els.manualBeforeCompletion.textContent = `${formatNumber(getPartCompletion(part), 1)}%`;
         els.manualAfterCompletion.textContent = state.manualPreview
@@ -362,11 +557,14 @@
     function renderManualCurrentResult(part) {
         els.manualCurrentResult.innerHTML = part.substats.map((substat, index) => `
             <div class="substat-row current-stat-row" data-substat-index="${index}">
-                <button type="button" class="lock-toggle ${substat.locked ? 'active' : ''}" aria-label="${index + 1}번 부옵 잠금">${substat.locked ? '🔒' : '🔓'}</button>
-                <select class="sim-select substat-option">
+                <button type="button" class="lock-toggle ${substat.locked ? 'active' : ''}"
+                        aria-pressed="${substat.locked}" aria-label="${index + 1}번 부옵 ${substat.locked ? '잠금 해제' : '잠금'}">${substat.locked ? '🔒' : '🔓'}</button>
+                <label class="visually-hidden" for="manual-substat-option-${index}">${index + 1}번 부옵 종류</label>
+                <select id="manual-substat-option-${index}" class="sim-select substat-option">
                     ${OPTIONS.map(option => `<option value="${option.id}" ${option.id === substat.option ? 'selected' : ''}>${escapeHtml(option.name)}</option>`).join('')}
                 </select>
-                <select class="sim-select substat-level">
+                <label class="visually-hidden" for="manual-substat-level-${index}">${index + 1}번 부옵 레벨</label>
+                <select id="manual-substat-level-${index}" class="sim-select substat-level">
                     ${range(1, 8).map(level => `<option value="${level}" ${level === substat.level ? 'selected' : ''}>Lv ${level}</option>`).join('')}
                 </select>
             </div>
@@ -380,6 +578,7 @@
                 renderParts();
                 renderManual();
                 markSettingsChanged();
+                focusWithoutScroll(document.getElementById(`manual-substat-option-${index}`));
             });
             row.querySelector('.substat-level').addEventListener('change', event => {
                 part.substats[index].level = Number(event.target.value);
@@ -387,6 +586,7 @@
                 renderParts();
                 renderManual();
                 markSettingsChanged();
+                focusWithoutScroll(document.getElementById(`manual-substat-level-${index}`));
             });
         });
     }
@@ -423,12 +623,12 @@
         els.targetParts.innerHTML = indexes.map(index => {
             const part = state.targetSimParts[index];
             return `
-                <section class="target-part-card" data-target-part="${index}">
+                <section class="target-part-card" data-target-part="${index}" aria-labelledby="target-part-title-${index}">
                     <div class="target-part-header">
-                        <div class="target-part-title">${escapeHtml(getContractPartName(index))}</div>
+                        <h3 id="target-part-title-${index}" class="target-part-title">${escapeHtml(getContractPartName(index))}</h3>
                         <div class="contract-picker">
-                            <label class="field-label">주옵</label>
-                            <select class="sim-select target-main-option">
+                            <label class="field-label" for="target-main-option-${index}">주옵</label>
+                            <select id="target-main-option-${index}" class="sim-select target-main-option">
                                 ${MAIN_OPTIONS[index].map(optionId => `<option value="${optionId}" ${optionId === part.mainOption ? 'selected' : ''}>${escapeHtml(getOptionName(optionId))}</option>`).join('')}
                             </select>
                         </div>
@@ -438,13 +638,18 @@
                             const goal = part.goals[goalIndex];
                             return `
                                 <div class="target-goal-row" data-goal-index="${goalIndex}">
-                                    <select class="sim-select target-goal-option">
+                                    <label class="visually-hidden" for="target-goal-option-${index}-${goalIndex}">${ROMANS[index]} 파츠 목표 ${goalIndex + 1} 부옵</label>
+                                    <select id="target-goal-option-${index}-${goalIndex}" class="sim-select target-goal-option">
                                         ${OPTIONS.map(option => `<option value="${option.id}" ${option.id === goal.option ? 'selected' : ''}>${escapeHtml(option.name)}</option>`).join('')}
                                     </select>
-                                    <select class="sim-select target-goal-level">
+                                    <label class="visually-hidden" for="target-goal-level-${index}-${goalIndex}">${ROMANS[index]} 파츠 목표 ${goalIndex + 1} 최소 레벨</label>
+                                    <select id="target-goal-level-${index}-${goalIndex}" class="sim-select target-goal-level">
                                         ${range(1, 8).map(level => `<option value="${level}" ${level === goal.level ? 'selected' : ''}>Lv ${level} 이상</option>`).join('')}
                                     </select>
-                                    <input type="checkbox" class="goal-enabled" ${goal.enabled ? 'checked' : ''} aria-label="목표 사용">
+                                    <label class="goal-enabled-control" for="target-goal-enabled-${index}-${goalIndex}">
+                                        <input id="target-goal-enabled-${index}-${goalIndex}" type="checkbox" class="goal-enabled" ${goal.enabled ? 'checked' : ''}>
+                                        <span>사용</span>
+                                    </label>
                                 </div>
                             `;
                         }).join('')}
@@ -460,18 +665,20 @@
         els.targetCurrentParts.innerHTML = indexes.map(index => {
             const part = state.targetSimParts[index];
             return `
-                <section class="target-part-card" data-target-current-part="${index}">
+                <section class="target-part-card" data-target-current-part="${index}" aria-labelledby="target-current-title-${index}">
                     <div class="target-part-header">
-                        <div class="target-part-title">${escapeHtml(getContractPartName(index))}</div>
+                        <h3 id="target-current-title-${index}" class="target-part-title">${escapeHtml(getContractPartName(index))}</h3>
                         <div class="muted-text target-current-caption">현재 부옵</div>
                     </div>
                     <div class="target-goals">
                         ${part.substats.map((substat, substatIndex) => `
                             <div class="target-current-row" data-substat-index="${substatIndex}">
-                                <select class="sim-select target-current-option">
+                                <label class="visually-hidden" for="target-current-option-${index}-${substatIndex}">${ROMANS[index]} 파츠 현재 부옵 ${substatIndex + 1} 종류</label>
+                                <select id="target-current-option-${index}-${substatIndex}" class="sim-select target-current-option">
                                     ${OPTIONS.map(option => `<option value="${option.id}" ${option.id === substat.option ? 'selected' : ''}>${escapeHtml(option.name)}</option>`).join('')}
                                 </select>
-                                <select class="sim-select target-current-level">
+                                <label class="visually-hidden" for="target-current-level-${index}-${substatIndex}">${ROMANS[index]} 파츠 현재 부옵 ${substatIndex + 1} 레벨</label>
+                                <select id="target-current-level-${index}-${substatIndex}" class="sim-select target-current-level">
                                     ${range(1, 8).map(level => `<option value="${level}" ${level === substat.level ? 'selected' : ''}>Lv ${level}</option>`).join('')}
                                 </select>
                             </div>
@@ -527,8 +734,7 @@
         const part = getSelectedPart();
         const cost = getRerollCost(countLocked(part.substats), getManualLockCostMode());
         state.manualPreview = rerollSubstats(part.substats);
-        addTotals(state.totals, cost);
-        state.totals.rerolls += 1;
+        state.totals = addTotals(state.totals, { ...cost, rerolls: 1 });
         state.manualResult = {
             type: 'manual',
             contract: state.selectedContract.korean_name,
@@ -539,7 +745,6 @@
             allParts: getAllPartSnapshots(state.selectedPart, state.manualPreview)
         };
         renderManual();
-        renderTotals();
         renderResultSummary('전사 결과가 생성되었습니다. 교체 버튼으로 현재 부옵에 반영할 수 있습니다.');
         saveCurrentState();
     }
@@ -573,50 +778,25 @@
     async function executeTargetSimulation(config, startMessage) {
         setSimulationBusy(true, '목표 시뮬레이션을 계산 중입니다...');
         try {
-            const result = await simulateUntilTargets(config);
+            await yieldToBrowser();
+            const result = simulateUntilTargets({
+                ...config,
+                targetSimParts: state.targetSimParts,
+                contractName: state.selectedContract.korean_name
+            });
             result.startMessage = startMessage;
             state.targetResult = result;
             state.targetResult.allParts = getTargetResultPartSnapshots(result);
             renderTargetParts();
             renderResultSummary('목표까지 시뮬레이션을 완료했습니다.');
+        } catch (error) {
+            console.error('목표 시뮬레이션 실행에 실패했습니다.', error);
+            state.targetResult = null;
+            renderResultSummary('시뮬레이션을 완료하지 못했습니다. 입력값을 확인한 뒤 다시 시도해주세요.');
+            setStatus('목표 시뮬레이션 중 오류가 발생했습니다.', 'error');
         } finally {
             setSimulationBusy(false);
         }
-    }
-
-    async function simulateUntilTargets(config, shouldYield = true) {
-        const totalCost = createEmptyTotals();
-        const partResults = [];
-        let attempts = 0;
-        for (const targetPart of config.targetsByPart) {
-            let current = cloneSubstats(state.targetSimParts[targetPart.partIndex].substats);
-            let safetySteps = 0;
-            while (!matchesGoals(current, targetPart.goals)) {
-                if (safetySteps >= 8) {
-                    current = forceCompleteGoals(current, targetPart.goals);
-                    break;
-                }
-                const step = advanceTowardGoals(current, targetPart.goals, config);
-                current = step.substats;
-                addScaledTotals(totalCost, step.cost, step.attempts);
-                attempts += step.attempts;
-                safetySteps += 1;
-            }
-            partResults.push({
-                partIndex: targetPart.partIndex,
-                goals: targetPart.goals,
-                finalSubstats: current.map(substat => ({ ...substat, locked: false }))
-            });
-            if (shouldYield) await yieldToBrowser();
-        }
-        return {
-            type: 'target',
-            contract: state.selectedContract.korean_name,
-            scope: config.scopeLabel,
-            attempts,
-            cost: totalCost,
-            partResults
-        };
     }
 
     function getTargetConfig() {
@@ -639,131 +819,6 @@
         return TARGET_PART_ORDER.filter(index => state.targetParts.includes(index));
     }
 
-    function getStrategyLockedIndexes(substats, goals, strategy) {
-        if (strategy === 'none') return [];
-        const matches = [];
-        const usedGoals = new Set();
-        substats.forEach((substat, index) => {
-            const goalIndex = goals.findIndex((goal, index) => {
-                return !usedGoals.has(index) && substat.option === goal.option && substat.level >= goal.level;
-            });
-            if (goalIndex !== -1) {
-                usedGoals.add(goalIndex);
-                matches.push(index);
-            }
-        });
-        return matches.slice(0, strategy === 'one' ? 1 : 2);
-    }
-
-    function matchesGoals(substats, goals) {
-        const used = new Set();
-        return goals.every(goal => {
-            const foundIndex = substats.findIndex((substat, index) => {
-                return !used.has(index) && substat.option === goal.option && substat.level >= goal.level;
-            });
-            if (foundIndex === -1) return false;
-            used.add(foundIndex);
-            return true;
-        });
-    }
-
-    function advanceTowardGoals(current, goals, config) {
-        const locked = getStrategyLockedIndexes(current, goals, config.lockStrategy);
-        const unlocked = [0, 1, 2].filter(index => !locked.includes(index));
-        const missingGoals = getMissingGoals(current, goals, locked);
-        const targetGoal = pickWeightedGoal(missingGoals);
-        const chance = getAnyGoalHitProbability(missingGoals, unlocked.length);
-        const attempts = sampleGeometric(chance);
-        const next = current.map((substat, index) => {
-            if (locked.includes(index)) return { ...substat, locked: true };
-            return { option: randomOptionId(), level: randomInt(1, 8), locked: false };
-        });
-        if (targetGoal && unlocked.length) {
-            const targetSlot = unlocked[randomInt(0, unlocked.length - 1)];
-            next[targetSlot] = createSubstatForGoal(targetGoal);
-        }
-        return {
-            attempts,
-            cost: getRerollCost(locked.length, config.lockCostMode),
-            substats: next.map(substat => ({ ...substat, locked: false }))
-        };
-    }
-
-    function getMissingGoals(substats, goals, lockedIndexes) {
-        const matchedGoals = new Set();
-        lockedIndexes.forEach(substatIndex => {
-            const substat = substats[substatIndex];
-            const goalIndex = goals.findIndex((goal, index) => {
-                return !matchedGoals.has(index) && substat.option === goal.option && substat.level >= goal.level;
-            });
-            if (goalIndex !== -1) matchedGoals.add(goalIndex);
-        });
-        return goals.filter((_, index) => !matchedGoals.has(index));
-    }
-
-    function pickWeightedGoal(goals) {
-        if (!goals.length) return null;
-        const totalWeight = goals.reduce((sum, goal) => sum + getGoalHitProbability(goal), 0);
-        let cursor = Math.random() * totalWeight;
-        for (const goal of goals) {
-            cursor -= getGoalHitProbability(goal);
-            if (cursor <= 0) return goal;
-        }
-        return goals[goals.length - 1];
-    }
-
-    function getAnyGoalHitProbability(goals, slotCount) {
-        if (!goals.length || slotCount <= 0) return 1;
-        const uniqueGoals = new Map();
-        goals.forEach(goal => {
-            uniqueGoals.set(`${goal.option}:${goal.level}`, goal);
-        });
-        const slotChance = Array.from(uniqueGoals.values())
-            .reduce((sum, goal) => sum + getGoalHitProbability(goal), 0);
-        return Math.max(0.000001, Math.min(1, 1 - Math.pow(1 - slotChance, slotCount)));
-    }
-
-    function getGoalHitProbability(goal) {
-        return (9 - goal.level) / 64;
-    }
-
-    function sampleGeometric(successChance) {
-        if (successChance >= 1) return 1;
-        const chance = Math.max(0.000001, Math.min(0.999999, successChance));
-        return Math.max(1, Math.ceil(Math.log(1 - Math.random()) / Math.log(1 - chance)));
-    }
-
-    function createSubstatForGoal(goal) {
-        return {
-            option: goal.option,
-            level: randomInt(goal.level, 8),
-            locked: false
-        };
-    }
-
-    function forceCompleteGoals(current, goals) {
-        const next = current.map(substat => ({ ...substat, locked: false }));
-        const usedSlots = new Set();
-        goals.slice(0, 3).forEach(goal => {
-            let slot = next.findIndex((substat, index) => {
-                return !usedSlots.has(index) && substat.option === goal.option && substat.level >= goal.level;
-            });
-            if (slot === -1) {
-                slot = [0, 1, 2].find(index => !usedSlots.has(index));
-                if (slot !== undefined) next[slot] = createSubstatForGoal(goal);
-            }
-            if (slot !== -1 && slot !== undefined) usedSlots.add(slot);
-        });
-        return next;
-    }
-
-    function rerollSubstats(substats) {
-        return substats.map(substat => {
-            if (substat.locked) return { ...substat };
-            return { option: randomOptionId(), level: randomInt(1, 8), locked: false };
-        });
-    }
-
     function toggleManualLock(index) {
         const substats = getSelectedPart().substats;
         if (!substats[index].locked && countLocked(substats) >= 2) {
@@ -776,10 +831,9 @@
         renderParts();
         renderManual();
         markSettingsChanged();
-    }
-
-    function renderTotals() {
-        return;
+        const lockButton = els.manualCurrentResult
+            .querySelector(`[data-substat-index="${index}"] .lock-toggle`);
+        focusWithoutScroll(lockButton);
     }
 
     function renderResultSummary(message) {
@@ -790,7 +844,7 @@
                 ${statGrid}
                 <p class="muted-text">${escapeHtml(message || '전사 시뮬레이션 결과가 여기에 표시됩니다.')}</p>
             `;
-            setStatus('', '');
+            setStatus(message || '', '');
             return;
         }
         const cost = result.cost;
@@ -809,7 +863,7 @@
             </div>
             ${renderResultDetails(result)}
         `;
-        setStatus('', '');
+        setStatus(message || '', message ? 'success' : '');
     }
 
     function renderResultDetails(result) {
@@ -835,7 +889,7 @@
     function renderAllPartResults(parts) {
         return `<div class="part-result-grid">${parts.map(part => `
             <div class="part-result-card">
-                <h4>${escapeHtml(ROMANS[part.partIndex])}</h4>
+                <h3>${escapeHtml(ROMANS[part.partIndex])}</h3>
                 <div class="part-main-label">${escapeHtml(getOptionName(part.mainOption))}</div>
                 ${part.substats.map(renderCompactStatLine).join('')}
             </div>
@@ -857,9 +911,10 @@
             `;
         }).join('');
         return `
-            <div class="covenant-stat-summary">
-                <div class="stat-table-title">현재 비밀계약 스탯</div>
+            <div class="covenant-stat-summary" role="region" aria-label="현재 비밀계약 스탯 표" tabindex="0">
+                <h3 class="stat-table-title">현재 비밀계약 스탯</h3>
                 <table class="covenant-stat-table">
+                    <caption class="visually-hidden">현재 비밀계약의 능력치 합계</caption>
                     <tbody>${rows}</tbody>
                 </table>
             </div>
@@ -890,6 +945,7 @@
     function setStatus(message, type) {
         els.resultStatus.textContent = message;
         els.resultStatus.className = `result-status ${type || ''}`.trim();
+        announceSimulatorStatus(message, type);
     }
 
     function setSimulationBusy(isBusy, message = '') {
@@ -902,10 +958,18 @@
         return new Promise(resolve => setTimeout(resolve, 0));
     }
 
-    function setManualStatus(message, type) {
+    function setManualStatus(message, type, options = {}) {
         if (!els.manualStatus) return;
         els.manualStatus.textContent = message;
         els.manualStatus.className = `manual-status ${type || ''}`.trim();
+        if (options.announce !== false) announceSimulatorStatus(message, type);
+    }
+
+    function announceSimulatorStatus(message, type) {
+        if (!els.simulatorLiveRegion) return;
+        els.simulatorLiveRegion.setAttribute('role', type === 'error' ? 'alert' : 'status');
+        els.simulatorLiveRegion.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
+        els.simulatorLiveRegion.textContent = message || '';
     }
 
     function markSettingsChanged() {
@@ -919,51 +983,63 @@
         markSettingsChanged();
     }
 
-    function saveCurrentState() {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(createStateSnapshot()));
-        } catch (error) {
-            console.warn('비밀계약 시뮬레이터 상태 저장에 실패했습니다.', error);
+    function readStoredJson(key) {
+        const result = storage.read(key);
+        if (result.ok) return result.value;
+        if (result.reason === 'parse') {
+            discardStoredData(key, '저장된 데이터가 손상되어 해당 항목을 초기화했습니다.', result.error);
+        } else {
+            reportStorageIssue('브라우저 저장 공간에 접근할 수 없어 설정을 불러오지 못했습니다.', result.error);
         }
+        return undefined;
+    }
+
+    function writeStoredJson(key, value) {
+        const result = storage.write(key, value);
+        if (result.ok) return true;
+        reportStorageIssue('브라우저 저장 공간이 부족하거나 차단되어 변경사항을 저장하지 못했습니다.', result.error);
+        return false;
+    }
+
+    function discardStoredData(key, message, cause) {
+        const result = storage.remove(key);
+        if (!result.ok) {
+            reportStorageIssue('손상된 저장 데이터를 정리할 수 없습니다. 브라우저 저장소 설정을 확인해주세요.', result.error);
+            return;
+        }
+        reportStorageIssue(message, cause);
+    }
+
+    function reportStorageIssue(message, error) {
+        state.storageWarning = message;
+        console.warn(message, error || '');
+        if (els.resultStatus) setStatus(message, 'error');
+        if (els.manualStatus) setManualStatus(message, 'error', { announce: false });
+    }
+
+    function saveCurrentState() {
+        writeStoredJson(STORAGE_KEY, createStateSnapshot());
     }
 
     function loadSavedState() {
-        try {
-            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-            if (saved) applyStateSnapshot(saved);
-        } catch (error) {
-            localStorage.removeItem(STORAGE_KEY);
+        const saved = readStoredJson(STORAGE_KEY);
+        if (saved === undefined) return;
+        if (!isStateSnapshot(saved)) {
+            discardStoredData(STORAGE_KEY, '저장된 시뮬레이터 설정 형식이 올바르지 않아 초기화했습니다.');
+            return;
         }
+        applyStateSnapshot(saved);
     }
 
     function createStateSnapshot() {
-        return {
-            version: 1,
-            selectedContract: state.selectedContract ? state.selectedContract.english_name : '',
-            selectedPart: state.selectedPart,
-            mode: state.mode,
+        return buildStateSnapshot(state, {
             manualLockCostMode: getManualLockCostMode(),
-            targetLockCostMode: els.targetLockCost ? els.targetLockCost.value : 'fragment',
-            hasUnsavedPresetChanges: state.hasUnsavedPresetChanges,
-            targetParts: [...state.targetParts],
-            parts: state.parts.map(part => ({
-                mainOption: part.mainOption,
-                mainLevel: part.mainLevel,
-                substats: part.substats.map(substat => ({ ...substat })),
-                goals: part.goals.map(goal => ({ ...goal })),
-                lastTouched: !!part.lastTouched
-            })),
-            targetSimParts: state.targetSimParts.map(part => ({
-                mainOption: part.mainOption,
-                mainLevel: part.mainLevel,
-                substats: part.substats.map(substat => ({ ...substat })),
-                goals: part.goals.map(goal => ({ ...goal })),
-                lastTouched: !!part.lastTouched
-            }))
-        };
+            targetLockCostMode: els.targetLockCost?.value
+        });
     }
 
     function applyStateSnapshot(snapshot) {
+        if (!isStateSnapshot(snapshot)) return false;
         const contract = state.contracts.find(item => item.english_name === snapshot.selectedContract);
         if (contract) state.selectedContract = contract;
         state.selectedPart = clampIndex(snapshot.selectedPart, 0, 5, 0);
@@ -978,43 +1054,41 @@
         state.targetResult = null;
         state.totals = createEmptyTotals();
         applyStoredControlValues(snapshot);
+        return true;
     }
 
     function loadPresets() {
-        try {
-            const presets = JSON.parse(localStorage.getItem(PRESET_STORAGE_KEY));
-            state.presets = Array.isArray(presets) ? presets.filter(preset => preset && preset.id && preset.snapshot) : [];
-        } catch (error) {
-            state.presets = [];
-            localStorage.removeItem(PRESET_STORAGE_KEY);
+        const stored = readStoredJson(PRESET_STORAGE_KEY);
+        if (stored === undefined) return;
+        if (!Array.isArray(stored)) {
+            discardStoredData(PRESET_STORAGE_KEY, '저장된 프리셋 형식이 올바르지 않아 초기화했습니다.');
+            return;
         }
+        state.presets = normalizePresetList(stored, false);
     }
 
     function loadTargetPresets() {
-        try {
-            const presets = JSON.parse(localStorage.getItem(TARGET_PRESET_STORAGE_KEY));
-            state.targetPresets = Array.isArray(presets) ? presets.filter(preset => preset && preset.id && preset.snapshot) : [];
-        } catch (error) {
-            state.targetPresets = [];
-            localStorage.removeItem(TARGET_PRESET_STORAGE_KEY);
+        const stored = readStoredJson(TARGET_PRESET_STORAGE_KEY);
+        if (stored === undefined) return;
+        if (!Array.isArray(stored)) {
+            discardStoredData(TARGET_PRESET_STORAGE_KEY, '저장된 목표 프리셋 형식이 올바르지 않아 초기화했습니다.');
+            return;
         }
+        state.targetPresets = normalizePresetList(stored, true);
     }
 
-    function persistPresets() {
-        localStorage.setItem(PRESET_STORAGE_KEY, JSON.stringify(state.presets));
+    function persistPresets(presets = state.presets) {
+        return writeStoredJson(PRESET_STORAGE_KEY, presets);
     }
 
-    function persistTargetPresets() {
-        localStorage.setItem(TARGET_PRESET_STORAGE_KEY, JSON.stringify(state.targetPresets));
+    function persistTargetPresets(presets = state.targetPresets) {
+        return writeStoredJson(TARGET_PRESET_STORAGE_KEY, presets);
     }
 
     function renderPresetControls() {
         if (!els.presetSelect) return;
         const selectedId = els.presetSelect.value;
-        els.presetSelect.innerHTML = [
-            '<option value="">프리셋 선택</option>',
-            ...state.presets.map(preset => `<option value="${escapeHtml(preset.id)}">${escapeHtml(preset.name)}</option>`)
-        ].join('');
+        replacePresetOptions(els.presetSelect, state.presets, '프리셋 선택');
         if (state.presets.some(preset => preset.id === selectedId)) {
             els.presetSelect.value = selectedId;
         }
@@ -1023,45 +1097,67 @@
     function renderTargetPresetControls() {
         if (!els.targetPresetSelect) return;
         const selectedId = els.targetPresetSelect.value;
-        els.targetPresetSelect.innerHTML = [
-            '<option value="">목표 프리셋 선택</option>',
-            ...state.targetPresets.map(preset => `<option value="${escapeHtml(preset.id)}">${escapeHtml(preset.name)}</option>`)
-        ].join('');
+        replacePresetOptions(els.targetPresetSelect, state.targetPresets, '목표 프리셋 선택');
         if (state.targetPresets.some(preset => preset.id === selectedId)) {
             els.targetPresetSelect.value = selectedId;
         }
+    }
+
+    function replacePresetOptions(select, presets, placeholder) {
+        const fragment = document.createDocumentFragment();
+        const emptyOption = document.createElement('option');
+        emptyOption.value = '';
+        emptyOption.textContent = placeholder;
+        fragment.append(emptyOption);
+        presets.forEach(preset => {
+            const option = document.createElement('option');
+            option.value = preset.id;
+            option.textContent = preset.name;
+            fragment.append(option);
+        });
+        select.replaceChildren(fragment);
     }
 
     function savePreset() {
         const selectedId = els.presetSelect.value;
         const existing = state.presets.find(preset => preset.id === selectedId);
         const inputName = els.presetNameInput.value.trim();
-        const name = inputName || (existing ? existing.name : getDefaultPresetName());
+        if (inputName.length > MAX_PRESET_NAME_LENGTH) {
+            setManualStatus(`프리셋 이름은 ${MAX_PRESET_NAME_LENGTH}자 이하로 입력해주세요.`, 'error');
+            return;
+        }
+        if (!existing && state.presets.length >= MAX_PRESETS) {
+            setManualStatus(`프리셋은 최대 ${MAX_PRESETS}개까지 저장할 수 있습니다.`, 'error');
+            return;
+        }
+        const name = normalizeStoredText(inputName || (existing ? existing.name : getDefaultPresetName()), MAX_PRESET_NAME_LENGTH);
         if (!name) return;
         const now = new Date().toISOString();
         let activePresetId = selectedId;
-        state.hasUnsavedPresetChanges = false;
+        const snapshot = { ...createStateSnapshot(), hasUnsavedPresetChanges: false };
+        let nextPresets;
         if (existing) {
-            existing.name = name;
-            existing.snapshot = createStateSnapshot();
-            existing.updatedAt = now;
-            setManualStatus(`프리셋 "${existing.name}"을 저장했습니다.`, '');
+            nextPresets = state.presets.map(preset => preset.id === existing.id
+                ? { ...preset, name, snapshot, updatedAt: now }
+                : preset);
         } else {
             const preset = {
-                id: `preset-${Date.now()}`,
+                id: createPresetId('preset'),
                 name,
                 createdAt: now,
                 updatedAt: now,
-                snapshot: createStateSnapshot()
+                snapshot
             };
-            state.presets.push(preset);
+            nextPresets = [...state.presets, preset];
             activePresetId = preset.id;
-            setManualStatus(`프리셋 "${name}"을 저장했습니다.`, '');
         }
+        if (!persistPresets(nextPresets)) return;
+        state.presets = nextPresets;
+        state.hasUnsavedPresetChanges = false;
         els.presetNameInput.value = '';
-        persistPresets();
         renderPresetControls();
         els.presetSelect.value = activePresetId;
+        setManualStatus(`프리셋 "${name}"을 저장했습니다.`, '');
         saveCurrentState();
     }
 
@@ -1077,9 +1173,7 @@
         renderParts();
         renderTargetScopeButtons();
         renderMode();
-        renderTargetParts();
         renderPresetControls();
-        renderTotals();
         saveCurrentState();
         showResultMessage(`프리셋 "${preset.name}"을 불러왔습니다.`);
     }
@@ -1090,8 +1184,9 @@
             setManualStatus('삭제할 프리셋을 선택해주세요.', 'error');
             return;
         }
-        state.presets = state.presets.filter(item => item.id !== preset.id);
-        persistPresets();
+        const nextPresets = state.presets.filter(item => item.id !== preset.id);
+        if (!persistPresets(nextPresets)) return;
+        state.presets = nextPresets;
         els.presetSelect.value = '';
         renderPresetControls();
         setManualStatus(`프리셋 "${preset.name}"을 삭제했습니다.`, '');
@@ -1101,32 +1196,41 @@
         const selectedId = els.targetPresetSelect.value;
         const existing = state.targetPresets.find(preset => preset.id === selectedId);
         const inputName = els.targetPresetNameInput.value.trim();
-        const name = inputName || (existing ? existing.name : getDefaultTargetPresetName());
+        if (inputName.length > MAX_PRESET_NAME_LENGTH) {
+            setStatus(`목표 프리셋 이름은 ${MAX_PRESET_NAME_LENGTH}자 이하로 입력해주세요.`, 'error');
+            return;
+        }
+        if (!existing && state.targetPresets.length >= MAX_PRESETS) {
+            setStatus(`목표 프리셋은 최대 ${MAX_PRESETS}개까지 저장할 수 있습니다.`, 'error');
+            return;
+        }
+        const name = normalizeStoredText(inputName || (existing ? existing.name : getDefaultTargetPresetName()), MAX_PRESET_NAME_LENGTH);
         if (!name) return;
         const now = new Date().toISOString();
         let activePresetId = selectedId;
         const snapshot = createTargetPresetSnapshot();
+        let nextPresets;
         if (existing) {
-            existing.name = name;
-            existing.snapshot = snapshot;
-            existing.updatedAt = now;
-            setStatus(`목표 프리셋 "${existing.name}"을 저장했습니다.`, '');
+            nextPresets = state.targetPresets.map(preset => preset.id === existing.id
+                ? { ...preset, name, snapshot, updatedAt: now }
+                : preset);
         } else {
             const preset = {
-                id: `target-preset-${Date.now()}`,
+                id: createPresetId('target-preset'),
                 name,
                 createdAt: now,
                 updatedAt: now,
                 snapshot
             };
-            state.targetPresets.push(preset);
+            nextPresets = [...state.targetPresets, preset];
             activePresetId = preset.id;
-            setStatus(`목표 프리셋 "${name}"을 저장했습니다.`, '');
         }
+        if (!persistTargetPresets(nextPresets)) return;
+        state.targetPresets = nextPresets;
         els.targetPresetNameInput.value = '';
-        persistTargetPresets();
         renderTargetPresetControls();
         els.targetPresetSelect.value = activePresetId;
+        setStatus(`목표 프리셋 "${name}"을 저장했습니다.`, '');
     }
 
     function loadSelectedTargetPreset() {
@@ -1151,8 +1255,9 @@
             setStatus('삭제할 목표 프리셋을 선택해주세요.', 'error');
             return;
         }
-        state.targetPresets = state.targetPresets.filter(item => item.id !== preset.id);
-        persistTargetPresets();
+        const nextPresets = state.targetPresets.filter(item => item.id !== preset.id);
+        if (!persistTargetPresets(nextPresets)) return;
+        state.targetPresets = nextPresets;
         els.targetPresetSelect.value = '';
         renderTargetPresetControls();
         setStatus(`목표 프리셋 "${preset.name}"을 삭제했습니다.`, '');
@@ -1169,75 +1274,25 @@
     }
 
     function createTargetPresetSnapshot() {
-        return {
-            version: 1,
-            targetParts: [...state.targetParts],
-            targetLockCostMode: els.targetLockCost ? els.targetLockCost.value : 'fragment',
-            targets: state.targetSimParts.map(part => ({
-                mainOption: part.mainOption,
-                goals: part.goals.map(goal => ({ ...goal }))
-            }))
-        };
+        return buildTargetPresetSnapshot(state, els.targetLockCost?.value);
     }
 
     function applyTargetPresetSnapshot(snapshot) {
-        state.targetParts = normalizeTargetParts(snapshot.targetParts);
-        if (els.targetLockCost) {
-            els.targetLockCost.value = snapshot.targetLockCostMode === 'quill' ? 'quill' : 'fragment';
-        }
-        state.targetSimParts = state.targetSimParts.map((part, index) => {
-            const target = snapshot.targets && snapshot.targets[index];
-            if (!target || typeof target !== 'object') return part;
-            return {
-                ...part,
-                mainOption: MAIN_OPTIONS[index].includes(target.mainOption) ? target.mainOption : part.mainOption,
-                goals: Array.from({ length: 3 }, (_, goalIndex) => normalizeGoal(target.goals && target.goals[goalIndex], part.goals[goalIndex])),
-                lastTouched: false
-            };
-        });
+        const normalized = normalizeTargetPreset(snapshot, state.targetSimParts);
+        if (!normalized) return false;
+        state.targetParts = normalized.targetParts;
+        if (els.targetLockCost) els.targetLockCost.value = normalized.targetLockCostMode;
+        state.targetSimParts = normalized.targetSimParts;
         state.targetResult = null;
+        return true;
     }
 
-
-    function normalizePartSnapshot(part, index) {
-        const base = createDefaultPart(index);
-        if (!part || typeof part !== 'object') return base;
-        const substats = Array.from({ length: 3 }, (_, substatIndex) => normalizeSubstat(part.substats && part.substats[substatIndex], base.substats[substatIndex]));
-        const goals = Array.from({ length: 3 }, (_, goalIndex) => normalizeGoal(part.goals && part.goals[goalIndex], base.goals[goalIndex]));
-        return {
-            mainOption: MAIN_OPTIONS[index].includes(part.mainOption) ? part.mainOption : base.mainOption,
-            mainLevel: clampIndex(part.mainLevel, 0, MAIN_COMPLETION.length - 1, base.mainLevel),
-            substats,
-            goals,
-            lastTouched: !!part.lastTouched
-        };
+    function createPresetId(prefix) {
+        const uuid = window.crypto && typeof window.crypto.randomUUID === 'function'
+            ? window.crypto.randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+        return `${prefix}-${uuid}`;
     }
-
-    function normalizeSubstat(substat, fallback) {
-        if (!substat || typeof substat !== 'object') return { ...fallback };
-        return {
-            option: optionById[substat.option] ? substat.option : fallback.option,
-            level: clampIndex(substat.level, 1, 8, fallback.level),
-            locked: !!substat.locked
-        };
-    }
-
-    function normalizeGoal(goal, fallback) {
-        if (!goal || typeof goal !== 'object') return { ...fallback };
-        return {
-            option: optionById[goal.option] ? goal.option : fallback.option,
-            level: clampIndex(goal.level, 1, 8, fallback.level),
-            enabled: typeof goal.enabled === 'boolean' ? goal.enabled : fallback.enabled
-        };
-    }
-
-    function normalizeTargetParts(targetParts) {
-        const unique = Array.from(new Set((Array.isArray(targetParts) ? targetParts : [0, 1, 2, 3, 4, 5])
-            .map(value => Number(value))
-            .filter(value => Number.isInteger(value) && value >= 0 && value <= 5)));
-        return unique.length ? unique.sort((a, b) => a - b) : [0, 1, 2, 3, 4, 5];
-    }
-
     function applyStoredControlValues(snapshot) {
         const manualLockCostMode = snapshot.manualLockCostMode === 'quill' ? 'quill' : 'fragment';
         const manualLockInput = document.querySelector(`input[name="manual-lock-cost"][value="${manualLockCostMode}"]`);
@@ -1245,12 +1300,6 @@
         if (els.targetLockCost) {
             els.targetLockCost.value = snapshot.targetLockCostMode === 'quill' ? 'quill' : 'fragment';
         }
-    }
-
-    function clampIndex(value, min, max, fallback) {
-        const number = Number(value);
-        if (!Number.isInteger(number)) return fallback;
-        return Math.min(max, Math.max(min, number));
     }
 
     function resetSimulation() {
@@ -1263,32 +1312,12 @@
         state.targetResult = null;
         state.totals = createEmptyTotals();
         state.hasUnsavedPresetChanges = false;
+        resetLockCostControls();
         renderParts();
         renderTargetScopeButtons();
-        renderManual();
-        renderTargetCurrentParts();
-        renderTargetParts();
-        renderTotals();
+        renderMode();
         showResultMessage('초기화했습니다.');
         saveCurrentState();
-    }
-
-    function createDefaultPart(index) {
-        return {
-            mainOption: MAIN_OPTIONS[index][0],
-            mainLevel: 0,
-            substats: [
-                { option: 'critRate', level: 1, locked: false },
-                { option: 'critDamage', level: 1, locked: false },
-                { option: 'domainMastery', level: 1, locked: false }
-            ],
-            goals: [
-                { option: 'critRate', level: 4, enabled: true },
-                { option: 'critDamage', level: 4, enabled: false },
-                { option: 'damageAmp', level: 4, enabled: false }
-            ],
-            lastTouched: false
-        };
     }
 
     function getAllPartSnapshots(previewPartIndex, previewSubstats) {
@@ -1322,23 +1351,8 @@
         });
     }
 
-    function getRerollCost(lockedCount, lockCostMode) {
-        const cost = { gold: 7500, seals: 3, fragments: 0, quills: 0 };
-        if (lockedCount === 1) {
-            if (lockCostMode === 'quill') cost.quills = 1;
-            else cost.fragments = 20;
-        }
-        if (lockedCount >= 2) cost.quills = 10;
-        return cost;
-    }
-
-    function getPartCompletion(part, substats = part.substats) {
-        const totalLevel = substats.reduce((sum, substat) => sum + substat.level, 0);
-        return MAIN_COMPLETION[part.mainLevel] + SUB_COMPLETION[totalLevel];
-    }
-
     function getTotalCompletion() {
-        return state.parts.reduce((sum, part) => sum + getPartCompletion(part), 0);
+        return calculateTotalCompletion(state.parts);
     }
 
     function formatTotalCompletion(value) {
@@ -1352,40 +1366,6 @@
     function getManualLockCostMode() {
         const checked = document.querySelector('input[name="manual-lock-cost"]:checked');
         return checked ? checked.value : 'fragment';
-    }
-
-    function countLocked(substats) {
-        return substats.filter(substat => substat.locked).length;
-    }
-
-    function randomOptionId() {
-        return OPTIONS[randomInt(0, OPTIONS.length - 1)].id;
-    }
-
-    function randomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function createEmptyTotals() {
-        return { rerolls: 0, gold: 0, seals: 0, fragments: 0, quills: 0 };
-    }
-
-    function addTotals(target, source) {
-        target.gold += source.gold || 0;
-        target.seals += source.seals || 0;
-        target.fragments += source.fragments || 0;
-        target.quills += source.quills || 0;
-    }
-
-    function addScaledTotals(target, source, multiplier) {
-        target.gold += (source.gold || 0) * multiplier;
-        target.seals += (source.seals || 0) * multiplier;
-        target.fragments += (source.fragments || 0) * multiplier;
-        target.quills += (source.quills || 0) * multiplier;
-    }
-
-    function cloneSubstats(substats) {
-        return substats.map(substat => ({ ...substat }));
     }
 
     function getOptionName(optionId) {
@@ -1434,6 +1414,10 @@
 
     function range(start, end) {
         return Array.from({ length: end - start + 1 }, (_, index) => start + index);
+    }
+
+    function focusWithoutScroll(element) {
+        if (element instanceof HTMLElement) element.focus({ preventScroll: true });
     }
 
     function escapeHtml(value) {

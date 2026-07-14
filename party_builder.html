@@ -1,222 +1,229 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <script src="config/config.js?v=party-builder-20260709"></script>
-    <script>
-        loadCSS('css/common.css');
-        loadCSS('css/components.css');
-        loadCSS('css/party_builder.css');
-        loadJS('js/search_utils.js');
-        loadJS('js/feedback.js');
-    </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>융재금지구역 파티 시뮬레이터</title>
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0f1115">
+    <title>융재금구 파티 시뮬레이터 | 미사그 대학 한국 캠퍼스</title>
     <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <link rel="stylesheet" href="css/common.css?v=v1.4.0-site-quality-20260713-r4">
+    <link rel="stylesheet" href="css/components.css?v=v1.4.0-site-quality-20260713-r4">
+    <link rel="stylesheet" href="css/party_builder.css?v=v1.4.0-site-quality-20260713-r4">
+    <script defer src="config/config.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script defer src="js/search_utils.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script defer src="js/ui/dialog.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script defer src="js/feedback.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script type="module" defer src="js/party_builder.js?v=v1.4.0-site-quality-20260713-r4"></script>
 </head>
-<body>
+<body class="party-builder-page">
 
-<div class="builder-container">
-    <div class="sidebar" id="sidebar-tabs"></div>
+<a class="skip-link" href="#party-builder-content" inert aria-disabled="true">편성 영역으로 건너뛰기</a>
 
-    <div class="main-area">
+<section id="party-init-error" class="party-init-error" role="alert" hidden>
+    <p id="party-init-error-message"></p>
+    <button type="button" class="btn btn-yellow" id="party-init-retry">필수 데이터 다시 불러오기</button>
+</section>
+
+<main class="builder-container" id="party-builder-main" inert aria-busy="true">
+    <aside class="sidebar" id="sidebar-tabs" aria-label="팀 선택" role="group"></aside>
+
+    <section class="main-area" id="party-builder-content" aria-labelledby="team-title-text" tabindex="-1">
         <div class="top-navigation-bar">
             <div class="back-btn-wrapper">
-                <a href="javascript:void(0);" onclick="goBackToMenu()" class="back-btn">⬅ 홈으로 돌아가기</a>
+                <a href="index.html" class="back-btn">← 홈으로 돌아가기</a>
             </div>
 
             <div class="page-control-bar">
-                <div id="page-tabs" class="page-tabs"></div>
-                <button class="add-page-btn" onclick="addNewPage()" title="새 세트 추가">+</button>
+                <div id="page-tabs" class="page-tabs" role="group" aria-label="파티 세트 선택 및 관리"></div>
+                <button type="button" class="add-page-btn" id="add-page-btn" aria-label="새 세트 추가" title="새 세트 추가">+</button>
             </div>
         </div>
 
-        <div class="header-wrapper">
+        <header class="header-wrapper">
             <div class="header-left">
-                <h2 id="team-title-text">TEAM I</h2>
-                <svg class="edit-icon" onclick="editTeamName()" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" />
-                </svg>
-                <div id="team-domain-container" class="header-domain-wrap"></div>
+                <h1 id="team-title-text">TEAM I</h1>
+                <button type="button" class="icon-button edit-team-button" id="edit-team-name-btn" aria-label="현재 팀 이름 변경" title="팀 이름 변경">
+                    <svg class="edit-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" />
+                    </svg>
+                </button>
+                <div id="team-domain-container" class="header-domain-wrap" aria-live="polite"></div>
             </div>
-            <div class="header-right" style="display: flex; gap: 8px;">
-                <button class="btn btn-blue btn-sm" onclick="copyTeamToClipboard()">팀 복사</button>
-                <button class="btn btn-blue btn-sm" onclick="pasteTeamFromClipboard()">팀 붙여넣기</button>
-                <button class="btn btn-red btn-sm" onclick="resetCurrentTeam()">팀 초기화</button>
+            <div class="header-right">
+                <button type="button" class="btn btn-blue btn-sm" id="copy-team-btn">팀 복사</button>
+                <button type="button" class="btn btn-blue btn-sm" id="paste-team-btn">팀 붙여넣기</button>
+                <button type="button" class="btn btn-red btn-sm" id="reset-team-btn">팀 초기화</button>
             </div>
-        </div>
+        </header>
+        <p id="party-save-error" class="party-save-error" role="alert" hidden></p>
 
         <div class="content-row">
-            <div class="slots-container" id="team-slots"></div>
+            <div class="slots-container" id="team-slots" role="group" aria-label="현재 팀 편성"></div>
         </div>
 
-        <div class="bottom-section">
-            <div class="silverkey-box" onclick="openKeyModal()">
-                <div class="key-circle" id="key-icon">+</div>
-                <div class="key-info">
-                    <div>은열쇠</div>
-                    <div id="key-name">장착 안 함</div>
-                </div>
-            </div>
+        <footer class="bottom-section">
+            <button type="button" class="silverkey-box" id="open-key-modal-btn" aria-label="은열쇠 선택">
+                <span class="key-circle" id="key-icon" aria-hidden="true">+</span>
+                <span class="key-info">
+                    <span>은열쇠</span>
+                    <span id="key-name">장착 안 함</span>
+                </span>
+            </button>
             <div class="btn-group">
-                <button class="btn btn-blue" onclick="openQuickSetup()">빠른 편성</button>
-                <button class="btn btn-yellow" onclick="saveAllData()">저장</button>
+                <button type="button" class="btn btn-blue" id="quick-setup-btn">빠른 편성</button>
+                <button type="button" class="btn btn-yellow" id="save-party-btn">저장</button>
             </div>
-        </div>
-    </div>
-</div>
+        </footer>
+    </section>
+</main>
 
-<div id="modal-char" class="modal-overlay">
-    <div class="modal-box">
-        <div class="modal-header">
-            <h3>배치할 각성체 선택 (최대 4명)</h3>
-            <button class="close-btn" onclick="closeModal('modal-char')">&times;</button>
-        </div>
+<div id="modal-char" class="modal-overlay" hidden>
+    <section class="modal-box" role="dialog" aria-modal="true" aria-labelledby="char-modal-title" tabindex="-1">
+        <header class="modal-header">
+            <h2 id="char-modal-title">배치할 각성체 선택 (최대 4명)</h2>
+            <button type="button" class="close-btn" data-close-modal="modal-char" aria-label="각성체 선택 닫기">&times;</button>
+        </header>
         <div class="char-search-section">
             <div class="search-container">
                 <div class="search-input-box">
+                    <label class="sr-only" for="char-search-input">각성체 이름 또는 특성 검색</label>
                     <div class="search-input-wrapper">
-                        <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                        <input type="text" id="char-search-input" placeholder="이름 또는 특성 검색 (예: 죽저, 크리티컬)..." autocomplete="off">
+                        <svg class="search-icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                        <input type="search" id="char-search-input" placeholder="이름 또는 특성 검색 (예: 중독, 크리티컬)" autocomplete="off" aria-controls="char-search-suggestions grid-char">
                     </div>
-                    <div id="char-search-suggestions" class="suggestions-dropdown"></div>
+                    <div id="char-search-suggestions" class="suggestions-dropdown" role="group" aria-label="검색 특성 추천"></div>
+                    <p id="char-search-status" class="sr-only" role="status" aria-live="polite"></p>
                 </div>
             </div>
             <div class="char-filter-container">
-                <div class="filter-group">
-                    <span class="filter-label">영역:</span>
-                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="chaos"
-                            aria-pressed="false" onclick="toggleCharFilter('domain', 'chaos')">혼돈</button>
-                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="aequor"
-                            aria-pressed="false" onclick="toggleCharFilter('domain', 'aequor')">심해</button>
-                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="caro"
-                            aria-pressed="false" onclick="toggleCharFilter('domain', 'caro')">혈육</button>
-                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="ultra"
-                            aria-pressed="false" onclick="toggleCharFilter('domain', 'ultra')">초차원</button>
+                <div class="filter-group" role="group" aria-labelledby="domain-filter-label">
+                    <span class="filter-label" id="domain-filter-label">계역</span>
+                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="chaos" aria-pressed="false">혼돈</button>
+                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="aequor" aria-pressed="false">심해</button>
+                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="caro" aria-pressed="false">혈육</button>
+                    <button type="button" class="filter-chip" data-filter-type="domain" data-filter-value="ultra" aria-pressed="false">초차원</button>
                 </div>
-                <div class="filter-group" style="border-left:1px solid #444; padding-left:20px;">
-                    <span class="filter-label">역할:</span>
-                    <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="assault"
-                            aria-pressed="false" onclick="toggleCharFilter('class', 'assault')">공격형</button>
-                    <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="warden"
-                            aria-pressed="false" onclick="toggleCharFilter('class', 'warden')">방어형</button>
-                    <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="chorus"
-                            aria-pressed="false" onclick="toggleCharFilter('class', 'chorus')">보조형</button>
+                <div class="filter-group filter-group-separated" role="group" aria-labelledby="class-filter-label">
+                    <span class="filter-label" id="class-filter-label">역할</span>
+                    <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="assault" aria-pressed="false">공격형</button>
+                    <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="warden" aria-pressed="false">방어형</button>
+                    <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="chorus" aria-pressed="false">보조형</button>
                 </div>
-                <button type="button" id="owned-char-toggle" class="owned-only-toggle" role="switch"
-                        aria-checked="false" onclick="toggleOwnedOnly('characters')">
-                    보유만 보기
-                </button>
+                <button type="button" id="owned-char-toggle" class="owned-only-toggle" role="switch" aria-checked="false">보유만 보기</button>
             </div>
-            <div id="active-char-search-tags" class="active-tags-list"></div>
+            <div id="active-char-search-tags" class="active-tags-list" role="group" aria-label="적용 중인 특성 필터"></div>
         </div>
-        <div class="modal-grid" id="grid-char"></div>
-        <div class="modal-footer">
-            <span id="char-count" style="color:#aaa; margin-right:15px; font-size:0.9em;">0 / 4 선택됨</span>
-            <div style="display: inline-flex; gap: 10px;">
-                <button id="btn-remove-support" class="btn btn-red" onclick="removeSupport()" style="display: none;">조력자 해제</button>
-                <button class="btn btn-yellow" onclick="confirmQuickSetup()">배치 확정</button>
+        <div class="modal-grid" id="grid-char" role="group" aria-label="각성체 목록"></div>
+        <footer class="modal-footer">
+            <output id="char-count" aria-live="polite">0 / 4 선택됨</output>
+            <div class="modal-footer-actions">
+                <button type="button" id="btn-remove-support" class="btn btn-red" hidden>조력자 해제</button>
+                <button type="button" class="btn btn-yellow" id="confirm-quick-setup-btn">배치 확정</button>
             </div>
-        </div>
-    </div>
+        </footer>
+    </section>
 </div>
 
-<div id="modal-wheel" class="modal-overlay">
-    <div class="modal-box-wide" style="position: relative;">
-
-        <button class="close-btn" onclick="closeModal('modal-wheel')" style="position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 28px; color: #aaa; cursor: pointer; z-index: 10;">&times;</button>
+<div id="modal-wheel" class="modal-overlay" hidden>
+    <section class="modal-box-wide" role="dialog" aria-modal="true" aria-labelledby="wheel-modal-title" tabindex="-1">
+        <h2 id="wheel-modal-title" class="sr-only">명륜 선택</h2>
+        <button type="button" class="close-btn modal-corner-close" data-close-modal="modal-wheel" aria-label="명륜 선택 닫기">&times;</button>
 
         <div class="wheel-list-wrapper">
             <div class="search-container">
-                <input type="text" id="wheel-search-input" placeholder="명륜 검색..." autocomplete="off">
-                <div id="wheel-main-stat-filters" class="wheel-main-stat-filters" aria-label="명륜 주옵 필터"></div>
-                <button type="button" id="owned-wheel-toggle" class="owned-only-toggle" role="switch"
-                        aria-checked="false" onclick="toggleOwnedOnly('wheels')">
-                    보유만 보기
-                </button>
+                <label class="sr-only" for="wheel-search-input">명륜 검색</label>
+                <div class="search-input-wrapper">
+                    <svg class="search-icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="search" id="wheel-search-input" placeholder="명륜 검색" autocomplete="off" aria-controls="grid-wheel">
+                </div>
+                <div id="wheel-main-stat-filters" class="wheel-main-stat-filters" role="group" aria-label="명륜 주옵션 필터"></div>
+                <button type="button" id="owned-wheel-toggle" class="owned-only-toggle" role="switch" aria-checked="false">보유만 보기</button>
             </div>
-            <div class="wheel-list-panel" id="grid-wheel"></div>
+            <div class="wheel-list-panel" id="grid-wheel" role="group" aria-label="명륜 목록"></div>
         </div>
 
         <div class="wheel-equip-panel">
-            <h3 style="color:#eee; margin-bottom:50px;">장착 슬롯 선택</h3>
-            <div class="wheel-equip-slots">
-                <div class="large-slot" id="equip-slot-0" onclick="selectWheelSlot(0)"><div class="slot-placeholder">+</div></div>
-                <div class="large-slot" id="equip-slot-1" onclick="selectWheelSlot(1)"><div class="slot-placeholder">+</div></div>
+            <h3>장착 슬롯 선택</h3>
+            <div class="wheel-equip-slots" role="group" aria-label="명륜 장착 슬롯">
+                <button type="button" class="large-slot" id="equip-slot-0" data-wheel-slot="0" aria-pressed="true" aria-label="첫 번째 명륜 슬롯"><span class="slot-placeholder">+</span></button>
+                <button type="button" class="large-slot" id="equip-slot-1" data-wheel-slot="1" aria-pressed="false" aria-label="두 번째 명륜 슬롯"><span class="slot-placeholder">+</span></button>
             </div>
-            <div class="equip-info-text" id="equip-slot-desc" style="color:#777; margin-bottom:20px; text-align:center; min-height:40px;">슬롯을 선택하세요.</div>
+            <p class="equip-info-text" id="equip-slot-desc" aria-live="polite">슬롯을 선택하세요</p>
 
             <div class="action-buttons-container" id="modal-action-buttons">
-                <button class="btn btn-modal btn-equip-ssr" id="btn-equip-ssr" style="display: none;">전용 SSR 장착</button>
-                <button class="btn btn-modal btn-equip-sr" id="btn-equip-sr" style="display: none;">전용 SR 장착</button>
-
-                <button class="btn btn-modal btn-red" onclick="unequipSelectedWheel()" style="grid-column: span 2;">해제</button>
+                <button type="button" class="btn btn-modal btn-equip-ssr" id="btn-equip-ssr" hidden>전용 SSR 장착</button>
+                <button type="button" class="btn btn-modal btn-equip-sr" id="btn-equip-sr" hidden>전용 SR 장착</button>
+                <button type="button" class="btn btn-modal btn-red" id="unequip-wheel-btn">해제</button>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 
-<div id="modal-key" class="modal-overlay">
-    <div class="modal-box" style="max-width:600px; height:80vh;">
-        <div class="modal-header">
-            <h3>은열쇠 선택</h3>
-            <button class="close-btn" onclick="closeModal('modal-key')">&times;</button>
-        </div>
+<div id="modal-key" class="modal-overlay" hidden>
+    <section class="modal-box modal-box-key" role="dialog" aria-modal="true" aria-labelledby="key-modal-title" tabindex="-1">
+        <header class="modal-header">
+            <h2 id="key-modal-title">은열쇠 선택</h2>
+            <button type="button" class="close-btn" data-close-modal="modal-key" aria-label="은열쇠 선택 닫기">&times;</button>
+        </header>
 
-        <div class="search-container" style="flex-direction: row; align-items: center;">
-            <div class="search-input-box" style="flex: 1;">
+        <div class="search-container key-search-controls">
+            <div class="search-input-box">
+                <label class="sr-only" for="key-search-input">은열쇠 검색</label>
                 <div class="search-input-wrapper">
-                    <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                    <input type="text" id="key-search-input" placeholder="은열쇠 검색..." autocomplete="off">
+                    <svg class="search-icon-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    <input type="search" id="key-search-input" placeholder="은열쇠 검색" autocomplete="off" aria-controls="grid-key">
                 </div>
             </div>
-            <select id="key-sort-select" onchange="renderKeyGrid()" style="padding: 12px; background: #1e1e22; border: 1px solid #555; color: #eee; border-radius: 4px; outline: none; cursor: pointer; font-size: 0.9em; font-family: 'Pretendard', sans-serif;">
-                <option value="recent">최근 사용순</option>
-                <option value="default">기본 정렬</option>
-            </select>
+            <div class="key-sort-control">
+                <label for="key-sort-select">정렬</label>
+                <select id="key-sort-select">
+                    <option value="recent">최근 사용순</option>
+                    <option value="default">기본 정렬</option>
+                </select>
+            </div>
         </div>
 
-        <div class="modal-grid" id="grid-key"></div>
+        <div class="modal-grid" id="grid-key" role="group" aria-label="은열쇠 목록"></div>
 
-        <div class="action-buttons-container" style="margin-top: 15px; margin-bottom: 5px;">
-            <button class="btn-modal" id="btn-equip-key" style="display: none; background-color: #333; color: #ccc; border: 1px solid #555;">전용 은열쇠 장착</button>
-            <button class="btn-modal" onclick="unequipKey()" style="background-color: #333; color: #ccc; border: 1px solid #555;">해제</button>
+        <div class="action-buttons-container key-actions">
+            <button type="button" class="btn-modal" id="btn-equip-key" hidden>전용 은열쇠 장착</button>
+            <button type="button" class="btn-modal" id="unequip-key-btn">해제</button>
         </div>
-    </div>
+    </section>
 </div>
 
-<div id="modal-system" class="modal-overlay">
-    <div class="modal-box" style="max-width: 450px; height: auto; min-height: 200px; border-color: #777;">
-        <div class="modal-header">
-            <h3 id="sys-modal-title" style="color: var(--highlight);">알림</h3>
-            <button class="close-btn" onclick="closeModal('modal-system')">&times;</button>
-        </div>
-        <div id="sys-modal-msg" style="padding: 30px 30px 10px 30px; text-align: center; color: #e0e0e0; font-size: 1.1em; line-height: 1.5; white-space: pre-line;">내용</div>
+<div id="modal-system" class="modal-overlay" hidden data-static-backdrop="true">
+    <section class="modal-box modal-box-system" role="alertdialog" aria-modal="true" aria-labelledby="sys-modal-title" aria-describedby="sys-modal-msg" tabindex="-1">
+        <header class="modal-header">
+            <h2 id="sys-modal-title">알림</h2>
+            <button type="button" class="close-btn" data-close-modal="modal-system" aria-label="알림 닫기">&times;</button>
+        </header>
+        <p id="sys-modal-msg">내용</p>
 
-        <div id="sys-input-wrapper" style="padding: 0 40px 20px 40px; display: none;">
-            <input type="text" id="sys-modal-input" class="form-input"
-                   style="width: 100%; text-align: center; background:#333; border:1px solid #555; color:#fff; padding:10px; border-radius:4px;">
-            <div id="sys-modal-char-count" style="text-align: right; color: #888; font-size: 0.8em; margin-top: 5px;">0 / 15</div>
+        <div id="sys-input-wrapper" hidden>
+            <label for="sys-modal-input">이름</label>
+            <input type="text" id="sys-modal-input" class="form-input" maxlength="15" aria-describedby="sys-modal-char-count">
+            <div id="sys-modal-char-count">0 / 15</div>
         </div>
 
-        <div class="modal-footer" style="justify-content: center; gap: 15px; padding-bottom: 25px;">
-            <button id="sys-btn-yes" class="btn btn-yellow" style="min-width: 80px;">확인</button>
-            <button id="sys-btn-no" class="btn btn-red" style="min-width: 80px; display: none;">취소</button>
-        </div>
-    </div>
+        <footer class="modal-footer system-modal-actions">
+            <button type="button" id="sys-btn-yes" class="btn btn-yellow">확인</button>
+            <button type="button" id="sys-btn-no" class="btn btn-red" hidden>취소</button>
+        </footer>
+    </section>
 </div>
 
-
-<div id="global-tooltip" class="item-tooltip">
+<div id="global-tooltip" class="item-tooltip" role="tooltip" aria-hidden="true">
     <div class="tooltip-title" id="tt-title"></div>
     <div class="tooltip-desc" id="tt-desc"></div>
     <div class="tooltip-tags" id="tt-tags"></div>
 </div>
+<p id="party-tooltip-instructions" class="sr-only">장비 상세 설명은 길게 누르거나 Alt+아래쪽 화살표 키로 고정한 뒤 스크롤할 수 있습니다. Escape 키를 누르면 원래 항목으로 돌아갑니다.</p>
 
-<button class="floating-report-btn" title="버그 신고">🚨</button>
-
-<script>
-    loadJS('js/party_builder.js');
-</script>
+<div id="party-live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+<button type="button" class="floating-report-btn" title="버그 제보" aria-label="버그 또는 개선 의견 제보" inert aria-disabled="true">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.8 20h18.4ZM12 9v5M12 17.5h.01"/></svg>
+</button>
 </body>
 </html>

@@ -24,7 +24,7 @@
             parts.push(escapeHtml(text.slice(lastIndex, offset)));
             if (tooltipDictionary[keyword]) {
                 parts.push(
-                    `<span class="tooltip-trigger" data-keyword="${escapeHtml(keyword)}" tabindex="0">${escapeHtml(keyword)}</span>`
+                    `<button type="button" class="tooltip-trigger" data-keyword="${escapeHtml(keyword)}" aria-describedby="character-effect-tooltip-box" aria-controls="character-effect-tooltip-box" aria-expanded="false" aria-haspopup="dialog">${escapeHtml(keyword)}</button>`
                 );
             } else {
                 parts.push(escapeHtml(keyword));
@@ -241,18 +241,35 @@
             tooltipBox = document.createElement('div');
             tooltipBox.id = 'character-effect-tooltip-box';
             tooltipBox.className = 'character-effect-tooltip-box';
-            tooltipBox.setAttribute('role', 'tooltip');
             document.body.appendChild(tooltipBox);
         }
+        tooltipBox.setAttribute('role', 'tooltip');
+        tooltipBox.setAttribute('aria-hidden', 'true');
+        tooltipBox.tabIndex = -1;
         let tooltipPinned = false;
+        let activeTooltipTrigger = null;
+        let suppressedFocusTrigger = null;
 
         function showTooltip(trigger, pinned = false) {
             const description = tooltipDictionary[trigger.dataset.keyword];
             if (!description) return;
 
+            if (activeTooltipTrigger && activeTooltipTrigger !== trigger) {
+                activeTooltipTrigger.setAttribute('aria-expanded', 'false');
+            }
             tooltipPinned = pinned;
+            activeTooltipTrigger = trigger;
             tooltipBox.textContent = description;
+            tooltipBox.dataset.pinned = String(pinned);
+            tooltipBox.setAttribute('role', pinned ? 'dialog' : 'tooltip');
+            tooltipBox.tabIndex = pinned ? 0 : -1;
+            tooltipBox.setAttribute('aria-label', `${trigger.dataset.keyword} 설명`);
+            if (pinned) tooltipBox.setAttribute('aria-modal', 'false');
+            else tooltipBox.removeAttribute('aria-modal');
+            trigger.setAttribute('aria-expanded', String(pinned));
             tooltipBox.classList.add('visible');
+            tooltipBox.setAttribute('aria-hidden', 'false');
+            tooltipBox.scrollTop = 0;
 
             const rect = trigger.getBoundingClientRect();
             const boxRect = tooltipBox.getBoundingClientRect();
@@ -273,12 +290,28 @@
 
             tooltipBox.style.left = `${left}px`;
             tooltipBox.style.top = `${top}px`;
+            if (pinned) requestAnimationFrame(() => tooltipBox.focus({ preventScroll: true }));
         }
 
-        function hideTooltip(force = false) {
+        function hideTooltip(force = false, restoreFocus = false) {
             if (tooltipPinned && !force) return;
+            const returnTarget = activeTooltipTrigger;
             tooltipPinned = false;
+            tooltipBox.dataset.pinned = 'false';
             tooltipBox.classList.remove('visible');
+            tooltipBox.setAttribute('role', 'tooltip');
+            tooltipBox.tabIndex = -1;
+            tooltipBox.removeAttribute('aria-modal');
+            tooltipBox.setAttribute('aria-hidden', 'true');
+            returnTarget?.setAttribute('aria-expanded', 'false');
+            activeTooltipTrigger = null;
+            if (restoreFocus && returnTarget?.isConnected) {
+                suppressedFocusTrigger = returnTarget;
+                returnTarget.focus({ preventScroll: true });
+                setTimeout(() => {
+                    if (suppressedFocusTrigger === returnTarget) suppressedFocusTrigger = null;
+                }, 0);
+            }
         }
 
         container.addEventListener('mouseover', event => {
@@ -298,7 +331,12 @@
         });
         container.addEventListener('focusin', event => {
             const trigger = event.target.closest('.tooltip-trigger');
-            if (trigger && container.contains(trigger)) showTooltip(trigger);
+            if (!trigger || !container.contains(trigger) || tooltipPinned) return;
+            if (suppressedFocusTrigger === trigger) {
+                suppressedFocusTrigger = null;
+                return;
+            }
+            showTooltip(trigger);
         });
         container.addEventListener('focusout', event => {
             if (
@@ -311,7 +349,12 @@
         container.addEventListener('click', event => {
             const trigger = event.target.closest('.tooltip-trigger');
             if (trigger && container.contains(trigger)) {
+                event.preventDefault();
                 event.stopPropagation();
+                if (tooltipPinned && activeTooltipTrigger === trigger) {
+                    hideTooltip(true, true);
+                    return;
+                }
                 showTooltip(trigger, true);
             } else {
                 hideTooltip(true);
@@ -329,7 +372,17 @@
         tooltipBox.addEventListener('click', event => {
             event.stopPropagation();
         });
+        tooltipBox.addEventListener('focusout', event => {
+            if (!tooltipPinned || tooltipBox.contains(event.relatedTarget) || event.relatedTarget === activeTooltipTrigger) return;
+            hideTooltip(true);
+        });
         tooltipBox.addEventListener('mouseleave', () => hideTooltip());
+        document.addEventListener('keydown', event => {
+            if (event.key !== 'Escape' || !tooltipBox.classList.contains('visible')) return;
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            hideTooltip(true, true);
+        });
         window.addEventListener('resize', () => hideTooltip(true));
         window.addEventListener('scroll', () => hideTooltip(), { passive: true });
     }
@@ -338,18 +391,45 @@
         if (container.dataset.characterEffectEventsBound === 'true') return;
         container.dataset.characterEffectEventsBound = 'true';
 
-        container.addEventListener('click', event => {
-            const button = event.target.closest('[data-effect-panel]');
+        function activatePanel(button, moveFocus = false) {
             if (!button || !container.contains(button)) return;
             const target = button.dataset.effectPanel;
             container.querySelectorAll('[data-effect-panel]').forEach(item => {
                 const active = item === button;
                 item.classList.toggle('active', active);
                 item.setAttribute('aria-selected', String(active));
+                item.tabIndex = active ? 0 : -1;
             });
             container.querySelectorAll('[data-effect-content]').forEach(panel => {
-                panel.classList.toggle('active', panel.dataset.effectContent === target);
+                const active = panel.dataset.effectContent === target;
+                panel.classList.toggle('active', active);
+                panel.hidden = !active;
             });
+            if (moveFocus) button.focus();
+        }
+
+        container.addEventListener('click', event => {
+            const button = event.target.closest('[data-effect-panel]');
+            if (!button || !container.contains(button)) return;
+            activatePanel(button);
+        });
+
+        container.addEventListener('keydown', event => {
+            const button = event.target.closest('[data-effect-panel]');
+            if (!button || !container.contains(button)) return;
+            const tabs = Array.from(container.querySelectorAll('[data-effect-panel]:not([hidden])'));
+            const currentIndex = tabs.indexOf(button);
+            if (currentIndex < 0) return;
+
+            let nextIndex = null;
+            if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (currentIndex + 1) % tabs.length;
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+            if (event.key === 'Home') nextIndex = 0;
+            if (event.key === 'End') nextIndex = tabs.length - 1;
+            if (nextIndex === null) return;
+
+            event.preventDefault();
+            activatePanel(tabs[nextIndex], true);
         });
 
         container.addEventListener('change', event => {
@@ -401,12 +481,12 @@
 
         container.innerHTML = `
             <div class="character-effects-switch" role="tablist" aria-label="스킬, 계령, 특성, 차원영상">
-                <button type="button" class="active" data-effect-panel="skills" role="tab" aria-selected="true">스킬</button>
-                <button type="button" data-effect-panel="enlighten" role="tab" aria-selected="false">계령</button>
-                <button type="button" data-effect-panel="traits" role="tab" aria-selected="false">특성</button>
-                <button type="button" data-effect-panel="dimensional-image" role="tab" aria-selected="false">차원영상</button>
+                <button type="button" id="character-effects-tab-skills" class="active" data-effect-panel="skills" role="tab" aria-selected="true" aria-controls="character-effects-panel-skills" tabindex="0">스킬</button>
+                <button type="button" id="character-effects-tab-enlighten" data-effect-panel="enlighten" role="tab" aria-selected="false" aria-controls="character-effects-panel-enlighten" tabindex="-1">계령</button>
+                <button type="button" id="character-effects-tab-traits" data-effect-panel="traits" role="tab" aria-selected="false" aria-controls="character-effects-panel-traits" tabindex="-1">특성</button>
+                <button type="button" id="character-effects-tab-dimensional-image" data-effect-panel="dimensional-image" role="tab" aria-selected="false" aria-controls="character-effects-panel-dimensional-image" tabindex="-1">차원영상</button>
             </div>
-            <div class="character-effect-panel active" data-effect-content="skills" role="tabpanel">
+            <div id="character-effects-panel-skills" class="character-effect-panel active" data-effect-content="skills" role="tabpanel" aria-labelledby="character-effects-tab-skills" tabindex="0">
                 ${skills.length ? `
                     <div class="character-effect-list">
                         ${skills.map(renderSkill).join('')}
@@ -421,13 +501,13 @@
                     </section>
                 ` : ''}
             </div>
-            <div class="character-effect-panel" data-effect-content="enlighten" role="tabpanel">
+            <div id="character-effects-panel-enlighten" class="character-effect-panel" data-effect-content="enlighten" role="tabpanel" aria-labelledby="character-effects-tab-enlighten" tabindex="0" hidden>
                 ${renderEnlighten(enlighten, enlightenSkills)}
             </div>
-            <div class="character-effect-panel" data-effect-content="traits" role="tabpanel">
+            <div id="character-effects-panel-traits" class="character-effect-panel" data-effect-content="traits" role="tabpanel" aria-labelledby="character-effects-tab-traits" tabindex="0" hidden>
                 ${renderTraits(traits)}
             </div>
-            <div class="character-effect-panel" data-effect-content="dimensional-image" role="tabpanel">
+            <div id="character-effects-panel-dimensional-image" class="character-effect-panel" data-effect-content="dimensional-image" role="tabpanel" aria-labelledby="character-effects-tab-dimensional-image" tabindex="0" hidden>
                 ${renderDimensionalImage(character.dimensionalImage, characterName)}
             </div>
         `;
@@ -436,5 +516,5 @@
         setupTooltips(container);
     }
 
-    window.CharacterEffects = { render };
+    window.CharacterEffects = Object.freeze({ render });
 })();

@@ -17,7 +17,9 @@ node tools/update-character-effects.mjs nautila https://namu.wiki/w/노틸라
 ```
 
 스크립트는 해당 ID의 `data/character_effects.json`에서 `skills`, `derivedCards`,
-`enlighten`만 갱신한다. 기존 `traits`와 `dimensionalImage`는 유지한다.
+`enlighten`만 갱신하고, 브라우저가 읽는 `data/character-effects/<캐릭터 ID>.json`
+런타임 샤드도 같은 직렬화 규칙으로 함께 갱신한다. 기존 `traits`와
+`dimensionalImage`는 유지한다.
 `enlighten`에는 계령 3개, 초월 폭발, 최종 법칙을 순서대로 저장한다.
 스킬이 없거나 계령이 3개가 아니면 파일을 수정하지 않고 오류를 출력한다.
 영지 각성과 최종 법칙은 캐릭터당 하나인지 검증한다. 영역별 효과나 단계별
@@ -45,3 +47,7 @@ node tools/update-character-effects.mjs nautila https://namu.wiki/w/노틸라
 ```powershell
 node tools/update-character-effects.mjs nautila C:\tmp\nautila.html
 ```
+
+작업 후에는 `npm run check:data-shards` 또는 전체 `npm run check`를 실행한다.
+`data/character_effects.json`만 수동 수정했다면 먼저 `npm run generate:data-shards`를
+실행해 모든 생성 파일을 원본과 동기화한다.

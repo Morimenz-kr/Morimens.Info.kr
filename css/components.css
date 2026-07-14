@@ -1,228 +1,192 @@
-/* ============================================
-   컴포넌트 스타일 (Reusable Components)
-   여러 페이지에서 재사용되는 UI 컴포넌트
-   ============================================ */
+/* Shared, reusable UI components. Page-specific layout belongs in css/pages/. */
 
-/* --- 1. 캐릭터 카드 (Character Card) --- */
 .character-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr));
+    gap: clamp(0.75rem, 2vw, 1.25rem);
 }
 
 .card-link {
-    text-decoration: none;
-    color: inherit;
     display: block;
+    min-inline-size: 0;
+    color: inherit;
+    text-decoration: none;
 }
 
 .character-card {
-    background-color: var(--color-bg-card);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    text-align: center;
-    padding-bottom: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    transition: transform var(--transition-fast), background var(--transition-fast);
-    border: 1px solid var(--color-border-dark);
     position: relative;
+    block-size: 100%;
+    overflow: hidden;
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, var(--color-bg-elevated), var(--color-bg-card));
+    box-shadow: var(--shadow-sm);
+    text-align: start;
+    transition:
+        transform var(--transition-fast),
+        border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
 }
 
-.character-card:hover {
-    transform: translateY(-5px);
-    background-color: var(--color-bg-elevated);
-    border-color: var(--color-border-light);
+.card-link:hover .character-card,
+.card-link:focus-visible .character-card {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-0.18rem);
 }
 
 .character-card img {
-    width: 100%;
-    aspect-ratio: 1 / 1.1;
+    inline-size: 100%;
+    aspect-ratio: 1;
+    border-block-end: 1px solid var(--color-border-dark);
+    background: var(--color-bg-input);
     object-fit: cover;
-    border-bottom: 1px solid #333;
-    margin-bottom: 10px;
 }
 
 .character-card h3 {
-    margin: 5px 0;
-    font-size: 1.1em;
-    color: #fff;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0 5px;
+    margin: 0;
+    padding: var(--space-3) var(--space-3) var(--space-1);
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    word-break: normal;
 }
 
 .character-card p {
-    font-size: 0.85em;
-    color: #888;
     margin: 0;
+    padding: 0 var(--space-3) var(--space-3);
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
 }
 
-/* 계역 태그 */
+.relems-tag,
+.tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid color-mix(in srgb, var(--color-text-primary) 18%, transparent);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-on-strong);
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
 .relems-tag {
     position: absolute;
-    top: 8px;
-    left: 8px;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 0.75em;
-    font-weight: bold;
-    color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    inset-block-start: var(--space-2);
+    inset-inline-start: var(--space-2);
+    padding: 0.3rem 0.55rem;
+    box-shadow: 0 0.2rem 0.65rem color-mix(in srgb, var(--color-bg-dark) 45%, transparent);
 }
 
-.relems-tag.chaos {
-    background-color: var(--color-chaos);
-}
-
-.relems-tag.aequor {
-    background-color: var(--color-aequor);
-}
-
-.relems-tag.caro {
-    background-color: var(--color-caro);
-}
-
-.relems-tag.ultra {
-    background-color: var(--color-ultra);
-}
-
-/* 태그 스타일 (등급, 클래스) */
 .tag {
-    padding: 5px 12px;
-    border-radius: 15px;
-    font-weight: bold;
-    color: #fff;
+    padding: 0.35rem 0.7rem;
 }
 
+.relems-tag.chaos,
+.tag.chaos { background: var(--color-chaos); }
+.relems-tag.aequor,
+.tag.aequor { background: var(--color-aequor); }
+.relems-tag.caro,
+.tag.caro { background: var(--color-caro); }
+.relems-tag.ultra,
+.tag.ultra { background: var(--color-ultra); }
+.tag.assault { background: var(--color-assault); }
+.tag.warden { background: var(--color-warden); }
+.tag.chorus { background: var(--color-chorus); }
 .tag.ssr {
-    background-color: var(--color-ssr);
-    color: #333;
+    background: var(--color-ssr);
+    color: var(--color-accent-ink);
 }
+.tag.sr { background: var(--color-sr); }
 
-.tag.sr {
-    background-color: var(--color-sr);
-}
-
-.tag.chaos {
-    background-color: var(--color-chaos);
-}
-
-.tag.aequor {
-    background-color: var(--color-aequor);
-}
-
-.tag.caro {
-    background-color: var(--color-caro);
-}
-
-.tag.ultra {
-    background-color: var(--color-ultra);
-}
-
-.tag.assault {
-    background-color: var(--color-assault);
-}
-
-.tag.warden {
-    background-color: var(--color-warden);
-}
-
-.tag.chorus {
-    background-color: var(--color-chorus);
-}
-
-/* --- 2. 북마크 링크 카드 (Notion-style) --- */
 .notion-bookmark {
-    display: flex;
-    background-color: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    text-decoration: none;
-    color: #eee;
-    margin-bottom: 16px;
-    transition: all 0.2s;
-    height: 120px;
-    /* 🔧 카드 높이 고정 */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-block-size: 7rem;
+    margin-block-end: var(--space-4);
     overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
 }
 
-.notion-bookmark:hover {
-    background-color: #353535;
-    border-color: #888;
-    transform: translateY(-2px);
+.notion-bookmark:hover,
+.notion-bookmark:focus-visible {
+    border-color: var(--color-accent);
+    background: var(--color-bg-elevated);
+    transform: translateY(-0.1rem);
 }
 
 .bookmark-content {
-    flex: 1;
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-width: 0;
+    display: grid;
+    align-content: center;
+    gap: var(--space-2);
+    min-inline-size: 0;
+    padding: var(--space-4);
 }
 
 .bookmark-title {
-    font-size: 1.1em;
-    font-weight: bold;
-    white-space: normal;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: #fff;
-    margin-bottom: 8px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #444;
-    /* 🔧 제목 아래 구분선 */
-    line-height: 1.3;
+    margin: 0;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
 }
 
 .bookmark-desc {
-    font-size: 0.9em;
-    color: #aaa;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    /* 표준 속성 */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.3;
-}
-
-.bookmark-image {
-    width: 120px;
-    /* 🔧 사진 크기 고정 1:1 */
-    height: 120px;
-    background-color: #111;
-    flex-shrink: 0;
-}
-
-.bookmark-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .bookmark-url {
-    font-size: 0.75em;
-    color: #666;
-    margin-top: 8px;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: var(--space-1);
+    margin-block-start: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
 }
 
-/* --- 3. 모달 (공통) --- */
+.bookmark-image {
+    inline-size: clamp(6rem, 15vw, 8rem);
+    min-block-size: 100%;
+    background: var(--color-bg-input);
+}
+
+.bookmark-image img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+}
+
 .modal-overlay {
-    display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-overlay);
-    z-index: 1000;
-    justify-content: center;
+    inset: 0;
+    z-index: 2000;
+    display: none;
     align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding:
+        max(1rem, env(safe-area-inset-top))
+        max(1rem, env(safe-area-inset-right))
+        max(1rem, env(safe-area-inset-bottom))
+        max(1rem, env(safe-area-inset-left));
+    background: var(--color-overlay);
+    overscroll-behavior: contain;
 }
 
 .modal-overlay.show {
@@ -230,203 +194,243 @@
 }
 
 .modal-content {
-    width: min(90%, 500px);
-    background-color: #222;
+    inline-size: min(100%, 32rem);
+    max-block-size: calc(100dvh - 2rem);
+    overflow-y: auto;
+    margin: auto;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid var(--color-border-light);
     border-radius: var(--radius-lg);
-    padding: 20px;
-    border: 1px solid var(--color-border);
-    max-height: 80vh;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
+    background: var(--color-bg-card);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text-primary);
+    text-align: start;
+    scrollbar-gutter: stable;
 }
 
 .modal-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #444;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-block-end: var(--space-4);
+    padding-block-end: var(--space-3);
+    border-block-end: 1px solid var(--color-border);
 }
 
 .modal-header h2 {
     margin: 0;
-    font-size: 1.2em;
     color: var(--color-accent);
+    font-size: 1.25rem;
 }
 
 .close-btn {
-    background: none;
-    border: none;
-    color: #aaa;
-    font-size: 1.5em;
-    cursor: pointer;
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    inline-size: var(--control-height);
+    block-size: var(--control-height);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--color-text-muted);
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 .close-btn:hover {
-    color: #fff;
+    border-color: var(--color-border);
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
 }
 
-/* --- 4. 메뉴 그리드 (공통) --- */
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+    gap: var(--space-4);
+    inline-size: 100%;
 }
 
 .menu-wrapper {
-    text-decoration: none;
-    color: inherit;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    align-items: stretch;
+    min-inline-size: 0;
+    color: inherit;
+    text-align: center;
+    text-decoration: none;
 }
 
 .menu-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    aspect-ratio: 1.6 / 0.8;
-    background: #333;
-    border-radius: 12px;
-    font-size: 2.2em;
-    border: 1px solid #444;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    transition: background 0.2s, transform 0.2s;
+    display: grid;
+    place-items: center;
+    min-block-size: 5rem;
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background:
+        linear-gradient(145deg, color-mix(in srgb, var(--color-accent) 5.5%, transparent), transparent 52%),
+        var(--color-bg-elevated);
+    color: var(--color-accent);
+    box-shadow: var(--shadow-sm);
+    font-size: 2rem;
+    transition:
+        background var(--transition-fast),
+        border-color var(--transition-fast),
+        transform var(--transition-fast);
 }
 
-.menu-wrapper:hover .menu-item {
-    background: #444;
-    border-color: #666;
-    transform: scale(0.98);
+.menu-item svg {
+    inline-size: 2rem;
+    block-size: 2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+}
+
+.menu-wrapper:hover .menu-item,
+.menu-wrapper:focus-visible .menu-item {
+    border-color: var(--color-accent);
+    background:
+        linear-gradient(145deg, color-mix(in srgb, var(--color-accent) 12%, transparent), transparent 60%),
+        var(--color-bg-hover);
+    transform: translateY(-0.12rem);
 }
 
 .menu-label {
-    margin-top: 8px;
-    font-size: 1.0em;
-    font-weight: bold;
-    color: #ccc;
-    white-space: nowrap;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    margin: var(--space-2) 0 0;
+    color: var(--color-text-secondary);
+    font-size: 0.92rem;
+    font-weight: 750;
+    line-height: 1.4;
+    word-break: keep-all;
 }
 
-/* --- 5. 검색 & 필터 컨트롤 --- */
 .controls-container {
     display: flex;
+    align-items: end;
     justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-block-end: var(--space-6);
+}
+
+.control-field {
+    display: grid;
+    gap: var(--space-1);
+    min-inline-size: 0;
+}
+
+.control-field > label,
+.form-field-label {
+    display: block;
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    font-weight: 750;
+}
+
+.search-bar,
+.form-input,
+.form-textarea,
+select {
+    min-block-size: var(--control-height);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg-input);
+    color: var(--color-text-primary);
+}
+
+.search-bar,
+.form-input,
+.form-textarea {
+    inline-size: 100%;
+    padding: 0.7rem 0.85rem;
 }
 
 .search-bar {
-    flex: 1;
-    min-width: 200px;
-    padding: 12px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--color-border);
-    background-color: var(--color-bg-input);
-    color: #fff;
-    font-size: 1em;
+    flex: 1 1 16rem;
+    min-inline-size: 10rem;
 }
 
-.search-bar:focus {
-    outline: none;
-    border-color: var(--color-accent);
+select {
+    min-inline-size: 0;
+    padding: 0.65rem 2rem 0.65rem 0.75rem;
+}
+
+.search-bar::placeholder,
+.form-input::placeholder,
+.form-textarea::placeholder {
+    color: var(--color-text-dim);
+    opacity: 1;
+}
+
+.search-bar:hover,
+.form-input:hover,
+.form-textarea:hover,
+select:hover {
+    border-color: var(--color-border-light);
+}
+
+.search-bar:focus,
+.form-input:focus,
+.form-textarea:focus,
+select:focus {
+    border-color: var(--color-focus);
 }
 
 .filter-container {
     display: flex;
-    gap: 8px;
+    flex: 0 1 auto;
+    gap: var(--space-2);
 }
 
-select {
-    padding: 12px;
-    background-color: var(--color-bg-elevated);
-    color: #eee;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 1em;
-}
-
-select:focus {
-    outline: none;
-    border-color: var(--color-accent);
-}
-
-/* --- 신고 모달 폼 스타일 (공통) --- */
 .form-title {
+    margin: 0 0 var(--space-4);
+    padding-block-end: var(--space-3);
+    border-block-end: 1px solid var(--color-border);
     color: var(--color-accent);
-    border-bottom: 2px solid #444;
-    padding-bottom: 10px;
-    margin-top: 0;
 }
 
 .form-field-label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #ccc;
-}
-
-.form-input,
-.form-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--color-border-light);
-    border-radius: var(--radius-sm);
-    background-color: var(--color-bg-form);
-    color: #eee;
-    font-size: 1em;
-    box-sizing: border-box;
-    font-family: inherit;
-}
-
-.form-input:focus,
-.form-textarea:focus {
-    outline: none;
-    border-color: var(--color-accent);
+    margin-block-start: var(--space-4);
+    margin-block-end: var(--space-1);
 }
 
 .form-textarea {
-    min-height: 120px;
-    max-height: 400px;
-    /* 🔧 최대 높이 제한 - 화면 뚫고 내려가는 버그 방지 */
+    min-block-size: 8rem;
+    max-block-size: min(24rem, 45vh);
     resize: vertical;
 }
 
 .form-submit-btn {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    margin-top: 20px;
-    background-color: var(--color-link-blue);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 100%;
+    min-block-size: var(--control-height);
+    margin-block-start: var(--space-5);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    font-weight: 850;
 }
 
 .form-submit-btn:hover {
-    background-color: var(--color-link-blue-hover);
+    border-color: var(--color-accent-strong);
+    background: var(--color-accent-strong);
 }
 
-/* 버그 제보 모달 콤팩트 스타일 전역 적용 */
+.form-submit-btn:disabled {
+    cursor: wait;
+    opacity: 0.62;
+}
+
 #report-modal .modal-content {
-    width: fit-content !important;
-    min-width: 300px;
-    max-width: 90vw;
-    margin: 0 auto;
-    transition: all 0.3s ease;
+    inline-size: min(100%, 36rem);
 }
 
 .report-modal-content {
@@ -435,27 +439,71 @@ select:focus {
 
 .report-modal-close {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    font-size: 24px;
+    inset-block-start: var(--space-3);
+    inset-inline-end: var(--space-3);
 }
 
 .report-modal-description {
-    color: #aaa;
-    font-size: 0.9em;
+    margin-block-end: var(--space-4);
+    padding-inline-end: 2.75rem;
+    color: var(--color-text-secondary);
 }
 
 .report-modal-help {
     display: block;
-    margin-top: 5px;
-    color: #ff9f43;
-    font-size: 0.9em;
-    font-weight: normal;
+    margin-block-start: var(--space-1);
+    color: var(--color-warning);
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.5;
 }
 
 .report-modal-status {
-    display: none;
-    margin-top: 15px;
-    color: #ffc107;
+    min-block-size: 1.5rem;
+    margin: var(--space-3) 0 0;
+    color: var(--color-text-secondary);
     text-align: center;
+}
+
+.report-modal-status[data-state="loading"] {
+    color: var(--color-warning);
+}
+
+.report-modal-status[data-state="success"] {
+    color: var(--color-success);
+}
+
+.report-modal-status[data-state="error"] {
+    color: var(--color-danger);
+}
+
+@media (max-width: 37.5rem) {
+    .notion-bookmark {
+        grid-template-columns: 1fr;
+    }
+
+    .bookmark-image {
+        grid-row: 1;
+        inline-size: 100%;
+        block-size: 8rem;
+    }
+
+    .controls-container,
+    .filter-container {
+        align-items: stretch;
+        flex-direction: column;
+        inline-size: 100%;
+    }
+
+    .search-bar {
+        min-inline-size: 0;
+    }
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .card-link:hover .character-card,
+    .notion-bookmark:hover,
+    .menu-wrapper:hover .menu-item {
+        transform: none;
+    }
 }

@@ -1,10 +1,61 @@
-/* js/party_builder.js - Full Version (Multi-Page Integrated) */
+/* js/party_builder.js - Party Builder browser controller */
+
+import { createStorageAdapter, createVersionedStateStore, parseJson } from './party-builder/storage.js?v=v1.4.0-site-quality-20260713-r4';
+import { createValidator } from './party-builder/validation.js?v=v1.4.0-site-quality-20260713-r4';
+import * as Search from './party-builder/search.js?v=v1.4.0-site-quality-20260713-r4';
+import {
+    collectEquippedKeyIds,
+    collectEquippedWheelIds,
+    createKeyOptionModels,
+    createWheelOptionModels,
+    findDedicatedKey,
+    findDedicatedWheel,
+    withEquippedKey,
+    withEquippedWheel
+} from './party-builder/equipment.js?v=v1.4.0-site-quality-20260713-r4';
+import {
+    applyCharacterSelection,
+    applySupport,
+    createPartyStateFactory,
+    moveTeam,
+    removeSupportFromPage,
+    replaceTeamComposition,
+    resolvePageIndexAfterDeletion,
+    resetTeam
+} from './party-builder/team-state.js?v=v1.4.0-site-quality-20260713-r4';
+import { parseAndSanitizeTeamShare, serializeTeamShare } from './party-builder/share.js?v=v1.4.0-site-quality-20260713-r4';
+import { createPartyModalController } from './party-builder/modal-controller.js?v=v1.4.0-site-quality-20260713-r4';
+import { bootstrapPartyBuilder, loadRequiredPartyBuilderData } from './party-builder/bootstrap.js?v=v1.4.0-site-quality-20260713-r4';
+import { createItemTooltipController } from './ui/item-tooltip.js?v=v1.4.0-site-quality-20260713-r4';
+
+const Storage = Object.freeze({
+    ...createStorageAdapter(() => window.localStorage),
+    parseJson
+});
+const partyTooltipController = createItemTooltipController({
+    document,
+    window,
+    tooltipElement: document.getElementById('global-tooltip'),
+    visibleClass: 'show',
+    positionTooltip: positionPartyTooltip
+});
+const normalizeWheelMainStat = Search.normalizeWheelMainStat;
+const normalizeDedicatedTarget = Search.normalizeDedicatedTarget;
 
 // [1] 상수 및 설정 데이터
 const MAX_TEAMS = 10;
 const MAX_PAGES = 5;
 const INVENTORY_STORAGE_KEY = 'morimens_inventory_checker_v2';
+const PARTY_STORAGE_KEY = 'morimens_v2_pages';
+const LEGACY_PARTY_STORAGE_KEY = 'morimens_v2';
+const RECENT_KEYS_STORAGE_KEY = 'morimens_recent_keys';
+const PARTY_STORAGE_VERSION = 3;
+const TEAM_TAB_DESKTOP_QUERY = '(min-width: 56.25rem)';
 const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+const { createEmptyTeam, createEmptyPage } = createPartyStateFactory({
+    maxTeams: MAX_TEAMS,
+    romanNumerals: ROMAN_NUMS
+});
 const DEFAULT_PARTY_BUILDER_RULES = {
     exclusive_groups: [["ramona", "ramona_timeworn"]],
     character_tags: {},
@@ -15,32 +66,27 @@ let draggedIdx = -1;
 let lastHoverIdx = -1;
 let teamTabTouchState = null;
 let skipNextTeamTabClick = false;
+let stateValidator = null;
+let stateStore = null;
+let staticControlsBound = false;
+let initializationPromise = null;
+let saveErrorPortalReturn = null;
 
 // 최근 사용한 은열쇠 식별자 저장소 (로컬 스토리지 연동)
-let recentKeys = JSON.parse(localStorage.getItem('morimens_recent_keys')) || [];
-
-// [2] 데이터 생성 팩토리 함수
-function createEmptyTeam(index) {
-    return {
-        name: `TEAM ${ROMAN_NUMS[index]}`,
-        chars: [null, null, null, null],
-        wheels: [ [null, null], [null, null], [null, null], [null, null] ],
-        key: null,
-        supportIdx: -1
-    };
-}
-
-function createEmptyPage(name) {
-    return {
-        pageName: name,
-        teams: Array.from({ length: MAX_TEAMS }, (_, i) => createEmptyTeam(i))
-    };
-}
+let recentKeys = [];
 
 // [3] 전역 상태 관리
 let allPages = [createEmptyPage("PAGE 1")];
 let currentPageIdx = 0;
 let currentTeamIdx = 0;
+const partyModalController = createPartyModalController({
+    document,
+    window,
+    getFallbackSelector: getPartyModalFallbackSelector,
+    onClose: handlePartyModalClose
+});
+const openModal = partyModalController.open;
+const closeModal = partyModalController.close;
 
 let DB = { chars: [], wheels: [], keys: [] };
 let PARTY_BUILDER_RULES = { ...DEFAULT_PARTY_BUILDER_RULES };
@@ -50,7 +96,6 @@ let activeCharFilters = { domain: new Set(), class: new Set() };
 let activeCharSearchTags = new Set();
 let activeWheelTags = new Set();
 let activeWheelMainStats = new Set();
-let activeKeyTags = new Set();
 let tempChars = [];
 let isSupportSelectionMode = false;
 let editingCharIdx = -1;
@@ -59,10 +104,10 @@ let ownedOnlyFilters = { characters: false, wheels: false };
 
 function readOwnedInventory() {
     try {
-        const saved = JSON.parse(localStorage.getItem(INVENTORY_STORAGE_KEY));
+        const saved = Storage.parseJson(Storage.getRaw(INVENTORY_STORAGE_KEY), {});
         return {
             characters: new Set(Array.isArray(saved?.characters) ? saved.characters.map(String) : []),
-            wheels: new Set(Array.isArray(saved?.wheels) ? saved.wheels : [])
+            wheels: new Set(Array.isArray(saved?.wheels) ? saved.wheels.filter(value => typeof value === 'string') : [])
         };
     } catch (error) {
         console.warn('보유량 체크 상태를 읽지 못했습니다.', error);
@@ -95,9 +140,18 @@ function renderOwnedInventoryEmpty(container, type) {
         </div>`;
 }
 
+function renderNoResults(container, message) {
+    const empty = document.createElement('p');
+    empty.className = 'no-result-message';
+    empty.textContent = message;
+    container.appendChild(empty);
+}
+
 // [4] 태그 및 메타데이터 정의
-const ALL_KEY_TAGS = [ "산출력", "산출력 획득", "은열쇠 에너지", "은열쇠 게이지", "방어막 획득", "체력 회복", "힘", "힘 증가", "피해 증폭", "치명타 확률", "치명타 확률 증가", "치명타 피해", "치명타 피해 증가", "영역 숙련", "카드 추가", "드로우", "카드 뽑기", "코스트 감소", "계산 비용", "복사본", "영감", "광기", "광기 부여", "약화", "취약", "중독", "중독 부여", "힘 훔침", "힘 감소", "반격", "소멸", "경계", "희생", "터치월", "터치 손상", "출생 의식", "스칼렛 용광로", "초월 턴", "시편", "주사위" ];
-const ALL_SEARCH_TAGS = [ "은열쇠 충전", "피해 증폭", "영역 숙련", "죽음 저항", "광기 회복", "검은 인장 드롭율", "크리티컬 확률", "크리티컬 피해", "기본 피해 증가", "최종 피해 증가", "능동 피해 증가", "힘", "임시 힘", "반격", "방어막", "HP 회복", "광기 획득", "은열쇠 에너지", "산출력", "손패 상한", "카드 뽑기", "중독", "취약", "허약", "전투 시작 시", "턴 시작 시", "광기 폭발", "은열쇠 발동", "명령 카드", "타격", "방어", "적 처치", "피격", "혈육", "심해", "초차원", "배아", "촉수", "핏빛 용광로", "심장의 불", "빙설", "학자 인격", "광대 인격", "고요한 바다", "몰아치는 파도", "저주받은 유물", "증상 카드" ];
+const ALL_KEY_TAGS = Search.KEY_TAGS;
+const ALL_SEARCH_TAGS = Search.WHEEL_TAGS;
+const wheelKeywordMatcher = Search.createKeywordMatcher(ALL_SEARCH_TAGS);
+const keyKeywordMatcher = Search.createKeywordMatcher(ALL_KEY_TAGS);
 
 const CHAR_TAG_MAP = {};
 const TAG_ALIASES = {};
@@ -123,8 +177,9 @@ function openPageInputModal(mode) {
     const input = document.getElementById('sys-modal-input');
     const countDisplay = document.getElementById('sys-modal-char-count');
 
-    wrapper.style.display = 'block';
+    wrapper.hidden = false;
     input.maxLength = 15;
+    const editPageIndex = targetRenameIndex !== -1 ? targetRenameIndex : currentPageIdx;
 
     // 초기값 세팅: 수정 모드일 경우 타겟 인덱스 또는 현재 인덱스 사용
     if (mode === 'new') {
@@ -132,8 +187,7 @@ function openPageInputModal(mode) {
     } else if (mode === 'team') {
         input.value = allPages[currentPageIdx].teams[currentTeamIdx].name;
     } else {
-        const idx = (targetRenameIndex !== -1) ? targetRenameIndex : currentPageIdx;
-        input.value = allPages[idx].pageName;
+        input.value = allPages[editPageIndex].pageName;
     }
 
     if (countDisplay) countDisplay.textContent = `${input.value.length} / 15`;
@@ -153,185 +207,282 @@ function openPageInputModal(mode) {
         } else if (mode === 'team') {
             allPages[currentPageIdx].teams[currentTeamIdx].name = val;
         } else {
-            // 타겟 인덱스를 우선하여 이름 변경
-            const idx = (targetRenameIndex !== -1) ? targetRenameIndex : currentPageIdx;
-            allPages[idx].pageName = val;
+            allPages[editPageIndex].pageName = val;
         }
 
         targetRenameIndex = -1; // 인덱스 초기화
-        wrapper.style.display = 'none';
+        wrapper.hidden = true;
         renderAll();
         saveAllData(true);
-    });
+    }, { initialFocus: '#sys-modal-input' });
 
     document.getElementById('sys-btn-no').onclick = () => {
         targetRenameIndex = -1; // 인덱스 초기화
-        wrapper.style.display = 'none';
+        wrapper.hidden = true;
         closeModal('modal-system');
     };
 }
 
 // [6] 초기화 및 데이터 로드 로직
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log("Party Builder JS (Full Version) Loaded!");
+    partyModalController.setup();
     updateBackButtonLabel();
-    await loadExternalData();
-    assignTagsToWheels();
-    assignTagsToKeys();
-    loadFromLocalStorage();
-    renderAll();
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key !== 'Escape') return;
-        const open = document.querySelector('.modal-overlay.show, .modal-overlay[style*="flex"]');
-        if (open) closeModal(open.id);
-    });
-
-    ['modal-char', 'modal-wheel', 'modal-key'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.addEventListener('click', (e) => { if (e.target === el) closeModal(id); });
-    });
-
-    document.addEventListener('touchstart', hideTooltip, { passive: true });
+    document.getElementById('party-init-retry')?.addEventListener('click', initializePartyBuilder);
+    await initializePartyBuilder();
 });
 
+function bindStaticControls() {
+    if (staticControlsBound) return;
+    staticControlsBound = true;
+    const bindings = [
+        ['add-page-btn', addNewPage],
+        ['edit-team-name-btn', editTeamName],
+        ['copy-team-btn', copyTeamToClipboard],
+        ['paste-team-btn', pasteTeamFromClipboard],
+        ['reset-team-btn', resetCurrentTeam],
+        ['open-key-modal-btn', openKeyModal],
+        ['quick-setup-btn', openQuickSetup],
+        ['save-party-btn', () => saveAllData()],
+        ['btn-remove-support', removeSupport],
+        ['confirm-quick-setup-btn', confirmQuickSetup],
+        ['unequip-wheel-btn', unequipSelectedWheel],
+        ['unequip-key-btn', unequipKey],
+        ['btn-equip-ssr', () => equipDedicatedWheel('SSR')],
+        ['btn-equip-sr', () => equipDedicatedWheel('SR')],
+        ['btn-equip-key', equipDedicatedKey]
+    ];
+
+    bindings.forEach(([id, handler]) => {
+        const element = document.getElementById(id);
+        if (element) element.addEventListener('click', handler);
+    });
+
+    document.querySelectorAll('[data-close-modal]').forEach(button => {
+        button.addEventListener('click', () => closeModal(button.dataset.closeModal));
+    });
+
+    document.querySelectorAll('.filter-chip[data-filter-type][data-filter-value]').forEach(button => {
+        button.addEventListener('click', () => toggleCharFilter(button.dataset.filterType, button.dataset.filterValue));
+    });
+
+    document.getElementById('owned-char-toggle')?.addEventListener('click', () => toggleOwnedOnly('characters'));
+    document.getElementById('owned-wheel-toggle')?.addEventListener('click', () => toggleOwnedOnly('wheels'));
+    document.getElementById('key-sort-select')?.addEventListener('change', renderKeyGrid);
+    document.getElementById('sys-modal-input')?.addEventListener('keydown', event => {
+        if (event.key !== 'Enter' || event.isComposing) return;
+        event.preventDefault();
+        document.getElementById('sys-btn-yes')?.click();
+    });
+    document.querySelectorAll('[data-wheel-slot]').forEach(button => {
+        button.addEventListener('click', () => selectWheelSlot(Number(button.dataset.wheelSlot)));
+    });
+
+    const layoutQuery = window.matchMedia(TEAM_TAB_DESKTOP_QUERY);
+    const handleLayoutChange = () => renderSidebar();
+    if (typeof layoutQuery.addEventListener === 'function') layoutQuery.addEventListener('change', handleLayoutChange);
+    else if (typeof layoutQuery.addListener === 'function') layoutQuery.addListener(handleLayoutChange);
+}
+
 async function loadExternalData() {
-    try {
-        const ts = new Date().getTime();
-        const [resChars, resWheels, resKeys, resRules] = await Promise.all([
-            fetch(`data/character_manifest.json?t=${ts}`),
-            fetch(`data/wheel_list.json?t=${ts}`),
-            fetch(`data/silverkey_list.json?t=${ts}`),
-            fetch(`data/party_builder_rules.json?t=${ts}`).catch(() => null)
-        ]);
-        if (!resChars.ok || !resWheels.ok || !resKeys.ok) throw new Error("파일 로드 실패");
-        DB.chars = await resChars.json();
-        DB.wheels = await resWheels.json();
-        DB.keys = await resKeys.json();
-        PARTY_BUILDER_RULES = await loadPartyBuilderRules(resRules);
-        DB.chars.forEach(c => c.id = String(c.id));
-    } catch (error) {
-        console.error(error);
-        openSystemAlert("오류", "데이터 로드 실패");
-    }
+    const version = new URL(import.meta.url).searchParams.get('v') || 'party-builder';
+    return loadRequiredPartyBuilderData({
+        fetchImpl: window.fetch.bind(window),
+        version
+    });
 }
 
-// 사전 계산된 정규화 키워드 캐시
-async function loadPartyBuilderRules(response) {
-    if (!response || !response.ok) return { ...DEFAULT_PARTY_BUILDER_RULES };
+async function initializePartyBuilder() {
+    if (initializationPromise) return initializationPromise;
+    const retryButton = document.getElementById('party-init-retry');
+    if (retryButton) retryButton.disabled = true;
+    setPartyBuilderInteractive(false);
 
-    try {
-        const rules = await response.json();
-        return {
-            exclusive_groups: Array.isArray(rules.exclusive_groups)
-                ? rules.exclusive_groups
-                : DEFAULT_PARTY_BUILDER_RULES.exclusive_groups,
-            character_tags: rules.character_tags && typeof rules.character_tags === 'object'
-                ? rules.character_tags
-                : DEFAULT_PARTY_BUILDER_RULES.character_tags,
-            tag_aliases: rules.tag_aliases && typeof rules.tag_aliases === 'object'
-                ? rules.tag_aliases
-                : DEFAULT_PARTY_BUILDER_RULES.tag_aliases,
-            dedicated_wheel_aliases: rules.dedicated_wheel_aliases && typeof rules.dedicated_wheel_aliases === 'object'
-                ? rules.dedicated_wheel_aliases
-                : DEFAULT_PARTY_BUILDER_RULES.dedicated_wheel_aliases
-        };
-    } catch (error) {
-        console.warn("Party builder rules load failed:", error);
-        return { ...DEFAULT_PARTY_BUILDER_RULES };
-    }
+    initializationPromise = bootstrapPartyBuilder({
+        loadData: loadExternalData,
+        onDataReady(data) {
+            DB = {
+                chars: data.characters,
+                wheels: data.wheels,
+                keys: data.keys
+            };
+            PARTY_BUILDER_RULES = data.rules;
+            stateValidator = createValidator({
+                characters: DB.chars,
+                wheels: DB.wheels,
+                keys: DB.keys,
+                maxTeams: MAX_TEAMS,
+                maxPages: MAX_PAGES,
+                createEmptyTeam,
+                createEmptyPage
+            });
+            stateStore = createVersionedStateStore({
+                storage: Storage,
+                key: PARTY_STORAGE_KEY,
+                legacyKey: LEGACY_PARTY_STORAGE_KEY,
+                version: PARTY_STORAGE_VERSION,
+                maxTeams: MAX_TEAMS,
+                validator: stateValidator
+            });
+            recentKeys = Storage.readStringArray(RECENT_KEYS_STORAGE_KEY, 20);
+            assignTagsToWheels();
+            assignTagsToKeys();
+            loadFromLocalStorage();
+            renderAll();
+            bindStaticControls();
+        }
+    }).then(() => {
+        setPartyInitializationError('');
+        setPartyBuilderInteractive(true);
+    }).catch(error => {
+        console.error('Party builder initialization failed:', error);
+        stateValidator = null;
+        stateStore = null;
+        setPartyInitializationError(
+            '필수 데이터를 불러오지 못해 편집과 저장을 잠갔습니다. 기존 저장 데이터는 변경하지 않았습니다. 연결 상태를 확인한 뒤 다시 시도해 주세요.'
+        );
+        requestAnimationFrame(() => retryButton?.focus({ preventScroll: true }));
+    }).finally(() => {
+        initializationPromise = null;
+        if (retryButton) retryButton.disabled = false;
+    });
+
+    return initializationPromise;
 }
 
-const _cleanSearchTags = {};
-const _cleanKeyTags = {};
+function setPartyBuilderInteractive(interactive) {
+    const main = document.getElementById('party-builder-main');
+    const skipLink = document.querySelector('.skip-link');
+    const reportButton = document.querySelector('.floating-report-btn');
+    if (main) {
+        main.inert = !interactive;
+        main.setAttribute('aria-busy', String(!interactive));
+    }
+    [skipLink, reportButton].forEach(element => {
+        if (!element) return;
+        element.inert = !interactive;
+        element.setAttribute('aria-disabled', String(!interactive));
+    });
+}
+
+function setPartyInitializationError(message) {
+    const panel = document.getElementById('party-init-error');
+    const text = document.getElementById('party-init-error-message');
+    if (!panel || !text) return;
+    text.textContent = message || '';
+    panel.hidden = !message;
+}
 
 function assignTagsToWheels() {
-    // 키워드 정규화 캐시 (한 번만 계산)
-    if (Object.keys(_cleanSearchTags).length === 0) {
-        ALL_SEARCH_TAGS.forEach(keyword => {
-            _cleanSearchTags[keyword] = keyword.replace(/\s+/g, '');
-        });
-    }
     DB.wheels.forEach(wheel => {
-        wheel.tags = [];
-        const text = (wheel.description + " " + wheel.main_stat).replace(/\s+/g, '');
-        ALL_SEARCH_TAGS.forEach(keyword => {
-            if (text.includes(_cleanSearchTags[keyword])) wheel.tags.push(keyword);
-        });
+        wheel.tags = wheelKeywordMatcher.find(`${wheel.description || ''} ${wheel.main_stat || ''}`);
     });
 }
 
 function assignTagsToKeys() {
     if(!DB.keys) return;
-    // 키워드 정규화 캐시 (한 번만 계산)
-    if (Object.keys(_cleanKeyTags).length === 0) {
-        ALL_KEY_TAGS.forEach(keyword => {
-            _cleanKeyTags[keyword] = keyword.replace(/\s+/g, '');
-        });
-    }
     DB.keys.forEach(key => {
-        const combinedTags = new Set(key.tags || []);
-        const text = (key.description + " " + key.korean_name).replace(/\s+/g, '');
-        ALL_KEY_TAGS.forEach(keyword => {
-            if (text.includes(_cleanKeyTags[keyword])) combinedTags.add(keyword);
-        });
+        const combinedTags = new Set([
+            ...(Array.isArray(key.tags) ? key.tags : []),
+            ...keyKeywordMatcher.find(`${key.description || ''} ${key.korean_name || ''}`)
+        ]);
         key.tags = Array.from(combinedTags);
     });
 }
 
 function loadFromLocalStorage() {
-    const saved = localStorage.getItem('morimens_v2_pages');
-    if (saved) {
-        try {
-            allPages = JSON.parse(saved);
-            allPages.forEach(p => p.teams.forEach(t => { if (t.supportIdx === undefined) t.supportIdx = -1; }));
-        } catch (e) { console.error("Load Error", e); }
-    } else {
-        const legacy = localStorage.getItem('morimens_v2');
-        if (legacy) {
-            try {
-                const legacyTeams = JSON.parse(legacy);
-                allPages[0].teams = legacyTeams.map((t, i) => ({ ...createEmptyTeam(i), ...t }));
-                saveAllData(true);
-                localStorage.removeItem('morimens_v2');
-            } catch (e) {}
-        }
+    const loaded = stateStore.load(allPages);
+    allPages = loaded.pages;
+    currentPageIdx = loaded.currentPageIdx;
+    currentTeamIdx = loaded.currentTeamIdx;
+
+    if (loaded.recoveredCorruption) {
+        showToast('손상된 저장 데이터를 복구해 새 편성으로 시작합니다.');
     }
+    if (loaded.needsRewrite && saveAllData(true) && loaded.usedLegacy) stateStore.clearLegacy();
 }
 
 function saveAllData(silent = false) {
-    localStorage.setItem('morimens_v2_pages', JSON.stringify(allPages));
+    if (!stateStore) {
+        const message = '데이터가 아직 준비되지 않았습니다. 잠시 후 다시 시도해 주세요.';
+        setPersistentSaveError(message);
+        showToast(message, 'error');
+        return false;
+    }
+    const saved = stateStore.save({
+        currentPageIdx,
+        currentTeamIdx,
+        pages: allPages
+    });
+    if (!saved) {
+        const message = '저장하지 못했습니다. 이 상태에서 새로고침하면 변경 내용이 사라질 수 있습니다. 브라우저 저장 공간과 권한을 확인한 뒤 다시 저장해 주세요.';
+        setPersistentSaveError(message);
+        showToast(message, 'error');
+        return false;
+    }
+    setPersistentSaveError('');
     if (!silent) showToast('저장됨 ✓');
+    return true;
 }
 
-function showToast(msg) {
+function setPersistentSaveError(message) {
+    const alert = document.getElementById('party-save-error');
+    if (!alert) return;
+    if (message) movePersistentSaveErrorToActiveDialog(alert);
+    alert.textContent = message || '';
+    alert.hidden = !message;
+    if (!message) restorePersistentSaveErrorPortal(alert);
+}
+
+function movePersistentSaveErrorToActiveDialog(alert) {
+    const topOverlay = document.getElementById(partyModalController.getTopId());
+    const dialog = partyModalController.getDialog(topOverlay);
+    if (!dialog || dialog === alert.parentNode) return;
+    restorePersistentSaveErrorPortal(alert);
+    saveErrorPortalReturn = {
+        parent: alert.parentNode,
+        nextSibling: alert.nextSibling
+    };
+    dialog.append(alert);
+    alert.inert = false;
+    alert.dataset.modalPortal = 'true';
+}
+
+function restorePersistentSaveErrorPortal(alert = document.getElementById('party-save-error')) {
+    if (!alert || !saveErrorPortalReturn) return;
+    const { parent, nextSibling } = saveErrorPortalReturn;
+    saveErrorPortalReturn = null;
+    delete alert.dataset.modalPortal;
+    if (!parent?.isConnected) return;
+    if (nextSibling?.parentNode === parent) parent.insertBefore(alert, nextSibling);
+    else parent.append(alert);
+}
+
+function showToast(msg, tone = 'success') {
     const existing = document.querySelector('.save-toast');
     if (existing) existing.remove();
     const t = document.createElement('div');
-    t.className = 'save-toast';
+    t.className = `save-toast save-toast-${tone}`;
+    t.setAttribute('aria-hidden', 'true');
     t.textContent = msg;
     document.body.appendChild(t);
+    const liveRegion = document.getElementById('party-live-region');
+    if (liveRegion && tone !== 'error') {
+        liveRegion.textContent = '';
+        requestAnimationFrame(() => { liveRegion.textContent = msg; });
+    }
     setTimeout(() => { if (t.parentNode) t.remove(); }, 2000);
 }
 
 // [7] 페이지 및 팀 관리 기능
-function addNewPage() { openPageInputModal('new'); }
-function renameCurrentPage() { openPageInputModal('rename'); }
-function editTeamName() { openPageInputModal('team'); }
-
-function deleteCurrentPage() {
-    if (allPages.length <= 1) {
-        openSystemAlert("경고", "최소 하나 이상의 페이지는 유지되어야 합니다.");
+function addNewPage() {
+    if (allPages.length >= MAX_PAGES) {
+        openSystemAlert('추가 불가', `세트는 최대 ${MAX_PAGES}개까지 만들 수 있습니다.`);
         return;
     }
-    openSystemConfirm("페이지 삭제", `[${allPages[currentPageIdx].pageName}] 페이지 전체를 삭제하시겠습니까?`, () => {
-        allPages.splice(currentPageIdx, 1);
-        currentPageIdx = 0;
-        currentTeamIdx = 0;
-        renderAll();
-        saveAllData(true);
-    });
+    openPageInputModal('new');
 }
+function renameCurrentPage() { openPageInputModal('rename'); }
+function editTeamName() { openPageInputModal('team'); }
 
 // [8] 렌더링 엔진 (Tabs, Sidebar, Main)
 function renderAll() {
@@ -346,27 +497,81 @@ function renderPageTabs() {
     container.innerHTML = '';
 
     allPages.forEach((page, i) => {
-        const tab = document.createElement('div');
-        tab.className = `page-tab ${i === currentPageIdx ? 'active' : ''}`;
+        const shell = document.createElement('div');
+        shell.className = `page-tab-shell${i === currentPageIdx ? ' active' : ''}`;
 
-        // 이름 영역과 수정 아이콘, 삭제 아이콘 구성
-        tab.innerHTML = `
-            <span class="tab-name-text">${page.pageName}</span>
-            <svg class="edit-icon-tab" title="이름 변경" onclick="event.stopPropagation(); renamePage(${i})" viewBox="0 0 24 24" fill="none">
-                <path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z" fill="currentColor"/>
-            </svg>
-            <span class="btn-close-tab" title=페이지 삭제" onclick="event.stopPropagation(); deletePage(${i})">&times;</span>
-        `;
+        const tab = document.createElement('button');
+        tab.type = 'button';
+        tab.className = 'page-tab';
+        tab.id = `page-tab-${i}`;
+        tab.dataset.pageIndex = i;
+        tab.setAttribute('aria-pressed', String(i === currentPageIdx));
+        tab.setAttribute('aria-label', `${page.pageName} 세트 선택`);
+        tab.tabIndex = i === currentPageIdx ? 0 : -1;
+        const tabName = document.createElement('span');
+        tabName.className = 'tab-name-text';
+        tabName.textContent = page.pageName;
+        tab.appendChild(tabName);
 
-        // 더블클릭 시에도 수정 모달 오픈
-        tab.ondblclick = (e) => { e.stopPropagation(); renamePage(i); };
-
-        tab.onclick = () => {
+        const activatePage = () => {
             currentPageIdx = i;
             currentTeamIdx = 0;
             renderAll();
+            saveAllData(true);
+            requestAnimationFrame(() => {
+                document.getElementById(`page-tab-${currentPageIdx}`)?.focus({ preventScroll: true });
+            });
         };
-        container.appendChild(tab);
+        tab.addEventListener('click', activatePage);
+        tab.addEventListener('keydown', event => handleSelectionKeydown(event, container, i, allPages.length, activatePage));
+
+        const renameButton = document.createElement('button');
+        renameButton.type = 'button';
+        renameButton.className = 'page-tab-action edit-page-tab';
+        renameButton.dataset.pageIndex = i;
+        renameButton.setAttribute('aria-label', `${page.pageName} 이름 변경`);
+        renameButton.title = '이름 변경';
+        renameButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"/></svg>';
+        renameButton.addEventListener('click', () => renamePage(i));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.type = 'button';
+        deleteButton.className = 'page-tab-action delete-page-tab';
+        deleteButton.dataset.pageIndex = i;
+        deleteButton.setAttribute('aria-label', `${page.pageName} 삭제`);
+        deleteButton.title = '페이지 삭제';
+        deleteButton.textContent = '×';
+        deleteButton.disabled = allPages.length <= 1;
+        deleteButton.addEventListener('click', () => deletePage(i));
+
+        shell.append(tab, renameButton, deleteButton);
+        container.appendChild(shell);
+    });
+
+    const addButton = document.getElementById('add-page-btn');
+    if (addButton) addButton.disabled = allPages.length >= MAX_PAGES;
+}
+
+function handleSelectionKeydown(event, container, currentIndex, itemCount, activateCurrent) {
+    const keys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+    if (!keys.includes(event.key)) return;
+    event.preventDefault();
+
+    let nextIndex = currentIndex;
+    if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = itemCount - 1;
+    else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + itemCount) % itemCount;
+    else nextIndex = (currentIndex + 1) % itemCount;
+
+    const tabs = [...container.querySelectorAll('button[aria-pressed]')];
+    if (nextIndex === currentIndex) {
+        activateCurrent();
+        return;
+    }
+    tabs[nextIndex]?.click();
+    requestAnimationFrame(() => {
+        const updatedTabs = [...container.querySelectorAll('button[aria-pressed]')];
+        updatedTabs[nextIndex]?.focus({ preventScroll: true });
     });
 }
 
@@ -385,15 +590,12 @@ function deletePage(index) {
     const targetName = allPages[index].pageName;
     openSystemConfirm("페이지 삭제", `[${targetName}] 페이지 전체를 삭제하시겠습니까?`, () => {
         allPages.splice(index, 1);
-        // 삭제 후 현재 인덱스 조정
-        if (currentPageIdx >= allPages.length) {
-            currentPageIdx = allPages.length - 1;
-        } else if (currentPageIdx === index && currentPageIdx > 0) {
-            currentPageIdx--;
-        }
+        currentPageIdx = resolvePageIndexAfterDeletion(currentPageIdx, index, allPages.length);
         currentTeamIdx = 0;
         renderAll();
         saveAllData(true);
+    }, {
+        resolveSuccessFocus: () => document.getElementById(`page-tab-${currentPageIdx}`)
     });
 }
 
@@ -402,68 +604,53 @@ function renderSidebar() {
     if (!container) return;
     container.innerHTML = '';
     const currentTeams = allPages[currentPageIdx].teams;
-
-    const isVertical = window.innerWidth > 768;
-    // 간격 계산 (PC: 69px, 모바일: 가로 배치이므로 약 52px)
-    const shiftDistance = isVertical ? 69 : 52;
+    const isVertical = window.matchMedia(TEAM_TAB_DESKTOP_QUERY).matches;
 
     currentTeams.forEach((t, i) => {
-        const tab = document.createElement('div');
+        const tab = document.createElement('button');
+        tab.type = 'button';
         tab.className = `team-tab ${i === currentTeamIdx ? 'active' : ''} ${t.chars.some(x => x) ? 'filled' : ''}`;
         tab.textContent = ROMAN_NUMS[i];
         tab.dataset.index = i;
         tab.draggable = isVertical;
+        tab.id = `team-tab-${i}`;
+        tab.setAttribute('aria-pressed', String(i === currentTeamIdx));
+        tab.setAttribute('aria-label', `${t.name} 선택${t.chars.some(Boolean) ? ', 편성 있음' : ', 빈 편성'}`);
+        tab.setAttribute('aria-keyshortcuts', 'Alt+ArrowUp Alt+ArrowDown Alt+ArrowLeft Alt+ArrowRight');
+        tab.title = '선택: Enter 또는 Space · 순서 이동: Alt+방향키';
+        tab.tabIndex = i === currentTeamIdx ? 0 : -1;
 
-        // 드래그 시작 공통 로직
         const handleStart = (idx) => {
             draggedIdx = idx;
+            lastHoverIdx = idx;
             tab.classList.add('dragging');
+            tab.setAttribute('aria-grabbed', 'true');
         };
 
-        // 주변 슬롯 밀어내기 (애니메이션 로직 동기화)
         const handleMove = (hoverIdx) => {
-            if (draggedIdx === -1 || draggedIdx === hoverIdx) {
-                document.querySelectorAll('.team-tab').forEach(el => el.style.transform = '');
-                return;
-            }
-
+            if (draggedIdx === -1) return;
             lastHoverIdx = hoverIdx;
-            const allTabs = document.querySelectorAll('.team-tab');
-
-            allTabs.forEach((el, idx) => {
-                if (idx === draggedIdx) return;
-                const moveValue = isVertical ? `translateY` : `translateX`;
-
-                if (draggedIdx < hoverIdx) {
-                    if (idx > draggedIdx && idx <= hoverIdx) el.style.transform = `${moveValue}(-${shiftDistance}px)`;
-                    else el.style.transform = '';
-                } else {
-                    if (idx < draggedIdx && idx >= hoverIdx) el.style.transform = `${moveValue}(${shiftDistance}px)`;
-                    else el.style.transform = '';
-                }
+            container.querySelectorAll('.team-tab').forEach(element => {
+                element.classList.toggle('drop-target', Number(element.dataset.index) === hoverIdx && hoverIdx !== draggedIdx);
             });
         };
 
-        // 드래그 종료 및 데이터 Swap 실행
-        const handleEnd = () => {
+        const handleEnd = (commit = true) => {
             tab.classList.remove('dragging');
-            document.querySelectorAll('.team-tab').forEach(el => {
-                el.style.transform = '';
-                el.style.pointerEvents = 'auto'; // 레이캐스트 복구
+            tab.removeAttribute('aria-grabbed');
+            container.querySelectorAll('.team-tab').forEach(element => {
+                element.classList.remove('drop-target');
+                element.style.pointerEvents = '';
             });
 
             const from = draggedIdx;
             const to = lastHoverIdx;
-
-            if (from !== -1 && to !== -1 && from !== to) {
-                executeSwap(from, to);
-            }
-
             draggedIdx = -1;
             lastHoverIdx = -1;
+
+            if (commit && from !== -1 && to !== -1 && from !== to) executeSwap(from, to);
         };
 
-        // --- PC: Drag and Drop API ---
         tab.ondragstart = (e) => {
             if (e.dataTransfer) {
                 e.dataTransfer.setData("text/plain", i);
@@ -481,63 +668,30 @@ function renderSidebar() {
         };
         tab.ondragend = () => handleEnd();
 
-        // --- 모바일: Touch API ---
-        tab.ontouchstart = (e) => {
-            // e.preventDefault(); // 클릭을 막을 수 있으므로 주의해서 사용
-            handleStart(i);
-        };
-
-        tab.ontouchmove = (e) => {
-            const touch = e.touches[0];
-
-            // [중요] 내 엘리먼트가 elementFromPoint를 가리지 않도록 일시적으로 레이캐스트 제외
-            tab.style.pointerEvents = 'none';
-            const target = document.elementFromPoint(touch.clientX, touch.clientY);
-            tab.style.pointerEvents = 'auto';
-
-            if (target && target.classList.contains('team-tab')) {
-                const hIdx = parseInt(target.dataset.index);
-                handleMove(hIdx);
-            }
-        };
-
-        tab.ontouchend = (e) => {
-            handleEnd();
-        };
-
-        // 탭 클릭 기능
-        tab.onclick = () => {
-            currentTeamIdx = i;
-            renderAll();
-        };
-
-        tab.ontouchstart = (e) => {
-            const touch = e.touches && e.touches[0];
-            if (!touch) return;
-
+        tab.addEventListener('pointerdown', event => {
+            if (event.pointerType !== 'touch' && event.pointerType !== 'pen') return;
             window.clearTimeout(teamTabTouchState && teamTabTouchState.timer);
             teamTabTouchState = {
                 index: i,
-                startX: touch.clientX,
-                startY: touch.clientY,
+                pointerId: event.pointerId,
+                startX: event.clientX,
+                startY: event.clientY,
                 dragging: false,
                 moved: false,
                 timer: window.setTimeout(() => {
                     if (!teamTabTouchState || teamTabTouchState.index !== i || teamTabTouchState.moved) return;
                     teamTabTouchState.dragging = true;
+                    tab.setPointerCapture?.(event.pointerId);
                     handleStart(i);
                     if (navigator.vibrate) navigator.vibrate(10);
                 }, 420)
             };
-        };
+        });
 
-        tab.ontouchmove = (e) => {
+        tab.addEventListener('pointermove', event => {
             if (!teamTabTouchState || teamTabTouchState.index !== i) return;
-            const touch = e.touches && e.touches[0];
-            if (!touch) return;
-
-            const deltaX = touch.clientX - teamTabTouchState.startX;
-            const deltaY = touch.clientY - teamTabTouchState.startY;
+            const deltaX = event.clientX - teamTabTouchState.startX;
+            const deltaY = event.clientY - teamTabTouchState.startY;
             const movedEnough = Math.hypot(deltaX, deltaY) > 8;
 
             if (!teamTabTouchState.dragging) {
@@ -548,81 +702,74 @@ function renderSidebar() {
                 return;
             }
 
-            e.preventDefault();
+            event.preventDefault();
 
             tab.style.pointerEvents = 'none';
-            const target = document.elementFromPoint(touch.clientX, touch.clientY);
-            tab.style.pointerEvents = 'auto';
+            const target = document.elementFromPoint(event.clientX, event.clientY)?.closest('.team-tab');
+            tab.style.pointerEvents = '';
 
-            if (target && target.classList.contains('team-tab')) {
-                const hIdx = parseInt(target.dataset.index);
-                handleMove(hIdx);
-            }
-        };
+            if (target) handleMove(Number(target.dataset.index));
+        }, { passive: false });
 
-        tab.ontouchend = () => {
+        const finishPointerInteraction = (event, cancelled = false) => {
             if (!teamTabTouchState || teamTabTouchState.index !== i) return;
 
             window.clearTimeout(teamTabTouchState.timer);
             const wasDragging = teamTabTouchState.dragging;
             const wasMoved = teamTabTouchState.moved;
             teamTabTouchState = null;
-            skipNextTeamTabClick = true;
-            window.setTimeout(() => { skipNextTeamTabClick = false; }, 350);
 
             if (wasDragging) {
-                handleEnd();
-                return;
-            }
-
-            draggedIdx = -1;
-            lastHoverIdx = -1;
-            tab.classList.remove('dragging');
-            document.querySelectorAll('.team-tab').forEach(el => {
-                el.style.transform = '';
-                el.style.pointerEvents = 'auto';
-            });
-
-            if (!wasMoved) {
-                currentTeamIdx = i;
-                renderAll();
+                event.preventDefault();
+                skipNextTeamTabClick = true;
+                window.setTimeout(() => { skipNextTeamTabClick = false; }, 350);
+                handleEnd(!cancelled);
+            } else if (wasMoved) {
+                skipNextTeamTabClick = true;
+                window.setTimeout(() => { skipNextTeamTabClick = false; }, 350);
             }
         };
+        tab.addEventListener('pointerup', event => finishPointerInteraction(event));
+        tab.addEventListener('pointercancel', event => finishPointerInteraction(event, true));
 
-        tab.ontouchcancel = () => {
-            if (teamTabTouchState && teamTabTouchState.index === i) {
-                window.clearTimeout(teamTabTouchState.timer);
-                teamTabTouchState = null;
-            }
-            handleEnd();
-        };
-
-        tab.onclick = () => {
+        tab.addEventListener('click', () => {
             if (skipNextTeamTabClick) return;
             currentTeamIdx = i;
             renderAll();
-        };
+            saveAllData(true);
+            requestAnimationFrame(() => {
+                document.getElementById(`team-tab-${currentTeamIdx}`)?.focus({ preventScroll: true });
+            });
+        });
+
+        tab.addEventListener('keydown', event => {
+            const reorderKey = isVertical
+                ? (event.key === 'ArrowUp' || event.key === 'ArrowDown')
+                : (event.key === 'ArrowLeft' || event.key === 'ArrowRight');
+            if (event.altKey && reorderKey) {
+                event.preventDefault();
+                const offset = event.key === 'ArrowUp' || event.key === 'ArrowLeft' ? -1 : 1;
+                const targetIndex = Math.max(0, Math.min(MAX_TEAMS - 1, i + offset));
+                if (targetIndex !== i) {
+                    executeSwap(i, targetIndex);
+                    requestAnimationFrame(() => document.getElementById(`team-tab-${targetIndex}`)?.focus({ preventScroll: true }));
+                }
+                return;
+            }
+            handleSelectionKeydown(event, container, i, currentTeams.length, () => tab.click());
+        });
 
         container.appendChild(tab);
     });
 }
 
 function executeSwap(fromIdx, toIdx) {
-    // 인덱스 유효성 검사 보강
-    if (fromIdx === -1 || toIdx === -1 || fromIdx === toIdx || isNaN(fromIdx)) return;
+    const currentPage = allPages[currentPageIdx];
+    const result = moveTeam(currentPage.teams, fromIdx, toIdx, currentTeamIdx);
+    if (!result.changed) return;
 
-    const teams = allPages[currentPageIdx].teams;
-    const [draggedItem] = teams.splice(fromIdx, 1);
-    teams.splice(toIdx, 0, draggedItem);
-
-    // 인덱스 트래킹
-    if (currentTeamIdx === fromIdx) {
-        currentTeamIdx = toIdx;
-    } else if (fromIdx < currentTeamIdx && toIdx >= currentTeamIdx) {
-        currentTeamIdx--;
-    } else if (fromIdx > currentTeamIdx && toIdx <= currentTeamIdx) {
-        currentTeamIdx++;
-    }
+    allPages[currentPageIdx] = { ...currentPage, teams: result.teams };
+    currentTeamIdx = result.currentTeamIndex;
 
     renderAll();
     saveAllData(true);
@@ -635,9 +782,6 @@ function renderMain() {
     const sBox = document.getElementById('team-slots');
     sBox.innerHTML = '';
 
-    const domSet = getActiveDomains(team);
-    const isDomainConflict = (domSet.size > 2);
-
     const localUsedMap = new Set();
     allPages[currentPageIdx].teams.forEach((t, tIdx) => {
         if (tIdx === currentTeamIdx) return;
@@ -647,11 +791,14 @@ function renderMain() {
     for(let i=0; i<4; i++) {
         const cid = team.chars[i];
         const isSupport = (team.supportIdx === i);
-        let container = i === 3 ? document.createElement('div') : document.createDocumentFragment();
-        if(i === 3) { container.className = 'slot-wrapper'; container.style.position = 'relative'; }
-
-        const div = document.createElement('div');
-        div.className = 'char-card';
+        const slotWrapper = document.createElement('div');
+        slotWrapper.className = 'slot-wrapper';
+        const card = document.createElement('article');
+        card.className = 'char-card';
+        const selectButton = document.createElement('button');
+        selectButton.type = 'button';
+        selectButton.className = 'char-select-action';
+        selectButton.dataset.charSlot = i;
 
         if(cid) {
             const info = DB.chars.find(x => String(x.id) === cid);
@@ -659,47 +806,131 @@ function renderMain() {
             const isAlterConflict = charGroup && team.chars.some((tid, idx) => i !== idx && tid && charGroup.includes(String(tid)));
             const isGlobalDuplicate = !isSupport && localUsedMap.has(cid);
 
-            // [수정] 메인 화면 카드에서 "영역 충돌" 문구 표시 제거 (isDomainConflict 체크 제외)
-            let conflictText = isAlterConflict ? "출전 불가" : (isGlobalDuplicate ? "사용중" : "");
-            let conflictHTML = conflictText ? `<div class="card-conflict-overlay"><div class="conflict-bar">${conflictText}</div></div>` : '';
-            let displayName = info ? info.name : '';
-            let supportBadgeHTML = isSupport ? '<div class="char-top-support">조력</div>' : '';
+            const conflictText = isAlterConflict ? "출전 불가" : (isGlobalDuplicate ? "사용중" : "");
+            const displayName = info ? info.name : '알 수 없는 각성체';
 
             const w1 = team.wheels[i][0]; const w2 = team.wheels[i][1];
             const w1Info = DB.wheels.find(x => x.english_name === w1);
             const w2Info = DB.wheels.find(x => x.english_name === w2);
             const charImg = info ? `images/${info.id}_tide.webp` : 'images/smile_Ramona.webp';
-            let topInfoHTML = info ? `<div class="char-top-info"><img src="images/character_${info.relems}.png" class="char-top-icon"><span class="char-top-name">${displayName}</span></div>` : '';
+            selectButton.setAttribute('aria-label', `${i + 1}번 슬롯 ${displayName}${isSupport ? ', 조력자' : ''}${conflictText ? `, ${conflictText}` : ''}. 각성체 편집`);
 
-            div.innerHTML = `<img src="${charImg}" class="char-tide-img" onerror="this.src='${info?.image_thumb}'">${conflictHTML}${topInfoHTML}${supportBadgeHTML}<div class="card-bottom-overlay"><div class="wheels-wrapper"><div class="slot-wheel" onclick="openWheelModal(${i},0,event)">${w1Info ? `<img src="${w1Info.image_path}">` : '+'}</div><div class="slot-wheel" onclick="openWheelModal(${i},1,event)">${w2Info ? `<img src="${w2Info.image_path}">` : '+'}</div></div></div>`;
+            const portrait = document.createElement('img');
+            portrait.src = charImg;
+            portrait.alt = '';
+            portrait.className = 'char-tide-img';
+            portrait.loading = 'lazy';
+            portrait.addEventListener('error', () => {
+                const fallback = info?.image_thumb || 'images/smile_Ramona.webp';
+                if (portrait.src.endsWith(fallback)) return;
+                portrait.src = fallback;
+            }, { once: true });
+            selectButton.appendChild(portrait);
+
+            if (info) {
+                const topInfo = document.createElement('span');
+                topInfo.className = 'char-top-info';
+                const domainIcon = document.createElement('img');
+                domainIcon.src = `images/character_${info.relems}.webp`;
+                domainIcon.alt = '';
+                domainIcon.className = 'char-top-icon';
+                const name = document.createElement('span');
+                name.className = 'char-top-name';
+                name.textContent = displayName;
+                topInfo.append(domainIcon, name);
+                selectButton.appendChild(topInfo);
+            }
+
+            if (isSupport) {
+                const supportBadge = document.createElement('span');
+                supportBadge.className = 'char-top-support';
+                supportBadge.textContent = '조력';
+                selectButton.appendChild(supportBadge);
+            }
+
+            if (conflictText) {
+                const overlay = document.createElement('span');
+                overlay.className = 'card-conflict-overlay';
+                const conflict = document.createElement('span');
+                conflict.className = 'conflict-bar';
+                conflict.textContent = conflictText;
+                overlay.appendChild(conflict);
+                selectButton.appendChild(overlay);
+            }
+
+            selectButton.addEventListener('click', openQuickSetup);
+            card.appendChild(selectButton);
+
+            const bottomOverlay = document.createElement('div');
+            bottomOverlay.className = 'card-bottom-overlay';
+            bottomOverlay.setAttribute('aria-hidden', 'true');
+            card.appendChild(bottomOverlay);
+
+            const wheelsWrapper = document.createElement('div');
+            wheelsWrapper.className = 'wheels-wrapper';
             [w1Info, w2Info].forEach((wheelInfo, slotIdx) => {
-                if (!wheelInfo) return;
-                const slotEl = div.querySelectorAll('.slot-wheel')[slotIdx];
-                slotEl.onmouseenter = (e) => showTooltip(wheelInfo, e);
-                slotEl.onmousemove = moveTooltip;
-                slotEl.onmouseleave = hideTooltip;
+                const slotButton = document.createElement('button');
+                slotButton.type = 'button';
+                slotButton.className = 'slot-wheel';
+                slotButton.dataset.charSlot = i;
+                slotButton.dataset.wheelSlotIndex = slotIdx;
+                slotButton.setAttribute('aria-label', `${displayName} ${slotIdx + 1}번 명륜 슬롯${wheelInfo ? `, ${wheelInfo.korean_name} 장착됨` : ', 비어 있음'}`);
+                if (wheelInfo) {
+                    const wheelImage = document.createElement('img');
+                    wheelImage.src = wheelInfo.image_path;
+                    wheelImage.alt = '';
+                    wheelImage.loading = 'lazy';
+                    slotButton.appendChild(wheelImage);
+                    bindTooltipEvents(slotButton, wheelInfo);
+                } else {
+                    slotButton.textContent = '+';
+                }
+                slotButton.addEventListener('click', event => openWheelModal(i, slotIdx, event));
+                wheelsWrapper.appendChild(slotButton);
             });
-            div.onclick = (e) => { if(!e.target.closest('.slot-wheel')) openQuickSetup(); };
+            card.appendChild(wheelsWrapper);
         } else {
-            div.className += ' empty';
-            div.innerHTML = `<div class="empty-cross"></div><div class="empty-text">탭하여 각성체 선택</div>`;
-            div.onclick = () => openQuickSetup();
+            card.classList.add('empty');
+            selectButton.setAttribute('aria-label', `${i + 1}번 빈 슬롯, 각성체 선택`);
+            const cross = document.createElement('span');
+            cross.className = 'empty-cross';
+            cross.setAttribute('aria-hidden', 'true');
+            const emptyText = document.createElement('span');
+            emptyText.className = 'empty-text';
+            emptyText.textContent = '각성체 선택';
+            selectButton.append(cross, emptyText);
+            selectButton.addEventListener('click', openQuickSetup);
+            card.appendChild(selectButton);
         }
 
+        slotWrapper.appendChild(card);
         if (i === 3) {
-            container.appendChild(div);
-            const btn = document.createElement('div');
-            btn.className = 'support-setup-btn'; btn.innerHTML = '<span class="support-label-full">조력 설정</span><span class="support-label-short">조력</span>';
-            btn.onclick = (e) => { e.stopPropagation(); openSupportSelector(e); };
-            container.appendChild(btn);
-            sBox.appendChild(container);
-        } else { sBox.appendChild(div); }
+            const supportButton = document.createElement('button');
+            supportButton.type = 'button';
+            supportButton.className = 'support-setup-btn';
+            supportButton.setAttribute('aria-label', '조력자 설정');
+            supportButton.innerHTML = '<span class="support-label-full">조력 설정</span><span class="support-label-short" aria-hidden="true">조력</span>';
+            supportButton.addEventListener('click', openSupportSelector);
+            slotWrapper.appendChild(supportButton);
+        }
+        sBox.appendChild(slotWrapper);
     }
 
     const kInfo = DB.keys.find(x => x.english_name === team.key);
-    document.getElementById('key-icon').innerHTML = kInfo ? `<img src="${kInfo.image_path}">` : '+';
-    document.getElementById('key-name').textContent = kInfo ? kInfo.korean_name : '장착 안 함';
-    document.getElementById('key-name').style.color = kInfo ? '#fff' : '#777';
+    const keyIcon = document.getElementById('key-icon');
+    keyIcon.replaceChildren();
+    if (kInfo) {
+        const image = document.createElement('img');
+        image.src = kInfo.image_path;
+        image.alt = '';
+        keyIcon.appendChild(image);
+    } else {
+        keyIcon.textContent = '+';
+    }
+    const keyName = document.getElementById('key-name');
+    keyName.textContent = kInfo ? kInfo.korean_name : '장착 안 함';
+    keyName.classList.toggle('is-empty', !kInfo);
+    document.getElementById('open-key-modal-btn')?.setAttribute('aria-label', kInfo ? `은열쇠 변경, 현재 ${kInfo.korean_name}` : '은열쇠 선택, 현재 장착 안 함');
 }
 
 function getActiveDomains(team) {
@@ -725,18 +956,27 @@ function renderTeamDomainImage(team) {
     const container = document.getElementById('team-domain-container');
     container.innerHTML = '';
     const domArr = Array.from(getActiveDomains(team));
+    container.removeAttribute('aria-label');
     if (domArr.length === 0) return;
 
-    // [수정] 헤더에서 "⚠영역충돌" 빨간 텍스트 표시 로직 삭제
-    if (domArr.length > 2) return;
+    if (domArr.length > 2) {
+        container.setAttribute('aria-label', '계역 충돌: 세 개 이상의 계역이 편성되었습니다.');
+        return;
+    }
 
     const circleDiv = document.createElement('div');
     circleDiv.className = 'team-domain-circle';
     const sortOrder = ['chaos', 'aequor', 'caro', 'ultra'];
     domArr.sort((a, b) => sortOrder.indexOf(a) - sortOrder.indexOf(b));
-    let fileName = domArr.length === 1 ? `pure_${domArr[0]}.png` : `${domArr[0]}_${domArr[1]}.png`;
-    circleDiv.innerHTML = `<img src="images/${fileName}" class="team-domain-img" onerror="this.style.display='none'">`;
+    const fileName = domArr.length === 1 ? `pure_${domArr[0]}.webp` : `${domArr[0]}_${domArr[1]}.webp`;
+    const image = document.createElement('img');
+    image.src = `images/${fileName}`;
+    image.className = 'team-domain-img';
+    image.alt = '';
+    image.addEventListener('error', () => image.remove(), { once: true });
+    circleDiv.appendChild(image);
     container.appendChild(circleDiv);
+    container.setAttribute('aria-label', `현재 계역: ${domArr.join(', ')}`);
 }
 
 function resetCurrentTeam() {
@@ -746,9 +986,7 @@ function resetCurrentTeam() {
         .map(id => { const c = DB.chars.find(x => x.id === id); return c ? c.name : id; });
     const preview = charNames.length ? `\n현재 편성: ${charNames.join(', ')}` : '';
     openSystemConfirm("팀 초기화", `[${team.name}] 팀 설정을 초기화합니다.${preview}\n\n되돌릴 수 없습니다.`, () => {
-        team.chars = [null, null, null, null];
-        team.wheels = [[null,null],[null,null],[null,null],[null,null]];
-        team.key = null; team.supportIdx = -1;
+        allPages[currentPageIdx].teams[currentTeamIdx] = resetTeam(team);
         renderAll(); saveAllData(true);
     });
 }
@@ -768,70 +1006,17 @@ function openSupportSelector(e) {
 
     // 조력자 선택 모드일 때만 해제 버튼 표시
     const removeBtn = document.getElementById('btn-remove-support');
-    if (removeBtn) removeBtn.style.display = 'inline-block';
+    if (removeBtn) removeBtn.hidden = false;
 
     initCharModal();
 }
 
-function findCharacterInPage(page, charId, preferredTeamIdx) {
-    const teamOrder = [];
-    if (preferredTeamIdx >= 0 && preferredTeamIdx < page.teams.length) teamOrder.push(preferredTeamIdx);
-    page.teams.forEach((_, idx) => {
-        if (idx !== preferredTeamIdx) teamOrder.push(idx);
-    });
-
-    for (const teamIdx of teamOrder) {
-        const team = page.teams[teamIdx];
-        for (let slotIdx = 0; slotIdx < team.chars.length; slotIdx++) {
-            if (team.chars[slotIdx] === charId) {
-                return {
-                    teamIdx,
-                    slotIdx,
-                    wheels: team.wheels[slotIdx] ? [...team.wheels[slotIdx]] : [null, null]
-                };
-            }
-        }
-    }
-
-    return null;
-}
-
 function applySupportToCurrentTeam(charId) {
-    const currentPage = allPages[currentPageIdx];
-    const targetTeam = currentPage.teams[currentTeamIdx];
-    const source = findCharacterInPage(currentPage, charId, currentTeamIdx);
-    const supportWheels = source ? source.wheels : [null, null];
-
-    currentPage.teams.forEach(t => {
-        if (t.supportIdx !== -1) {
-            t.chars[t.supportIdx] = null;
-            t.wheels[t.supportIdx] = [null, null];
-            t.supportIdx = -1;
-        }
-    });
-
-    if (source) {
-        const sourceTeam = currentPage.teams[source.teamIdx];
-        sourceTeam.chars[source.slotIdx] = null;
-        sourceTeam.wheels[source.slotIdx] = [null, null];
-    }
-
-    targetTeam.chars[3] = charId;
-    targetTeam.wheels[3] = supportWheels;
-    targetTeam.supportIdx = 3;
+    allPages[currentPageIdx] = applySupport(allPages[currentPageIdx], charId, currentTeamIdx);
 }
 
 function removeSupport() {
-    const currentPage = allPages[currentPageIdx];
-
-    // 현재 세트 내 모든 팀의 조력자 정보 초기화 (1세트 1조력자 규칙 준수)
-    currentPage.teams.forEach(t => {
-        if (t.supportIdx !== -1) {
-            t.chars[t.supportIdx] = null;
-            t.wheels[t.supportIdx] = [null, null];
-        }
-        t.supportIdx = -1;
-    });
+    allPages[currentPageIdx] = removeSupportFromPage(allPages[currentPageIdx]);
 
     closeModal('modal-char');
     renderAll();
@@ -850,13 +1035,9 @@ function initCharModal() {
     setupCharSearchEvents();
     renderCharGrid();
 
-    document.getElementById('modal-char').classList.add('show');
-
-    const header = document.querySelector('#modal-char .modal-header h3');
+    const header = document.getElementById('char-modal-title');
     if (header) header.textContent = isSupportSelectionMode ? '조력자 선택 (1명)' : '배치할 각성체 선택 (최대 4명)';
-
-    // [기존 오타 수정] 조력자 모드에서도 푸터가 보이도록 'block'으로 고정
-    document.querySelector('#modal-char .modal-footer').style.display = 'block';
+    openModal('modal-char', '#char-search-input');
 }
 
 function toggleCharFilter(type, value) {
@@ -892,7 +1073,7 @@ function renderCharGrid() {
         }
     });
 
-    // 2. 영역 충돌 계산 (현재 팀 기반)
+    // 2. 계역 충돌 계산 (현재 팀 기반)
     const activeDomains = new Set();
     if (!isSupportSelectionMode && team.supportIdx !== -1 && team.chars[team.supportIdx]) {
         const sup = DB.chars.find(x => x.id === team.chars[team.supportIdx]);
@@ -928,7 +1109,7 @@ function renderCharGrid() {
         if (isSupportSelectionMode) {
             // [조력자 선택 모드]
             if (tempChars.includes(id)) conflictReason = "파티 내 중복";
-            else if (getDomainsWithSupportCandidate(team, id).size > 2) conflictReason = "영역 충돌";
+            else if (getDomainsWithSupportCandidate(team, id).size > 2) conflictReason = "계역 충돌";
         } else {
             // [일반 대원 편성 모드]
             if (usedInOtherTeamsNormal.has(id)) {
@@ -936,24 +1117,40 @@ function renderCharGrid() {
             } else if (team.supportIdx !== -1 && team.chars[team.supportIdx] === id) {
                 conflictReason = "조력자로 사용 중";
             } else if (!tempChars.includes(id) && activeDomains.size >= 2 && !activeDomains.has(c.relems)) {
-                conflictReason = "영역 충돌";
+                conflictReason = "계역 충돌";
             }
         }
 
         const isSelected = tempChars.includes(id) || (isSupportSelectionMode && team.supportIdx !== -1 && team.chars[team.supportIdx] === id);
 
-        const el = document.createElement('div');
+        const el = document.createElement('button');
+        el.type = 'button';
         el.className = `grid-item grid-item-character has-label ${isSelected ? 'selected' : ''} ${conflictReason ? 'conflict' : ''}`;
-        el.innerHTML = `<div class="grid-item-thumb" style="width:100%;aspect-ratio:1/1;overflow:hidden;flex:0 0 auto;"><img src="${c.image_thumb}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div><span class="grid-item-label">${c.name}</span>`;
+        el.dataset.characterId = id;
+        el.setAttribute('aria-pressed', String(isSelected));
+        el.setAttribute('aria-label', `${c.name}${isSelected ? ', 선택됨' : ''}${conflictReason ? `, ${conflictReason}` : ''}`);
+        if (conflictReason && !isSelected) el.setAttribute('aria-disabled', 'true');
+
+        const thumb = document.createElement('span');
+        thumb.className = 'grid-item-thumb';
+        const image = document.createElement('img');
+        image.src = c.image_thumb;
+        image.alt = '';
+        image.loading = 'lazy';
+        thumb.appendChild(image);
+        const label = document.createElement('span');
+        label.className = 'grid-item-label';
+        label.textContent = c.name;
+        el.append(thumb, label);
 
         if (conflictReason) {
             const overlay = document.createElement('div');
-            overlay.className = 'conflict-tag' + (conflictReason === "영역 충돌" ? " domain-conflict-label" : "");
+            overlay.className = 'conflict-tag' + (conflictReason === "계역 충돌" ? " domain-conflict-label" : "");
             overlay.innerText = conflictReason;
             el.appendChild(overlay);
         }
 
-        el.onclick = () => {
+        el.addEventListener('click', () => {
             // [버그 수정] 이미 선택된 캐릭터(isSelected)라면 충돌 경고를 띄우지 않고 해제 로직으로 진행함
             if (conflictReason && !isSelected) {
                 openSystemAlert("편성 불가", `[${c.name}] 각성체는 ${conflictReason} 상태입니다.`);
@@ -979,39 +1176,101 @@ function renderCharGrid() {
                     tempChars = tempChars.filter(x => x !== id);
                 } else {
                     if (tempChars.length < 4) tempChars.push(id);
+                    else {
+                        openSystemAlert('선택 한도', '각성체는 최대 4명까지 선택할 수 있습니다.');
+                        return;
+                    }
                 }
                 renderCharGrid();
+                requestAnimationFrame(() => restoreCharacterGridFocus(id));
             }
-        };
+        });
         box.appendChild(el);
     });
 
     if (!box.children.length && ownedOnlyFilters.characters && ownedInventory.characters.size === 0) {
         renderOwnedInventoryEmpty(box, 'characters');
+    } else if (!box.children.length) {
+        renderNoResults(box, '조건에 맞는 각성체가 없습니다.');
     }
 
     document.getElementById('char-count').textContent = isSupportSelectionMode ? `조력자 선택` : `${tempChars.length} / 4 선택됨`;
 }
 
+function restoreCharacterGridFocus(characterId) {
+    const target = [...document.querySelectorAll('#grid-char [data-character-id]')]
+        .find(button => button.dataset.characterId === characterId);
+    (target || document.getElementById('char-search-input'))?.focus({ preventScroll: true });
+}
+
 function setupCharSearchEvents() {
     const input = document.getElementById('char-search-input');
     const suggest = document.getElementById('char-search-suggestions');
+    const status = document.getElementById('char-search-status');
     if(!input) return;
     input.oninput = (e) => {
         const val = e.target.value.trim();
-        if(!val || (window.SearchUtils && !window.SearchUtils.isSearchQueryActive(val))) { suggest.style.display = 'none'; renderCharGrid(); return; }
+        if(!val || (window.SearchUtils && !window.SearchUtils.isSearchQueryActive(val))) {
+            suggest.replaceChildren();
+            suggest.classList.remove('show');
+            if (status) status.textContent = '';
+            renderCharGrid();
+            return;
+        }
         const tagAliases = getTagAliases();
         const matches = getAllCharTagNames().filter(t => (matchesBuilderSearch(t, val) || (tagAliases[t]||[]).some(a=>matchesBuilderSearch(a, val))) && !activeCharSearchTags.has(t));
-        suggest.innerHTML = matches.map(m => `<div class="suggestion-item" onclick="addCharTag('${m}')">${m}</div>`).join('');
-        suggest.style.display = matches.length ? 'block' : 'none';
+        suggest.replaceChildren();
+        matches.forEach(match => {
+            const option = document.createElement('button');
+            option.type = 'button';
+            option.className = 'suggestion-item';
+            option.textContent = match;
+            option.addEventListener('click', () => addCharTag(match));
+            suggest.appendChild(option);
+        });
+        suggest.classList.toggle('show', matches.length > 0);
+        if (status) status.textContent = matches.length > 0
+            ? `${matches.length}개의 특성 추천이 있습니다. 아래 추천 버튼으로 이동할 수 있습니다.`
+            : '일치하는 특성 추천이 없습니다.';
         renderCharGrid();
     };
+    input.onkeydown = event => {
+        if (event.key === 'ArrowDown' && suggest.classList.contains('show')) {
+            event.preventDefault();
+            suggest.querySelector('.suggestion-item')?.focus();
+        } else if (event.key === 'Escape' && suggest.classList.contains('show')) {
+            event.stopPropagation();
+            suggest.classList.remove('show');
+            if (status) status.textContent = '';
+        }
+    };
 }
-function addCharTag(tag) { activeCharSearchTags.add(tag); renderActiveCharTags(); document.getElementById('char-search-input').value = ''; document.getElementById('char-search-suggestions').style.display='none'; renderCharGrid(); }
+function addCharTag(tag) {
+    activeCharSearchTags.add(tag);
+    renderActiveCharTags();
+    const input = document.getElementById('char-search-input');
+    input.value = '';
+    const status = document.getElementById('char-search-status');
+    if (status) status.textContent = '';
+    const suggestions = document.getElementById('char-search-suggestions');
+    suggestions.classList.remove('show');
+    suggestions.replaceChildren();
+    input.focus();
+    renderCharGrid();
+}
 function renderActiveCharTags() {
     const cont = document.getElementById('active-char-search-tags');
     if(!cont) return;
-    cont.innerHTML = Array.from(activeCharSearchTags).map(t => `<div class="active-tag-chip" onclick="removeCharTag('${t}')">${t}</div>`).join('');
+    cont.replaceChildren();
+    activeCharSearchTags.forEach(tag => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'active-tag-chip';
+        button.setAttribute('aria-label', `${tag} 특성 필터 제거`);
+        button.textContent = tag;
+        button.addEventListener('click', () => removeCharTag(tag));
+        cont.appendChild(button);
+    });
 }
 function removeCharTag(tag) { activeCharSearchTags.delete(tag); renderActiveCharTags(); renderCharGrid(); }
 
@@ -1025,54 +1284,7 @@ function confirmQuickSetup() {
         return;
     }
 
-    // --- [수정 시작]: 장비(명륜) 데이터 보존 로직 ---
-
-    // 1. 현재 파티에 장착된 명륜 데이터를 캐릭터 ID 기준으로 맵핑(캐싱)
-    // 식별자 기반으로 데이터를 임시 저장하여 순서 변경 시에도 대응할 수 있게 함
-    const wheelCache = {};
-    for (let i = 0; i < 4; i++) {
-        const charId = team.chars[i];
-        if (charId) {
-            // 해당 캐릭터가 끼고 있던 명륜 배열([null, null] 포함)을 저장
-            wheelCache[charId] = [...team.wheels[i]];
-        }
-    }
-
-    // 2. 새로운 파티 배열 생성
-    const newArr = [null, null, null, null];
-    const limit = team.supportIdx === 3 ? 3 : 4;
-    tempChars.forEach((id, i) => {
-        if (i < limit) newArr[i] = id;
-    });
-
-    // 조력자 위치 유지 (3번 슬롯이 조력자인 경우)
-    if (team.supportIdx === 3) {
-        newArr[3] = team.chars[3];
-    }
-
-    // 3. 캐릭터 ID를 기준으로 명륜 재배치
-    const newWheels = [
-        [null, null], [null, null], [null, null], [null, null]
-    ];
-
-    for (let i = 0; i < 4; i++) {
-        const newCharId = newArr[i];
-        if (newCharId) {
-            if (wheelCache[newCharId]) {
-                // 이전에 파티에 있던 캐릭터라면 캐시된 장비를 그대로 가져옴
-                newWheels[i] = wheelCache[newCharId];
-            } else {
-                // 아예 새로 들어온 캐릭터라면 빈 슬롯으로 유지
-                newWheels[i] = [null, null];
-            }
-        }
-    }
-
-    // 4. 팀 데이터 최종 업데이트
-    team.chars = newArr;
-    team.wheels = newWheels;
-
-    // --- [수정 완료] ---
+    allPages[currentPageIdx].teams[currentTeamIdx] = applyCharacterSelection(team, tempChars);
 
     closeModal('modal-char');
     renderAll();
@@ -1097,18 +1309,12 @@ function openWheelModal(charIdx, slotIdx, e) {
     // 명륜 모달을 열 때 전용 장착 버튼을 보이게 처리 및 클릭 이벤트 바인딩
     const btnSsr = document.getElementById('btn-equip-ssr');
     const btnSr = document.getElementById('btn-equip-sr');
-    if (btnSsr) {
-        btnSsr.style.display = 'block';
-        btnSsr.onclick = () => equipDedicatedWheel('SSR');
-    }
-    if (btnSr) {
-        btnSr.style.display = 'block';
-        btnSr.onclick = () => equipDedicatedWheel('SR');
-    }
+    if (btnSsr) btnSsr.hidden = false;
+    if (btnSr) btnSr.hidden = false;
 
     renderWheelModalUI();
     ensureWheelDoneButton();
-    document.getElementById('modal-wheel').classList.add('show');
+    openModal('modal-wheel', `#equip-slot-${selectedWheelSlotIdx}`);
 }
 
 function ensureWheelDoneButton() {
@@ -1120,7 +1326,7 @@ function ensureWheelDoneButton() {
     button.id = 'btn-wheel-done';
     button.className = 'btn btn-modal btn-wheel-done';
     button.textContent = '완료';
-    button.onclick = () => closeModal('modal-wheel');
+    button.addEventListener('click', () => closeModal('modal-wheel'));
     container.appendChild(button);
 }
 
@@ -1131,19 +1337,6 @@ function setupWheelSearchEvents() {
     input.oninput = () => {
         renderWheelList(); // 입력 시마다 리스트를 다시 필터링하여 렌더링
     };
-}
-function normalizeWheelMainStat(value) {
-    const raw = String(value || '').trim();
-    if (!raw) return '';
-
-    return raw
-        .replace(/\s+/g, ' ')
-        .replace(/드롭율/g, '드롭')
-        .replace(/겅은 인장/g, '검은 인장')
-        .trim()
-        .replace(/^영역숙련/, '영역 숙련')
-        .replace(/검은 인장 드롭\s*(\d)/, '검은 인장 드롭 $1')
-        .replace(/\s+\d+(?:\.\d+)?%?$/, '');
 }
 function renderWheelMainStatFilters() {
     const container = document.getElementById('wheel-main-stat-filters');
@@ -1184,8 +1377,21 @@ function renderWheelModalUI() {
     for(let i=0; i<2; i++) {
         const el = document.getElementById(`equip-slot-${i}`);
         el.classList.toggle('active', i === selectedWheelSlotIdx);
+        el.setAttribute('aria-pressed', String(i === selectedWheelSlotIdx));
         const wInfo = DB.wheels.find(w => w.english_name === wheels[i]);
-        el.innerHTML = wInfo ? `<img src="${wInfo.image_path}">` : `<div class="slot-placeholder">+</div>`;
+        el.replaceChildren();
+        if (wInfo) {
+            const image = document.createElement('img');
+            image.src = wInfo.image_path;
+            image.alt = '';
+            el.appendChild(image);
+        } else {
+            const placeholder = document.createElement('span');
+            placeholder.className = 'slot-placeholder';
+            placeholder.textContent = '+';
+            el.appendChild(placeholder);
+        }
+        el.setAttribute('aria-label', `${i + 1}번 명륜 슬롯${wInfo ? `, ${wInfo.korean_name} 장착됨` : ', 비어 있음'}`);
         if(i === selectedWheelSlotIdx) document.getElementById('equip-slot-desc').textContent = wInfo ? wInfo.korean_name : "명륜을 선택하세요";
     }
     renderWheelMainStatFilters();
@@ -1193,81 +1399,92 @@ function renderWheelModalUI() {
     renderWheelList();
 }
 function renderWheelList() {
-    hideTooltip();
+    partyTooltipController.hide({ force: true });
     const box = document.getElementById('grid-wheel');
     if (!box) return;
     box.innerHTML = '';
 
-    // 1. 중복 장착 확인을 위한 Set 생성 (기존 로직 유지)
-    const used = new Set();
-    allPages[currentPageIdx].teams.forEach(t =>
-        t.wheels.forEach(row =>
-            row.forEach(w => { if(w) used.add(w); })
-        )
-    );
-
-    const currentW = allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx];
+    const currentPage = allPages[currentPageIdx];
+    const currentTeam = currentPage.teams[currentTeamIdx];
+    const currentW = currentTeam.wheels[editingCharIdx][selectedWheelSlotIdx];
     const searchInput = document.getElementById('wheel-search-input');
     const search = searchInput ? searchInput.value.trim() : "";
     const ownedInventory = readOwnedInventory();
 
-    // 2. 필터링 로직 확장 (이름 + 설명 + 주옵션)
-    DB.wheels.filter(w => {
-        if (ownedOnlyFilters.wheels && !ownedInventory.wheels.has(w.english_name) && w.english_name !== currentW) return false;
-        // 태그 필터
-        if(activeWheelTags.size && !Array.from(activeWheelTags).every(t => (w.tags || []).includes(t))) return false;
-
-        const normalizedMainStat = normalizeWheelMainStat(w.main_stat);
-        if (activeWheelMainStats.size && !activeWheelMainStats.has(normalizedMainStat)) return false;
-
-        // 검색어 필터 (주옵션인 main_stat 추가)
-        if(search) {
-            const matches = matchesBuilderSearchByQueryType(
-                w.korean_name || '',
-                `${w.korean_name || ''} ${w.description || ''} ${w.main_stat || ''}`,
+    const wheelOptions = createWheelOptionModels(DB.wheels, {
+        currentWheelId: currentW,
+        usedWheelIds: collectEquippedWheelIds(currentPage),
+        ownedOnly: ownedOnlyFilters.wheels,
+        ownedWheelIds: ownedInventory.wheels,
+        activeTags: activeWheelTags,
+        activeMainStats: activeWheelMainStats,
+        normalizeMainStat,
+        matchesSearch: wheel => !search || matchesBuilderSearchByQueryType(
+                wheel.korean_name || '',
+                `${wheel.korean_name || ''} ${wheel.description || ''} ${wheel.main_stat || ''}`,
                 search
-            );
+            )
+    });
 
-            if(!matches) return false;
-        }
-        return true;
-    }).forEach(w => {
-        // 3. 렌더링 로직 (기존 그리드 스타일 유지)
-        const isSel = w.english_name === currentW;
-        const isUsed = used.has(w.english_name) && !isSel;
+    wheelOptions.forEach(({ item: w, isSelected: isSel, isUsed }) => {
 
-        const el = document.createElement('div');
+        const el = document.createElement('button');
+        el.type = 'button';
         el.className = `grid-item grid-item-wheel has-label ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
+        el.dataset.wheelId = w.english_name;
+        el.setAttribute('aria-pressed', String(isSel));
+        el.setAttribute('aria-label', `${w.korean_name}${isSel ? ', 현재 장착됨' : ''}${isUsed ? ', 다른 슬롯에서 사용 중' : ''}`);
+        el.disabled = isUsed;
 
-        // 원본과 동일하게 이미지 삽입
-        el.innerHTML = `<img src="${w.image_path}" alt=""><span class="grid-item-label">${w.korean_name}</span>`;
+        const image = document.createElement('img');
+        image.src = w.image_path;
+        image.alt = '';
+        image.loading = 'lazy';
+        const label = document.createElement('span');
+        label.className = 'grid-item-label';
+        label.textContent = w.korean_name;
+        el.append(image, label);
 
-        // 툴팁 이벤트
-        el.onmouseenter = (e) => showTooltip(w, e);
-        el.onmouseleave = hideTooltip;
-        el.onmousemove = moveTooltip; // 툴팁 따라다니게 추가
+        bindTooltipEvents(el, w);
 
-        // 클릭 이벤트 (데이터 업데이트)
-        el.onclick = (e) => {
-            if(isUsed) return;
-            allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx] = w.english_name;
+        el.addEventListener('click', (e) => {
+            allPages[currentPageIdx].teams[currentTeamIdx] = withEquippedWheel(
+                allPages[currentPageIdx].teams[currentTeamIdx],
+                editingCharIdx,
+                selectedWheelSlotIdx,
+                w.english_name
+            );
             renderWheelModalUI();
             renderAll();
-            if (isTouchTooltipEvent(e)) {
-                showTooltip(w, e);
-            }
-            // 데이터 변경 후 저장 (필요 시)
-            if (typeof saveAllData === 'function') saveAllData(true);
-        };
+            saveAllData(true);
+            requestAnimationFrame(() => {
+                [...document.querySelectorAll('#grid-wheel [data-wheel-id]')]
+                    .find(button => button.dataset.wheelId === w.english_name)?.focus({ preventScroll: true });
+            });
+        });
 
         box.appendChild(el);
     });
 
     if (!box.children.length && ownedOnlyFilters.wheels && ownedInventory.wheels.size === 0) {
         renderOwnedInventoryEmpty(box, 'wheels');
+    } else if (!box.children.length) {
+        renderNoResults(box, '조건에 맞는 명륜이 없습니다.');
     }
 }
-function unequipSelectedWheel() { allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx] = null; renderWheelModalUI(); renderAll(); }
+
+function unequipSelectedWheel() {
+    if (editingCharIdx < 0) return;
+    allPages[currentPageIdx].teams[currentTeamIdx] = withEquippedWheel(
+        allPages[currentPageIdx].teams[currentTeamIdx],
+        editingCharIdx,
+        selectedWheelSlotIdx,
+        null
+    );
+    renderWheelModalUI();
+    renderAll();
+    saveAllData(true);
+}
 
 function openKeyModal(e) {
     // [수정] 은열쇠는 항상 1번 슬롯(리더) 캐릭터를 기준으로 처리하도록 강제 설정
@@ -1280,7 +1497,6 @@ function openKeyModal(e) {
 
     if(e) e.stopPropagation();
 
-    activeKeyTags.clear();
     const searchInput = document.getElementById('key-search-input');
     if (searchInput) {
         searchInput.value = '';
@@ -1289,13 +1505,10 @@ function openKeyModal(e) {
 
     // 전용 은열쇠 장착 버튼 노출 및 클릭 이벤트 연결
     const btnKey = document.getElementById('btn-equip-key');
-    if (btnKey) {
-        btnKey.style.display = 'block';
-        btnKey.onclick = () => equipDedicatedKey();
-    }
+    if (btnKey) btnKey.hidden = false;
 
     renderKeyGrid();
-    document.getElementById('modal-key').classList.add('show');
+    openModal('modal-key', '#key-search-input');
 }
 
 // =========================================
@@ -1316,23 +1529,14 @@ function equipDedicatedKey() {
     if (!charInfo) return;
 
     // 캐릭터 이름에 맞는 전용 은열쇠 찾기
-    const targetKey = DB.keys.find(function(key) {
-        const tagArray = key.Tag || key.tags;
-        return Array.isArray(tagArray) && tagArray[0] === charInfo.name;
-    });
+    const targetKey = findDedicatedKey(DB.keys, charInfo.name);
 
     if (!targetKey) {
         openSystemAlert("알림", charInfo.name + "의 전용 은열쇠를 찾을 수 없습니다.");
         return;
     }
 
-    // [중요] 프로젝트 데이터 구조에 맞춰 파티의 은열쇠 슬롯에 저장
-    // 만약 캐릭터별 배열 형태라면 team.keys[0]에 저장합니다.
-    if (Array.isArray(team.keys)) {
-        team.keys[0] = targetKey.english_name;
-    } else {
-        team.key = targetKey.english_name;
-    }
+    allPages[currentPageIdx].teams[currentTeamIdx] = withEquippedKey(team, targetKey.english_name);
 
     renderAll();
     saveAllData(true);
@@ -1352,12 +1556,8 @@ function renderKeyGrid() {
     if (!box) return;
     box.innerHTML = '';
 
-    const used = new Set();
-    allPages[currentPageIdx].teams.forEach((t, i) => {
-        if (i !== currentTeamIdx && t.key) used.add(t.key);
-    });
-
-    const currentK = allPages[currentPageIdx].teams[currentTeamIdx].key;
+    const currentPage = allPages[currentPageIdx];
+    const currentK = currentPage.teams[currentTeamIdx].key;
     const searchInput = document.getElementById('key-search-input');
     const search = searchInput ? searchInput.value.trim() : '';
 
@@ -1365,43 +1565,41 @@ function renderKeyGrid() {
     const sortSelect = document.getElementById('key-sort-select');
     const sortByRecent = sortSelect ? sortSelect.value === 'recent' : true;
 
-    // 1단계: 검색어 필터링
-    let filteredKeys = DB.keys.filter(k => {
-        if (search && !matchesBuilderSearchByQueryType(k.korean_name, `${k.korean_name || ''} ${(k.tags || []).join(' ')}`, search)) {
-            return false;
-        }
-        return true;
+    const keyOptions = createKeyOptionModels(DB.keys, {
+        currentKeyId: currentK,
+        usedKeyIds: collectEquippedKeyIds(currentPage, currentTeamIdx),
+        recentKeyIds: sortByRecent ? recentKeys : null,
+        matchesSearch: key => !search || matchesBuilderSearchByQueryType(
+            key.korean_name || '',
+            `${key.korean_name || ''} ${(key.tags || []).join(' ')}`,
+            search
+        )
     });
 
-    // 2단계: 정렬 적용
-    if (sortByRecent) { 
-        filteredKeys.sort((a, b) => {
-            let indexA = recentKeys.indexOf(a.english_name);
-            let indexB = recentKeys.indexOf(b.english_name);
+    keyOptions.forEach(({ item: k, isSelected: isSel, isUsed }) => {
 
-            // 최근 기록에 없으면 가중치를 999로 주어 최하단으로 밀어냄
-            if (indexA === -1) indexA = 999;
-            if (indexB === -1) indexB = 999;
-
-            return indexA - indexB;
-        });
-    }
-
-    // 3단계: 화면 렌더링
-    filteredKeys.forEach(k => {
-        const isSel = k.english_name === currentK;
-        const isUsed = used.has(k.english_name);
-
-        const el = document.createElement('div');
+        const el = document.createElement('button');
+        el.type = 'button';
         el.className = `grid-item grid-item-key has-label ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
-        el.innerHTML = `<img src="${k.image_path}" alt=""><span class="grid-item-label">${k.korean_name}</span>`;
+        el.setAttribute('aria-pressed', String(isSel));
+        el.setAttribute('aria-label', `${k.korean_name}${isSel ? ', 현재 장착됨' : ''}${isUsed ? ', 다른 팀에서 사용 중' : ''}`);
+        el.disabled = isUsed;
+        const image = document.createElement('img');
+        image.src = k.image_path;
+        image.alt = '';
+        image.loading = 'lazy';
+        const label = document.createElement('span');
+        label.className = 'grid-item-label';
+        label.textContent = k.korean_name;
+        el.append(image, label);
 
-        el.onmouseenter = (e) => showTooltip(k, e);
-        el.onmouseleave = hideTooltip;
+        bindTooltipEvents(el, k);
 
-        el.onclick = () => {
-            if (isUsed) return;
-            allPages[currentPageIdx].teams[currentTeamIdx].key = k.english_name;
+        el.addEventListener('click', () => {
+            allPages[currentPageIdx].teams[currentTeamIdx] = withEquippedKey(
+                allPages[currentPageIdx].teams[currentTeamIdx],
+                k.english_name
+            );
 
             // --- [추가 로직] 장착 시 최근 사용 기록 업데이트 ---
             recentKeys = recentKeys.filter(name => name !== k.english_name); // 기존 중복 제거
@@ -1409,142 +1607,148 @@ function renderKeyGrid() {
             if (recentKeys.length > 20) recentKeys.pop(); // 최대 20개까지만 보관
 
             // 브라우저 캐시에 저장
-            localStorage.setItem('morimens_recent_keys', JSON.stringify(recentKeys));
+            Storage.setRaw(RECENT_KEYS_STORAGE_KEY, JSON.stringify(recentKeys));
             // ------------------------------------------------
 
             closeModal('modal-key');
             renderAll();
-        };
+            saveAllData(true);
+        });
         box.appendChild(el);
     });
+
+    if (!box.children.length) renderNoResults(box, '조건에 맞는 은열쇠가 없습니다.');
 }
 
 function matchesBuilderSearch(text, query) {
-    if (window.SearchUtils) return window.SearchUtils.matchesSearchText(text, query);
-    const normalizedText = String(text || '').toLowerCase().replace(/\s+/g, '');
-    const normalizedQuery = String(query || '').toLowerCase().replace(/\s+/g, '');
-    return normalizedText.includes(normalizedQuery);
+    return Search.matches(text, query, window.SearchUtils);
 }
 
 function matchesBuilderSearchByQueryType(primaryText, fullText, query) {
-    const target = window.SearchUtils && window.SearchUtils.isChoseongQuery(query)
-        ? primaryText
-        : fullText;
-    return matchesBuilderSearch(target, query);
+    return Search.matchesByQueryType(primaryText, fullText, query, window.SearchUtils);
 }
-function unequipKey() { allPages[currentPageIdx].teams[currentTeamIdx].key = null; closeModal('modal-key'); renderAll(); }
+function unequipKey() {
+    allPages[currentPageIdx].teams[currentTeamIdx] = withEquippedKey(
+        allPages[currentPageIdx].teams[currentTeamIdx],
+        null
+    );
+    closeModal('modal-key');
+    renderAll();
+    saveAllData(true);
+}
 
 // [11] 시스템 유틸리티 및 모달 기능
-const tooltipEl = document.getElementById('global-tooltip');
-function isTouchTooltipEvent(e) {
-    return !!(
-        e &&
-        (
-            e.pointerType === 'touch' ||
-            (window.matchMedia && window.matchMedia('(hover: none), (pointer: coarse)').matches)
-        )
-    );
+function bindTooltipEvents(element, item) {
+    element.setAttribute('aria-describedby', 'global-tooltip party-tooltip-instructions');
+    element.setAttribute('aria-keyshortcuts', 'Alt+ArrowDown');
+    partyTooltipController.bindTrigger(element, item, [], {
+        pinOnClick: false,
+        pinOnLongPress: true,
+        pinWithAltArrow: true
+    });
 }
 
-function showTooltip(item, e) {
-    document.getElementById('tt-title').textContent = item.korean_name;
-
-    const descCont = document.getElementById('tt-desc');
-    let contentHtml = '';
-
-    if (item.main_stat) {
-        contentHtml += `<div class="tooltip-main-stat">주옵션: ${item.main_stat}</div>`;
+function positionPartyTooltip({ event: e, tooltip, window: viewport }) {
+    if (viewport.matchMedia('(max-width: 56.249rem)').matches) {
+        tooltip.style.removeProperty('left');
+        tooltip.style.removeProperty('top');
+        return;
     }
-
-    if (item.description) {
-        contentHtml += `<div class="tooltip-effect-desc">${item.description}</div>`;
-    }
-
-    if (item.set_effect_3) {
-        contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[3세트 효과]</div>`;
-        contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_3}</div>`;
-    }
-    if (item.set_effect_6) {
-        contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 10px; font-weight: bold;">[6세트 효과]</div>`;
-        contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px;">${item.set_effect_6}</div>`;
-    }
-
-    if (item.source) {
-        contentHtml += `<div class="tooltip-effect-desc" style="color: #d9d9d9; margin-top: 15px; font-weight: bold;">[획득처]</div>`;
-        contentHtml += `<div class="tooltip-effect-desc" style="margin-top: 2px; color: #d9d9d9;">${item.source}</div>`;
-    }
-
-    descCont.innerHTML = contentHtml;
-
-    const tagsCont = document.getElementById('tt-tags');
-    tagsCont.innerHTML = '';
-    (item.tags || item.optimized_for || [])
-        .map(t => String(t || '').trim())
-        .filter(Boolean)
-        .forEach(t => {
-            const s = document.createElement('span');
-            s.className = 'tooltip-tag';
-            s.textContent = t;
-            tagsCont.appendChild(s);
-        });
-
-    tooltipEl.style.display = 'block';
-    moveTooltip(e);
-}
-function moveTooltip(e) {
-    if (!tooltipEl || tooltipEl.style.display === 'none') return;
 
     const gap = 15;
     const margin = 10;
-    const rect = tooltipEl.getBoundingClientRect();
-    let x = e.clientX + gap;
-    let y = e.clientY + gap;
+    const rect = tooltip.getBoundingClientRect();
+    const source = e?.currentTarget instanceof viewport.Element ? e.currentTarget.getBoundingClientRect() : null;
+    const clientX = Number.isFinite(e?.clientX) && e.clientX > 0 ? e.clientX : (source?.right || margin);
+    const clientY = Number.isFinite(e?.clientY) && e.clientY > 0 ? e.clientY : (source?.top || margin);
+    let x = clientX + gap;
+    let y = clientY + gap;
 
-    if (x + rect.width > window.innerWidth - margin) {
-        x = e.clientX - rect.width - gap;
+    if (x + rect.width > viewport.innerWidth - margin) {
+        x = clientX - rect.width - gap;
     }
-    if (y + rect.height > window.innerHeight - margin) {
-        y = e.clientY - rect.height - gap;
+    if (y + rect.height > viewport.innerHeight - margin) {
+        y = clientY - rect.height - gap;
     }
 
-    x = Math.max(margin, Math.min(x, window.innerWidth - rect.width - margin));
-    y = Math.max(margin, Math.min(y, window.innerHeight - rect.height - margin));
+    x = Math.max(margin, Math.min(x, viewport.innerWidth - rect.width - margin));
+    y = Math.max(margin, Math.min(y, viewport.innerHeight - rect.height - margin));
 
-    tooltipEl.style.left = x + 'px';
-    tooltipEl.style.top = y + 'px';
+    tooltip.style.left = `${x}px`;
+    tooltip.style.top = `${y}px`;
 }
-function hideTooltip() { tooltipEl.style.display = 'none'; }
 
 function openSystemAlert(t, m) {
     document.getElementById('sys-modal-title').innerText = t;
     document.getElementById('sys-modal-msg').innerText = m;
-    document.getElementById('sys-btn-no').style.display = 'none';
+    document.getElementById('sys-input-wrapper').hidden = true;
+    document.getElementById('sys-btn-no').hidden = true;
     document.getElementById('sys-btn-yes').onclick = () => closeModal('modal-system');
-    document.getElementById('modal-system').classList.add('show');
+    openModal('modal-system', '#sys-btn-yes');
 }
-function openSystemConfirm(t, m, yes) {
+function openSystemConfirm(t, m, yes, options = {}) {
+    const {
+        initialFocus = '#sys-btn-yes',
+        resolveSuccessFocus = null
+    } = options;
     document.getElementById('sys-modal-title').innerText = t;
     document.getElementById('sys-modal-msg').innerText = m;
-    document.getElementById('sys-btn-no').style.display = 'inline-block';
+    document.getElementById('sys-btn-no').hidden = false;
 
-    // 확인 버튼 이벤트
     document.getElementById('sys-btn-yes').onclick = () => {
+        const returnRecord = partyModalController.getReturnRecord('modal-system');
+        closeModal('modal-system', { restoreFocus: false });
         yes();
-        closeModal('modal-system');
+        if (partyModalController.getTopId() !== 'modal-system') {
+            partyModalController.clearDeferredReturn();
+            requestAnimationFrame(() => {
+                const explicitTarget = typeof resolveSuccessFocus === 'function'
+                    ? resolveSuccessFocus()
+                    : null;
+                const returnTarget = explicitTarget || partyModalController.resolveReturnFocusRecord(returnRecord);
+                if (returnTarget) {
+                    returnTarget.focus({ preventScroll: true });
+                    return;
+                }
+                const topDialog = partyModalController.getDialog(document.getElementById(partyModalController.getTopId()));
+                (partyModalController.getFocusable(topDialog)[0] || topDialog)?.focus({ preventScroll: true });
+            });
+        }
     };
 
-    // [버그 수정] 취소 버튼 누를 때 모달 닫기 기능 강제 부여
     document.getElementById('sys-btn-no').onclick = () => {
         closeModal('modal-system');
     };
 
-    document.getElementById('modal-system').classList.add('show');
+    openModal('modal-system', initialFocus);
 }
-function closeModal(id) {
-    document.getElementById(id).classList.remove('show');
+
+function getPartyModalFallbackSelector(element) {
+    let fallbackSelector = '';
+    if (element?.id) fallbackSelector = `#${element.id}`;
+    else if (element?.classList.contains('team-tab')) fallbackSelector = `#team-tab-${currentTeamIdx}`;
+    else if (element?.dataset?.pageIndex !== undefined) fallbackSelector = `#page-tab-${element.dataset.pageIndex}`;
+    else if (element?.dataset?.charSlot !== undefined && element?.dataset?.wheelSlotIndex !== undefined) {
+        fallbackSelector = `.slot-wheel[data-char-slot="${element.dataset.charSlot}"][data-wheel-slot-index="${element.dataset.wheelSlotIndex}"]`;
+    } else if (element?.dataset?.charSlot !== undefined) {
+        fallbackSelector = `.char-select-action[data-char-slot="${element.dataset.charSlot}"]`;
+    } else if (element?.classList.contains('support-setup-btn')) fallbackSelector = '.support-setup-btn';
+    return fallbackSelector;
+}
+
+function handlePartyModalClose(id) {
+    restorePersistentSaveErrorPortal();
+    const saveError = document.getElementById('party-save-error');
+    if (saveError && !saveError.hidden) movePersistentSaveErrorToActiveDialog(saveError);
     if (id === 'modal-char') {
         const removeBtn = document.getElementById('btn-remove-support');
-        if (removeBtn) removeBtn.style.display = 'none';
+        if (removeBtn) removeBtn.hidden = true;
+        document.getElementById('char-search-suggestions')?.classList.remove('show');
+    }
+    if (id === 'modal-system') {
+        document.getElementById('sys-input-wrapper').hidden = true;
+        document.getElementById('sys-btn-no').hidden = true;
+        targetRenameIndex = -1;
     }
 }
 function goBackToMenu() {
@@ -1561,45 +1765,37 @@ function updateBackButtonLabel() {
     if (!backButton) return;
 
     const params = new URLSearchParams(window.location.search);
-    backButton.textContent = params.get('from') === 'weapon'
-        ? '⬅ 융재 금구 메뉴로 돌아가기'
-        : '⬅ 홈으로 돌아가기';
+    const fromWeapon = params.get('from') === 'weapon';
+    backButton.textContent = fromWeapon ? '← 융재금구 메뉴로 돌아가기' : '← 홈으로 돌아가기';
+    backButton.href = fromWeapon ? 'links.html?category=weapon' : 'index.html';
 }
 
-function copyTeamToClipboard() {
+async function copyTeamToClipboard() {
     const team = allPages[currentPageIdx].teams[currentTeamIdx];
 
-    // 슬롯 번호와 이름은 제외하고 순수 데이터 구성만 복사
-    const teamData = {
-        chars: team.chars,
-        wheels: team.wheels,
-        key: team.key,
-        supportIdx: team.supportIdx
-    };
-
-    navigator.clipboard.writeText(JSON.stringify(teamData)).then(() => {
+    try {
+        if (!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
+        await navigator.clipboard.writeText(serializeTeamShare(team));
         openSystemAlert("복사 완료", "현재 팀 구성 정보가 클립보드에 저장되었습니다.");
-    });
+    } catch (error) {
+        console.warn('팀 복사 실패', error);
+        openSystemAlert('복사 실패', '클립보드 권한을 확인한 뒤 다시 시도해 주세요. 브라우저가 이 기능을 차단했을 수 있습니다.');
+    }
 }
 
 async function pasteTeamFromClipboard() {
     try {
+        if (!navigator.clipboard?.readText) throw new Error('Clipboard API unavailable');
         const text = await navigator.clipboard.readText();
-        const data = JSON.parse(text);
-
-        // 필수 데이터 필드 검증 (무결성 체크)
-        if (!data.chars || !data.wheels || data.supportIdx === undefined) {
-            throw new Error("Invalid team data");
-        }
+        const currentTeam = allPages[currentPageIdx].teams[currentTeamIdx];
+        const sanitized = parseAndSanitizeTeamShare(text, {
+            validator: stateValidator,
+            teamName: currentTeam.name,
+            teamIndex: currentTeamIdx
+        });
 
         openSystemConfirm("팀 붙여넣기", "현재 팀 정보를 클립보드 데이터로 덮어쓰시겠습니까?", () => {
-            const team = allPages[currentPageIdx].teams[currentTeamIdx];
-
-            // 데이터 할당 (깊은 복사 적용)
-            team.chars = [...data.chars];
-            team.wheels = JSON.parse(JSON.stringify(data.wheels));
-            team.key = data.key;
-            team.supportIdx = data.supportIdx;
+            allPages[currentPageIdx].teams[currentTeamIdx] = replaceTeamComposition(currentTeam, sanitized);
 
             renderAll();
             saveAllData(true);
@@ -1613,25 +1809,6 @@ async function pasteTeamFromClipboard() {
 // =========================================
 // 전용 명륜 자동 장착 및 포커스 이동 로직
 // =========================================
-
-// 버튼 클릭 이벤트 리스너 (중복 방지를 위해 초기화 후 등록)
-const btnSsr = document.getElementById('btn-equip-ssr');
-const btnSr = document.getElementById('btn-equip-sr');
-
-if (btnSsr) {
-    btnSsr.onclick = () => equipDedicatedWheel('SSR');
-}
-if (btnSr) {
-    btnSr.onclick = () => equipDedicatedWheel('SR');
-}
-
-function normalizeDedicatedTarget(value) {
-    return String(value || '')
-        .normalize('NFKC')
-        .replace(/[「」｢｣]/g, '')
-        .trim()
-        .toLowerCase();
-}
 
 function equipDedicatedWheel(grade) {
     const team = allPages[currentPageIdx].teams[currentTeamIdx];
@@ -1648,19 +1825,12 @@ function equipDedicatedWheel(grade) {
     if (!charInfo) return;
 
     // 3. 해당 등급의 전용 명륜 찾기
-    const charTargets = new Set([
-        normalizeDedicatedTarget(charId),
-        normalizeDedicatedTarget(charInfo.id),
-        normalizeDedicatedTarget(charInfo.name),
-        ...((PARTY_BUILDER_RULES.dedicated_wheel_aliases || {})[charId] || [])
-            .map(normalizeDedicatedTarget)
-            .filter(Boolean)
-    ]);
-    const targetWheel = DB.wheels.find(function(wheel) {
-        const optFor = wheel.optimized_for;
-        return wheel.grade === grade
-            && Array.isArray(optFor)
-            && optFor.some(target => charTargets.has(normalizeDedicatedTarget(target)));
+    const targetWheel = findDedicatedWheel(DB.wheels, {
+        characterId: charId,
+        character: charInfo,
+        aliases: (PARTY_BUILDER_RULES.dedicated_wheel_aliases || {})[charId] || [],
+        grade,
+        normalizeTarget: normalizeDedicatedTarget
     });
 
     if (!targetWheel) {
@@ -1673,7 +1843,12 @@ function equipDedicatedWheel(grade) {
     selectedWheelSlotIdx = slotIdx; // 장착하는 슬롯으로 즉시 포커스 이동
 
     // 5. 데이터 적용
-    team.wheels[editingCharIdx][slotIdx] = targetWheel.english_name;
+    allPages[currentPageIdx].teams[currentTeamIdx] = withEquippedWheel(
+        team,
+        editingCharIdx,
+        slotIdx,
+        targetWheel.english_name
+    );
 
     // 6. UI 전체 및 모달 내부 갱신 (핵심: 어떤 등급이든 즉시 리렌더링)
     renderAll();

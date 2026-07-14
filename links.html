@@ -2,80 +2,84 @@
 <html lang="ko">
 
 <head>
-    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
     <meta charset="UTF-8">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>정보 모음</title>
+    <meta name="referrer" content="no-referrer">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#0f1115">
+    <title>자료실 | 미사그 대학 한국 캠퍼스</title>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://morimenz-kr.github.io/Morimens.Info.kr/">
     <meta property="og:title" content="미사그 대학 한국 캠퍼스">
-    <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 미사그 대학의 모든 정보를 한눈에 확인하세요.">
+    <meta property="og:description" content="각성체 공략, 환몽심잠, 융재금구, 교환 코드 등 망각전야 자료를 한눈에 확인하세요.">
     <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
 
-    <script src="config/config.js"></script>
-    <script>
-        loadCSS('css/common.css');
-        loadCSS('css/components.css');
-        loadCSS('css/pages/links.css');
-        loadCSS('css/character-effects.css');
-        loadCSS('css/responsive.css');
-        loadJS('js/search_utils.js');
-        loadJS('js/feedback.js');
-        loadJS('js/character-effects.js');
-    </script>
+    <link rel="stylesheet" href="css/common.css?v=v1.4.0-site-quality-20260713-r4">
+    <link rel="stylesheet" href="css/components.css?v=v1.4.0-site-quality-20260713-r4">
+    <link rel="stylesheet" href="css/pages/links.css?v=v1.4.0-site-quality-20260713-r4">
+    <link rel="stylesheet" href="css/character-effects.css?v=v1.4.0-site-quality-20260713-r4">
+    <link rel="stylesheet" href="css/responsive.css?v=v1.4.0-site-quality-20260713-r4">
+    <script defer src="config/config.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script defer src="js/search_utils.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script defer src="js/ui/dialog.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script defer src="js/feedback.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script defer src="js/character-effects.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script type="module" defer src="js/links.js?v=v1.4.0-site-quality-20260713-r4"></script>
 </head>
 
 <body>
 
-<div class="container links-page-shell">
-    <a href="#" id="links-back-link" class="back-link">⬅ 뒤로가기</a>
+<a class="skip-link" href="#main-content">본문으로 건너뛰기</a>
+<main id="main-content" class="container links-page-shell" tabindex="-1">
+    <nav aria-label="탐색">
+        <a href="index.html" id="links-back-link" class="back-link">홈으로 돌아가기</a>
+    </nav>
 
-    <div class="link-container">
-        <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
+    <section class="link-container" aria-labelledby="page-title" aria-busy="true">
+        <h1 id="page-title" class="category-title">자료실</h1>
+        <p id="links-status" class="page-status" role="status" aria-live="polite">자료를 불러오는 중입니다.</p>
 
-        <div class="chrome-tabs-container">
-            <div class="chrome-tab active" data-tab-target="dictionary">명륜 리스트</div>
-            <div class="chrome-tab" data-tab-target="character-effects" hidden>캐릭터 정보</div>
-            <div class="chrome-tab" data-tab-target="links">채널 정보글 링크</div>
+        <div class="chrome-tabs-container" role="tablist" aria-label="자료 유형">
+            <button type="button" id="links-tab-dictionary" class="chrome-tab active" data-tab-target="dictionary" role="tab" aria-selected="true" aria-controls="tab-content-dictionary" tabindex="0">명륜 목록</button>
+            <button type="button" id="links-tab-character-effects" class="chrome-tab" data-tab-target="character-effects" role="tab" aria-selected="false" aria-controls="tab-content-character-effects" tabindex="-1" hidden>각성체 정보</button>
+            <button type="button" id="links-tab-links" class="chrome-tab" data-tab-target="links" role="tab" aria-selected="false" aria-controls="tab-content-links" tabindex="-1">채널 정보글</button>
         </div>
 
-        <div id="tab-content-dictionary" class="tab-content active">
-            <div id="dictionary-filter-panel" class="dictionary-filter-panel" aria-label="도감 필터"></div>
+        <section id="tab-content-dictionary" class="tab-content active" role="tabpanel" aria-labelledby="links-tab-dictionary" tabindex="0">
+            <div id="dictionary-filter-panel" class="dictionary-filter-panel" role="search" aria-label="도감 필터"></div>
             <div id="dictionary-grid" class="dictionary-grid">
             </div>
-        </div>
+        </section>
 
-        <div id="tab-content-character-effects" class="tab-content">
+        <section id="tab-content-character-effects" class="tab-content" role="tabpanel" aria-labelledby="links-tab-character-effects" tabindex="0" hidden>
             <div id="character-effects-root"></div>
-        </div>
+        </section>
 
-        <div id="tab-content-links" class="tab-content">
+        <section id="tab-content-links" class="tab-content" role="tabpanel" aria-labelledby="links-tab-links" tabindex="0" hidden>
             <div id="party-link-slot"></div>
             <div id="links-list"></div>
+        </section>
+
+    </section>
+</main>
+
+
+<div id="substitute-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="sub-modal-title" aria-describedby="sub-modal-description" inert>
+    <div class="modal-content" tabindex="-1">
+        <div class="modal-header">
+            <div>
+                <h2 class="form-title" id="sub-modal-title">대체 장비 정보</h2>
+                <p id="sub-modal-description">추천 대체 장비를 확인할 수 있습니다.</p>
+            </div>
+            <button type="button" id="close-sub-modal" class="close-btn" data-dialog-close aria-label="대체 장비 창 닫기">&times;</button>
         </div>
-
-        <div class="report-section">
-            <p>혹시 연결되지 않는 링크가 있나요?</p>
-            <button id="open-report-modal" class="report-btn">🚨 버그/피드백 제보하기</button>
-        </div>
-    </div>
-</div>
-
-
-<div id="substitute-modal" class="modal-overlay">
-    <div class="modal-content">
-        <h2 class="form-title" id="sub-modal-title">대체 장비 정보</h2>
         <div id="sub-modal-body" class="sub-modal-body">
         </div>
-        <button type="button" id="close-sub-modal" class="form-submit-btn sub-modal-close-btn">닫기</button>
     </div>
 </div>
-<script src="js/links.js"></script>
-
-<button id="floating-report-btn" class="floating-report-btn" title="버그 신고">
-    🚨
+<button type="button" id="floating-report-btn" class="floating-report-btn" title="버그 신고" aria-label="버그 및 피드백 제보하기">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2.8 20h18.4ZM12 9v5M12 17.5h.01"/></svg>
 </button>
 </body>
 </html>

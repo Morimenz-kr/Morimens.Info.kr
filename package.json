@@ -1,0 +1,19 @@
+{
+  "name": "morimens-info-kr",
+  "version": "1.4.0",
+  "private": true,
+  "type": "module",
+  "description": "Morimens.Info.kr 정적 사이트의 검증·테스트·배포 빌드 명령",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "audit": "node tools/audit-site.mjs",
+    "validate:data": "node tools/validate-character.mjs --all",
+    "generate:data-shards": "node tools/generate-data-shards.mjs",
+    "check:data-shards": "node tools/generate-data-shards.mjs --check",
+    "build": "node tools/build-site.mjs",
+    "test": "node --test --test-reporter=spec tests/covenant-domain.test.mjs tests/data-contracts.test.mjs tests/data-shards.test.mjs tests/design-contracts.test.mjs tests/deployment-artifact.test.mjs tests/feedback-worker.test.mjs tests/inventory-domain.test.mjs tests/links-domain.test.mjs tests/party-builder-core.test.mjs",
+    "check": "node tests/run-quality-gate.mjs"
+  }
+}

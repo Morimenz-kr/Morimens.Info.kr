@@ -103,6 +103,8 @@ function validateCharacter(character, db) {
   const settingsList = Array.isArray(settings) ? settings : settings ? [settings] : [];
   if (settingsList.length === 0) {
     addIssue(errors, 'settings.missing', `${character.id} has no character_settings entry.`);
+  } else if (settings?.status === 'pending') {
+    details.push(`${character.id} recommendations are explicitly marked as pending review.`);
   } else {
     const wheelIds = [
       ...collectSettingIds(settingsList, 'myeongryun_ssr'),
@@ -170,7 +172,9 @@ function validateCharacter(character, db) {
     }).filter(Boolean);
 
     if (dedicatedWheels.length === 0) {
-      addIssue(warnings, `dedicated_wheel.${grade}.missing`, `${character.id} has no detected dedicated ${grade} wheel.`);
+      // 전용 명륜이 없는 캐릭터와 SR 전용 명륜이 없는 캐릭터가 정상적으로 존재한다.
+      // 명시된 장비 참조의 유효성은 character_settings 검사에서 별도로 보장한다.
+      details.push(`${character.id} has no explicitly matched dedicated ${grade} wheel; absence is allowed.`);
     } else {
       for (const { wheel, via } of dedicatedWheels) {
         details.push(`${grade} wheel ${wheel.english_name} matched via ${via}.`);
@@ -186,7 +190,8 @@ function validateCharacter(character, db) {
     return match.matched ? { key, via: match.via } : false;
   }).filter(Boolean);
   if (dedicatedKeys.length === 0) {
-    addIssue(warnings, 'dedicated_key.missing', `${character.id} has no detected dedicated silverkey.`);
+    // 모든 캐릭터가 전용 은열쇠를 갖는 것은 아니므로 부재 자체는 품질 경고가 아니다.
+    details.push(`${character.id} has no explicitly matched dedicated silverkey; absence is allowed.`);
   } else {
     for (const { key, via } of dedicatedKeys) {
       details.push(`silverkey ${key.english_name} matched via ${via}.`);

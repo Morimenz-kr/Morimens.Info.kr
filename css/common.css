@@ -1,248 +1,509 @@
-/* ============================================
-   공통 스타일 (Common Styles)
-   모든 페이지에서 공통으로 사용되는 기본 스타일
-   ============================================ */
+/*
+ * Morimens UI foundation
+ * Shared tokens, reset, typography and site-wide primitives.
+ */
 
-/* --- 0. CSS Variables (전역 디자인 토큰) --- */
 :root {
-    --color-bg-dark: #1a1a1a;
-    --color-bg-card: #2a2a2a;
-    --color-bg-elevated: #333;
-    --color-bg-hover: #444;
-    --color-bg-input: #252525;
-    --color-bg-form: #383838;
-    --color-text-primary: #ecf0f1;
-    --color-text-secondary: #ccc;
-    --color-text-muted: #aaa;
-    --color-text-dim: #888;
-    --color-accent: #ffc107;
-    --color-accent-gold: #ffd700;
-    --color-link-blue: #007bff;
-    --color-link-blue-hover: #0056b3;
-    --color-success: #2ecc71;
-    --color-danger: #e74c3c;
-    --color-border: #444;
-    --color-border-light: #555;
-    --color-border-dark: #333;
-    --color-overlay: rgba(0, 0, 0, 0.85);
-    --color-overlay-light: rgba(0, 0, 0, 0.75);
-    --color-chaos: #8B8000;
-    --color-aequor: #005A8C;
-    --color-caro: #8C0000;
-    --color-ultra: #5A008C;
-    --color-assault: #dc3545;
-    --color-warden: #007bff;
-    --color-chorus: #28a745;
-    --color-ssr: #ffc107;
-    --color-sr: #8a2be2;
-    --radius-sm: 6px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-pill: 15px;
-    --transition-fast: 0.2s ease;
-    --transition-normal: 0.3s ease;
-    --font-family: 'Pretendard', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
+    color-scheme: dark;
+
+    --color-bg-dark: #0f1115;
+    --color-bg-card: #191d23;
+    --color-bg-elevated: #22272f;
+    --color-bg-hover: #2b313b;
+    --color-bg-input: #14181e;
+    --color-bg-form: #171b21;
+    --color-surface-glass: rgba(20, 23, 29, 0.94);
+
+    --color-text-primary: #f5f2ea;
+    --color-text-on-strong: #ffffff;
+    --color-text-secondary: #d3d0c8;
+    --color-text-muted: #aaa9a5;
+    --color-text-dim: #92959d;
+
+    --color-accent: #e8bd69;
+    --color-accent-gold: #f4ce7d;
+    --color-accent-strong: #ffd98c;
+    --color-accent-ink: #211805;
+    --color-link-blue: #8ec5ff;
+    --color-link-blue-hover: #bbdcff;
+    --color-success: #6fdda9;
+    --color-danger: #ff8a83;
+    --color-warning: #f6c66f;
+    --color-focus: #a8d8ff;
+
+    --color-border: #414852;
+    --color-border-light: #59616d;
+    --color-border-dark: #303641;
+    --color-overlay: rgba(4, 6, 9, 0.84);
+    --color-overlay-light: rgba(4, 6, 9, 0.72);
+
+    --color-chaos: #756b1a;
+    --color-aequor: #267daa;
+    --color-caro: #a83f43;
+    --color-ultra: #7950a8;
+    --color-assault: #b94d52;
+    --color-warden: #397bae;
+    --color-chorus: #2f7b54;
+    --color-ssr: #e8bd69;
+    --color-sr: #8658bd;
+
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.25rem;
+    --radius-pill: 999px;
+
+    --shadow-sm: 0 0.25rem 0.8rem rgba(0, 0, 0, 0.24);
+    --shadow-md: 0 0.75rem 2rem rgba(0, 0, 0, 0.34);
+    --shadow-focus: 0 0 0 0.2rem rgba(168, 216, 255, 0.24);
+
+    --content-width: 75rem;
+    --reading-width: 70ch;
+    --control-height: 2.75rem;
+    --transition-fast: 160ms ease;
+    --transition-normal: 240ms ease;
+    --font-family: "Pretendard Variable", Pretendard, "Noto Sans KR",
+        "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
 }
 
-/* --- 1. CSS Reset & Box Model --- */
-* {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
-/* --- 2. Body & HTML 기본 설정 --- */
-html,
-body {
-    width: 100%;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    /* 가로 스크롤 방지 */
+html {
+    min-block-size: 100%;
+    font-size: 100%;
+    scrollbar-gutter: stable;
+    scroll-padding-block-start: var(--space-4);
+    text-size-adjust: 100%;
 }
 
 body {
-    font-family: var(--font-family);
-    background-color: var(--color-bg-dark);
+    min-block-size: 100vh;
+    min-block-size: 100dvh;
+    margin: 0;
+    background:
+        radial-gradient(circle at 50% -20%, rgba(232, 189, 105, 0.09), transparent 38rem),
+        var(--color-bg-dark);
     color: var(--color-text-primary);
+    font-family: var(--font-family);
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- 3. 배경 이미지 레이어 (고정) --- */
-.bg-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-    background-image: url('../images/background.webp');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-    will-change: transform;
-    transform: translateZ(0);
-    height: 100vh;
-    min-height: -webkit-fill-available;
-    /* iOS Safari 대응 */
+body.modal-open {
+    overflow: hidden;
 }
 
-.background-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.75);
-    z-index: 1;
+img,
+svg,
+video,
+canvas {
+    display: block;
+    max-inline-size: 100%;
 }
 
-/* --- 4. 컨테이너 공통 --- */
-.container {
-    position: relative;
-    z-index: 2;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+img {
+    block-size: auto;
 }
 
-/* --- 5. 타이포그래피 --- */
-h1 {
-    color: #fff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    word-break: keep-all;
+button,
+input,
+select,
+textarea {
+    max-inline-size: 100%;
+    color: inherit;
+    font: inherit;
 }
 
+button,
+select {
+    cursor: pointer;
+}
+
+button {
+    border: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
+}
+
+:where(
+    a,
+    button,
+    input,
+    select,
+    textarea,
+    summary,
+    [tabindex]:not([tabindex="-1"])
+):focus-visible {
+    outline: 0.18rem solid var(--color-focus);
+    outline-offset: 0.18rem;
+    box-shadow: var(--shadow-focus);
+}
+
+::selection {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin-block-start: 0;
+}
+
+h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-    color: #fff;
+    color: var(--color-text-primary);
+    line-height: 1.25;
+    text-wrap: balance;
+    word-break: keep-all;
 }
 
-/* --- 6. 링크 기본 스타일 --- */
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.2s ease;
+h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    letter-spacing: -0.035em;
 }
 
-/* --- 7. 버튼 공통 스타일 --- */
-button {
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-family: inherit;
-    transition: all 0.2s ease;
+h2 {
+    font-size: clamp(1.3rem, 2.4vw, 1.75rem);
 }
 
-button:focus {
-    outline: none;
+p,
+li,
+dd {
+    overflow-wrap: anywhere;
 }
 
-/* --- 8. 뒤로가기 버튼 공통 스타일 --- */
+.bg-image {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    min-block-size: 100vh;
+    min-block-size: 100dvh;
+    background:
+        linear-gradient(180deg, rgba(15, 17, 21, 0.36), rgba(15, 17, 21, 0.72)),
+        url("../images/background.webp") center / cover no-repeat;
+}
+
+.background-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 50% 10%, rgba(35, 39, 47, 0.18), transparent 38rem),
+        rgba(8, 10, 13, 0.68);
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    inline-size: min(calc(100% - 2rem), var(--content-width));
+    margin-inline: auto;
+    padding-block: clamp(1rem, 3vw, 2rem) clamp(5rem, 8vw, 7rem);
+}
+
+.skip-link {
+    position: fixed;
+    inset-block-start: var(--space-3);
+    inset-inline-start: var(--space-3);
+    z-index: 3000;
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-strong);
+    color: var(--color-accent-ink);
+    font-weight: 800;
+    transform: translateY(-200%);
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+.header-area {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-4);
+    min-block-size: var(--control-height);
+    margin-block-end: var(--space-6);
+}
+
+.header-area nav {
+    justify-self: start;
+}
+
+.header-area h1 {
+    grid-column: 2;
+    margin: 0;
+    text-align: center;
+}
+
 .back-link,
 .back-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 8px 14px;
-    margin-bottom: 20px;
-    background-color: #333;
-    color: #ccc;
+    min-block-size: var(--control-height);
+    margin: 0;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: rgba(25, 29, 35, 0.9);
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-weight: 750;
+    line-height: 1.2;
     text-decoration: none;
-    border: 1px solid #444;
-    border-radius: 8px;
-    font-size: 0.9em;
-    font-weight: bold;
-    transition: all 0.2s ease;
+    transition:
+        color var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-fast),
+        transform var(--transition-fast);
+}
+
+.back-link::before,
+.back-button::before {
+    content: "←";
+    margin-inline-end: var(--space-2);
+    font-size: 1.1em;
 }
 
 .back-link:hover,
 .back-button:hover {
-    background-color: #444;
-    color: #fff;
-    border-color: #ffc107;
-    transform: translateY(-2px);
+    border-color: var(--color-accent);
+    background: var(--color-bg-hover);
+    color: var(--color-text-primary);
+    transform: translateY(-0.08rem);
 }
 
-/* --- 9. 유틸리티 클래스 --- */
+.eyebrow {
+    margin-block-end: var(--space-2);
+    color: var(--color-accent);
+    font-size: 0.78rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.lede {
+    max-inline-size: var(--reading-width);
+    color: var(--color-text-secondary);
+    font-size: clamp(0.95rem, 1.7vw, 1.06rem);
+}
+
+.surface {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-glass);
+    box-shadow: var(--shadow-md);
+}
+
 .hidden {
     display: none !important;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    inline-size: 1px !important;
+    block-size: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
 }
 
 .text-center {
     text-align: center;
 }
 
-/* --- 10. 스크롤바 스타일 (선택적) --- */
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+.muted-text {
+    color: var(--color-text-muted);
 }
 
-::-webkit-scrollbar-track {
-    background: #2a2a2a;
+.status-message,
+.empty-state,
+.error-state {
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-card);
+    color: var(--color-text-secondary);
 }
 
-::-webkit-scrollbar-thumb {
-    background: #555;
-    border-radius: 4px;
+.error-state {
+    border-color: color-mix(in srgb, var(--color-danger) 55%, var(--color-border));
+    color: var(--color-danger);
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: #666;
-}
-
-/* --- 11. Floating 신고 버튼 --- */
 .floating-report-btn {
     position: fixed;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 999;
-    background: #3a3a3a;
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: none;
+    inset-inline-end: max(1rem, env(safe-area-inset-right));
+    inset-block-end: max(1rem, env(safe-area-inset-bottom));
+    z-index: 900;
+    display: grid;
+    place-items: center;
+    inline-size: 3rem;
+    block-size: 3rem;
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-pill);
+    background: rgba(28, 32, 39, 0.96);
+    color: var(--color-accent);
+    font-size: 1.25rem;
+    box-shadow: var(--shadow-md);
+    transition:
+        transform var(--transition-fast),
+        border-color var(--transition-fast),
+        background var(--transition-fast);
 }
 
 .floating-report-btn:hover {
-    background: #4a4a4a;
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+    border-color: var(--color-accent);
+    background: var(--color-bg-hover);
+    transform: translateY(-0.15rem);
 }
 
 .floating-report-btn:active {
-    background: #2a2a2a;
-    transform: translateY(-50%) scale(0.95);
+    transform: translateY(0);
 }
 
-@media (max-width: 480px) {
+.floating-report-btn svg {
+    inline-size: 1.35rem;
+    block-size: 1.35rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+::-webkit-scrollbar {
+    inline-size: 0.65rem;
+    block-size: 0.65rem;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+    border: 0.15rem solid var(--color-bg-dark);
+    border-radius: var(--radius-pill);
+    background: var(--color-border-light);
+}
+
+@media (max-width: 37.5rem) {
+    .container {
+        inline-size: min(calc(100% - 1rem), var(--content-width));
+        padding-block-start: var(--space-4);
+    }
+
+    .header-area {
+        grid-template-columns: 1fr;
+        justify-items: stretch;
+        gap: var(--space-3);
+    }
+
+    .header-area nav,
+    .header-area h1 {
+        grid-column: 1;
+    }
+
+    .header-area h1 {
+        grid-row: 2;
+        text-align: start;
+    }
+
+    .header-area nav {
+        justify-self: start;
+    }
+
     .floating-report-btn {
-        width: 44px;
-        height: 44px;
-        font-size: 22px;
-        right: 10px;
-        top: auto;
-        bottom: 80px;
-        transform: none;
+        position: relative;
+        inset: auto;
+        z-index: 1;
+        display: flex;
+        gap: var(--space-2);
+        inline-size: max-content;
+        block-size: var(--control-height);
+        margin: var(--space-3) max(var(--space-3), env(safe-area-inset-right))
+            max(var(--space-4), env(safe-area-inset-bottom)) auto;
+        padding-inline: var(--space-4);
+        border-radius: var(--radius-pill);
     }
-    .floating-report-btn:hover {
-        transform: scale(1.1);
+
+    .floating-report-btn::after {
+        content: "의견 제보";
+        font-size: 0.875rem;
+        font-weight: 700;
+        letter-spacing: 0.01em;
     }
-    .floating-report-btn:active {
-        transform: scale(0.95);
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .floating-report-btn {
+        min-inline-size: 3.25rem;
+        min-block-size: 3.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+    }
+}
+
+@media print {
+    .bg-image,
+    .background-overlay,
+    .floating-report-btn,
+    .skip-link,
+    .back-link,
+    .back-button {
+        display: none !important;
+    }
+
+    body {
+        background: #fff;
+        color: #111;
+    }
+
+    .container {
+        inline-size: 100%;
+        max-inline-size: none;
+        padding: 0;
     }
 }
