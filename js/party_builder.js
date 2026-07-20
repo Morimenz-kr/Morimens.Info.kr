@@ -6,7 +6,7 @@ const MAX_PAGES = 5;
 const INVENTORY_STORAGE_KEY = 'morimens_inventory_checker_v2';
 const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 const DEFAULT_PARTY_BUILDER_RULES = {
-    exclusive_groups: [["ramona", "ramona_timeworn"]],
+    exclusive_groups: [["ramona", "ramona_timeworn"], ["lotan", "lotan_cetarchon"]],
     character_tags: {},
     tag_aliases: {},
     dedicated_wheel_aliases: {}
@@ -16,8 +16,18 @@ let lastHoverIdx = -1;
 let teamTabTouchState = null;
 let skipNextTeamTabClick = false;
 
-// 최근 사용한 은열쇠 식별자 저장소 (로컬 스토리지 연동)
-let recentKeys = JSON.parse(localStorage.getItem('morimens_recent_keys')) || [];
+// 이전 버전의 손상된 로컬 저장값이 전체 시뮬레이터 초기화를 막지 않도록 보호한다.
+function loadRecentKeys() {
+    try {
+        const saved = JSON.parse(localStorage.getItem('morimens_recent_keys'));
+        return Array.isArray(saved) ? saved : [];
+    } catch (error) {
+        console.warn('최근 사용 은열쇠 기록을 불러오지 못했습니다.', error);
+        return [];
+    }
+}
+
+let recentKeys = loadRecentKeys();
 
 // [2] 데이터 생성 팩토리 함수
 function createEmptyTeam(index) {
