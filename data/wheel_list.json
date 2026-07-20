@@ -165,7 +165,7 @@
     "grade": "SSR",
     "korean_name": "거꾸로 가는 시계",
     "english_name": "wheel_backward_clock",
-    "optimized_for": ["라모나"],
+    "optimized_for": ["회귀 · 라모나"],
     "main_stat": "은열쇠 충전 21.6",
     "description": "팀 유일: 장비자의 명령 카드를 사용한 후, 30/40/50/60%의 확률로 버림 패에서 손패로 다시 가져온다. 이 효과는 한 턴에 1회만 발동된다.",
     "image_path": "images/wheel_backward_clock.png"

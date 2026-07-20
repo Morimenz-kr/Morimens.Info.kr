@@ -773,6 +773,18 @@ function openSupportSelector(e) {
     initCharModal();
 }
 
+function hasExclusiveCharacterConflict(candidateId, selectedIds) {
+    const candidateGroup = PARTY_BUILDER_RULES.exclusive_groups
+        .find(group => group.includes(String(candidateId)));
+    return Boolean(candidateGroup && selectedIds.some(id =>
+        String(id) !== String(candidateId) && candidateGroup.includes(String(id))
+    ));
+}
+
+function hasExclusiveConflictInLineup(characterIds) {
+    return characterIds.some(id => hasExclusiveCharacterConflict(id, characterIds));
+}
+
 function findCharacterInPage(page, charId, preferredTeamIdx) {
     const teamOrder = [];
     if (preferredTeamIdx >= 0 && preferredTeamIdx < page.teams.length) teamOrder.push(preferredTeamIdx);
@@ -799,6 +811,11 @@ function findCharacterInPage(page, charId, preferredTeamIdx) {
 function applySupportToCurrentTeam(charId) {
     const currentPage = allPages[currentPageIdx];
     const targetTeam = currentPage.teams[currentTeamIdx];
+    const regularCharacterIds = targetTeam.chars.filter((id, index) => id && index !== targetTeam.supportIdx);
+    if (hasExclusiveCharacterConflict(charId, regularCharacterIds)) {
+        openSystemAlert("편성 불가", "같은 파티에 편성할 수 없는 각성체입니다.");
+        return false;
+    }
     const source = findCharacterInPage(currentPage, charId, currentTeamIdx);
     const supportWheels = source ? source.wheels : [null, null];
 
@@ -819,6 +836,7 @@ function applySupportToCurrentTeam(charId) {
     targetTeam.chars[3] = charId;
     targetTeam.wheels[3] = supportWheels;
     targetTeam.supportIdx = 3;
+    return true;
 }
 
 function removeSupport() {
@@ -928,6 +946,7 @@ function renderCharGrid() {
         if (isSupportSelectionMode) {
             // [조력자 선택 모드]
             if (tempChars.includes(id)) conflictReason = "파티 내 중복";
+            else if (hasExclusiveCharacterConflict(id, team.chars.filter((charId, index) => charId && index !== team.supportIdx))) conflictReason = "출전 불가";
             else if (getDomainsWithSupportCandidate(team, id).size > 2) conflictReason = "영역 충돌";
         } else {
             // [일반 대원 편성 모드]
@@ -935,6 +954,8 @@ function renderCharGrid() {
                 conflictReason = "사용중";
             } else if (team.supportIdx !== -1 && team.chars[team.supportIdx] === id) {
                 conflictReason = "조력자로 사용 중";
+            } else if (hasExclusiveCharacterConflict(id, tempChars)) {
+                conflictReason = "출전 불가";
             } else if (!tempChars.includes(id) && activeDomains.size >= 2 && !activeDomains.has(c.relems)) {
                 conflictReason = "영역 충돌";
             }
@@ -947,10 +968,17 @@ function renderCharGrid() {
         el.innerHTML = `<div class="grid-item-thumb" style="width:100%;aspect-ratio:1/1;overflow:hidden;flex:0 0 auto;"><img src="${c.image_thumb}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div><span class="grid-item-label">${c.name}</span>`;
 
         if (conflictReason) {
-            const overlay = document.createElement('div');
-            overlay.className = 'conflict-tag' + (conflictReason === "영역 충돌" ? " domain-conflict-label" : "");
-            overlay.innerText = conflictReason;
-            el.appendChild(overlay);
+            if (conflictReason === "출전 불가") {
+                const overlay = document.createElement('div');
+                overlay.className = 'card-conflict-overlay';
+                overlay.innerHTML = '<div class="conflict-bar">출전 불가</div>';
+                el.appendChild(overlay);
+            } else {
+                const overlay = document.createElement('div');
+                overlay.className = 'conflict-tag' + (conflictReason === "영역 충돌" ? " domain-conflict-label" : "");
+                overlay.innerText = conflictReason;
+                el.appendChild(overlay);
+            }
         }
 
         el.onclick = () => {
@@ -962,7 +990,7 @@ function renderCharGrid() {
 
             if (isSupportSelectionMode) {
                 const applySupport = () => {
-                    applySupportToCurrentTeam(id);
+                    if (!applySupportToCurrentTeam(id)) return;
                     closeModal('modal-char');
                     renderAll();
                     saveAllData(true);
@@ -1022,6 +1050,11 @@ function confirmQuickSetup() {
     // 일반 슬롯에 조력자가 포함된 경우 차단
     if (currentSupportId && tempChars.includes(currentSupportId)) {
         openSystemAlert("편성 오류", "조력자로 설정된 각성체는 일반 슬롯에 중복 배치할 수 없습니다.");
+        return;
+    }
+
+    if (hasExclusiveConflictInLineup([...tempChars, currentSupportId].filter(Boolean))) {
+        openSystemAlert("편성 불가", "같은 파티에 편성할 수 없는 각성체가 포함되어 있습니다.");
         return;
     }
 
