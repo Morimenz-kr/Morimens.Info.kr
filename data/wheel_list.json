@@ -399,7 +399,7 @@
     "grade": "SSR",
     "korean_name": "먼 곳의 에덴",
     "english_name": "wheel_eden",
-    "optimized_for": ["모스크"],
+    "optimized_for": ["모스"],
     "main_stat": "영역숙련 36",
     "description": "팀 유일 : 전투 시작 시 13/17/21/25%의 기본 광기에 해당하는 광기를 획득합니다. 장비자의 광기 폭발 최종 피해가 기본 광기의 20%만큼 증가합니다. \"몰아치는 파도\" 자세로 전환할 때, 현재 영역 숙련의 20/25/30/35%에 해당하는 임시 영역 숙련을 획득하며, 3턴 쿨다운이 있다.",
     "image_path": "images/wheel_eden.png"
@@ -1039,7 +1039,7 @@
     "main_stat": "영역 숙련 18",
     "description": "팀 유일 : \"몰아치는 파도\"자세로 전환할 떄 현재 영역 숙련의 11/14/17/20%에 해당하는 임시 영역 숙련을 획득하며, 3턴 쿨다운.",
     "image_path": "images/wheel_stucked_madness.png",
-    "optimized_for" : ["모스크"]
+    "optimized_for" : ["모스"]
   },
   {
     "grade": "SR",

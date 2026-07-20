@@ -8198,7 +8198,7 @@
     ],
     "dimensionalImage": {
       "name": "차원 영상: 모스",
-      "characterName": "모스크",
+      "characterName": "모스",
       "effect": "턴이 시작될 때 모스는 15 광기를 얻는다. 매 턴마다 처음으로 발동하는 \"차지!\" 또는 \"장전!\"은 2회 발동한다."
     }
   },

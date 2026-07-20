@@ -80,7 +80,7 @@ const RESOURCE_CHARACTERS = [
     { id: 'Murphy_Fauxborn', name: '탄망 · 머피', relems: 'aequor' },
     { id: 'tulu', name: '툴루', relems: 'aequor' },
     { id: 'faros', name: '파로스', relems: 'aequor' },
-    { id: 'vortice', name: '모스크', relems: 'aequor' },
+    { id: 'vortice', name: '모스', relems: 'aequor' },
     { id: 'doresain', name: '도어세인', relems: 'caro' },
     { id: 'leigh', name: '레이아', relems: 'caro' },
     { id: 'salvador', name: '살바도르', relems: 'caro' },
