@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. JSON에서 캐릭터 카드를 생성하는 함수 (Instantiate) ---
     async function buildCharacterGrid() {
         try {
-            const response = await fetch('data/character_manifest.json');
+            const response = await fetch(`data/character_manifest.json?t=${Date.now()}`, { cache: 'no-store' });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
