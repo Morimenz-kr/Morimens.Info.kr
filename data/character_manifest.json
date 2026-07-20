@@ -7,11 +7,13 @@
   { "id": "mouchette", "name": "무셰트", "image_thumb": "images/Mouchette-thumb.png", "relems": "chaos", "class": "assault", "grade": "ssr" },
   { "id": "doll_inferno", "name": "융해 · 돌", "image_thumb": "images/Doll_Inferno-thumb.png", "relems": "chaos", "class": "chorus", "grade": "ssr" },
   { "id": "alva", "name": "엘바", "image_thumb": "images/Alva-thumb.png", "relems": "chaos", "class": "warden", "grade": "ssr" },
+  { "id": "lotan_cetarchon", "name": "침식 · 로탄", "image_thumb": "images/lotan_cetarchon-thumb.png", "relems": "chaos", "class": "assault", "grade": "ssr" },
   { "id": "karen", "name": "카렌", "image_thumb": "images/Karen-thumb.png", "relems": "chaos", "class": "chorus", "grade": "ssr" },
   { "id": "kathigu-ra", "name": "카티구라", "image_thumb": "images/Kathigu-Ra-thumb.png", "relems": "chaos", "class": "assault", "grade": "ssr" },
   { "id": "tawil", "name": "타비", "image_thumb": "images/Tawil-thumb.png", "relems": "chaos", "class": "chorus", "grade": "ssr" },
   { "id": "pandia", "name": "판디아", "image_thumb": "images/Pandia-thumb.png", "relems": "chaos", "class": "assault", "grade": "ssr" },
   { "id": "hameln", "name": "하멜른", "image_thumb": "images/Hameln-thumb.png", "relems": "chaos", "class": "chorus", "grade": "ssr" },
+  { "id": "ramona_timeworn", "name": "환행 · 라모나", "image_thumb": "images/Ramona_Timeworn-thumb.png", "relems": "chaos", "class": "chorus", "grade": "sr" },
   { "id": "goliath", "name": "골리아", "image_thumb": "images/Goliath-thumb.png", "relems": "aequor", "class": "assault", "grade": "ssr" },
   { "id": "coporsant", "name": "코퍼산트", "image_thumb": "images/Coporsant-thumb.png", "relems": "aequor", "class": "warden", "grade": "ssr" },
   { "id": "murphy", "name": "머피", "image_thumb": "images/Murphy-thumb.png", "relems": "aequor", "class": "warden", "grade": "ssr" },
@@ -55,6 +57,5 @@
   { "id": "doll", "name": "돌", "image_thumb": "images/Doll-thumb.png", "relems": "chaos", "class": "chorus", "grade": "sr" },
   { "id": "ramona", "name": "라모나", "image_thumb": "images/Ramona-thumb.png", "relems": "chaos", "class": "chorus", "grade": "sr" },
   { "id": "lotan", "name": "로탄", "image_thumb": "images/Lotan-thumb.png", "relems": "chaos", "class": "assault", "grade": "sr" },
-  { "id": "ogier", "name": "오지에", "image_thumb": "images/Ogier-thumb.png", "relems": "chaos", "class": "warden", "grade": "sr" },
-  { "id": "ramona_timeworn", "name": "환행 · 라모나", "image_thumb": "images/Ramona_Timeworn-thumb.png", "relems": "chaos", "class": "chorus", "grade": "sr" }
+  { "id": "ogier", "name": "오지에", "image_thumb": "images/Ogier-thumb.png", "relems": "chaos", "class": "warden", "grade": "sr" }
 ]
