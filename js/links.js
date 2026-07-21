@@ -505,6 +505,16 @@ function renderDictionary(data, category) {
     renderDictionaryFilters(data, category, filtered => renderDictionaryItems(filtered, category));
 }
 
+function setLinksDocumentTitle(pageName) {
+    document.title = `${pageName} | 미사그 대학 한국 캠퍼스`;
+}
+
+function trackLinksPageView() {
+    if (typeof window.sendGoogleAnalyticsPageView === 'function') {
+        window.sendGoogleAnalyticsPageView();
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category');
@@ -514,6 +524,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const tabsContainer = document.querySelector('.chrome-tabs-container');
     const linkContainer = document.querySelector('.link-container');
     const partySlot = document.getElementById('party-link-slot');
+
+    setLinksDocumentTitle('정보 모음');
 
     document.getElementById('links-back-link')?.addEventListener('click', (event) => {
         event.preventDefault();
@@ -592,6 +604,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 1. 캐릭터 공략 페이지
         if (isCharacterPage && charData) {
             titleEl.innerHTML = `<img src="${charData.image_thumb}" class="title-thumb"> ${charData.name} 공략 모음`;
+            setLinksDocumentTitle(`${charData.name} 공략 모음`);
             targetItems = linksDB.characters[charId] || [];
             if (window.CharacterEffects) {
                 window.CharacterEffects.render(
@@ -669,6 +682,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         else if (isDictionaryPage) {
             if (category && linksDB.categories[category]) {
                 titleEl.textContent = linksDB.categories[category].title;
+                setLinksDocumentTitle(linksDB.categories[category].title);
                 targetItems = linksDB.categories[category].links || [];
             }
             let dictData = (category === 'myeongryun') ? wheelList : (category === 'covenant') ? covList : keyList;
@@ -680,9 +694,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         else if (category === 'code') {
             if (linksDB.categories[category]) {
                 titleEl.textContent = linksDB.categories[category].title;
+                setLinksDocumentTitle(linksDB.categories[category].title);
                 const codes = linksDB.categories[category].links || [];
                 renderCodeLinks(codes, listEl); // 전용 렌더러 호출
                 switchTab('links');
+                trackLinksPageView();
                 return; // 공통 렌더링 로직을 타지 않도록 종료
             }
         }
@@ -690,6 +706,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 4. 일반 페이지 (기타 카테고리)
         else if (category && linksDB.categories[category]) {
             titleEl.textContent = linksDB.categories[category].title;
+            setLinksDocumentTitle(linksDB.categories[category].title);
             targetItems = linksDB.categories[category].links || [];
             switchTab('links');
         }
@@ -705,8 +722,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
+        trackLinksPageView();
+
     } catch (error) {
         console.error("데이터 로드 오류:", error);
+        trackLinksPageView();
     }
 
     const subModal = document.getElementById('substitute-modal');

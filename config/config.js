@@ -23,7 +23,7 @@ function loadGoogleAnalytics(measurementId) {
     };
 
     window.gtag('js', new Date());
-    window.gtag('config', measurementId);
+    window.gtag('config', measurementId, window.GA_DEFER_PAGE_VIEW ? { send_page_view: false } : {});
 
     const script = document.createElement('script');
     script.async = true;
@@ -32,6 +32,16 @@ function loadGoogleAnalytics(measurementId) {
 }
 
 loadGoogleAnalytics(CONFIG.GA_MEASUREMENT_ID);
+
+function sendGoogleAnalyticsPageView() {
+    if (!CONFIG.GA_MEASUREMENT_ID || typeof window.gtag !== 'function') return;
+
+    window.gtag('event', 'page_view', {
+        page_title: document.title,
+        page_location: window.location.href,
+        page_path: `${window.location.pathname}${window.location.search}`
+    });
+}
 
 // CSS를 버전 붙여서 로드하는 함수
 function loadCSS(path) {
