@@ -97,7 +97,7 @@
 }
 
 .character-effect-card summary::after {
-    content: "+";
+    content: "▶";
     position: absolute;
     right: 15px;
     color: #999;
@@ -105,7 +105,7 @@
 }
 
 .character-effect-card[open] summary::after {
-    content: "−";
+    content: "▼";
 }
 
 .character-effect-card summary strong {

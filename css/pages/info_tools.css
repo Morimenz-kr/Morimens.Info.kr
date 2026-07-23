@@ -552,19 +552,16 @@
     color: var(--color-text-secondary);
     font-size: 0.9rem;
     font-weight: 700;
-    transition: transform 160ms ease;
 }
 
-.history-disclosure[open] .history-disclosure-arrow {
-    transform: rotate(180deg);
+.history-disclosure-arrow::before {
+    content: '▶';
+}
+
+.history-disclosure[open] .history-disclosure-arrow::before {
+    content: '▼';
 }
 
 .history-disclosure .history-list {
     margin-top: 10px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .history-disclosure-arrow {
-        transition: none;
-    }
 }

@@ -362,6 +362,27 @@
     color: var(--color-text-primary);
     cursor: pointer;
     font-weight: 800;
+    list-style: none;
+}
+
+.target-fold-summary::-webkit-details-marker {
+    display: none;
+}
+
+.target-fold-arrow {
+    display: inline-grid;
+    width: 1rem;
+    place-items: center;
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+}
+
+.target-fold-arrow::before {
+    content: '▶';
+}
+
+.target-fold-section[open] .target-fold-arrow::before {
+    content: '▼';
 }
 
 .target-fold-summary small {
