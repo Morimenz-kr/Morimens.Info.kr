@@ -1,8 +1,8 @@
 // 웹사이트 설정 파일
 const CONFIG = {
     // 1. 패치노트와 맞출 버전 (배포 시 이 부분을 수정)
-    VERSION: "v1.3.22",
-    LAST_UPDATED: "2026-07-14",
+    VERSION: "v1.3.25",
+    LAST_UPDATED: "2026-07-23",
 
     // 2. 피드백 접수용 Cloudflare Worker URL
     // 예: https://morimens-feedback.<your-subdomain>.workers.dev

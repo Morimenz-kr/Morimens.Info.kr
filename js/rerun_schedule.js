@@ -8,11 +8,17 @@
         { id: 'coporsant', name: '코퍼산트', start_date: '2026-07-13', end_date: '2026-08-10' },
         { id: 'pollux', name: '폴룩스', start_date: '2026-07-13', end_date: '2026-08-10' }
     ];
+    const DEFAULT_NEXT_RERUNS = [
+        { id: 'horla', name: '오를라', start_date: '2026-08-10', end_date: '2026-09-07' },
+        { id: 'doresain', name: '도어세인', start_date: '2026-08-10', end_date: '2026-09-07' },
+        { id: 'mouchette', name: '무셰트', start_date: '2026-08-10', end_date: '2026-09-07' }
+    ];
 
     const currentBox = document.getElementById('current-schedules');
+    const nextBox = document.getElementById('next-schedules');
     const gapBox = document.getElementById('rerun-gap-list');
     const historyBox = document.getElementById('rerun-history');
-    if (!currentBox || !gapBox || !historyBox) return;
+    if (!currentBox || !nextBox || !gapBox || !historyBox) return;
 
     function createElement(tag, className, text) {
         const element = document.createElement(tag);
@@ -43,7 +49,7 @@
     }
 
     function setBusy(busy) {
-        [currentBox, gapBox, historyBox].forEach(element => {
+        [currentBox, nextBox, gapBox, historyBox].forEach(element => {
             element.setAttribute('aria-busy', String(busy));
         });
     }
@@ -79,9 +85,9 @@
         return image;
     }
 
-    function renderCurrent(items, characterMap) {
+    function renderRerunCards(items, characterMap, targetBox, emptyMessage) {
         if (!items.length) {
-            currentBox.replaceChildren(createEmptyState('현재 복각 정보를 준비 중입니다.', { source: true }));
+            targetBox.replaceChildren(createEmptyState(emptyMessage, { source: true }));
             return;
         }
 
@@ -101,7 +107,7 @@
             card.append(makePortrait(character), content);
             fragment.append(card);
         });
-        currentBox.replaceChildren(fragment);
+        targetBox.replaceChildren(fragment);
     }
 
     function collectLastAppearances(history) {
@@ -205,14 +211,17 @@
             const manifestItems = Array.isArray(manifest) ? manifest : [];
             const characterMap = new Map(manifestItems.filter(item => item?.id).map(item => [item.id, item]));
             const current = Array.isArray(data?.current_reruns) ? data.current_reruns : DEFAULT_CURRENT_RERUNS;
+            const next = Array.isArray(data?.next_reruns) ? data.next_reruns : DEFAULT_NEXT_RERUNS;
             const history = Array.isArray(data?.history) ? data.history : [];
 
-            renderCurrent(current, characterMap);
+            renderRerunCards(current, characterMap, currentBox, '현재 복각 정보를 준비 중입니다.');
+            renderRerunCards(next, characterMap, nextBox, '다음 복각 정보를 준비 중입니다.');
             renderGapRanking(history, current, characterMap);
             renderHistory(history, characterMap);
         } catch (error) {
             console.error('복각 일정 로드 실패:', error);
             currentBox.replaceChildren(createEmptyState('복각 정보를 표시할 수 없습니다.', { retry: true, source: true }));
+            nextBox.replaceChildren();
             gapBox.replaceChildren();
             historyBox.replaceChildren();
         } finally {

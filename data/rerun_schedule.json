@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-09",
+  "updated_at": "2026-07-23",
   "source": "https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488",
   "schedules": [],
   "history": [
@@ -617,6 +617,26 @@
       "name": "폴룩스",
       "start_date": "2026-07-13",
       "end_date": "2026-08-10"
+    }
+  ],
+  "next_reruns": [
+    {
+      "id": "horla",
+      "name": "오를라",
+      "start_date": "2026-08-10",
+      "end_date": "2026-09-07"
+    },
+    {
+      "id": "doresain",
+      "name": "도어세인",
+      "start_date": "2026-08-10",
+      "end_date": "2026-09-07"
+    },
+    {
+      "id": "mouchette",
+      "name": "무셰트",
+      "start_date": "2026-08-10",
+      "end_date": "2026-09-07"
     }
   ]
 }

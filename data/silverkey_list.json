@@ -416,5 +416,14 @@
     "tags": ["폰토스","임시 크리티컬 피해 증가", "임시 힘 감소"],
     "owner_character_ids": ["pontos"],
     "source": "의식 잠항 - 영원한 에뷔노스"
+  },
+  {
+    "korean_name": "고래를 삼킨 폭풍",
+    "english_name": "key_lotan_cetarchon",
+    "description": "힘을 24pt 획득한다. 각성체 1명을 선택하여 다른 각성체로부터 광기를 최대 10까지 빼앗는다. 침식 · 로탄: 다음 침식 · 로탄 「타격」 1장이 1회 추가로 적용된다.",
+    "image_path": "images/key_lotan_cetarchon.png",
+    "tags": ["침식 · 로탄", "힘 획득", "광기 탈취", "타격 추가 적용"],
+    "owner_character_ids": ["lotan_cetarchon"],
+    "source": "의식 잠수 : 별하늘 고래의 침몰"
   }
 ]

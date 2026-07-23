@@ -117,6 +117,34 @@ tooltipEl.innerHTML = `
 `;
 document.body.appendChild(tooltipEl);
 
+function fitTooltipWidth() {
+    if (window.matchMedia('(max-width: 768px)').matches) {
+        tooltipEl.style.width = '';
+        return;
+    }
+
+    const maxWidth = Math.min(300, Math.max(0, window.innerWidth - 32));
+    const minWidth = Math.min(180, maxWidth);
+    tooltipEl.style.width = `${maxWidth}px`;
+    const targetHeight = tooltipEl.offsetHeight;
+
+    let low = minWidth;
+    let high = maxWidth;
+    let fittedWidth = maxWidth;
+    while (high - low > 1) {
+        const candidate = Math.floor((low + high) / 2);
+        tooltipEl.style.width = `${candidate}px`;
+        if (tooltipEl.offsetHeight <= targetHeight) {
+            fittedWidth = candidate;
+            high = candidate;
+        } else {
+            low = candidate;
+        }
+    }
+
+    tooltipEl.style.width = `${fittedWidth}px`;
+}
+
 // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환 + 파밍처 추가) ㅁㄴㅇ
 function showTooltip(item, e, mainStats = []) {
     const ttTitle = document.getElementById('tt-title');
@@ -170,6 +198,7 @@ function showTooltip(item, e, mainStats = []) {
     });
 
     tooltipEl.style.display = 'block';
+    fitTooltipWidth();
     moveTooltip(e);
 }
 

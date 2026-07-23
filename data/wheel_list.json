@@ -145,6 +145,15 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "위로 추락하다",
+    "english_name": "wheel_falling_upward",
+    "optimized_for": [""],
+    "main_stat": "영역 숙련 36",
+    "description": "탐색 시작 후, [인세로의 내림] 1장을 생성하여 덱에 넣는다.\n\n[인세로의 내림]: 행동력 0 소모. 모든 적에게 장착자의 공격력 1500/2000/2500/3000% 및 대상 최대 HP의 0.4/0.6/0.8/1%만큼 침식 피해를 입히고, 각 적의 행동력 카드에 [인지 착란]을 부여한다. [위로 향한 추락] 1장을 생성하여 드로우 덱에 넣는다. 보존. 소모.\n\n[위로 향한 추락]: 행동력 3 소모. 광기 70/80/90/100을 획득한다. 모든 카드의 [인지 착란] 효과를 제거한다. 보존. 예비. 소모.",
+    "image_path": "images/wheel_falling_upward.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "행운의 시간",
     "english_name": "wheel_time_of_luck",
     "optimized_for": ["라이커"],
@@ -295,6 +304,15 @@
     "main_stat": "죽음 저항 50.4%",
     "image_path": "images/wheel_doomsday_rampage.png",
     "optimized_for": ["모샤"]
+  },
+  {
+    "grade": "SSR",
+    "korean_name": "하늘의 추락",
+    "english_name": "wheel_lotan_cetarchon_ssr",
+    "optimized_for": ["침식 · 로탄"],
+    "main_stat": "미공개",
+    "description": "효과 미공개",
+    "image_path": "images/wheel_lotan_cetarchon_ssr.png"
   },
   {
     "grade": "SSR",
@@ -1069,6 +1087,16 @@
     "image_path": "images/wheel_pontos_sr.png",
     "optimized_for" : ["폰토스"],
     "owner_character_ids": ["pontos"]
+  },
+  {
+    "grade": "SR",
+    "korean_name": "불멸의 곪은 뼈",
+    "english_name": "wheel_lotan_cetarchon_sr",
+    "optimized_for": ["침식 · 로탄"],
+    "owner_character_ids": ["lotan_cetarchon"],
+    "main_stat": "검은 인장 드롭율 5.4%",
+    "description": "장착자의 「타격」 크리티컬 피해가 35/40/45/50% 증가한다.",
+    "image_path": "images/wheel_lotan_cetarchon_sr.png"
   },
   {
     "grade": "R",

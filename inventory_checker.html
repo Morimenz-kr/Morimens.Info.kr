@@ -6,13 +6,13 @@
     <meta charset="UTF-8">
     <meta name="referrer" content="no-referrer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>보유량 체크</title>
+    <title>보유 현황 체크</title>
 
     <script src="config/config.js?v=inventory-20260526"></script>
     <script>
         loadCSS('css/common.css');
         loadCSS('css/components.css');
-        loadCSS('css/pages/inventory_checker.css');
+        loadCSS('css/pages/inventory_checker.css?v=inventory-20260723-1');
         loadCSS('css/responsive.css');
         loadJS('js/search_utils.js');
         loadJS('js/feedback.js');
@@ -28,7 +28,7 @@
         <nav aria-label="탐색"><a href="index.html" class="back-link">← 돌아가기</a></nav>
     </div>
 
-    <section class="inventory-shell" aria-label="보유량 체크 도구">
+    <section class="inventory-shell" aria-label="보유 현황 체크 도구">
         <div class="inventory-summary">
             <h2>각성체 / 명륜 보유 현황</h2>
             <div class="summary-counts" aria-live="polite">
@@ -69,6 +69,7 @@
                         <button type="button" class="filter-pill active" data-wheel-filter="all">전체</button>
                         <button type="button" class="filter-pill" data-wheel-filter="SSR">SSR</button>
                         <button type="button" class="filter-pill" data-wheel-filter="SR">SR</button>
+                        <button type="button" class="filter-pill" data-wheel-filter="R">R</button>
                     </div>
                     <div class="bulk-actions" aria-label="일괄 선택">
                         <button type="button" id="select-visible-btn" class="ghost-action">모두 선택</button>
@@ -105,8 +106,6 @@
     <span aria-hidden="true">🚨</span>
 </button>
 
-<script>
-    loadJS('js/inventory_checker.js');
-</script>
+<script src="js/inventory_checker.js?v=inventory-20260723-1"></script>
 </body>
 </html>

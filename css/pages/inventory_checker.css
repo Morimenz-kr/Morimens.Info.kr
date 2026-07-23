@@ -320,14 +320,13 @@
     color: #eee;
     font-size: 0.83rem;
     font-weight: bold;
+    line-height: 1.35;
     text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow-wrap: anywhere;
 }
 
-.character-inventory-card .inventory-card-name {
-    display: none;
+.wheel-inventory-card .inventory-card-name {
+    min-height: 2.7em;
 }
 
 .check-mark {

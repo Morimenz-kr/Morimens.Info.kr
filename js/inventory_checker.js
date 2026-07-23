@@ -76,7 +76,7 @@
 
             renderAll();
         } catch (error) {
-            console.error('보유량 체크 데이터 로드 실패:', error);
+            console.error('보유 현황 체크 데이터 로드 실패:', error);
             els.characterGrid.innerHTML = '<div class="empty-selection">데이터를 불러오지 못했습니다.</div>';
         }
     }
@@ -209,7 +209,7 @@
             state.characterBreakthroughs = normalizeBreakthroughs(saved.characterBreakthroughs || {});
             state.wheelBreakthroughs = normalizeBreakthroughs(saved.wheelBreakthroughs || {});
         } catch (error) {
-            console.warn('저장된 보유량 체크 상태를 읽지 못했습니다.', error);
+            console.warn('저장된 보유 현황 체크 상태를 읽지 못했습니다.', error);
         }
     }
 
@@ -338,6 +338,7 @@
                         title="${escapeAttribute(wheel.korean_name || wheel.english_name)}">
                     <span class="check-mark">✓</span>
                     <img src="${escapeAttribute(wheel.image_path)}" alt="${escapeAttribute(wheel.korean_name || wheel.english_name)}" loading="lazy" onerror="this.src='${FALLBACK_IMAGE}'">
+                    <span class="inventory-card-name">${escapeHtml(wheel.korean_name || wheel.english_name)}</span>
                     ${selected ? renderBreakthroughStepper('wheel', wheel.english_name, breakthrough) : ''}
                 </div>
             `;
@@ -895,7 +896,7 @@
 
     function isShareWheel(wheel) {
         const grade = normalizeGrade(wheel.grade);
-        return grade === 'SSR' || grade === 'SR';
+        return grade === 'SSR' || grade === 'SR' || grade === 'R';
     }
 
     function removeUnavailableWheelSelections() {

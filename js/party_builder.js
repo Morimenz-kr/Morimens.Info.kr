@@ -4,6 +4,7 @@
 const MAX_TEAMS = 10;
 const MAX_PAGES = 5;
 const INVENTORY_STORAGE_KEY = 'morimens_inventory_checker_v2';
+const MAX_WHEEL_BREAKTHROUGH = 15;
 const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 const DEFAULT_PARTY_BUILDER_RULES = {
     exclusive_groups: [["ramona", "ramona_timeworn"], ["lotan", "lotan_cetarchon"]],
@@ -72,11 +73,12 @@ function readOwnedInventory() {
         const saved = JSON.parse(localStorage.getItem(INVENTORY_STORAGE_KEY));
         return {
             characters: new Set(Array.isArray(saved?.characters) ? saved.characters.map(String) : []),
-            wheels: new Set(Array.isArray(saved?.wheels) ? saved.wheels : [])
+            wheels: new Set(Array.isArray(saved?.wheels) ? saved.wheels : []),
+            wheelBreakthroughs: saved?.wheelBreakthroughs || {}
         };
     } catch (error) {
-        console.warn('보유량 체크 상태를 읽지 못했습니다.', error);
-        return { characters: new Set(), wheels: new Set() };
+        console.warn('보유 현황 체크 상태를 읽지 못했습니다.', error);
+        return { characters: new Set(), wheels: new Set(), wheelBreakthroughs: {} };
     }
 }
 
@@ -95,13 +97,43 @@ function updateOwnedOnlyToggle(type) {
     button.setAttribute('aria-checked', String(enabled));
 }
 
+function isMaxBreakthroughWheel(wheel, ownedInventory) {
+    return Number.parseInt(ownedInventory.wheelBreakthroughs?.[wheel.english_name], 10) >= MAX_WHEEL_BREAKTHROUGH;
+}
+
+function hasNonMaxSsrWheelEquippedForCharacter(ownedInventory) {
+    const equippedWheels = allPages[currentPageIdx]
+        ?.teams[currentTeamIdx]
+        ?.wheels[editingCharIdx] || [];
+
+    return equippedWheels.some((wheelId, slotIdx) => {
+        if (slotIdx === selectedWheelSlotIdx || !wheelId) return false;
+
+        const wheel = DB.wheels.find(item => item.english_name === wheelId);
+        return String(wheel?.grade || '').toUpperCase() === 'SSR'
+            && !isMaxBreakthroughWheel(wheel, ownedInventory);
+    });
+}
+
+function getWheelUsageCount(wheelId, currentWheelId) {
+    let count = 0;
+    allPages[currentPageIdx].teams.forEach(team => {
+        team.wheels.forEach(row => {
+            row.forEach(wheelIdInSlot => {
+                if (wheelIdInSlot === wheelId && wheelIdInSlot !== currentWheelId) count += 1;
+            });
+        });
+    });
+    return count;
+}
+
 function renderOwnedInventoryEmpty(container, type) {
     const subject = type === 'characters' ? '각성체가' : '명륜이';
     container.innerHTML = `
         <div class="owned-inventory-empty">
             <strong>보유 ${subject} 등록되어 있지 않습니다.</strong>
-            <span>보유량 체크에서 가진 항목을 먼저 선택해 주세요.</span>
-            <a href="inventory_checker.html">보유량 체크로 이동</a>
+            <span>보유 현황 체크에서 가진 항목을 먼저 선택해 주세요.</span>
+            <a href="inventory_checker.html">보유 현황 체크로 이동</a>
         </div>`;
 }
 
@@ -293,9 +325,17 @@ function loadFromLocalStorage() {
     const saved = localStorage.getItem('morimens_v2_pages');
     if (saved) {
         try {
-            allPages = JSON.parse(saved);
-            allPages.forEach(p => p.teams.forEach(t => { if (t.supportIdx === undefined) t.supportIdx = -1; }));
-        } catch (e) { console.error("Load Error", e); }
+            const savedPages = JSON.parse(saved);
+            if (!Array.isArray(savedPages) || savedPages.length === 0) throw new Error('Invalid saved pages');
+            allPages = savedPages.slice(0, MAX_PAGES).map(normalizeSavedPage);
+            saveAllData(true);
+        } catch (e) {
+            console.error("Load Error", e);
+            allPages = [createEmptyPage("PAGE 1")];
+            currentPageIdx = 0;
+            currentTeamIdx = 0;
+            saveAllData(true);
+        }
     } else {
         const legacy = localStorage.getItem('morimens_v2');
         if (legacy) {
@@ -944,8 +984,7 @@ function renderCharGrid() {
     const regularIdsInPage = getRegularCharacterIdsInPage(currentPage);
 
     DB.chars.filter(c => {
-        const keepCurrent = tempChars.includes(c.id) || team.chars[team.supportIdx] === c.id;
-        if (ownedOnlyFilters.characters && !ownedInventory.characters.has(c.id) && !keepCurrent) return false;
+        if (ownedOnlyFilters.characters && !ownedInventory.characters.has(c.id)) return false;
         const dPass = !activeCharFilters.domain.size || activeCharFilters.domain.has(c.relems);
         const cPass = !activeCharFilters.class.size || activeCharFilters.class.has(c.class);
         if(!dPass || !cPass) return false;
@@ -1247,22 +1286,15 @@ function renderWheelList() {
     if (!box) return;
     box.innerHTML = '';
 
-    // 1. 중복 장착 확인을 위한 Set 생성 (기존 로직 유지)
-    const used = new Set();
-    allPages[currentPageIdx].teams.forEach(t =>
-        t.wheels.forEach(row =>
-            row.forEach(w => { if(w) used.add(w); })
-        )
-    );
-
     const currentW = allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx];
     const searchInput = document.getElementById('wheel-search-input');
     const search = searchInput ? searchInput.value.trim() : "";
     const ownedInventory = readOwnedInventory();
+    const hasNonMaxSsr = ownedOnlyFilters.wheels && hasNonMaxSsrWheelEquippedForCharacter(ownedInventory);
 
     // 2. 필터링 로직 확장 (이름 + 설명 + 주옵션)
     DB.wheels.filter(w => {
-        if (ownedOnlyFilters.wheels && !ownedInventory.wheels.has(w.english_name) && w.english_name !== currentW) return false;
+        if (ownedOnlyFilters.wheels && !ownedInventory.wheels.has(w.english_name)) return false;
         // 태그 필터
         if(activeWheelTags.size && !Array.from(activeWheelTags).every(t => (w.tags || []).includes(t))) return false;
 
@@ -1283,10 +1315,14 @@ function renderWheelList() {
     }).forEach(w => {
         // 3. 렌더링 로직 (기존 그리드 스타일 유지)
         const isSel = w.english_name === currentW;
-        const isUsed = used.has(w.english_name) && !isSel;
+        const usageCount = getWheelUsageCount(w.english_name, currentW);
+        const isUsed = !isSel && usageCount > 0
+            && !(ownedOnlyFilters.wheels && String(w.grade || '').toUpperCase() === 'SSR' && isMaxBreakthroughWheel(w, ownedInventory));
+        const isSsrBlocked = !isSel && String(w.grade || '').toUpperCase() === 'SSR' && hasNonMaxSsr;
+        const isDisabled = isUsed || isSsrBlocked;
 
         const el = document.createElement('div');
-        el.className = `grid-item grid-item-wheel has-label ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
+        el.className = `grid-item grid-item-wheel has-label ${isSel ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}`;
 
         // 원본과 동일하게 이미지 삽입
         el.innerHTML = `<img src="${w.image_path}" alt=""><span class="grid-item-label">${w.korean_name}</span>`;
@@ -1298,7 +1334,7 @@ function renderWheelList() {
 
         // 클릭 이벤트 (데이터 업데이트)
         el.onclick = (e) => {
-            if(isUsed) return;
+            if(isDisabled) return;
             allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx] = w.english_name;
             renderWheelModalUI();
             renderAll();
@@ -1315,6 +1351,45 @@ function renderWheelList() {
     if (!box.children.length && ownedOnlyFilters.wheels && ownedInventory.wheels.size === 0) {
         renderOwnedInventoryEmpty(box, 'wheels');
     }
+}
+
+function normalizeSavedPage(savedPage, pageIndex) {
+    const page = createEmptyPage(`PAGE ${pageIndex + 1}`);
+    if (!savedPage || typeof savedPage !== 'object') return page;
+
+    page.pageName = typeof savedPage.pageName === 'string' && savedPage.pageName.trim()
+        ? savedPage.pageName.trim().slice(0, 15)
+        : page.pageName;
+
+    if (Array.isArray(savedPage.teams)) {
+        page.teams = Array.from({ length: MAX_TEAMS }, (_, teamIndex) =>
+            normalizeSavedTeam(savedPage.teams[teamIndex], teamIndex)
+        );
+    }
+
+    return page;
+}
+
+function normalizeSavedTeam(savedTeam, teamIndex) {
+    const team = createEmptyTeam(teamIndex);
+    if (!savedTeam || typeof savedTeam !== 'object') return team;
+
+    team.name = typeof savedTeam.name === 'string' && savedTeam.name.trim()
+        ? savedTeam.name.trim().slice(0, 15)
+        : team.name;
+    team.chars = Array.from({ length: 4 }, (_, slotIndex) =>
+        Array.isArray(savedTeam.chars) && savedTeam.chars[slotIndex] ? String(savedTeam.chars[slotIndex]) : null
+    );
+    team.wheels = Array.from({ length: 4 }, (_, slotIndex) => {
+        const wheels = Array.isArray(savedTeam.wheels?.[slotIndex]) ? savedTeam.wheels[slotIndex] : [];
+        return [wheels[0] ? String(wheels[0]) : null, wheels[1] ? String(wheels[1]) : null];
+    });
+    team.key = savedTeam.key ? String(savedTeam.key) : null;
+    team.supportIdx = Number.isInteger(savedTeam.supportIdx) && savedTeam.supportIdx >= 0 && savedTeam.supportIdx < 4
+        ? savedTeam.supportIdx
+        : -1;
+
+    return team;
 }
 function unequipSelectedWheel() { allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx] = null; renderWheelModalUI(); renderAll(); }
 

@@ -491,25 +491,26 @@ body {
 }
 
 .owned-only-toggle {
-    min-height: 36px;
+    min-height: 42px;
     margin-left: auto;
-    padding: 7px 14px 7px 38px;
+    padding: 8px 16px 8px 46px;
     border: 1px solid #555;
     border-radius: 999px;
     background: #242429;
     color: #ddd;
     cursor: pointer;
     font-weight: 700;
+    font-size: 0.95rem;
     position: relative;
 }
 
 .owned-only-toggle::before {
     content: "";
     position: absolute;
-    left: 8px;
+    left: 10px;
     top: 50%;
-    width: 22px;
-    height: 12px;
+    width: 24px;
+    height: 14px;
     border-radius: 999px;
     background: #666;
     transform: translateY(-50%);
@@ -518,10 +519,10 @@ body {
 .owned-only-toggle::after {
     content: "";
     position: absolute;
-    left: 10px;
+    left: 12px;
     top: 50%;
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: #fff;
     transform: translateY(-50%);
@@ -538,12 +539,62 @@ body {
 }
 
 .owned-only-toggle.active::after {
-    left: 20px;
+    left: 22px;
 }
 
 .owned-only-toggle:focus-visible {
     outline: 2px solid #fff;
     outline-offset: 2px;
+}
+
+.owned-toggle-control {
+    display: inline-flex;
+    position: relative;
+}
+
+.owned-toggle-control .owned-only-toggle {
+    margin-left: 0;
+}
+
+.owned-toggle-tooltip {
+    position: absolute;
+    z-index: 30;
+    top: calc(100% + 8px);
+    right: 0;
+    width: min(280px, calc(100vw - 32px));
+    padding: 10px 12px;
+    border: 1px solid #666;
+    border-radius: 4px;
+    background: #17171b;
+    color: #eee;
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.45;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-4px);
+    transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.owned-toggle-control:hover .owned-toggle-tooltip,
+.owned-toggle-control:focus-within .owned-toggle-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .owned-toggle-tooltip {
+        transition: none;
+    }
+}
+
+.wheel-owned-controls {
+    align-self: auto;
+    display: inline-flex;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
 }
 
 .owned-inventory-empty {
@@ -583,6 +634,24 @@ body {
         min-height: 44px;
         margin-left: 0;
         flex: 0 0 auto;
+    }
+
+    .wheel-owned-controls {
+        align-self: flex-end;
+    }
+
+    .wheel-search-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .char-search-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .char-search-row .owned-toggle-control {
+        align-self: flex-end;
     }
 }
 .filter-chip:hover { background: #3a3a40; border-color: #666; }
@@ -733,22 +802,35 @@ body {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 7px;
+    gap: 8px;
+}
+
+.wheel-search-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wheel-search-row #wheel-search-input {
+    flex: 1;
+    min-width: 0;
+    width: auto;
 }
 .wheel-filter-label {
     color: #aaa;
-    font-size: 0.82em;
+    font-size: 0.9rem;
     font-weight: 700;
-    margin-right: 2px;
+    margin-right: 4px;
 }
 .wheel-filter-chip {
-    padding: 5px 9px;
+    min-height: 36px;
+    padding: 6px 12px;
     border: 1px solid #555;
     border-radius: 14px;
     background: #1e1e22;
     color: #bbb;
     font: inherit;
-    font-size: 0.78em;
+    font-size: 0.9rem;
     line-height: 1.2;
     cursor: pointer;
     transition: border-color 0.15s, background 0.15s, color 0.15s;
@@ -792,6 +874,21 @@ body {
     width: 100%;
     display: flex;
     align-items: center;
+}
+
+.char-search-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.char-search-row .search-input-box {
+    flex: 1;
+    min-width: 0;
+}
+
+.char-search-row .owned-toggle-control {
+    flex: 0 0 auto;
 }
 
 #char-search-input {
@@ -1826,6 +1923,27 @@ body {
 
     .main-area {
         padding-bottom: calc(172px + env(safe-area-inset-bottom));
+    }
+}
+
+@media (max-width: 768px) {
+    .builder-container,
+    .main-area,
+    .content-row,
+    .slots-container {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
+    .slots-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .wheel-owned-controls {
+        align-self: flex-end;
+        justify-content: flex-end;
     }
 }
 

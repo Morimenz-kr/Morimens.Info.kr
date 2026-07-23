@@ -169,6 +169,7 @@
     background: var(--color-accent);
 }
 
+.next-rerun-section,
 .gap-section {
     margin-top: 34px;
     padding-top: 2px;

@@ -9,11 +9,11 @@
     <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
     <link rel="stylesheet" href="css/common.css?v=v1.4.0-site-quality-20260713-r4">
     <link rel="stylesheet" href="css/components.css?v=v1.4.0-site-quality-20260713-r4">
-    <link rel="stylesheet" href="css/pages/info_tools.css?v=v1.4.0-site-quality-20260713-r4">
+    <link rel="stylesheet" href="css/pages/info_tools.css?v=rerun-schedule-20260723-1">
     <script defer src="config/config.js?v=v1.4.0-site-quality-20260713-r4"></script>
     <script defer src="js/ui/dialog.js?v=v1.4.0-site-quality-20260713-r4"></script>
     <script defer src="js/feedback.js?v=v1.4.0-site-quality-20260713-r4"></script>
-    <script defer src="js/rerun_schedule.js?v=v1.4.0-site-quality-20260713-r4"></script>
+    <script defer src="js/rerun_schedule.js?v=rerun-schedule-20260723-1"></script>
 </head>
 <body>
 <div class="bg-image"></div>
@@ -36,6 +36,16 @@
                 </div>
             </div>
             <div id="current-schedules" class="character-card-grid" aria-live="polite"></div>
+        </section>
+
+        <section class="next-rerun-section" aria-labelledby="next-heading">
+            <div class="section-heading">
+                <div>
+                    <h2 id="next-heading">다음 복각</h2>
+                    <p>다음 배너에 예정된 캐릭터입니다.</p>
+                </div>
+            </div>
+            <div id="next-schedules" class="character-card-grid" aria-live="polite"></div>
         </section>
 
         <section class="gap-section" aria-labelledby="gap-heading">

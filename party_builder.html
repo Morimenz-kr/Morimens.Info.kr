@@ -5,7 +5,7 @@
     <script>
         loadCSS('css/common.css');
         loadCSS('css/components.css');
-        loadCSS('css/party_builder.css?v=party-builder-20260722-3');
+        loadCSS('css/party_builder.css?v=party-builder-20260723-17');
         loadJS('js/search_utils.js');
         loadJS('js/feedback.js');
     </script>
@@ -74,12 +74,24 @@
         </div>
         <div class="char-search-section">
             <div class="search-container">
+                <div class="char-search-row">
                 <div class="search-input-box">
                     <div class="search-input-wrapper">
                         <svg class="search-icon-svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
                         <input type="text" id="char-search-input" placeholder="이름 또는 특성 검색 (예: 죽저, 크리티컬)..." autocomplete="off">
                     </div>
                     <div id="char-search-suggestions" class="suggestions-dropdown"></div>
+                </div>
+                <div class="owned-toggle-control">
+                    <button type="button" id="owned-char-toggle" class="owned-only-toggle" role="switch"
+                            aria-checked="false" aria-describedby="owned-char-tooltip"
+                            onclick="toggleOwnedOnly('characters')">
+                        보유한 각성체만 보기
+                    </button>
+                    <span id="owned-char-tooltip" class="owned-toggle-tooltip" role="tooltip">
+                        보유 현황 체크에서 선택한 각성체만 표시합니다.
+                    </span>
+                </div>
                 </div>
             </div>
             <div class="char-filter-container">
@@ -103,10 +115,6 @@
                     <button type="button" class="filter-chip" data-filter-type="class" data-filter-value="chorus"
                             aria-pressed="false" onclick="toggleCharFilter('class', 'chorus')">보조형</button>
                 </div>
-                <button type="button" id="owned-char-toggle" class="owned-only-toggle" role="switch"
-                        aria-checked="false" onclick="toggleOwnedOnly('characters')">
-                    보유만 보기
-                </button>
             </div>
             <div id="active-char-search-tags" class="active-tags-list"></div>
         </div>
@@ -128,12 +136,22 @@
 
         <div class="wheel-list-wrapper">
             <div class="search-container">
-                <input type="text" id="wheel-search-input" placeholder="명륜 검색..." autocomplete="off">
+                <div class="wheel-search-row">
+                    <input type="text" id="wheel-search-input" placeholder="명륜 검색..." autocomplete="off">
+                    <div class="wheel-owned-controls">
+                        <div class="owned-toggle-control">
+                            <button type="button" id="owned-wheel-toggle" class="owned-only-toggle" role="switch"
+                                    aria-checked="false" aria-describedby="owned-wheel-tooltip"
+                                    onclick="toggleOwnedOnly('wheels')">
+                                보유한 명륜만 보기
+                            </button>
+                            <span id="owned-wheel-tooltip" class="owned-toggle-tooltip" role="tooltip">
+                                보유 현황 체크에 등록한 명륜만 표시합니다. 같은 각성체에 풀돌이 아닌 SSR 명륜이 장착되어 있으면, 다른 명륜 슬롯에는 SSR 명륜을 장착할 수 없습니다.
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 <div id="wheel-main-stat-filters" class="wheel-main-stat-filters" aria-label="명륜 주옵 필터"></div>
-                <button type="button" id="owned-wheel-toggle" class="owned-only-toggle" role="switch"
-                        aria-checked="false" onclick="toggleOwnedOnly('wheels')">
-                    보유만 보기
-                </button>
             </div>
             <div class="wheel-list-panel" id="grid-wheel"></div>
         </div>
@@ -215,6 +233,6 @@
 
 <button class="floating-report-btn" title="버그 신고">🚨</button>
 
-<script src="js/party_builder.js?v=party-builder-20260722-3"></script>
+<script src="js/party_builder.js?v=party-builder-20260723-21"></script>
 </body>
 </html>

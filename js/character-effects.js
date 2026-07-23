@@ -159,7 +159,7 @@
         }
 
         return `
-            <details class="character-effect-card" data-effect-name="${escapeHtml(skill.name)}"${index === 0 ? ' open' : ''}>
+            <details class="character-effect-card" data-effect-name="${escapeHtml(skill.name)}" open>
                 <summary>
                     <span class="character-effect-type">${escapeHtml(skill.type)}</span>
                     <strong>${escapeHtml(skill.name)}</strong>
