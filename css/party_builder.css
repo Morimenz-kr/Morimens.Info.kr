@@ -282,6 +282,14 @@ body {
     z-index: 20;
 }
 
+.conflict-tag.unavailable-conflict-label {
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    border: 1px solid #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.35);
+    z-index: 20;
+}
+
 /* [추가] 세트 탭 삭제 버튼 스타일 */
 .page-tab {
     display: flex;

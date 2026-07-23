@@ -795,6 +795,13 @@ function hasExclusiveConflictInLineup(characterIds) {
     return characterIds.some(id => hasExclusiveCharacterConflict(id, characterIds));
 }
 
+function getRegularCharacterIdsInPage(page, excludedTeamIdx = -1) {
+    return page.teams.flatMap((team, teamIdx) => {
+        if (teamIdx === excludedTeamIdx) return [];
+        return team.chars.filter((id, slotIdx) => id && slotIdx !== team.supportIdx);
+    });
+}
+
 function findCharacterInPage(page, charId, preferredTeamIdx) {
     const teamOrder = [];
     if (preferredTeamIdx >= 0 && preferredTeamIdx < page.teams.length) teamOrder.push(preferredTeamIdx);
@@ -821,9 +828,9 @@ function findCharacterInPage(page, charId, preferredTeamIdx) {
 function applySupportToCurrentTeam(charId) {
     const currentPage = allPages[currentPageIdx];
     const targetTeam = currentPage.teams[currentTeamIdx];
-    const regularCharacterIds = targetTeam.chars.filter((id, index) => id && index !== targetTeam.supportIdx);
+    const regularCharacterIds = getRegularCharacterIdsInPage(currentPage);
     if (hasExclusiveCharacterConflict(charId, regularCharacterIds)) {
-        openSystemAlert("편성 불가", "같은 파티에 편성할 수 없는 각성체입니다.");
+        openSystemAlert("편성 불가", "현재 편성표에 함께 출전할 수 없는 각성체가 있습니다.");
         return false;
     }
     const source = findCharacterInPage(currentPage, charId, currentTeamIdx);
@@ -932,14 +939,9 @@ function renderCharGrid() {
     });
 
     // 3. 다른 팀에서 "일반 대원"으로 사용 중인 캐릭터 체크
-    const usedInOtherTeamsNormal = new Set();
-    currentPage.teams.forEach((t, i) => {
-        if (i !== currentTeamIdx) {
-            t.chars.forEach((id, sIdx) => {
-                if (id && sIdx !== t.supportIdx) usedInOtherTeamsNormal.add(id);
-            });
-        }
-    });
+    const otherTeamRegularIds = getRegularCharacterIdsInPage(currentPage, currentTeamIdx);
+    const usedInOtherTeamsNormal = new Set(otherTeamRegularIds);
+    const regularIdsInPage = getRegularCharacterIdsInPage(currentPage);
 
     DB.chars.filter(c => {
         const keepCurrent = tempChars.includes(c.id) || team.chars[team.supportIdx] === c.id;
@@ -956,12 +958,14 @@ function renderCharGrid() {
         if (isSupportSelectionMode) {
             // [조력자 선택 모드]
             if (tempChars.includes(id)) conflictReason = "파티 내 중복";
-            else if (hasExclusiveCharacterConflict(id, team.chars.filter((charId, index) => charId && index !== team.supportIdx))) conflictReason = "출전 불가";
+            else if (hasExclusiveCharacterConflict(id, regularIdsInPage)) conflictReason = "출전 불가";
             else if (getDomainsWithSupportCandidate(team, id).size > 2) conflictReason = "영역 충돌";
         } else {
             // [일반 대원 편성 모드]
             if (usedInOtherTeamsNormal.has(id)) {
                 conflictReason = "사용중";
+            } else if (hasExclusiveCharacterConflict(id, otherTeamRegularIds)) {
+                conflictReason = "출전 불가";
             } else if (team.supportIdx !== -1 && team.chars[team.supportIdx] === id) {
                 conflictReason = "조력자로 사용 중";
             } else if (hasExclusiveCharacterConflict(id, tempChars)) {
@@ -978,17 +982,13 @@ function renderCharGrid() {
         el.innerHTML = `<div class="grid-item-thumb" style="width:100%;aspect-ratio:1/1;overflow:hidden;flex:0 0 auto;"><img src="${c.image_thumb}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div><span class="grid-item-label">${c.name}</span>`;
 
         if (conflictReason) {
-            if (conflictReason === "출전 불가") {
-                const overlay = document.createElement('div');
-                overlay.className = 'card-conflict-overlay';
-                overlay.innerHTML = '<div class="conflict-bar">출전 불가</div>';
-                el.appendChild(overlay);
-            } else {
-                const overlay = document.createElement('div');
-                overlay.className = 'conflict-tag' + (conflictReason === "영역 충돌" ? " domain-conflict-label" : "");
-                overlay.innerText = conflictReason;
-                el.appendChild(overlay);
-            }
+            const overlay = document.createElement('div');
+            const conflictClass = conflictReason === "영역 충돌"
+                ? " domain-conflict-label"
+                : (conflictReason === "출전 불가" ? " unavailable-conflict-label" : "");
+            overlay.className = 'conflict-tag' + conflictClass;
+            overlay.innerText = conflictReason;
+            el.appendChild(overlay);
         }
 
         el.onclick = () => {
@@ -1065,6 +1065,12 @@ function confirmQuickSetup() {
 
     if (hasExclusiveConflictInLineup([...tempChars, currentSupportId].filter(Boolean))) {
         openSystemAlert("편성 불가", "같은 파티에 편성할 수 없는 각성체가 포함되어 있습니다.");
+        return;
+    }
+
+    const otherTeamRegularIds = getRegularCharacterIdsInPage(allPages[currentPageIdx], currentTeamIdx);
+    if (tempChars.some(id => hasExclusiveCharacterConflict(id, otherTeamRegularIds))) {
+        openSystemAlert("편성 불가", "다른 파티에 함께 출전할 수 없는 각성체가 포함되어 있습니다.");
         return;
     }
 
