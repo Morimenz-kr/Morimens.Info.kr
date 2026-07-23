@@ -553,6 +553,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const linksTab = document.querySelector('[data-tab-target="links"]');
         if (effectsTab) effectsTab.hidden = !isCharacterPage;
         if (isCharacterPage) {
+            if (effectsTab && dictionaryTab) {
+                tabsContainer.insertBefore(effectsTab, dictionaryTab);
+            }
             if (dictionaryTab) dictionaryTab.textContent = '추천 세팅';
             if (linksTab) linksTab.textContent = '채널 정보글 리스트';
         } else if (isDictionaryPage) {
@@ -675,7 +678,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     gridContainer.innerHTML = `<div class="no-setting-notice"><div class="no-setting-icon">📝</div><div>아직 추천 세팅 정보가 등록되지 않았습니다.</div></div>`;
                 }
             }
-            switchTab('dictionary');
+            switchTab('character-effects');
         }
 
         // 2. 도감 페이지 (명륜/비밀계약/은열쇠)
