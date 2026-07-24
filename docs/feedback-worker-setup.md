@@ -24,6 +24,7 @@ GITHUB_REPO=Morimens.Info.kr
 ALLOWED_ORIGINS=https://morimenz-kr.github.io,https://arca.live
 DISCORD_APPLICATION_ID=<Discord application id>
 DISCORD_CHANNEL_ID=<Discord channel id for approval messages>
+GIFT_CODE_CHANNEL_ID=1529856105562247358
 DISCORD_APPROVER_USER_IDS=<comma-separated Discord user ids allowed to approve>
 GITHUB_BASE_BRANCH=main
 ARCA_LIST_URLS=https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4
@@ -55,7 +56,14 @@ Approved resource link updates are not committed directly to `main`. The Worker 
 resource-links/pending
 ```
 
-The Worker creates or reuses one open PR from `resource-links/pending` into `main`. Review and merge that PR manually.
+The Worker creates or reuses one open PR from `resource-links/pending` into `main`. Its description is automatically updated with every link added to the pending branch, including the target category or character.
+
+After the next Cron run following deployment, the Worker registers two global Discord commands automatically. They use the same `DISCORD_APPROVER_USER_IDS` permission check as the approval controls.
+
+- `/list`: show the links newly added to the currently open `resource-links/pending` PR.
+- `/push`: merge that PR into `main`. GitHub Pages deployment then runs from the merged `main` commit.
+
+Discord global commands can take up to an hour to appear after their first registration.
 
 ## Resource link approval UI
 
@@ -75,7 +83,7 @@ The Worker can periodically scan Arca list pages and send new posts to the same 
 Required setup:
 
 - Add a KV namespace and bind it to this Worker as `RESOURCE_LINK_STATE`.
-- Add a Cron Trigger: `*/30 * * * *`.
+- Add a Cron Trigger: `*/5 * * * *`.
 - Set `ARCA_LIST_URLS` to the list pages to watch.
 
 Current watch list:
@@ -92,6 +100,19 @@ Behavior:
 - Each run sends at most `ARCA_MAX_PROPOSALS_PER_RUN` Discord approval requests.
 - A post is saved to KV only after the GitHub Issue and Discord approval message are created successfully.
 - Automatic monitoring only creates approval requests. Updating `data/resource_links.json` still requires Discord approval.
+
+## Gift code scheduled monitor
+
+The scheduled Worker also reads the mirrored official gift-code channel and writes newly detected codes directly to `data/resource_links.json` on `main`.
+
+Required setup:
+
+- Keep the existing `RESOURCE_LINK_STATE` KV binding for message deduplication.
+- Add a Cron Trigger. `*/5 * * * *` is sufficient.
+- Give the bot `View Channel` and `Read Message History` permissions in the alert channel.
+- Enable `Message Content Intent` in the Discord Developer Portal.
+
+The configured alert channel is `1529856105562247358`. `GIFT_CODE_CHANNEL_ID` can be changed later if the alert channel moves. The monitor only accepts messages that include a code-related notice and a code-shaped value, so ordinary chat messages are ignored.
 
 ## Discord interaction setup
 

@@ -251,18 +251,61 @@
             if (!description) return;
 
             tooltipPinned = pinned;
-            tooltipBox.textContent = description;
+            tooltipBox.replaceChildren();
+            const lines = String(description).split('\n');
+            const hasListItems = lines.some(line => /^\s*-\s+/.test(line));
+
+            if (hasListItems) {
+                const list = document.createElement('ul');
+                list.className = 'character-effect-tooltip-list';
+                let parentItem = null;
+
+                lines.forEach(line => {
+                    const itemMatch = line.match(/^(\s*)-\s+(.+)$/);
+                    if (!itemMatch) return;
+
+                    const [, indentation, content] = itemMatch;
+                    const item = document.createElement('li');
+                    item.textContent = content;
+
+                    if (indentation.length && parentItem) {
+                        let nestedList = parentItem.querySelector(':scope > ul');
+                        if (!nestedList) {
+                            nestedList = document.createElement('ul');
+                            parentItem.appendChild(nestedList);
+                        }
+                        nestedList.appendChild(item);
+                    } else {
+                        list.appendChild(item);
+                        parentItem = item;
+                    }
+                });
+
+                tooltipBox.appendChild(list);
+            } else {
+                String(description).split(/\n{2,}/).forEach(paragraph => {
+                    const paragraphElement = document.createElement('p');
+                    paragraphElement.textContent = paragraph;
+                    tooltipBox.appendChild(paragraphElement);
+                });
+            }
             tooltipBox.classList.add('visible');
 
             const rect = trigger.getBoundingClientRect();
-            const boxRect = tooltipBox.getBoundingClientRect();
             const margin = 10;
             const gap = 7;
+            const belowSpace = window.innerHeight - rect.bottom - gap - margin;
+            const aboveSpace = rect.top - gap - margin;
+            // Keep tooltips below their trigger whenever there is a usable reading area.
+            const placeBelow = belowSpace >= 180 || belowSpace >= aboveSpace;
+            const availableHeight = placeBelow ? belowSpace : aboveSpace;
+            tooltipBox.style.maxHeight = `${Math.max(0, availableHeight)}px`;
+
+            const boxRect = tooltipBox.getBoundingClientRect();
             const left = Math.min(
                 window.innerWidth - boxRect.width / 2 - margin,
                 Math.max(boxRect.width / 2 + margin, rect.left + rect.width / 2)
             );
-            const placeBelow = window.innerHeight - rect.bottom >= boxRect.height + gap;
             const preferredTop = placeBelow
                 ? rect.bottom + gap
                 : rect.top - boxRect.height - gap;

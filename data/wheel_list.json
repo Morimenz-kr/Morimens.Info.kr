@@ -310,8 +310,9 @@
     "korean_name": "하늘의 추락",
     "english_name": "wheel_lotan_cetarchon_ssr",
     "optimized_for": ["침식 · 로탄"],
-    "main_stat": "미공개",
-    "description": "효과 미공개",
+    "owner_character_ids": ["lotan_cetarchon"],
+    "main_stat": "검은 인장 드롭 10.8%",
+    "description": "장착자의 「타격」 크리티컬 피해가 30/45/60/75% 증가한다. 턴 종료 시 장착자의 다음 광기 폭발의 크리티컬 피해가 증가하며, 증가량은 장착자의 기초 광기의 11/14/17/20%에 해당한다. 최대 5회까지 중첩된다.",
     "image_path": "images/wheel_lotan_cetarchon_ssr.png"
   },
   {

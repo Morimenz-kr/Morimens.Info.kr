@@ -5,14 +5,24 @@ const DEFAULT_BASE_BRANCH = 'main';
 const RESOURCE_PROPOSAL_MARKER = 'resource-link-proposal';
 const RESOURCE_SELECTION_MARKER = 'resource-link-selection';
 const INTERACTION_PING = 1;
+const INTERACTION_APPLICATION_COMMAND = 2;
 const INTERACTION_MESSAGE_COMPONENT = 3;
 const RESPONSE_PONG = 1;
 const RESPONSE_CHANNEL_MESSAGE = 4;
+const RESPONSE_DEFERRED_CHANNEL_MESSAGE = 5;
 const RESPONSE_DEFERRED_UPDATE = 6;
 const DEFAULT_ACTIVE_RELEMS = 'chaos';
 const DEFAULT_ARCA_LIST_SCAN_LIMIT = 20;
 const DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN = 5;
 const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
+const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
+const DEFAULT_GIFT_CODE_CHANNEL_ID = '1529856105562247358';
+const DEFAULT_GIFT_CODE_SCAN_LIMIT = 25;
+const DISCORD_RESOURCE_COMMANDS_STATE_KEY = 'discord:resource-commands:v1';
+const DISCORD_RESOURCE_COMMANDS = [
+    { name: 'list', description: '열린 리소스 링크 대기 목록을 표시합니다.' },
+    { name: 'push', description: '대기 중인 리소스 링크를 main에 병합합니다.' }
+];
 const ARCA_FETCH_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
 
 const RESOURCE_CATEGORIES = [
@@ -64,6 +74,7 @@ const RESOURCE_CHARACTERS = [
     { id: 'mouchette', name: '모샤', relems: 'chaos' },
     { id: 'doll_inferno', name: '융해 · 돌', relems: 'chaos' },
     { id: 'alva', name: '엘바', relems: 'chaos' },
+    { id: 'lotan_cetarchon', name: '침식 · 로탄', relems: 'chaos' },
     { id: 'karen', name: '카렌', relems: 'chaos' },
     { id: 'kathigu-ra', name: '카티구라', relems: 'chaos' },
     { id: 'tawil', name: '타비', relems: 'chaos' },
@@ -81,6 +92,7 @@ const RESOURCE_CHARACTERS = [
     { id: 'tulu', name: '툴루', relems: 'aequor' },
     { id: 'faros', name: '파로스', relems: 'aequor' },
     { id: 'vortice', name: '모스', relems: 'aequor' },
+    { id: 'pontos', name: '폰토스', relems: 'aequor' },
     { id: 'doresain', name: '도어세인', relems: 'caro' },
     { id: 'leigh', name: '레이아', relems: 'caro' },
     { id: 'salvador', name: '살바도르', relems: 'caro' },
@@ -156,9 +168,17 @@ export default {
     },
 
     async scheduled(event, env, ctx) {
-        ctx.waitUntil(handleArcaMonitor(env).catch(error => {
-            console.error('Arca monitor failed', error);
-        }));
+        ctx.waitUntil(Promise.all([
+            ensureDiscordResourceCommands(env).catch(error => {
+                console.error('Discord command registration failed', error);
+            }),
+            handleArcaMonitor(env).catch(error => {
+                console.error('Arca monitor failed', error);
+            }),
+            handleGiftCodeMonitor(env).catch(error => {
+                console.error('Gift code monitor failed', error);
+            })
+        ]));
     }
 };
 
@@ -193,7 +213,8 @@ function handleGet(url, env, corsHeaders) {
         hasDiscordChannelId: Boolean(env.DISCORD_CHANNEL_ID),
         hasDiscordPublicKey: Boolean(env.DISCORD_PUBLIC_KEY),
         hasArcaListUrls: Boolean(env.ARCA_LIST_URLS),
-        hasResourceLinkState: Boolean(env.RESOURCE_LINK_STATE)
+        hasResourceLinkState: Boolean(env.RESOURCE_LINK_STATE),
+        hasGiftCodeChannelId: Boolean(env.GIFT_CODE_CHANNEL_ID || DEFAULT_GIFT_CODE_CHANNEL_ID)
     }, 200, corsHeaders);
 }
 
@@ -387,6 +408,184 @@ async function handleArcaMonitor(env) {
     return result;
 }
 
+async function handleGiftCodeMonitor(env) {
+    const channelId = String(env.GIFT_CODE_CHANNEL_ID || DEFAULT_GIFT_CODE_CHANNEL_ID).trim();
+    if (!channelId) {
+        console.log('Gift code monitor skipped: GIFT_CODE_CHANNEL_ID is empty');
+        return { ok: true, skipped: 'missing GIFT_CODE_CHANNEL_ID' };
+    }
+
+    if (!env.RESOURCE_LINK_STATE) {
+        console.log('Gift code monitor skipped: RESOURCE_LINK_STATE KV binding is missing');
+        return { ok: true, skipped: 'missing RESOURCE_LINK_STATE binding' };
+    }
+
+    requireEnv(env, ['GITHUB_TOKEN', 'GITHUB_OWNER', 'GITHUB_REPO', 'DISCORD_BOT_TOKEN']);
+
+    const scanLimit = getPositiveIntegerEnv(env.GIFT_CODE_SCAN_LIMIT, DEFAULT_GIFT_CODE_SCAN_LIMIT, 1, 100);
+    const messages = await fetchDiscordChannelMessages(env, channelId, scanLimit);
+    const result = { ok: true, scanned: messages.length, skippedSeen: 0, added: 0, failed: 0 };
+
+    for (const message of messages) {
+        const seenKey = `${GIFT_CODE_SEEN_KEY_PREFIX}${message.id}`;
+        if (await env.RESOURCE_LINK_STATE.get(seenKey)) {
+            result.skippedSeen += 1;
+            continue;
+        }
+
+        try {
+            const codes = extractGiftCodesFromDiscordMessage(message);
+            const commits = [];
+            for (const code of codes) {
+                const update = await updateGiftCodeLinks(env, code);
+                if (update.added) commits.push(update.commitUrl);
+            }
+
+            await env.RESOURCE_LINK_STATE.put(seenKey, JSON.stringify({
+                messageId: message.id,
+                processedAt: new Date().toISOString(),
+                codeCount: codes.length,
+                commits
+            }));
+            result.added += commits.length;
+        } catch (error) {
+            result.failed += 1;
+            console.warn(`Gift code processing failed: ${message.id}`, error);
+        }
+    }
+
+    console.log('Gift code monitor result', result);
+    return result;
+}
+
+async function fetchDiscordChannelMessages(env, channelId, limit) {
+    const response = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages?limit=${limit}`, {
+        headers: discordBotHeaders(env)
+    });
+    if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`Discord channel fetch failed: ${response.status} ${detail.slice(0, 300)}`);
+    }
+    return response.json();
+}
+
+function extractGiftCodesFromDiscordMessage(message) {
+    const text = getDiscordMessageText(message);
+    if (!/(?:gift|redeem|coupon|code|교환|코드|兑换|礼包)/i.test(text)) return [];
+
+    const candidates = new Set();
+    const lines = text.split(/\r?\n/);
+    const pattern = /\b(?:[A-Z0-9]{4,}(?:-[A-Z0-9]{4,})+|[A-Z][A-Za-z0-9]{5,31})\b/g;
+    for (const match of text.matchAll(pattern)) {
+        const code = match[0];
+        if (!/^[A-Z0-9-]+$/.test(code) && !/^[A-Za-z][A-Za-z0-9]+$/.test(code)) continue;
+        if (/^(?:DISCORD|MORIMENS|OFFICIAL|REDEEM|REDEMPTION|COUPON|REWARDS?|GIFT|CODE|CONTENTS|EXPIRY|EXPIRES|VALID|UNTIL|SILVER)$/i.test(code)) continue;
+        const codeLine = lines.find(line => line.includes(code)) || '';
+        const labeledCode = new RegExp(`(?:gift\\s*code|redemption\\s*code|redeem\\s*code|coupon|code|교환\\s*코드|兑换码)\\s*[:：]\\s*${escapeRegExp(code)}\\b`, 'i');
+        if (!code.includes('-') && !labeledCode.test(codeLine)) continue;
+        candidates.add(code);
+    }
+
+    const expiry = extractGiftCodeExpiry(text, message.timestamp);
+    const desc = extractGiftCodeReward(text);
+    return [...candidates].map(title => ({ title, desc, expiry }));
+}
+
+function getDiscordMessageText(message) {
+    const embedText = (message.embeds || []).flatMap(embed => [
+        embed.title,
+        embed.description,
+        ...(embed.fields || []).flatMap(field => [field.name, field.value])
+    ]).filter(Boolean);
+    return [message.content, ...embedText].filter(Boolean).join('\n');
+}
+
+function extractGiftCodeExpiry(text, timestamp) {
+    const expiryText = text.split(/\r?\n/)
+        .filter(line => /(?:expire|expiry|valid|until|기한|만료|종료|마감)/i.test(line))
+        .join('\n');
+    if (!expiryText) return null;
+
+    const isoMatch = expiryText.match(/\b(20\d{2})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})(?:일)?\b/);
+    if (isoMatch) return formatIsoDate(isoMatch[1], isoMatch[2], isoMatch[3]);
+
+    const koreanMatch = expiryText.match(/\b(\d{1,2})월\s*(\d{1,2})일\b/);
+    if (!koreanMatch) return null;
+
+    const year = new Date(timestamp || Date.now()).getUTCFullYear();
+    return formatIsoDate(year, koreanMatch[1], koreanMatch[2]);
+}
+
+function formatIsoDate(year, month, day) {
+    const value = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
+    if (value.getUTCFullYear() !== Number(year) || value.getUTCMonth() !== Number(month) - 1 || value.getUTCDate() !== Number(day)) return null;
+    return value.toISOString().slice(0, 10);
+}
+
+function extractGiftCodeReward(text) {
+    const lines = text.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+    const preferred = lines.find(line => /(?:gift\s*contents?|rewards?\s*:)/i.test(line));
+    const fallback = lines.find(line => /(?:礼包(?:内容)?|보상|은심|은핵|약재|인장|재화|item|银芯|无垢之芯)/i.test(line));
+    return normalizeGiftCodeReward(preferred || fallback || '');
+}
+
+function normalizeGiftCodeReward(value) {
+    const reward = String(value || '')
+        .replace(/^(?:gift\s*contents?|rewards?|礼包内容|礼包|보상)\s*[:：]?\s*/i, '')
+        .replace(/Pure Core/gi, '무구의 은핵')
+        .replace(/Louminous Core/gi, '광휘의 은핵')
+        .replace(/Silver/gi, '은심')
+        .replace(/无垢之芯/g, '무구의 은핵')
+        .replace(/银芯/g, '은심')
+        .replace(/×\s*(\d+)/g, '$1개')
+        .replace(/\s+/g, ' ')
+        .trim();
+    return reward.slice(0, 240) || '공식 디스코드 공지 참조';
+}
+
+async function updateGiftCodeLinks(env, code) {
+    const branch = getBaseBranch(env);
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+        const file = await getGitHubFile(env, RESOURCE_LINKS_PATH, branch);
+        const update = buildGiftCodeLinksUpdate(file.content, code);
+        if (!update.added) return { ...update, commitUrl: 'no changes' };
+
+        try {
+            const commit = await putGitHubFile(env, RESOURCE_LINKS_PATH, {
+                message: `Add redeem code: ${code.title}`,
+                content: update.content,
+                sha: file.sha,
+                branch
+            });
+            return {
+                ...update,
+                commitUrl: commit.commit?.html_url || commit.content?.html_url || 'unknown'
+            };
+        } catch (error) {
+            if (error.status === 409 && attempt === 0) continue;
+            throw error;
+        }
+    }
+    throw new Error('gift code update failed after retry');
+}
+
+function buildGiftCodeLinksUpdate(content, code) {
+    const db = JSON.parse(content);
+    const links = db.categories?.code?.links;
+    if (!Array.isArray(links)) throw new Error('Gift code category is missing');
+    if (links.some(link => String(link?.title || '').toUpperCase() === code.title.toUpperCase())) {
+        return { added: false, content };
+    }
+
+    const insertion = buildResourceLinkInsertion(content, { type: 'category', id: 'code' }, {
+        title: code.title,
+        desc: code.desc,
+        expiry: code.expiry
+    });
+    if (!insertion) throw new Error('Gift code insertion point is missing');
+    return { added: true, content: insertion };
+}
+
 function parseArcaListUrls(value) {
     return String(value || '')
         .split(/[\n,]/)
@@ -554,6 +753,26 @@ async function handleDiscordInteraction(request, env, ctx) {
 
     if (interaction.type === INTERACTION_PING) {
         return interactionResponse(RESPONSE_PONG);
+    }
+
+    if (interaction.type === INTERACTION_APPLICATION_COMMAND) {
+        if (!isAllowedApprover(interaction, env)) {
+            return interactionResponse(RESPONSE_CHANNEL_MESSAGE, {
+                content: '이 명령을 실행할 권한이 없습니다.',
+                flags: 64
+            });
+        }
+
+        const command = parseResourceCommand(interaction);
+        if (!command) {
+            return interactionResponse(RESPONSE_CHANNEL_MESSAGE, {
+                content: '지원하지 않는 명령입니다.',
+                flags: 64
+            });
+        }
+
+        ctx.waitUntil(processResourceCommand(env, interaction, command));
+        return interactionResponse(RESPONSE_DEFERRED_CHANNEL_MESSAGE, { flags: 64 });
     }
 
     if (interaction.type !== INTERACTION_MESSAGE_COMPONENT) {
@@ -1197,6 +1416,7 @@ async function updateResourceLinks(env, link, targets) {
                 branch: RESOURCE_LINKS_PENDING_BRANCH
             });
             const pr = await ensureResourceLinksPullRequest(env);
+            await updateResourceLinksPullRequestSummary(env, pr);
 
             return {
                 ...update,
@@ -1450,6 +1670,187 @@ async function ensureResourceLinksPullRequest(env) {
     return response.json();
 }
 
+function parseResourceCommand(interaction) {
+    const name = String(interaction.data?.name || '').trim().toLowerCase();
+    if (name === 'list' || name === 'push') return { action: name };
+    return null;
+}
+
+async function processResourceCommand(env, interaction, command) {
+    try {
+        const pullRequest = await findOpenResourceLinksPullRequest(env);
+        if (!pullRequest) {
+            await editDeferredInteractionResponse(env, interaction, {
+                content: `열린 ${RESOURCE_LINKS_PENDING_BRANCH} PR이 없습니다.`
+            });
+            return;
+        }
+
+        if (command.action === 'list') {
+            const content = await buildPendingResourceLinksDiscordMessage(env, pullRequest);
+            await editDeferredInteractionResponse(env, interaction, { content });
+            return;
+        }
+
+        const result = await mergeResourceLinksPullRequest(env, pullRequest);
+        await editDeferredInteractionResponse(env, interaction, {
+            content: [
+                `main 병합 완료: ${pullRequest.html_url}`,
+                `병합 커밋: ${result.sha || 'GitHub에서 확인'}`,
+                'GitHub Pages 배포는 main 반영 후 자동으로 진행됩니다.'
+            ].join('\n')
+        });
+    } catch (error) {
+        console.error(error);
+        await editDeferredInteractionResponse(env, interaction, {
+            content: `처리 실패: ${error.message || 'unknown error'}`
+        });
+    }
+}
+
+async function buildPendingResourceLinksDiscordMessage(env, pullRequest) {
+    const baseBranch = getBaseBranch(env);
+    const [baseFile, pendingFile] = await Promise.all([
+        getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
+        getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH)
+    ]);
+    const additions = collectPendingResourceLinkAdditions(
+        JSON.parse(baseFile.content),
+        JSON.parse(pendingFile.content)
+    );
+    const lines = [
+        `대기 중인 링크 ${additions.length}개`,
+        `PR: ${pullRequest.html_url}`,
+        ''
+    ];
+    const maxLength = 1900;
+    let listedCount = 0;
+
+    for (const addition of additions) {
+        const title = String(addition.link.title || addition.link.url).replace(/[\r\n]+/g, ' ').trim();
+        const target = getResourceTargetLabel(addition.target);
+        const line = `- ${title} (${target})\n  ${addition.link.url}`;
+        if (lines.join('\n').length + line.length + 1 > maxLength) break;
+        lines.push(line);
+        listedCount += 1;
+    }
+
+    if (additions.length === 0) {
+        lines.push('main과 비교해 새로 추가된 링크가 없습니다.');
+    } else if (listedCount < additions.length) {
+        lines.push(`... 외 ${additions.length - listedCount}개는 PR의 Files changed에서 확인하세요.`);
+    }
+
+    return lines.join('\n');
+}
+
+async function mergeResourceLinksPullRequest(env, pullRequest) {
+    const response = await githubJsonFetch(env, `/pulls/${pullRequest.number}/merge`, {
+        method: 'PUT',
+        body: {
+            commit_title: 'Merge resource link updates',
+            merge_method: 'merge'
+        }
+    });
+    const result = await response.json();
+    if (!response.ok || !result.merged) {
+        throw new Error(`GitHub PR merge failed: ${response.status} ${result.message || 'not merged'}`);
+    }
+    return result;
+}
+
+async function updateResourceLinksPullRequestSummary(env, pullRequest) {
+    const baseBranch = getBaseBranch(env);
+    const [baseFile, pendingFile] = await Promise.all([
+        getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
+        getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH)
+    ]);
+    const body = buildResourceLinksPullRequestBody(baseFile.content, pendingFile.content);
+    const response = await githubJsonFetch(env, `/pulls/${pullRequest.number}`, {
+        method: 'PATCH',
+        body: { body }
+    });
+    if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`GitHub PR update failed: ${response.status} ${detail.slice(0, 300)}`);
+    }
+    return response.json();
+}
+
+function buildResourceLinksPullRequestBody(baseContent, pendingContent) {
+    const base = JSON.parse(baseContent);
+    const pending = JSON.parse(pendingContent);
+    const additions = collectPendingResourceLinkAdditions(base, pending);
+    const lines = [
+        '## Pending Resource Links',
+        '',
+        `${additions.length}개 링크가 ${RESOURCE_LINKS_PENDING_BRANCH}에 추가되었습니다.`,
+        '',
+        '이 목록을 검토한 뒤 이 PR을 `main`에 병합하세요.',
+        '',
+        '### Added Links',
+        ''
+    ];
+
+    let length = lines.join('\n').length;
+    let listedCount = 0;
+    for (const addition of additions) {
+        const title = escapeMarkdownText(addition.link.title || addition.link.url);
+        const target = escapeMarkdownText(getResourceTargetLabel(addition.target));
+        const line = `- [${title}](${addition.link.url}) - ${target}`;
+        if (length + line.length + 1 > 60000) {
+            lines.push(`- 목록이 길어 나머지 ${additions.length - listedCount}개는 Files changed에서 확인하세요.`);
+            break;
+        }
+        lines.push(line);
+        length += line.length + 1;
+        listedCount += 1;
+    }
+
+    return lines.join('\n');
+}
+
+function collectPendingResourceLinkAdditions(base, pending) {
+    const additions = [];
+    const categoryIds = [...new Set([
+        ...RESOURCE_CATEGORIES,
+        ...Object.keys(pending.categories || {})
+    ])];
+
+    for (const id of categoryIds) {
+        const before = base.categories?.[id]?.links || [];
+        const current = pending.categories?.[id]?.links || [];
+        collectTargetAdditions(additions, { type: 'category', id }, before, current);
+    }
+
+    const characterIds = new Set([
+        ...Object.keys(base.characters || {}),
+        ...Object.keys(pending.characters || {})
+    ]);
+    for (const id of characterIds) {
+        collectTargetAdditions(additions, { type: 'character', id }, base.characters?.[id] || [], pending.characters?.[id] || []);
+    }
+
+    return additions;
+}
+
+function collectTargetAdditions(result, target, before, current) {
+    const existingUrls = new Set(before.map(link => link?.url).filter(Boolean));
+    for (const link of current) {
+        if (!link?.url || existingUrls.has(link.url)) continue;
+        result.push({ target, link });
+    }
+}
+
+function getResourceTargetLabel(target) {
+    if (target.type === 'category') return RESOURCE_CATEGORY_LABELS[target.id] || target.id;
+    return RESOURCE_CHARACTER_BY_ID[target.id]?.name || target.id;
+}
+
+function escapeMarkdownText(value) {
+    return String(value).replace(/[\[\]\\]/g, '\\$&');
+}
+
 async function findOpenResourceLinksPullRequest(env) {
     const baseBranch = getBaseBranch(env);
     const params = new URLSearchParams({
@@ -1466,6 +1867,40 @@ async function findOpenResourceLinksPullRequest(env) {
 
     const pulls = await response.json();
     return pulls[0] || null;
+}
+
+async function ensureDiscordResourceCommands(env) {
+    if (!env.RESOURCE_LINK_STATE || !env.DISCORD_APPLICATION_ID || !env.DISCORD_BOT_TOKEN) return;
+
+    const alreadyRegistered = await env.RESOURCE_LINK_STATE.get(DISCORD_RESOURCE_COMMANDS_STATE_KEY);
+    if (alreadyRegistered === 'registered') return;
+
+    const endpoint = `https://discord.com/api/v10/applications/${env.DISCORD_APPLICATION_ID}/commands`;
+    const existingResponse = await fetch(endpoint, {
+        headers: discordBotHeaders(env)
+    });
+    if (!existingResponse.ok) {
+        const detail = await existingResponse.text();
+        throw new Error(`Discord command list failed: ${existingResponse.status} ${detail.slice(0, 300)}`);
+    }
+
+    const existingCommands = await existingResponse.json();
+    const existingNames = new Set(existingCommands.map(command => String(command.name || '').toLowerCase()));
+    const missingCommands = DISCORD_RESOURCE_COMMANDS.filter(command => !existingNames.has(command.name));
+
+    for (const command of missingCommands) {
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: discordBotHeaders(env),
+            body: JSON.stringify(command)
+        });
+        if (!response.ok) {
+            const detail = await response.text();
+            throw new Error(`Discord command registration failed: ${response.status} ${detail.slice(0, 300)}`);
+        }
+    }
+
+    await env.RESOURCE_LINK_STATE.put(DISCORD_RESOURCE_COMMANDS_STATE_KEY, 'registered');
 }
 
 async function getGitHubRef(env, branch) {
@@ -1584,6 +2019,29 @@ async function editDiscordMessage(env, interaction, payload) {
         throw new Error(`Discord message edit failed: ${response.status} ${detail.slice(0, 300)}`);
     }
 
+    return response.json();
+}
+
+async function editDeferredInteractionResponse(env, interaction, payload) {
+    if (!env.DISCORD_APPLICATION_ID || !interaction.token) {
+        throw new Error('Discord application ID or interaction token is missing');
+    }
+
+    const response = await fetch(
+        `https://discord.com/api/v10/webhooks/${env.DISCORD_APPLICATION_ID}/${interaction.token}/messages/@original`,
+        {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                allowed_mentions: { parse: [] },
+                ...payload
+            })
+        }
+    );
+    if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`Discord interaction response edit failed: ${response.status} ${detail.slice(0, 300)}`);
+    }
     return response.json();
 }
 

@@ -281,13 +281,45 @@
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
     font-size: 0.86rem;
     line-height: 1.55;
-    white-space: pre-line;
     overflow-wrap: anywhere;
     pointer-events: none;
     visibility: hidden;
     opacity: 0;
     transform: translateX(-50%);
     transition: opacity 0.1s ease;
+}
+
+.character-effect-tooltip-box p {
+    margin: 0;
+    white-space: pre-line;
+}
+
+.character-effect-tooltip-box p + p {
+    margin-top: 0.85rem;
+}
+
+.character-effect-tooltip-list {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.character-effect-tooltip-list li {
+    margin: 0;
+    padding-left: 0.1rem;
+}
+
+.character-effect-tooltip-list li + li {
+    margin-top: 0.45rem;
+}
+
+.character-effect-tooltip-list ul {
+    margin: 0.35rem 0 0;
+    padding-left: 1.2rem;
+    list-style-type: circle;
+}
+
+.character-effect-tooltip-list ul li + li {
+    margin-top: 0.35rem;
 }
 
 .character-effect-tooltip-box.visible {
