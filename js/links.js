@@ -13,26 +13,37 @@ function goBack() {
 // --- 기능 로직 ---
 // 1. 닫기 버튼을 눌렀을 때 실행되는 함수
 // 2. 모달 바깥(어두운 오버레이)을 클릭했을 때 창을 닫는 로직
-// 교환 코드는 HTTPS 여부와 무관하게 복사할 수 있도록 보조 방식을 함께 사용한다.
+function copyCodeWithSelection(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.inset = '0 auto auto 0';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    textarea.setSelectionRange(0, text.length);
+
+    try {
+        return document.execCommand('copy');
+    } finally {
+        textarea.remove();
+    }
+}
+
+// 클릭 순간 실행 가능한 복사 방식을 먼저 사용하고, 실패하면 Clipboard API로 보완한다.
 async function copyCodeToClipboard(code, element) {
     const text = String(code || '').trim();
     if (!text) return;
 
     try {
-        if (navigator.clipboard?.writeText && window.isSecureContext) {
+        let copied = copyCodeWithSelection(text);
+        if (!copied && navigator.clipboard?.writeText) {
             await navigator.clipboard.writeText(text);
-        } else {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            textarea.setAttribute('readonly', '');
-            textarea.style.position = 'fixed';
-            textarea.style.opacity = '0';
-            document.body.appendChild(textarea);
-            textarea.select();
-            const copied = document.execCommand('copy');
-            textarea.remove();
-            if (!copied) throw new Error('Clipboard fallback failed');
+            copied = true;
         }
+        if (!copied) throw new Error('No clipboard method succeeded');
 
         element.classList.add('copied');
         const originalText = element.textContent;
