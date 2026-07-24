@@ -1,7 +1,7 @@
 # Feedback Worker Setup
 
 This Worker receives website feedback, creates a GitHub Issue, and posts a Discord notification.
-It can also receive resource link proposals, ask for Discord approval with buttons/select menus, and batch approved `data/resource_links.json` updates into a single PR.
+Resource link proposals do not create GitHub Issues; their Discord approval state is stored in Cloudflare KV, and approved updates are batched into a single PR.
 
 ## Required Cloudflare secrets
 
@@ -47,8 +47,7 @@ Pull requests: Read and write
 Metadata: Read-only
 ```
 
-The Worker tries to add the `feedback:new` label. If that label does not exist yet, it will still create the issue without the label. Create the label in GitHub if you want filtered automation later.
-Resource link proposals use the optional `resource-link:pending` label.
+The Worker tries to add the `feedback:new` label. If that label does not exist yet, it will still create the feedback issue without the label. Create the label in GitHub if you want filtered automation later.
 
 Approved resource link updates are not committed directly to `main`. The Worker writes them to the automation branch:
 
@@ -71,10 +70,10 @@ Discord approval messages support both recommended targets and manual target sel
 
 - `추천대로 OK`: approve the Worker's suggested targets.
 - `선택 반영`: approve the manually selected categories and characters.
-- `선택 초기화`: clear manual selections without closing the GitHub Issue.
+- `선택 초기화`: clear manual selections without closing the Discord approval request.
 - `보류`: close the request without changing `resource_links`.
 
-Manual selections are saved in the GitHub Issue body. Category selections and character selections do not update the PR by themselves; use `선택 반영` after choosing all targets. Character selections are grouped by relems tabs: `혼돈`, `심해`, `혈육`, `초차원`.
+Manual selections are saved in `RESOURCE_LINK_STATE` KV. Category selections and character selections do not update the PR by themselves; use `선택 반영` after choosing all targets. Character selections are grouped by relems tabs: `혼돈`, `심해`, `혈육`, `초차원`.
 
 ## Arca scheduled monitor
 
@@ -98,7 +97,7 @@ Behavior:
 - If `ARCA_LIST_URLS` or `RESOURCE_LINK_STATE` is missing, the scheduled monitor exits without changing anything.
 - Each run checks only the top `ARCA_LIST_SCAN_LIMIT` posts per list.
 - Each run sends at most `ARCA_MAX_PROPOSALS_PER_RUN` Discord approval requests.
-- A post is saved to KV only after the GitHub Issue and Discord approval message are created successfully.
+- A post is saved to KV only after the Discord approval message is created successfully.
 - Automatic monitoring only creates approval requests. Updating `data/resource_links.json` still requires Discord approval.
 
 ## Gift code scheduled monitor

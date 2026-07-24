@@ -332,7 +332,7 @@
     "english_name": "key_rotten_party",
     "description": "반격 150스택을 획득하고, 모든 적의 힘을 임시로 28점 감소시킵니다. 현재 ‘초월 턴’중이라면, 임시로 힘이 감소된 모든 적에게 반격 만큼의 피해를 입힙니다.",
     "image_path": "images/key_rotten_party.png",
-    "tags": ["","초월 턴"],
+    "tags": ["", "초월 턴", "힘 감소"],
     "source": "의식잠항 - 불꽃의 항연"
   },
   {
@@ -409,11 +409,11 @@
     "source": "다차원 연결 - 잊혀진 사랑의 씨앗"
   },
   {
-    "korean_name": "마음이 험한 사람",
+    "korean_name": "마음이 허한 사람",
     "english_name": "key_pontos",
     "description": "임시 크리티컬 피해 +30%, 모든 적의 힘을 임시로 35 감소시킨다. 폰토스 : 「사냥」 1스택 획득",
     "image_path": "images/key_pontos.png",
-    "tags": ["폰토스","임시 크리티컬 피해 증가", "임시 힘 감소"],
+    "tags": ["폰토스", "임시 크리티컬 피해 증가", "임시 힘 감소", "힘 감소"],
     "owner_character_ids": ["pontos"],
     "source": "의식 잠항 - 영원한 에뷔노스"
   },

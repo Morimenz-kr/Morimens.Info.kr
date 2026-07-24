@@ -2,8 +2,7 @@ const DEFAULT_ALLOWED_ORIGIN = 'https://morimenz-kr.github.io';
 const RESOURCE_LINKS_PATH = 'data/resource_links.json';
 const RESOURCE_LINKS_PENDING_BRANCH = 'resource-links/pending';
 const DEFAULT_BASE_BRANCH = 'main';
-const RESOURCE_PROPOSAL_MARKER = 'resource-link-proposal';
-const RESOURCE_SELECTION_MARKER = 'resource-link-selection';
+const RESOURCE_PROPOSAL_STATE_PREFIX = 'resource-link:proposal:';
 const INTERACTION_PING = 1;
 const INTERACTION_APPLICATION_COMMAND = 2;
 const INTERACTION_MESSAGE_COMPONENT = 3;
@@ -261,7 +260,7 @@ function getResourceLinkSubmitHtml() {
       }
 
       statusEl.textContent = '승인 요청을 보냈습니다. Discord를 확인하세요. 이 창은 곧 닫힙니다.';
-      detailEl.textContent = result.issueUrl || '';
+      detailEl.textContent = result.discordMessageId ? 'Discord message ID: ' + result.discordMessageId : '';
       setTimeout(() => window.close(), 1200);
     })().catch(error => {
       statusEl.textContent = '승인 요청 실패';
@@ -306,12 +305,16 @@ async function handleResourceLinkProposal(request, env, corsHeaders) {
         return jsonResponse({ error: 'link.url and link.title are required' }, 400, corsHeaders);
     }
 
-    const issue = await createResourceProposalIssue(env, proposal);
-    const discordMessage = await sendResourceProposalMessage(env, proposal, issue);
+    const proposalState = await createResourceProposalState(env, proposal);
+    const discordMessage = await sendResourceProposalMessage(env, proposal, proposalState.id);
+    await updateResourceProposalState(env, proposalState.id, {
+        ...proposalState,
+        discordMessageId: discordMessage.id
+    });
 
     return jsonResponse({
         ok: true,
-        issueUrl: issue.html_url,
+        proposalId: proposalState.id,
         discordMessageId: discordMessage.id,
         suggestedTargets: proposal.targets
     }, 200, corsHeaders);
@@ -384,14 +387,18 @@ async function handleArcaMonitor(env) {
 
                 if (!proposal.link.url || !proposal.link.title) continue;
 
-                const issue = await createResourceProposalIssue(env, proposal);
-                const discordMessage = await sendResourceProposalMessage(env, proposal, issue);
+                const proposalState = await createResourceProposalState(env, proposal);
+                const discordMessage = await sendResourceProposalMessage(env, proposal, proposalState.id);
+                await updateResourceProposalState(env, proposalState.id, {
+                    ...proposalState,
+                    discordMessageId: discordMessage.id
+                });
                 await env.RESOURCE_LINK_STATE.put(seenKey, JSON.stringify({
                     id: post.id,
                     url: proposal.link.url,
                     title: proposal.link.title,
                     sourceListUrl: listUrl,
-                    issueUrl: issue.html_url,
+                    proposalId: proposalState.id,
                     discordMessageId: discordMessage.id,
                     firstSeenAt: submittedAt,
                     notifiedAt: new Date().toISOString()
@@ -921,30 +928,6 @@ async function createFeedbackIssue(env, feedback) {
     });
 }
 
-async function createResourceProposalIssue(env, proposal) {
-    const targetText = proposal.targets.length > 0
-        ? proposal.targets.map(formatTarget).join(', ')
-        : 'none';
-    const body = [
-        '## Resource Link Proposal',
-        '',
-        `- URL: ${proposal.link.url}`,
-        `- Title: ${proposal.link.title}`,
-        `- Suggested targets: ${targetText}`,
-        `- Source tab: ${proposal.sourceTab || 'unknown'}`,
-        `- Submitted by: ${proposal.submittedBy}`,
-        `- Submitted: ${proposal.submittedAt}`,
-        '',
-        `<!-- ${RESOURCE_PROPOSAL_MARKER}:${utf8ToBase64(JSON.stringify(proposal))} -->`
-    ].join('\n');
-
-    return createGitHubIssueWithOptionalLabels(env, {
-        title: `[Resource Link] ${proposal.link.title.slice(0, 80)}`,
-        body,
-        labels: ['resource-link:pending']
-    });
-}
-
 async function createGitHubIssueWithOptionalLabels(env, issuePayload) {
     let response = await githubJsonFetch(env, '/issues', {
         method: 'POST',
@@ -968,7 +951,7 @@ async function createGitHubIssueWithOptionalLabels(env, issuePayload) {
     return response.json();
 }
 
-async function sendResourceProposalMessage(env, proposal, issue) {
+async function sendResourceProposalMessage(env, proposal, proposalId) {
     const targetText = proposal.targets.length > 0
         ? proposal.targets.map(formatTarget).join('\n')
         : '추천 대상 없음';
@@ -983,13 +966,12 @@ async function sendResourceProposalMessage(env, proposal, issue) {
             color: 0x3498DB,
             image: proposal.link.image ? { url: proposal.link.image } : undefined,
             fields: [
-                { name: '추천 등록 대상', value: targetText.slice(0, 1024), inline: false },
-                { name: 'GitHub Issue', value: issue.html_url, inline: false }
+                { name: '추천 등록 대상', value: targetText.slice(0, 1024), inline: false }
             ],
             footer: { text: `Submitted by ${proposal.submittedBy}` },
             timestamp: new Date().toISOString()
         }],
-        components: buildResourceComponents(issue.number, false, defaultResourceSelection())
+        components: buildResourceComponents(proposalId, false, defaultResourceSelection())
     };
 
     const response = await fetch(`https://discord.com/api/v10/channels/${env.DISCORD_CHANNEL_ID}/messages`, {
@@ -1006,7 +988,7 @@ async function sendResourceProposalMessage(env, proposal, issue) {
     return response.json();
 }
 
-function buildResourceComponents(issueNumber, disabled = false, selection = defaultResourceSelection()) {
+function buildResourceComponents(proposalId, disabled = false, selection = defaultResourceSelection()) {
     const activeRelems = normalizeRelems(selection.activeRelems);
     const selectedKeys = new Set(normalizeTargets(selection.targets || []).map(target => `${target.type}:${target.id}`));
     const activeCharacters = RESOURCE_CHARACTERS.filter(character => character.relems === activeRelems);
@@ -1019,28 +1001,28 @@ function buildResourceComponents(issueNumber, disabled = false, selection = defa
                     type: 2,
                     style: 3,
                     label: '추천대로 OK',
-                    custom_id: `rl:approve:${issueNumber}`,
+                    custom_id: `rl:approve:${proposalId}`,
                     disabled
                 },
                 {
                     type: 2,
                     style: 1,
                     label: '선택 반영',
-                    custom_id: `rl:approve-selected:${issueNumber}`,
+                    custom_id: `rl:approve-selected:${proposalId}`,
                     disabled
                 },
                 {
                     type: 2,
                     style: 2,
                     label: '선택 초기화',
-                    custom_id: `rl:clear-selection:${issueNumber}`,
+                    custom_id: `rl:clear-selection:${proposalId}`,
                     disabled
                 },
                 {
                     type: 2,
                     style: 2,
                     label: '보류',
-                    custom_id: `rl:hold:${issueNumber}`,
+                    custom_id: `rl:hold:${proposalId}`,
                     disabled
                 }
             ]
@@ -1050,7 +1032,7 @@ function buildResourceComponents(issueNumber, disabled = false, selection = defa
             components: [
                 {
                     type: 3,
-                    custom_id: `rl:categories:${issueNumber}`,
+                    custom_id: `rl:categories:${proposalId}`,
                     placeholder: '일반 카테고리 선택',
                     min_values: 0,
                     max_values: RESOURCE_CATEGORIES.length,
@@ -1070,7 +1052,7 @@ function buildResourceComponents(issueNumber, disabled = false, selection = defa
                 type: 2,
                 style: relems === activeRelems ? 1 : 2,
                 label: RELEMS_LABELS[relems] || relems,
-                custom_id: `rl:relems:${relems}:${issueNumber}`,
+                custom_id: `rl:relems:${relems}:${proposalId}`,
                 disabled
             }))
         },
@@ -1079,7 +1061,7 @@ function buildResourceComponents(issueNumber, disabled = false, selection = defa
             components: [
                 {
                     type: 3,
-                    custom_id: `rl:characters:${activeRelems}:${issueNumber}`,
+                    custom_id: `rl:characters:${activeRelems}:${proposalId}`,
                     placeholder: `${RELEMS_LABELS[activeRelems] || activeRelems} 캐릭터 선택`,
                     min_values: 0,
                     max_values: activeCharacters.length,
@@ -1161,25 +1143,60 @@ function replaceCharacterTargetsByRelems(currentTargets, relems, replacementTarg
     return normalizeTargets([...retainedTargets, ...selectedTargets]);
 }
 
-function extractResourceSelection(body) {
-    const encodedRegex = new RegExp(`<!--\\s*${RESOURCE_SELECTION_MARKER}:([A-Za-z0-9+/=]+)\\s*-->`);
-    const encodedMatch = body.match(encodedRegex);
-    if (!encodedMatch) return defaultResourceSelection();
-
-    try {
-        return normalizeResourceSelection(JSON.parse(base64ToUtf8(encodedMatch[1])));
-    } catch (error) {
-        return defaultResourceSelection();
-    }
+function createResourceProposalId() {
+    return crypto.randomUUID().replaceAll('-', '');
 }
 
-function upsertResourceSelection(body, selection) {
-    const marker = `<!-- ${RESOURCE_SELECTION_MARKER}:${utf8ToBase64(JSON.stringify(normalizeResourceSelection(selection)))} -->`;
-    const markerRegex = new RegExp(`<!--\\s*${RESOURCE_SELECTION_MARKER}:[A-Za-z0-9+/=]+\\s*-->`);
-    if (markerRegex.test(body)) {
-        return body.replace(markerRegex, marker);
+function getResourceProposalStateKey(proposalId) {
+    return `${RESOURCE_PROPOSAL_STATE_PREFIX}${proposalId}`;
+}
+
+async function createResourceProposalState(env, proposal) {
+    if (!env.RESOURCE_LINK_STATE) {
+        throw new Error('RESOURCE_LINK_STATE KV binding is required for resource link proposals');
     }
-    return `${body}\n${marker}`;
+
+    const state = {
+        id: createResourceProposalId(),
+        proposal,
+        selection: defaultResourceSelection(),
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+        discordMessageId: null
+    };
+    await updateResourceProposalState(env, state.id, state);
+    return state;
+}
+
+async function getResourceProposalState(env, proposalId) {
+    if (!env.RESOURCE_LINK_STATE) {
+        throw new Error('RESOURCE_LINK_STATE KV binding is required for resource link proposals');
+    }
+
+    const state = await env.RESOURCE_LINK_STATE.get(getResourceProposalStateKey(proposalId), 'json');
+    if (!state?.proposal || !state?.id) {
+        throw new Error('링크 제보 상태를 찾을 수 없습니다.');
+    }
+    return {
+        ...state,
+        selection: normalizeResourceSelection(state.selection)
+    };
+}
+
+async function updateResourceProposalState(env, proposalId, state) {
+    if (!env.RESOURCE_LINK_STATE) {
+        throw new Error('RESOURCE_LINK_STATE KV binding is required for resource link proposals');
+    }
+
+    await env.RESOURCE_LINK_STATE.put(
+        getResourceProposalStateKey(proposalId),
+        JSON.stringify({
+            ...state,
+            id: proposalId,
+            selection: normalizeResourceSelection(state.selection),
+            updatedAt: new Date().toISOString()
+        })
+    );
 }
 
 async function notifyDiscord(env, feedback, issue) {
@@ -1216,54 +1233,30 @@ function parseResourceDecision(interaction) {
 
     const action = parts[1];
 
-    if (action === 'approve') {
-        const issueNumber = Number(parts[2]);
-        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
-        return { action, issueNumber, targets: null };
-    }
-
-    if (action === 'approve-selected') {
-        const issueNumber = Number(parts[2]);
-        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
-        return { action, issueNumber, targets: null };
-    }
-
-    if (action === 'clear-selection') {
-        const issueNumber = Number(parts[2]);
-        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
-        return { action, issueNumber, targets: [] };
-    }
-
-    if (action === 'hold') {
-        const issueNumber = Number(parts[2]);
-        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
-        return { action, issueNumber, targets: [] };
-    }
-
-    if (action === 'categories') {
-        const issueNumber = Number(parts[2]);
-        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
+    if (['approve', 'approve-selected', 'clear-selection', 'hold', 'categories'].includes(action)) {
+        const proposalId = parts[2];
+        if (!/^[a-f0-9]{32}$/.test(proposalId || '')) return null;
         return {
             action,
-            issueNumber,
-            targets: normalizeTargets(interaction.data?.values || [])
+            proposalId,
+            targets: action === 'categories' ? normalizeTargets(interaction.data?.values || []) : []
         };
     }
 
     if (action === 'relems') {
         const relems = normalizeRelems(parts[2]);
-        const issueNumber = Number(parts[3]);
-        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
-        return { action, issueNumber, relems };
+        const proposalId = parts[3];
+        if (!/^[a-f0-9]{32}$/.test(proposalId || '')) return null;
+        return { action, proposalId, relems };
     }
 
     if (action === 'characters') {
         const relems = normalizeRelems(parts[2]);
-        const issueNumber = Number(parts[3]);
-        if (!Number.isInteger(issueNumber) || issueNumber <= 0) return null;
+        const proposalId = parts[3];
+        if (!/^[a-f0-9]{32}$/.test(proposalId || '')) return null;
         return {
             action,
-            issueNumber,
+            proposalId,
             relems,
             targets: normalizeTargets(interaction.data?.values || [])
         };
@@ -1274,16 +1267,19 @@ function parseResourceDecision(interaction) {
 
 async function processResourceDecision(env, interaction, decision) {
     try {
-        const issue = await getGitHubIssue(env, decision.issueNumber);
-        const proposal = extractResourceProposal(issue.body || '');
-        const selection = extractResourceSelection(issue.body || '');
+        const proposalState = await getResourceProposalState(env, decision.proposalId);
+        const proposal = proposalState.proposal;
+        const selection = proposalState.selection;
 
         if (decision.action === 'hold') {
-            await commentGitHubIssue(env, decision.issueNumber, `Held without updating resource_links. Handler: ${getInteractionUserLabel(interaction)}`);
-            await closeGitHubIssue(env, decision.issueNumber);
+            await updateResourceProposalState(env, decision.proposalId, {
+                ...proposalState,
+                status: 'held',
+                handledBy: getInteractionUserLabel(interaction)
+            });
             await editDiscordMessage(env, interaction, {
                 content: `보류 처리됨: resource_links를 변경하지 않았습니다. (${getInteractionUserLabel(interaction)})`,
-                components: buildResourceComponents(decision.issueNumber, true, selection)
+                components: buildResourceComponents(decision.proposalId, true, selection)
             });
             return;
         }
@@ -1295,10 +1291,10 @@ async function processResourceDecision(env, interaction, decision) {
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
-            await updateResourceSelection(env, issue, updatedSelection);
+            await updateResourceProposalState(env, decision.proposalId, { ...proposalState, selection: updatedSelection });
             await editDiscordMessage(env, interaction, {
                 content: buildResourceMessageContent(updatedSelection),
-                components: buildResourceComponents(decision.issueNumber, false, updatedSelection)
+                components: buildResourceComponents(decision.proposalId, false, updatedSelection)
             });
             return;
         }
@@ -1310,10 +1306,10 @@ async function processResourceDecision(env, interaction, decision) {
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
-            await updateResourceSelection(env, issue, updatedSelection);
+            await updateResourceProposalState(env, decision.proposalId, { ...proposalState, selection: updatedSelection });
             await editDiscordMessage(env, interaction, {
                 content: buildResourceMessageContent(updatedSelection),
-                components: buildResourceComponents(decision.issueNumber, false, updatedSelection)
+                components: buildResourceComponents(decision.proposalId, false, updatedSelection)
             });
             return;
         }
@@ -1326,10 +1322,10 @@ async function processResourceDecision(env, interaction, decision) {
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
-            await updateResourceSelection(env, issue, updatedSelection);
+            await updateResourceProposalState(env, decision.proposalId, { ...proposalState, selection: updatedSelection });
             await editDiscordMessage(env, interaction, {
                 content: buildResourceMessageContent(updatedSelection),
-                components: buildResourceComponents(decision.issueNumber, false, updatedSelection)
+                components: buildResourceComponents(decision.proposalId, false, updatedSelection)
             });
             return;
         }
@@ -1341,10 +1337,10 @@ async function processResourceDecision(env, interaction, decision) {
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
-            await updateResourceSelection(env, issue, updatedSelection);
+            await updateResourceProposalState(env, decision.proposalId, { ...proposalState, selection: updatedSelection });
             await editDiscordMessage(env, interaction, {
                 content: buildResourceMessageContent(updatedSelection),
-                components: buildResourceComponents(decision.issueNumber, false, updatedSelection)
+                components: buildResourceComponents(decision.proposalId, false, updatedSelection)
             });
             return;
         }
@@ -1355,23 +1351,19 @@ async function processResourceDecision(env, interaction, decision) {
         if (!targets || targets.length === 0) {
             await editDiscordMessage(env, interaction, {
                 content: '처리 안 됨: 선택된 등록 대상이 없습니다. resource_links를 변경하지 않았습니다.',
-                components: buildResourceComponents(decision.issueNumber, false, selection)
+                components: buildResourceComponents(decision.proposalId, false, selection)
             });
             return;
         }
 
         const result = await updateResourceLinks(env, proposal.link, targets);
-        await commentGitHubIssue(env, decision.issueNumber, [
-            `resource_links batch PR update complete. Handler: ${getInteractionUserLabel(interaction)}`,
-            '',
-            `Added: ${result.added.map(formatTarget).join(', ') || 'none'}`,
-            `Already existed: ${result.skipped.map(formatTarget).join(', ') || 'none'}`,
-            `Missing targets: ${result.missing.map(formatTarget).join(', ') || 'none'}`,
-            `Branch: ${RESOURCE_LINKS_PENDING_BRANCH}`,
-            `Commit: ${result.commitUrl}`,
-            `PR: ${result.prUrl}`
-        ].join('\n'));
-        await closeGitHubIssue(env, decision.issueNumber);
+        await updateResourceProposalState(env, decision.proposalId, {
+            ...proposalState,
+            status: 'completed',
+            selection,
+            handledBy: getInteractionUserLabel(interaction),
+            result
+        });
 
         await editDiscordMessage(env, interaction, {
             content: [
@@ -1381,7 +1373,7 @@ async function processResourceDecision(env, interaction, decision) {
                 `이미 존재: ${result.skipped.map(formatTarget).join(', ') || 'none'}`,
                 `누락 대상: ${result.missing.map(formatTarget).join(', ') || 'none'}`
             ].join('\n'),
-            components: buildResourceComponents(decision.issueNumber, true, selection)
+            components: buildResourceComponents(decision.proposalId, true, selection)
         });
     } catch (error) {
         console.error(error);
@@ -1554,69 +1546,6 @@ function removeEmptyLinkFields(link) {
 
 function escapeJsonString(value) {
     return String(value).replace(/\\/g, '\\\\').replace(/"/g, '\\"');
-}
-
-function extractResourceProposal(body) {
-    const encodedRegex = new RegExp(`<!--\\s*${RESOURCE_PROPOSAL_MARKER}:([A-Za-z0-9+/=]+)\\s*-->`);
-    const encodedMatch = body.match(encodedRegex);
-    if (encodedMatch) {
-        return normalizeResourceProposal(JSON.parse(base64ToUtf8(encodedMatch[1])));
-    }
-
-    const regex = new RegExp(`<!--\\s*${RESOURCE_PROPOSAL_MARKER}\\s*([\\s\\S]*?)\\s*-->`);
-    const match = body.match(regex);
-    if (!match) throw new Error('Resource proposal payload not found in issue body');
-    return normalizeResourceProposal(JSON.parse(match[1]));
-}
-
-async function updateResourceSelection(env, issue, selection) {
-    const body = upsertResourceSelection(issue.body || '', selection);
-    await updateGitHubIssueBody(env, issue.number, body);
-}
-
-async function getGitHubIssue(env, issueNumber) {
-    const response = await githubJsonFetch(env, `/issues/${issueNumber}`, { method: 'GET' });
-    if (!response.ok) {
-        const detail = await response.text();
-        throw new Error(`GitHub issue fetch failed: ${response.status} ${detail.slice(0, 300)}`);
-    }
-    return response.json();
-}
-
-async function updateGitHubIssueBody(env, issueNumber, body) {
-    const response = await githubJsonFetch(env, `/issues/${issueNumber}`, {
-        method: 'PATCH',
-        body: { body }
-    });
-    if (!response.ok) {
-        const detail = await response.text();
-        throw new Error(`GitHub issue update failed: ${response.status} ${detail.slice(0, 300)}`);
-    }
-    return response.json();
-}
-
-async function commentGitHubIssue(env, issueNumber, body) {
-    const response = await githubJsonFetch(env, `/issues/${issueNumber}/comments`, {
-        method: 'POST',
-        body: { body }
-    });
-    if (!response.ok) {
-        const detail = await response.text();
-        throw new Error(`GitHub issue comment failed: ${response.status} ${detail.slice(0, 300)}`);
-    }
-    return response.json();
-}
-
-async function closeGitHubIssue(env, issueNumber) {
-    const response = await githubJsonFetch(env, `/issues/${issueNumber}`, {
-        method: 'PATCH',
-        body: { state: 'closed' }
-    });
-    if (!response.ok) {
-        const detail = await response.text();
-        throw new Error(`GitHub issue close failed: ${response.status} ${detail.slice(0, 300)}`);
-    }
-    return response.json();
 }
 
 async function ensureResourceLinksPendingBranch(env) {
