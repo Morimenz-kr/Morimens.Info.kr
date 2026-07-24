@@ -78,8 +78,9 @@
 .code-card {
     background: #2a2a2a; border: 1px solid #444; border-radius: 10px;
     padding: 16px; display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; min-width: 0;
 }
-.code-details { flex: 1; text-align: left; }
+.code-details { flex: 1; min-width: 0; text-align: left; }
 .code-title { font-weight: bold; font-size: 1.2em; color: #fff; display: block; }
 .code-reward { font-size: 0.9em; color: #aaa; }
 .code-timer { font-size: 0.8em; color: #ff9f43; margin-top: 4px; font-weight: bold; }
@@ -90,6 +91,18 @@
 .code-copy-btn:hover { background: #33a06f; transform: scale(1.05); }
 .code-copy-btn.copied { background: #ffc107; color: #000; }
 .section-label { color: #ffc107; margin: 20px 0 10px; font-size: 1.1em; border-left: 4px solid #ffc107; padding-left: 10px; }
+
+@media (max-width: 480px) {
+    .code-card {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .code-copy-btn {
+        min-height: 44px;
+        width: 100%;
+    }
+}
 
 /* --- 6. 제보 모달 폼 스타일 --- */
 .modal-content {

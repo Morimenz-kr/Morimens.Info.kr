@@ -13,24 +13,38 @@ function goBack() {
 // --- 기능 로직 ---
 // 1. 닫기 버튼을 눌렀을 때 실행되는 함수
 // 2. 모달 바깥(어두운 오버레이)을 클릭했을 때 창을 닫는 로직
-// 🚩 전역 복사 함수
-function copyCodeToClipboard(text, element) {
-    if (!navigator.clipboard) {
-        alert("⚠️ 이 브라우저는 클립보드 복사를 지원하지 않습니다.");
-        return;
-    }
-    navigator.clipboard.writeText(text).then(() => {
+// 교환 코드는 HTTPS 여부와 무관하게 복사할 수 있도록 보조 방식을 함께 사용한다.
+async function copyCodeToClipboard(code, element) {
+    const text = String(code || '').trim();
+    if (!text) return;
+
+    try {
+        if (navigator.clipboard?.writeText && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+        } else {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.setAttribute('readonly', '');
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            const copied = document.execCommand('copy');
+            textarea.remove();
+            if (!copied) throw new Error('Clipboard fallback failed');
+        }
+
         element.classList.add('copied');
-        const originalText = element.innerHTML;
-        element.innerHTML = '✅ 복사 완료!';
+        const originalText = element.textContent;
+        element.textContent = '복사 완료';
         setTimeout(() => {
             element.classList.remove('copied');
-            element.innerHTML = originalText;
+            element.textContent = originalText;
         }, 800);
-    }).catch(err => {
-        console.error('클립보드 복사 실패:', err);
-        alert('복사 실패! 콘솔을 확인해주세요.');
-    });
+    } catch (error) {
+        console.error('클립보드 복사 실패:', error);
+        alert('복사하지 못했습니다. 교환 코드를 길게 눌러 직접 복사해주세요.');
+    }
 }
 
 function openSubModal(type) {
@@ -776,11 +790,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
     });
 
-    document.addEventListener('click', (event) => {
-        const trigger = event.target.closest('[data-copy-code]');
-        if (!trigger) return;
-        copyCodeToClipboard(trigger.dataset.copyCode, trigger);
-    });
 });
 
 function openDynamicSubModal(type, charId, idx = 0) {
@@ -866,24 +875,46 @@ function renderCodeLinks(items, container) {
         return days === 0 ? "오늘 만료" : `${days}일 남음`;
     };
 
-    // 카드 생성 도우미
-    const createCard = (item, isTemp) => `
-    <div class="code-card">
-        <div class="code-details">
-            <span class="code-title">${item.title}</span>
-            <span class="code-reward">${item.desc || '보상 정보 없음'}</span>
-            ${isTemp ? `<div class="code-timer">⏳ ${getDDay(item.expiry)}</div>` : ''}
-        </div>
-        <button class="code-copy-btn" data-copy-code="${escapeHtml(item.title)}">복사</button>
-    </div>
-`;
+    // 코드 문자열을 버튼 속성에서 다시 읽지 않고, 생성 시점에 직접 묶는다.
+    const createCard = (item, isTemp) => {
+        const card = document.createElement('div');
+        card.className = 'code-card';
+
+        const details = document.createElement('div');
+        details.className = 'code-details';
+
+        const title = document.createElement('span');
+        title.className = 'code-title';
+        title.textContent = String(item.title || '');
+
+        const reward = document.createElement('span');
+        reward.className = 'code-reward';
+        reward.textContent = item.desc || '보상 정보 없음';
+
+        details.append(title, reward);
+        if (isTemp) {
+            const timer = document.createElement('div');
+            timer.className = 'code-timer';
+            timer.textContent = `⏳ ${getDDay(item.expiry)}`;
+            details.appendChild(timer);
+        }
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'code-copy-btn';
+        button.textContent = '복사';
+        button.addEventListener('click', () => copyCodeToClipboard(item.title, button));
+
+        card.append(details, button);
+        return card;
+    };
 
     // 2. 기간 한정 코드 렌더링
     if (temporary.length > 0) {
         container.insertAdjacentHTML('beforeend', '<div class="section-label">📅 기간 한정 코드</div>');
         const tempGroup = document.createElement('div');
         tempGroup.className = 'code-card-container';
-        temporary.forEach(item => tempGroup.insertAdjacentHTML('beforeend', createCard(item, true)));
+        temporary.forEach(item => tempGroup.appendChild(createCard(item, true)));
         container.appendChild(tempGroup);
     }
 
@@ -892,7 +923,7 @@ function renderCodeLinks(items, container) {
         container.insertAdjacentHTML('beforeend', '<div class="section-label">♾️ 상시 코드</div>');
         const permGroup = document.createElement('div');
         permGroup.className = 'code-card-container';
-        permanent.forEach(item => permGroup.insertAdjacentHTML('beforeend', createCard(item, false)));
+        permanent.forEach(item => permGroup.appendChild(createCard(item, false)));
         container.appendChild(permGroup);
     }
 }
