@@ -629,6 +629,11 @@ function extractArcaPostsFromList(html, listUrl) {
     let match;
 
     while ((match = anchorRegex.exec(html)) !== null) {
+        const attributes = `${match[1] || ''} ${match[3] || ''}`;
+        const className = getHtmlAttribute(attributes, 'class');
+        const classes = new Set(className.split(/\s+/).filter(Boolean));
+        if (!classes.has('vrow') || classes.has('notice')) continue;
+
         let url;
         try {
             url = new URL(decodeHtmlEntities(match[2]), listUrl);
@@ -647,7 +652,8 @@ function extractArcaPostsFromList(html, listUrl) {
         posts.push({
             id,
             url: `https://arca.live${url.pathname}`,
-            title: cleanResourceTitle(stripHtml(match[4] || '')),
+            title: cleanResourceTitle(extractArcaListTitle(match[4] || '')),
+            image: extractArcaListImage(match[4] || '', listUrl),
             sourceTab: getArcaSourceTab(listUrl)
         });
     }
@@ -655,23 +661,61 @@ function extractArcaPostsFromList(html, listUrl) {
     return posts;
 }
 
-async function fetchArcaPostDetail(post, listUrl) {
-    const html = await fetchText(post.url);
-    const title = cleanResourceTitle(
-        extractMetaContent(html, 'property', 'og:title') ||
-        extractTitle(html) ||
-        post.title ||
-        post.id
+function getHtmlAttribute(attributes, name) {
+    const escapedName = escapeRegExp(name);
+    const match = String(attributes || '').match(
+        new RegExp(`\\b${escapedName}\\s*=\\s*(["'])([\\s\\S]*?)\\1`, 'i')
     );
-    const image = normalizeImageUrl(extractMetaContent(html, 'property', 'og:image') || '', post.url);
+    return match ? decodeHtmlEntities(match[2]) : '';
+}
 
-    return {
-        url: post.url,
-        title,
-        desc: decodeHtmlEntities(extractMetaContent(html, 'property', 'og:description') || ''),
-        image,
-        sourceTab: post.sourceTab || getArcaSourceTab(listUrl)
-    };
+function extractArcaListTitle(anchorHtml) {
+    const html = String(anchorHtml || '');
+    const titleStart = html.search(/<span\b[^>]*class=["']title["'][^>]*>/i);
+    if (titleStart >= 0) {
+        const titleHtml = html.slice(titleStart).replace(/^[\s\S]*?>/, '');
+        const infoStart = titleHtml.search(/<span\b[^>]*class=["'][^"']*\binfo\b[^"']*["'][^>]*>/i);
+        return stripHtml(infoStart >= 0 ? titleHtml.slice(0, infoStart) : titleHtml);
+    }
+    return stripHtml(html);
+}
+
+function extractArcaListImage(anchorHtml, listUrl) {
+    const html = String(anchorHtml || '');
+    const imageMatch = html.match(/<img\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/i);
+    return imageMatch
+        ? normalizeImageUrl(decodeHtmlEntities(imageMatch[1]), listUrl)
+        : '';
+}
+
+async function fetchArcaPostDetail(post, listUrl) {
+    try {
+        const html = await fetchText(post.url);
+        const title = cleanResourceTitle(
+            extractMetaContent(html, 'property', 'og:title') ||
+            extractTitle(html) ||
+            post.title ||
+            post.id
+        );
+        const image = normalizeImageUrl(extractMetaContent(html, 'property', 'og:image') || '', post.url);
+
+        return {
+            url: post.url,
+            title,
+            desc: decodeHtmlEntities(extractMetaContent(html, 'property', 'og:description') || ''),
+            image,
+            sourceTab: post.sourceTab || getArcaSourceTab(listUrl)
+        };
+    } catch (error) {
+        console.warn(`Arca detail fetch failed; using list data: ${post.url}`, error);
+        return {
+            url: post.url,
+            title: cleanResourceTitle(post.title || post.id),
+            desc: '',
+            image: normalizeImageUrl(post.image || '', listUrl),
+            sourceTab: post.sourceTab || getArcaSourceTab(listUrl)
+        };
+    }
 }
 
 function getArcaSourceTab(listUrl) {
@@ -1890,9 +1934,30 @@ async function getGitHubFile(env, path, ref) {
     }
 
     const data = await response.json();
+    let content;
+    if (data.content) {
+        content = base64ToUtf8(data.content);
+    } else if (data.download_url) {
+        const rawResponse = await fetch(data.download_url, {
+            headers: {
+                'Accept': 'application/vnd.github.raw+json',
+                'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+                'User-Agent': 'morimens-feedback-worker',
+                'X-GitHub-Api-Version': '2022-11-28'
+            }
+        });
+        if (!rawResponse.ok) {
+            const detail = await rawResponse.text();
+            throw new Error(`GitHub raw file fetch failed: ${rawResponse.status} ${detail.slice(0, 300)}`);
+        }
+        content = await rawResponse.text();
+    } else {
+        throw new Error('GitHub file content is empty and download_url is missing');
+    }
+
     return {
         sha: data.sha,
-        content: base64ToUtf8(data.content || '')
+        content
     };
 }
 
