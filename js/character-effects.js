@@ -418,17 +418,9 @@
         });
     }
 
-    function render(container, character, characterName, tooltips = {}) {
-        if (!container) return;
-        tooltipDictionary = tooltips;
-        if (!character) {
-            container.innerHTML = renderEmpty('등록된 캐릭터 정보가 없습니다.');
-            return;
-        }
-
+    function classifyCharacterEffects(character) {
         const allSkills = character.skills || [];
         const enlightenTypes = new Set(['초월 폭발', '최종 법칙']);
-        const skills = allSkills.filter(skill => !enlightenTypes.has(skill.type));
         const enlightenOrder = new Map([
             ['초월 폭발', 0],
             ['최종 법칙', 1]
@@ -440,6 +432,23 @@
             ...storedEnlighten.filter(item => enlightenTypes.has(item.type))
         ]
             .sort((left, right) => enlightenOrder.get(left.type) - enlightenOrder.get(right.type));
+        const skills = [
+            ...allSkills.filter(skill => !enlightenTypes.has(skill.type)),
+            ...enlightenSkills.filter(skill => skill.type === '초월 폭발')
+        ];
+
+        return { skills, enlighten, enlightenSkills };
+    }
+
+    function render(container, character, characterName, tooltips = {}) {
+        if (!container) return;
+        tooltipDictionary = tooltips;
+        if (!character) {
+            container.innerHTML = renderEmpty('등록된 캐릭터 정보가 없습니다.');
+            return;
+        }
+
+        const { skills, enlighten, enlightenSkills } = classifyCharacterEffects(character);
         const traits = character.traits || [];
 
         container.innerHTML = `
