@@ -14,16 +14,37 @@
 
 ## 현재 반영 상태
 
-- `data/character_settings.json`에는 비밀계약 추천/대체 정보만 유지한다.
-- `main_stats`, `substitute_main_stats` 같은 비밀계약 주옵 필드는 현재 모두 제거했다.
-- 아래 `원문 주옵/부옵 정리` 표는 참고 자료로만 유지하며, 사이트 추천 데이터에 확정 주옵으로 반영하지 않는다.
-- 이유:
-  - 원문 주옵은 계약명이 이미지로만 들어간 구간이 많아 특정 비밀계약과 1:1로 확정하기 어렵다.
-  - 사이트 데이터는 한 캐릭터 안에서도 딜러/서폿/탱커 등 명륜 세팅이 갈라져 있어, 원문 주옵을 어느 세팅에 붙일지 애매한 경우가 많다.
-  - 예를 들어 산은 딜러 세팅의 `36호실의 고리`, `묘지의 속삭임`과 탱커 세팅의 `먼 곳의 잔치`가 갈리므로, 하나의 주옵을 모든 비밀계약에 복사하면 잘못된 정보가 된다.
-- 결론:
-  - 주옵은 문서에만 보존한다.
-  - 사이트 노출용 데이터에는 비밀계약별 주옵 확정 근거가 생길 때까지 넣지 않는다.
+- 혼돈편과 심해편 원문에서 추출한 자료는 `data/covenant_main_stats.json`에 보존한다.
+- 이 파일은 원문 표현, 정규화한 Ⅰ~Ⅵ 주옵, 부옵, 계약 이미지 식별자, 캐릭터, 용도 문맥, 출처를 함께 가진다.
+- 계약 이미지가 하나의 비밀계약 ID로 확인되고 주옵이 정확히 6칸인 행을 `confirmed`로 표시한다.
+- 한 세팅의 두 계약에 동일 주옵을 사용한다고 확인된 경우에는 `shared_main_stats`를 기록하고 두 계약에 함께 적용한다.
+- `confirmed` 행 중 기존 캐릭터 세팅의 주계약 또는 대체 계약과 유일하게 일치하는 것만 `data/character_settings.json`에 반영한다.
+- 운영 데이터에는 주옵과 함께 `main_stats_source_ids` 또는 `substitute_main_stats_source_ids`를 기록해 원천 행을 역추적할 수 있게 한다.
+- 문장형 주옵, 여러 계약을 함께 설명한 구간, 현재 추천 세팅에 없는 계약은 임의로 복사하지 않고 원천 데이터에 검수 대상으로 남긴다.
+- 이미지 판독으로 확정한 값은 `data/covenant_main_stats_overrides.json`에 보존해 재추출 시에도 유지한다.
+
+### 생성 및 검증
+
+```text
+node tools/extract-covenant-main-stats.mjs
+node tools/apply-covenant-main-stats-overrides.mjs --write
+node tools/build-latest-character-settings.mjs
+node tools/build-latest-wheel-recommendations.mjs
+node tools/sync-latest-character-settings.mjs
+node tools/sync-covenant-main-stats.mjs --write
+node tools/validate-covenant-main-stats.mjs
+```
+
+## 최신 혼돈편·심해편 세팅 갱신
+
+- 최신 글의 캐릭터별 원문 구간과 이미지 묶음은 `data/character_settings_latest.json`에 구조화한다.
+- 이미지와 실제 명륜·비밀계약 ID의 대응은 `data/latest_settings_asset_map.json`에서 관리한다.
+- 명륜 추천은 `data/latest_wheel_recommendations.json`에서 세팅별 `2개 선택`, `고점 후보`, `대체 후보`, `추천/대체 주옵`으로 분리한다.
+- 다중 명륜 그룹과 원문 문장형 조건의 수동 분류는 `data/latest_wheel_recommendation_overrides.json`에 보존한다.
+- 최신 글에서 단일 추천 세팅으로 안전하게 해석되는 캐릭터만 `auto_ready`로 표시해 운영 데이터에 자동 반영한다.
+- 역할별 고점, 대체 세팅, 여러 사용법이 함께 소개된 캐릭터는 `needs_review`로 남긴다. 이 경우 기존 추천을 임의로 삭제하지 않는다.
+- 최신 글에 아직 등장하지 않은 캐릭터도 기존 추천을 유지한다.
+- 운영 데이터에서 최신 글로 교체된 세팅에는 `settings_source`로 `chaos` 또는 `aequor`를 기록한다.
 
 ## 약어
 

@@ -1,297 +1,412 @@
 {
   "24": [
     {
-      "settingName": "딜러",
+      "settingName": "혼돈",
+      "myeongryun_ssr": { "main_id": "wheel_heteromorph_mark", "substitutes": ["wheel_star_beast", "wheel_revive_from_ruins", "wheel_falling_sun", "wheel_pathless_path"] },
+      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_wolf"] },
       "recommendStep": "2~3돌",
-      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_star_beast"] },
-      "myeongryun_sr": { "main_id": "wheel_lords_cane", "substitutes": ["wheel_critical_point", "wheel_dessection_of_death"] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_wolf"] }
+      "settings_source": "chaos"
     },
     {
-      "settingName": "서폿",
+      "settingName": "심해",
+      "myeongryun_ssr": { "main_id": "wheel_heteromorph_mark", "substitutes": ["wheel_falling_sun", "wheel_sword_of_giant", "wheel_revive_from_ruins", "wheel_star_beast"] },
+      "myeongryun_sr": { "main_id": "wheel_pain_curse", "substitutes": ["wheel_critical_point"] },
+      "covenant": { "main_id": "covenant_wolf", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "피해 증폭"], "main_stats_source_ids": ["aequor-001"] },
       "recommendStep": "2~3돌",
-      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_over_the_death"] },
-      "myeongryun_sr": { "main_id": "wheel_heavy_of_duty", "substitutes": [] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
+      "settings_source": "aequor"
     }
   ],
   "nymphaea": [
     {
-      "settingName": "범용",
+      "settingName": "딜러",
+      "myeongryun_ssr": { "main_id": "wheel_gift_of_corruption", "substitutes": ["wheel_falling_sun", "wheel_silent_party"] },
+      "myeongryun_sr": { "main_id": "wheel_pain_curse", "substitutes": [] },
+      "covenant": { "main_id": "covenant_wolf", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "피해 증폭"], "main_stats_source_ids": ["chaos-009"] },
       "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_gift_of_corruption"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_vampire"] }
+      "settings_source": "chaos"
+    },
+    {
+      "settingName": "은열쇠 셔틀",
+      "myeongryun_ssr": { "main_id": "wheel_spring_of_yakut", "substitutes": [] },
+      "myeongryun_sr": { "main_id": "wheel_door_of_truth", "substitutes": [] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련 / 검은 인장 획득", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "피해 증폭 / 영역 숙련"], "main_stats_source_ids": ["chaos-010"] },
+      "recommendStep": "명함",
+      "settings_source": "chaos"
     }
   ],
   "nautila": [
     {
       "settingName": "범용",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_voltex_of_memory", "substitutes": ["wheel_birth_of_soul"] },
+      "myeongryun_ssr": { "main_id": "wheel_voltex_of_memory", "substitutes": [] },
       "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_rabbit"] }
+      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_grave", "covenant_deus"] },
+      "recommendStep": "명함",
+      "settings_source": "chaos"
     }
   ],
   "ryker": [
     {
-      "settingName": "범용",
+      "settingName": "크리티컬 서포트",
+      "myeongryun_ssr": { "main_id": "wheel_time_of_luck", "substitutes": ["wheel_fin_of_pain", "wheel_for_the_star"] },
+      "myeongryun_sr": { "main_id": "wheel_roullet_of_destiny", "substitutes": [] },
+      "covenant": { "main_id": "covenant_blood", "substitutes": [], "main_stats": ["크리티컬 확률", "크리티컬 확률", "크리티컬 확률", "은열쇠 충전", "은열쇠 충전", "검은 인장 획득"], "main_stats_source_ids": ["chaos-007"] },
       "recommendStep": "명함 ~ 1돌",
-      "myeongryun_ssr": { "main_id": "wheel_time_of_luck", "substitutes": ["wheel_pathless_path"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_roullet_of_destiny"] },
-      "covenant": { "main_id": "covenant_blood", "substitutes": ["covenant_scarlet"] }
+      "settings_source": "chaos"
+    },
+    {
+      "settingName": "검은 인장 수급",
+      "myeongryun_ssr": { "main_id": "wheel_time_of_luck", "substitutes": ["wheel_fin_of_pain", "wheel_for_the_star"] },
+      "myeongryun_sr": { "main_id": "wheel_roullet_of_destiny", "substitutes": [] },
+      "covenant": { "main_id": "covenant_party", "substitutes": [], "main_stats": ["은열쇠 충전", "검은 인장 획득", "피해 증폭", "검은 인장 획득", "피해 증폭", "검은 인장 획득"], "main_stats_source_ids": ["chaos-008"] },
+      "recommendStep": "명함 ~ 1돌",
+      "settings_source": "chaos"
     }
   ],
   "lily": [
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_dusk_and_dawn", "wheel_fun_in_box"] },
+      "myeongryun_sr": { "main_id": "wheel_magic_of_35mm", "substitutes": [] },
+      "covenant": { "main_id": "covenant_grave", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "죽음 저항", "은열쇠 충전", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["chaos-011"] },
       "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_solid_will", "wheel_dusk_and_dawn"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_twins_white"] }
+      "settings_source": "chaos"
     }
   ],
   "mouchette": [
     {
-      "settingName": "범용",
+      "settingName": "매턴 죽저",
+      "myeongryun_ssr": { "main_id": "wheel_doomsday_rampage", "substitutes": ["wheel_over_the_pain", "wheel_star_beast", "wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": ["wheel_dear_my_friend", "wheel_critical_point"] },
+      "covenant": { "main_id": "covenant_grave", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["chaos-019"] },
       "recommendStep": "2돌, 3돌, 초한",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_sword_of_giant", "wheel_star_beast", "wheel_doomsday_rampage"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_magic_of_35mm"] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_medicine", "covenant_scarlet"] }
+      "settings_source": "chaos"
+    },
+    {
+      "settingName": "한방 딜",
+      "myeongryun_ssr": { "main_id": "wheel_doomsday_rampage", "substitutes": ["wheel_over_the_pain", "wheel_star_beast", "wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": ["wheel_dear_my_friend", "wheel_critical_point"] },
+      "covenant": { "main_id": "covenant_April", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["chaos-020"] },
+      "recommendStep": "2돌, 3돌, 초한",
+      "settings_source": "chaos"
+    },
+    {
+      "settingName": "죽저 잘 안 터트릴 때",
+      "myeongryun_ssr": { "main_id": "wheel_doomsday_rampage", "substitutes": ["wheel_over_the_pain", "wheel_star_beast", "wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": ["wheel_dear_my_friend", "wheel_critical_point"] },
+      "covenant": { "main_id": "covenant_scarlet", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["chaos-021"] },
+      "recommendStep": "2돌, 3돌, 초한",
+      "settings_source": "chaos"
+    },
+    {
+      "settingName": "매턴 딜",
+      "myeongryun_ssr": { "main_id": "wheel_doomsday_rampage", "substitutes": ["wheel_over_the_pain", "wheel_star_beast", "wheel_sword_of_giant"] },
+      "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": ["wheel_dear_my_friend", "wheel_critical_point"] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["chaos-022"] },
+      "recommendStep": "2돌, 3돌, 초한",
+      "settings_source": "chaos"
     }
   ],
   "doll_inferno": [
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_over_the_death", "wheel_never_ending_calculation"] },
+      "myeongryun_sr": { "main_id": "wheel_heavy_of_duty", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_reEvolve"], "main_stats": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련"], "main_stats_source_ids": ["chaos-005"], "substitute_main_stats": { "covenant_reEvolve": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_reEvolve": ["chaos-005"] } },
       "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_doll_falls_void", "substitutes": ["wheel_never_ending_calculation"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_heavy_of_duty"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_medicine"] }
+      "settings_source": "chaos"
     }
   ],
   "alva": [
     {
-      "settingName": "서폿",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_voltex_of_memory"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_isallu_eye", "wheel_magic_of_35mm"] },
-      "covenant": { "main_id": "covenant_twins_white", "substitutes": ["covenant_party", "covenant_betray"] }
-    },
-    {
-      "settingName": "딜러",
-      "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_sword_of_giant", "wheel_voltex_of_memory"] },
+      "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_in_the_hard_rain", "wheel_dusk_and_dawn", "wheel_fun_in_box"] },
       "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
+      "covenant": { "main_id": "covenant_grave", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "죽음 저항", "은열쇠 충전", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["chaos-012"] },
+      "recommendStep": "명함",
+      "settings_source": "chaos"
     }
   ],
   "karen": [
     {
-      "settingName": "범용",
+      "settingName": "자유",
+      "myeongryun_ssr": { "selection_type": "free", "recommended_stats": ["영역 숙련", "피해 증폭", "은열쇠 충전", "죽음 저항"] },
+      "myeongryun_sr": { "selection_type": "free", "recommended_stats": ["영역 숙련", "피해 증폭", "은열쇠 충전", "죽음 저항"] },
+      "covenant": { "selection_type": "free", "options": ["covenant_grave", "covenant_vampire", "covenant_deus", "covenant_revelation"] },
       "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_never_ending_calculation"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_deus"] }
+      "settings_source": "chaos"
     }
   ],
   "kathigu-ra": [
     {
-      "settingName": "딜러",
+      "settingName": "탱커",
+      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_wheel_of_seclusion", "wheel_last_poem"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_betray"], "main_stats": ["크리티컬 확률", "크리티컬 확률", "크리티컬 확률", "은열쇠 충전", "은열쇠 충전", "피해 증폭"], "main_stats_source_ids": ["chaos-016"], "substitute_main_stats": { "covenant_betray": ["크리티컬 확률", "크리티컬 확률", "크리티컬 확률", "은열쇠 충전", "은열쇠 충전", "피해 증폭"] }, "substitute_main_stats_source_ids": { "covenant_betray": ["chaos-017"] } },
       "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_sword_of_giant", "substitutes": ["wheel_amber_death"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"] }
+      "settings_source": "chaos"
     },
     {
-      "settingName": "탱커",
+      "settingName": "딜러",
+      "myeongryun_ssr": { "main_id": "wheel_amber_death", "substitutes": ["wheel_wheel_of_seclusion", "wheel_sword_of_giant", "wheel_last_poem"] },
+      "myeongryun_sr": { "main_id": "wheel_favorite_collection", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_scarlet"], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "피해 증폭"], "main_stats_source_ids": ["chaos-018"], "substitute_main_stats": { "covenant_scarlet": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "피해 증폭"] }, "substitute_main_stats_source_ids": { "covenant_scarlet": ["chaos-018"] } },
       "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_sword_of_giant", "wheel_last_poem"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_betray"] }
+      "settings_source": "chaos"
     }
   ],
   "tawil": [
     {
-      "settingName": "딜러",
+      "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_eternal_requiem", "wheel_backward_clock", "wheel_sword_of_giant", "wheel_spring_of_yakut", "wheel_pure_silver_light"] },
+      "myeongryun_sr": { "main_id": "wheel_door_of_truth", "substitutes": ["wheel_meeting_moment", "wheel_channeling"] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_vampire"], "main_stats": ["은열쇠 충전", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "피해 증폭 / 영역 숙련"], "main_stats_source_ids": ["chaos-014"], "substitute_main_stats": { "covenant_vampire": ["은열쇠 충전", "영역 숙련 / 검은 인장 획득", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "피해 증폭 / 영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_vampire": ["chaos-015"] } },
       "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_meeting_moment", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
-    },
-    {
-      "settingName": "서폿",
-      "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_meeting_moment", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": [] }
+      "settings_source": "chaos"
     }
   ],
   "pandia": [
     {
-      "settingName": "범용",
+      "settingName": "자유",
+      "myeongryun_ssr": { "selection_type": "free", "recommended_stats": ["영역 숙련", "은열쇠 충전", "검은 인장 획득", "피해 증폭", "죽음 저항"] },
+      "myeongryun_sr": { "selection_type": "free", "recommended_stats": ["영역 숙련", "은열쇠 충전", "검은 인장 획득", "피해 증폭", "죽음 저항"] },
+      "covenant": { "selection_type": "free", "recommended_stats": ["영역 숙련", "은열쇠 충전", "검은 인장 획득", "피해 증폭", "죽음 저항"] },
       "recommendStep": "명함",
-      "myeongryun_ssr": { "main_id": "wheel_wandering_desire", "substitutes": ["wheel_caro_party"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_scarlet", "substitutes": ["covenant_April", "covenant_36rings"] }
+      "settings_source": "chaos"
     }
   ],
   "hameln": [
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_backward_clock", "substitutes": [] },
+      "myeongryun_sr": { "main_id": "wheel_door_of_truth", "substitutes": ["wheel_meeting_moment", "wheel_channeling"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련 / 검은 인장 획득", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "피해 증폭 / 영역 숙련"], "main_stats_source_ids": ["chaos-013"] },
       "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_backward_clock"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_reEvolve"] }
+      "settings_source": "chaos"
     }
   ],
   "goliath": [
     {
-      "settingName": "범용",
+      "settingName": "레무리아",
+      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_in_the_hard_rain"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": [], "main_stats": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련"], "main_stats_source_ids": ["aequor-013"] },
       "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_in_the_hard_rain"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_grave"] }
+      "settings_source": "aequor"
     },
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_in_the_hard_rain"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_deus", "substitutes": ["covenant_ocean"], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"], "main_stats_source_ids": ["aequor-014"], "substitute_main_stats": { "covenant_ocean": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_ocean": ["aequor-014"] } },
       "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_dream_of_ocean", "substitutes": ["wheel_birth_of_soul"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
-      "covenant": { "main_id": "covenant_twins_black", "substitutes": [] }
+      "settings_source": "aequor"
     }
   ],
   "coporsant": [
     {
-      "settingName": "딜러",
+      "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_last_poem", "substitutes": ["wheel_death_of_coral_woman", "wheel_dusk_and_dawn"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_grave", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "죽음 저항", "영역 숙련", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["aequor-025"] },
       "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_last_poem", "substitutes": ["wheel_sword_of_giant", "wheel_the_day_threw_off_shackles"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
+      "settings_source": "aequor"
     },
     {
-      "settingName": "서폿",
+      "settingName": "초차원 조합",
+      "myeongryun_ssr": { "main_id": "wheel_last_poem", "substitutes": ["wheel_death_of_coral_woman", "wheel_dusk_and_dawn"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_snail", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "죽음 저항", "영역 숙련", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["aequor-026"] },
       "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_last_poem", "substitutes": ["wheel_the_day_threw_off_shackles", "wheel_death_of_coral_woman"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
-      "covenant": { "main_id": "covenant_grave", "substitutes": ["covenant_rabbit", "covenant_reEvolve"] }
+      "settings_source": "aequor"
     }
   ],
   "murphy": [
     {
       "settingName": "범용",
-      "recommendStep": "1돌",
       "myeongryun_ssr": { "main_id": "wheel_secret_birth", "substitutes": ["wheel_backward_clock"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_meeting_moment", "wheel_sleep_under_iceburg"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_twins_white"] }
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["aequor-004"] },
+      "recommendStep": "1돌",
+      "settings_source": "aequor"
+    },
+    {
+      "settingName": "은열쇠 서폿, 디버퍼",
+      "myeongryun_ssr": { "main_id": "wheel_secret_birth", "substitutes": ["wheel_backward_clock"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["aequor-005"] },
+      "recommendStep": "1돌",
+      "settings_source": "aequor"
     }
   ],
   "miryam": [
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_peace_sleep_in_dark", "substitutes": ["wheel_spring_of_yakut", "wheel_power_of_faith", "wheel_fontain"] },
+      "myeongryun_sr": { "main_id": "wheel_never_ending_calculation", "substitutes": ["wheel_heavy_of_duty", "wheel_channeling", "wheel_mind_wall"] },
+      "covenant": { "main_id": "covenant_deus", "substitutes": ["covenant_ocean"], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"], "main_stats_source_ids": ["aequor-016"], "substitute_main_stats": { "covenant_ocean": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_ocean": ["aequor-016"] } },
       "recommendStep": "2돌",
-      "myeongryun_ssr": { "main_id": "wheel_power_of_faith", "substitutes": ["wheel_never_ending_calculation", "wheel_merciful_upbringing"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire"] }
+      "settings_source": "aequor"
+    },
+    {
+      "settingName": "레무리아",
+      "myeongryun_ssr": { "main_id": "wheel_peace_sleep_in_dark", "substitutes": ["wheel_spring_of_yakut", "wheel_power_of_faith", "wheel_fontain"] },
+      "myeongryun_sr": { "main_id": "wheel_never_ending_calculation", "substitutes": ["wheel_heavy_of_duty", "wheel_channeling", "wheel_mind_wall"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": [], "main_stats": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련"], "main_stats_source_ids": ["aequor-017"] },
+      "recommendStep": "2돌",
+      "settings_source": "aequor"
+    },
+    {
+      "settingName": "은열쇠 세팅",
+      "myeongryun_ssr": { "main_id": "wheel_peace_sleep_in_dark", "substitutes": ["wheel_spring_of_yakut", "wheel_power_of_faith", "wheel_fontain"] },
+      "myeongryun_sr": { "main_id": "wheel_never_ending_calculation", "substitutes": ["wheel_heavy_of_duty", "wheel_channeling", "wheel_mind_wall"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["aequor-018"] },
+      "recommendStep": "2돌",
+      "settings_source": "aequor"
     }
   ],
   "sanga": [
     {
-      "settingName": "딜러",
+      "settingName": "궁 방밀 딜러",
+      "myeongryun_ssr": { "main_id": "wheel_death_of_coral_woman", "substitutes": ["wheel_last_poem", "wheel_solid_will"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_36rings", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["aequor-019"] },
       "recommendStep": "초한",
-      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_over_the_pain"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": ["wheel_magic_of_35mm"] },
-      "covenant": { "main_id": "covenant_36rings", "substitutes": ["covenant_grave"] }
+      "settings_source": "aequor"
     },
     {
-      "settingName": "탱커",
-      "recommendStep": "초한",
-      "myeongryun_ssr": { "main_id": "wheel_solid_will", "substitutes": ["wheel_over_the_pain"] },
+      "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_death_of_coral_woman", "substitutes": ["wheel_last_poem", "wheel_solid_will"] },
       "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_party", "substitutes": [] }
+      "covenant": { "main_id": "covenant_grave", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "죽음 저항", "영역 숙련", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["aequor-020"] },
+      "recommendStep": "초한",
+      "settings_source": "aequor"
+    },
+    {
+      "settingName": "은열쇠 셔틀",
+      "myeongryun_ssr": { "main_id": "wheel_death_of_coral_woman", "substitutes": ["wheel_last_poem", "wheel_solid_will"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["aequor-021"] },
+      "recommendStep": "초한",
+      "settings_source": "aequor"
+    },
+    {
+      "settingName": "영역 숙련 셔틀",
+      "myeongryun_ssr": { "main_id": "wheel_death_of_coral_woman", "substitutes": ["wheel_last_poem", "wheel_solid_will"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_ocean", "substitutes": ["covenant_deus"], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"], "main_stats_source_ids": ["aequor-022"], "substitute_main_stats": { "covenant_deus": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_deus": ["aequor-022"] } },
+      "recommendStep": "초한",
+      "settings_source": "aequor"
     }
   ],
   "celeste": [
     {
-      "settingName": "범용",
+      "settingName": "죽음 저항",
+      "myeongryun_ssr": { "selection_type": "free", "recommended_stats": ["죽음 저항"] },
+      "myeongryun_sr": { "selection_type": "free", "recommended_stats": ["죽음 저항"] },
+      "covenant": { "main_id": "covenant_grave", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "죽음 저항", "영역 숙련", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["aequor-023"] },
       "recommendStep": "1돌",
-      "myeongryun_ssr": { "main_id": "wheel_birth_of_soul", "substitutes": ["wheel_dusk_and_dawn"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_man_in_mirror"] },
-      "covenant": { "main_id": "covenant_rabbit", "substitutes": ["covenant_grave"] }
+      "settings_source": "aequor"
+    },
+    {
+      "settingName": "영역 숙련",
+      "myeongryun_ssr": { "selection_type": "free", "recommended_stats": ["영역 숙련"] },
+      "myeongryun_sr": { "selection_type": "free", "recommended_stats": ["영역 숙련"] },
+      "covenant": { "main_id": "covenant_ocean", "substitutes": ["covenant_deus"], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"], "main_stats_source_ids": ["aequor-024"], "substitute_main_stats": { "covenant_deus": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_deus": ["aequor-024"] } },
+      "recommendStep": "1돌",
+      "settings_source": "aequor"
     }
   ],
   "aurita": [
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_name_of_a_rose", "substitutes": ["wheel_dream_of_ocean", "wheel_backward_clock"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_blood", "substitutes": [], "main_stats": ["크리티컬 확률", "크리티컬 확률", "크리티컬 확률", "광기 회복", "광기 회복", "영역 숙련"], "main_stats_source_ids": ["aequor-011"] },
       "recommendStep": "명함, 3돌",
-      "myeongryun_ssr": { "main_id": "wheel_backward_clock", "substitutes": ["wheel_pathless_path","wheel_name_of_a_rose"] },
-      "myeongryun_sr": { "main_id": "wheel_meeting_moment", "substitutes": ["wheel_until_snowmt_melt", "wheel_dessection_of_death", "wheel_silver_fish"] },
-      "covenant": { "main_id": "covenant_blood", "substitutes": ["covenant_scarlet"] }
+      "settings_source": "aequor"
+    },
+    {
+      "settingName": "사야 파티",
+      "myeongryun_ssr": { "main_id": "wheel_name_of_a_rose", "substitutes": ["wheel_dream_of_ocean", "wheel_backward_clock"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_virgin", "substitutes": [], "main_stats": ["크리티컬 확률", "크리티컬 확률", "크리티컬 확률", "광기 회복", "광기 회복", "영역 숙련"], "main_stats_source_ids": ["aequor-012"] },
+      "recommendStep": "명함, 3돌",
+      "settings_source": "aequor"
     }
   ],
   "caecus": [
     {
-      "settingName": "탱커",
-      "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_fin_of_pain", "substitutes": ["wheel_birth_of_soul"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_man_in_mirror", "wheel_info_is_life", "wheel_int_the_nightshadow", "wheel_channeling"] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit"] }
+      "settingName": "반격 딜러",
+      "myeongryun_ssr": { "main_id": "wheel_fin_of_pain", "substitutes": ["wheel_wandering_desire", "wheel_falling_sun"] },
+      "myeongryun_sr": { "main_id": "wheel_int_the_nightshadow", "substitutes": [] },
+      "covenant": { "main_id": "covenant_wolf", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "검은 인장 획득", "은열쇠 충전", "검은 인장 획득"], "main_stats_source_ids": ["aequor-009"] },
+      "recommendStep": "초한",
+      "settings_source": "aequor"
     },
     {
-      "settingName": "반격",
+      "settingName": "힐러",
+      "myeongryun_ssr": { "main_id": "wheel_fin_of_pain", "substitutes": ["wheel_wandering_desire", "wheel_falling_sun"] },
+      "myeongryun_sr": { "main_id": "wheel_int_the_nightshadow", "substitutes": [] },
+      "covenant": { "main_id": "covenant_rabbit", "substitutes": [], "main_stats": ["자유", "영역 숙련", "자유", "영역 숙련", "자유", "영역 숙련"], "main_stats_source_ids": ["aequor-010"] },
       "recommendStep": "초한",
-      "myeongryun_ssr": { "main_id": "wheel_falling_sun", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": [] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_wolf"] }
+      "settings_source": "aequor"
     }
   ],
   "Murphy_Fauxborn": [
     {
-      "settingName": "서폿",
-      "recommendStep": "명함 ~ 2돌",
-      "myeongryun_ssr": { "main_id": "wheel_peace_sleep_in_dark", "substitutes": ["wheel_backward_clock", "wheel_merciful_upbringing"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_vampire"] }
+      "settingName": "딜러",
+      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_eternal_requiem", "wheel_peace_sleep_in_dark", "wheel_sword_of_giant", "wheel_backward_clock"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_blue_ring_poison"] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_vampire"], "main_stats": ["은열쇠 충전", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["aequor-006"], "substitute_main_stats": { "covenant_vampire": ["은열쇠 충전", "영역 숙련", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_vampire": ["aequor-007"] } },
+      "recommendStep": "3돌 ~ 초한",
+      "settings_source": "aequor"
     },
     {
-      "settingName": "딜러",
+      "settingName": "서포터",
+      "myeongryun_ssr": { "selection_type": "free", "recommended_stats": ["은열쇠 충전"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_blue_ring_poison"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_medicine"], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["aequor-007"], "substitute_main_stats": { "covenant_medicine": ["은열쇠 충전", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_medicine": ["aequor-006"] } },
       "recommendStep": "3돌 ~ 초한",
-      "myeongryun_ssr": { "main_id": "wheel_wheel_of_seclusion", "substitutes": ["wheel_sword_of_giant", "wheel_backward_clock"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth", "wheel_never_stop_show"] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_April"] }
+      "settings_source": "aequor"
     }
   ],
   "tulu": [
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_never_ending_calculation", "wheel_alice_lily"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_deus", "covenant_ocean"], "main_stats": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련"], "main_stats_source_ids": ["aequor-002"], "substitute_main_stats": { "covenant_deus": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"], "covenant_ocean": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_deus": ["aequor-003"], "covenant_ocean": ["aequor-003"] } },
       "recommendStep": "1돌",
-      "myeongryun_ssr": { "main_id": "wheel_hymn_of_godking", "substitutes": ["wheel_never_ending_calculation"] },
-      "myeongryun_sr": { "main_id": "wheel_dear_my_friend", "substitutes": ["wheel_blue_stone_seat", "wheel_channeling"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire"] }
+      "settings_source": "aequor"
     }
   ],
   "faros": [
     {
-      "settingName": "범용",
+      "settingName": "영역 숙련",
+      "myeongryun_ssr": { "selection_type": "free", "recommended_stats": ["영역 숙련"] },
+      "myeongryun_sr": { "selection_type": "free", "recommended_stats": ["영역 숙련"] },
+      "covenant": { "main_id": "covenant_deus", "substitutes": ["covenant_ocean"], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"], "main_stats_source_ids": ["aequor-008"], "substitute_main_stats": { "covenant_ocean": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_ocean": ["aequor-008"] } },
       "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_in_the_hard_rain", "substitutes": ["wheel_birth_of_soul"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": ["wheel_sleep_under_iceburg"] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit", "covenant_reEvolve"] }
+      "settings_source": "aequor"
     }
   ],
   "vortice": [
     {
-      "settingName": "추격 딜러",
+      "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_eden", "substitutes": ["wheel_you_and_me_will_meet", "wheel_birth_of_soul"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_deus", "substitutes": ["covenant_ocean"], "main_stats": ["크리티컬 피해", "영역 숙련", "크리티컬 피해", "영역 숙련", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["aequor-027"], "substitute_main_stats": { "covenant_ocean": ["크리티컬 피해", "영역 숙련", "크리티컬 피해", "영역 숙련", "은열쇠 충전", "영역 숙련"] }, "substitute_main_stats_source_ids": { "covenant_ocean": ["aequor-027"] } },
       "recommendStep": "3돌",
-      "myeongryun_ssr": { "main_id": "wheel_eden", "substitutes": ["wheel_voltex_of_memory", "wheel_you_and_me_will_meet"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_stucked_madness"] },
-      "covenant": { "main_id": "covenant_ocean", "substitutes": ["covenant_deus"] }
+      "settings_source": "aequor"
     },
     {
-      "settingName": "광기 폭발 딜러",
-      "recommendStep": "3돌 이상",
-      "myeongryun_ssr": { "main_id": "wheel_eden", "substitutes": ["wheel_voltex_of_memory", "wheel_you_and_me_will_meet"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_stucked_madness"] },
-      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_ocean"] }
+      "settingName": "딜뽕",
+      "myeongryun_ssr": { "main_id": "wheel_eden", "substitutes": ["wheel_you_and_me_will_meet", "wheel_birth_of_soul"] },
+      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": [], "main_stats": ["크리티컬 피해", "영역 숙련", "크리티컬 피해", "영역 숙련", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["aequor-028"] },
+      "recommendStep": "3돌",
+      "settings_source": "aequor"
     }
   ],
   "doresain": [
@@ -516,7 +631,7 @@
     {
       "settingName": "범용",
       "recommendStep": "명함, 3돌",
-      "myeongryun_ssr": { "main_id": "wheel_queens_precepts", "substitutes": ["wheel_fin_of_pain","wheel_wandering_desire"] },
+      "myeongryun_ssr": { "main_id": "wheel_queens_precepts", "substitutes": ["wheel_fin_of_pain", "wheel_wandering_desire"] },
       "myeongryun_sr": { "main_id": "wheel_int_the_nightshadow", "substitutes": ["wheel_channeling"] },
       "covenant": { "main_id": "covenant_wolf", "substitutes": ["covenant_medicine"] }
     }
@@ -631,53 +746,69 @@
   "doll": [
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_over_the_death", "substitutes": ["wheel_sail_that_guides"] },
+      "myeongryun_sr": { "main_id": "wheel_heavy_of_duty", "substitutes": [] },
+      "covenant": { "main_id": "covenant_rabbit", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["chaos-004"] },
       "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_death", "substitutes": ["wheel_doll_falls_void"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_heavy_of_duty"] },
-      "covenant": { "main_id": "covenant_reEvolve", "substitutes": ["covenant_vampire", "covenant_grave"] }
+      "settings_source": "chaos"
     }
   ],
   "ramona": [
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_spring_of_yakut", "substitutes": [] },
+      "myeongryun_sr": { "main_id": "wheel_door_of_truth", "substitutes": ["wheel_channeling"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_deus", "covenant_reEvolve", "covenant_grave"], "main_stats": ["은열쇠 충전", "영역 숙련 / 검은 인장 획득", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "영역 숙련 / 피해 증폭"], "main_stats_source_ids": ["chaos-001"] },
       "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_backward_clock", "wheel_memories_of_winter_night"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_deus"] }
+      "settings_source": "chaos"
     }
   ],
   "lotan": [
     {
       "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_spring_of_yakut", "substitutes": ["wheel_dusk_and_dawn"] },
+      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": [] },
+      "covenant": { "main_id": "covenant_grave", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련", "죽음 저항", "은열쇠 충전", "죽음 저항", "죽음 저항"], "main_stats_source_ids": ["chaos-006"] },
       "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_over_the_pain", "substitutes": ["wheel_star_beast", "wheel_the_day_threw_off_shackles", "wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_hand_of_forget", "substitutes": ["wheel_cut_and_hurt"] },
-      "covenant": { "main_id": "covenant_medicine", "substitutes": ["covenant_scarlet"] }
+      "settings_source": "chaos"
     }
   ],
   "ogier": [
     {
-      "settingName": "범용",
+      "settingName": "탱커",
+      "myeongryun_ssr": { "main_id": "wheel_auth_of_knight", "substitutes": ["wheel_dusk_and_dawn"] },
+      "myeongryun_sr": { "main_id": "wheel_guide_in_the_torch", "substitutes": [] },
+      "covenant": { "selection_type": "free", "recommended_stats": ["죽음 저항", "영역 숙련"] },
       "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_auth_of_knight", "substitutes": ["wheel_birth_of_soul"] },
-      "myeongryun_sr": { "main_id": "wheel_non-existent", "substitutes": [] },
-      "covenant": { "main_id": "covenant_party", "substitutes": ["covenant_rabbit"] }
+      "settings_source": "chaos"
     }
   ],
   "ramona_timeworn": [
     {
-      "settingName": "서폿",
+      "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_spring_of_yakut", "substitutes": ["wheel_pure_silver_light"] },
+      "myeongryun_sr": { "main_id": "wheel_door_of_truth", "substitutes": ["wheel_channeling"] },
+      "covenant": { "main_id": "covenant_vampire", "substitutes": [], "main_stats": ["은열쇠 충전", "영역 숙련 / 검은 인장 획득", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "피해 증폭 / 영역 숙련"], "main_stats_source_ids": ["chaos-002"] },
       "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_backward_clock"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_reEvolve"] }
+      "settings_source": "chaos"
     },
     {
-      "settingName": "딜러",
+      "settingName": "은열쇠 충분할 때",
+      "myeongryun_ssr": { "main_id": "wheel_spring_of_yakut", "substitutes": ["wheel_pure_silver_light"] },
+      "myeongryun_sr": { "main_id": "wheel_door_of_truth", "substitutes": ["wheel_channeling"] },
+      "covenant": { "main_id": "covenant_reEvolve", "substitutes": [], "main_stats": ["광기 회복", "영역 숙련 / 검은 인장 획득", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련 / 피해 증폭"], "main_stats_source_ids": ["chaos-003"] },
       "recommendStep": "풀돌",
-      "myeongryun_ssr": { "main_id": "wheel_eternal_requiem", "substitutes": ["wheel_sword_of_giant"] },
-      "myeongryun_sr": { "main_id": "wheel_dessection_of_death", "substitutes": [] },
-      "covenant": { "main_id": "covenant_betray", "substitutes": ["covenant_April", "covenant_grave"] }
+      "settings_source": "chaos"
+    }
+  ],
+  "pontos": [
+    {
+      "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_living_prison", "substitutes": ["wheel_star_beast", "wheel_fontain"] },
+      "myeongryun_sr": { "main_id": "wheel_pontos_sr", "substitutes": [] },
+      "covenant": { "main_id": "covenant_medicine", "substitutes": [], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "영역 숙련"], "main_stats_source_ids": ["aequor-029"] },
+      "recommendStep": "정보글 기준",
+      "settings_source": "aequor"
     }
   ]
 }

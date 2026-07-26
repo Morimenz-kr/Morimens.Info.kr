@@ -475,6 +475,59 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         gap: 10px !important;              /* 이미지와 글자 사이 간격 */
     }
 
+    .recommend-right > .wheel-pair {
+        grid-column: 1 / -1 !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 96px)) !important;
+        grid-template-rows: auto auto auto !important;
+        column-gap: 24px !important;
+        row-gap: 12px !important;
+        position: relative !important;
+        justify-content: center !important;
+        padding-top: 0;
+        box-sizing: border-box;
+    }
+
+    .wheel-pair-heading {
+        position: static;
+        grid-column: 1 / -1;
+        margin-bottom: 4px;
+    }
+
+    .wheel-options-link {
+        position: static;
+        grid-column: 1 / -1;
+        justify-self: center;
+        min-width: 150px;
+        min-height: 44px;
+        padding: 8px 14px;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        text-decoration: underline;
+        transform: none;
+    }
+
+    .wheel-pair > .equip-slot {
+        width: 96px !important;
+        height: auto !important;
+        gap: 8px !important;
+    }
+
+    .wheel-pair > .equip-slot > .equip-label-spacer,
+    .wheel-pair .sub-link-spacer {
+        display: none;
+    }
+
+    .wheel-pair .equip-name-label {
+        width: 100%;
+        min-height: 2.4em;
+        white-space: normal;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
+    }
+
+
     /* 5. 비밀계약 전체 너비 및 강조 */
     .recommend-right > div:last-child {
         grid-column: 1 / -1 !important;
@@ -489,9 +542,22 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         height: auto !important;
     }
 
+    .equip-stat-card {
+        width: 80px !important;
+        height: auto !important;
+        min-height: 162px;
+    }
+
     .equip-img-covenant {
         width: 100% !important;
         max-width: 160px !important; /* 🔥 비밀계약 이미지 대폭 확대 */
+        height: auto !important;
+        margin: 0 auto !important;
+    }
+
+    .equip-covenant-free {
+        width: 100% !important;
+        max-width: 160px !important;
         height: auto !important;
         margin: 0 auto !important;
     }

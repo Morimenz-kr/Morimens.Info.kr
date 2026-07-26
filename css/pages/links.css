@@ -561,12 +561,83 @@
     min-width: 0;          /* 고정 너비 삭제 */
 }
 
+.wheel-pair {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    height: 100%;
+}
+
+.wheel-pair-heading {
+    position: absolute;
+    top: 8%;
+    left: 0;
+    right: 0;
+    color: #aaa;
+    font-size: 0.8em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.wheel-options-link {
+    position: absolute;
+    bottom: 4%;
+    left: 50%;
+    min-width: 120px;
+    min-height: 24px;
+    padding: 4px 10px;
+    border: 0;
+    background: transparent;
+    color: #aaa;
+    font: inherit;
+    font-size: 0.75em;
+    text-decoration: underline;
+    cursor: pointer;
+    transform: translateX(-50%);
+}
+
+.wheel-options-link:hover,
+.wheel-options-link:focus-visible {
+    color: #ffc107;
+}
+
+.wheel-options-link:focus-visible {
+    outline: 2px solid #ffc107;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
 .equip-img-myeongryun {
     height: 60%;
     aspect-ratio: 225 / 456;
     object-fit: cover;
     border-radius: 6px;
     border: 1px solid #555;
+}
+
+.equip-stat-card {
+    height: 60%;
+    aspect-ratio: 225 / 456;
+    box-sizing: border-box;
+    border-radius: 6px;
+    border: 1px solid #555;
+    background: #2a2a32;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 6px;
+    text-align: center;
+}
+
+.equip-stat-value {
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    overflow-wrap: anywhere;
 }
 
 .equip-img-covenant {
@@ -577,11 +648,30 @@
     border: 1px solid #555;
 }
 
+.equip-covenant-free {
+    height: 60%;
+    aspect-ratio: 1 / 1;
+    box-sizing: border-box;
+    border: 1px dashed #555;
+    border-radius: 6px;
+    background: #24242a;
+    color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
 /* 슬롯 하단 라벨 텍스트 */
 .equip-label {
     font-size: 0.8em;
     color: #aaa;
     white-space: nowrap;
+}
+
+.equip-label-spacer {
+    visibility: hidden;
 }
 
 /* 대체 텍스트 버튼 스타일 */
@@ -601,6 +691,10 @@
     text-decoration: none; /* 밑줄 제거 */
     cursor: default;      /* 커서 기본으로 */
     pointer-events: none;  /* 클릭 차단 */
+}
+
+.sub-link-spacer {
+    visibility: hidden;
 }
 
 
@@ -638,6 +732,18 @@
     box-sizing: border-box;
 }
 
+#substitute-modal.stat-only .modal-content {
+    min-width: min(300px, calc(100vw - 32px));
+}
+
+#substitute-modal.stat-only .modal-header {
+    padding-bottom: 12px;
+}
+
+#substitute-modal.stat-only #sub-modal-body {
+    padding-top: 0;
+}
+
 #sub-modal-body {
     overflow-x: hidden;
     overflow-y: auto;
@@ -655,6 +761,160 @@
 .substitute-grid.cols-2 { grid-template-columns: repeat(2, minmax(120px, 150px)); }
 .substitute-grid.cols-3 { grid-template-columns: repeat(3, minmax(120px, 150px)); }
 .substitute-grid.cols-4 { grid-template-columns: repeat(4, minmax(120px, 150px)); }
+
+.stat-recommendation-section {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #444;
+}
+
+.stat-chip-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.stat-chip {
+    padding: 7px 10px;
+    border: 1px solid #555;
+    border-radius: 999px;
+    background: #2a2a32;
+    color: #eee;
+    font-size: 0.8rem;
+}
+
+.wheel-options-layout {
+    display: grid;
+    grid-template-columns: var(--wheel-options-columns, 1fr);
+    gap: 0;
+    width: auto;
+    max-width: calc(100vw - 80px);
+    padding-top: 20px;
+    box-sizing: border-box;
+}
+
+.wheel-option-column {
+    min-width: 0;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.wheel-option-column + .wheel-option-column {
+    border-left: 1px solid #444;
+}
+
+.wheel-option-column h3 {
+    margin: 0 0 16px;
+    color: #ccc;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.wheel-option-items {
+    display: grid;
+    gap: 16px 10px;
+}
+
+.wheel-option-recommended .wheel-option-items {
+    grid-template-columns: repeat(var(--recommended-columns, 3), minmax(80px, 1fr));
+}
+
+.wheel-option-substitute .wheel-option-items {
+    grid-template-columns: repeat(var(--substitute-columns, 3), minmax(80px, 1fr));
+}
+
+.wheel-option-items .sub-item-vertical {
+    padding: 10px;
+}
+
+.wheel-options-layout.sections-1 .wheel-option-stats {
+    min-height: 88px;
+}
+
+.wheel-options-layout.sections-1 .wheel-option-stats .wheel-option-stat-content {
+    position: static;
+    width: auto;
+    padding-top: 12px;
+    transform: none;
+}
+
+.wheel-option-stats {
+    position: relative;
+}
+
+.wheel-option-stats .wheel-option-stat-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(100% - 24px);
+    transform: translate(-50%, -50%);
+}
+
+.wheel-option-stat-guide {
+    margin: 0 0 12px;
+    color: #999;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    text-align: center;
+    word-break: keep-all;
+}
+
+.wheel-option-stats .stat-chip-list {
+    justify-content: center;
+}
+
+.wheel-option-empty {
+    padding: 20px 0;
+    color: #666;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.covenant-free-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 16px;
+    width: min(680px, calc(100vw - 80px));
+}
+
+.covenant-free-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+@media (max-width: 992px) {
+    .wheel-options-layout {
+        grid-template-columns: 1fr;
+        width: min(100%, calc(100vw - 64px));
+        gap: 0;
+        padding-top: 14px;
+    }
+
+    .wheel-option-column {
+        padding: 16px 0;
+    }
+
+    .wheel-option-column + .wheel-option-column {
+        border-top: 1px solid #444;
+        border-left: 0;
+    }
+
+    .wheel-option-stats .wheel-option-stat-content {
+        position: static;
+        width: auto;
+        transform: none;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .wheel-option-column .wheel-option-items {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    }
+}
 
 /* 비밀계약 전용 모달 크기 (넓은 레이아웃) */
 .modal-covenant {
