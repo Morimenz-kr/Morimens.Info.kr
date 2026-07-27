@@ -1787,7 +1787,23 @@ async function ensureResourceLinksPendingBranch(env) {
     if (pendingRef && openPr) return pendingRef;
     if (pendingRef) {
         if (pendingRef.object.sha === baseRef.object.sha) return pendingRef;
-        return updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha, false);
+
+        const [baseFile, pendingFile] = await Promise.all([
+            getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
+            getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH)
+        ]);
+        const pendingAdditions = collectPendingResourceLinkAdditions(
+            JSON.parse(baseFile.content),
+            JSON.parse(pendingFile.content)
+        );
+
+        if (pendingAdditions.length === 0) {
+            return updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha, true);
+        }
+
+        const pullRequest = await ensureResourceLinksPullRequest(env);
+        await updateResourceLinksPullRequestSummary(env, pullRequest, pendingFile.content);
+        return pendingRef;
     }
 
     return createGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha);
