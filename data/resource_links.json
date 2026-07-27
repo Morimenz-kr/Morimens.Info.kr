@@ -1671,7 +1671,13 @@
       "title": "🎸 기타(과금 효율, 기타 등등..)",
       "links": 
       [
-        {
+                {
+          "url": "https://arca.live/b/forgettingeve/178100104",
+          "title": "망각전야 2.5.3V 과금 효율표",
+          "desc": "",
+          "image": "https://ac.namu.la/20260727sac/233eae4ba0014b91e695a318406eae1c83b83ab56cfed605f868445e480fb95f.png?expires=1785123606&key=6zw6ZXQxCEyGQZ5ffAhOIQ&type=list"
+        },
+{
           "url": "https://arca.live/b/forgettingeve/176732628",
           "title": "한 달 가챠권 수급량 계산",
           "desc": "(26.07.16 수정. 패스 680은심 추가,패스 28일 그대로 냅뒀던 거 30일로 환산, 체스 보상 추가26.07.19 수정.고급패스 추가, 캐릭체험 보상 쌀먹 제보 확인함, 패스명륜 대신 5뽑 선택 가능, 융재",
@@ -3717,13 +3723,6 @@
         "title": "회귀 라모나 캐릭터 정보",
         "desc": "안녕 안녕 환모나에 대해 알아보자공략이 하나는 있을줄 알았는데 없더라 ?? 빈칸 채우기 하고 있으니까 오늘은 이거다내 공략 다 그렇지만 역시 ㅈㄴ 주관적이니까 알아서 걸러듣고 피드백 마니해주셈빼먹었거나 내가 잘못알고",
         "image": "https://ac-p1.namu.la/20260118sac/1f5828859a6ec3dd5d72ea1b1f065507c9da459f8fbc07ee5157f20eff519503.png?expires=1768912529&key=85nzDYkmrJ-zRTXsGI8a1Q"
-      }
-    ],
-    "lotan_cetarchon": [
-      {
-        "url": "https://arca.live/b/forgettingeve/178103784",
-        "title": "침탄 대체 명륜을 찾아봄",
-        "desc": ""
       }
     ]
   }
