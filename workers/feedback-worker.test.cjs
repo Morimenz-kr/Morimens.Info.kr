@@ -19,7 +19,8 @@ function loadWorkerInternals() {
             buildResourceUpdateResultMessage,
             buildResourceComponents,
             parseResourceDecision,
-            normalizeResourceSelection
+            normalizeResourceSelection,
+            ensureResourceLinksPendingBranch
         };
     `)();
 }
@@ -32,7 +33,8 @@ const {
     buildResourceUpdateResultMessage,
     buildResourceComponents,
     parseResourceDecision,
-    normalizeResourceSelection
+    normalizeResourceSelection,
+    ensureResourceLinksPendingBranch
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 
@@ -234,4 +236,45 @@ test('실제 resource_links에는 침식 로탄 키가 하나만 있고 대기 �
         'https://arca.live/b/forgettingeve/178113456',
         'https://arca.live/b/forgettingeve/178103784'
     ]);
+});
+
+test('닫힌 PR의 pending 브랜치에 새 링크가 없으면 main으로 안전하게 재설정한다', async () => {
+    const originalFetch = global.fetch;
+    const updates = [];
+    const content = Buffer.from(JSON.stringify({ categories: {}, characters: {} }), 'utf8').toString('base64');
+
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.includes('/pulls?')) return Response.json([]);
+        if (requestUrl.includes('/git/ref/heads/resource-links/pending')) {
+            return Response.json({ object: { sha: 'pending-sha' } });
+        }
+        if (requestUrl.includes('/git/ref/heads/main')) {
+            return Response.json({ object: { sha: 'main-sha' } });
+        }
+        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=main')) {
+            return Response.json({ sha: 'main-file-sha', content, encoding: 'base64' });
+        }
+        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=resource-links%2Fpending')) {
+            return Response.json({ sha: 'pending-file-sha', content, encoding: 'base64' });
+        }
+        if (requestUrl.includes('/git/refs/heads/resource-links/pending') && options.method === 'PATCH') {
+            updates.push(JSON.parse(options.body));
+            return Response.json({ object: { sha: 'main-sha' } });
+        }
+        throw new Error(`unexpected request: ${options.method || 'GET'} ${requestUrl}`);
+    };
+
+    try {
+        const result = await ensureResourceLinksPendingBranch({
+            GITHUB_OWNER: 'example',
+            GITHUB_REPO: 'repo',
+            GITHUB_TOKEN: 'test-token'
+        });
+
+        assert.equal(result.object.sha, 'main-sha');
+        assert.deepEqual(updates, [{ sha: 'main-sha', force: true }]);
+    } finally {
+        global.fetch = originalFetch;
+    }
 });
