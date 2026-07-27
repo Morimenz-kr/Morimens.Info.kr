@@ -1410,13 +1410,7 @@ async function processResourceDecision(env, interaction, decision) {
         });
 
         await editDiscordMessage(env, interaction, {
-            content: [
-                'resource_links 배치 PR 업데이트 완료',
-                `PR: ${result.prUrl}`,
-                `추가: ${result.added.map(formatTarget).join(', ') || 'none'}`,
-                `이미 존재: ${result.skipped.map(formatTarget).join(', ') || 'none'}`,
-                `누락 대상: ${result.missing.map(formatTarget).join(', ') || 'none'}`
-            ].join('\n'),
+            content: buildResourceUpdateResultMessage(result),
             components: buildResourceComponents(decision.proposalId, true, selection)
         });
     } catch (error) {
@@ -1475,7 +1469,9 @@ function buildResourceLinksUpdate(content, link, targets) {
     let updatedContent = content;
 
     for (const target of uniqueTargets) {
-        const list = getTargetList(db, target);
+        const missingCharacterTarget = target.type === 'character'
+            && !Array.isArray(db.characters?.[target.id]);
+        const list = missingCharacterTarget ? [] : getTargetList(db, target);
         if (!list) {
             result.missing.push(target);
             continue;
@@ -1486,14 +1482,22 @@ function buildResourceLinksUpdate(content, link, targets) {
             continue;
         }
 
-        const insertion = buildResourceLinkInsertion(updatedContent, target, removeEmptyLinkFields(link));
+        const normalizedLink = removeEmptyLinkFields(link);
+        const insertion = missingCharacterTarget
+            ? buildMissingCharacterLinkInsertion(updatedContent, target, normalizedLink)
+            : buildResourceLinkInsertion(updatedContent, target, normalizedLink);
         if (!insertion) {
             result.missing.push(target);
             continue;
         }
 
         updatedContent = insertion;
-        list.unshift(removeEmptyLinkFields(link));
+        if (missingCharacterTarget) {
+            if (!db.characters) db.characters = {};
+            db.characters[target.id] = [normalizedLink];
+        } else {
+            list.unshift(normalizedLink);
+        }
         result.added.push(target);
     }
 
@@ -1501,6 +1505,29 @@ function buildResourceLinksUpdate(content, link, targets) {
         ...result,
         content: updatedContent
     };
+}
+
+function buildResourceUpdateResultMessage(result) {
+    const lines = [];
+
+    if (result.added.length > 0) {
+        lines.push('resource_links 배치 PR 업데이트 완료');
+    } else if (result.missing.length > 0) {
+        lines.push('resource_links 업데이트 실패: 등록 대상을 찾지 못했습니다.');
+    } else {
+        lines.push('resource_links 변경 없음: 선택한 대상에 이미 등록되어 있습니다.');
+    }
+
+    if (result.prUrl && result.prUrl !== 'no open PR') {
+        lines.push(`PR: ${result.prUrl}`);
+    }
+    lines.push(
+        `추가: ${result.added.map(formatTarget).join(', ') || 'none'}`,
+        `이미 존재: ${result.skipped.map(formatTarget).join(', ') || 'none'}`,
+        `누락 대상: ${result.missing.map(formatTarget).join(', ') || 'none'}`
+    );
+
+    return lines.join('\n');
 }
 
 function buildResourceLinkInsertion(content, target, link) {
@@ -1516,6 +1543,72 @@ function buildResourceLinkInsertion(content, target, link) {
     const comma = listInfo.hasItems ? ',\n' : '\n';
 
     return `${content.slice(0, listInfo.insertIndex)}${itemText}${comma}${content.slice(listInfo.insertIndex)}`;
+}
+
+function buildMissingCharacterLinkInsertion(content, target, link) {
+    const charactersKey = content.indexOf('"characters"');
+    if (charactersKey < 0) return null;
+
+    const objectStart = content.indexOf('{', charactersKey);
+    const objectEnd = findMatchingJsonDelimiter(content, objectStart, '{', '}');
+    if (objectStart < 0 || objectEnd < 0) return null;
+
+    let bodyEnd = objectEnd;
+    while (bodyEnd > objectStart + 1 && /\s/.test(content[bodyEnd - 1])) {
+        bodyEnd -= 1;
+    }
+
+    const lineStart = content.lastIndexOf('\n', charactersKey) + 1;
+    const objectIndent = content.slice(lineStart, charactersKey).match(/^\s*/)?.[0] || '';
+    const propertyIndent = `${objectIndent}  `;
+    const valueText = JSON.stringify([link], null, 2)
+        .split('\n')
+        .map((line, index) => index === 0 ? line : `${propertyIndent}${line}`)
+        .join('\n');
+    const propertyText = `${propertyIndent}"${escapeJsonString(target.id)}": ${valueText}`;
+    const hasProperties = content.slice(objectStart + 1, bodyEnd).trim().length > 0;
+    const trailingWhitespace = content.slice(bodyEnd, objectEnd) || `\n${objectIndent}`;
+
+    return [
+        content.slice(0, bodyEnd),
+        hasProperties ? ',\n' : '\n',
+        propertyText,
+        trailingWhitespace,
+        content.slice(objectEnd)
+    ].join('');
+}
+
+function findMatchingJsonDelimiter(content, startIndex, openChar, closeChar) {
+    if (startIndex < 0 || content[startIndex] !== openChar) return -1;
+
+    let depth = 0;
+    let inString = false;
+    let escaped = false;
+
+    for (let index = startIndex; index < content.length; index += 1) {
+        const char = content[index];
+        if (inString) {
+            if (escaped) {
+                escaped = false;
+            } else if (char === '\\') {
+                escaped = true;
+            } else if (char === '"') {
+                inString = false;
+            }
+            continue;
+        }
+
+        if (char === '"') {
+            inString = true;
+        } else if (char === openChar) {
+            depth += 1;
+        } else if (char === closeChar) {
+            depth -= 1;
+            if (depth === 0) return index;
+        }
+    }
+
+    return -1;
 }
 
 function findTargetArray(content, target) {
@@ -1603,7 +1696,8 @@ async function ensureResourceLinksPendingBranch(env) {
 
     if (pendingRef && openPr) return pendingRef;
     if (pendingRef) {
-        return updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha, true);
+        if (pendingRef.object.sha === baseRef.object.sha) return pendingRef;
+        return updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha, false);
     }
 
     return createGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha);
@@ -1937,22 +2031,20 @@ async function getGitHubFile(env, path, ref) {
     let content;
     if (data.content) {
         content = base64ToUtf8(data.content);
-    } else if (data.download_url) {
-        const rawResponse = await fetch(data.download_url, {
-            headers: {
-                'Accept': 'application/vnd.github.raw+json',
-                'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
-                'User-Agent': 'morimens-feedback-worker',
-                'X-GitHub-Api-Version': '2022-11-28'
-            }
-        });
-        if (!rawResponse.ok) {
-            const detail = await rawResponse.text();
-            throw new Error(`GitHub raw file fetch failed: ${rawResponse.status} ${detail.slice(0, 300)}`);
+    } else if (data.sha) {
+        const blobResponse = await githubJsonFetch(env, `/git/blobs/${encodeURIComponent(data.sha)}`, { method: 'GET' });
+        if (!blobResponse.ok) {
+            const detail = await blobResponse.text();
+            throw new Error(`GitHub blob fetch failed: ${blobResponse.status} ${detail.slice(0, 300)}`);
         }
-        content = await rawResponse.text();
+
+        const blob = await blobResponse.json();
+        if (!blob.content || blob.encoding !== 'base64') {
+            throw new Error(`GitHub blob content is unavailable: ${blob.encoding || 'unknown encoding'}`);
+        }
+        content = base64ToUtf8(blob.content);
     } else {
-        throw new Error('GitHub file content is empty and download_url is missing');
+        throw new Error('GitHub file content is empty and blob SHA is missing');
     }
 
     return {

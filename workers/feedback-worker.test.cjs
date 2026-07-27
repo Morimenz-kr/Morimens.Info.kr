@@ -11,11 +11,23 @@ function loadWorkerInternals() {
 
     return new Function(`
         ${source}
-        return { extractArcaPostsFromList, fetchArcaPostDetail, getGitHubFile };
+        return {
+            extractArcaPostsFromList,
+            fetchArcaPostDetail,
+            getGitHubFile,
+            buildResourceLinksUpdate,
+            buildResourceUpdateResultMessage
+        };
     `)();
 }
 
-const { extractArcaPostsFromList, fetchArcaPostDetail, getGitHubFile } = loadWorkerInternals();
+const {
+    extractArcaPostsFromList,
+    fetchArcaPostDetail,
+    getGitHubFile,
+    buildResourceLinksUpdate,
+    buildResourceUpdateResultMessage
+} = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 
 test('정보 탭 고정 공지는 새 정보글로 수집하지 않는다', () => {
@@ -103,7 +115,7 @@ test('상세 페이지가 요청 제한되면 목록 데이터로 제안을 계�
     }
 });
 
-test('GitHub Contents API가 대용량 파일 내용을 생략하면 원문 URL로 다시 읽는다', async () => {
+test('GitHub Contents API가 대용량 파일 내용을 생략하면 immutable blob SHA로 다시 읽는다', async () => {
     const originalFetch = global.fetch;
     const calls = [];
     global.fetch = async url => {
@@ -116,7 +128,11 @@ test('GitHub Contents API가 대용량 파일 내용을 생략하면 원문 URL�
                 download_url: 'https://raw.githubusercontent.com/example/resource_links.json'
             });
         }
-        return new Response('{"categories":{},"characters":{}}', { status: 200 });
+        return Response.json({
+            sha: 'large-file-sha',
+            encoding: 'base64',
+            content: Buffer.from('{"categories":{},"characters":{}}', 'utf8').toString('base64')
+        });
     };
 
     try {
@@ -129,8 +145,42 @@ test('GitHub Contents API가 대용량 파일 내용을 생략하면 원문 URL�
         assert.equal(file.sha, 'large-file-sha');
         assert.equal(file.content, '{"categories":{},"characters":{}}');
         assert.equal(calls.length, 2);
-        assert.equal(calls[1], 'https://raw.githubusercontent.com/example/resource_links.json');
+        assert.equal(calls[1], 'https://api.github.com/repos/example/repo/git/blobs/large-file-sha');
     } finally {
         global.fetch = originalFetch;
     }
+});
+
+test('resource_links에 없는 캐릭터 대상은 새 배열을 만들어 링크를 추가한다', () => {
+    const source = JSON.stringify({
+        categories: {},
+        characters: {
+            lotan: []
+        }
+    }, null, 2);
+    const link = {
+        url: 'https://arca.live/b/forgettingeve/178103784',
+        title: '침탄 대체 명륜을 찾아봄',
+        desc: ''
+    };
+
+    const result = buildResourceLinksUpdate(source, link, ['character:lotan_cetarchon']);
+    const updated = JSON.parse(result.content);
+
+    assert.deepEqual(result.added, [{ type: 'character', id: 'lotan_cetarchon' }]);
+    assert.deepEqual(result.missing, []);
+    assert.deepEqual(updated.characters.lotan_cetarchon, [link]);
+});
+
+test('누락 대상만 있을 때 PR 업데이트 완료라고 안내하지 않는다', () => {
+    const message = buildResourceUpdateResultMessage({
+        added: [],
+        skipped: [],
+        missing: [{ type: 'category', id: 'unknown' }],
+        prUrl: 'no open PR'
+    });
+
+    assert.match(message, /^resource_links 업데이트 실패:/);
+    assert.doesNotMatch(message, /PR 업데이트 완료/);
+    assert.doesNotMatch(message, /PR: no open PR/);
 });
