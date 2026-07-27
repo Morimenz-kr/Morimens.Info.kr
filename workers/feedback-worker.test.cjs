@@ -16,7 +16,10 @@ function loadWorkerInternals() {
             fetchArcaPostDetail,
             getGitHubFile,
             buildResourceLinksUpdate,
-            buildResourceUpdateResultMessage
+            buildResourceUpdateResultMessage,
+            buildResourceComponents,
+            parseResourceDecision,
+            normalizeResourceSelection
         };
     `)();
 }
@@ -26,7 +29,10 @@ const {
     fetchArcaPostDetail,
     getGitHubFile,
     buildResourceLinksUpdate,
-    buildResourceUpdateResultMessage
+    buildResourceUpdateResultMessage,
+    buildResourceComponents,
+    parseResourceDecision,
+    normalizeResourceSelection
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 
@@ -183,4 +189,49 @@ test('누락 대상만 있을 때 PR 업데이트 완료라고 안내하지 않�
     assert.match(message, /^resource_links 업데이트 실패:/);
     assert.doesNotMatch(message, /PR 업데이트 완료/);
     assert.doesNotMatch(message, /PR: no open PR/);
+});
+
+test('중복된 캐릭터 키가 있으면 잘못된 배열에 쓰지 않고 중단한다', () => {
+    const source = `{
+        "categories": {},
+        "characters": {
+            "lotan_cetarchon": [],
+            "lotan_cetarchon": [{"url":"https://example.com/existing","title":"기존 글","desc":""}]
+        }
+    }`;
+
+    assert.throws(() => buildResourceLinksUpdate(source, {
+        url: 'https://example.com/new',
+        title: '새 글',
+        desc: ''
+    }, ['character:lotan_cetarchon']), /중복 캐릭터 키/);
+});
+
+test('선택 반영 버튼은 화면에 표시된 선택 상태 revision을 포함한다', () => {
+    const proposalId = 'a'.repeat(32);
+    const selection = normalizeResourceSelection({
+        targets: ['character:lotan_cetarchon'],
+        activeRelems: 'chaos',
+        revision: '1234abcd'
+    });
+    const [actionRow] = buildResourceComponents(proposalId, false, selection);
+    const approveSelected = actionRow.components.find(component => component.label === '선택 반영');
+    const decision = parseResourceDecision({
+        data: { custom_id: approveSelected.custom_id }
+    });
+
+    assert.equal(approveSelected.custom_id, `rl:approve-selected:${proposalId}:1234abcd`);
+    assert.equal(decision.selectionRevision, '1234abcd');
+});
+
+test('실제 resource_links에는 침식 로탄 키가 하나만 있고 대기 링크도 보존된다', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', 'data', 'resource_links.json'), 'utf8');
+    const occurrences = source.match(/"lotan_cetarchon"\s*:/g) || [];
+    const links = JSON.parse(source).characters.lotan_cetarchon;
+
+    assert.equal(occurrences.length, 1);
+    assert.deepEqual(links.map(link => link.url), [
+        'https://arca.live/b/forgettingeve/178113456',
+        'https://arca.live/b/forgettingeve/178103784'
+    ]);
 });

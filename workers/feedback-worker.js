@@ -1036,6 +1036,7 @@ function buildResourceComponents(proposalId, disabled = false, selection = defau
     const activeRelems = normalizeRelems(selection.activeRelems);
     const selectedKeys = new Set(normalizeTargets(selection.targets || []).map(target => `${target.type}:${target.id}`));
     const activeCharacters = RESOURCE_CHARACTERS.filter(character => character.relems === activeRelems);
+    const selectionRevision = normalizeResourceSelectionRevision(selection.revision);
 
     return [
         {
@@ -1052,7 +1053,7 @@ function buildResourceComponents(proposalId, disabled = false, selection = defau
                     type: 2,
                     style: 1,
                     label: '선택 반영',
-                    custom_id: `rl:approve-selected:${proposalId}`,
+                    custom_id: `rl:approve-selected:${proposalId}:${selectionRevision}`,
                     disabled
                 },
                 {
@@ -1150,7 +1151,8 @@ function formatTargetLabel(target) {
 function defaultResourceSelection() {
     return {
         targets: [],
-        activeRelems: DEFAULT_ACTIVE_RELEMS
+        activeRelems: DEFAULT_ACTIVE_RELEMS,
+        revision: '0'
     };
 }
 
@@ -1158,9 +1160,19 @@ function normalizeResourceSelection(selection) {
     return {
         targets: normalizeTargets(selection?.targets || []),
         activeRelems: normalizeRelems(selection?.activeRelems),
+        revision: normalizeResourceSelectionRevision(selection?.revision),
         updatedAt: selection?.updatedAt || null,
         updatedBy: selection?.updatedBy || null
     };
+}
+
+function normalizeResourceSelectionRevision(revision) {
+    const value = String(revision || '0');
+    return /^[a-f0-9]{1,16}$/.test(value) ? value : '0';
+}
+
+function createResourceSelectionRevision() {
+    return crypto.randomUUID().replaceAll('-', '').slice(0, 16);
 }
 
 function normalizeRelems(relems) {
@@ -1283,6 +1295,9 @@ function parseResourceDecision(interaction) {
         return {
             action,
             proposalId,
+            selectionRevision: action === 'approve-selected'
+                ? normalizeResourceSelectionRevision(parts[3])
+                : null,
             targets: action === 'categories' ? normalizeTargets(interaction.data?.values || []) : []
         };
     }
@@ -1315,6 +1330,14 @@ async function processResourceDecision(env, interaction, decision) {
         const proposal = proposalState.proposal;
         const selection = proposalState.selection;
 
+        if (proposalState.status !== 'pending') {
+            await editDiscordMessage(env, interaction, {
+                content: `이미 처리된 제보입니다. (상태: ${proposalState.status})`,
+                components: buildResourceComponents(decision.proposalId, true, selection)
+            });
+            return;
+        }
+
         if (decision.action === 'hold') {
             await updateResourceProposalState(env, decision.proposalId, {
                 ...proposalState,
@@ -1332,6 +1355,7 @@ async function processResourceDecision(env, interaction, decision) {
             const updatedSelection = {
                 ...selection,
                 targets: replaceTargetsByType(selection.targets, 'category', decision.targets),
+                revision: createResourceSelectionRevision(),
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
@@ -1347,6 +1371,7 @@ async function processResourceDecision(env, interaction, decision) {
             const updatedSelection = {
                 ...selection,
                 activeRelems: decision.relems,
+                revision: createResourceSelectionRevision(),
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
@@ -1363,6 +1388,7 @@ async function processResourceDecision(env, interaction, decision) {
                 ...selection,
                 activeRelems: decision.relems,
                 targets: replaceCharacterTargetsByRelems(selection.targets, decision.relems, decision.targets),
+                revision: createResourceSelectionRevision(),
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
@@ -1378,6 +1404,7 @@ async function processResourceDecision(env, interaction, decision) {
             const updatedSelection = {
                 ...selection,
                 targets: [],
+                revision: createResourceSelectionRevision(),
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
@@ -1385,6 +1412,14 @@ async function processResourceDecision(env, interaction, decision) {
             await editDiscordMessage(env, interaction, {
                 content: buildResourceMessageContent(updatedSelection),
                 components: buildResourceComponents(decision.proposalId, false, updatedSelection)
+            });
+            return;
+        }
+
+        if (decision.action === 'approve-selected'
+            && decision.selectionRevision !== normalizeResourceSelectionRevision(selection.revision)) {
+            await editDiscordMessage(env, interaction, {
+                content: '선택 상태를 동기화하는 중입니다. 잠시 후 `선택 반영`을 다시 눌러주세요.'
             });
             return;
         }
@@ -1446,7 +1481,7 @@ async function updateResourceLinks(env, link, targets) {
                 branch: RESOURCE_LINKS_PENDING_BRANCH
             });
             const pr = await ensureResourceLinksPullRequest(env);
-            await updateResourceLinksPullRequestSummary(env, pr);
+            await updateResourceLinksPullRequestSummary(env, pr, update.content);
 
             return {
                 ...update,
@@ -1472,7 +1507,12 @@ function buildResourceLinksUpdate(content, link, targets) {
         const missingCharacterTarget = target.type === 'character'
             && !Array.isArray(db.characters?.[target.id]);
         const list = missingCharacterTarget ? [] : getTargetList(db, target);
+        const targetArray = missingCharacterTarget ? null : findTargetArray(updatedContent, target);
         if (!list) {
+            result.missing.push(target);
+            continue;
+        }
+        if (!missingCharacterTarget && !targetArray) {
             result.missing.push(target);
             continue;
         }
@@ -1485,7 +1525,7 @@ function buildResourceLinksUpdate(content, link, targets) {
         const normalizedLink = removeEmptyLinkFields(link);
         const insertion = missingCharacterTarget
             ? buildMissingCharacterLinkInsertion(updatedContent, target, normalizedLink)
-            : buildResourceLinkInsertion(updatedContent, target, normalizedLink);
+            : buildResourceLinkInsertion(updatedContent, target, normalizedLink, targetArray);
         if (!insertion) {
             result.missing.push(target);
             continue;
@@ -1530,8 +1570,8 @@ function buildResourceUpdateResultMessage(result) {
     return lines.join('\n');
 }
 
-function buildResourceLinkInsertion(content, target, link) {
-    const listInfo = findTargetArray(content, target);
+function buildResourceLinkInsertion(content, target, link, targetArray = null) {
+    const listInfo = targetArray || findTargetArray(content, target);
     if (!listInfo) return null;
 
     const lineStart = content.lastIndexOf('\n', listInfo.insertIndex - 1) + 1;
@@ -1552,6 +1592,26 @@ function buildMissingCharacterLinkInsertion(content, target, link) {
     const objectStart = content.indexOf('{', charactersKey);
     const objectEnd = findMatchingJsonDelimiter(content, objectStart, '{', '}');
     if (objectStart < 0 || objectEnd < 0) return null;
+
+    const targetOrder = RESOURCE_CHARACTERS.findIndex(character => character.id === target.id);
+    if (targetOrder >= 0) {
+        for (const character of RESOURCE_CHARACTERS.slice(targetOrder + 1)) {
+            const nextKeys = findJsonKeyPositions(content, character.id, objectStart, objectEnd);
+            if (nextKeys.length > 1) {
+                throw new Error(`resource_links에 중복 캐릭터 키가 있습니다: ${character.id}`);
+            }
+            if (nextKeys.length === 0) continue;
+
+            const nextLineStart = content.lastIndexOf('\n', nextKeys[0]) + 1;
+            const nextIndent = content.slice(nextLineStart, nextKeys[0]).match(/^\s*/)?.[0] || '    ';
+            const valueText = JSON.stringify([link], null, 2)
+                .split('\n')
+                .map((line, index) => index === 0 ? line : `${nextIndent}${line}`)
+                .join('\n');
+            const propertyText = `${nextIndent}"${escapeJsonString(target.id)}": ${valueText},\n`;
+            return `${content.slice(0, nextLineStart)}${propertyText}${content.slice(nextLineStart)}`;
+        }
+    }
 
     let bodyEnd = objectEnd;
     while (bodyEnd > objectStart + 1 && /\s/.test(content[bodyEnd - 1])) {
@@ -1613,27 +1673,57 @@ function findMatchingJsonDelimiter(content, startIndex, openChar, closeChar) {
 
 function findTargetArray(content, target) {
     if (target.type === 'category') {
-        const categoryKey = findJsonKey(content, target.id, content.indexOf('"categories"'));
-        if (categoryKey < 0) return null;
+        const categoriesKey = content.indexOf('"categories"');
+        if (categoriesKey < 0) return null;
+        const categoriesStart = content.indexOf('{', categoriesKey);
+        const categoriesEnd = findMatchingJsonDelimiter(content, categoriesStart, '{', '}');
+        const categoryKeys = findJsonKeyPositions(content, target.id, categoriesStart, categoriesEnd);
+        if (categoryKeys.length > 1) {
+            throw new Error(`resource_links에 중복 카테고리 키가 있습니다: ${target.id}`);
+        }
+        const categoryKey = categoryKeys[0];
+        if (categoryKey === undefined) return null;
         const categoryObjectStart = content.indexOf('{', categoryKey);
-        const linksKey = findJsonKey(content, 'links', categoryObjectStart);
-        if (linksKey < 0) return null;
+        const categoryObjectEnd = findMatchingJsonDelimiter(content, categoryObjectStart, '{', '}');
+        const linksKeys = findJsonKeyPositions(content, 'links', categoryObjectStart, categoryObjectEnd);
+        if (linksKeys.length !== 1) return null;
+        const linksKey = linksKeys[0];
         return getArrayInsertionInfo(content, content.indexOf('[', linksKey));
     }
 
     if (target.type === 'character') {
         const charactersKey = content.indexOf('"characters"');
         if (charactersKey < 0) return null;
-        const characterKey = findJsonKey(content, target.id, charactersKey);
-        if (characterKey < 0) return null;
+        const objectStart = content.indexOf('{', charactersKey);
+        const objectEnd = findMatchingJsonDelimiter(content, objectStart, '{', '}');
+        const characterKeys = findJsonKeyPositions(content, target.id, objectStart, objectEnd);
+        if (characterKeys.length > 1) {
+            throw new Error(`resource_links에 중복 캐릭터 키가 있습니다: ${target.id}`);
+        }
+        const characterKey = characterKeys[0];
+        if (characterKey === undefined) return null;
         return getArrayInsertionInfo(content, content.indexOf('[', characterKey));
     }
 
     return null;
 }
 
-function findJsonKey(content, key, startIndex) {
-    return content.indexOf(`"${escapeJsonString(key)}"`, Math.max(0, startIndex));
+function findJsonKeyPositions(content, key, startIndex, endIndex) {
+    const positions = [];
+    const needle = `"${escapeJsonString(key)}"`;
+    let cursor = Math.max(0, startIndex);
+    const limit = endIndex < 0 ? content.length : endIndex;
+
+    while (cursor < limit) {
+        const position = content.indexOf(needle, cursor);
+        if (position < 0 || position >= limit) break;
+        let afterKey = position + needle.length;
+        while (afterKey < limit && /\s/.test(content[afterKey])) afterKey += 1;
+        if (content[afterKey] === ':') positions.push(position);
+        cursor = position + needle.length;
+    }
+
+    return positions;
 }
 
 function getArrayInsertionInfo(content, arrayStart) {
@@ -1826,13 +1916,12 @@ async function mergeResourceLinksPullRequest(env, pullRequest) {
     return result;
 }
 
-async function updateResourceLinksPullRequestSummary(env, pullRequest) {
+async function updateResourceLinksPullRequestSummary(env, pullRequest, pendingContent = null) {
     const baseBranch = getBaseBranch(env);
-    const [baseFile, pendingFile] = await Promise.all([
-        getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
-        getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH)
-    ]);
-    const body = buildResourceLinksPullRequestBody(baseFile.content, pendingFile.content);
+    const baseFile = await getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch);
+    const resolvedPendingContent = pendingContent
+        || (await getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH)).content;
+    const body = buildResourceLinksPullRequestBody(baseFile.content, resolvedPendingContent);
     const response = await githubJsonFetch(env, `/pulls/${pullRequest.number}`, {
         method: 'PATCH',
         body: { body }
