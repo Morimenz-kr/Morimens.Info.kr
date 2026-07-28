@@ -2190,14 +2190,24 @@ function githubJsonFetch(env, path, options) {
 }
 
 async function editDiscordMessage(env, interaction, payload) {
-    const channelId = interaction.channel_id || interaction.message?.channel_id;
-    const messageId = interaction.message?.id;
-    if (!channelId || !messageId) return null;
-
     const safePayload = {
         allowed_mentions: { parse: [] },
         ...payload
     };
+
+    if (env.DISCORD_APPLICATION_ID && interaction.token) {
+        try {
+            return await editDeferredInteractionResponse(env, interaction, safePayload);
+        } catch (error) {
+            console.warn('Discord interaction webhook edit failed; falling back to bot message edit', error);
+        }
+    }
+
+    const channelId = interaction.channel_id || interaction.channel?.id || interaction.message?.channel_id;
+    const messageId = interaction.message?.id;
+    if (!channelId || !messageId) {
+        throw new Error('Discord message edit target is missing');
+    }
 
     const response = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages/${messageId}`, {
         method: 'PATCH',
