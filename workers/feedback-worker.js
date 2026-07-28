@@ -3,6 +3,7 @@ const RESOURCE_LINKS_PATH = 'data/resource_links.json';
 const RESOURCE_LINKS_PENDING_BRANCH = 'resource-links/pending';
 const DEFAULT_BASE_BRANCH = 'main';
 const RESOURCE_PROPOSAL_STATE_PREFIX = 'resource-link:proposal:';
+const RESOURCE_PROCESSING_STALE_MS = 5 * 60 * 1000;
 const INTERACTION_PING = 1;
 const INTERACTION_APPLICATION_COMMAND = 2;
 const INTERACTION_MESSAGE_COMPONENT = 3;
@@ -176,8 +177,17 @@ export default {
             }),
             handleGiftCodeMonitor(env).catch(error => {
                 console.error('Gift code monitor failed', error);
+            }),
+            recoverStaleResourceProposals(env).catch(error => {
+                console.error('Stale resource proposal recovery failed', error);
             })
         ]));
+    },
+
+    async queue(batch, env) {
+        for (const message of batch.messages) {
+            await processQueuedResourceUpdate(env, message);
+        }
     }
 };
 
@@ -209,6 +219,8 @@ function handleGet(url, env, corsHeaders) {
         hasDiscordWebhook: Boolean(env.DISCORD_WEBHOOK_URL),
         hasDiscordBotToken: Boolean(env.DISCORD_BOT_TOKEN),
         hasDiscordApplicationId: Boolean(env.DISCORD_APPLICATION_ID),
+        discordApplicationId: env.DISCORD_APPLICATION_ID || null,
+        discordPublicKeyPrefix: String(env.DISCORD_PUBLIC_KEY || '').slice(0, 12),
         hasDiscordChannelId: Boolean(env.DISCORD_CHANNEL_ID),
         hasDiscordPublicKey: Boolean(env.DISCORD_PUBLIC_KEY),
         hasArcaListUrls: Boolean(env.ARCA_LIST_URLS),
@@ -789,6 +801,10 @@ async function handleDiscordInteraction(request, env, ctx) {
     const rawBody = await request.text();
     const isVerified = await verifyDiscordRequest(request, rawBody, env);
     if (!isVerified) {
+        console.warn('Discord interaction signature rejected', {
+            applicationId: env.DISCORD_APPLICATION_ID || null,
+            publicKeyPrefix: String(env.DISCORD_PUBLIC_KEY || '').slice(0, 12)
+        });
         return new Response('invalid request signature', { status: 401 });
     }
 
@@ -801,6 +817,14 @@ async function handleDiscordInteraction(request, env, ctx) {
             flags: 64
         });
     }
+
+    console.log('Discord interaction received', {
+        type: interaction.type,
+        command: interaction.data?.name || null,
+        customId: interaction.data?.custom_id || null,
+        channelId: interaction.channel_id || interaction.channel?.id || null,
+        messageId: interaction.message?.id || null
+    });
 
     if (interaction.type === INTERACTION_PING) {
         return interactionResponse(RESPONSE_PONG);
@@ -1330,6 +1354,14 @@ async function processResourceDecision(env, interaction, decision) {
         const proposal = proposalState.proposal;
         const selection = proposalState.selection;
 
+        if (proposalState.status === 'processing') {
+            await editDiscordMessage(env, interaction, {
+                content: 'resource_links 반영을 처리 중입니다. 잠시만 기다려주세요.',
+                components: buildResourceComponents(decision.proposalId, true, selection)
+            });
+            return;
+        }
+
         if (proposalState.status !== 'pending') {
             await editDiscordMessage(env, interaction, {
                 content: `이미 처리된 제보입니다. (상태: ${proposalState.status})`,
@@ -1435,19 +1467,36 @@ async function processResourceDecision(env, interaction, decision) {
             return;
         }
 
-        const result = await updateResourceLinks(env, proposal.link, targets);
-        await updateResourceProposalState(env, decision.proposalId, {
+        const processingState = {
             ...proposalState,
-            status: 'completed',
+            status: 'processing',
             selection,
             handledBy: getInteractionUserLabel(interaction),
-            result
-        });
+            processingStartedAt: new Date().toISOString()
+        };
 
-        await editDiscordMessage(env, interaction, {
-            content: buildResourceUpdateResultMessage(result),
-            components: buildResourceComponents(decision.proposalId, true, selection)
-        });
+        try {
+            await updateResourceProposalState(env, decision.proposalId, processingState);
+            await editDiscordMessage(env, interaction, {
+                content: 'resource_links 반영을 처리 중입니다. 잠시만 기다려주세요.',
+                components: buildResourceComponents(decision.proposalId, true, selection)
+            });
+            await enqueueResourceUpdate(env, {
+                proposalId: decision.proposalId,
+                targets,
+                channelId: interaction.channel_id || interaction.channel?.id || interaction.message?.channel_id,
+                messageId: interaction.message?.id,
+                handledBy: processingState.handledBy
+            });
+        } catch (error) {
+            await updateResourceProposalState(env, decision.proposalId, {
+                ...proposalState,
+                status: 'pending',
+                selection,
+                lastError: error.message || 'unknown error'
+            });
+            throw error;
+        }
     } catch (error) {
         console.error(error);
         await editDiscordMessage(env, interaction, {
@@ -1455,6 +1504,125 @@ async function processResourceDecision(env, interaction, decision) {
             components: interaction.message?.components || []
         });
     }
+}
+
+async function enqueueResourceUpdate(env, job) {
+    if (!env.RESOURCE_LINK_QUEUE) {
+        throw new Error('RESOURCE_LINK_QUEUE binding is required');
+    }
+    await env.RESOURCE_LINK_QUEUE.send(job);
+}
+
+async function processQueuedResourceUpdate(env, message) {
+    const job = message.body || {};
+    if (!/^[a-f0-9]{32}$/.test(job.proposalId || '')) {
+        console.error('Invalid resource update queue job', job);
+        message.ack();
+        return;
+    }
+
+    let proposalState;
+    try {
+        proposalState = await getResourceProposalState(env, job.proposalId);
+        if (proposalState.status === 'pending' && job.retryPending) {
+            proposalState = {
+                ...proposalState,
+                status: 'processing',
+                processingStartedAt: new Date().toISOString(),
+                automaticRetryCount: Number(proposalState.automaticRetryCount || 0) + 1
+            };
+            await updateResourceProposalState(env, job.proposalId, proposalState);
+        }
+        if (proposalState.status !== 'processing') {
+            message.ack();
+            return;
+        }
+
+        const targets = normalizeTargets(job.targets?.length ? job.targets : proposalState.selection.targets);
+        const result = await updateResourceLinks(env, proposalState.proposal.link, targets);
+        const { content: _updatedContent, ...storedResult } = result;
+        const completedState = {
+            ...proposalState,
+            status: 'completed',
+            handledBy: job.handledBy || proposalState.handledBy,
+            completedAt: new Date().toISOString(),
+            lastError: null,
+            failedAt: null,
+            result: storedResult
+        };
+        await updateResourceProposalState(env, job.proposalId, completedState);
+        await editResourceProposalMessage(env, job, {
+            content: buildResourceUpdateResultMessage(storedResult),
+            components: buildResourceComponents(job.proposalId, true, completedState.selection)
+        }).catch(error => console.error('Failed to show completed resource update', error));
+        message.ack();
+    } catch (error) {
+        console.error('Queued resource update failed', error);
+        if (proposalState) {
+            const pendingState = {
+                ...proposalState,
+                status: 'pending',
+                lastError: error.message || 'unknown error',
+                failedAt: new Date().toISOString()
+            };
+            await updateResourceProposalState(env, job.proposalId, pendingState);
+            await editResourceProposalMessage(env, job, {
+                content: `처리 실패: ${error.message}. 선택을 확인한 뒤 다시 눌러주세요.`,
+                components: buildResourceComponents(job.proposalId, false, pendingState.selection)
+            }).catch(editError => console.error('Failed to restore Discord proposal message', editError));
+        }
+        message.ack();
+    }
+}
+
+async function editResourceProposalMessage(env, job, payload) {
+    return editDiscordMessage(env, {
+        channel_id: job.channelId || env.DISCORD_CHANNEL_ID,
+        message: { id: job.messageId }
+    }, payload);
+}
+
+async function recoverStaleResourceProposals(env) {
+    if (!env.RESOURCE_LINK_STATE || !env.RESOURCE_LINK_QUEUE) return;
+
+    let cursor;
+    do {
+        const page = await env.RESOURCE_LINK_STATE.list({
+            prefix: RESOURCE_PROPOSAL_STATE_PREFIX,
+            cursor
+        });
+        for (const key of page.keys) {
+            const state = await env.RESOURCE_LINK_STATE.get(key.name, 'json');
+            const retryFailedUpdate = state?.status === 'pending'
+                && state.lastError
+                && Number(state.automaticRetryCount || 0) < 1;
+            if (state?.status !== 'processing' && !retryFailedUpdate) continue;
+
+            const startedAt = Date.parse(
+                retryFailedUpdate
+                    ? state.failedAt || state.updatedAt || 0
+                    : state.processingStartedAt || state.updatedAt || 0
+            );
+            if (Number.isFinite(startedAt) && Date.now() - startedAt < RESOURCE_PROCESSING_STALE_MS) continue;
+
+            await enqueueResourceUpdate(env, {
+                proposalId: state.id,
+                targets: normalizeTargets(state.selection?.targets || state.proposal?.targets || []),
+                channelId: env.DISCORD_CHANNEL_ID,
+                messageId: state.discordMessageId,
+                handledBy: state.handledBy || 'automatic recovery'
+            });
+            await updateResourceProposalState(env, state.id, {
+                ...state,
+                status: 'processing',
+                processingStartedAt: new Date().toISOString(),
+                recoveryCount: Number(state.recoveryCount || 0) + 1,
+                automaticRetryCount: Number(state.automaticRetryCount || 0) + (retryFailedUpdate ? 1 : 0)
+            });
+            console.log('Requeued stale resource proposal', { proposalId: state.id });
+        }
+        cursor = page.list_complete ? undefined : page.cursor;
+    } while (cursor);
 }
 
 async function updateResourceLinks(env, link, targets) {
@@ -1481,7 +1649,7 @@ async function updateResourceLinks(env, link, targets) {
                 branch: RESOURCE_LINKS_PENDING_BRANCH
             });
             const pr = await ensureResourceLinksPullRequest(env);
-            await updateResourceLinksPullRequestSummary(env, pr, update.content);
+            await appendResourceLinksPullRequestSummary(env, pr, link, update.added);
 
             return {
                 ...update,
@@ -1489,7 +1657,7 @@ async function updateResourceLinks(env, link, targets) {
                 prUrl: pr.html_url
             };
         } catch (error) {
-            if (error.status === 409 && attempt === 0) continue;
+            if ((error.status === 409 || error.status === 422) && attempt === 0) continue;
             throw error;
         }
     }
@@ -1574,8 +1742,7 @@ function buildResourceLinkInsertion(content, target, link, targetArray = null) {
     const listInfo = targetArray || findTargetArray(content, target);
     if (!listInfo) return null;
 
-    const lineStart = content.lastIndexOf('\n', listInfo.insertIndex - 1) + 1;
-    const firstItemIndent = content.slice(lineStart, listInfo.insertIndex).match(/^\s*/)?.[0] || `${listInfo.indent}  `;
+    const firstItemIndent = `${listInfo.indent}  `;
     const itemText = JSON.stringify(link, null, 2)
         .split('\n')
         .map((line, index) => index === 0 ? `${firstItemIndent}${line}` : `${firstItemIndent}${line}`)
@@ -1949,6 +2116,34 @@ async function updateResourceLinksPullRequestSummary(env, pullRequest, pendingCo
     return response.json();
 }
 
+async function appendResourceLinksPullRequestSummary(env, pullRequest, link, targets) {
+    const lines = String(pullRequest.body || '').split('\n');
+    const addedLines = targets.map(target => {
+        const title = escapeMarkdownText(link.title || link.url);
+        const label = escapeMarkdownText(getResourceTargetLabel(target));
+        return `- [${title}](${link.url}) - ${label}`;
+    });
+    for (const line of addedLines) {
+        if (!lines.includes(line)) lines.push(line);
+    }
+
+    const count = lines.filter(line => /^- \[[^\]]+\]\(https?:\/\//.test(line)).length;
+    const countIndex = lines.findIndex(line => /^\d+개 링크가 /.test(line));
+    if (countIndex >= 0) {
+        lines[countIndex] = `${count}개 링크가 ${RESOURCE_LINKS_PENDING_BRANCH}에 추가되었습니다.`;
+    }
+
+    const response = await githubJsonFetch(env, `/pulls/${pullRequest.number}`, {
+        method: 'PATCH',
+        body: { body: lines.join('\n') }
+    });
+    if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`GitHub PR update failed: ${response.status} ${detail.slice(0, 300)}`);
+    }
+    return response.json();
+}
+
 function buildResourceLinksPullRequestBody(baseContent, pendingContent) {
     const base = JSON.parse(baseContent);
     const pending = JSON.parse(pendingContent);
@@ -2137,17 +2332,12 @@ async function getGitHubFile(env, path, ref) {
     if (data.content) {
         content = base64ToUtf8(data.content);
     } else if (data.sha) {
-        const blobResponse = await githubJsonFetch(env, `/git/blobs/${encodeURIComponent(data.sha)}`, { method: 'GET' });
+        const blobResponse = await githubRawFetch(env, `/git/blobs/${encodeURIComponent(data.sha)}`);
         if (!blobResponse.ok) {
             const detail = await blobResponse.text();
             throw new Error(`GitHub blob fetch failed: ${blobResponse.status} ${detail.slice(0, 300)}`);
         }
-
-        const blob = await blobResponse.json();
-        if (!blob.content || blob.encoding !== 'base64') {
-            throw new Error(`GitHub blob content is unavailable: ${blob.encoding || 'unknown encoding'}`);
-        }
-        content = base64ToUtf8(blob.content);
+        content = await blobResponse.text();
     } else {
         throw new Error('GitHub file content is empty and blob SHA is missing');
     }
@@ -2159,6 +2349,79 @@ async function getGitHubFile(env, path, ref) {
 }
 
 async function putGitHubFile(env, path, data) {
+    const ref = await getGitHubRef(env, data.branch);
+    if (!ref?.object?.sha) throw new Error(`GitHub branch not found: ${data.branch}`);
+
+    const commitResponse = await githubJsonFetch(env, `/git/commits/${encodeURIComponent(ref.object.sha)}`, {
+        method: 'GET'
+    });
+    if (!commitResponse.ok) {
+        const detail = await commitResponse.text();
+        throw new Error(`GitHub commit fetch failed: ${commitResponse.status} ${detail.slice(0, 300)}`);
+    }
+    const parentCommit = await commitResponse.json();
+
+    const blobResponse = await githubJsonFetch(env, '/git/blobs', {
+        method: 'POST',
+        body: {
+            content: data.content,
+            encoding: 'utf-8'
+        }
+    });
+    if (!blobResponse.ok) {
+        const detail = await blobResponse.text();
+        if (blobResponse.status === 422 && detail.includes('input was too large')) {
+            return putGitHubFileViaContentsApi(env, path, data);
+        }
+        throw new HttpError(`GitHub blob creation failed: ${blobResponse.status} ${detail.slice(0, 300)}`, blobResponse.status);
+    }
+    const blob = await blobResponse.json();
+
+    const treeResponse = await githubJsonFetch(env, '/git/trees', {
+        method: 'POST',
+        body: {
+            base_tree: parentCommit.tree.sha,
+            tree: [{ path, mode: '100644', type: 'blob', sha: blob.sha }]
+        }
+    });
+    if (!treeResponse.ok) {
+        const detail = await treeResponse.text();
+        throw new HttpError(`GitHub tree creation failed: ${treeResponse.status} ${detail.slice(0, 300)}`, treeResponse.status);
+    }
+    const tree = await treeResponse.json();
+
+    const newCommitResponse = await githubJsonFetch(env, '/git/commits', {
+        method: 'POST',
+        body: {
+            message: data.message,
+            tree: tree.sha,
+            parents: [ref.object.sha]
+        }
+    });
+    if (!newCommitResponse.ok) {
+        const detail = await newCommitResponse.text();
+        throw new HttpError(`GitHub commit creation failed: ${newCommitResponse.status} ${detail.slice(0, 300)}`, newCommitResponse.status);
+    }
+    const commit = await newCommitResponse.json();
+
+    const updateResponse = await githubJsonFetch(env, `/git/refs/heads/${encodeURIComponentPath(data.branch)}`, {
+        method: 'PATCH',
+        body: { sha: commit.sha, force: false }
+    });
+    if (!updateResponse.ok) {
+        const detail = await updateResponse.text();
+        throw new HttpError(`GitHub ref update failed: ${updateResponse.status} ${detail.slice(0, 300)}`, updateResponse.status);
+    }
+
+    return {
+        commit: {
+            sha: commit.sha,
+            html_url: `https://github.com/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/commit/${commit.sha}`
+        }
+    };
+}
+
+async function putGitHubFileViaContentsApi(env, path, data) {
     const response = await githubJsonFetch(env, `/contents/${encodeURIComponentPath(path)}`, {
         method: 'PUT',
         body: {
@@ -2173,6 +2436,18 @@ async function putGitHubFile(env, path, data) {
         throw new HttpError(`GitHub file update failed: ${response.status} ${detail.slice(0, 300)}`, response.status);
     }
     return response.json();
+}
+
+function githubRawFetch(env, path) {
+    return fetch(`https://api.github.com/repos/${env.GITHUB_OWNER}/${env.GITHUB_REPO}${path}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/vnd.github.raw+json',
+            'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+            'User-Agent': 'morimens-feedback-worker',
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+    });
 }
 
 function githubJsonFetch(env, path, options) {
@@ -2197,7 +2472,11 @@ async function editDiscordMessage(env, interaction, payload) {
 
     if (env.DISCORD_APPLICATION_ID && interaction.token) {
         try {
-            return await editDeferredInteractionResponse(env, interaction, safePayload);
+            const result = await editDeferredInteractionResponse(env, interaction, safePayload);
+            console.log('Discord message edited via interaction webhook', {
+                messageId: interaction.message?.id || null
+            });
+            return result;
         } catch (error) {
             console.warn('Discord interaction webhook edit failed; falling back to bot message edit', error);
         }
@@ -2380,11 +2659,12 @@ function base64ToUtf8(value) {
 
 function utf8ToBase64(value) {
     const bytes = new TextEncoder().encode(value);
-    let binary = '';
-    for (const byte of bytes) {
-        binary += String.fromCharCode(byte);
+    const chunks = [];
+    const chunkSize = 32766;
+    for (let index = 0; index < bytes.length; index += chunkSize) {
+        chunks.push(String.fromCharCode(...bytes.subarray(index, index + chunkSize)));
     }
-    return btoa(binary);
+    return btoa(chunks.join(''));
 }
 
 function hexToBytes(hex) {
