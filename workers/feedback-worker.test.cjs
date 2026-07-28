@@ -20,7 +20,8 @@ function loadWorkerInternals() {
             buildResourceComponents,
             parseResourceDecision,
             normalizeResourceSelection,
-            ensureResourceLinksPendingBranch
+            ensureResourceLinksPendingBranch,
+            editDiscordMessage
         };
     `)();
 }
@@ -34,7 +35,8 @@ const {
     buildResourceComponents,
     parseResourceDecision,
     normalizeResourceSelection,
-    ensureResourceLinksPendingBranch
+    ensureResourceLinksPendingBranch,
+    editDiscordMessage
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 
@@ -274,6 +276,41 @@ test('닫힌 PR의 pending 브랜치에 새 링크가 없으면 main으로 안�
 
         assert.equal(result.object.sha, 'main-sha');
         assert.deepEqual(updates, [{ sha: 'main-sha', force: true }]);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('컴포넌트 메시지는 channel_id가 없어도 interaction webhook으로 수정한다', async () => {
+    const originalFetch = global.fetch;
+    const calls = [];
+    global.fetch = async (url, options = {}) => {
+        calls.push({ url: String(url), options });
+        return Response.json({ id: 'message-id', content: '이미 처리된 제보입니다.' });
+    };
+
+    try {
+        const result = await editDiscordMessage({
+            DISCORD_APPLICATION_ID: 'application-id'
+        }, {
+            token: 'interaction-token',
+            message: { id: 'message-id' }
+        }, {
+            content: '이미 처리된 제보입니다.',
+            components: []
+        });
+
+        assert.equal(result.content, '이미 처리된 제보입니다.');
+        assert.equal(calls.length, 1);
+        assert.equal(
+            calls[0].url,
+            'https://discord.com/api/v10/webhooks/application-id/interaction-token/messages/@original'
+        );
+        assert.deepEqual(JSON.parse(calls[0].options.body), {
+            allowed_mentions: { parse: [] },
+            content: '이미 처리된 제보입니다.',
+            components: []
+        });
     } finally {
         global.fetch = originalFetch;
     }
