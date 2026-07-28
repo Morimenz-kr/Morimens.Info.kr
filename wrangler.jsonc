@@ -5,12 +5,32 @@
   "compatibility_date": "2026-05-26",
   "keep_vars": true,
   "workers_dev": true,
+  "observability": {
+    "enabled": true
+  },
   "kv_namespaces": [
     {
       "binding": "RESOURCE_LINK_STATE",
       "id": "6225ba1d64f34c05a063adf74a9782b9"
     }
   ],
+  "queues": {
+    "producers": [
+      {
+        "binding": "RESOURCE_LINK_QUEUE",
+        "queue": "resource-link-updates"
+      }
+    ],
+    "consumers": [
+      {
+        "queue": "resource-link-updates",
+        "max_batch_size": 1,
+        "max_batch_timeout": 1,
+        "max_retries": 3,
+        "max_concurrency": 1
+      }
+    ]
+  },
   "triggers": {
     "crons": [
       "*/5 * * * *"

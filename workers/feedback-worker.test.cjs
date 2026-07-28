@@ -15,13 +15,16 @@ function loadWorkerInternals() {
             extractArcaPostsFromList,
             fetchArcaPostDetail,
             getGitHubFile,
+            putGitHubFile,
             buildResourceLinksUpdate,
             buildResourceUpdateResultMessage,
             buildResourceComponents,
             parseResourceDecision,
             normalizeResourceSelection,
             ensureResourceLinksPendingBranch,
-            editDiscordMessage
+            editDiscordMessage,
+            processQueuedResourceUpdate,
+            recoverStaleResourceProposals
         };
     `)();
 }
@@ -30,13 +33,16 @@ const {
     extractArcaPostsFromList,
     fetchArcaPostDetail,
     getGitHubFile,
+    putGitHubFile,
     buildResourceLinksUpdate,
     buildResourceUpdateResultMessage,
     buildResourceComponents,
     parseResourceDecision,
     normalizeResourceSelection,
     ensureResourceLinksPendingBranch,
-    editDiscordMessage
+    editDiscordMessage,
+    processQueuedResourceUpdate,
+    recoverStaleResourceProposals
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 
@@ -128,7 +134,7 @@ test('상세 페이지가 요청 제한되면 목록 데이터로 제안을 계�
 test('GitHub Contents API가 대용량 파일 내용을 생략하면 immutable blob SHA로 다시 읽는다', async () => {
     const originalFetch = global.fetch;
     const calls = [];
-    global.fetch = async url => {
+    global.fetch = async (url, options = {}) => {
         calls.push(String(url));
         if (calls.length === 1) {
             return Response.json({
@@ -138,11 +144,8 @@ test('GitHub Contents API가 대용량 파일 내용을 생략하면 immutable b
                 download_url: 'https://raw.githubusercontent.com/example/resource_links.json'
             });
         }
-        return Response.json({
-            sha: 'large-file-sha',
-            encoding: 'base64',
-            content: Buffer.from('{"categories":{},"characters":{}}', 'utf8').toString('base64')
-        });
+        assert.equal(options.headers.Accept, 'application/vnd.github.raw+json');
+        return new Response('{"categories":{},"characters":{}}');
     };
 
     try {
@@ -156,6 +159,47 @@ test('GitHub Contents API가 대용량 파일 내용을 생략하면 immutable b
         assert.equal(file.content, '{"categories":{},"characters":{}}');
         assert.equal(calls.length, 2);
         assert.equal(calls[1], 'https://api.github.com/repos/example/repo/git/blobs/large-file-sha');
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('대용량 파일은 base64 변환 없이 Git Data API로 커밋한다', async () => {
+    const originalFetch = global.fetch;
+    const calls = [];
+    global.fetch = async (url, options = {}) => {
+        calls.push({ url: String(url), method: options.method, body: options.body && JSON.parse(options.body) });
+        const requestUrl = String(url);
+        if (requestUrl.includes('/git/ref/heads/resource-links/pending')) {
+            return Response.json({ object: { sha: 'parent-sha' } });
+        }
+        if (requestUrl.endsWith('/git/commits/parent-sha')) {
+            return Response.json({ tree: { sha: 'tree-sha' } });
+        }
+        if (requestUrl.endsWith('/git/blobs')) return Response.json({ sha: 'blob-sha' });
+        if (requestUrl.endsWith('/git/trees')) return Response.json({ sha: 'new-tree-sha' });
+        if (requestUrl.endsWith('/git/commits')) return Response.json({ sha: 'new-commit-sha' });
+        if (requestUrl.includes('/git/refs/heads/resource-links/pending')) {
+            return Response.json({ object: { sha: 'new-commit-sha' } });
+        }
+        throw new Error(`unexpected request: ${options.method || 'GET'} ${requestUrl}`);
+    };
+
+    try {
+        const result = await putGitHubFile({
+            GITHUB_OWNER: 'example',
+            GITHUB_REPO: 'repo',
+            GITHUB_TOKEN: 'test-token'
+        }, 'data/resource_links.json', {
+            message: 'Update resource links',
+            content: '{"categories":{}}',
+            branch: 'resource-links/pending'
+        });
+
+        const blobCall = calls.find(call => call.url.endsWith('/git/blobs'));
+        assert.equal(blobCall.method, 'POST');
+        assert.deepEqual(blobCall.body, { content: '{"categories":{}}', encoding: 'utf-8' });
+        assert.equal(result.commit.sha, 'new-commit-sha');
     } finally {
         global.fetch = originalFetch;
     }
@@ -180,6 +224,26 @@ test('resource_links에 없는 캐릭터 대상은 새 배열을 만들어 링�
     assert.deepEqual(result.added, [{ type: 'character', id: 'lotan_cetarchon' }]);
     assert.deepEqual(result.missing, []);
     assert.deepEqual(updated.characters.lotan_cetarchon, [link]);
+});
+
+test('링크를 반복 추가해도 배열 들여쓰기가 누적되지 않는다', () => {
+    const source = JSON.stringify({
+        categories: {
+            weekly_yungjae: { title: '진행중인 융재금구 팁', links: [] }
+        },
+        characters: {}
+    }, null, 2);
+    const target = ['category:weekly_yungjae'];
+    const first = buildResourceLinksUpdate(source, {
+        url: 'https://example.com/one', title: '첫 글', desc: ''
+    }, target);
+    const second = buildResourceLinksUpdate(first.content, {
+        url: 'https://example.com/two', title: '둘째 글', desc: ''
+    }, target);
+    const leadingSpaces = second.content.split('\n').map(line => line.match(/^ */)[0].length);
+
+    assert.ok(Math.max(...leadingSpaces) <= 12);
+    assert.equal(JSON.parse(second.content).categories.weekly_yungjae.links.length, 2);
 });
 
 test('누락 대상만 있을 때 PR 업데이트 완료라고 안내하지 않는다', () => {
@@ -314,4 +378,68 @@ test('컴포넌트 메시지는 channel_id가 없어도 interaction webhook으�
     } finally {
         global.fetch = originalFetch;
     }
+});
+
+test('오래 멈춘 processing 제보는 Queue에 다시 넣는다', async () => {
+    const proposalId = 'b'.repeat(32);
+    const state = {
+        id: proposalId,
+        status: 'processing',
+        processingStartedAt: '2020-01-01T00:00:00.000Z',
+        discordMessageId: 'message-id',
+        handledBy: 'tester',
+        proposal: {
+            link: { url: 'https://example.com/post', title: '글', desc: '' },
+            targets: []
+        },
+        selection: {
+            targets: ['category:weekly_yungjae'],
+            activeRelems: 'chaos',
+            revision: 'abcd1234'
+        }
+    };
+    const queued = [];
+    const writes = [];
+    const env = {
+        DISCORD_CHANNEL_ID: 'channel-id',
+        RESOURCE_LINK_STATE: {
+            async list() {
+                return { keys: [{ name: `resource-link:proposal:${proposalId}` }], list_complete: true };
+            },
+            async get() {
+                return state;
+            },
+            async put(key, value) {
+                writes.push({ key, value: JSON.parse(value) });
+            }
+        },
+        RESOURCE_LINK_QUEUE: {
+            async send(job) {
+                queued.push(job);
+            }
+        }
+    };
+
+    await recoverStaleResourceProposals(env);
+
+    assert.equal(queued.length, 1);
+    assert.deepEqual(queued[0], {
+        proposalId,
+        targets: [{ type: 'category', id: 'weekly_yungjae' }],
+        channelId: 'channel-id',
+        messageId: 'message-id',
+        handledBy: 'tester'
+    });
+    assert.equal(writes.length, 1);
+    assert.equal(writes[0].value.status, 'processing');
+    assert.equal(writes[0].value.recoveryCount, 1);
+});
+
+test('잘못된 Queue 작업은 GitHub를 건드리지 않고 완료 처리한다', async () => {
+    let acknowledged = false;
+    await processQueuedResourceUpdate({}, {
+        body: { proposalId: 'invalid' },
+        ack() { acknowledged = true; }
+    });
+    assert.equal(acknowledged, true);
 });
