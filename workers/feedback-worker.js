@@ -14,6 +14,7 @@ const RESPONSE_DEFERRED_UPDATE = 6;
 const DEFAULT_ACTIVE_RELEMS = 'chaos';
 const DEFAULT_ARCA_LIST_SCAN_LIMIT = 20;
 const DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN = 5;
+const DEFAULT_ARCA_DESCRIPTION_BACKFILL_LIMIT = 5;
 const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
 const DEFAULT_GIFT_CODE_CHANNEL_ID = '1529856105562247358';
@@ -172,8 +173,8 @@ export default {
             ensureDiscordResourceCommands(env).catch(error => {
                 console.error('Discord command registration failed', error);
             }),
-            handleArcaMonitor(env).catch(error => {
-                console.error('Arca monitor failed', error);
+            runArcaResourceMaintenance(env).catch(error => {
+                console.error('Arca resource maintenance failed', error);
             }),
             handleGiftCodeMonitor(env).catch(error => {
                 console.error('Gift code monitor failed', error);
@@ -190,6 +191,11 @@ export default {
         }
     }
 };
+
+async function runArcaResourceMaintenance(env) {
+    await handleArcaMonitor(env);
+    await backfillArcaResourceDescriptions(env);
+}
 
 function handleGet(url, env, corsHeaders) {
     if (url.pathname === '/resource-links/submit') {
@@ -386,7 +392,13 @@ async function handleArcaMonitor(env) {
             }
 
             try {
-                const detail = await fetchArcaPostDetail(post, listUrl);
+                let detail;
+                try {
+                    detail = await fetchArcaPostDetail(post, listUrl);
+                } catch (error) {
+                    detail = buildArcaListFallbackDetail(post, listUrl);
+                    console.warn(`Arca detail unavailable; proposing link first: ${post.url}`, error);
+                }
                 const proposal = normalizeResourceProposal({
                     url: detail.url,
                     title: detail.title,
@@ -425,6 +437,143 @@ async function handleArcaMonitor(env) {
 
     console.log('Arca monitor result', result);
     return result;
+}
+
+function buildArcaListFallbackDetail(post, listUrl) {
+    return {
+        url: post.url,
+        title: cleanResourceTitle(post.title || post.id),
+        desc: '',
+        image: normalizeImageUrl(post.image || '', listUrl),
+        sourceTab: post.sourceTab || getArcaSourceTab(listUrl)
+    };
+}
+
+async function backfillArcaResourceDescriptions(env) {
+    if (!env.GITHUB_TOKEN || !env.GITHUB_OWNER || !env.GITHUB_REPO) {
+        return { ok: true, skipped: 'missing GitHub configuration' };
+    }
+
+    const limit = getPositiveIntegerEnv(
+        env.ARCA_DESCRIPTION_BACKFILL_LIMIT,
+        DEFAULT_ARCA_DESCRIPTION_BACKFILL_LIMIT,
+        1,
+        20
+    );
+    const baseBranch = getBaseBranch(env);
+    const openPr = await findOpenResourceLinksPullRequest(env);
+    const branches = openPr
+        ? [RESOURCE_LINKS_PENDING_BRANCH, baseBranch]
+        : [baseBranch];
+    const result = { ok: true, checked: 0, updated: 0, failed: 0, branches: [] };
+
+    for (const branch of [...new Set(branches)]) {
+        const branchResult = await backfillArcaResourceDescriptionsOnBranch(env, branch, limit);
+        result.checked += branchResult.checked;
+        result.updated += branchResult.updated;
+        result.failed += branchResult.failed;
+        result.branches.push(branchResult);
+    }
+
+    console.log('Arca description backfill result', result);
+    return result;
+}
+
+async function backfillArcaResourceDescriptionsOnBranch(env, branch, limit) {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+        const file = await getGitHubFile(env, RESOURCE_LINKS_PATH, branch);
+        const candidates = collectEmptyArcaResourceDescriptions(file.content).slice(0, limit);
+        let content = file.content;
+        let updated = 0;
+        let failed = 0;
+
+        for (const candidate of candidates) {
+            try {
+                const detail = await fetchArcaPostDetail(candidate, candidate.url);
+                const change = buildResourceLinkDescriptionBackfill(content, candidate.url, detail.desc);
+                content = change.content;
+                updated += change.updated;
+            } catch (error) {
+                failed += 1;
+                console.warn(`Arca description backfill failed: ${candidate.url}`, error);
+            }
+        }
+
+        if (content === file.content) {
+            return { branch, checked: candidates.length, updated: 0, failed };
+        }
+
+        try {
+            await putGitHubFile(env, RESOURCE_LINKS_PATH, {
+                message: `Backfill resource link descriptions (${updated})`,
+                content,
+                sha: file.sha,
+                branch
+            });
+            return { branch, checked: candidates.length, updated, failed };
+        } catch (error) {
+            if ((error.status === 409 || error.status === 422) && attempt === 0) continue;
+            throw error;
+        }
+    }
+
+    throw new Error(`resource link description backfill failed after retry: ${branch}`);
+}
+
+function collectEmptyArcaResourceDescriptions(content) {
+    const db = JSON.parse(content);
+    const results = [];
+    const seenUrls = new Set();
+
+    function visit(value) {
+        if (Array.isArray(value)) {
+            value.forEach(visit);
+            return;
+        }
+        if (!value || typeof value !== 'object') return;
+
+        const url = String(value.url || '').trim();
+        if (url.startsWith('https://arca.live/b/') && !String(value.desc || '').trim() && !seenUrls.has(url)) {
+            seenUrls.add(url);
+            results.push({
+                url,
+                title: String(value.title || '').trim(),
+                image: String(value.image || '').trim()
+            });
+        }
+        Object.values(value).forEach(visit);
+    }
+
+    visit(db);
+    return results;
+}
+
+function buildResourceLinkDescriptionBackfill(content, url, desc) {
+    const urlPattern = new RegExp(`"url"\\s*:\\s*${escapeRegExp(JSON.stringify(url))}`, 'g');
+    const replacements = [];
+    let match;
+
+    while ((match = urlPattern.exec(content)) !== null) {
+        const objectStart = content.lastIndexOf('{', match.index);
+        const objectEnd = findMatchingJsonDelimiter(content, objectStart, '{', '}');
+        if (objectStart < 0 || objectEnd < 0) continue;
+
+        const objectText = content.slice(objectStart, objectEnd + 1);
+        const descMatch = /("desc"\s*:\s*)""/.exec(objectText);
+        if (!descMatch) continue;
+        replacements.push({
+            start: objectStart + descMatch.index,
+            end: objectStart + descMatch.index + descMatch[0].length,
+            value: `${descMatch[1]}${JSON.stringify(desc)}`
+        });
+    }
+
+    let updatedContent = content;
+    for (const replacement of replacements.reverse()) {
+        updatedContent = `${updatedContent.slice(0, replacement.start)}${replacement.value}${updatedContent.slice(replacement.end)}`;
+    }
+
+    return { content: updatedContent, updated: replacements.length };
 }
 
 async function handleGiftCodeMonitor(env) {
@@ -738,7 +887,7 @@ async function fetchArcaPostDetail(post, listUrl) {
             sourceTab: post.sourceTab || getArcaSourceTab(listUrl)
         };
     } catch (error) {
-        console.warn(`Arca detail fetch failed; deferring proposal: ${post.url}`, error);
+        console.warn(`Arca detail fetch failed: ${post.url}`, error);
         throw error;
     }
 }
