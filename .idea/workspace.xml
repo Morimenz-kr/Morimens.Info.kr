@@ -3,23 +3,15 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="b090ff8d-81d9-434e-96f6-9cf30b9e6ed7" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/pages/info_tools.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/pages/info_tools.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/pages/inventory_checker.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/pages/inventory_checker.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/party_builder.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/party_builder.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/patch_notes.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/patch_notes.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/rerun_schedule.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/rerun_schedule.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/silverkey_list.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/silverkey_list.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/wheel_list.json" beforeDir="false" afterPath="$PROJECT_DIR$/data/wheel_list.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inventory_checker.html" beforeDir="false" afterPath="$PROJECT_DIR$/inventory_checker.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/inventory_checker.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/inventory_checker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/party_builder.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/party_builder.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/js/rerun_schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/rerun_schedule.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/party_builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/party_builder.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rerun_schedule.html" beforeDir="false" afterPath="$PROJECT_DIR$/rerun_schedule.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,8 +68,12 @@
     &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/김희준/Desktop/Morimens.Info.kr&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -221,6 +217,9 @@
       <workItem from="1783523339867" duration="1534000" />
       <workItem from="1784029163784" duration="3074000" />
       <workItem from="1784801714474" duration="1433000" />
+      <workItem from="1784004774670" duration="2698000" />
+      <workItem from="1784632117656" duration="672000" />
+      <workItem from="1784854516926" duration="264000" />
     </task>
     <servers />
   </component>
