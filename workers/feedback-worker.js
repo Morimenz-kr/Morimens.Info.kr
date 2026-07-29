@@ -629,9 +629,23 @@ async function fetchText(url) {
         }
     });
     if (!response.ok) {
-        throw new Error(`Fetch failed: ${response.status}`);
+        throw new HttpError(`Fetch failed: ${response.status}`, response.status);
     }
     return response.text();
+}
+
+async function fetchTextWithRetry(url, attempts = 3) {
+    let lastError;
+    for (let attempt = 0; attempt < attempts; attempt += 1) {
+        try {
+            return await fetchText(url);
+        } catch (error) {
+            lastError = error;
+            if (![429, 500, 502, 503, 504].includes(error.status) || attempt === attempts - 1) break;
+            await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)));
+        }
+    }
+    throw lastError;
 }
 
 function extractArcaPostsFromList(html, listUrl) {
@@ -702,7 +716,7 @@ function extractArcaListImage(anchorHtml, listUrl) {
 
 async function fetchArcaPostDetail(post, listUrl) {
     try {
-        const html = await fetchText(post.url);
+        const html = await fetchTextWithRetry(post.url);
         const title = cleanResourceTitle(
             extractMetaContent(html, 'property', 'og:title') ||
             extractTitle(html) ||
@@ -711,22 +725,21 @@ async function fetchArcaPostDetail(post, listUrl) {
         );
         const image = normalizeImageUrl(extractMetaContent(html, 'property', 'og:image') || '', post.url);
 
+        const desc = decodeHtmlEntities(extractMetaContent(html, 'property', 'og:description') || '').trim();
+        if (!desc) {
+            throw new Error(`Arca post description is empty: ${post.url}`);
+        }
+
         return {
             url: post.url,
             title,
-            desc: decodeHtmlEntities(extractMetaContent(html, 'property', 'og:description') || ''),
+            desc,
             image,
             sourceTab: post.sourceTab || getArcaSourceTab(listUrl)
         };
     } catch (error) {
-        console.warn(`Arca detail fetch failed; using list data: ${post.url}`, error);
-        return {
-            url: post.url,
-            title: cleanResourceTitle(post.title || post.id),
-            desc: '',
-            image: normalizeImageUrl(post.image || '', listUrl),
-            sourceTab: post.sourceTab || getArcaSourceTab(listUrl)
-        };
+        console.warn(`Arca detail fetch failed; deferring proposal: ${post.url}`, error);
+        throw error;
     }
 }
 

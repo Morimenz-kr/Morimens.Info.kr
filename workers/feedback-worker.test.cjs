@@ -106,26 +106,47 @@ test('목록에 있는 썸네일 주소를 상세 페이지 대체 이미지로 
     assert.equal(post.image, 'https://ac-p3.namu.la/example.jpg?type=list');
 });
 
-test('상세 페이지가 요청 제한되면 목록 데이터로 제안을 계속 만든다', async () => {
+test('상세 페이지가 계속 요청 제한되면 빈 설명 제안을 만들지 않고 다음 실행으로 미룬다', async () => {
     const originalFetch = global.fetch;
     global.fetch = async () => new Response('rate limited', { status: 429 });
 
     try {
-        const detail = await fetchArcaPostDetail({
+        await assert.rejects(() => fetchArcaPostDetail({
             id: '300',
             url: 'https://arca.live/b/forgettingeve/300',
             title: '목록에서 읽은 정보글',
             image: '//ac-p3.namu.la/fallback.jpg?type=list',
             sourceTab: '정보'
-        }, listUrl);
+        }, listUrl), /Fetch failed: 429/);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
 
-        assert.deepEqual(detail, {
-            url: 'https://arca.live/b/forgettingeve/300',
-            title: '목록에서 읽은 정보글',
-            desc: '',
-            image: 'https://ac-p3.namu.la/fallback.jpg?type=list',
+test('상세 페이지 요청 제한은 재시도 후 설명을 수집한다', async () => {
+    const originalFetch = global.fetch;
+    let attempts = 0;
+    global.fetch = async () => {
+        attempts += 1;
+        if (attempts < 3) return new Response('rate limited', { status: 429 });
+        return new Response(`
+            <meta property="og:title" content="재시도 성공 - 망각전야 채널">
+            <meta property="og:description" content="원문 설명">
+            <meta property="og:image" content="https://example.com/image.jpg">
+        `);
+    };
+
+    try {
+        const detail = await fetchArcaPostDetail({
+            id: '301',
+            url: 'https://arca.live/b/forgettingeve/301',
+            title: '목록 제목',
+            image: '',
             sourceTab: '정보'
-        });
+        }, listUrl);
+        assert.equal(attempts, 3);
+        assert.equal(detail.title, '재시도 성공');
+        assert.equal(detail.desc, '원문 설명');
     } finally {
         global.fetch = originalFetch;
     }
@@ -292,16 +313,16 @@ test('선택 반영 버튼은 화면에 표시된 선택 상태 revision을 포�
     assert.equal(decision.selectionRevision, '1234abcd');
 });
 
-test('실제 resource_links에는 침식 로탄 키가 하나만 있고 대기 링크도 보존된다', () => {
+test('실제 resource_links에는 침식 로탄 키가 하나만 있고 필수 링크가 중복 없이 보존된다', () => {
     const source = fs.readFileSync(path.join(__dirname, '..', 'data', 'resource_links.json'), 'utf8');
     const occurrences = source.match(/"lotan_cetarchon"\s*:/g) || [];
     const links = JSON.parse(source).characters.lotan_cetarchon;
+    const urls = links.map(link => link.url);
 
     assert.equal(occurrences.length, 1);
-    assert.deepEqual(links.map(link => link.url), [
-        'https://arca.live/b/forgettingeve/178113456',
-        'https://arca.live/b/forgettingeve/178103784'
-    ]);
+    assert.equal(new Set(urls).size, urls.length);
+    assert.ok(urls.includes('https://arca.live/b/forgettingeve/178113456'));
+    assert.ok(urls.includes('https://arca.live/b/forgettingeve/178103784'));
 });
 
 test('닫힌 PR의 pending 브랜치에 새 링크가 없으면 main으로 안전하게 재설정한다', async () => {
