@@ -14,6 +14,9 @@ function loadWorkerInternals() {
         return {
             extractArcaPostsFromList,
             fetchArcaPostDetail,
+            buildArcaListFallbackDetail,
+            collectEmptyArcaResourceDescriptions,
+            buildResourceLinkDescriptionBackfill,
             getGitHubFile,
             putGitHubFile,
             buildResourceLinksUpdate,
@@ -32,6 +35,9 @@ function loadWorkerInternals() {
 const {
     extractArcaPostsFromList,
     fetchArcaPostDetail,
+    buildArcaListFallbackDetail,
+    collectEmptyArcaResourceDescriptions,
+    buildResourceLinkDescriptionBackfill,
     getGitHubFile,
     putGitHubFile,
     buildResourceLinksUpdate,
@@ -106,7 +112,7 @@ test('목록에 있는 썸네일 주소를 상세 페이지 대체 이미지로 
     assert.equal(post.image, 'https://ac-p3.namu.la/example.jpg?type=list');
 });
 
-test('상세 페이지가 계속 요청 제한되면 빈 설명 제안을 만들지 않고 다음 실행으로 미룬다', async () => {
+test('상세 페이지가 계속 요청 제한되면 상세 조회가 실패로 끝난다', async () => {
     const originalFetch = global.fetch;
     global.fetch = async () => new Response('rate limited', { status: 429 });
 
@@ -150,6 +156,50 @@ test('상세 페이지 요청 제한은 재시도 후 설명을 수집한다', a
     } finally {
         global.fetch = originalFetch;
     }
+});
+
+test('상세 페이지를 읽지 못해도 목록 정보로 링크를 먼저 제안한다', () => {
+    const detail = buildArcaListFallbackDetail({
+        id: '302',
+        url: 'https://arca.live/b/forgettingeve/302',
+        title: '목록에서 읽은 제목',
+        image: '//ac-p3.namu.la/fallback.jpg?type=list',
+        sourceTab: '정보'
+    }, listUrl);
+
+    assert.deepEqual(detail, {
+        url: 'https://arca.live/b/forgettingeve/302',
+        title: '목록에서 읽은 제목',
+        desc: '',
+        image: 'https://ac-p3.namu.la/fallback.jpg?type=list',
+        sourceTab: '정보'
+    });
+});
+
+test('빈 Arca 설명을 찾아 같은 URL의 모든 등록 위치에 나중에 채운다', () => {
+    const url = 'https://arca.live/b/forgettingeve/303';
+    const source = JSON.stringify({
+        categories: {
+            newbie: { links: [{ url, title: '테스트', desc: '' }] }
+        },
+        characters: {
+            saya: [{ url, title: '테스트', desc: '' }],
+            lotan: [{ url: 'https://example.com/other', title: '다른 글', desc: '' }]
+        }
+    }, null, 2);
+
+    assert.deepEqual(collectEmptyArcaResourceDescriptions(source), [{
+        url,
+        title: '테스트',
+        image: ''
+    }]);
+
+    const result = buildResourceLinkDescriptionBackfill(source, url, '나중에 수집한 설명');
+    const updated = JSON.parse(result.content);
+    assert.equal(result.updated, 2);
+    assert.equal(updated.categories.newbie.links[0].desc, '나중에 수집한 설명');
+    assert.equal(updated.characters.saya[0].desc, '나중에 수집한 설명');
+    assert.equal(updated.characters.lotan[0].desc, '');
 });
 
 test('GitHub Contents API가 대용량 파일 내용을 생략하면 immutable blob SHA로 다시 읽는다', async () => {

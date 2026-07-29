@@ -31,6 +31,7 @@ ARCA_LIST_URLS=https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4
 https://arca.live/b/forgettingeve?category=dwrr
 ARCA_LIST_SCAN_LIMIT=20
 ARCA_MAX_PROPOSALS_PER_RUN=5
+ARCA_DESCRIPTION_BACKFILL_LIMIT=5
 ```
 
 `ARCA_LIST_URLS` can be comma-separated or line-separated. If it is empty, the scheduled monitor does nothing and the existing feedback/resource-link endpoints keep working.
@@ -98,6 +99,8 @@ Behavior:
 - Each run checks only the top `ARCA_LIST_SCAN_LIMIT` posts per list.
 - Each run sends at most `ARCA_MAX_PROPOSALS_PER_RUN` Discord approval requests.
 - A post is saved to KV only after the Discord approval message is created successfully.
+- If the detail page remains unavailable after retries, the Worker sends the proposal with the list title, URL, and thumbnail first.
+- Each later Cron checks up to `ARCA_DESCRIPTION_BACKFILL_LIMIT` approved Arca links with empty descriptions on the open pending branch and `main`, then fills their descriptions when the detail page becomes available.
 - Automatic monitoring only creates approval requests. Updating `data/resource_links.json` still requires Discord approval.
 
 ## Gift code scheduled monitor
