@@ -23,6 +23,7 @@ function loadWorkerInternals() {
             buildResourceUpdateResultMessage,
             buildResourceComponents,
             parseResourceDecision,
+            processResourceDecision,
             normalizeResourceSelection,
             ensureResourceLinksPendingBranch,
             editDiscordMessage,
@@ -44,6 +45,7 @@ const {
     buildResourceUpdateResultMessage,
     buildResourceComponents,
     parseResourceDecision,
+    processResourceDecision,
     normalizeResourceSelection,
     ensureResourceLinksPendingBranch,
     editDiscordMessage,
@@ -361,6 +363,104 @@ test('선택 반영 버튼은 화면에 표시된 선택 상태 revision을 포�
 
     assert.equal(approveSelected.custom_id, `rl:approve-selected:${proposalId}:1234abcd`);
     assert.equal(decision.selectionRevision, '1234abcd');
+});
+
+test('보류 상태에서는 보류 해제만 활성화한다', () => {
+    const proposalId = 'b'.repeat(32);
+    const components = buildResourceComponents(
+        proposalId,
+        false,
+        normalizeResourceSelection({
+            targets: ['character:lotan_cetarchon'],
+            activeRelems: 'chaos',
+            revision: '1234abcd'
+        }),
+        'held'
+    );
+    const actionButtons = components[0].components;
+    const unhold = actionButtons.find(component => component.label === '보류 해제');
+    const decision = parseResourceDecision({
+        data: { custom_id: unhold.custom_id }
+    });
+
+    assert.equal(actionButtons.length, 5);
+    assert.ok(actionButtons.filter(component => component !== unhold).every(component => component.disabled));
+    assert.equal(unhold.disabled, false);
+    assert.equal(unhold.custom_id, `rl:unhold:${proposalId}`);
+    assert.deepEqual(decision, {
+        action: 'unhold',
+        proposalId,
+        selectionRevision: null,
+        targets: []
+    });
+    assert.ok(components.slice(1).every(row => row.components.every(component => component.disabled)));
+});
+
+test('보류 해제는 기존 선택을 유지하고 pending 상태로 되돌린다', async () => {
+    const proposalId = 'c'.repeat(32);
+    const originalFetch = global.fetch;
+    const writes = [];
+    const messageUpdates = [];
+    const state = {
+        id: proposalId,
+        status: 'held',
+        handledBy: 'holder',
+        proposal: {
+            link: { url: 'https://example.com/post', title: '글', desc: '' },
+            targets: []
+        },
+        selection: {
+            targets: [{ type: 'character', id: 'lotan_cetarchon' }],
+            activeRelems: 'chaos',
+            revision: '1234abcd'
+        }
+    };
+    const env = {
+        DISCORD_APPLICATION_ID: 'application-id',
+        RESOURCE_LINK_STATE: {
+            async get() {
+                return state;
+            },
+            async put(key, value) {
+                writes.push({ key, value: JSON.parse(value) });
+            }
+        }
+    };
+    const interaction = {
+        token: 'interaction-token',
+        member: { user: { id: 'user-id', username: 'tester' } },
+        message: { id: 'message-id' }
+    };
+
+    global.fetch = async (url, options = {}) => {
+        messageUpdates.push({ url: String(url), body: JSON.parse(options.body) });
+        return Response.json({ id: 'message-id' });
+    };
+
+    try {
+        await processResourceDecision(env, interaction, {
+            action: 'unhold',
+            proposalId,
+            selectionRevision: null,
+            targets: []
+        });
+
+        assert.equal(writes.length, 1);
+        assert.equal(writes[0].value.status, 'pending');
+        assert.equal(writes[0].value.unheldBy, 'tester (user-id)');
+        assert.deepEqual(writes[0].value.selection.targets, [
+            { type: 'character', id: 'lotan_cetarchon' }
+        ]);
+        assert.equal(messageUpdates.length, 1);
+        assert.match(messageUpdates[0].body.content, /보류가 해제되었습니다/);
+        assert.equal(
+            messageUpdates[0].body.components[0].components.some(component => component.label === '보류 해제'),
+            false
+        );
+        assert.ok(messageUpdates[0].body.components.flatMap(row => row.components).every(component => !component.disabled));
+    } finally {
+        global.fetch = originalFetch;
+    }
 });
 
 test('실제 resource_links에는 침식 로탄 키가 하나만 있고 필수 링크가 중복 없이 보존된다', () => {

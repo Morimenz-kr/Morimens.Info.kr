@@ -1218,45 +1218,63 @@ async function sendResourceProposalMessage(env, proposal, proposalId) {
     return response.json();
 }
 
-function buildResourceComponents(proposalId, disabled = false, selection = defaultResourceSelection()) {
+function buildResourceComponents(
+    proposalId,
+    disabled = false,
+    selection = defaultResourceSelection(),
+    proposalStatus = 'pending'
+) {
     const activeRelems = normalizeRelems(selection.activeRelems);
     const selectedKeys = new Set(normalizeTargets(selection.targets || []).map(target => `${target.type}:${target.id}`));
     const activeCharacters = RESOURCE_CHARACTERS.filter(character => character.relems === activeRelems);
     const selectionRevision = normalizeResourceSelectionRevision(selection.revision);
+    const isHeld = proposalStatus === 'held';
+    const selectionDisabled = disabled || isHeld;
+    const actionComponents = [
+        {
+            type: 2,
+            style: 3,
+            label: '추천대로 OK',
+            custom_id: `rl:approve:${proposalId}`,
+            disabled: selectionDisabled
+        },
+        {
+            type: 2,
+            style: 1,
+            label: '선택 반영',
+            custom_id: `rl:approve-selected:${proposalId}:${selectionRevision}`,
+            disabled: selectionDisabled
+        },
+        {
+            type: 2,
+            style: 2,
+            label: '선택 초기화',
+            custom_id: `rl:clear-selection:${proposalId}`,
+            disabled: selectionDisabled
+        },
+        {
+            type: 2,
+            style: 2,
+            label: '보류',
+            custom_id: `rl:hold:${proposalId}`,
+            disabled: selectionDisabled
+        }
+    ];
+
+    if (isHeld) {
+        actionComponents.push({
+            type: 2,
+            style: 1,
+            label: '보류 해제',
+            custom_id: `rl:unhold:${proposalId}`,
+            disabled
+        });
+    }
 
     return [
         {
             type: 1,
-            components: [
-                {
-                    type: 2,
-                    style: 3,
-                    label: '추천대로 OK',
-                    custom_id: `rl:approve:${proposalId}`,
-                    disabled
-                },
-                {
-                    type: 2,
-                    style: 1,
-                    label: '선택 반영',
-                    custom_id: `rl:approve-selected:${proposalId}:${selectionRevision}`,
-                    disabled
-                },
-                {
-                    type: 2,
-                    style: 2,
-                    label: '선택 초기화',
-                    custom_id: `rl:clear-selection:${proposalId}`,
-                    disabled
-                },
-                {
-                    type: 2,
-                    style: 2,
-                    label: '보류',
-                    custom_id: `rl:hold:${proposalId}`,
-                    disabled
-                }
-            ]
+            components: actionComponents
         },
         {
             type: 1,
@@ -1267,7 +1285,7 @@ function buildResourceComponents(proposalId, disabled = false, selection = defau
                     placeholder: '일반 카테고리 선택',
                     min_values: 0,
                     max_values: RESOURCE_CATEGORIES.length,
-                    disabled,
+                    disabled: selectionDisabled,
                     options: RESOURCE_CATEGORIES.map(id => ({
                         label: RESOURCE_CATEGORY_LABELS[id] || id,
                         value: `category:${id}`,
@@ -1284,7 +1302,7 @@ function buildResourceComponents(proposalId, disabled = false, selection = defau
                 style: relems === activeRelems ? 1 : 2,
                 label: RELEMS_LABELS[relems] || relems,
                 custom_id: `rl:relems:${relems}:${proposalId}`,
-                disabled
+                disabled: selectionDisabled
             }))
         },
         {
@@ -1296,7 +1314,7 @@ function buildResourceComponents(proposalId, disabled = false, selection = defau
                     placeholder: `${RELEMS_LABELS[activeRelems] || activeRelems} 캐릭터 선택`,
                     min_values: 0,
                     max_values: activeCharacters.length,
-                    disabled,
+                    disabled: selectionDisabled,
                     options: activeCharacters.map(character => ({
                         label: character.name || character.id,
                         value: `character:${character.id}`,
@@ -1475,7 +1493,7 @@ function parseResourceDecision(interaction) {
 
     const action = parts[1];
 
-    if (['approve', 'approve-selected', 'clear-selection', 'hold', 'categories'].includes(action)) {
+    if (['approve', 'approve-selected', 'clear-selection', 'hold', 'unhold', 'categories'].includes(action)) {
         const proposalId = parts[2];
         if (!/^[a-f0-9]{32}$/.test(proposalId || '')) return null;
         return {
@@ -1524,10 +1542,45 @@ async function processResourceDecision(env, interaction, decision) {
             return;
         }
 
+        if (decision.action === 'unhold') {
+            if (proposalState.status !== 'held') {
+                await editDiscordMessage(env, interaction, {
+                    content: `보류 상태가 아닙니다. (상태: ${proposalState.status})`,
+                    components: buildResourceComponents(
+                        decision.proposalId,
+                        proposalState.status !== 'pending',
+                        selection,
+                        proposalState.status
+                    )
+                });
+                return;
+            }
+
+            const updatedState = {
+                ...proposalState,
+                status: 'pending',
+                unheldBy: getInteractionUserLabel(interaction)
+            };
+            await updateResourceProposalState(env, decision.proposalId, updatedState);
+            await editDiscordMessage(env, interaction, {
+                content: [
+                    '보류가 해제되었습니다. 다시 등록 대상을 선택하고 승인할 수 있습니다.',
+                    buildResourceMessageContent(selection)
+                ].join('\n'),
+                components: buildResourceComponents(decision.proposalId, false, selection)
+            });
+            return;
+        }
+
         if (proposalState.status !== 'pending') {
             await editDiscordMessage(env, interaction, {
                 content: `이미 처리된 제보입니다. (상태: ${proposalState.status})`,
-                components: buildResourceComponents(decision.proposalId, true, selection)
+                components: buildResourceComponents(
+                    decision.proposalId,
+                    proposalState.status !== 'held',
+                    selection,
+                    proposalState.status
+                )
             });
             return;
         }
@@ -1540,7 +1593,7 @@ async function processResourceDecision(env, interaction, decision) {
             });
             await editDiscordMessage(env, interaction, {
                 content: `보류 처리됨: resource_links를 변경하지 않았습니다. (${getInteractionUserLabel(interaction)})`,
-                components: buildResourceComponents(decision.proposalId, true, selection)
+                components: buildResourceComponents(decision.proposalId, false, selection, 'held')
             });
             return;
         }
