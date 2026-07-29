@@ -369,6 +369,45 @@
     transform-origin: top left;
 }
 
+.payment-image-viewer {
+    width: min(100%, 1065px);
+    margin-inline: auto;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-dark);
+}
+
+.payment-image-viewer img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+.payment-image-credit {
+    width: min(100%, 1065px);
+    margin: var(--space-2) auto 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: right;
+}
+
+.payment-image-credit a {
+    color: var(--color-text-muted);
+    text-underline-offset: 0.18em;
+}
+
+.payment-image-credit a:hover {
+    color: var(--color-text-secondary);
+}
+
+.payment-image-credit a:focus-visible {
+    border-radius: 2px;
+    outline: 0.18rem solid var(--color-focus);
+    outline-offset: 0.18rem;
+}
+
 .efficiency-data {
     min-width: 0;
     display: grid;
