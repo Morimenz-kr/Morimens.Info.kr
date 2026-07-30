@@ -31,7 +31,10 @@ function loadWorkerInternals() {
             recoverStaleResourceProposals,
             extractGiftCodesFromDiscordMessage,
             getDiscordMessageText,
-            extractGiftCodeExpiry
+            extractGiftCodeExpiry,
+            buildGiftCodeLinksUpdate,
+            buildGiftCodePublishedMessage,
+            getGiftCodeDaysRemaining
         };
     `)();
 }
@@ -56,7 +59,10 @@ const {
     recoverStaleResourceProposals,
     extractGiftCodesFromDiscordMessage,
     getDiscordMessageText,
-    extractGiftCodeExpiry
+    extractGiftCodeExpiry,
+    buildGiftCodeLinksUpdate,
+    buildGiftCodePublishedMessage,
+    getGiftCodeDaysRemaining
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 
@@ -84,6 +90,45 @@ test('전달된 Discord 메시지 스냅샷에서 기프트 코드를 읽는다'
         desc: '은심 500개, 무구의 은핵 5개',
         expiry: '2026-08-14'
     }]);
+});
+
+test('새 기프트 코드는 무기한 코드 다음에서 만료일 오름차순으로 정렬한다', () => {
+    const content = JSON.stringify({
+        categories: {
+            code: {
+                links: [
+                    { title: 'PERMANENT', desc: '상시', expiry: null },
+                    { title: 'EARLY', desc: '먼저', expiry: '2026-08-07' },
+                    { title: 'LATE', desc: '나중', expiry: '2026-08-17' }
+                ]
+            }
+        }
+    }, null, 2);
+
+    const result = buildGiftCodeLinksUpdate(content, {
+        title: 'MIDDLE',
+        desc: '중간',
+        expiry: '2026-08-14'
+    });
+    const links = JSON.parse(result.content).categories.code.links;
+
+    assert.equal(result.added, true);
+    assert.deepEqual(links.map(link => link.title), ['PERMANENT', 'EARLY', 'MIDDLE', 'LATE']);
+});
+
+test('사이트 반영 완료 메시지는 한국 날짜 기준 남은 일수를 표시한다', () => {
+    const now = new Date('2026-07-30T05:00:00.000Z');
+    const code = {
+        title: 'UJDP-SYWT-JNGZ',
+        desc: '은심 500개, 무구의 은핵 5개',
+        expiry: '2026-08-14'
+    };
+
+    assert.equal(getGiftCodeDaysRemaining(code.expiry, now), 15);
+    assert.equal(
+        buildGiftCodePublishedMessage(code, now),
+        'UJDP-SYWT-JNGZ | 은심 500개, 무구의 은핵 5개, 15일 남음'
+    );
 });
 
 test('정보 탭 고정 공지는 새 정보글로 수집하지 않는다', () => {
