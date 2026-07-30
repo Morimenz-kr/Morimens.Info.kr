@@ -651,14 +651,18 @@ test('오래 멈춘 processing 제보는 Queue에 다시 넣는다', async () =>
     const env = {
         DISCORD_CHANNEL_ID: 'channel-id',
         RESOURCE_LINK_STATE: {
-            async list() {
+            async list(options) {
+                assert.equal(options.limit, 5);
                 return { keys: [{ name: `resource-link:proposal:${proposalId}` }], list_complete: true };
             },
-            async get() {
+            async get(key) {
+                if (key === 'resource-link:recovery-cursor:v1') return null;
                 return state;
             },
             async put(key, value) {
                 writes.push({ key, value: JSON.parse(value) });
+            },
+            async delete() {
             }
         },
         RESOURCE_LINK_QUEUE: {
@@ -681,6 +685,53 @@ test('오래 멈춘 processing 제보는 Queue에 다시 넣는다', async () =>
     assert.equal(writes.length, 1);
     assert.equal(writes[0].value.status, 'processing');
     assert.equal(writes[0].value.recoveryCount, 1);
+});
+
+test('stale 제보 복구는 한 번에 제한된 수만 읽고 다음 cursor를 저장한다', async () => {
+    const stateReads = [];
+    const cursorWrites = [];
+    const keys = Array.from({ length: 5 }, (_, index) => ({
+        name: `resource-link:proposal:${String(index).padStart(32, 'a')}`
+    }));
+    const env = {
+        RESOURCE_LINK_STATE: {
+            async list(options) {
+                assert.deepEqual(options, {
+                    prefix: 'resource-link:proposal:',
+                    limit: 5
+                });
+                return {
+                    keys,
+                    list_complete: false,
+                    cursor: 'next-page-cursor'
+                };
+            },
+            async get(key) {
+                if (key === 'resource-link:recovery-cursor:v1') return null;
+                stateReads.push(key);
+                return { status: 'completed' };
+            },
+            async put(key, value) {
+                cursorWrites.push({ key, value });
+            },
+            async delete() {
+                throw new Error('cursor를 삭제하면 안 됩니다.');
+            }
+        },
+        RESOURCE_LINK_QUEUE: {
+            async send() {
+                throw new Error('완료된 제보를 다시 Queue에 넣으면 안 됩니다.');
+            }
+        }
+    };
+
+    await recoverStaleResourceProposals(env);
+
+    assert.equal(stateReads.length, 5);
+    assert.deepEqual(cursorWrites, [{
+        key: 'resource-link:recovery-cursor:v1',
+        value: 'next-page-cursor'
+    }]);
 });
 
 test('잘못된 Queue 작업은 GitHub를 건드리지 않고 완료 처리한다', async () => {

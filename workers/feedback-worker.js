@@ -3,7 +3,9 @@ const RESOURCE_LINKS_PATH = 'data/resource_links.json';
 const RESOURCE_LINKS_PENDING_BRANCH = 'resource-links/pending';
 const DEFAULT_BASE_BRANCH = 'main';
 const RESOURCE_PROPOSAL_STATE_PREFIX = 'resource-link:proposal:';
+const RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY = 'resource-link:recovery-cursor:v1';
 const RESOURCE_PROCESSING_STALE_MS = 5 * 60 * 1000;
+const DEFAULT_STALE_PROPOSAL_SCAN_LIMIT = 5;
 const INTERACTION_PING = 1;
 const INTERACTION_APPLICATION_COMMAND = 2;
 const INTERACTION_MESSAGE_COMPONENT = 3;
@@ -186,7 +188,9 @@ export default {
             recoverStaleResourceProposals(env).catch(error => {
                 console.error('Stale resource proposal recovery failed', error);
             })
-        ]));
+        ]).then(() => {
+            console.log('Scheduled maintenance completed');
+        }));
     },
 
     async queue(batch, env) {
@@ -1924,44 +1928,76 @@ async function editResourceProposalMessage(env, job, payload) {
 async function recoverStaleResourceProposals(env) {
     if (!env.RESOURCE_LINK_STATE || !env.RESOURCE_LINK_QUEUE) return;
 
-    let cursor;
-    do {
-        const page = await env.RESOURCE_LINK_STATE.list({
+    const scanLimit = getPositiveIntegerEnv(
+        env.STALE_PROPOSAL_SCAN_LIMIT,
+        DEFAULT_STALE_PROPOSAL_SCAN_LIMIT,
+        1,
+        20
+    );
+    const savedCursor = await env.RESOURCE_LINK_STATE.get(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY);
+    const listOptions = {
+        prefix: RESOURCE_PROPOSAL_STATE_PREFIX,
+        limit: scanLimit
+    };
+    if (savedCursor) listOptions.cursor = savedCursor;
+
+    let page;
+    try {
+        page = await env.RESOURCE_LINK_STATE.list(listOptions);
+    } catch (error) {
+        if (!savedCursor) throw error;
+        console.warn('Stale proposal recovery cursor was invalid; restarting scan');
+        await env.RESOURCE_LINK_STATE.delete(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY);
+        page = await env.RESOURCE_LINK_STATE.list({
             prefix: RESOURCE_PROPOSAL_STATE_PREFIX,
-            cursor
+            limit: scanLimit
         });
-        for (const key of page.keys) {
-            const state = await env.RESOURCE_LINK_STATE.get(key.name, 'json');
-            const retryFailedUpdate = state?.status === 'pending'
-                && state.lastError
-                && Number(state.automaticRetryCount || 0) < 1;
-            if (state?.status !== 'processing' && !retryFailedUpdate) continue;
+    }
 
-            const startedAt = Date.parse(
-                retryFailedUpdate
-                    ? state.failedAt || state.updatedAt || 0
-                    : state.processingStartedAt || state.updatedAt || 0
-            );
-            if (Number.isFinite(startedAt) && Date.now() - startedAt < RESOURCE_PROCESSING_STALE_MS) continue;
+    let requeued = 0;
+    for (const key of page.keys) {
+        const state = await env.RESOURCE_LINK_STATE.get(key.name, 'json');
+        const retryFailedUpdate = state?.status === 'pending'
+            && state.lastError
+            && Number(state.automaticRetryCount || 0) < 1;
+        if (state?.status !== 'processing' && !retryFailedUpdate) continue;
 
-            await enqueueResourceUpdate(env, {
-                proposalId: state.id,
-                targets: normalizeTargets(state.selection?.targets || state.proposal?.targets || []),
-                channelId: env.DISCORD_CHANNEL_ID,
-                messageId: state.discordMessageId,
-                handledBy: state.handledBy || 'automatic recovery'
-            });
-            await updateResourceProposalState(env, state.id, {
-                ...state,
-                status: 'processing',
-                processingStartedAt: new Date().toISOString(),
-                recoveryCount: Number(state.recoveryCount || 0) + 1,
-                automaticRetryCount: Number(state.automaticRetryCount || 0) + (retryFailedUpdate ? 1 : 0)
-            });
-            console.log('Requeued stale resource proposal', { proposalId: state.id });
-        }
-        cursor = page.list_complete ? undefined : page.cursor;
-    } while (cursor);
+        const startedAt = Date.parse(
+            retryFailedUpdate
+                ? state.failedAt || state.updatedAt || 0
+                : state.processingStartedAt || state.updatedAt || 0
+        );
+        if (Number.isFinite(startedAt) && Date.now() - startedAt < RESOURCE_PROCESSING_STALE_MS) continue;
+
+        await enqueueResourceUpdate(env, {
+            proposalId: state.id,
+            targets: normalizeTargets(state.selection?.targets || state.proposal?.targets || []),
+            channelId: env.DISCORD_CHANNEL_ID,
+            messageId: state.discordMessageId,
+            handledBy: state.handledBy || 'automatic recovery'
+        });
+        await updateResourceProposalState(env, state.id, {
+            ...state,
+            status: 'processing',
+            processingStartedAt: new Date().toISOString(),
+            recoveryCount: Number(state.recoveryCount || 0) + 1,
+            automaticRetryCount: Number(state.automaticRetryCount || 0) + (retryFailedUpdate ? 1 : 0)
+        });
+        requeued += 1;
+        console.log('Requeued stale resource proposal', { proposalId: state.id });
+    }
+
+    if (page.list_complete || !page.cursor) {
+        await env.RESOURCE_LINK_STATE.delete(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY);
+    } else {
+        await env.RESOURCE_LINK_STATE.put(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY, page.cursor);
+    }
+
+    console.log('Stale proposal recovery scan completed', {
+        scanned: page.keys.length,
+        requeued,
+        cycleCompleted: Boolean(page.list_complete)
+    });
 }
 
 async function updateResourceLinks(env, link, targets) {
