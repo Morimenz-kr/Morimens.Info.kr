@@ -660,6 +660,14 @@ function extractGiftCodesFromDiscordMessage(message) {
 }
 
 function getDiscordMessageText(message) {
+    const messages = [
+        message,
+        ...(message.message_snapshots || []).map(snapshot => snapshot?.message).filter(Boolean)
+    ];
+    return messages.map(getDiscordMessageOwnText).filter(Boolean).join('\n');
+}
+
+function getDiscordMessageOwnText(message) {
     const embedText = (message.embeds || []).flatMap(embed => [
         embed.title,
         embed.description,
@@ -673,6 +681,13 @@ function extractGiftCodeExpiry(text, timestamp) {
         .filter(line => /(?:expire|expiry|valid|until|기한|만료|종료|마감)/i.test(line))
         .join('\n');
     if (!expiryText) return null;
+
+    const discordTimestampMatch = expiryText.match(/<t:(\d{9,12})(?::[tTdDfFR])?>/);
+    if (discordTimestampMatch) {
+        const unixSeconds = Number(discordTimestampMatch[1]);
+        const koreanTime = new Date((unixSeconds + (9 * 60 * 60)) * 1000);
+        if (!Number.isNaN(koreanTime.getTime())) return koreanTime.toISOString().slice(0, 10);
+    }
 
     const isoMatch = expiryText.match(/\b(20\d{2})[.\-/년\s]+(\d{1,2})[.\-/월\s]+(\d{1,2})(?:일)?\b/);
     if (isoMatch) return formatIsoDate(isoMatch[1], isoMatch[2], isoMatch[3]);

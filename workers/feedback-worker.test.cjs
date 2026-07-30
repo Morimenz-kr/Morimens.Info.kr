@@ -28,7 +28,10 @@ function loadWorkerInternals() {
             ensureResourceLinksPendingBranch,
             editDiscordMessage,
             processQueuedResourceUpdate,
-            recoverStaleResourceProposals
+            recoverStaleResourceProposals,
+            extractGiftCodesFromDiscordMessage,
+            getDiscordMessageText,
+            extractGiftCodeExpiry
         };
     `)();
 }
@@ -50,9 +53,38 @@ const {
     ensureResourceLinksPendingBranch,
     editDiscordMessage,
     processQueuedResourceUpdate,
-    recoverStaleResourceProposals
+    recoverStaleResourceProposals,
+    extractGiftCodesFromDiscordMessage,
+    getDiscordMessageText,
+    extractGiftCodeExpiry
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
+
+test('전달된 Discord 메시지 스냅샷에서 기프트 코드를 읽는다', () => {
+    const message = {
+        id: 'forwarded-gift-code',
+        content: '',
+        timestamp: '2026-07-30T03:52:00.000Z',
+        message_snapshots: [{
+            message: {
+                content: [
+                    'Redemption Code: UJDP-SYWT-JNGZ',
+                    'Gift Contents: Silver ×500, Pure Core ×5',
+                    'Valid until: <t:1786636740:F>'
+                ].join('\n'),
+                embeds: []
+            }
+        }]
+    };
+
+    assert.match(getDiscordMessageText(message), /UJDP-SYWT-JNGZ/);
+    assert.equal(extractGiftCodeExpiry(getDiscordMessageText(message), message.timestamp), '2026-08-14');
+    assert.deepEqual(extractGiftCodesFromDiscordMessage(message), [{
+        title: 'UJDP-SYWT-JNGZ',
+        desc: '은심 500개, 무구의 은핵 5개',
+        expiry: '2026-08-14'
+    }]);
+});
 
 test('정보 탭 고정 공지는 새 정보글로 수집하지 않는다', () => {
     const html = `
