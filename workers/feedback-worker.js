@@ -17,8 +17,12 @@ const DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN = 5;
 const DEFAULT_ARCA_DESCRIPTION_BACKFILL_LIMIT = 5;
 const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
+const GIFT_CODE_NOTIFICATION_KEY_PREFIX = 'gift-code:notification:';
 const DEFAULT_GIFT_CODE_CHANNEL_ID = '1529856105562247358';
 const DEFAULT_GIFT_CODE_SCAN_LIMIT = 25;
+const DEFAULT_GIFT_CODE_RESOURCE_URL = 'https://morimenz-kr.github.io/Morimens.Info.kr/data/resource_links.json';
+const DEFAULT_GIFT_CODE_PUBLISH_CHECK_ATTEMPTS = 12;
+const DEFAULT_GIFT_CODE_PUBLISH_CHECK_INTERVAL_MS = 5000;
 const DISCORD_RESOURCE_COMMANDS_STATE_KEY = 'discord:resource-commands:v1';
 const DISCORD_RESOURCE_COMMANDS = [
     { name: 'list', description: '열린 리소스 링크 대기 목록을 표시합니다.' },
@@ -592,7 +596,7 @@ async function handleGiftCodeMonitor(env) {
 
     const scanLimit = getPositiveIntegerEnv(env.GIFT_CODE_SCAN_LIMIT, DEFAULT_GIFT_CODE_SCAN_LIMIT, 1, 100);
     const messages = await fetchDiscordChannelMessages(env, channelId, scanLimit);
-    const result = { ok: true, scanned: messages.length, skippedSeen: 0, added: 0, failed: 0 };
+    const result = { ok: true, scanned: messages.length, skippedSeen: 0, added: 0, notified: 0, failed: 0 };
 
     for (const message of messages) {
         const seenKey = `${GIFT_CODE_SEEN_KEY_PREFIX}${message.id}`;
@@ -605,8 +609,24 @@ async function handleGiftCodeMonitor(env) {
             const codes = extractGiftCodesFromDiscordMessage(message);
             const commits = [];
             for (const code of codes) {
+                const notificationKey = `${GIFT_CODE_NOTIFICATION_KEY_PREFIX}${message.id}:${code.title}`;
+                const pendingNotification = await env.RESOURCE_LINK_STATE.get(notificationKey);
                 const update = await updateGiftCodeLinks(env, code);
-                if (update.added) commits.push(update.commitUrl);
+                if (update.added) {
+                    commits.push(update.commitUrl);
+                    await env.RESOURCE_LINK_STATE.put(notificationKey, JSON.stringify({
+                        code,
+                        commitUrl: update.commitUrl,
+                        createdAt: new Date().toISOString()
+                    }));
+                }
+
+                if (update.added || pendingNotification) {
+                    await waitForGiftCodePublished(env, code);
+                    await sendGiftCodePublishedMessage(env, channelId, code);
+                    await env.RESOURCE_LINK_STATE.delete(notificationKey);
+                    result.notified += 1;
+                }
             }
 
             await env.RESOURCE_LINK_STATE.put(seenKey, JSON.stringify({
@@ -760,13 +780,102 @@ function buildGiftCodeLinksUpdate(content, code) {
         return { added: false, content };
     }
 
-    const insertion = buildResourceLinkInsertion(content, { type: 'category', id: 'code' }, {
+    links.push({
         title: code.title,
         desc: code.desc,
         expiry: code.expiry
     });
-    if (!insertion) throw new Error('Gift code insertion point is missing');
-    return { added: true, content: insertion };
+    links.sort(compareGiftCodeExpiry);
+    const updatedContent = replaceResourceTargetArray(content, { type: 'category', id: 'code' }, links);
+    if (!updatedContent) throw new Error('Gift code category insertion point is missing');
+    return { added: true, content: updatedContent };
+}
+
+function compareGiftCodeExpiry(left, right) {
+    const leftExpiry = String(left?.expiry || '');
+    const rightExpiry = String(right?.expiry || '');
+    if (!leftExpiry && !rightExpiry) return 0;
+    if (!leftExpiry) return -1;
+    if (!rightExpiry) return 1;
+    return leftExpiry.localeCompare(rightExpiry);
+}
+
+function replaceResourceTargetArray(content, target, items) {
+    const listInfo = findTargetArray(content, target);
+    if (!listInfo || listInfo.arrayEnd < 0) return null;
+
+    const lineStart = content.lastIndexOf('\n', listInfo.arrayStart) + 1;
+    const arrayIndent = content.slice(lineStart, listInfo.arrayStart).match(/^\s*/)?.[0] || '';
+    const itemIndent = `${arrayIndent}  `;
+    const itemText = items.map(item => JSON.stringify(item, null, 2)
+        .split('\n')
+        .map(line => `${itemIndent}${line}`)
+        .join('\n'))
+        .join(',\n');
+    const replacement = itemText ? `[\n${itemText}\n${arrayIndent}]` : '[]';
+    return `${content.slice(0, listInfo.arrayStart)}${replacement}${content.slice(listInfo.arrayEnd + 1)}`;
+}
+
+function buildGiftCodePublishedMessage(code, now = new Date()) {
+    const daysRemaining = getGiftCodeDaysRemaining(code.expiry, now);
+    const remainingText = daysRemaining === null ? '기한 없음' : `${daysRemaining}일 남음`;
+    return `${code.title} | ${code.desc}, ${remainingText}`;
+}
+
+function getGiftCodeDaysRemaining(expiry, now = new Date()) {
+    if (!/^20\d{2}-\d{2}-\d{2}$/.test(String(expiry || ''))) return null;
+    const expiryDay = Date.parse(`${expiry}T00:00:00.000Z`);
+    const koreanToday = new Date(new Date(now).getTime() + (9 * 60 * 60 * 1000)).toISOString().slice(0, 10);
+    const today = Date.parse(`${koreanToday}T00:00:00.000Z`);
+    if (Number.isNaN(expiryDay) || Number.isNaN(today)) return null;
+    return Math.max(0, Math.round((expiryDay - today) / (24 * 60 * 60 * 1000)));
+}
+
+async function waitForGiftCodePublished(env, code) {
+    const resourceUrl = String(env.GIFT_CODE_RESOURCE_URL || DEFAULT_GIFT_CODE_RESOURCE_URL).trim();
+    const attempts = getPositiveIntegerEnv(
+        env.GIFT_CODE_PUBLISH_CHECK_ATTEMPTS,
+        DEFAULT_GIFT_CODE_PUBLISH_CHECK_ATTEMPTS,
+        1,
+        60
+    );
+
+    for (let attempt = 0; attempt < attempts; attempt += 1) {
+        try {
+            const url = new URL(resourceUrl);
+            url.searchParams.set('gift-code-check', `${code.title}-${Date.now()}`);
+            const response = await fetch(url, { headers: { 'Cache-Control': 'no-cache' } });
+            if (response.ok) {
+                const db = await response.json();
+                const links = db.categories?.code?.links || [];
+                if (links.some(link => String(link?.title || '').toUpperCase() === code.title.toUpperCase())) return;
+            }
+        } catch (error) {
+            console.warn(`Gift code publish check failed: ${code.title}`, error);
+        }
+
+        if (attempt + 1 < attempts) {
+            await new Promise(resolve => setTimeout(resolve, DEFAULT_GIFT_CODE_PUBLISH_CHECK_INTERVAL_MS));
+        }
+    }
+
+    throw new Error(`Gift code was not published before timeout: ${code.title}`);
+}
+
+async function sendGiftCodePublishedMessage(env, channelId, code) {
+    const response = await fetch(`https://discord.com/api/v10/channels/${channelId}/messages`, {
+        method: 'POST',
+        headers: discordBotHeaders(env),
+        body: JSON.stringify({
+            content: buildGiftCodePublishedMessage(code),
+            allowed_mentions: { parse: [] }
+        })
+    });
+    if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`Discord gift code notification failed: ${response.status} ${detail.slice(0, 300)}`);
+    }
+    return response.json();
 }
 
 function parseArcaListUrls(value) {
@@ -2135,6 +2244,8 @@ function getArrayInsertionInfo(content, arrayStart) {
     const indent = content.slice(lineStart, arrayStart).match(/^\s*/)?.[0] || '';
 
     return {
+        arrayStart,
+        arrayEnd: findMatchingJsonDelimiter(content, arrayStart, '[', ']'),
         insertIndex: cursor,
         hasItems: content[cursor] !== ']',
         indent
