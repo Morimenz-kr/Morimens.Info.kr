@@ -22,6 +22,12 @@ function loadWorkerInternals() {
             buildResourceLinksUpdate,
             buildResourceUpdateResultMessage,
             buildResourceComponents,
+            createResourceProposalMessage,
+            getSeenArcaPostIds,
+            scanArcaFeedPage,
+            processPendingArcaPosts,
+            getArcaFeedStateKey,
+            compareArcaPostIds,
             parseResourceDecision,
             processResourceDecision,
             normalizeResourceSelection,
@@ -50,6 +56,12 @@ const {
     buildResourceLinksUpdate,
     buildResourceUpdateResultMessage,
     buildResourceComponents,
+    createResourceProposalMessage,
+    getSeenArcaPostIds,
+    scanArcaFeedPage,
+    processPendingArcaPosts,
+    getArcaFeedStateKey,
+    compareArcaPostIds,
     parseResourceDecision,
     processResourceDecision,
     normalizeResourceSelection,
@@ -65,6 +77,223 @@ const {
     getGiftCodeDaysRemaining
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
+
+test('Arca 대기 글은 오래된 글 ID부터 정렬한다', () => {
+    const ids = ['300', '100', '200'].sort(compareArcaPostIds);
+    assert.deepEqual(ids, ['100', '200', '300']);
+});
+
+test('탭별 체크포인트를 만날 때까지 다음 페이지를 이어 읽는다', async () => {
+    const originalFetch = global.fetch;
+    const writes = [];
+    const feedStateKey = getArcaFeedStateKey(listUrl);
+    global.fetch = async url => {
+        assert.match(String(url), /[?&]p=2(?:&|$)/);
+        return new Response(`
+            <div class="list-table table">
+                <a class="vrow column" href="/b/forgettingeve/180?p=2">
+                    <span class="vcol col-id">180</span>
+                    <span class="vcol col-title"><span class="title">새 글</span></span>
+                </a>
+                <a class="vrow column" href="/b/forgettingeve/90?p=2">
+                    <span class="vcol col-id">90</span>
+                    <span class="vcol col-title"><span class="title">체크포인트 이전 글</span></span>
+                </a>
+            </div>
+        `, { status: 200 });
+    };
+
+    try {
+        const result = await scanArcaFeedPage({
+            RESOURCE_LINK_STATE: {
+                async get(key) {
+                    assert.equal(key, feedStateKey);
+                    return {
+                        checkpointId: '100',
+                        scan: {
+                            targetHighWatermarkId: '200',
+                            nextPage: 2,
+                            startedAt: '2026-07-31T00:00:00.000Z'
+                        }
+                    };
+                },
+                async put(key, value) {
+                    writes.push({ key, value: JSON.parse(value) });
+                }
+            }
+        }, listUrl, 2, new Set(), new Set());
+
+        assert.equal(result.pageNumber, 2);
+        assert.equal(result.reachedBoundary, true);
+        assert.equal(result.checkpointId, '200');
+        assert.equal(writes[0].key, 'arca:pending:180');
+        assert.equal(writes[1].key, feedStateKey);
+        assert.equal(writes[1].value.checkpointId, '200');
+        assert.equal(writes[1].value.scan, null);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('이미 전송한 Arca 글 ID는 KV 목록 한 번으로 읽는다', async () => {
+    const calls = [];
+    const ids = await getSeenArcaPostIds({
+        RESOURCE_LINK_STATE: {
+            async list(options) {
+                calls.push(options);
+                return {
+                    keys: [{ name: 'arca:seen:100' }, { name: 'arca:seen:200' }],
+                    list_complete: true
+                };
+            }
+        }
+    });
+
+    assert.deepEqual([...ids], ['100', '200']);
+    assert.equal(calls.length, 1);
+    assert.equal(calls[0].prefix, 'arca:seen:');
+    assert.equal(calls[0].limit, 1000);
+});
+
+test('Discord 제보 상태는 메시지 ID를 포함해 KV에 한 번만 저장한다', async () => {
+    const originalFetch = global.fetch;
+    const writes = [];
+    const fetches = [];
+    global.fetch = async (url, options = {}) => {
+        fetches.push({ url: String(url), options });
+        return Response.json({ id: 'discord-message-id' });
+    };
+
+    try {
+        const result = await createResourceProposalMessage({
+            DISCORD_CHANNEL_ID: 'channel-id',
+            DISCORD_BOT_TOKEN: 'bot-token',
+            RESOURCE_LINK_STATE: {
+                async put(key, value) {
+                    writes.push({ key, value: JSON.parse(value) });
+                }
+            }
+        }, {
+            link: {
+                url: 'https://arca.live/b/forgettingeve/100',
+                title: '테스트 글',
+                desc: '',
+                image: ''
+            },
+            targets: [],
+            sourceTab: '정보',
+            submittedBy: 'arca-monitor'
+        });
+
+        assert.equal(fetches.length, 1);
+        assert.equal(writes.length, 1);
+        assert.equal(writes[0].value.discordMessageId, 'discord-message-id');
+        assert.equal(result.proposalState.discordMessageId, 'discord-message-id');
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('Arca 대기열은 오래된 글부터 Discord로 전송한다', async () => {
+    const originalFetch = global.fetch;
+    const sentTitles = [];
+    const deletedKeys = [];
+    const posts = Object.fromEntries(['100', '200', '300'].map(id => [
+        `arca:pending:${id}`,
+        {
+            id,
+            url: `https://arca.live/b/forgettingeve/${id}`,
+            title: `글 ${id}`,
+            image: '',
+            sourceTab: '정보',
+            sourceListUrl: listUrl,
+            discoveredAt: '2026-07-31T00:00:00.000Z'
+        }
+    ]));
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.startsWith('https://arca.live/')) {
+            const id = requestUrl.match(/\/(\d+)$/)?.[1];
+            return new Response(`
+                <meta property="og:title" content="글 ${id}">
+                <meta property="og:description" content="설명 ${id}">
+                <meta property="og:url" content="${requestUrl}">
+            `, { status: 200 });
+        }
+        const payload = JSON.parse(options.body);
+        sentTitles.push(payload.embeds[0].title);
+        return Response.json({ id: `discord-${sentTitles.length}` });
+    };
+
+    try {
+        const result = await processPendingArcaPosts({
+            DISCORD_CHANNEL_ID: 'channel-id',
+            DISCORD_BOT_TOKEN: 'bot-token',
+            RESOURCE_LINK_STATE: {
+                async list() {
+                    return {
+                        keys: [
+                            { name: 'arca:pending:300' },
+                            { name: 'arca:pending:100' },
+                            { name: 'arca:pending:200' }
+                        ],
+                        list_complete: true
+                    };
+                },
+                async get(key) {
+                    return posts[key];
+                },
+                async put() {
+                },
+                async delete(key) {
+                    deletedKeys.push(key);
+                }
+            }
+        }, new Set(), 2);
+
+        assert.equal(result.proposed, 2);
+        assert.deepEqual(sentTitles, ['글 100', '글 200']);
+        assert.deepEqual(deletedKeys, ['arca:pending:100', 'arca:pending:200']);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('제보 상태 저장 실패 시 보낸 Discord 메시지를 삭제한다', async () => {
+    const originalFetch = global.fetch;
+    const methods = [];
+    global.fetch = async (url, options = {}) => {
+        methods.push(options.method || 'GET');
+        if (options.method === 'DELETE') return new Response(null, { status: 204 });
+        return Response.json({ id: 'orphan-message-id' });
+    };
+
+    try {
+        await assert.rejects(() => createResourceProposalMessage({
+            DISCORD_CHANNEL_ID: 'channel-id',
+            DISCORD_BOT_TOKEN: 'bot-token',
+            RESOURCE_LINK_STATE: {
+                async put() {
+                    throw new Error('KV write failed');
+                }
+            }
+        }, {
+            link: {
+                url: 'https://arca.live/b/forgettingeve/100',
+                title: '테스트 글',
+                desc: '',
+                image: ''
+            },
+            targets: [],
+            sourceTab: '정보',
+            submittedBy: 'arca-monitor'
+        }), /KV write failed/);
+
+        assert.deepEqual(methods, ['POST', 'DELETE']);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
 
 test('전달된 Discord 메시지 스냅샷에서 기프트 코드를 읽는다', () => {
     const message = {

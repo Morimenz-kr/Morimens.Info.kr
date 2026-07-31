@@ -16,8 +16,11 @@ const RESPONSE_DEFERRED_UPDATE = 6;
 const DEFAULT_ACTIVE_RELEMS = 'chaos';
 const DEFAULT_ARCA_LIST_SCAN_LIMIT = 20;
 const DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN = 5;
+const DEFAULT_ARCA_PENDING_WRITES_PER_FEED = 5;
 const DEFAULT_ARCA_DESCRIPTION_BACKFILL_LIMIT = 5;
 const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
+const ARCA_PENDING_KEY_PREFIX = 'arca:pending:';
+const ARCA_FEED_STATE_KEY_PREFIX = 'arca:feed:';
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
 const GIFT_CODE_NOTIFICATION_KEY_PREFIX = 'gift-code:notification:';
 const DEFAULT_GIFT_CODE_CHANNEL_ID = '1529856105562247358';
@@ -331,12 +334,7 @@ async function handleResourceLinkProposal(request, env, corsHeaders) {
         return jsonResponse({ error: 'link.url and link.title are required' }, 400, corsHeaders);
     }
 
-    const proposalState = await createResourceProposalState(env, proposal);
-    const discordMessage = await sendResourceProposalMessage(env, proposal, proposalState.id);
-    await updateResourceProposalState(env, proposalState.id, {
-        ...proposalState,
-        discordMessageId: discordMessage.id
-    });
+    const { proposalState, discordMessage } = await createResourceProposalMessage(env, proposal);
 
     return jsonResponse({
         ok: true,
@@ -362,89 +360,309 @@ async function handleArcaMonitor(env) {
 
     const scanLimit = getPositiveIntegerEnv(env.ARCA_LIST_SCAN_LIMIT, DEFAULT_ARCA_LIST_SCAN_LIMIT, 1, 50);
     const maxProposals = getPositiveIntegerEnv(env.ARCA_MAX_PROPOSALS_PER_RUN, DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN, 1, 10);
-    const submittedAt = new Date().toISOString();
-    const seenThisRun = new Set();
+    const seenIds = await getSeenArcaPostIds(env);
     const result = {
         ok: true,
         lists: listUrls.length,
         scanned: 0,
-        skippedSeen: 0,
+        discovered: 0,
         proposed: 0,
         failed: 0
     };
 
-    for (const listUrl of listUrls) {
-        if (result.proposed >= maxProposals) break;
+    const delivery = await processPendingArcaPosts(env, seenIds, maxProposals);
+    result.proposed = delivery.proposed;
+    result.failed += delivery.failed;
 
-        let posts;
+    const pendingIds = await getPendingArcaPostIds(env);
+    for (const listUrl of listUrls) {
         try {
-            const html = await fetchText(listUrl);
-            posts = extractArcaPostsFromList(html, listUrl).slice(0, scanLimit);
+            const discovery = await scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds);
+            result.scanned += discovery.scanned;
+            result.discovered += discovery.discovered;
         } catch (error) {
             result.failed += 1;
-            console.warn(`Arca list fetch failed: ${listUrl}`, error);
-            continue;
-        }
-
-        for (const post of posts) {
-            if (result.proposed >= maxProposals) break;
-            if (seenThisRun.has(post.id)) continue;
-            seenThisRun.add(post.id);
-            result.scanned += 1;
-
-            const seenKey = `${ARCA_SEEN_KEY_PREFIX}${post.id}`;
-            const alreadySeen = await env.RESOURCE_LINK_STATE.get(seenKey);
-            if (alreadySeen) {
-                result.skippedSeen += 1;
-                continue;
-            }
-
-            try {
-                let detail;
-                try {
-                    detail = await fetchArcaPostDetail(post, listUrl);
-                } catch (error) {
-                    detail = buildArcaListFallbackDetail(post, listUrl);
-                    console.warn(`Arca detail unavailable; proposing link first: ${post.url}`, error);
-                }
-                const proposal = normalizeResourceProposal({
-                    url: detail.url,
-                    title: detail.title,
-                    desc: detail.desc,
-                    image: detail.image,
-                    sourceTab: detail.sourceTab,
-                    submittedBy: 'arca-monitor',
-                    submittedAt
-                });
-
-                if (!proposal.link.url || !proposal.link.title) continue;
-
-                const proposalState = await createResourceProposalState(env, proposal);
-                const discordMessage = await sendResourceProposalMessage(env, proposal, proposalState.id);
-                await updateResourceProposalState(env, proposalState.id, {
-                    ...proposalState,
-                    discordMessageId: discordMessage.id
-                });
-                await env.RESOURCE_LINK_STATE.put(seenKey, JSON.stringify({
-                    id: post.id,
-                    url: proposal.link.url,
-                    title: proposal.link.title,
-                    sourceListUrl: listUrl,
-                    proposalId: proposalState.id,
-                    discordMessageId: discordMessage.id,
-                    firstSeenAt: submittedAt,
-                    notifiedAt: new Date().toISOString()
-                }));
-                result.proposed += 1;
-            } catch (error) {
-                result.failed += 1;
-                console.warn(`Arca post proposal failed: ${post.url}`, error);
-            }
+            console.warn(`Arca feed scan failed: ${listUrl}`, error);
         }
     }
 
     console.log('Arca monitor result', result);
     return result;
+}
+
+async function scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds) {
+    const stateKey = getArcaFeedStateKey(listUrl);
+    const savedState = await env.RESOURCE_LINK_STATE.get(stateKey, 'json');
+    const state = normalizeArcaFeedState(savedState);
+    const writeLimit = getPositiveIntegerEnv(
+        env.ARCA_PENDING_WRITES_PER_FEED,
+        DEFAULT_ARCA_PENDING_WRITES_PER_FEED,
+        1,
+        10
+    );
+
+    if (state.scan?.bufferedPosts.length > 0) {
+        const bufferResult = await persistPendingArcaPosts(
+            env,
+            state.scan.bufferedPosts,
+            pendingIds,
+            writeLimit,
+            listUrl
+        );
+        const nextState = bufferResult.remaining.length > 0
+            ? {
+                ...state,
+                scan: {
+                    ...state.scan,
+                    bufferedPosts: bufferResult.remaining
+                }
+            }
+            : state.scan.finishAfterBuffer
+                ? {
+                    checkpointId: state.scan.targetHighWatermarkId || state.checkpointId,
+                    checkpointUpdatedAt: new Date().toISOString(),
+                    scan: null
+                }
+                : {
+                    ...state,
+                    scan: {
+                        ...state.scan,
+                        bufferedPosts: [],
+                        finishAfterBuffer: false
+                    }
+                };
+        await env.RESOURCE_LINK_STATE.put(stateKey, JSON.stringify(nextState));
+        return {
+            scanned: 0,
+            discovered: bufferResult.persisted,
+            pageNumber: state.scan.nextPage,
+            reachedBoundary: Boolean(state.scan.finishAfterBuffer && bufferResult.remaining.length === 0),
+            checkpointId: nextState.checkpointId || null,
+            buffered: bufferResult.remaining.length
+        };
+    }
+
+    const pageNumber = state.scan?.nextPage || 1;
+    const pageUrl = buildArcaListPageUrl(listUrl, pageNumber);
+    const html = await fetchText(pageUrl);
+    const posts = extractArcaPostsFromList(html, listUrl).slice(0, scanLimit);
+    const targetHighWatermarkId = state.scan?.targetHighWatermarkId
+        || getHighestArcaPostId(posts)
+        || state.checkpointId;
+    const isBootstrap = !state.checkpointId;
+    let reachedBoundary = posts.length < scanLimit;
+    const candidates = [];
+
+    for (const post of posts) {
+        if (targetHighWatermarkId && compareArcaPostIds(post.id, targetHighWatermarkId) > 0) continue;
+        if (state.checkpointId && compareArcaPostIds(post.id, state.checkpointId) <= 0) {
+            reachedBoundary = true;
+            continue;
+        }
+        if (isBootstrap && seenIds.has(post.id)) {
+            reachedBoundary = true;
+            continue;
+        }
+        if (seenIds.has(post.id) || pendingIds.has(post.id)) continue;
+        candidates.push(post);
+    }
+
+    candidates.sort((left, right) => compareArcaPostIds(left.id, right.id));
+    const pendingResult = await persistPendingArcaPosts(
+        env,
+        candidates,
+        pendingIds,
+        writeLimit,
+        listUrl
+    );
+
+    const nextState = pendingResult.remaining.length > 0
+        ? {
+            ...state,
+            scan: {
+                targetHighWatermarkId,
+                nextPage: reachedBoundary ? pageNumber : pageNumber + 1,
+                startedAt: state.scan?.startedAt || new Date().toISOString(),
+                bufferedPosts: pendingResult.remaining,
+                finishAfterBuffer: reachedBoundary
+            }
+        }
+        : reachedBoundary
+        ? {
+            checkpointId: targetHighWatermarkId || state.checkpointId,
+            checkpointUpdatedAt: new Date().toISOString(),
+            scan: null
+        }
+        : {
+            ...state,
+            scan: {
+                targetHighWatermarkId,
+                nextPage: pageNumber + 1,
+                startedAt: state.scan?.startedAt || new Date().toISOString(),
+                bufferedPosts: [],
+                finishAfterBuffer: false
+            }
+        };
+    await env.RESOURCE_LINK_STATE.put(stateKey, JSON.stringify(nextState));
+
+    return {
+        scanned: posts.length,
+        discovered: pendingResult.persisted,
+        pageNumber,
+        reachedBoundary,
+        checkpointId: nextState.checkpointId || null,
+        buffered: pendingResult.remaining.length
+    };
+}
+
+async function persistPendingArcaPosts(env, posts, pendingIds, limit, listUrl) {
+    const candidates = posts.filter(post => post?.id && !pendingIds.has(String(post.id)));
+    const selected = candidates.slice(0, limit);
+    for (const post of selected) {
+        const postId = String(post.id);
+        await env.RESOURCE_LINK_STATE.put(
+            `${ARCA_PENDING_KEY_PREFIX}${postId}`,
+            JSON.stringify({
+                ...post,
+                id: postId,
+                sourceListUrl: post.sourceListUrl || listUrl,
+                discoveredAt: post.discoveredAt || new Date().toISOString()
+            })
+        );
+        pendingIds.add(postId);
+    }
+    return {
+        persisted: selected.length,
+        remaining: candidates.slice(selected.length)
+    };
+}
+
+async function processPendingArcaPosts(env, seenIds, maxProposals) {
+    const page = await env.RESOURCE_LINK_STATE.list({
+        prefix: ARCA_PENDING_KEY_PREFIX,
+        limit: 1000
+    });
+    const keys = [...page.keys].sort((left, right) => compareArcaPostIds(
+        left.name.slice(ARCA_PENDING_KEY_PREFIX.length),
+        right.name.slice(ARCA_PENDING_KEY_PREFIX.length)
+    ));
+    const result = { proposed: 0, failed: 0 };
+
+    for (const key of keys) {
+        if (result.proposed >= maxProposals) break;
+        const postId = key.name.slice(ARCA_PENDING_KEY_PREFIX.length);
+        if (seenIds.has(postId)) {
+            await env.RESOURCE_LINK_STATE.delete(key.name);
+            continue;
+        }
+
+        const post = await env.RESOURCE_LINK_STATE.get(key.name, 'json');
+        if (!post?.url || !post?.title) {
+            await env.RESOURCE_LINK_STATE.delete(key.name);
+            continue;
+        }
+
+        try {
+            let detail;
+            try {
+                detail = await fetchArcaPostDetail(post, post.sourceListUrl);
+            } catch (error) {
+                detail = buildArcaListFallbackDetail(post, post.sourceListUrl);
+                console.warn(`Arca detail unavailable; proposing link first: ${post.url}`, error);
+            }
+            const submittedAt = new Date().toISOString();
+            const proposal = normalizeResourceProposal({
+                url: detail.url,
+                title: detail.title,
+                desc: detail.desc,
+                image: detail.image,
+                sourceTab: detail.sourceTab,
+                submittedBy: 'arca-monitor',
+                submittedAt
+            });
+            const { proposalState, discordMessage } = await createResourceProposalMessage(env, proposal);
+            try {
+                await env.RESOURCE_LINK_STATE.put(`${ARCA_SEEN_KEY_PREFIX}${postId}`, JSON.stringify({
+                    id: postId,
+                    url: proposal.link.url,
+                    title: proposal.link.title,
+                    sourceListUrl: post.sourceListUrl,
+                    proposalId: proposalState.id,
+                    discordMessageId: discordMessage.id,
+                    firstSeenAt: post.discoveredAt || submittedAt,
+                    notifiedAt: new Date().toISOString()
+                }));
+            } catch (error) {
+                await deleteDiscordResourceMessage(env, discordMessage.id).catch(deleteError => {
+                    console.error('Failed to roll back untracked Discord proposal', deleteError);
+                });
+                throw error;
+            }
+            await env.RESOURCE_LINK_STATE.delete(key.name);
+            seenIds.add(postId);
+            result.proposed += 1;
+        } catch (error) {
+            result.failed += 1;
+            console.warn(`Pending Arca post proposal failed: ${post.url}`, error);
+            break;
+        }
+    }
+
+    return result;
+}
+
+function normalizeArcaFeedState(state) {
+    const checkpointId = /^\d+$/.test(String(state?.checkpointId || ''))
+        ? String(state.checkpointId)
+        : null;
+    const targetHighWatermarkId = /^\d+$/.test(String(state?.scan?.targetHighWatermarkId || ''))
+        ? String(state.scan.targetHighWatermarkId)
+        : null;
+    const nextPage = Number.isInteger(Number(state?.scan?.nextPage)) && Number(state.scan.nextPage) > 0
+        ? Number(state.scan.nextPage)
+        : 1;
+    return {
+        checkpointId,
+        checkpointUpdatedAt: state?.checkpointUpdatedAt || null,
+        scan: targetHighWatermarkId
+            ? {
+                targetHighWatermarkId,
+                nextPage,
+                startedAt: state?.scan?.startedAt || null,
+                bufferedPosts: Array.isArray(state?.scan?.bufferedPosts)
+                    ? state.scan.bufferedPosts.filter(post => post?.id && post?.url).slice(0, 50)
+                    : [],
+                finishAfterBuffer: Boolean(state?.scan?.finishAfterBuffer)
+            }
+            : null
+    };
+}
+
+function getArcaFeedStateKey(listUrl) {
+    const encoded = utf8ToBase64(String(listUrl))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/g, '');
+    return `${ARCA_FEED_STATE_KEY_PREFIX}${encoded}`;
+}
+
+function buildArcaListPageUrl(listUrl, pageNumber) {
+    const url = new URL(listUrl);
+    url.searchParams.set('p', String(pageNumber));
+    return url.toString();
+}
+
+function getHighestArcaPostId(posts) {
+    return posts.map(post => String(post.id || ''))
+        .filter(id => /^\d+$/.test(id))
+        .sort(compareArcaPostIds)
+        .at(-1) || null;
+}
+
+function compareArcaPostIds(left, right) {
+    const leftId = BigInt(/^\d+$/.test(String(left || '')) ? String(left) : '0');
+    const rightId = BigInt(/^\d+$/.test(String(right || '')) ? String(right) : '0');
+    return leftId < rightId ? -1 : leftId > rightId ? 1 : 0;
 }
 
 function buildArcaListFallbackDetail(post, listUrl) {
@@ -1346,6 +1564,20 @@ async function sendResourceProposalMessage(env, proposal, proposalId) {
     return response.json();
 }
 
+async function deleteDiscordResourceMessage(env, messageId) {
+    const response = await fetch(
+        `https://discord.com/api/v10/channels/${env.DISCORD_CHANNEL_ID}/messages/${messageId}`,
+        {
+            method: 'DELETE',
+            headers: discordBotHeaders(env)
+        }
+    );
+    if (!response.ok && response.status !== 404) {
+        const detail = await response.text();
+        throw new Error(`Discord proposal rollback failed: ${response.status} ${detail.slice(0, 300)}`);
+    }
+}
+
 function buildResourceComponents(
     proposalId,
     disabled = false,
@@ -1539,12 +1771,8 @@ function getResourceProposalStateKey(proposalId) {
     return `${RESOURCE_PROPOSAL_STATE_PREFIX}${proposalId}`;
 }
 
-async function createResourceProposalState(env, proposal) {
-    if (!env.RESOURCE_LINK_STATE) {
-        throw new Error('RESOURCE_LINK_STATE KV binding is required for resource link proposals');
-    }
-
-    const state = {
+function createResourceProposalState(proposal) {
+    return {
         id: createResourceProposalId(),
         proposal,
         selection: defaultResourceSelection(),
@@ -1552,8 +1780,30 @@ async function createResourceProposalState(env, proposal) {
         createdAt: new Date().toISOString(),
         discordMessageId: null
     };
-    await updateResourceProposalState(env, state.id, state);
-    return state;
+}
+
+async function createResourceProposalMessage(env, proposal) {
+    if (!env.RESOURCE_LINK_STATE) {
+        throw new Error('RESOURCE_LINK_STATE KV binding is required for resource link proposals');
+    }
+
+    const state = createResourceProposalState(proposal);
+    const discordMessage = await sendResourceProposalMessage(env, proposal, state.id);
+    const proposalState = {
+        ...state,
+        discordMessageId: discordMessage.id
+    };
+
+    try {
+        await updateResourceProposalState(env, state.id, proposalState);
+    } catch (error) {
+        await deleteDiscordResourceMessage(env, discordMessage.id).catch(deleteError => {
+            console.error('Failed to roll back orphaned Discord proposal', deleteError);
+        });
+        throw error;
+    }
+
+    return { proposalState, discordMessage };
 }
 
 async function getResourceProposalState(env, proposalId) {
@@ -1998,6 +2248,42 @@ async function recoverStaleResourceProposals(env) {
         requeued,
         cycleCompleted: Boolean(page.list_complete)
     });
+}
+
+async function getSeenArcaPostIds(env) {
+    const ids = new Set();
+    let cursor;
+    do {
+        const options = {
+            prefix: ARCA_SEEN_KEY_PREFIX,
+            limit: 1000
+        };
+        if (cursor) options.cursor = cursor;
+        const page = await env.RESOURCE_LINK_STATE.list(options);
+        for (const key of page.keys) {
+            ids.add(key.name.slice(ARCA_SEEN_KEY_PREFIX.length));
+        }
+        cursor = page.list_complete ? undefined : page.cursor;
+    } while (cursor);
+    return ids;
+}
+
+async function getPendingArcaPostIds(env) {
+    const ids = new Set();
+    let cursor;
+    do {
+        const options = {
+            prefix: ARCA_PENDING_KEY_PREFIX,
+            limit: 1000
+        };
+        if (cursor) options.cursor = cursor;
+        const page = await env.RESOURCE_LINK_STATE.list(options);
+        for (const key of page.keys) {
+            ids.add(key.name.slice(ARCA_PENDING_KEY_PREFIX.length));
+        }
+        cursor = page.list_complete ? undefined : page.cursor;
+    } while (cursor);
+    return ids;
 }
 
 async function updateResourceLinks(env, link, targets) {
