@@ -388,7 +388,7 @@
     display: none; position: fixed; z-index: 9999; background: rgba(18, 18, 18, 0.95);
     border: 1px solid #777; border-radius: 4px; padding: 12px;
     width: auto; max-width: min(300px, calc(100vw - 32px));
-    box-shadow: 0 4px 15px rgba(0,0,0,0.8); pointer-events: none; color: #eee; font-size: 0.9rem; line-height: 1.4;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.8); pointer-events: auto; color: #eee; font-size: 0.9rem; line-height: 1.4;
 }
 .tooltip-title { color: #ffc107; font-weight: bold; margin-bottom: 6px; font-size: 1.1em; border-bottom: 1px solid #444; padding-bottom: 4px; }
 .tooltip-desc { color: #ccc; word-break: keep-all; }
@@ -411,7 +411,7 @@
         width: 90% !important; max-width: none !important;
         background: rgba(25, 25, 30, 0.98); border: 1px solid #ffc107;
         box-shadow: 0 -5px 20px rgba(0,0,0,0.7); text-align: left;
-        padding: 15px; z-index: 2000; border-radius: 8px; pointer-events: none;
+        padding: 15px; z-index: 2000; border-radius: 8px; pointer-events: auto;
     }
 }
 

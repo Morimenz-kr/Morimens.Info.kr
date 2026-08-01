@@ -95,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ALL_WHEELS_DB = wheelsDB;
             ALL_CHARACTERS_MANIFEST = manifestData.reduce((acc, char) => { acc[char.id] = char; return acc; }, {});
             TOOLTIP_DICTIONARY = tooltipsDB;
+            window.CharacterEffects?.configureTooltips(TOOLTIP_DICTIONARY);
 
             const fullCharacterData = {
                 ...awakenerData,
@@ -148,13 +149,97 @@ document.addEventListener('DOMContentLoaded', () => {
     function applyTooltipsToDescription(description) {
         if (!description) return '';
 
-        // 1. [키워드]를 툴팁용 <span>으로 변환
-        const tooltipApplied = description.replace(/\[([^\]]+)\]/g, (match, keyword) => {
-            if (TOOLTIP_DICTIONARY[keyword]) {
-                return `<span class="tooltip-trigger" data-keyword="${keyword}">[${keyword}]</span>`;
+        const keywords = Object.keys(TOOLTIP_DICTIONARY)
+            .sort((left, right) => right.length - left.length || left.localeCompare(right, 'ko'));
+        const keywordPattern = keywords.length
+            ? new RegExp(keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g')
+            : null;
+        const trigger = (keyword, tooltipKeyword = keyword) => window.CharacterEffects
+            ? window.CharacterEffects.renderKeyword
+                ? window.CharacterEffects.renderKeyword(keyword, tooltipKeyword)
+                : window.CharacterEffects.renderRichText(`[${keyword}]`, TOOLTIP_DICTIONARY)
+            : `<strong class="tooltip-trigger" data-keyword="${keyword}" tabindex="0">${keyword}</strong>`;
+        const numericSuffix = followingText => followingText.match(/^\d+/)?.[0] || '';
+        const contextualTooltipKeyword = (keyword, followingText) =>
+            keyword === '힘' && /^\s*(?:을|이)\s*[^,.!?\n]{0,120}?감소/.test(followingText)
+                ? '힘 감소'
+                : keyword;
+        const isPlainUsage = (keyword, precedingText, followingText) => {
+            if (keyword === '소모') {
+                const isCardKeyword = /^\s*(?:$|[,.]|가\s*부여된|와\s*공허(?:가|\s+가)?\s*부여된)/.test(followingText);
+                return !isCardKeyword || followingText.startsWith('할 때마다') ||
+                    /(?:행동력|산출력|광기|은열쇠)\s*$/.test(precedingText);
             }
-            return `<b>[${keyword}]</b>`;
-        });
+            if (keyword === '고유') return /(?:팀|파티)\s*$/.test(precedingText);
+            if (keyword === '침식') return /침식\s*$/.test(precedingText) || /잠재의식의\s*$/.test(precedingText) ||
+                /(?:과 감염|하는 색채|\s*·\s*로탄)/.test(followingText);
+            if (keyword === '경계') return /^(?:를 베는 검|\s+너머의 목소리)/.test(followingText);
+            if (keyword === '준비') return /출전\s*$/.test(precedingText) && /^\s*완료/.test(followingText);
+            if (keyword === '허무') return /^의 종언/.test(followingText);
+            if (keyword === '소멸') return /마땅한 고통의\s*$/.test(precedingText);
+            if (keyword === '회귀') return /고대 근원으로의\s*$/.test(precedingText) || /^\s*·\s*라모나/.test(followingText);
+            if (keyword === '힘') return /(?:해연의|동료의|보호의)\s*$/.test(precedingText) || /^이 곧 정의/.test(followingText);
+            if (keyword === '반격') return /깊은 잠의\s*$/.test(precedingText);
+            if (keyword === '장벽') return /부정형\s*$/.test(precedingText);
+            if (keyword === '잔해') return /부패된\s*$/.test(precedingText);
+            if (keyword === '사냥') return /(?:끝없는|영혼)\s*$/.test(precedingText) || /^(?:의 건트|\s+선언)/.test(followingText);
+            return keyword === '메아리' && /(?:과거의|잠결의|원초의|호숫가의)\s*$/.test(precedingText);
+        };
+
+        function renderBareText(text) {
+            if (!keywordPattern) return text;
+            let lastIndex = 0;
+            const parts = [];
+            text.replace(keywordPattern, (keyword, offset) => {
+                const before = text[offset - 1] || '';
+                const after = text[offset + keyword.length] || '';
+                const followingText = text.slice(offset + keyword.length);
+                const suffix = numericSuffix(followingText);
+                if (/[가-힣A-Za-z0-9]/.test(before) || (/[A-Za-z0-9]/.test(after) && !/^\d/.test(followingText))) return keyword;
+                if (isPlainUsage(keyword, text.slice(0, offset), followingText)) return keyword;
+
+                parts.push(
+                    text.slice(lastIndex, offset),
+                    trigger(`${keyword}${suffix}`, contextualTooltipKeyword(keyword, followingText))
+                );
+                lastIndex = offset + keyword.length + suffix.length;
+                return keyword;
+            });
+            parts.push(text.slice(lastIndex));
+            return parts.join('');
+        }
+
+        const markupParts = String(description).split(/(<[^>]+>)/g);
+        const tooltipApplied = markupParts.map(part => {
+            if (part.startsWith('<') && part.endsWith('>')) return part;
+
+            let lastIndex = 0;
+            const parts = [];
+            part.replace(/\[([^\]]+)\]/g, (match, keyword, offset) => {
+                parts.push(renderBareText(part.slice(lastIndex, offset)));
+                const followingText = part.slice(offset + match.length);
+                const numericBaseKeyword = keywords.find(baseKeyword =>
+                    keyword.startsWith(baseKeyword) && /^\s*\d+$/.test(keyword.slice(baseKeyword.length))
+                );
+                const numericKeywordSuffix = numericBaseKeyword ? keyword.slice(numericBaseKeyword.length) : '';
+                const plainUsageKeyword = numericBaseKeyword || keyword;
+                if (isPlainUsage(plainUsageKeyword, part.slice(0, offset), followingText)) {
+                    parts.push(keyword);
+                } else if (numericBaseKeyword) {
+                    parts.push(/^\d/.test(numericKeywordSuffix)
+                        ? trigger(keyword)
+                        : `${trigger(numericBaseKeyword)}${numericKeywordSuffix}`);
+                } else {
+                    parts.push(TOOLTIP_DICTIONARY[keyword]
+                        ? trigger(keyword, contextualTooltipKeyword(keyword, followingText))
+                        : `<strong>${keyword}</strong>`);
+                }
+                lastIndex = offset + match.length;
+                return match;
+            });
+            parts.push(renderBareText(part.slice(lastIndex)));
+            return parts.join('');
+        }).join('');
 
         // 2. <link> 태그 처리
         const linkedDesc = tooltipApplied.replace(
@@ -463,6 +548,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function setupTooltipListeners() {
+        if (window.CharacterEffects) {
+            window.CharacterEffects.configureTooltips(TOOLTIP_DICTIONARY);
+            window.CharacterEffects.setupTooltips(document.body);
+            return;
+        }
         // 툴팁 박스가 없으면 생성하여 body에 추가
         let tooltipBox = document.getElementById('global-tooltip-box');
         if (!tooltipBox) {

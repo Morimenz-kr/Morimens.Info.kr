@@ -56,7 +56,7 @@
       "cost": 2,
       "type": "명령",
       "ui_type": "basic",
-      "description": "공격력 n% 힘을 얻는다. (돌파 1 | '<link id=\"tawil_insight\">영감</link>' 1장을 손패에 추가한다.) '<link id=\"tawil_twin_wings\">쌍익이 처음 펼쳐지다</link>' 1장을 드로우 덱에 섞는다. <b>[보존]</b>.",
+      "description": "공격력 n% 힘을 얻는다. (돌파 1 | '<link id=\"tawil_insight\">영감</link>' 1장을 손패에 추가한다.) '<link id=\"tawil_twin_wings\">쌍익이 처음 펼쳐지다</link>' 1장을 드로우 덱에 섞는다. <b>[유지]</b>.",
       "derives_cards": ["tawil_insight", "tawil_twin_wings"],
       "levels": [
         { "level": "Lv.1", "strength": "3%" },
@@ -73,7 +73,7 @@
       "cost": 1,
       "type": "영지 각성",
       "ui_type": "rouse",
-      "description": "타비는 n점의 광기를 획득한다. <b>영지 각성:</b> '<link id=\"tawil_silver_key_dawn\">은열쇠 새벽빛</link>' 1장을 손패에 추가한다. 타비가 산출력을 소모할 때 얻는 은열쇠 에너지가 50% 증가한다. <b>[보존]</b>.",
+      "description": "타비는 n점의 광기를 획득한다. <b>영지 각성:</b> '<link id=\"tawil_silver_key_dawn\">은열쇠 새벽빛</link>' 1장을 손패에 추가한다. 타비가 산출력을 소모할 때 얻는 은열쇠 에너지가 50% 증가한다. <b>[유지]</b>.",
       "derives_cards": ["tawil_silver_key_dawn"],
       "levels": [
         { "level": "Lv.1", "energy": 25 },
@@ -89,7 +89,7 @@
       "name": "만물귀일",
       "cost_energy": 100,
       "type": "광기 폭발",
-      "description": "n점 은열쇠 에너지를 획득한다. 현재 계약의 스킬 카드 중 5장을 <b>[발견]</b>하여, 최대 3장을 선택해 손패에 추가하고 타비의 카드로 간주한다. 이 카드들에 <b>[소모]</b>, <b>[보존]</b>, <b>[돌파 2 | [예비1]]</b>을 부여한다. 다음에 사용하는 타비의 명령 카드는 효과가 2회 발동한다.",
+      "description": "n점 은열쇠 에너지를 획득한다. 현재 계약의 스킬 카드 중 5장을 <b>[발견]</b>하여, 최대 3장을 선택해 손패에 추가하고 타비의 카드로 간주한다. 이 카드들에 <b>[소모]</b>, <b>[유지]</b>, <b>[돌파 2 | [준비1]]</b>을 부여한다. 다음에 사용하는 타비의 명령 카드는 효과가 2회 발동한다.",
       "levels": [
         { "level": "Lv.1", "key_energy": 100 },
         { "level": "Lv.2", "key_energy": 120 },
@@ -112,7 +112,7 @@
       "cost": 0,
       "type": "파생 카드",
       "image": "images/Insight.webp",
-      "description": "1 산출력을 획득하고, 1장의 카드를 뽑습니다. <b>[소모]</b>. <b>[보존]</b>"
+      "description": "1 산출력을 획득하고, 1장의 카드를 뽑습니다. <b>[소모]</b>. <b>[유지]</b>"
     },
     {
       "id": "tawil_silver_key_dawn",
@@ -120,7 +120,7 @@
       "cost": 0,
       "type": "파생 카드",
       "image": "images/Tawil-SilverKeyDawn.webp",
-      "description": "해금된 3개의 랜덤 키오링 중 1개를 즉시 릴리스하여 2번 활성화합니다. <b>[소모]</b>. <b>[보존]</b>"
+      "description": "해금된 3개의 랜덤 키오링 중 1개를 즉시 릴리스하여 2번 활성화합니다. <b>[소모]</b>. <b>[유지]</b>"
     },
     {
       "id": "tawil_twin_wings",
@@ -162,7 +162,7 @@
       "cost": 2,
       "type": "파생 명령",
       "image": "images/Tawil-SixWings.webp",
-      "description": "산출력이 부족할 때 500 은열쇠 에너지를 소모하여 사용할 수 있다. 공격력 n% 관통 피해[관통피해]를 6회 입힌다. 6가지 '추억' 중 하나를 선택하여 효과를 발동할 수 있으며, 해당 '추억'은 이번 탐색 중 재선택 불가. <b>소모[소모]</b>.",
+      "description": "산출력이 부족할 때 500 은열쇠 에너지를 소모하여 사용할 수 있다. 공격력 n% 관통 피해[관통 피해]를 6회 입힌다. 6가지 '추억' 중 하나를 선택하여 효과를 발동할 수 있으며, 해당 '추억'은 이번 탐색 중 재선택 불가. <b>소모[소모]</b>.",
       "derives_cards": ["common_mem_reply", "common_mem_heart", "common_mem_mead", "common_mem_judgment", "common_mem_veil", "common_mem_light"],
       "levels": [
         { "level": "Lv.1", "damage": "35%" },
@@ -203,7 +203,7 @@
       "cost": 0,
       "type": "공용 파생(추억)",
       "image": "images/Tawil-Verdict.webp",
-      "description": "마지막 줄의 적에게 목표의 최대 생명 15%의 [고정피해]를 입히며, 이 피해는 자신 최대 생명의 300% 미만으로 떨어지지 않는다."
+      "description": "마지막 줄의 적에게 목표의 최대 생명 15%의 [고정 피해]를 입히며, 이 피해는 자신 최대 생명의 300% 미만으로 떨어지지 않는다."
     },
     {
       "id": "common_mem_veil",

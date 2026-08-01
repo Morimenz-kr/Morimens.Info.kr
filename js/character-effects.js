@@ -1,5 +1,63 @@
 (function () {
     let tooltipDictionary = {};
+    const keywordIconBasePath = 'images/keyword-icons/reference/';
+    const keywordIcons = {
+        '장벽': ['barrier.png', '#628da5'],
+        '출혈': ['bleed.png', '#b75a64'],
+        '반격': ['counter.png', '#628da5'],
+        '창의': ['creativity.png', '#b75a64'],
+        '죽음 저항': ['death-resistance.png', '#5e9177'],
+        '배아': ['derived-card.png', '#c79374'],
+        '몽인': ['dream-lure.png', '#aa71ae'],
+        '공감': ['empathy.png', '#aa71ae'],
+        '정신적 외상': ['empathy.png', '#aa71ae'],
+        '두려움 고착': ['empathy.png', '#aa71ae'],
+        '인내': ['endurance.png', '#c79374'],
+        '침식': ['erosion.png', '#aa71ae'],
+        '광상': ['fantasy.png', '#5e9177'],
+        '운명 재단': ['fate-judgment.png', '#aa71ae'],
+        '손상': ['fragile.png', '#aa71ae'],
+        '경계': ['guard.png', '#628da5'],
+        '강생 의식': ['incarnation-ritual.png', '#628da5'],
+        '도취': ['intoxication.png', '#b75a64'],
+        '약속': ['intoxication.png', '#b75a64'],
+        '영혼 탈취': ['intoxication.png', '#b75a64'],
+        '활염': ['living-flame.png', '#b75a64'],
+        '연소': ['living-flame.png', '#b75a64'],
+        '폭염': ['living-flame.png', '#b75a64'],
+        '옛날 잔재': ['old-ember.png', '#b75a64'],
+        '중독': ['poison.png', '#aa71ae'],
+        '희생': ['sacrifice.png', '#628da5'],
+        '죄의 낙인': ['sin-mark.png', '#aa71ae'],
+        '강탈': ['steal.png', '#aa71ae'],
+        '차원 이동': ['dimensional-travel.png', '#936394'],
+        '특이점 프리즘': ['dimensional-travel.png', '#936394'],
+        '특이점 도약': ['dimensional-travel.png', '#936394'],
+        '특이점 신호': ['dimensional-travel.png', '#936394'],
+        '직명': ['weave-fate.png', '#946495'],
+        '우종': ['praise-seed.png', '#ffffff'],
+        '잔해': ['remains.png', '#a1525a'],
+        '부활': ['revival.png', '#5d9278'],
+        '둔화': ['slow.png', '#966697'],
+        '회귀': ['return.png', '#ffffff'],
+        '음엔트로피': ['negative-entropy.png', '#ffffff'],
+        '힘 감소': ['strength-down.png', '#976798'],
+        '사냥': ['group-hunt.png', '#628da5'],
+        '집단 사냥': ['group-hunt.png', '#628da5'],
+        '힘': ['strength.png', '#5e9177'],
+        '소용돌이 장전': ['vortex-loading.png', '#628da5'],
+        '취약': ['vulnerability.png', '#b75a64'],
+        '허약': ['weakness.png', '#aa71ae']
+    };
+    [
+        '소모', '유지', '발견', '준비', '관통 피해', '촉수 피해', '영지 각성',
+        '영감', '여파', '포식', '배아 융합', '초차원 공간',
+        '명계', '공명', '인지 착란', '제의', '의식', '초거리', '허무', '워프'
+    ].forEach(keyword => {
+        keywordIcons[keyword] = ['special.png', '#c79374'];
+    });
+
+    keywordIcons['공허'] = ['void.png', '#ac9a76'];
 
     function escapeHtml(value) {
         return String(value ?? '')
@@ -10,6 +68,16 @@
             .replace(/'/g, '&#39;');
     }
 
+    function renderKeywordTrigger(keyword, tooltipKeyword = keyword) {
+        const icon = keywordIcons[tooltipKeyword];
+        const iconMarkup = icon
+            ? `<img class="keyword-icon" src="${keywordIconBasePath}${icon[0]}" alt="" aria-hidden="true">`
+            : '';
+        const iconClass = icon ? ' keyword-iconized' : '';
+        const colorStyle = icon ? ` style="--keyword-color:${icon[1]}"` : '';
+        return `<strong class="tooltip-trigger${iconClass}" data-keyword="${escapeHtml(tooltipKeyword)}" tabindex="0"${colorStyle}>${iconMarkup}<span>${escapeHtml(keyword)}</span></strong>`;
+    }
+
     function renderCost(cost) {
         if (!cost) return '';
         return `<span class="character-effect-cost">${escapeHtml(cost.type)} ${escapeHtml(cost.value)}</span>`;
@@ -17,24 +85,145 @@
 
     function renderRichText(value) {
         const text = String(value ?? '');
+        const tooltipAliases = {
+            '고정 중독': '중독',
+            '고정 반격': '반격',
+            '고정 힘': '힘'
+        };
+        const activeAliases = Object.fromEntries(
+            Object.entries(tooltipAliases).filter(([, tooltipKeyword]) => tooltipDictionary[tooltipKeyword])
+        );
+        const keywords = [...Object.keys(tooltipDictionary), ...Object.keys(activeAliases)]
+            .sort((left, right) => right.length - left.length || left.localeCompare(right, 'ko'));
+        const keywordPattern = keywords.length
+            ? new RegExp(keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g')
+            : null;
+
+        function contextualTooltipKeyword(keyword, followingText) {
+            if (keyword === '힘' && /^\s*(?:을|이)\s*[^,.!?\n]{0,120}?감소/.test(followingText)) {
+                return '힘 감소';
+            }
+            return activeAliases[keyword] || keyword;
+        }
+
+        function isPlainUsage(keyword, precedingText, followingText) {
+            if (keyword === '소모') {
+                const isCardKeyword = /^\s*(?:$|[,.]|가\s*부여된|와\s*공허(?:가|\s+가)?\s*부여된)/.test(followingText);
+                if (!isCardKeyword || followingText.startsWith('할 때마다')) return true;
+                if (/(?:행동력|산출력|광기|은열쇠)\s*$/.test(precedingText)) return true;
+            }
+            if (keyword === '고유' && /(?:팀|파티)\s*$/.test(precedingText)) return true;
+            if (keyword === '침식' && (/침식\s*$/.test(precedingText) || /(?:과 감염|하는 색채|\s*·\s*로탄)/.test(followingText))) return true;
+            if (keyword === '침식' && /잠재의식의\s*$/.test(precedingText)) return true;
+            if (keyword === '경계' && /^(?:를 베는 검|\s+너머의 목소리)/.test(followingText)) return true;
+            if (keyword === '준비' && /출전\s*$/.test(precedingText) && /^\s*완료/.test(followingText)) return true;
+            if (keyword === '허무' && /^의 종언/.test(followingText)) return true;
+            if (keyword === '소멸' && /마땅한 고통의\s*$/.test(precedingText)) return true;
+            if (keyword === '회귀' && (/고대 근원으로의\s*$/.test(precedingText) || /^\s*·\s*라모나/.test(followingText))) return true;
+            if (keyword === '힘' && (/(?:해연의|동료의|보호의)\s*$/.test(precedingText) || /^이 곧 정의/.test(followingText))) return true;
+            if (keyword === '반격' && /깊은 잠의\s*$/.test(precedingText)) return true;
+            if (keyword === '장벽' && /부정형\s*$/.test(precedingText)) return true;
+            if (keyword === '잔해' && /부패된\s*$/.test(precedingText)) return true;
+            if (keyword === '사냥' && (/(?:끝없는|영혼)\s*$/.test(precedingText) || /^(?:의 건트|\s+선언)/.test(followingText))) return true;
+            if (keyword === '메아리' && /(?:과거의|잠결의|원초의|호숫가의)\s*$/.test(precedingText)) return true;
+            return keyword === '광상' && (followingText.startsWith('곡') || followingText.startsWith('의 시편'));
+        }
+
+        function numericSuffix(followingText) {
+            return followingText.match(/^\d+/)?.[0] || '';
+        }
+
+        function hasNumericSuffix(followingText) {
+            return /^\d/.test(followingText);
+        }
+
+        function renderBareText(segment) {
+            if (!keywordPattern) return escapeHtml(segment);
+
+            const parts = [];
+            let lastIndex = 0;
+            segment.replace(keywordPattern, (keyword, offset) => {
+                const before = segment[offset - 1] || '';
+                const after = segment[offset + keyword.length] || '';
+                const followingText = segment.slice(offset + keyword.length);
+                if (/[가-힣A-Za-z0-9]/.test(before) || (/[A-Za-z0-9]/.test(after) && !hasNumericSuffix(followingText))) return keyword;
+                if (isPlainUsage(keyword, segment.slice(0, offset), followingText)) return keyword;
+
+                const precedingSegment = segment.slice(lastIndex, offset);
+                const matchedPrefix = precedingSegment.match(/(임시|영구|고정)\s*$/);
+                const prefixMatch = matchedPrefix?.[1] === '임시' && keyword === '특이점 프리즘'
+                    ? null
+                    : matchedPrefix;
+                const suffix = numericSuffix(followingText);
+                const displayKeyword = `${prefixMatch ? `${prefixMatch[1]} ` : ''}${keyword}${suffix}`;
+                const plainTextEnd = prefixMatch ? precedingSegment.length - prefixMatch[0].length : precedingSegment.length;
+                parts.push(escapeHtml(precedingSegment.slice(0, plainTextEnd)));
+                parts.push(renderKeywordTrigger(displayKeyword, contextualTooltipKeyword(keyword, followingText)));
+                lastIndex = offset + keyword.length + suffix.length;
+                return keyword;
+            });
+            parts.push(escapeHtml(segment.slice(lastIndex)));
+            return parts.join('');
+        }
+
         const parts = [];
         let lastIndex = 0;
-
         text.replace(/\[([^\]]+)\]/g, (match, keyword, offset) => {
-            parts.push(escapeHtml(text.slice(lastIndex, offset)));
-            if (tooltipDictionary[keyword]) {
-                parts.push(
-                    `<span class="tooltip-trigger" data-keyword="${escapeHtml(keyword)}" tabindex="0">${escapeHtml(keyword)}</span>`
-                );
-            } else {
+            parts.push(renderBareText(text.slice(lastIndex, offset)));
+            const followingText = text.slice(offset + match.length);
+            const numericBaseKeyword = keywords.find(baseKeyword =>
+                keyword.startsWith(baseKeyword) && /^\s*\d+$/.test(keyword.slice(baseKeyword.length))
+            );
+            const numericKeywordSuffix = numericBaseKeyword ? keyword.slice(numericBaseKeyword.length) : '';
+            const plainUsageKeyword = numericBaseKeyword || keyword;
+            if (isPlainUsage(plainUsageKeyword, text.slice(0, offset), followingText)) {
                 parts.push(escapeHtml(keyword));
+            } else if (numericBaseKeyword) {
+                const tooltipKeyword = activeAliases[numericBaseKeyword] || numericBaseKeyword;
+                parts.push(/^\d/.test(numericKeywordSuffix)
+                    ? renderKeywordTrigger(keyword, tooltipKeyword)
+                    : `${renderKeywordTrigger(numericBaseKeyword, tooltipKeyword)}${escapeHtml(numericKeywordSuffix)}`);
+            } else {
+                const prefixMatch = keyword.match(/^(임시|영구|고정)\s+(.+)$/);
+                const baseKeyword = prefixMatch?.[2];
+                const tooltipKeyword = activeAliases[keyword] || (baseKeyword && tooltipDictionary[baseKeyword] ? baseKeyword : keyword);
+                const keepTemporaryPlain = prefixMatch?.[1] === '임시' && baseKeyword === '특이점 프리즘';
+                parts.push(tooltipDictionary[tooltipKeyword]
+                    ? keepTemporaryPlain
+                        ? `${escapeHtml(`${prefixMatch[1]} `)}${renderKeywordTrigger(baseKeyword, tooltipKeyword)}`
+                        : renderKeywordTrigger(keyword, contextualTooltipKeyword(tooltipKeyword, followingText))
+                    : `<strong>${escapeHtml(keyword)}</strong>`);
             }
             lastIndex = offset + match.length;
             return match;
         });
-        parts.push(escapeHtml(text.slice(lastIndex)));
+        parts.push(renderBareText(text.slice(lastIndex)));
 
-        return parts.join('').replace(/\n/g, '<br>');
+        const lines = parts.join('').split('\n');
+        let html = '';
+        let listOpen = false;
+
+        lines.forEach((line, index) => {
+            const listItem = line.match(/^-\s+(.*)$/);
+            if (listItem) {
+                if (!listOpen) {
+                    html += '<ul class="character-effect-rich-list">';
+                    listOpen = true;
+                }
+                html += `<li>${listItem[1]}</li>`;
+                return;
+            }
+
+            if (listOpen) {
+                html += '</ul>';
+                listOpen = false;
+            }
+            html += line;
+            if (index < lines.length - 1 && !lines[index + 1].match(/^-\s+/)) html += '<br>';
+        });
+
+        if (listOpen) html += '</ul>';
+        return html;
     }
 
     function getDefaultLevel(levels) {
@@ -112,7 +301,8 @@
                 /기본 '타격' 사용 시 공격력 n% 반격 을 획득한다\./g,
                 "기본 '타격' 사용 시 공격력의 15 ~ 30%에 해당하는 반격을 획득한다."
             )
-            .replace(/\s+/g, ' ')
+            .replace(/[^\S\r\n]+/g, ' ')
+            .replace(/ *\n */g, '\n')
             .replace(/\s+([,.])/g, '$1')
             .trim();
     }
@@ -124,7 +314,7 @@
         );
 
         return `
-            <p class="character-effect-description" data-effect-template="${escapeHtml(effect.effect)}">${renderRichText(interpolatedEffect)}</p>
+            <div class="character-effect-description" data-effect-template="${escapeHtml(effect.effect)}">${renderRichText(interpolatedEffect)}</div>
         `;
     }
 
@@ -187,9 +377,9 @@
                             <article class="character-breakthrough-card">
                                 <span class="character-breakthrough-step">계령 ${index + 1}</span>
                                 <h3>${escapeHtml(item.name)}</h3>
-                                <p>${renderRichText(sanitizeDisplayedEffect(
+                                <div class="character-effect-rich-text">${renderRichText(sanitizeDisplayedEffect(
                                     interpolateEffect(item.effect, item.levels, getDefaultLevel(item.levels))
-                                ))}</p>
+                                ))}</div>
                             </article>
                         `).join('')}
                     </div>
@@ -214,7 +404,7 @@
                     <article class="character-trait-card">
                         ${item.level_range ? `<span class="character-trait-level">${escapeHtml(item.level_range)}</span>` : ''}
                         <h3>${escapeHtml(item.name)}</h3>
-                        <p>${renderRichText(sanitizeDisplayedEffect(item.effect))}</p>
+                        <div class="character-effect-rich-text">${renderRichText(sanitizeDisplayedEffect(item.effect))}</div>
                     </article>
                 `).join('')}
             </div>
@@ -227,7 +417,7 @@
         return `
             <article class="character-dimensional-card">
                 <h3>${escapeHtml(item.name || `차원 영상: ${characterName}`)}</h3>
-                <p>${renderRichText(sanitizeDisplayedEffect(item.effect))}</p>
+                <div class="character-effect-rich-text">${renderRichText(sanitizeDisplayedEffect(item.effect))}</div>
             </article>
         `;
     }
@@ -488,5 +678,17 @@
         setupTooltips(container);
     }
 
-    window.CharacterEffects = { render };
+    window.CharacterEffects = {
+        configureTooltips(tooltips = {}) {
+            tooltipDictionary = tooltips;
+        },
+        renderRichText(value, tooltips) {
+            if (tooltips) tooltipDictionary = tooltips;
+            return renderRichText(value);
+        },
+        renderKeyword: renderKeywordTrigger,
+        setupTooltips,
+        classifyCharacterEffects,
+        render
+    };
 })();

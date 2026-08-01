@@ -141,6 +141,7 @@ tooltipEl.innerHTML = `
 <div class="tooltip-tags" id="tt-tags"></div>
 `;
 document.body.appendChild(tooltipEl);
+let itemTooltipPinned = false;
 
 function fitTooltipWidth() {
     if (window.matchMedia('(max-width: 768px)').matches) {
@@ -170,13 +171,19 @@ function fitTooltipWidth() {
     tooltipEl.style.width = `${fittedWidth}px`;
 }
 
+function renderDictionaryRichText(value) {
+    if (!window.CharacterEffects) return String(value || '');
+    return window.CharacterEffects.renderRichText(value);
+}
+
 // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환 + 파밍처 추가) ㅁㄴㅇ
-function showTooltip(item, e, mainStats = []) {
+function showTooltip(item, e, mainStats = [], pinned = false) {
     const ttTitle = document.getElementById('tt-title');
     const ttDesc = document.getElementById('tt-desc');
     const ttTags = document.getElementById('tt-tags');
 
     ttTitle.textContent = item.korean_name;
+    itemTooltipPinned = pinned;
     let contentHtml = '';
 
     // 명륜 전용 주옵션
@@ -185,17 +192,17 @@ function showTooltip(item, e, mainStats = []) {
     }
     // 공통 설명 (은열쇠 등)
     if (item.description) {
-        contentHtml += `<div class="tooltip-effect-desc">${item.description}</div>`;
+        contentHtml += `<div class="tooltip-effect-desc">${renderDictionaryRichText(item.description)}</div>`;
     }
 
     // 비밀계약 전용 세트 효과
     if (item.set_effect_3) {
         contentHtml += `<div class="tooltip-effect-desc tooltip-effect-heading">[3세트 효과]</div>`;
-        contentHtml += `<div class="tooltip-effect-desc tooltip-effect-body">${item.set_effect_3}</div>`;
+        contentHtml += `<div class="tooltip-effect-desc tooltip-effect-body">${renderDictionaryRichText(item.set_effect_3)}</div>`;
     }
     if (item.set_effect_6) {
         contentHtml += `<div class="tooltip-effect-desc tooltip-effect-heading">[6세트 효과]</div>`;
-        contentHtml += `<div class="tooltip-effect-desc tooltip-effect-body">${item.set_effect_6}</div>`;
+        contentHtml += `<div class="tooltip-effect-desc tooltip-effect-body">${renderDictionaryRichText(item.set_effect_6)}</div>`;
     }
 
     // [추가된 부분] 획득처(파밍처) 정보가 JSON에 존재할 경우 출력
@@ -209,6 +216,9 @@ function showTooltip(item, e, mainStats = []) {
     }
 
     ttDesc.innerHTML = contentHtml;
+    if (window.CharacterEffects) {
+        window.CharacterEffects.setupTooltips(ttDesc);
+    }
     ttTags.innerHTML = '';
 
     // 비밀계약/은열쇠(tags) 또는 명륜(optimized_for) 배열을 감지하여 태그 뱃지 생성
@@ -246,7 +256,9 @@ function moveTooltip(e) {
     tooltipEl.style.top = y + 'px';
 }
 
-function hideTooltip() {
+function hideTooltip(force = false) {
+    if (itemTooltipPinned && !force) return;
+    itemTooltipPinned = false;
     if (tooltipEl) {
         tooltipEl.style.display = 'none';
     }
@@ -265,7 +277,7 @@ function bindDynamicTooltips(root) {
         el.onclick = e => {
             e.preventDefault();
             e.stopPropagation();
-            showTooltip(item, e, mainStats);
+            showTooltip(item, e, mainStats, true);
         };
     });
 }
@@ -291,7 +303,12 @@ function formatTooltipMainStats(stats) {
     return stats.map((stat, index) => `${partLabels[index]} ${stat}`).join('<br>');
 }
 
-document.addEventListener('click', hideTooltip);
+tooltipEl.addEventListener('click', event => event.stopPropagation());
+tooltipEl.addEventListener('mouseleave', () => hideTooltip());
+document.addEventListener('click', event => {
+    if (tooltipEl.contains(event.target)) return;
+    hideTooltip(true);
+});
 
 function getDictionaryFilterMeta(item, category) {
     const tags = (item.tags || item.optimized_for || [])
@@ -543,7 +560,7 @@ function renderDictionaryItems(data, category) {
             e.preventDefault();
             e.stopPropagation();
             card.classList.add('active');
-            showTooltip(item, e);
+            showTooltip(item, e, [], true);
         };
 
         card.append(img, name);
@@ -645,6 +662,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.covMap[c.korean_name] = c;
         });
         window.characterNameSet = new Set(manifest.map(character => character.name).filter(Boolean));
+        if (window.CharacterEffects) {
+            window.CharacterEffects.configureTooltips(tooltipDB);
+        }
         window.currentSettings = settingsDB;
         window.wheelRecommendationLookup = createWheelRecommendationLookup(wheelRecommendationsDB.records || []);
 
