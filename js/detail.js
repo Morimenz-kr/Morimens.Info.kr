@@ -449,7 +449,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateTeam(mainChar, legacyTeamData, recommendedTeams = []) {
         const matchingTeams = recommendedTeams.filter(team =>
-            Array.isArray(team.member_ids) && team.member_ids.includes(mainChar.id)
+            Array.isArray(team.character_ids)
+                ? team.character_ids.includes(mainChar.id)
+                : Array.isArray(team.member_ids) && team.member_ids.includes(mainChar.id)
         );
 
         if (matchingTeams.length === 0) {

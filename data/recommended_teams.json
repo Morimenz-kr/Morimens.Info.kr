@@ -1,12 +1,15 @@
 [
   {
-    "id": "ultra-castor-arachne-clementine-pollux",
-    "title": "카스토르 · 아라크네 · 클레멘타인 · 폴룩스",
+    "id": "murphy-fauxborn-aequor-01",
+    "character_ids": [
+      "Murphy_Fauxborn"
+    ],
+    "title": "탄망 · 머피 중심 조합",
     "member_ids": [
-      "castor",
-      "arachne",
-      "clementine",
-      "pollux"
+      "Murphy_Fauxborn",
+      "miryam",
+      "tulu",
+      "goliath"
     ]
   }
 ]
