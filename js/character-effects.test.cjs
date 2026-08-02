@@ -797,6 +797,19 @@ test('확정된 오지에 1~3돌과 기본 카드명·비용을 인게임 전문
     assert.match(characterEffects.interpolateEffect(virtues.effect, virtues.levels, 6), /방어력의 72%.*공격력의 36%.*방어력의 24%/s);
 });
 
+test('누락된 광기 폭발 직접 영향 계령을 실제 광기 폭발 전문에 연결한다', () => {
+    const timeworn = effectsData.ramona_timeworn;
+    const convergence = characterEffects.getBreakthroughVariant(timeworn.skills.find(skill => skill.name === '패러독스 수렴'), 3);
+    const cetarchon = effectsData.lotan_cetarchon;
+    const boundary = characterEffects.getBreakthroughVariant(cetarchon.skills.find(skill => skill.name === '경계를 베는 검'), 3);
+
+    assert.match(convergence.effect, /잠금 해제된 은열쇠 1개를 선택하여, 사용하거나 전투 종료 시까지 현재 은열쇠를 대체한다/);
+    assert.match(timeworn.enlighten[2].effect, /잠금 해제된 은열쇠/);
+    assert.match(boundary.effect, /피해가 \+150pt 증가한다/);
+    assert.doesNotMatch(boundary.effect, /첫 번째 「침멸」/);
+    assert.match(cetarchon.enlighten[2].effect, /첫 번째 「침멸」은 행동력을 소모하지 않는다/);
+});
+
 test('초월 폭발은 스킬과 계령 양쪽에서 같은 데이터 객체를 사용한다', () => {
     const normalSkill = { type: '스킬', name: '일반 스킬' };
     const transcendentBurst = { type: '초월 폭발', name: '초월 능력' };
