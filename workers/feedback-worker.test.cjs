@@ -40,7 +40,9 @@ function loadWorkerInternals() {
             extractGiftCodeExpiry,
             buildGiftCodeLinksUpdate,
             buildGiftCodePublishedMessage,
-            getGiftCodeDaysRemaining
+            getGiftCodeDaysRemaining,
+            getCronHealth,
+            handleCronWatchdog
         };
     `)();
 }
@@ -74,9 +76,59 @@ const {
     extractGiftCodeExpiry,
     buildGiftCodeLinksUpdate,
     buildGiftCodePublishedMessage,
-    getGiftCodeDaysRemaining
+    getGiftCodeDaysRemaining,
+    getCronHealth,
+    handleCronWatchdog
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
+
+test('크론 완료 heartbeat가 기준 시간보다 오래되면 비정상으로 판단한다', () => {
+    const now = new Date('2026-08-02T13:30:00.000Z');
+    const healthy = getCronHealth('2026-08-02T13:20:00.000Z', now, 15 * 60 * 1000);
+    const stale = getCronHealth('2026-08-02T13:10:00.000Z', now, 15 * 60 * 1000);
+    assert.equal(healthy.healthy, true);
+    assert.equal(stale.healthy, false);
+    assert.equal(stale.ageMinutes, 20);
+});
+
+test('watchdog는 같은 장애에 Discord 경고를 한 번만 보낸다', async () => {
+    const originalFetch = global.fetch;
+    const messages = [];
+    let watchdogState = null;
+    global.fetch = async (url, options) => {
+        messages.push(JSON.parse(options.body).content);
+        return Response.json({ id: 'watchdog-message' });
+    };
+    const env = {
+        WATCHDOG_TOKEN: 'secret',
+        DISCORD_BOT_TOKEN: 'bot',
+        DISCORD_CHANNEL_ID: 'channel',
+        RESOURCE_LINK_STATE: {
+            async get(key) {
+                if (key === 'cron:heartbeat:completed:v1') return { timestamp: '2020-01-01T00:00:00.000Z' };
+                if (key === 'cron:watchdog-state:v1') return watchdogState;
+                return null;
+            },
+            async put(key, value) {
+                if (key === 'cron:watchdog-state:v1') watchdogState = JSON.parse(value);
+            }
+        }
+    };
+    const request = new Request('https://worker.test/cron-watchdog', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer secret' }
+    });
+    try {
+        const first = await handleCronWatchdog(request, env, {});
+        const second = await handleCronWatchdog(request, env, {});
+        assert.equal(first.status, 503);
+        assert.equal(second.status, 503);
+        assert.equal(messages.length, 1);
+        assert.equal(watchdogState.alertActive, true);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
 
 test('Arca 대기 글은 오래된 글 ID부터 정렬한다', () => {
     const ids = ['300', '100', '200'].sort(compareArcaPostIds);

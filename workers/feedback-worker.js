@@ -21,6 +21,10 @@ const DEFAULT_ARCA_DESCRIPTION_BACKFILL_LIMIT = 5;
 const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
 const ARCA_PENDING_KEY_PREFIX = 'arca:pending:';
 const ARCA_FEED_STATE_KEY_PREFIX = 'arca:feed:';
+const CRON_STARTED_KEY = 'cron:heartbeat:started:v1';
+const CRON_COMPLETED_KEY = 'cron:heartbeat:completed:v1';
+const CRON_WATCHDOG_STATE_KEY = 'cron:watchdog-state:v1';
+const DEFAULT_CRON_STALE_MS = 15 * 60 * 1000;
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
 const GIFT_CODE_NOTIFICATION_KEY_PREFIX = 'gift-code:notification:';
 const DEFAULT_GIFT_CODE_CHANNEL_ID = '1529856105562247358';
@@ -154,6 +158,10 @@ export default {
                 return await handleDiscordInteraction(request, env, ctx);
             }
 
+            if (url.pathname === '/cron-watchdog' && request.method === 'POST') {
+                return await handleCronWatchdog(request, env, corsHeaders);
+            }
+
             if (request.method === 'GET') {
                 return handleGet(url, env, corsHeaders);
             }
@@ -178,7 +186,23 @@ export default {
     },
 
     async scheduled(event, env, ctx) {
-        ctx.waitUntil(Promise.all([
+        ctx.waitUntil(runScheduledMaintenance(env));
+    },
+
+    async queue(batch, env) {
+        for (const message of batch.messages) {
+            await processQueuedResourceUpdate(env, message);
+        }
+    }
+};
+
+async function runScheduledMaintenance(env) {
+    const startedAt = new Date().toISOString();
+    await writeCronHeartbeat(env, CRON_STARTED_KEY, startedAt).catch(error => {
+        console.error('Cron start heartbeat failed', error);
+    });
+
+    await Promise.all([
             ensureDiscordResourceCommands(env).catch(error => {
                 console.error('Discord command registration failed', error);
             }),
@@ -191,17 +215,89 @@ export default {
             recoverStaleResourceProposals(env).catch(error => {
                 console.error('Stale resource proposal recovery failed', error);
             })
-        ]).then(() => {
-            console.log('Scheduled maintenance completed');
-        }));
-    },
+    ]);
 
-    async queue(batch, env) {
-        for (const message of batch.messages) {
-            await processQueuedResourceUpdate(env, message);
-        }
+    const completedAt = new Date().toISOString();
+    await writeCronHeartbeat(env, CRON_COMPLETED_KEY, completedAt);
+    console.log('Scheduled maintenance completed', { startedAt, completedAt });
+}
+
+async function writeCronHeartbeat(env, key, timestamp) {
+    if (!env.RESOURCE_LINK_STATE) throw new Error('RESOURCE_LINK_STATE KV binding is missing');
+    await env.RESOURCE_LINK_STATE.put(key, JSON.stringify({ timestamp }));
+}
+
+async function handleCronWatchdog(request, env, corsHeaders) {
+    const expectedToken = String(env.WATCHDOG_TOKEN || '');
+    const suppliedToken = String(request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!expectedToken || !suppliedToken || suppliedToken !== expectedToken) {
+        return jsonResponse({ error: 'Unauthorized' }, 401, corsHeaders);
     }
-};
+    if (!env.RESOURCE_LINK_STATE) {
+        return jsonResponse({ error: 'RESOURCE_LINK_STATE KV binding is missing' }, 503, corsHeaders);
+    }
+
+    const staleMs = getPositiveIntegerEnv(
+        env.CRON_WATCHDOG_STALE_MINUTES,
+        DEFAULT_CRON_STALE_MS / 60000,
+        10,
+        120
+    ) * 60 * 1000;
+    const now = new Date();
+    const [completed, watchdogState] = await Promise.all([
+        env.RESOURCE_LINK_STATE.get(CRON_COMPLETED_KEY, 'json'),
+        env.RESOURCE_LINK_STATE.get(CRON_WATCHDOG_STATE_KEY, 'json')
+    ]);
+    const health = getCronHealth(completed?.timestamp, now, staleMs);
+
+    if (!health.healthy && !watchdogState?.alertActive) {
+        await sendCronWatchdogDiscordMessage(env,
+            `🚨 정보글 자동 수집 크론이 멈춘 것 같습니다.\n마지막 정상 완료: ${health.lastCompletedAt || '기록 없음'}\n경과 시간: ${health.ageMinutes ?? '알 수 없음'}분`
+        );
+        await env.RESOURCE_LINK_STATE.put(CRON_WATCHDOG_STATE_KEY, JSON.stringify({
+            alertActive: true,
+            alertedAt: now.toISOString(),
+            lastCompletedAt: health.lastCompletedAt
+        }));
+    } else if (health.healthy && watchdogState?.alertActive) {
+        await sendCronWatchdogDiscordMessage(env,
+            `✅ 정보글 자동 수집 크론이 정상화되었습니다.\n최근 정상 완료: ${health.lastCompletedAt}`
+        );
+        await env.RESOURCE_LINK_STATE.put(CRON_WATCHDOG_STATE_KEY, JSON.stringify({
+            alertActive: false,
+            recoveredAt: now.toISOString(),
+            lastCompletedAt: health.lastCompletedAt
+        }));
+    }
+
+    return jsonResponse(health, health.healthy ? 200 : 503, corsHeaders);
+}
+
+function getCronHealth(lastCompletedAt, now = new Date(), staleMs = DEFAULT_CRON_STALE_MS) {
+    const completedTime = Date.parse(String(lastCompletedAt || ''));
+    const nowTime = new Date(now).getTime();
+    const ageMs = Number.isFinite(completedTime) ? Math.max(0, nowTime - completedTime) : null;
+    return {
+        healthy: ageMs !== null && ageMs <= staleMs,
+        lastCompletedAt: Number.isFinite(completedTime) ? new Date(completedTime).toISOString() : null,
+        checkedAt: new Date(nowTime).toISOString(),
+        ageMinutes: ageMs === null ? null : Math.floor(ageMs / 60000),
+        staleAfterMinutes: Math.floor(staleMs / 60000)
+    };
+}
+
+async function sendCronWatchdogDiscordMessage(env, content) {
+    requireEnv(env, ['DISCORD_BOT_TOKEN', 'DISCORD_CHANNEL_ID']);
+    const response = await fetch(`https://discord.com/api/v10/channels/${env.DISCORD_CHANNEL_ID}/messages`, {
+        method: 'POST',
+        headers: discordBotHeaders(env),
+        body: JSON.stringify({ content, allowed_mentions: { parse: [] } })
+    });
+    if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`Discord watchdog notification failed: ${response.status} ${detail.slice(0, 300)}`);
+    }
+}
 
 async function runArcaResourceMaintenance(env) {
     await handleArcaMonitor(env);
