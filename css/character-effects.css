@@ -1,3 +1,33 @@
+.character-effect-breakthrough-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 24px;
+    padding: 2px 7px;
+    border: 1px solid #555;
+    border-radius: 999px;
+    color: #888;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.character-effect-breakthrough-badge:hover,
+.character-effect-breakthrough-badge:focus-visible {
+    border-color: #ffc107;
+    outline: 2px solid transparent;
+}
+
+.character-effect-breakthrough-badge.active {
+    border-color: rgba(255, 193, 7, 0.75);
+    color: #ffd65a;
+}
+
 .character-effects-switch {
     display: inline-flex;
     gap: 4px;
@@ -159,6 +189,15 @@
     overflow-wrap: anywhere;
 }
 
+.character-effect-rich-list {
+    margin: 0.4em 0 0;
+    padding-left: 1.4em;
+}
+
+.character-effect-rich-list li + li {
+    margin-top: 0.2em;
+}
+
 .character-effect-level-select {
     flex: 0 0 auto;
     width: auto;
@@ -212,7 +251,8 @@
     font-size: 1.1rem;
 }
 
-.character-breakthrough-card p {
+.character-breakthrough-card p,
+.character-breakthrough-card .character-effect-rich-text {
     margin: 0;
     color: #ccc;
     line-height: 1.65;
@@ -247,7 +287,9 @@
 }
 
 .character-trait-card p,
-.character-dimensional-card p {
+.character-dimensional-card p,
+.character-trait-card .character-effect-rich-text,
+.character-dimensional-card .character-effect-rich-text {
     margin: 0;
     color: #ccc;
     line-height: 1.65;
@@ -264,9 +306,25 @@
     cursor: help;
 }
 
+.tooltip-trigger.keyword-iconized {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2em;
+    color: var(--keyword-color);
+    vertical-align: baseline;
+}
+
+.tooltip-trigger .keyword-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
+    object-fit: contain;
+    vertical-align: -0.12em;
+}
+
 .character-effect-tooltip-box {
     position: fixed;
-    z-index: 1010;
+    z-index: 10010;
     width: min(520px, calc(100vw - 20px));
     max-height: calc(100dvh - 32px);
     box-sizing: border-box;
@@ -338,6 +396,12 @@
 }
 
 @media (max-width: 600px) {
+    .character-effect-breakthrough-badge {
+        min-width: 44px;
+        min-height: 32px;
+        padding-inline: 10px;
+    }
+
     .chrome-tabs-container {
         overflow-x: auto;
         padding-left: 0;
