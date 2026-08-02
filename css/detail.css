@@ -190,108 +190,48 @@ h4 { color: var(--color-accent); border-bottom: 1px solid var(--color-border-lig
 
 /* '조합' 탭 CSS */
 .tab-content.team-grid {
-    padding: 0;
-    background: transparent;
-}
-
-.recommended-team-list {
-    display: grid;
-    gap: 0.65rem;
-}
-
-.recommended-team-intro h3 {
-    margin: 0;
-    font-size: 1.05rem;
-}
-
-.recommended-team-card {
-    border: 1px solid var(--color-border);
+    gap: 15px;
+    background-color: var(--color-bg-elevated);
+    padding: 15px;
     border-radius: var(--radius-md);
-    background: var(--color-bg-card);
-    padding: 0.65rem;
 }
 
-.recommended-team-index {
-    margin: 0 0 0.55rem;
-    color: var(--color-accent-gold);
-    font-size: 0.8rem;
-    font-weight: 700;
-    line-height: 1.2;
-}
-
-.recommended-team-card .team-cards-wrapper {
+/* 새로 추가: Wrapper에 그리드 스타일 적용 */
+.team-cards-wrapper {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.4rem;
-    padding: 0;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+/* '조합' 탭 - 폴더형 제목 */
+.team-title-folder {
+    grid-column: 1 / -1;
+    background-color: var(--color-bg-hover);
+    color: var(--color-accent);
+    padding: 10px 15px;
+    font-size: 1.2em;
+    text-align: left;
+    margin: -15px -15px 15px -15px;
+    border-radius: 8px 8px 0 0;
+    border-bottom: 3px solid var(--color-accent);
 }
 
 .team-member-card {
-    min-width: 0;
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm);
-    background: transparent;
-    color: inherit;
-    text-decoration: none;
-    padding: 0.35rem 0.2rem;
+    background-color: var(--color-bg-card);
+    border-radius: 8px;
     text-align: center;
-    transition: border-color 0.18s ease, background-color 0.18s ease;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
-
-.team-member-card:hover,
-.team-member-card:focus-visible {
-    border-color: var(--color-accent);
-    background: var(--color-bg-hover);
-    outline: none;
-}
-
-.team-member-card:focus-visible {
-    box-shadow: 0 0 0 3px rgba(126, 92, 255, 0.28);
-}
-
-.team-member-card.is-current {
-    background: rgba(212, 175, 55, 0.07);
-}
-
-.team-member-image {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    width: min(100%, 4.5rem);
-    margin-inline: auto;
-    aspect-ratio: 1 / 1;
-    border: 2px solid transparent;
-    border-radius: 50%;
-    background: var(--color-bg-dark);
-}
-
-.team-member-card.is-current .team-member-image {
-    border-color: var(--color-accent-gold);
-}
-
 .team-member-card img {
-    display: block;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
-
-.team-member-info {
-    display: block;
-    padding-top: 0.35rem;
-}
-
-.team-member-info strong {
-    overflow-wrap: anywhere;
-    color: var(--color-text-primary);
-    font-size: clamp(0.72rem, 2.5vw, 0.85rem);
-    line-height: 1.3;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .team-member-card {
-        transition: none;
-    }
+.team-member-card h5 {
+    margin: 0;
+    font-size: 1.1em;
+    color: #fff;
 }
 
 /* 툴팁 스타일 */

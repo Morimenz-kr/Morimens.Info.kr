@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const [
-                awakenerData, cardsDB, statsDB, covenantsDB, wheelsDB, manifestData, tooltipsDB, recommendedTeamsDB
+                awakenerData, cardsDB, statsDB, covenantsDB, wheelsDB, manifestData, tooltipsDB
             ] = await Promise.all([
                 fetch(`data/awakener/${charId}.json`).then(validateResponse), // 캐릭터별 데이터는 항상 fresh
                 cachedFetch(`data/db_cards.json`, `db_cards_${ver}`),
@@ -85,8 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cachedFetch(`data/covenant_list.json`, `db_covenants_${ver}`),
                 cachedFetch(`data/wheel_list.json`, `db_wheels_${ver}`),
                 cachedFetch(`data/character_manifest.json`, `db_manifest_${ver}`),
-                cachedFetch(`data/db_tooltips.json`, `db_tooltips_${ver}`),
-                cachedFetch(`data/recommended_teams.json`, `db_recommended_teams_${ver}`)
+                cachedFetch(`data/db_tooltips.json`, `db_tooltips_${ver}`)
             ]);
 
             // DB 데이터 캐싱
@@ -133,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
             populateSkills(fullCharacterData.skill_kit, fullCharacterData.images.full);
             populateCovenant(fullCharacterData.guide.recommended_covenants_data);
             populateMyeongryun(fullCharacterData.guide.recommended_wheel);
-            populateTeam(fullCharacterData, fullCharacterData.guide.recommended_team_data, recommendedTeamsDB);
+            populateTeam(fullCharacterData, fullCharacterData.guide.recommended_team_data);
             populateGrowth(fullCharacterData.stats);
 
             setupEventListeners();
@@ -447,54 +446,22 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.myeongryunTab.innerHTML = html;
     }
 
-    function populateTeam(mainChar, legacyTeamData, recommendedTeams = []) {
-        const matchingTeams = recommendedTeams.filter(team =>
-            Array.isArray(team.character_ids)
-                ? team.character_ids.includes(mainChar.id)
-                : Array.isArray(team.member_ids) && team.member_ids.includes(mainChar.id)
-        );
-
-        if (matchingTeams.length === 0) {
-            const fallbackMembers = [
-                {
-                    id: mainChar.id,
-                    name: mainChar.name,
-                    image_thumb: mainChar.images.thumb,
-                    relems: mainChar.info.relems,
-                    class: mainChar.info.class,
-                    grade: charGrade || 'ssr'
-                },
-                ...(legacyTeamData || [])
-            ];
-            matchingTeams.push({
-                id: `${mainChar.id}-legacy-team`,
-                title: `${mainChar.name} 추천 조합`,
-                members: fallbackMembers
+    function populateTeam(mainChar, teamData) {
+        let teamHtml = '';
+        teamHtml += `<h4 class="team-title-folder">추천 조합 (1팀)</h4>`;
+        teamHtml += `<div class="team-cards-wrapper">`;
+        teamHtml += createTeamCard(mainChar.name, mainChar.images.thumb, true);
+        if (teamData && teamData.length > 0) {
+            teamData.forEach(member => {
+                teamHtml += createTeamCard(member.name, member.image_thumb);
             });
         }
-
-        const teamCards = matchingTeams.map((team, index) => {
-            const members = team.members || team.member_ids
-                .map(memberId => ALL_CHARACTERS_MANIFEST[memberId])
-                .filter(Boolean);
-            const memberCards = members.map(member =>
-                createTeamCard(member, member.id === mainChar.id)
-            ).join('');
-
-            return `
-                <article class="recommended-team-card" aria-label="${team.title}">
-                    <h4 class="recommended-team-index">추천 조합 ${index + 1}</h4>
-                    <div class="team-cards-wrapper">${memberCards}</div>
-                </article>`;
-        }).join('');
-
-        elements.teamTab.innerHTML = `
-            <div class="recommended-team-list">
-                <div class="recommended-team-intro">
-                    <h3>추천 조합</h3>
-                </div>
-                ${teamCards}
-            </div>`;
+        const remainingSlots = 4 - 1 - (teamData ? teamData.length : 0);
+        for(let i = 0; i < remainingSlots; i++) {
+            teamHtml += createTeamCard('...', null);
+        }
+        teamHtml += `</div>`;
+        elements.teamTab.innerHTML = teamHtml;
     }
 
     function populateGrowth(statsData) {
@@ -553,19 +520,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 150);
     }
 
-    function createTeamCard(member, isMain = false) {
-        const href = member.id
-            ? `detail.html?id=${encodeURIComponent(member.id)}&grade=${encodeURIComponent(member.grade || 'ssr')}`
-            : '#';
+    function createTeamCard(name, imageUrl, isMain = false) {
+        const style = isMain ? 'style="border: 2px solid #ffc107;"' : '';
         return `
-            <a class="team-member-card${isMain ? ' is-current' : ''}" href="${href}"${isMain ? ' aria-current="page"' : ''}>
-                <span class="team-member-image">
-                    <img src="${member.image_thumb || 'https://via.placeholder.com/200x200?text=No+Image'}" alt="" loading="lazy">
-                </span>
-                <span class="team-member-info">
-                    <strong>${member.name}</strong>
-                </span>
-            </a>`;
+            <div class="team-member-card" ${style}>
+                <img src="${imageUrl || 'https://via.placeholder.com/200x200?text=No+Image'}" alt="${name}">
+                <h5>${name}</h5>
+            </div>`;
     }
 
     function collectAllDerivedCards(cardId, collectedIds = new Set(), depth = 0) {

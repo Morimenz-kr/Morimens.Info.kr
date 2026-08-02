@@ -171,6 +171,46 @@ function fitTooltipWidth() {
     tooltipEl.style.width = `${fittedWidth}px`;
 }
 
+function renderRecommendedTeams(container, characterId, manifest, recommendedTeams) {
+    if (!container) return;
+
+    const characterMap = new Map(manifest.map(character => [character.id, character]));
+    const teams = recommendedTeams.filter(team =>
+        Array.isArray(team.character_ids) && team.character_ids.includes(characterId)
+    );
+
+    if (teams.length === 0) {
+        container.innerHTML = `
+            <div class="recommended-teams-empty">
+                <span aria-hidden="true">📝</span>
+                <p>아직 추천 조합 정보가 등록되지 않았습니다.</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = `<div class="recommended-compositions">${teams.map((team, index) => {
+        const members = team.member_ids
+            .map(memberId => characterMap.get(memberId))
+            .filter(Boolean);
+        const memberCards = members.map(member => {
+            const isCurrent = member.id === characterId;
+            return `
+                <a class="recommended-composition-member${isCurrent ? ' is-current' : ''}"
+                   href="links.html?category=character&id=${encodeURIComponent(member.id)}"
+                   ${isCurrent ? 'aria-current="page"' : ''}>
+                    <img src="${member.image_thumb}" alt="" loading="lazy" onerror="this.src='images/smile_Ramona.webp';">
+                    <strong>${member.name}</strong>
+                </a>`;
+        }).join('');
+
+        return `
+            <article class="recommended-composition" aria-label="${team.title}">
+                <h3>추천 조합 ${index + 1}</h3>
+                <div class="recommended-composition-members">${memberCards}</div>
+            </article>`;
+    }).join('')}</div>`;
+}
+
 function renderDictionaryRichText(value) {
     if (!window.CharacterEffects) return String(value || '');
     return window.CharacterEffects.renderRichText(value);
@@ -614,6 +654,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const isDictionaryPage = (category === 'myeongryun' || category === 'silverkey' || category === 'covenant');
     if (linkContainer) {
         linkContainer.classList.toggle('dictionary-wide', isDictionaryPage);
+        linkContainer.classList.toggle('character-page', isCharacterPage);
     }
 
     // 1. 탭 표시 설정 및 명칭 수정
@@ -621,14 +662,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         tabsContainer.style.display = (isDictionaryPage || isCharacterPage) ? 'flex' : 'none';
         const dictionaryTab = document.querySelector('[data-tab-target="dictionary"]');
         const effectsTab = document.querySelector('[data-tab-target="character-effects"]');
+        const teamsTab = document.querySelector('[data-tab-target="recommended-teams"]');
         const linksTab = document.querySelector('[data-tab-target="links"]');
         if (effectsTab) effectsTab.hidden = !isCharacterPage;
+        if (teamsTab) teamsTab.hidden = !isCharacterPage;
         if (isCharacterPage) {
-            if (effectsTab && dictionaryTab) {
-                tabsContainer.insertBefore(effectsTab, dictionaryTab);
-            }
             if (dictionaryTab) dictionaryTab.textContent = '추천 세팅';
-            if (linksTab) linksTab.textContent = '채널 정보글 리스트';
+            if (linksTab) linksTab.textContent = '정보글';
         } else if (isDictionaryPage) {
             if (category === 'myeongryun' && dictionaryTab) dictionaryTab.textContent = '명륜 리스트';
             else if (category === 'silverkey' && dictionaryTab) dictionaryTab.textContent = '은열쇠 리스트';
@@ -639,7 +679,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const ts = new Date().getTime();
-        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB] = await Promise.all([
+        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB, recommendedTeamsDB] = await Promise.all([
             fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
             fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
             fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
@@ -648,7 +688,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => []),
             fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
             fetch(`data/db_tooltips.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
-            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] }))
+            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] })),
+            fetch(`data/recommended_teams.json?t=${ts}`).then(res => res.json()).catch(() => [])
         ]);
 
         window.wheelMap = {};
@@ -693,6 +734,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     tooltipDB
                 );
             }
+            renderRecommendedTeams(
+                document.getElementById('recommended-teams-root'),
+                charId,
+                manifest,
+                recommendedTeamsDB
+            );
             // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
             const gridContainer = document.getElementById('dictionary-grid');
             const filterPanel = document.getElementById('dictionary-filter-panel');
