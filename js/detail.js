@@ -482,11 +482,8 @@ document.addEventListener('DOMContentLoaded', () => {
             ).join('');
 
             return `
-                <article class="recommended-team-card" aria-labelledby="team-title-${index}">
-                    <header class="recommended-team-header">
-                        <span class="recommended-team-index">추천 조합 ${index + 1}</span>
-                        <h4 id="team-title-${index}">${team.title}</h4>
-                    </header>
+                <article class="recommended-team-card" aria-label="${team.title}">
+                    <h4 class="recommended-team-index">추천 조합 ${index + 1}</h4>
                     <div class="team-cards-wrapper">${memberCards}</div>
                 </article>`;
         }).join('');
@@ -495,7 +492,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="recommended-team-list">
                 <div class="recommended-team-intro">
                     <h3>추천 조합</h3>
-                    <p>각성체를 선택하면 해당 캐릭터의 상세 정보를 확인할 수 있습니다.</p>
                 </div>
                 ${teamCards}
             </div>`;
@@ -558,8 +554,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function createTeamCard(member, isMain = false) {
-        const relemsName = RELEMS_MAP[member.relems] || member.relems || '';
-        const className = CLASS_MAP[member.class] || member.class || '';
         const href = member.id
             ? `detail.html?id=${encodeURIComponent(member.id)}&grade=${encodeURIComponent(member.grade || 'ssr')}`
             : '#';
@@ -567,11 +561,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <a class="team-member-card${isMain ? ' is-current' : ''}" href="${href}"${isMain ? ' aria-current="page"' : ''}>
                 <span class="team-member-image">
                     <img src="${member.image_thumb || 'https://via.placeholder.com/200x200?text=No+Image'}" alt="" loading="lazy">
-                    ${isMain ? '<span class="current-character-badge">현재 각성체</span>' : ''}
                 </span>
                 <span class="team-member-info">
                     <strong>${member.name}</strong>
-                    <span>${relemsName}${relemsName && className ? ' · ' : ''}${className}</span>
                 </span>
             </a>`;
     }
