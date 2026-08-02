@@ -36,6 +36,7 @@
         '특이점 신호': ['dimensional-travel.png', '#936394'],
         '직명': ['weave-fate.png', '#946495'],
         '우종': ['praise-seed.png', '#ffffff'],
+        '지연 희생': ['delayed-sacrifice.png', '#c79374'],
         '잔해': ['remains.png', '#a1525a'],
         '부활': ['revival.png', '#5d9278'],
         '둔화': ['slow.png', '#966697'],
@@ -52,7 +53,7 @@
     [
         '소모', '유지', '발견', '준비', '관통 피해', '촉수 피해', '영지 각성',
         '영감', '여파', '포식', '배아 융합', '초차원 공간',
-        '명계', '공명', '인지 착란', '제의', '의식', '초거리', '허무', '워프'
+        '명계', '공명', '인지 착란', '제의', '의식', '초거리', '허무', '워프', '은유'
     ].forEach(keyword => {
         keywordIcons[keyword] = ['special.png', '#c79374'];
     });
@@ -230,11 +231,33 @@
         return levels?.length ? levels[levels.length - 1].level : '';
     }
 
-    function renderLevelSelect(levels) {
+    function getBreakthroughVariant(effect, selectedBreakthrough = 0) {
+        const variants = (effect.breakthroughs || [])
+            .filter(variant => Number(variant.stage) <= Number(selectedBreakthrough))
+            .sort((left, right) => Number(left.stage) - Number(right.stage));
+
+        return variants.reduce((current, variant) => {
+            const nextEffect = variant.effect || current.effect;
+            const mergedLevels = variant.levels
+                ? variant.levels.map((level, index) => ({
+                    ...(current.levels?.find(currentLevel => String(currentLevel.level) === String(level.level)) || current.levels?.[index] || {}),
+                    ...level
+                }))
+                : current.levels;
+            return {
+                ...current,
+                ...variant,
+                effect: variant.append ? `${nextEffect} ${variant.append}` : nextEffect,
+                levels: mergedLevels
+            };
+        }, effect);
+    }
+
+    function renderLevelSelect(levels, selectedLevel = getDefaultLevel(levels)) {
         if (!levels?.length) return '';
 
-        const options = levels.map((level, index) => `
-            <option value="${level.level}"${index === levels.length - 1 ? ' selected' : ''}>Lv.${level.level}</option>
+        const options = levels.map(level => `
+            <option value="${level.level}"${String(level.level) === String(selectedLevel) ? ' selected' : ''}>Lv.${level.level}</option>
         `).join('');
         const levelsJson = escapeHtml(JSON.stringify(levels));
 
@@ -283,7 +306,7 @@
         text = replaceCompoundPlaceholders(text, entries, true);
         text = replaceCompoundPlaceholders(text, entries, false);
 
-        text = text.replace(/\*n%?|(?<!\*)\bn%?/g, match => {
+        text = text.replace(/\*n%?|(?<!\*)\b[lmn]%?/g, match => {
             const entry = entries[nextIndex];
             if (!entry) return match;
             nextIndex += 1;
@@ -307,53 +330,67 @@
             .trim();
     }
 
-    function renderEffectBody(effect) {
-        const defaultLevel = getDefaultLevel(effect.levels);
+    function renderEffectBody(effect, selectedBreakthrough = 0) {
+        const displayedEffect = getBreakthroughVariant(effect, selectedBreakthrough);
+        const levels = displayedEffect.levels || effect.levels;
+        const defaultLevel = getDefaultLevel(levels);
         const interpolatedEffect = sanitizeDisplayedEffect(
-            interpolateEffect(effect.effect, effect.levels, defaultLevel)
+            interpolateEffect(displayedEffect.effect, levels, defaultLevel)
         );
 
         return `
-            <div class="character-effect-description" data-effect-template="${escapeHtml(effect.effect)}">${renderRichText(interpolatedEffect)}</div>
+            <div class="character-effect-description" data-effect-template="${escapeHtml(displayedEffect.effect)}">${renderRichText(interpolatedEffect)}</div>
         `;
     }
 
-    function renderHeaderControls(effect) {
+    function renderBreakthroughBadges(effect, selectedBreakthrough = 0) {
+        return (effect.breakthroughs || []).map(variant => `
+            <button type="button" class="character-effect-breakthrough-badge${Number(variant.stage) <= Number(selectedBreakthrough) ? ' active' : ''}"
+                data-breakthrough-stage="${escapeHtml(variant.stage)}" aria-pressed="${Number(variant.stage) <= Number(selectedBreakthrough)}"
+                aria-label="${escapeHtml(variant.stage)}돌 효과 보기">${escapeHtml(variant.stage)}돌</button>
+        `).join('');
+    }
+
+    function renderHeaderControls(effect, selectedBreakthrough = 0) {
+        const displayedEffect = getBreakthroughVariant(effect, selectedBreakthrough);
         return `
             <span class="character-effect-header-controls">
+                ${renderBreakthroughBadges(effect, selectedBreakthrough)}
                 ${renderCost(effect.cost)}
-                ${renderLevelSelect(effect.levels)}
+                ${renderLevelSelect(displayedEffect.levels || effect.levels)}
             </span>
         `;
     }
 
-    function renderSkill(skill, index) {
+    function renderSkill(skill, index, selectedBreakthrough = 0) {
         let body;
         if (skill.variants?.length) {
             body = `
                 <div class="character-effect-variants">
                     ${skill.variants.map(variant => `
-                        <section class="character-effect-variant">
+                        <section class="character-effect-variant" data-selected-breakthrough="${selectedBreakthrough}"
+                            data-effect-definition="${escapeHtml(JSON.stringify(variant))}">
                             <div class="character-effect-variant-header">
                                 ${variant.condition ? `<span class="character-effect-condition">${escapeHtml(variant.condition)}</span>` : ''}
                                 <strong>${escapeHtml(variant.name)}</strong>
-                                ${renderHeaderControls(variant)}
+                                ${renderHeaderControls(variant, selectedBreakthrough)}
                             </div>
-                            ${renderEffectBody(variant)}
+                            ${renderEffectBody(variant, selectedBreakthrough)}
                         </section>
                     `).join('')}
                 </div>
             `;
         } else {
-            body = renderEffectBody(skill);
+            body = renderEffectBody(skill, selectedBreakthrough);
         }
 
         return `
-            <details class="character-effect-card" data-effect-name="${escapeHtml(skill.name)}" open>
+            <details class="character-effect-card" data-effect-name="${escapeHtml(skill.name)}"
+                data-selected-breakthrough="${selectedBreakthrough}" data-effect-definition="${escapeHtml(JSON.stringify(skill))}" open>
                 <summary>
                     <span class="character-effect-type">${escapeHtml(skill.type)}</span>
                     <strong>${escapeHtml(skill.name)}</strong>
-                    ${renderHeaderControls(skill)}
+                    ${renderHeaderControls(skill, selectedBreakthrough)}
                 </summary>
                 <div class="character-effect-body">${body}</div>
             </details>
@@ -388,7 +425,7 @@
             ${skills.length ? `
                 <section class="character-enlighten-section">
                     <div class="character-effect-list">
-                        ${skills.map(renderSkill).join('')}
+                        ${skills.map((skill, index) => renderSkill(skill, index)).join('')}
                     </div>
                 </section>
             ` : ''}
@@ -572,6 +609,46 @@
         container.dataset.characterEffectEventsBound = 'true';
 
         container.addEventListener('click', event => {
+            const breakthroughButton = event.target.closest('[data-breakthrough-stage]');
+            if (breakthroughButton && container.contains(breakthroughButton)) {
+                event.preventDefault();
+                event.stopPropagation();
+                const clickedStage = Number(breakthroughButton.dataset.breakthroughStage);
+                const scope = breakthroughButton.closest('.character-effect-variant, .character-effect-card');
+                if (!scope) return;
+                const effect = JSON.parse(scope.dataset.effectDefinition || '{}');
+                const currentStage = Number(scope.dataset.selectedBreakthrough || 0);
+                const nextStage = currentStage === clickedStage ? 0 : clickedStage;
+                const displayedEffect = getBreakthroughVariant(effect, nextStage);
+                const levels = displayedEffect.levels || effect.levels || [];
+                const levelSelect = scope.querySelector('.character-effect-level-select');
+                const requestedLevel = levelSelect?.value || getDefaultLevel(levels);
+                const selectedLevel = levels.some(level => String(level.level) === String(requestedLevel))
+                    ? requestedLevel
+                    : getDefaultLevel(levels);
+                const description = scope.querySelector('.character-effect-description');
+
+                scope.dataset.selectedBreakthrough = String(nextStage);
+                scope.querySelectorAll('.character-effect-breakthrough-badge').forEach(button => {
+                    const active = Number(button.dataset.breakthroughStage) <= nextStage;
+                    button.classList.toggle('active', active);
+                    button.setAttribute('aria-pressed', String(active));
+                });
+                if (levelSelect) {
+                    levelSelect.innerHTML = levels.map(level => `
+                        <option value="${escapeHtml(level.level)}"${String(level.level) === String(selectedLevel) ? ' selected' : ''}>Lv.${escapeHtml(level.level)}</option>
+                    `).join('');
+                    levelSelect.dataset.levels = JSON.stringify(levels);
+                }
+                if (description) {
+                    description.dataset.effectTemplate = displayedEffect.effect;
+                    description.innerHTML = renderRichText(sanitizeDisplayedEffect(
+                        interpolateEffect(displayedEffect.effect, levels, selectedLevel)
+                    ));
+                }
+                return;
+            }
+
             const button = event.target.closest('[data-effect-panel]');
             if (!button || !container.contains(button)) return;
             const target = button.dataset.effectPanel;
@@ -651,7 +728,7 @@
             <div class="character-effect-panel active" data-effect-content="skills" role="tabpanel">
                 ${skills.length ? `
                     <div class="character-effect-list">
-                        ${skills.map(renderSkill).join('')}
+                        ${skills.map((skill, index) => renderSkill(skill, index)).join('')}
                     </div>
                 ` : renderEmpty('등록된 스킬 정보가 없습니다.')}
                 ${character.derivedCards?.length ? `
@@ -689,6 +766,10 @@
         renderKeyword: renderKeywordTrigger,
         setupTooltips,
         classifyCharacterEffects,
+        getBreakthroughVariant,
+        interpolateEffect,
+        sanitizeDisplayedEffect,
+        renderBreakthroughBadges,
         render
     };
 })();

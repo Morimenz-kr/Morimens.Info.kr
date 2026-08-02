@@ -1,3 +1,33 @@
+.character-effect-breakthrough-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 24px;
+    padding: 2px 7px;
+    border: 1px solid #555;
+    border-radius: 999px;
+    color: #888;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.character-effect-breakthrough-badge:hover,
+.character-effect-breakthrough-badge:focus-visible {
+    border-color: #ffc107;
+    outline: 2px solid transparent;
+}
+
+.character-effect-breakthrough-badge.active {
+    border-color: rgba(255, 193, 7, 0.75);
+    color: #ffd65a;
+}
+
 .character-effects-switch {
     display: inline-flex;
     gap: 4px;
@@ -366,6 +396,12 @@
 }
 
 @media (max-width: 600px) {
+    .character-effect-breakthrough-badge {
+        min-width: 44px;
+        min-height: 32px;
+        padding-inline: 10px;
+    }
+
     .chrome-tabs-container {
         overflow-x: auto;
         padding-left: 0;
