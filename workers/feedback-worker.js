@@ -18,6 +18,7 @@ const DEFAULT_ARCA_LIST_SCAN_LIMIT = 20;
 const DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN = 5;
 const DEFAULT_ARCA_PENDING_WRITES_PER_FEED = 5;
 const DEFAULT_ARCA_DESCRIPTION_BACKFILL_LIMIT = 5;
+const DEFAULT_ARCA_FETCH_TIMEOUT_MS = 10 * 1000;
 const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
 const ARCA_PENDING_KEY_PREFIX = 'arca:pending:';
 const ARCA_FEED_STATE_KEY_PREFIX = 'arca:feed:';
@@ -1211,13 +1212,14 @@ function parseArcaListUrls(value) {
         .filter(Boolean);
 }
 
-async function fetchText(url) {
+async function fetchText(url, timeoutMs = DEFAULT_ARCA_FETCH_TIMEOUT_MS) {
     const response = await fetch(url, {
         headers: {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
             'User-Agent': ARCA_FETCH_USER_AGENT
-        }
+        },
+        signal: AbortSignal.timeout(timeoutMs)
     });
     if (!response.ok) {
         throw new HttpError(`Fetch failed: ${response.status}`, response.status);
@@ -1232,7 +1234,10 @@ async function fetchTextWithRetry(url, attempts = 3) {
             return await fetchText(url);
         } catch (error) {
             lastError = error;
-            if (![429, 500, 502, 503, 504].includes(error.status) || attempt === attempts - 1) break;
+            const retryable = [429, 500, 502, 503, 504].includes(error.status)
+                || error.name === 'AbortError'
+                || error.name === 'TimeoutError';
+            if (!retryable || attempt === attempts - 1) break;
             await new Promise(resolve => setTimeout(resolve, 500 * (attempt + 1)));
         }
     }

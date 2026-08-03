@@ -13,6 +13,7 @@ function loadWorkerInternals() {
         ${source}
         return {
             extractArcaPostsFromList,
+            fetchText,
             fetchArcaPostDetail,
             buildArcaListFallbackDetail,
             collectEmptyArcaResourceDescriptions,
@@ -49,6 +50,7 @@ function loadWorkerInternals() {
 
 const {
     extractArcaPostsFromList,
+    fetchText,
     fetchArcaPostDetail,
     buildArcaListFallbackDetail,
     collectEmptyArcaResourceDescriptions,
@@ -125,6 +127,21 @@ test('watchdog는 같은 장애에 Discord 경고를 한 번만 보낸다', asyn
         assert.equal(second.status, 503);
         assert.equal(messages.length, 1);
         assert.equal(watchdogState.alertActive, true);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('Arca 목록 요청은 응답이 멈추면 제한 시간 후 중단한다', async () => {
+    const originalFetch = global.fetch;
+    global.fetch = async (url, options) => new Promise((resolve, reject) => {
+        options.signal.addEventListener('abort', () => reject(options.signal.reason), { once: true });
+    });
+    try {
+        await assert.rejects(() => fetchText('https://arca.live/test', 5), error => {
+            assert.equal(error.name, 'TimeoutError');
+            return true;
+        });
     } finally {
         global.fetch = originalFetch;
     }
