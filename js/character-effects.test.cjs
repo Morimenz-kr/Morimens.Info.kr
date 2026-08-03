@@ -821,7 +821,7 @@ test('누락된 광기 폭발 직접 영향 계령을 실제 광기 폭발 전�
     assert.match(timeworn.enlighten[2].effect, /잠금 해제된 은열쇠/);
     assert.match(attack.effect, /「단검·식」 1장을 뽑는다.*매 턴 최대 1회/s);
     assert.match(defense.effect, /「장검·낙」 1장을 뽑는다.*매 턴 최대 1회/s);
-    assert.deepEqual(attack.breakthroughs.map(item => item.stage), [1, 2]);
+    assert.deepEqual(attack.breakthroughs.map(item => item.stage), [2]);
     assert.deepEqual(defense.breakthroughs.map(item => item.stage), [2]);
     assert.match(boundary.effect, /광기 폭발의 피해량이 150 증가한다/);
     assert.doesNotMatch(boundary.effect, /첫 번째 「침멸」/);
@@ -833,8 +833,8 @@ test('침식 로탄 스킬은 문서의 공격력·방어력 계수와 레벨 �
     const findSkill = name => cetarchon.skills.find(skill => skill.name === name);
     const attack = characterEffects.getBreakthroughVariant(findSkill('타격'), 2);
     const defense = characterEffects.getBreakthroughVariant(findSkill('방어'), 2);
-    const greatsword = characterEffects.getBreakthroughVariant(findSkill('장검·낙'), 1);
-    const dagger = characterEffects.getBreakthroughVariant(findSkill('단검·식'), 1);
+    const greatsword = findSkill('장검·낙');
+    const dagger = findSkill('단검·식');
     const domain = findSkill('고대 근원으로의 회귀');
     const burst = characterEffects.getBreakthroughVariant(findSkill('경계를 베는 검'), 3);
     const annihilation = characterEffects.getBreakthroughVariant(
@@ -844,20 +844,21 @@ test('침식 로탄 스킬은 문서의 공격력·방어력 계수와 레벨 �
 
     assert.doesNotMatch(JSON.stringify([...cetarchon.skills, ...cetarchon.derivedCards]), /\d+pt/);
     assert.equal(findSkill('타격').levels[0].피해, '10%');
-    assert.equal(attack.levels[5].피해, '24%');
+    assert.equal(attack.levels[5].피해, '20%');
     assert.equal(attack.levels[5].광기, '10');
     assert.equal(defense.levels[5].방어막, '20%');
-    assert.equal(greatsword.levels[5].피해, '360%');
-    assert.equal(dagger.levels[5].피해, '60%');
+    assert.equal(greatsword.levels[5].피해, '300%');
+    assert.equal(dagger.levels[5].피해, '50%');
     assert.equal(dagger.levels[5].힘, '12%');
     assert.equal(domain.levels[0].광기, '25%');
     assert.equal(burst.levels[5].피해, '800%');
     assert.equal(burst.levels[5]['추가 힘 계수'], '1500%');
     assert.match(annihilation.effect, /첫 번째로 발동할 경우 산출력을 소모하지 않는다/);
-    assert.match(characterEffects.interpolateEffect(attack.effect, attack.levels, 6), /공격력의 24%.*10 광기/s);
+    assert.match(cetarchon.enlighten[0].effect, /「타격」 크리티컬률이 \+10% 증가하고, 기초 피해가 \+20% 증가한다/);
+    assert.match(characterEffects.interpolateEffect(attack.effect, attack.levels, 6), /공격력의 20%.*10 광기/s);
     assert.match(characterEffects.interpolateEffect(defense.effect, defense.levels, 6), /방어력의 20%.*10 광기/s);
-    assert.match(characterEffects.interpolateEffect(greatsword.effect, greatsword.levels, 6), /공격력의 360%/);
-    assert.match(characterEffects.interpolateEffect(dagger.effect, dagger.levels, 6), /공격력의 60%.*공격력의 12%/s);
+    assert.match(characterEffects.interpolateEffect(greatsword.effect, greatsword.levels, 6), /공격력의 300%/);
+    assert.match(characterEffects.interpolateEffect(dagger.effect, dagger.levels, 6), /공격력의 50%.*공격력의 12%/s);
     assert.match(characterEffects.interpolateEffect(burst.effect, burst.levels, 6), /공격력의 800%.*1500%의 추가 힘 계수/s);
 });
 
