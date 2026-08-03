@@ -220,6 +220,10 @@ test('탄망 머피와 미리암의 촉수 태세별 효과와 레벨 수치를 
     assert.match(prayerLv1, /조수:.*7\.5%.*7\.5%/s);
     assert.match(prayerLv1, /정해:.*10 광기/s);
     assert.match(prayerLv6, /노도:.*100%/s);
+    assert.equal(
+        effectsData.miryam.dimensionalImage.effect,
+        '턴이 시작될 때 미리암은 15 광기를 얻고, "성례" 1장을 패에 추가한다.'
+    );
 });
 
 test('레무리아의 왈츠는 승인된 촉수 태세 명칭과 노도 문장을 사용한다', () => {
