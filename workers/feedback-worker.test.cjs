@@ -33,6 +33,7 @@ function loadWorkerInternals() {
             processResourceDecision,
             normalizeResourceSelection,
             ensureResourceLinksPendingBranch,
+            ensureResourceLinksPullRequest,
             editDiscordMessage,
             processQueuedResourceUpdate,
             recoverStaleResourceProposals,
@@ -70,6 +71,7 @@ const {
     processResourceDecision,
     normalizeResourceSelection,
     ensureResourceLinksPendingBranch,
+    ensureResourceLinksPullRequest,
     editDiscordMessage,
     processQueuedResourceUpdate,
     recoverStaleResourceProposals,
@@ -886,6 +888,37 @@ test('닫힌 PR의 pending 브랜치에 새 링크가 없으면 main으로 안�
 
         assert.equal(result.object.sha, 'main-sha');
         assert.deepEqual(updates, [{ sha: 'main-sha', force: true }]);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('PR 생성 중 이미 main에 병합되어 커밋 차이가 없으면 경쟁 상태로 처리한다', async () => {
+    const originalFetch = global.fetch;
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.includes('/pulls?')) return Response.json([]);
+        if (requestUrl.endsWith('/pulls') && options.method === 'POST') {
+            return Response.json({
+                message: 'Validation Failed',
+                errors: [{
+                    resource: 'PullRequest',
+                    code: 'custom',
+                    message: 'No commits between main and resource-links/pending'
+                }]
+            }, { status: 422 });
+        }
+        throw new Error(`unexpected request: ${options.method || 'GET'} ${requestUrl}`);
+    };
+
+    try {
+        const result = await ensureResourceLinksPullRequest({
+            GITHUB_OWNER: 'example',
+            GITHUB_REPO: 'repo',
+            GITHUB_TOKEN: 'test-token',
+            GITHUB_BASE_BRANCH: 'main'
+        });
+        assert.equal(result, null);
     } finally {
         global.fetch = originalFetch;
     }

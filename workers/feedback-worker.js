@@ -2411,6 +2411,26 @@ async function updateResourceLinks(env, link, targets) {
                 branch: RESOURCE_LINKS_PENDING_BRANCH
             });
             const pr = await ensureResourceLinksPullRequest(env);
+            if (!pr) {
+                const baseBranch = getBaseBranch(env);
+                const [baseFile, baseRef] = await Promise.all([
+                    getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
+                    getGitHubRef(env, baseBranch)
+                ]);
+                const baseCheck = buildResourceLinksUpdate(baseFile.content, link, targets);
+                if (baseCheck.added.length === 0) {
+                    return {
+                        ...update,
+                        commitUrl: commit.commit?.html_url || commit.content?.html_url || 'already merged',
+                        prUrl: 'already merged into main'
+                    };
+                }
+                if (baseRef && attempt === 0) {
+                    await updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha, true);
+                    continue;
+                }
+                throw new Error('resource_links pending branch has no PR diff and the link is not in main');
+            }
             await appendResourceLinksPullRequestSummary(env, pr, link, update.added);
 
             return {
@@ -2761,17 +2781,24 @@ async function ensureResourceLinksPullRequest(env) {
         }
     });
 
+    let errorDetail = '';
     if (response.status === 422) {
+        errorDetail = await response.text();
         const retry = await findOpenResourceLinksPullRequest(env);
         if (retry) return retry;
+        if (isNoCommitsPullRequestError(errorDetail)) return null;
     }
 
     if (!response.ok) {
-        const detail = await response.text();
+        const detail = errorDetail || await response.text();
         throw new Error(`GitHub PR creation failed: ${response.status} ${detail.slice(0, 300)}`);
     }
 
     return response.json();
+}
+
+function isNoCommitsPullRequestError(detail) {
+    return /No commits between\s+[^\s]+\s+and\s+[^"}]+/i.test(String(detail || ''));
 }
 
 function parseResourceCommand(interaction) {
