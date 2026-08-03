@@ -2,7 +2,7 @@ name: Monitor Worker Cron
 
 on:
   schedule:
-    - cron: '3,13,23,33,43,53 * * * *'
+    - cron: '25,55 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -21,7 +21,24 @@ jobs:
         env:
           WATCHDOG_TOKEN: ${{ secrets.WATCHDOG_TOKEN }}
         run: |
-          curl --silent --show-error --fail-with-body \
+          set -euo pipefail
+          response_file="$(mktemp)"
+          trap 'rm -f "$response_file"' EXIT
+
+          http_code="$(curl --silent --show-error \
+            --output "$response_file" \
+            --write-out "%{http_code}" \
             --request POST \
             --header "Authorization: Bearer ${WATCHDOG_TOKEN}" \
-            https://carriepigeon.khj613401.workers.dev/cron-watchdog
+            https://carriepigeon.khj613401.workers.dev/cron-watchdog)"
+
+          cat "$response_file"
+
+          # 503은 크론 정지를 정상적으로 감지했다는 응답이다.
+          # Discord 중복 방지는 Worker가 담당하므로 Actions 실패 메일을 만들지 않는다.
+          if [[ "$http_code" == "200" || "$http_code" == "503" ]]; then
+            exit 0
+          fi
+
+          echo "::error::Watchdog endpoint returned HTTP ${http_code}"
+          exit 1

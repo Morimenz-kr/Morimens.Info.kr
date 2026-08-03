@@ -25,6 +25,7 @@ const CRON_STARTED_KEY = 'cron:heartbeat:started:v1';
 const CRON_COMPLETED_KEY = 'cron:heartbeat:completed:v1';
 const CRON_WATCHDOG_STATE_KEY = 'cron:watchdog-state:v1';
 const DEFAULT_CRON_STALE_MS = 15 * 60 * 1000;
+const DEFAULT_CRON_TASK_TIMEOUT_MS = 2 * 60 * 1000;
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
 const GIFT_CODE_NOTIFICATION_KEY_PREFIX = 'gift-code:notification:';
 const DEFAULT_GIFT_CODE_CHANNEL_ID = '1529856105562247358';
@@ -203,23 +204,33 @@ async function runScheduledMaintenance(env) {
     });
 
     await Promise.all([
-            ensureDiscordResourceCommands(env).catch(error => {
-                console.error('Discord command registration failed', error);
-            }),
-            runArcaResourceMaintenance(env).catch(error => {
-                console.error('Arca resource maintenance failed', error);
-            }),
-            handleGiftCodeMonitor(env).catch(error => {
-                console.error('Gift code monitor failed', error);
-            }),
-            recoverStaleResourceProposals(env).catch(error => {
-                console.error('Stale resource proposal recovery failed', error);
-            })
+        runScheduledTask('Discord command registration', () => ensureDiscordResourceCommands(env)),
+        runScheduledTask('Arca resource maintenance', () => runArcaResourceMaintenance(env)),
+        runScheduledTask('Gift code monitor', () => handleGiftCodeMonitor(env)),
+        runScheduledTask('Stale resource proposal recovery', () => recoverStaleResourceProposals(env))
     ]);
 
     const completedAt = new Date().toISOString();
     await writeCronHeartbeat(env, CRON_COMPLETED_KEY, completedAt);
     console.log('Scheduled maintenance completed', { startedAt, completedAt });
+}
+
+async function runScheduledTask(name, task, timeoutMs = DEFAULT_CRON_TASK_TIMEOUT_MS) {
+    let timeoutId;
+    try {
+        await Promise.race([
+            Promise.resolve().then(task),
+            new Promise((_, reject) => {
+                timeoutId = setTimeout(() => {
+                    reject(new Error(`${name} timed out after ${timeoutMs}ms`));
+                }, timeoutMs);
+            })
+        ]);
+    } catch (error) {
+        console.error(`${name} failed`, error);
+    } finally {
+        clearTimeout(timeoutId);
+    }
 }
 
 async function writeCronHeartbeat(env, key, timestamp) {
@@ -244,11 +255,15 @@ async function handleCronWatchdog(request, env, corsHeaders) {
         120
     ) * 60 * 1000;
     const now = new Date();
-    const [completed, watchdogState] = await Promise.all([
+    const [started, completed, watchdogState] = await Promise.all([
+        env.RESOURCE_LINK_STATE.get(CRON_STARTED_KEY, 'json'),
         env.RESOURCE_LINK_STATE.get(CRON_COMPLETED_KEY, 'json'),
         env.RESOURCE_LINK_STATE.get(CRON_WATCHDOG_STATE_KEY, 'json')
     ]);
-    const health = getCronHealth(completed?.timestamp, now, staleMs);
+    const health = {
+        ...getCronHealth(completed?.timestamp, now, staleMs),
+        lastStartedAt: normalizeHeartbeatTimestamp(started?.timestamp)
+    };
 
     if (!health.healthy && !watchdogState?.alertActive) {
         await sendCronWatchdogDiscordMessage(env,
@@ -271,6 +286,11 @@ async function handleCronWatchdog(request, env, corsHeaders) {
     }
 
     return jsonResponse(health, health.healthy ? 200 : 503, corsHeaders);
+}
+
+function normalizeHeartbeatTimestamp(timestamp) {
+    const parsed = Date.parse(String(timestamp || ''));
+    return Number.isFinite(parsed) ? new Date(parsed).toISOString() : null;
 }
 
 function getCronHealth(lastCompletedAt, now = new Date(), staleMs = DEFAULT_CRON_STALE_MS) {

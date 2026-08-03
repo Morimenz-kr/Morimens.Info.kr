@@ -42,7 +42,8 @@ function loadWorkerInternals() {
             buildGiftCodePublishedMessage,
             getGiftCodeDaysRemaining,
             getCronHealth,
-            handleCronWatchdog
+            handleCronWatchdog,
+            runScheduledTask
         };
     `)();
 }
@@ -78,9 +79,25 @@ const {
     buildGiftCodePublishedMessage,
     getGiftCodeDaysRemaining,
     getCronHealth,
-    handleCronWatchdog
+    handleCronWatchdog,
+    runScheduledTask
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
+
+test('예약 작업 하나가 멈춰도 제한 시간 뒤 다음 작업으로 진행한다', async () => {
+    const originalError = console.error;
+    const errors = [];
+    console.error = (...args) => errors.push(args);
+    try {
+        const startedAt = Date.now();
+        await runScheduledTask('hanging task', () => new Promise(() => {}), 10);
+        assert.ok(Date.now() - startedAt < 500);
+        assert.equal(errors.length, 1);
+        assert.match(String(errors[0][1]), /timed out/);
+    } finally {
+        console.error = originalError;
+    }
+});
 
 test('크론 완료 heartbeat가 기준 시간보다 오래되면 비정상으로 판단한다', () => {
     const now = new Date('2026-08-02T13:30:00.000Z');
