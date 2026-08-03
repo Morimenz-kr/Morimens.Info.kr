@@ -2161,12 +2161,14 @@ async function processResourceDecision(env, interaction, decision) {
             return;
         }
 
+        const processingToken = createResourceProposalId();
         const processingState = {
             ...proposalState,
             status: 'processing',
             selection,
             handledBy: getInteractionUserLabel(interaction),
-            processingStartedAt: new Date().toISOString()
+            processingStartedAt: new Date().toISOString(),
+            processingToken
         };
 
         try {
@@ -2180,7 +2182,8 @@ async function processResourceDecision(env, interaction, decision) {
                 targets,
                 channelId: interaction.channel_id || interaction.channel?.id || interaction.message?.channel_id,
                 messageId: interaction.message?.id,
-                handledBy: processingState.handledBy
+                handledBy: processingState.handledBy,
+                processingToken
             });
         } catch (error) {
             await updateResourceProposalState(env, decision.proposalId, {
@@ -2216,13 +2219,16 @@ async function processQueuedResourceUpdate(env, message) {
     }
 
     let proposalState;
+    let processingToken = String(job.processingToken || '');
     try {
         proposalState = await getResourceProposalState(env, job.proposalId);
         if (proposalState.status === 'pending' && job.retryPending) {
+            processingToken = processingToken || createResourceProposalId();
             proposalState = {
                 ...proposalState,
                 status: 'processing',
                 processingStartedAt: new Date().toISOString(),
+                processingToken,
                 automaticRetryCount: Number(proposalState.automaticRetryCount || 0) + 1
             };
             await updateResourceProposalState(env, job.proposalId, proposalState);
@@ -2230,6 +2236,16 @@ async function processQueuedResourceUpdate(env, message) {
         if (proposalState.status !== 'processing') {
             message.ack();
             return;
+        }
+        if (proposalState.processingToken) {
+            if (!processingToken || processingToken !== proposalState.processingToken) {
+                message.ack();
+                return;
+            }
+        } else {
+            processingToken = processingToken || createResourceProposalId();
+            proposalState = { ...proposalState, processingToken };
+            await updateResourceProposalState(env, job.proposalId, proposalState);
         }
 
         const targets = normalizeTargets(job.targets?.length ? job.targets : proposalState.selection.targets);
@@ -2240,6 +2256,7 @@ async function processQueuedResourceUpdate(env, message) {
             status: 'completed',
             handledBy: job.handledBy || proposalState.handledBy,
             completedAt: new Date().toISOString(),
+            processingToken: null,
             lastError: null,
             failedAt: null,
             result: storedResult
@@ -2253,9 +2270,17 @@ async function processQueuedResourceUpdate(env, message) {
     } catch (error) {
         console.error('Queued resource update failed', error);
         if (proposalState) {
+            const currentState = await getResourceProposalState(env, job.proposalId).catch(() => null);
+            const stillOwnsProcessing = currentState?.status === 'processing'
+                && (!currentState.processingToken || currentState.processingToken === processingToken);
+            if (!stillOwnsProcessing) {
+                message.ack();
+                return;
+            }
             const pendingState = {
-                ...proposalState,
+                ...currentState,
                 status: 'pending',
+                processingToken: null,
                 lastError: error.message || 'unknown error',
                 failedAt: new Date().toISOString()
             };
@@ -2320,19 +2345,23 @@ async function recoverStaleResourceProposals(env) {
         );
         if (Number.isFinite(startedAt) && Date.now() - startedAt < RESOURCE_PROCESSING_STALE_MS) continue;
 
+        const processingToken = createResourceProposalId();
+        const processingState = {
+            ...state,
+            status: 'processing',
+            processingStartedAt: new Date().toISOString(),
+            processingToken,
+            recoveryCount: Number(state.recoveryCount || 0) + 1,
+            automaticRetryCount: Number(state.automaticRetryCount || 0) + (retryFailedUpdate ? 1 : 0)
+        };
+        await updateResourceProposalState(env, state.id, processingState);
         await enqueueResourceUpdate(env, {
             proposalId: state.id,
             targets: normalizeTargets(state.selection?.targets || state.proposal?.targets || []),
             channelId: env.DISCORD_CHANNEL_ID,
             messageId: state.discordMessageId,
-            handledBy: state.handledBy || 'automatic recovery'
-        });
-        await updateResourceProposalState(env, state.id, {
-            ...state,
-            status: 'processing',
-            processingStartedAt: new Date().toISOString(),
-            recoveryCount: Number(state.recoveryCount || 0) + 1,
-            automaticRetryCount: Number(state.automaticRetryCount || 0) + (retryFailedUpdate ? 1 : 0)
+            handledBy: state.handledBy || 'automatic recovery',
+            processingToken
         });
         requeued += 1;
         console.log('Requeued stale resource proposal', { proposalId: state.id });

@@ -1060,16 +1060,19 @@ test('오래 멈춘 processing 제보는 Queue에 다시 넣는다', async () =>
     await recoverStaleResourceProposals(env);
 
     assert.equal(queued.length, 1);
-    assert.deepEqual(queued[0], {
+    assert.deepEqual({ ...queued[0], processingToken: undefined }, {
         proposalId,
         targets: [{ type: 'category', id: 'weekly_yungjae' }],
         channelId: 'channel-id',
         messageId: 'message-id',
-        handledBy: 'tester'
+        handledBy: 'tester',
+        processingToken: undefined
     });
+    assert.match(queued[0].processingToken, /^[a-f0-9]{32}$/);
     assert.equal(writes.length, 1);
     assert.equal(writes[0].value.status, 'processing');
     assert.equal(writes[0].value.recoveryCount, 1);
+    assert.equal(writes[0].value.processingToken, queued[0].processingToken);
 });
 
 test('stale 제보 복구는 한 번에 제한된 수만 읽고 다음 cursor를 저장한다', async () => {
@@ -1126,4 +1129,36 @@ test('잘못된 Queue 작업은 GitHub를 건드리지 않고 완료 처리한�
         ack() { acknowledged = true; }
     });
     assert.equal(acknowledged, true);
+});
+
+test('다른 처리 토큰의 중복 Queue 작업은 상태를 덮어쓰지 않는다', async () => {
+    let ackCount = 0;
+    const env = {
+        RESOURCE_LINK_STATE: {
+            async get() {
+                return {
+                    id: 'd'.repeat(32),
+                    status: 'processing',
+                    processingToken: 'owner-token',
+                    proposal: { link: { url: 'https://example.com', title: '글', desc: '' } },
+                    selection: { targets: [{ type: 'category', id: 'weekly_yungjae' }] }
+                };
+            },
+            async put() {
+                throw new Error('중복 작업은 상태를 쓰면 안 됩니다');
+            }
+        }
+    };
+    const message = {
+        body: {
+            proposalId: 'd'.repeat(32),
+            processingToken: 'stale-token'
+        },
+        ack() {
+            ackCount += 1;
+        }
+    };
+
+    await processQueuedResourceUpdate(env, message);
+    assert.equal(ackCount, 1);
 });
