@@ -162,6 +162,18 @@ test('확정된 카이커스 1~3돌은 카드 전문과 전역 계령에 반영�
     assert.equal(caecus.enlighten[2].effect, '턴 종료 시 카이커스의 체력의 7.5%만큼 HP를 회복한다.');
 });
 
+test('무셰트 카드와 참조 효과는 승인된 인간 폭발 명칭을 사용한다', () => {
+    const mouchette = effectsData.mouchette;
+    const humanExplosion = mouchette.skills.find(skill => skill.name === '인간 폭발');
+    const serialized = JSON.stringify(mouchette);
+
+    assert.ok(humanExplosion);
+    assert.doesNotMatch(serialized, /필멸의 폭발/);
+    assert.match(mouchette.skills.find(skill => skill.name === '무경의 잔재').effect, /임시 '인간 폭발' 1장/);
+    assert.match(mouchette.enlighten.find(item => item.name === '돌아갈 수 없는 과거').effect, /^'인간 폭발'은/);
+    assert.match(mouchette.enlighten.find(item => item.name === '안개 너머의 자아').effect, /'인간 폭발' 2장/);
+});
+
 test('파생 카드를 뽑는 효과는 생성된 카드 자체에 돌파 뱃지를 붙이지 않는다', () => {
     const murphy = effectsData.Murphy_Fauxborn;
     const attack = murphy.skills.find(skill => skill.name === '타격');
@@ -801,13 +813,52 @@ test('누락된 광기 폭발 직접 영향 계령을 실제 광기 폭발 전�
     const timeworn = effectsData.ramona_timeworn;
     const convergence = characterEffects.getBreakthroughVariant(timeworn.skills.find(skill => skill.name === '패러독스 수렴'), 3);
     const cetarchon = effectsData.lotan_cetarchon;
+    const attack = characterEffects.getBreakthroughVariant(cetarchon.skills.find(skill => skill.name === '타격'), 2);
+    const defense = characterEffects.getBreakthroughVariant(cetarchon.skills.find(skill => skill.name === '방어'), 2);
     const boundary = characterEffects.getBreakthroughVariant(cetarchon.skills.find(skill => skill.name === '경계를 베는 검'), 3);
 
     assert.match(convergence.effect, /잠금 해제된 은열쇠 1개를 선택하여, 사용하거나 전투 종료 시까지 현재 은열쇠를 대체한다/);
     assert.match(timeworn.enlighten[2].effect, /잠금 해제된 은열쇠/);
-    assert.match(boundary.effect, /피해가 \+150pt 증가한다/);
+    assert.match(attack.effect, /「단검·식」 1장을 뽑는다.*매 턴 최대 1회/s);
+    assert.match(defense.effect, /「장검·낙」 1장을 뽑는다.*매 턴 최대 1회/s);
+    assert.deepEqual(attack.breakthroughs.map(item => item.stage), [1, 2]);
+    assert.deepEqual(defense.breakthroughs.map(item => item.stage), [2]);
+    assert.match(boundary.effect, /광기 폭발의 피해량이 150 증가한다/);
     assert.doesNotMatch(boundary.effect, /첫 번째 「침멸」/);
-    assert.match(cetarchon.enlighten[2].effect, /첫 번째 「침멸」은 행동력을 소모하지 않는다/);
+    assert.match(cetarchon.enlighten[2].effect, /첫 번째 「침멸」은 산출력을 소모하지 않는다/);
+});
+
+test('침식 로탄 스킬은 문서의 공격력·방어력 계수와 레벨 수치를 사용한다', () => {
+    const cetarchon = effectsData.lotan_cetarchon;
+    const findSkill = name => cetarchon.skills.find(skill => skill.name === name);
+    const attack = characterEffects.getBreakthroughVariant(findSkill('타격'), 2);
+    const defense = characterEffects.getBreakthroughVariant(findSkill('방어'), 2);
+    const greatsword = characterEffects.getBreakthroughVariant(findSkill('장검·낙'), 1);
+    const dagger = characterEffects.getBreakthroughVariant(findSkill('단검·식'), 1);
+    const domain = findSkill('고대 근원으로의 회귀');
+    const burst = characterEffects.getBreakthroughVariant(findSkill('경계를 베는 검'), 3);
+    const annihilation = characterEffects.getBreakthroughVariant(
+        cetarchon.derivedCards.find(card => card.name === '침멸'),
+        3
+    );
+
+    assert.doesNotMatch(JSON.stringify([...cetarchon.skills, ...cetarchon.derivedCards]), /\d+pt/);
+    assert.equal(findSkill('타격').levels[0].피해, '10%');
+    assert.equal(attack.levels[5].피해, '24%');
+    assert.equal(attack.levels[5].광기, '10');
+    assert.equal(defense.levels[5].방어막, '20%');
+    assert.equal(greatsword.levels[5].피해, '360%');
+    assert.equal(dagger.levels[5].피해, '60%');
+    assert.equal(dagger.levels[5].힘, '12%');
+    assert.equal(domain.levels[0].광기, '25%');
+    assert.equal(burst.levels[5].피해, '800%');
+    assert.equal(burst.levels[5]['추가 힘 계수'], '1500%');
+    assert.match(annihilation.effect, /첫 번째로 발동할 경우 산출력을 소모하지 않는다/);
+    assert.match(characterEffects.interpolateEffect(attack.effect, attack.levels, 6), /공격력의 24%.*10 광기/s);
+    assert.match(characterEffects.interpolateEffect(defense.effect, defense.levels, 6), /방어력의 20%.*10 광기/s);
+    assert.match(characterEffects.interpolateEffect(greatsword.effect, greatsword.levels, 6), /공격력의 360%/);
+    assert.match(characterEffects.interpolateEffect(dagger.effect, dagger.levels, 6), /공격력의 60%.*공격력의 12%/s);
+    assert.match(characterEffects.interpolateEffect(burst.effect, burst.levels, 6), /공격력의 800%.*1500%의 추가 힘 계수/s);
 });
 
 test('초월 폭발은 스킬과 계령 양쪽에서 같은 데이터 객체를 사용한다', () => {
