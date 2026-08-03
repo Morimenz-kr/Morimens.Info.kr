@@ -924,6 +924,60 @@ test('PR 생성 중 이미 main에 병합되어 커밋 차이가 없으면 경�
     }
 });
 
+test('pending 변경 확인 중 PR 차이가 사라지면 최신 main으로 재설정한다', async () => {
+    const originalFetch = global.fetch;
+    const updates = [];
+    const baseContent = Buffer.from(JSON.stringify({
+        categories: { weekly_yungjae: { links: [] } },
+        characters: {}
+    }), 'utf8').toString('base64');
+    const pendingContent = Buffer.from(JSON.stringify({
+        categories: { weekly_yungjae: { links: [{ url: 'https://example.com/new', title: 'new' }] } },
+        characters: {}
+    }), 'utf8').toString('base64');
+
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.includes('/pulls?')) return Response.json([]);
+        if (requestUrl.endsWith('/pulls') && options.method === 'POST') {
+            return Response.json({
+                message: 'Validation Failed',
+                errors: [{ message: 'No commits between main and resource-links/pending' }]
+            }, { status: 422 });
+        }
+        if (requestUrl.includes('/git/ref/heads/resource-links/pending')) {
+            return Response.json({ object: { sha: 'pending-sha' } });
+        }
+        if (requestUrl.includes('/git/ref/heads/main')) {
+            return Response.json({ object: { sha: 'main-sha' } });
+        }
+        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=main')) {
+            return Response.json({ sha: 'main-file-sha', content: baseContent, encoding: 'base64' });
+        }
+        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=resource-links%2Fpending')) {
+            return Response.json({ sha: 'pending-file-sha', content: pendingContent, encoding: 'base64' });
+        }
+        if (requestUrl.includes('/git/refs/heads/resource-links/pending') && options.method === 'PATCH') {
+            updates.push(JSON.parse(options.body));
+            return Response.json({ object: { sha: 'main-sha' } });
+        }
+        throw new Error(`unexpected request: ${options.method || 'GET'} ${requestUrl}`);
+    };
+
+    try {
+        const result = await ensureResourceLinksPendingBranch({
+            GITHUB_OWNER: 'example',
+            GITHUB_REPO: 'repo',
+            GITHUB_TOKEN: 'test-token',
+            GITHUB_BASE_BRANCH: 'main'
+        });
+        assert.equal(result.object.sha, 'main-sha');
+        assert.deepEqual(updates, [{ sha: 'main-sha', force: true }]);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
 test('컴포넌트 메시지는 channel_id가 없어도 interaction webhook으로 수정한다', async () => {
     const originalFetch = global.fetch;
     const calls = [];

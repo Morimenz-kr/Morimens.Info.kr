@@ -2753,6 +2753,11 @@ async function ensureResourceLinksPendingBranch(env) {
         }
 
         const pullRequest = await ensureResourceLinksPullRequest(env);
+        if (!pullRequest) {
+            const latestBaseRef = await getGitHubRef(env, baseBranch);
+            if (!latestBaseRef) throw new Error(`Base branch not found: ${baseBranch}`);
+            return updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, latestBaseRef.object.sha, true);
+        }
         await updateResourceLinksPullRequestSummary(env, pullRequest, pendingFile.content);
         return pendingRef;
     }
