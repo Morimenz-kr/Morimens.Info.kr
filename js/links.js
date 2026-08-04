@@ -198,39 +198,26 @@ function renderRecommendedTeams(container, characterId, manifest, recommendedTea
             const member = characterMap.get(memberRecommendation.character_id);
             if (!member) return '';
             const recommendedBreakthrough = memberRecommendation.recommended_breakthrough || '정보 없음';
-            const substitutes = (memberRecommendation.substitutes || [])
-                .map(substitute => ({ ...substitute, character: characterMap.get(substitute.character_id) }))
-                .filter(substitute => substitute.character);
-            const substitutesHtml = substitutes.length > 0 ? `
-                <div class="recommended-composition-substitutes">
-                    <span>대체</span>
-                    ${substitutes.map(substitute => `
-                        <a href="links.html?category=character&id=${encodeURIComponent(substitute.character.id)}"
-                           title="${substitute.note || ''}">
-                            <strong>${substitute.character.name}</strong>
-                            ${substitute.note ? `<small>${substitute.note}</small>` : ''}
-                        </a>`).join('')}
-                </div>` : '';
+            const setting = findRecommendedTeamSetting(member.id, memberRecommendation.setting_name);
+            const loadout = renderRecommendedTeamLoadout(member.id, setting);
             return `
                 <div class="recommended-composition-member">
                     <a class="recommended-composition-member-main"
                        href="links.html?category=character&id=${encodeURIComponent(member.id)}">
                         <img src="${member.image_thumb}" alt="" width="120" height="120" loading="lazy" onerror="this.src='images/smile_Ramona.webp';">
-                        <strong>${member.name}</strong>
-                        <span class="recommended-composition-breakthrough">${recommendedBreakthrough}</span>
+                        <span class="recommended-composition-member-copy">
+                            <strong>${member.name}</strong>
+                            <span class="recommended-composition-member-meta">
+                                <span>${recommendedBreakthrough}</span>
+                                ${memberRecommendation.setting_name ? `<span>${memberRecommendation.setting_name} 세팅</span>` : ''}
+                            </span>
+                        </span>
                     </a>
-                    ${substitutesHtml}
+                    ${loadout}
                 </div>`;
         }).join('');
-
-        const renderInfoList = (title, values, className) => {
-            if (!Array.isArray(values) || values.length === 0) return '';
-            return `<section class="recommended-composition-info ${className}">
-                <h4>${title}</h4>
-                <ul>${values.map(value => `<li>${value}</li>`).join('')}</ul>
-            </section>`;
-        };
         const availability = getRecommendedTeamAvailability(members, inventory, characterMap);
+        const substitutes = renderRecommendedTeamSubstitutes(members, characterMap);
 
         return `
             <article class="recommended-composition" aria-label="${team.title}">
@@ -239,13 +226,90 @@ function renderRecommendedTeams(container, characterId, manifest, recommendedTea
                     ${renderRecommendedTeamAvailability(availability)}
                 </div>
                 <div class="recommended-composition-members">${memberCards}</div>
-                <div class="recommended-composition-guide">
-                    ${renderInfoList('장점', team.strengths, 'is-strength')}
-                    ${renderInfoList('단점', team.weaknesses, 'is-weakness')}
-                    ${renderInfoList('운영법', team.operation, 'is-operation')}
+                ${substitutes}
+                <div class="recommended-composition-contribution">
+                    <div>
+                        <strong>이 조합의 운영법이나 대체 캐릭터를 알고 있나요?</strong>
+                        <span>검증된 제보만 확인 후 조합 정보에 반영합니다.</span>
+                    </div>
+                    <button type="button" data-recommended-team-contribution="${team.title}">조합 정보 제보</button>
                 </div>
             </article>`;
     }).join('')}</div>`;
+
+    container.querySelectorAll('[data-recommended-team-contribution]').forEach(button => {
+        button.addEventListener('click', () => {
+            const teamTitle = button.dataset.recommendedTeamContribution;
+            window.openReportModal?.(`[추천 조합 제보: ${teamTitle}]\n\n운영법 또는 대체 캐릭터와 그 이유를 적어주세요.\n`);
+        });
+    });
+}
+
+function findRecommendedTeamSetting(characterId, settingName) {
+    const raw = window.currentSettings?.[characterId];
+    const settings = Array.isArray(raw) ? raw : raw ? [raw] : [];
+    return settings.find(setting => setting.settingName === settingName)
+        || (settings.length === 1 ? settings[0] : null);
+}
+
+function renderRecommendedTeamLoadout(characterId, setting) {
+    if (!setting) return '<div class="recommended-composition-loadout-empty">세팅 정보 준비 중</div>';
+
+    const recommendation = findWheelRecommendation(characterId, setting);
+    const wheelItems = recommendation
+        ? buildWheelDisplayItems(recommendation)
+        : [setting.myeongryun_ssr?.main_id, setting.myeongryun_sr?.main_id]
+            .filter(id => id && id !== 'wheel_non-existent')
+            .map(value => ({ kind: 'wheel', value }));
+    const covenantId = setting.covenant?.main_id;
+    const items = wheelItems.slice(0, 2).map(item => {
+        if (item.kind === 'stat') {
+            return `<div class="recommended-composition-gear is-stat">
+                <span class="recommended-composition-gear-placeholder">${item.value}</span>
+                <strong>${item.value}</strong>
+            </div>`;
+        }
+        const wheel = window.wheelMap?.[item.value];
+        if (!wheel) return '';
+        return `<div class="recommended-composition-gear">
+            <img src="${wheel.image_path}" alt="" width="54" height="108" loading="lazy" onerror="this.src='images/placeholder.png';">
+            <strong>${wheel.korean_name}</strong>
+        </div>`;
+    });
+
+    if (covenantId) {
+        const covenant = window.covMap?.[covenantId];
+        if (covenant) {
+            items.push(`<div class="recommended-composition-gear is-covenant">
+                <img src="${covenant.image_path}" alt="" width="76" height="76" loading="lazy" onerror="this.src='images/placeholder.png';">
+                <strong>${covenant.korean_name}</strong>
+            </div>`);
+        }
+    }
+
+    return `<div class="recommended-composition-loadout" aria-label="추천 장비">
+        <span class="recommended-composition-loadout-title">명륜 · 비밀계약</span>
+        <div class="recommended-composition-gears">${items.join('')}</div>
+    </div>`;
+}
+
+function renderRecommendedTeamSubstitutes(members, characterMap) {
+    const entries = members.flatMap(member => (member.substitutes || []).map(substitute => ({
+        original: characterMap.get(member.character_id),
+        substitute: characterMap.get(substitute.character_id),
+        note: substitute.note || ''
+    }))).filter(entry => entry.original && entry.substitute);
+    if (entries.length === 0) return '';
+
+    return `<section class="recommended-composition-alternatives">
+        <h4>대체 캐릭터</h4>
+        <div class="recommended-composition-alternative-list">${entries.map(entry => `
+            <a href="links.html?category=character&id=${encodeURIComponent(entry.substitute.id)}"
+               class="recommended-composition-alternative">
+                <img src="${entry.substitute.image_thumb}" alt="" width="64" height="64" loading="lazy" onerror="this.src='images/smile_Ramona.webp';">
+                <span><small>${entry.original.name} 대신</small><strong>${entry.substitute.name}</strong>${entry.note ? `<em>${entry.note}</em>` : ''}</span>
+            </a>`).join('')}</div>
+    </section>`;
 }
 
 function readRecommendedTeamInventory() {

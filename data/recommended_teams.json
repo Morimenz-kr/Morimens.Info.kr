@@ -5,53 +5,26 @@
       "Murphy_Fauxborn"
     ],
     "title": "탄망 · 머피 중심 조합",
-    "strengths": [
-      "심해 태세와 촉수 연계를 활용해 안정적으로 피해를 누적할 수 있습니다.",
-      "광기와 산출력 보조가 갖춰져 핵심 카드의 회전이 빠릅니다."
-    ],
-    "weaknesses": [
-      "핵심 카드와 태세 순서가 어긋나면 피해 효율이 크게 떨어집니다.",
-      "추천 돌파와 장비 의존도가 높아 완성 전에는 체감 성능이 낮을 수 있습니다."
-    ],
-    "operation": [
-      "미리암과 툴루로 광기·산출력 흐름을 먼저 준비합니다.",
-      "탄망 · 머피의 태세와 나선 원무 발동 순서를 맞춰 주력 피해를 집중합니다.",
-      "골리아는 남는 행동으로 피해를 보충하고 장기전의 누적 화력을 담당합니다."
-    ],
     "members": [
       {
         "character_id": "Murphy_Fauxborn",
-        "recommended_breakthrough": "3돌 ~ 초한"
+        "recommended_breakthrough": "3돌 ~ 초한",
+        "setting_name": "딜러"
       },
       {
         "character_id": "miryam",
         "recommended_breakthrough": "2돌",
-        "substitutes": [
-          {
-            "character_id": "faros",
-            "note": "광기와 파티 보조 역할 대체"
-          }
-        ]
+        "setting_name": "레무리아"
       },
       {
         "character_id": "tulu",
         "recommended_breakthrough": "1돌",
-        "substitutes": [
-          {
-            "character_id": "aurita",
-            "note": "심해 공격 역할 대체"
-          }
-        ]
+        "setting_name": "범용"
       },
       {
         "character_id": "goliath",
         "recommended_breakthrough": "2돌",
-        "substitutes": [
-          {
-            "character_id": "vortice",
-            "note": "추가 피해 역할 대체"
-          }
-        ]
+        "setting_name": "레무리아"
       }
     ]
   }

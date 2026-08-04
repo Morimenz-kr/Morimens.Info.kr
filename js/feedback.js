@@ -57,12 +57,14 @@
         setFeedbackStatus(modalStatus, '전송 중...', '#ffc107', false);
     }
 
-    function openReportModal() {
+    function openReportModal(prefill = '') {
         const modal = ensureReportModal();
         const sourceUrlInput = document.getElementById('report-source-url');
+        const messageInput = document.getElementById('report-message');
 
         resetReportModalStatus();
         if (sourceUrlInput) sourceUrlInput.value = window.location.href;
+        if (messageInput && typeof prefill === 'string' && prefill) messageInput.value = prefill;
         modal.style.display = '';
         modal.classList.add('show');
     }
