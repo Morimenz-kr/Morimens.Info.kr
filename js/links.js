@@ -188,6 +188,8 @@ function renderRecommendedTeams(container, characterId, manifest, recommendedTea
         return;
     }
 
+    const inventory = readRecommendedTeamInventory();
+
     container.innerHTML = `<div class="recommended-compositions">${teams.map((team, index) => {
         const members = Array.isArray(team.members)
             ? team.members
@@ -196,21 +198,108 @@ function renderRecommendedTeams(container, characterId, manifest, recommendedTea
             const member = characterMap.get(memberRecommendation.character_id);
             if (!member) return '';
             const recommendedBreakthrough = memberRecommendation.recommended_breakthrough || '정보 없음';
+            const substitutes = (memberRecommendation.substitutes || [])
+                .map(substitute => ({ ...substitute, character: characterMap.get(substitute.character_id) }))
+                .filter(substitute => substitute.character);
+            const substitutesHtml = substitutes.length > 0 ? `
+                <div class="recommended-composition-substitutes">
+                    <span>대체</span>
+                    ${substitutes.map(substitute => `
+                        <a href="links.html?category=character&id=${encodeURIComponent(substitute.character.id)}"
+                           title="${substitute.note || ''}">
+                            <strong>${substitute.character.name}</strong>
+                            ${substitute.note ? `<small>${substitute.note}</small>` : ''}
+                        </a>`).join('')}
+                </div>` : '';
             return `
-                <a class="recommended-composition-member"
-                   href="links.html?category=character&id=${encodeURIComponent(member.id)}">
-                    <img src="${member.image_thumb}" alt="" width="120" height="120" loading="lazy" onerror="this.src='images/smile_Ramona.webp';">
-                    <strong>${member.name}</strong>
-                    <span class="recommended-composition-breakthrough">추천 돌파 · ${recommendedBreakthrough}</span>
-                </a>`;
+                <div class="recommended-composition-member">
+                    <a class="recommended-composition-member-main"
+                       href="links.html?category=character&id=${encodeURIComponent(member.id)}">
+                        <img src="${member.image_thumb}" alt="" width="120" height="120" loading="lazy" onerror="this.src='images/smile_Ramona.webp';">
+                        <strong>${member.name}</strong>
+                        <span class="recommended-composition-breakthrough">${recommendedBreakthrough}</span>
+                    </a>
+                    ${substitutesHtml}
+                </div>`;
         }).join('');
+
+        const renderInfoList = (title, values, className) => {
+            if (!Array.isArray(values) || values.length === 0) return '';
+            return `<section class="recommended-composition-info ${className}">
+                <h4>${title}</h4>
+                <ul>${values.map(value => `<li>${value}</li>`).join('')}</ul>
+            </section>`;
+        };
+        const availability = getRecommendedTeamAvailability(members, inventory, characterMap);
 
         return `
             <article class="recommended-composition" aria-label="${team.title}">
-                <h3>추천 조합 ${index + 1}</h3>
+                <div class="recommended-composition-heading">
+                    <h3>추천 조합 ${index + 1}</h3>
+                    ${renderRecommendedTeamAvailability(availability)}
+                </div>
                 <div class="recommended-composition-members">${memberCards}</div>
+                <div class="recommended-composition-guide">
+                    ${renderInfoList('장점', team.strengths, 'is-strength')}
+                    ${renderInfoList('단점', team.weaknesses, 'is-weakness')}
+                    ${renderInfoList('운영법', team.operation, 'is-operation')}
+                </div>
             </article>`;
     }).join('')}</div>`;
+}
+
+function readRecommendedTeamInventory() {
+    try {
+        const raw = localStorage.getItem('morimens_inventory_checker_v2');
+        if (!raw) return { registered: false, characters: new Set() };
+        const saved = JSON.parse(raw);
+        const characters = new Set(Array.isArray(saved?.characters) ? saved.characters.map(String) : []);
+        return { registered: characters.size > 0, characters };
+    } catch (error) {
+        console.warn('보유 현황 체크 상태를 읽지 못했습니다.', error);
+        return { registered: false, characters: new Set() };
+    }
+}
+
+function getRecommendedTeamAvailability(members, inventory, characterMap) {
+    if (!inventory.registered) return { state: 'unregistered' };
+
+    const missing = [];
+    const replacements = [];
+    members.forEach(member => {
+        if (inventory.characters.has(String(member.character_id))) return;
+        const substitute = (member.substitutes || []).find(candidate =>
+            inventory.characters.has(String(candidate.character_id))
+        );
+        if (substitute) {
+            replacements.push({
+                original: characterMap.get(member.character_id)?.name || member.character_id,
+                substitute: characterMap.get(substitute.character_id)?.name || substitute.character_id
+            });
+        } else {
+            missing.push(characterMap.get(member.character_id)?.name || member.character_id);
+        }
+    });
+
+    if (missing.length > 0) return { state: 'missing', missing, replacements };
+    if (replacements.length > 0) return { state: 'substituted', replacements };
+    return { state: 'complete' };
+}
+
+function renderRecommendedTeamAvailability(availability) {
+    if (availability.state === 'complete') {
+        return '<p class="recommended-composition-availability is-complete">현재 보유 현황으로 조합 구성 가능</p>';
+    }
+    if (availability.state === 'substituted') {
+        const replacements = availability.replacements
+            .map(item => `${item.original} → ${item.substitute}`)
+            .join(', ');
+        return `<p class="recommended-composition-availability is-substituted">대체 캐릭터로 구성 가능 <span>${replacements}</span></p>`;
+    }
+    if (availability.state === 'missing') {
+        return `<p class="recommended-composition-availability is-missing">구성에 필요한 캐릭터: <span>${availability.missing.join(', ')}</span></p>`;
+    }
+    return '<p class="recommended-composition-availability is-unregistered"><a href="inventory_checker.html">보유 현황을 등록하면 구성 가능 여부를 확인할 수 있습니다.</a></p>';
 }
 
 function renderDictionaryRichText(value) {
