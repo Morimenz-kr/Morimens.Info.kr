@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-08-05T00:00:00.000Z",
+  "updated_at": "2026-08-05T06:40:00.000Z",
   "teams": [
     {
       "id": "seed-murphy-fauxborn-aequor",
@@ -37,6 +37,44 @@
           "covenant_id": "covenant_reEvolve",
           "main_stats": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련"],
           "sub_stats": ["광기 회복", "영역 숙련"]
+        }
+      ]
+    },
+    {
+      "id": "demo-chaos-support-team",
+      "created_at": "2026-08-05T06:40:00.000Z",
+      "members": [
+        {
+          "character_id": "ryker",
+          "breakthrough": "2돌",
+          "wheel_ids": ["wheel_eternal_requiem", "wheel_backward_clock"],
+          "covenant_id": "covenant_April",
+          "main_stats": ["은열쇠 충전", "크리티컬 확률", "검은 인장 획득", "은열쇠 충전", "광기 회복", "영역 숙련"],
+          "sub_stats": ["은열쇠 충전", "크리티컬 확률", "영역 숙련"]
+        },
+        {
+          "character_id": "karen",
+          "breakthrough": "명함",
+          "wheel_ids": ["wheel_fontain", "wheel_illusion_of_sakura"],
+          "covenant_id": "covenant_medicine",
+          "main_stats": ["피해 증폭", "크리티컬 피해", "크리티컬 확률", "피해 증폭", "광기 회복", "영역 숙련"],
+          "sub_stats": ["피해 증폭", "크리티컬 피해", "크리티컬 확률"]
+        },
+        {
+          "character_id": "mouchette",
+          "breakthrough": "1돌",
+          "wheel_ids": ["wheel_falling_upward", "wheel_time_of_luck"],
+          "covenant_id": "covenant_rabbit",
+          "main_stats": ["죽음 저항", "피해 증폭", "크리티컬 피해", "죽음 저항", "광기 회복", "영역 숙련"],
+          "sub_stats": ["죽음 저항", "피해 증폭", "크리티컬 피해"]
+        },
+        {
+          "character_id": "alva",
+          "breakthrough": "3돌",
+          "wheel_ids": ["wheel_wandering_desire", "wheel_over_the_death"],
+          "covenant_id": "covenant_reEvolve",
+          "main_stats": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "은열쇠 충전", "영역 숙련"],
+          "sub_stats": ["광기 회복", "영역 숙련", "피해 증폭"]
         }
       ]
     }
