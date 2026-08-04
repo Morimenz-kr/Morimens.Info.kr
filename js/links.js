@@ -817,10 +817,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         tabsContainer.style.display = (isDictionaryPage || isCharacterPage) ? 'flex' : 'none';
         const dictionaryTab = document.querySelector('[data-tab-target="dictionary"]');
         const effectsTab = document.querySelector('[data-tab-target="character-effects"]');
-        const teamsTab = document.querySelector('[data-tab-target="recommended-teams"]');
         const linksTab = document.querySelector('[data-tab-target="links"]');
         if (effectsTab) effectsTab.hidden = !isCharacterPage;
-        if (teamsTab) teamsTab.hidden = !isCharacterPage;
         if (isCharacterPage) {
             if (dictionaryTab) dictionaryTab.textContent = '추천 세팅';
             if (linksTab) linksTab.textContent = '정보글';
@@ -834,7 +832,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const ts = new Date().getTime();
-        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB, recommendedTeamsDB] = await Promise.all([
+        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB] = await Promise.all([
             fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
             fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
             fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
@@ -843,8 +841,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => []),
             fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
             fetch(`data/db_tooltips.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
-            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] })),
-            fetch(`data/recommended_teams.json?t=${ts}`).then(res => res.json()).catch(() => [])
+            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] }))
         ]);
 
         window.wheelMap = {};
@@ -889,12 +886,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     tooltipDB
                 );
             }
-            renderRecommendedTeams(
-                document.getElementById('recommended-teams-root'),
-                charId,
-                manifest,
-                recommendedTeamsDB
-            );
             // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
             const gridContainer = document.getElementById('dictionary-grid');
             const filterPanel = document.getElementById('dictionary-filter-panel');

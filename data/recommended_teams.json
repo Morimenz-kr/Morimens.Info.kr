@@ -1,31 +1,44 @@
-[
-  {
-    "id": "murphy-fauxborn-aequor-01",
-    "character_ids": [
-      "Murphy_Fauxborn"
-    ],
-    "title": "탄망 · 머피 중심 조합",
-    "members": [
-      {
-        "character_id": "Murphy_Fauxborn",
-        "recommended_breakthrough": "3돌 ~ 초한",
-        "setting_name": "딜러"
-      },
-      {
-        "character_id": "miryam",
-        "recommended_breakthrough": "2돌",
-        "setting_name": "레무리아"
-      },
-      {
-        "character_id": "tulu",
-        "recommended_breakthrough": "1돌",
-        "setting_name": "범용"
-      },
-      {
-        "character_id": "goliath",
-        "recommended_breakthrough": "2돌",
-        "setting_name": "레무리아"
-      }
-    ]
-  }
-]
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-05T00:00:00.000Z",
+  "teams": [
+    {
+      "id": "seed-murphy-fauxborn-aequor",
+      "created_at": "2026-08-05T00:00:00.000Z",
+      "members": [
+        {
+          "character_id": "Murphy_Fauxborn",
+          "breakthrough": "3돌 ~ 초한",
+          "wheel_ids": ["wheel_wheel_of_seclusion", "wheel_eternal_requiem"],
+          "covenant_id": "covenant_medicine",
+          "main_stats": ["은열쇠 충전", "크리티컬 피해", "크리티컬 피해", "은열쇠 충전", "은열쇠 충전", "영역 숙련"],
+          "sub_stats": ["은열쇠 충전", "크리티컬 피해", "크리티컬 확률"]
+        },
+        {
+          "character_id": "miryam",
+          "breakthrough": "2돌",
+          "wheel_ids": ["wheel_peace_sleep_in_dark", "wheel_spring_of_yakut"],
+          "covenant_id": "covenant_reEvolve",
+          "main_stats": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련"],
+          "sub_stats": ["광기 회복", "영역 숙련"]
+        },
+        {
+          "character_id": "tulu",
+          "breakthrough": "1돌",
+          "wheel_ids": ["wheel_hymn_of_godking", "wheel_never_ending_calculation"],
+          "covenant_id": "covenant_reEvolve",
+          "main_stats": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련"],
+          "sub_stats": ["광기 회복", "영역 숙련", "피해 증폭"]
+        },
+        {
+          "character_id": "goliath",
+          "breakthrough": "2돌",
+          "wheel_ids": ["wheel_birth_of_soul", "wheel_in_the_hard_rain"],
+          "covenant_id": "covenant_reEvolve",
+          "main_stats": ["광기 회복", "영역 숙련", "피해 증폭", "광기 회복", "광기 회복", "영역 숙련"],
+          "sub_stats": ["광기 회복", "영역 숙련"]
+        }
+      ]
+    }
+  ]
+}
