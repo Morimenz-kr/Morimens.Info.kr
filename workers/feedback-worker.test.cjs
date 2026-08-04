@@ -44,12 +44,7 @@ function loadWorkerInternals() {
             buildGiftCodePublishedMessage,
             getGiftCodeDaysRemaining,
             getCronHealth,
-            handleCronWatchdog,
-            normalizeTeamComposition,
-            validateTeamComposition,
-            canonicalizeTeamComposition,
-            createTeamCompositionSignature,
-            getCorsHeaders
+            handleCronWatchdog
         };
     `)();
 }
@@ -87,62 +82,8 @@ const {
     buildGiftCodePublishedMessage,
     getGiftCodeDaysRemaining,
     getCronHealth,
-    handleCronWatchdog,
-    normalizeTeamComposition,
-    validateTeamComposition,
-    canonicalizeTeamComposition,
-    createTeamCompositionSignature,
-    getCorsHeaders
+    handleCronWatchdog
 } = loadWorkerInternals();
-
-const teamCatalogs = {
-    characters: new Set(['arachne', 'pollux', 'castor', 'clementine']),
-    wheels: new Set(['wheel-a', 'wheel-b', 'wheel-c', 'wheel-d', 'wheel-e', 'wheel-f', 'wheel-g', 'wheel-h']),
-    covenants: new Set(['covenant-a'])
-};
-
-function buildValidTeamPayload() {
-    return {
-        members: ['arachne', 'pollux', 'castor', 'clementine'].map((characterId, index) => ({
-            character_id: characterId,
-            breakthrough: `${Math.min(index + 1, 3)}돌`,
-            wheel_ids: [`wheel-${String.fromCharCode(97 + index * 2)}`, `wheel-${String.fromCharCode(98 + index * 2)}`],
-            covenant_id: 'covenant-a',
-            main_stats: ['은열쇠 충전', '영역 숙련', '피해 증폭', '광기 회복', '크리티컬 피해', '크리티컬 확률'],
-            sub_stats: ['영역 숙련', '피해 증폭']
-        }))
-    };
-}
-
-test('커뮤니티 조합은 각성체·장비·주옵·부옵을 정형화한다', () => {
-    const normalized = normalizeTeamComposition(buildValidTeamPayload());
-    assert.equal(normalized.members.length, 4);
-    assert.deepEqual(validateTeamComposition(normalized, teamCatalogs), []);
-});
-
-test('커뮤니티 조합은 중복 각성체와 허용되지 않은 옵션을 거부한다', () => {
-    const payload = buildValidTeamPayload();
-    payload.members[1].character_id = 'arachne';
-    payload.members[2].main_stats[0] = '<script>';
-    const errors = validateTeamComposition(normalizeTeamComposition(payload), teamCatalogs);
-    assert.ok(errors.some(error => error.includes('중복')));
-    assert.ok(errors.some(error => error.includes('주옵')));
-});
-
-test('조합 서명은 캐릭터와 명륜 표시 순서가 달라도 동일하다', async () => {
-    const first = normalizeTeamComposition(buildValidTeamPayload());
-    const second = normalizeTeamComposition(buildValidTeamPayload());
-    second.members.reverse();
-    second.members.forEach(member => member.wheel_ids.reverse());
-    assert.deepEqual(canonicalizeTeamComposition(first), canonicalizeTeamComposition(second));
-    assert.equal(await createTeamCompositionSignature(first), await createTeamCompositionSignature(second));
-});
-
-test('조합 등록은 운영 사이트와 로컬 개발 주소에서만 CORS를 허용한다', () => {
-    assert.equal(getCorsHeaders('https://morimenz-kr.github.io', {})['Access-Control-Allow-Origin'], 'https://morimenz-kr.github.io');
-    assert.equal(getCorsHeaders('http://localhost:8080', {})['Access-Control-Allow-Origin'], 'http://localhost:8080');
-    assert.equal(getCorsHeaders('https://malicious.example', {})['Access-Control-Allow-Origin'], 'https://morimenz-kr.github.io');
-});
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 
 test('크론 완료 heartbeat가 기준 시간보다 오래되면 비정상으로 판단한다', () => {

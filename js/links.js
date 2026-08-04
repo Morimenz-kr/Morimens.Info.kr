@@ -171,201 +171,6 @@ function fitTooltipWidth() {
     tooltipEl.style.width = `${fittedWidth}px`;
 }
 
-function renderRecommendedTeams(container, characterId, manifest, recommendedTeams) {
-    if (!container) return;
-
-    const characterMap = new Map(manifest.map(character => [character.id, character]));
-    const teams = recommendedTeams.filter(team =>
-        Array.isArray(team.character_ids) && team.character_ids.includes(characterId)
-    );
-
-    if (teams.length === 0) {
-        container.innerHTML = `
-            <div class="recommended-teams-empty">
-                <span aria-hidden="true">📝</span>
-                <p>아직 추천 조합 정보가 등록되지 않았습니다.</p>
-            </div>`;
-        return;
-    }
-
-    const inventory = readRecommendedTeamInventory();
-
-    container.innerHTML = `<div class="recommended-compositions">${teams.map((team, index) => {
-        const members = Array.isArray(team.members)
-            ? team.members
-            : (team.member_ids || []).map(memberId => ({ character_id: memberId }));
-        const memberCards = members.map(memberRecommendation => {
-            const member = characterMap.get(memberRecommendation.character_id);
-            if (!member) return '';
-            const recommendedBreakthrough = memberRecommendation.recommended_breakthrough || '정보 없음';
-            const setting = findRecommendedTeamSetting(member.id, memberRecommendation.setting_name);
-            const loadout = renderRecommendedTeamLoadout(member.id, setting);
-            return `
-                <div class="recommended-composition-member">
-                    <a class="recommended-composition-member-main"
-                       href="links.html?category=character&id=${encodeURIComponent(member.id)}">
-                        <img src="${member.image_thumb}" alt="" width="120" height="120" loading="lazy" onerror="this.src='images/smile_Ramona.webp';">
-                        <span class="recommended-composition-member-copy">
-                            <strong>${member.name}</strong>
-                            <span class="recommended-composition-member-meta">
-                                <span>${recommendedBreakthrough}</span>
-                                ${memberRecommendation.setting_name ? `<span>${memberRecommendation.setting_name} 세팅</span>` : ''}
-                            </span>
-                        </span>
-                    </a>
-                    ${loadout}
-                </div>`;
-        }).join('');
-        const availability = getRecommendedTeamAvailability(members, inventory, characterMap);
-        const substitutes = renderRecommendedTeamSubstitutes(members, characterMap);
-
-        return `
-            <article class="recommended-composition" aria-label="${team.title}">
-                <div class="recommended-composition-heading">
-                    <h3>추천 조합 ${index + 1}</h3>
-                    ${renderRecommendedTeamAvailability(availability)}
-                </div>
-                <div class="recommended-composition-members">${memberCards}</div>
-                ${substitutes}
-                <div class="recommended-composition-contribution">
-                    <div>
-                        <strong>이 조합의 운영법이나 대체 캐릭터를 알고 있나요?</strong>
-                        <span>검증된 제보만 확인 후 조합 정보에 반영합니다.</span>
-                    </div>
-                    <button type="button" data-recommended-team-contribution="${team.title}">조합 정보 제보</button>
-                </div>
-            </article>`;
-    }).join('')}</div>`;
-
-    container.querySelectorAll('[data-recommended-team-contribution]').forEach(button => {
-        button.addEventListener('click', () => {
-            const teamTitle = button.dataset.recommendedTeamContribution;
-            window.openReportModal?.(`[추천 조합 제보: ${teamTitle}]\n\n운영법 또는 대체 캐릭터와 그 이유를 적어주세요.\n`);
-        });
-    });
-}
-
-function findRecommendedTeamSetting(characterId, settingName) {
-    const raw = window.currentSettings?.[characterId];
-    const settings = Array.isArray(raw) ? raw : raw ? [raw] : [];
-    return settings.find(setting => setting.settingName === settingName)
-        || (settings.length === 1 ? settings[0] : null);
-}
-
-function renderRecommendedTeamLoadout(characterId, setting) {
-    if (!setting) return '<div class="recommended-composition-loadout-empty">세팅 정보 준비 중</div>';
-
-    const recommendation = findWheelRecommendation(characterId, setting);
-    const wheelItems = recommendation
-        ? buildWheelDisplayItems(recommendation)
-        : [setting.myeongryun_ssr?.main_id, setting.myeongryun_sr?.main_id]
-            .filter(id => id && id !== 'wheel_non-existent')
-            .map(value => ({ kind: 'wheel', value }));
-    const covenantId = setting.covenant?.main_id;
-    const items = wheelItems.slice(0, 2).map(item => {
-        if (item.kind === 'stat') {
-            return `<div class="recommended-composition-gear is-stat">
-                <span class="recommended-composition-gear-placeholder">${item.value}</span>
-                <strong>${item.value}</strong>
-            </div>`;
-        }
-        const wheel = window.wheelMap?.[item.value];
-        if (!wheel) return '';
-        return `<div class="recommended-composition-gear">
-            <img src="${wheel.image_path}" alt="" width="54" height="108" loading="lazy" onerror="this.src='images/placeholder.png';">
-            <strong>${wheel.korean_name}</strong>
-        </div>`;
-    });
-
-    if (covenantId) {
-        const covenant = window.covMap?.[covenantId];
-        if (covenant) {
-            items.push(`<div class="recommended-composition-gear is-covenant">
-                <img src="${covenant.image_path}" alt="" width="76" height="76" loading="lazy" onerror="this.src='images/placeholder.png';">
-                <strong>${covenant.korean_name}</strong>
-            </div>`);
-        }
-    }
-
-    return `<div class="recommended-composition-loadout" aria-label="추천 장비">
-        <span class="recommended-composition-loadout-title">명륜 · 비밀계약</span>
-        <div class="recommended-composition-gears">${items.join('')}</div>
-    </div>`;
-}
-
-function renderRecommendedTeamSubstitutes(members, characterMap) {
-    const entries = members.flatMap(member => (member.substitutes || []).map(substitute => ({
-        original: characterMap.get(member.character_id),
-        substitute: characterMap.get(substitute.character_id),
-        note: substitute.note || ''
-    }))).filter(entry => entry.original && entry.substitute);
-    if (entries.length === 0) return '';
-
-    return `<section class="recommended-composition-alternatives">
-        <h4>대체 캐릭터</h4>
-        <div class="recommended-composition-alternative-list">${entries.map(entry => `
-            <a href="links.html?category=character&id=${encodeURIComponent(entry.substitute.id)}"
-               class="recommended-composition-alternative">
-                <img src="${entry.substitute.image_thumb}" alt="" width="64" height="64" loading="lazy" onerror="this.src='images/smile_Ramona.webp';">
-                <span><small>${entry.original.name} 대신</small><strong>${entry.substitute.name}</strong>${entry.note ? `<em>${entry.note}</em>` : ''}</span>
-            </a>`).join('')}</div>
-    </section>`;
-}
-
-function readRecommendedTeamInventory() {
-    try {
-        const raw = localStorage.getItem('morimens_inventory_checker_v2');
-        if (!raw) return { registered: false, characters: new Set() };
-        const saved = JSON.parse(raw);
-        const characters = new Set(Array.isArray(saved?.characters) ? saved.characters.map(String) : []);
-        return { registered: characters.size > 0, characters };
-    } catch (error) {
-        console.warn('보유 현황 체크 상태를 읽지 못했습니다.', error);
-        return { registered: false, characters: new Set() };
-    }
-}
-
-function getRecommendedTeamAvailability(members, inventory, characterMap) {
-    if (!inventory.registered) return { state: 'unregistered' };
-
-    const missing = [];
-    const replacements = [];
-    members.forEach(member => {
-        if (inventory.characters.has(String(member.character_id))) return;
-        const substitute = (member.substitutes || []).find(candidate =>
-            inventory.characters.has(String(candidate.character_id))
-        );
-        if (substitute) {
-            replacements.push({
-                original: characterMap.get(member.character_id)?.name || member.character_id,
-                substitute: characterMap.get(substitute.character_id)?.name || substitute.character_id
-            });
-        } else {
-            missing.push(characterMap.get(member.character_id)?.name || member.character_id);
-        }
-    });
-
-    if (missing.length > 0) return { state: 'missing', missing, replacements };
-    if (replacements.length > 0) return { state: 'substituted', replacements };
-    return { state: 'complete' };
-}
-
-function renderRecommendedTeamAvailability(availability) {
-    if (availability.state === 'complete') {
-        return '<p class="recommended-composition-availability is-complete">현재 보유 현황으로 조합 구성 가능</p>';
-    }
-    if (availability.state === 'substituted') {
-        const replacements = availability.replacements
-            .map(item => `${item.original} → ${item.substitute}`)
-            .join(', ');
-        return `<p class="recommended-composition-availability is-substituted">대체 캐릭터로 구성 가능 <span>${replacements}</span></p>`;
-    }
-    if (availability.state === 'missing') {
-        return `<p class="recommended-composition-availability is-missing">구성에 필요한 캐릭터: <span>${availability.missing.join(', ')}</span></p>`;
-    }
-    return '<p class="recommended-composition-availability is-unregistered"><a href="inventory_checker.html">보유 현황을 등록하면 구성 가능 여부를 확인할 수 있습니다.</a></p>';
-}
-
 function renderDictionaryRichText(value) {
     if (!window.CharacterEffects) return String(value || '');
     return window.CharacterEffects.renderRichText(value);
@@ -809,7 +614,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const isDictionaryPage = (category === 'myeongryun' || category === 'silverkey' || category === 'covenant');
     if (linkContainer) {
         linkContainer.classList.toggle('dictionary-wide', isDictionaryPage);
-        linkContainer.classList.toggle('character-page', isCharacterPage);
     }
 
     // 1. 탭 표시 설정 및 명칭 수정
@@ -820,8 +624,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         const linksTab = document.querySelector('[data-tab-target="links"]');
         if (effectsTab) effectsTab.hidden = !isCharacterPage;
         if (isCharacterPage) {
+            if (effectsTab && dictionaryTab) {
+                tabsContainer.insertBefore(effectsTab, dictionaryTab);
+            }
             if (dictionaryTab) dictionaryTab.textContent = '추천 세팅';
-            if (linksTab) linksTab.textContent = '정보글';
+            if (linksTab) linksTab.textContent = '채널 정보글 리스트';
         } else if (isDictionaryPage) {
             if (category === 'myeongryun' && dictionaryTab) dictionaryTab.textContent = '명륜 리스트';
             else if (category === 'silverkey' && dictionaryTab) dictionaryTab.textContent = '은열쇠 리스트';

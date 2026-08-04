@@ -1,13 +1,5 @@
 const DEFAULT_ALLOWED_ORIGIN = 'https://morimenz-kr.github.io';
 const RESOURCE_LINKS_PATH = 'data/resource_links.json';
-const TEAM_COMPOSITIONS_PATH = 'data/recommended_teams.json';
-const TEAM_SUBMISSION_RATE_PREFIX = 'team-submission:rate:v1:';
-const DEFAULT_TEAM_SUBMISSION_DAILY_LIMIT = 5;
-const TEAM_BREAKTHROUGHS = ['명함', '1돌', '2돌', '3돌', '초한'];
-const TEAM_STAT_OPTIONS = [
-    '은열쇠 충전', '영역 숙련', '검은 인장 획득', '피해 증폭',
-    '크리티컬 피해', '크리티컬 확률', '죽음 저항', '광기 회복'
-];
 const RESOURCE_LINKS_PENDING_BRANCH = 'resource-links/pending';
 const DEFAULT_BASE_BRANCH = 'main';
 const RESOURCE_PROPOSAL_STATE_PREFIX = 'resource-link:proposal:';
@@ -183,10 +175,6 @@ export default {
                 return await handleResourceLinkProposal(request, env, corsHeaders);
             }
 
-            if (url.pathname === '/team-compositions') {
-                return await handleTeamCompositionSubmission(request, env, corsHeaders);
-            }
-
             return await handleFeedback(request, env, corsHeaders);
         } catch (error) {
             console.error(error);
@@ -337,7 +325,6 @@ function handleGet(url, env, corsHeaders) {
         routes: {
             feedback: 'POST /',
             resourceLinks: 'POST /resource-links',
-            teamCompositions: 'POST /team-compositions',
             discordInteractions: 'POST /discord/interactions'
         },
         hasGitHubOwner: Boolean(env.GITHUB_OWNER),
@@ -2844,155 +2831,6 @@ async function ensureResourceLinksPullRequest(env) {
     return response.json();
 }
 
-async function handleTeamCompositionSubmission(request, env, corsHeaders) {
-    requireEnv(env, ['GITHUB_TOKEN', 'GITHUB_OWNER', 'GITHUB_REPO']);
-    const contentLength = Number.parseInt(request.headers.get('Content-Length') || '0', 10);
-    if (contentLength > 100000) {
-        return jsonResponse({ error: '제출 데이터가 너무 큽니다.' }, 413, corsHeaders);
-    }
-    if (!env.RESOURCE_LINK_STATE) {
-        return jsonResponse({ error: '제출 제한 저장소가 설정되지 않았습니다.' }, 503, corsHeaders);
-    }
-
-    let payload;
-    try {
-        const rawPayload = await request.text();
-        if (rawPayload.length > 100000) {
-            return jsonResponse({ error: '제출 데이터가 너무 큽니다.' }, 413, corsHeaders);
-        }
-        payload = JSON.parse(rawPayload);
-    } catch (error) {
-        return jsonResponse({ error: '올바른 JSON 형식이 아닙니다.' }, 400, corsHeaders);
-    }
-
-    const branch = getBaseBranch(env);
-    const [charactersFile, wheelsFile, covenantsFile] = await Promise.all([
-        getGitHubFile(env, 'data/character_manifest.json', branch),
-        getGitHubFile(env, 'data/wheel_list.json', branch),
-        getGitHubFile(env, 'data/covenant_list.json', branch)
-    ]);
-    const catalogs = {
-        characters: new Set(JSON.parse(charactersFile.content).map(item => String(item.id))),
-        wheels: new Set(JSON.parse(wheelsFile.content).map(item => String(item.english_name))),
-        covenants: new Set(JSON.parse(covenantsFile.content).map(item => String(item.english_name)))
-    };
-    const normalized = normalizeTeamComposition(payload);
-    const errors = validateTeamComposition(normalized, catalogs);
-    if (errors.length > 0) return jsonResponse({ error: errors[0], errors }, 400, corsHeaders);
-
-    const signature = await createTeamCompositionSignature(normalized);
-    const teamId = `community-${signature.slice(0, 16)}`;
-    let rateLimitConsumed = false;
-    for (let attempt = 0; attempt < 3; attempt += 1) {
-        const file = await getGitHubFile(env, TEAM_COMPOSITIONS_PATH, branch);
-        const parsed = JSON.parse(file.content);
-        const teams = Array.isArray(parsed) ? parsed : Array.isArray(parsed?.teams) ? parsed.teams : [];
-        const duplicate = await findDuplicateTeamComposition(teams, normalized, signature);
-        if (duplicate) {
-            return jsonResponse({ ok: true, duplicate: true, id: duplicate.id }, 200, corsHeaders);
-        }
-
-        if (!rateLimitConsumed) {
-            const rateLimit = await consumeTeamSubmissionRateLimit(request, env);
-            if (!rateLimit.allowed) {
-                return jsonResponse({ error: '오늘 등록 가능한 조합 수를 모두 사용했습니다.' }, 429, corsHeaders);
-            }
-            rateLimitConsumed = true;
-        }
-
-        const now = new Date().toISOString();
-        const nextData = {
-            schema_version: 1,
-            updated_at: now,
-            teams: [...teams, { id: teamId, created_at: now, members: normalized.members }]
-        };
-        try {
-            const result = await putGitHubFile(env, TEAM_COMPOSITIONS_PATH, {
-                branch,
-                sha: file.sha,
-                content: `${JSON.stringify(nextData, null, 2)}\n`,
-                message: `Add community team composition ${teamId}`
-            });
-            return jsonResponse({ ok: true, duplicate: false, id: teamId, commit: result.commit?.sha || null }, 201, corsHeaders);
-        } catch (error) {
-            const isConflict = error instanceof HttpError && (error.status === 409 || error.status === 422);
-            if (!isConflict || attempt === 2) throw error;
-        }
-    }
-    throw new Error('조합 등록 충돌을 해결하지 못했습니다.');
-}
-
-function normalizeTeamComposition(payload) {
-    const members = Array.isArray(payload?.members) ? payload.members.slice(0, 4).map(member => ({
-        character_id: String(member?.character_id || '').trim(),
-        breakthrough: String(member?.breakthrough || '').trim(),
-        wheel_ids: Array.isArray(member?.wheel_ids) ? member.wheel_ids.slice(0, 2).map(value => String(value || '').trim()) : [],
-        covenant_id: String(member?.covenant_id || '').trim(),
-        main_stats: Array.isArray(member?.main_stats) ? member.main_stats.slice(0, 6).map(value => String(value || '').trim()) : [],
-        sub_stats: Array.isArray(member?.sub_stats) ? [...new Set(member.sub_stats.slice(0, 8).map(value => String(value || '').trim()))] : []
-    })) : [];
-    return { members };
-}
-
-function validateTeamComposition(team, catalogs) {
-    const errors = [];
-    if (!Array.isArray(team?.members) || team.members.length !== 4) return ['각성체 4명이 필요합니다.'];
-    const characterIds = team.members.map(member => member.character_id);
-    if (new Set(characterIds).size !== 4) errors.push('같은 각성체를 중복해서 등록할 수 없습니다.');
-    team.members.forEach((member, index) => {
-        const label = `각성체 ${index + 1}`;
-        if (!catalogs.characters.has(member.character_id)) errors.push(`${label} 정보가 올바르지 않습니다.`);
-        if (!TEAM_BREAKTHROUGHS.includes(member.breakthrough)) errors.push(`${label}의 추천 돌파가 올바르지 않습니다.`);
-        if (member.wheel_ids.length !== 2 || member.wheel_ids.some(id => !catalogs.wheels.has(id))) errors.push(`${label}의 명륜 정보가 올바르지 않습니다.`);
-        if (new Set(member.wheel_ids).size !== 2) errors.push(`${label}에 같은 명륜을 중복해서 사용할 수 없습니다.`);
-        if (!catalogs.covenants.has(member.covenant_id)) errors.push(`${label}의 비밀계약 정보가 올바르지 않습니다.`);
-        if (member.main_stats.length !== 6 || member.main_stats.some(stat => !TEAM_STAT_OPTIONS.includes(stat))) errors.push(`${label}의 주옵 정보가 올바르지 않습니다.`);
-        if (member.sub_stats.length === 0 || member.sub_stats.some(stat => !TEAM_STAT_OPTIONS.includes(stat))) errors.push(`${label}의 부옵 정보가 올바르지 않습니다.`);
-    });
-    return [...new Set(errors)];
-}
-
-function canonicalizeTeamComposition(team) {
-    return {
-        members: team.members.map(member => ({
-            character_id: member.character_id,
-            breakthrough: member.breakthrough,
-            wheel_ids: [...member.wheel_ids].sort(),
-            covenant_id: member.covenant_id,
-            main_stats: [...member.main_stats],
-            sub_stats: [...member.sub_stats].sort()
-        })).sort((a, b) => a.character_id.localeCompare(b.character_id))
-    };
-}
-
-async function createTeamCompositionSignature(team) {
-    const bytes = new TextEncoder().encode(JSON.stringify(canonicalizeTeamComposition(team)));
-    const digest = await crypto.subtle.digest('SHA-256', bytes);
-    return [...new Uint8Array(digest)].map(value => value.toString(16).padStart(2, '0')).join('');
-}
-
-async function findDuplicateTeamComposition(teams, candidate, candidateSignature) {
-    for (const team of teams) {
-        if (!Array.isArray(team?.members) || team.members.length !== 4) continue;
-        const normalized = normalizeTeamComposition(team);
-        if ((await createTeamCompositionSignature(normalized)) === candidateSignature) return team;
-    }
-    return null;
-}
-
-async function consumeTeamSubmissionRateLimit(request, env) {
-    const address = String(request.headers.get('CF-Connecting-IP') || 'unknown');
-    const salt = String(env.TEAM_SUBMISSION_SALT || env.GITHUB_REPO || 'morimens');
-    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(`${salt}:${address}`));
-    const keyHash = [...new Uint8Array(digest)].slice(0, 12).map(value => value.toString(16).padStart(2, '0')).join('');
-    const key = `${TEAM_SUBMISSION_RATE_PREFIX}${keyHash}`;
-    const limit = getPositiveIntegerEnv(env.TEAM_SUBMISSION_DAILY_LIMIT, DEFAULT_TEAM_SUBMISSION_DAILY_LIMIT, 1, 20);
-    const current = Number.parseInt(await env.RESOURCE_LINK_STATE.get(key), 10) || 0;
-    if (current >= limit) return { allowed: false, remaining: 0 };
-    await env.RESOURCE_LINK_STATE.put(key, String(current + 1), { expirationTtl: 86400 });
-    return { allowed: true, remaining: Math.max(0, limit - current - 1) };
-}
-
 function isNoCommitsPullRequestError(detail) {
     return /No commits between\s+[^\s]+\s+and\s+[^"}]+/i.test(String(detail || ''));
 }
@@ -3589,8 +3427,7 @@ function getCorsHeaders(origin, env) {
         .split(',')
         .map(value => value.trim())
         .filter(Boolean);
-    const isLocalDevelopmentOrigin = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
-    const allowOrigin = allowedOrigins.includes(origin) || isLocalDevelopmentOrigin ? origin : allowedOrigins[0];
+    const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
 
     return {
         'Access-Control-Allow-Origin': allowOrigin,
