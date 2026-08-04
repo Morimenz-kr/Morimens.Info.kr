@@ -189,17 +189,19 @@ function renderRecommendedTeams(container, characterId, manifest, recommendedTea
     }
 
     container.innerHTML = `<div class="recommended-compositions">${teams.map((team, index) => {
-        const members = team.member_ids
-            .map(memberId => characterMap.get(memberId))
-            .filter(Boolean);
-        const memberCards = members.map(member => {
-            const isCurrent = member.id === characterId;
+        const members = Array.isArray(team.members)
+            ? team.members
+            : (team.member_ids || []).map(memberId => ({ character_id: memberId }));
+        const memberCards = members.map(memberRecommendation => {
+            const member = characterMap.get(memberRecommendation.character_id);
+            if (!member) return '';
+            const recommendedBreakthrough = memberRecommendation.recommended_breakthrough || '정보 없음';
             return `
-                <a class="recommended-composition-member${isCurrent ? ' is-current' : ''}"
-                   href="links.html?category=character&id=${encodeURIComponent(member.id)}"
-                   ${isCurrent ? 'aria-current="page"' : ''}>
-                    <img src="${member.image_thumb}" alt="" loading="lazy" onerror="this.src='images/smile_Ramona.webp';">
+                <a class="recommended-composition-member"
+                   href="links.html?category=character&id=${encodeURIComponent(member.id)}">
+                    <img src="${member.image_thumb}" alt="" width="120" height="120" loading="lazy" onerror="this.src='images/smile_Ramona.webp';">
                     <strong>${member.name}</strong>
+                    <span class="recommended-composition-breakthrough">추천 돌파 · ${recommendedBreakthrough}</span>
                 </a>`;
         }).join('');
 

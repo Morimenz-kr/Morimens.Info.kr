@@ -5,11 +5,23 @@
       "Murphy_Fauxborn"
     ],
     "title": "탄망 · 머피 중심 조합",
-    "member_ids": [
-      "Murphy_Fauxborn",
-      "miryam",
-      "tulu",
-      "goliath"
+    "members": [
+      {
+        "character_id": "Murphy_Fauxborn",
+        "recommended_breakthrough": "3돌 ~ 초한"
+      },
+      {
+        "character_id": "miryam",
+        "recommended_breakthrough": "2돌"
+      },
+      {
+        "character_id": "tulu",
+        "recommended_breakthrough": "1돌"
+      },
+      {
+        "character_id": "goliath",
+        "recommended_breakthrough": "2돌"
+      }
     ]
   }
 ]
