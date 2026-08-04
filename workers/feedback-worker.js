@@ -3589,7 +3589,8 @@ function getCorsHeaders(origin, env) {
         .split(',')
         .map(value => value.trim())
         .filter(Boolean);
-    const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+    const isLocalDevelopmentOrigin = /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin);
+    const allowOrigin = allowedOrigins.includes(origin) || isLocalDevelopmentOrigin ? origin : allowedOrigins[0];
 
     return {
         'Access-Control-Allow-Origin': allowOrigin,

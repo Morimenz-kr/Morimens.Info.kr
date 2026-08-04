@@ -48,7 +48,8 @@ function loadWorkerInternals() {
             normalizeTeamComposition,
             validateTeamComposition,
             canonicalizeTeamComposition,
-            createTeamCompositionSignature
+            createTeamCompositionSignature,
+            getCorsHeaders
         };
     `)();
 }
@@ -90,7 +91,8 @@ const {
     normalizeTeamComposition,
     validateTeamComposition,
     canonicalizeTeamComposition,
-    createTeamCompositionSignature
+    createTeamCompositionSignature,
+    getCorsHeaders
 } = loadWorkerInternals();
 
 const teamCatalogs = {
@@ -134,6 +136,12 @@ test('조합 서명은 캐릭터와 명륜 표시 순서가 달라도 동일하�
     second.members.forEach(member => member.wheel_ids.reverse());
     assert.deepEqual(canonicalizeTeamComposition(first), canonicalizeTeamComposition(second));
     assert.equal(await createTeamCompositionSignature(first), await createTeamCompositionSignature(second));
+});
+
+test('조합 등록은 운영 사이트와 로컬 개발 주소에서만 CORS를 허용한다', () => {
+    assert.equal(getCorsHeaders('https://morimenz-kr.github.io', {})['Access-Control-Allow-Origin'], 'https://morimenz-kr.github.io');
+    assert.equal(getCorsHeaders('http://localhost:8080', {})['Access-Control-Allow-Origin'], 'http://localhost:8080');
+    assert.equal(getCorsHeaders('https://malicious.example', {})['Access-Control-Allow-Origin'], 'https://morimenz-kr.github.io');
 });
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 

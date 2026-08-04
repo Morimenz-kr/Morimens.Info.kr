@@ -9,6 +9,7 @@
     <script>
         loadCSS('css/common.css');
         loadCSS('css/components.css');
+        loadCSS('css/pages/info_tools.css');
         loadCSS('css/pages/team_recommendations.css');
         loadJS('js/feedback.js');
     </script>
@@ -17,20 +18,21 @@
 <div class="bg-image"></div>
 <div class="background-overlay"></div>
 
-<main class="team-recommendations-page">
-    <header class="team-recommendations-header">
-        <a href="index.html" class="team-recommendations-back">← 메뉴로 돌아가기</a>
-        <div>
-            <p class="team-recommendations-eyebrow">COMMUNITY TEAM ARCHIVE</p>
-            <h1>조합 추천</h1>
-            <p>각성체와 장비 구성을 확인하고, 직접 사용하는 조합을 등록할 수 있습니다.</p>
-        </div>
-    </header>
+<main id="main-content" class="container info-page team-recommendations-page">
+    <nav aria-label="탐색"><a href="index.html" class="back-link">← 뒤로가기</a></nav>
+    <section class="info-shell">
+        <header class="info-header team-recommendations-header">
+            <div>
+                <p class="info-eyebrow">COMMUNITY TEAM ARCHIVE</p>
+                <h1>조합 추천</h1>
+                <p>다른 유저의 조합을 확인하거나, 자신이 사용하는 조합을 직접 등록해 보세요.</p>
+            </div>
+        </header>
 
-    <div class="team-recommendations-tabs" role="tablist" aria-label="조합 추천 메뉴">
-        <button type="button" class="active" role="tab" aria-selected="true" data-team-tab="browse">조합 둘러보기</button>
-        <button type="button" role="tab" aria-selected="false" data-team-tab="create">조합 등록하기</button>
-    </div>
+        <div class="team-recommendations-tabs" role="tablist" aria-label="조합 추천 메뉴">
+            <button type="button" class="active" role="tab" aria-selected="true" data-team-tab="browse">조합 둘러보기</button>
+            <button type="button" role="tab" aria-selected="false" data-team-tab="create">내 조합 등록</button>
+        </div>
 
     <section id="team-browse-panel" class="team-panel active" role="tabpanel">
         <div class="team-toolbar">
@@ -49,12 +51,17 @@
     </section>
 
     <section id="team-create-panel" class="team-panel" role="tabpanel" hidden>
+        <ol class="team-registration-steps" aria-label="조합 등록 순서">
+            <li><strong>1</strong><span><b>각성체 선택</b><small>4명과 추천 돌파를 고릅니다.</small></span></li>
+            <li><strong>2</strong><span><b>장비 선택</b><small>각성체별 명륜 2개와 비밀계약을 고릅니다.</small></span></li>
+            <li><strong>3</strong><span><b>계약 옵션 선택</b><small>주옵 6개와 추천 부옵을 고른 뒤 등록합니다.</small></span></li>
+        </ol>
         <div class="team-create-intro">
             <div>
                 <h2>추천 조합 등록</h2>
                 <p>모든 항목은 사이트 데이터에서 선택됩니다. 동일한 조합은 자동으로 걸러집니다.</p>
             </div>
-            <span>각성체 4명 필수</span>
+            <span id="team-editor-progress" aria-live="polite">입력 완료 0/4</span>
         </div>
         <form id="team-create-form">
             <div id="team-editor-members" class="team-editor-members"></div>
@@ -64,6 +71,7 @@
             </div>
         </form>
     </section>
+</section>
 </main>
 
 <script>loadJS('js/team_recommendations.js');</script>

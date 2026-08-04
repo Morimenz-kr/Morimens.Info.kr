@@ -1,38 +1,15 @@
 .team-recommendations-page {
-    position: relative;
-    z-index: 1;
-    width: min(1180px, calc(100% - 32px));
-    margin: 0 auto;
-    padding: 32px 0 64px;
     color: #ddd;
 }
 
 .team-recommendations-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 24px;
-    margin-bottom: 24px;
+    align-items: flex-end;
 }
-
-.team-recommendations-back {
-    flex: 0 0 auto;
-    min-height: 44px;
-    padding: 11px 14px;
-    border: 1px solid #4a4a50;
-    border-radius: 7px;
-    background: #252529;
-    color: #bbb;
-    text-decoration: none;
-}
-
-.team-recommendations-header h1 { margin: 2px 0 7px; color: #ffc107; font-size: clamp(1.65rem, 4vw, 2.25rem); }
-.team-recommendations-header p { margin: 0; color: #999; line-height: 1.55; }
-.team-recommendations-eyebrow { color: #777 !important; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; }
 
 .team-recommendations-tabs {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-bottom: 18px;
+    margin: 20px 0 18px;
     border: 1px solid #444;
     border-radius: 9px;
     background: #202024;
@@ -122,6 +99,19 @@
 .team-create-intro h2 { margin: 0 0 5px; color: #ffc107; font-size: 1.05rem; }
 .team-create-intro p { margin: 0; color: #888; font-size: 0.78rem; line-height: 1.5; }
 .team-create-intro > span { flex: 0 0 auto; padding: 5px 9px; border: 1px solid #555; border-radius: 999px; color: #bbb; font-size: 0.7rem; }
+.team-registration-steps {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0 0 14px;
+    padding: 0;
+    list-style: none;
+}
+.team-registration-steps li { display: flex; min-width: 0; align-items: center; gap: 10px; padding: 12px; border: 1px solid #444; border-radius: 9px; background: #242428; }
+.team-registration-steps li > strong { display: inline-flex; flex: 0 0 30px; width: 30px; height: 30px; align-items: center; justify-content: center; border-radius: 50%; background: #ffc107; color: #171717; }
+.team-registration-steps span, .team-registration-steps b, .team-registration-steps small { display: block; }
+.team-registration-steps b { color: #ddd; font-size: 0.78rem; }
+.team-registration-steps small { margin-top: 3px; color: #888; font-size: 0.68rem; line-height: 1.35; }
 .team-editor-members { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .team-editor-member { min-width: 0; padding: 14px; border: 1px solid #444; border-radius: 11px; background: #1e1e22; }
 .team-editor-member-heading { display: flex; align-items: center; gap: 11px; margin-bottom: 13px; padding-bottom: 12px; border-bottom: 1px solid #3d3d43; }
@@ -174,15 +164,14 @@
 .team-submit-button:disabled { border-color: #555; background: #444; color: #888; cursor: wait; }
 
 @media (max-width: 760px) {
-    .team-recommendations-header { flex-direction: column; gap: 14px; }
     .team-toolbar, .team-create-intro, .team-submit-area { align-items: stretch; flex-direction: column; }
     .community-team-members, .team-editor-members { grid-template-columns: 1fr; }
+    .team-registration-steps { grid-template-columns: 1fr; }
     .team-owned-filter { width: 100%; }
     .team-submit-button { width: 100%; }
 }
 
 @media (max-width: 420px) {
-    .team-recommendations-page { width: min(100% - 20px, 1180px); padding-top: 18px; }
     .community-team-heading { align-items: flex-start; flex-direction: column; }
     .community-member-equipment { gap: 5px; padding-inline: 8px; }
     .community-main-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }

@@ -223,8 +223,10 @@
         root.addEventListener('change', event => {
             const member = event.target.closest('[data-editor-member]');
             if (member) updateEditorPreview(member);
+            updateEditorProgress(root);
         });
         root.querySelectorAll('[data-editor-member]').forEach(updateEditorPreview);
+        updateEditorProgress(root);
     }
 
     function optionList(items, valueKey, labelKey, placeholder) {
@@ -283,6 +285,17 @@
         image.src = item?.image_path || 'images/placeholder.png';
         image.alt = item ? `${item.korean_name} 미리보기` : '';
         name.textContent = item?.korean_name || '선택 전';
+    }
+
+    function updateEditorProgress(root = document.getElementById('team-editor-members')) {
+        const progress = document.getElementById('team-editor-progress');
+        if (!root || !progress) return;
+        const completed = [...root.querySelectorAll('[data-editor-member]')].filter(element => {
+            const requiredSelects = [...element.querySelectorAll('select[required]')];
+            return requiredSelects.every(select => Boolean(select.value))
+                && element.querySelectorAll('[data-sub-stat]:checked').length > 0;
+        }).length;
+        progress.textContent = `입력 완료 ${completed}/4`;
     }
 
     function collectEditorTeam(root = document.getElementById('team-editor-members')) {
@@ -355,6 +368,7 @@
             status.style.color = result.duplicate ? '#ffd36a' : '#8bd4a2';
             if (!result.duplicate) form.reset();
             document.querySelectorAll('[data-editor-member]').forEach(updateEditorPreview);
+            updateEditorProgress();
         } catch (error) {
             status.textContent = `등록 실패: ${error.message}`;
             status.style.color = '#e0a0a0';
