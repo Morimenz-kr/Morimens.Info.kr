@@ -1,5 +1,7 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
 const test = require('node:test');
+const vm = require('node:vm');
 const {
     normalizeTeamCollection,
     readInventory,
@@ -25,6 +27,23 @@ const team = {
         member('c', 'w5', 'w6'), member('d', 'w7', 'w8')
     ]
 };
+
+test('스크립트가 DOM 로드 후 실행되어도 화면 초기화를 시도한다', () => {
+    let lookupCount = 0;
+    const context = {
+        console,
+        document: {
+            readyState: 'complete',
+            getElementById() {
+                lookupCount += 1;
+                return null;
+            }
+        }
+    };
+    context.globalThis = context;
+    vm.runInNewContext(fs.readFileSync(require.resolve('./team_recommendations.js'), 'utf8'), context);
+    assert.equal(lookupCount, 1);
+});
 
 test('새 스키마와 배열형 구 스키마에서 조합 목록을 읽는다', () => {
     assert.equal(normalizeTeamCollection({ teams: [team] }).length, 1);

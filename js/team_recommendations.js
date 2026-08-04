@@ -3,7 +3,11 @@
     if (typeof module === 'object' && module.exports) module.exports = api;
     root.TeamRecommendations = api;
     if (typeof document !== 'undefined') {
-        document.addEventListener('DOMContentLoaded', () => api.initialize());
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => api.initialize(), { once: true });
+        } else {
+            api.initialize();
+        }
     }
 })(typeof globalThis !== 'undefined' ? globalThis : window, function () {
     'use strict';
@@ -380,6 +384,7 @@
     function unique(values) { return [...new Set(values)]; }
 
     return {
+        initialize,
         BREAKTHROUGHS,
         STAT_OPTIONS,
         normalizeTeamCollection,
