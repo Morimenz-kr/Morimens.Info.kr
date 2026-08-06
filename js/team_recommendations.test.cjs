@@ -6,8 +6,7 @@ const {
     normalizeTeamCollection,
     readInventory,
     getTeamAvailability,
-    getRequiredBreakthroughLevel,
-    validateTeamPayload
+    getRequiredBreakthroughLevel
 } = require('./team_recommendations.js');
 
 function member(characterId, wheelA, wheelB) {
@@ -82,17 +81,33 @@ test('보유 현황 저장값이 없으면 미등록 상태를 반환한다', ()
     assert.equal(inventory.registered, false);
 });
 
-test('등록 데이터는 네 명과 장비 및 계약 옵션을 모두 요구한다', () => {
-    const catalogs = {
-        characters: new Set(['a', 'b', 'c', 'd']),
-        wheels: new Set(['w1', 'w2', 'w3', 'w4', 'w5', 'w6', 'w7', 'w8']),
-        covenants: new Set(['covenant-a'])
-    };
-    assert.deepEqual(validateTeamPayload(team, catalogs), []);
-    const invalid = structuredClone(team);
-    invalid.members[3].character_id = 'a';
-    invalid.members[0].sub_stats = [];
-    const errors = validateTeamPayload(invalid, catalogs);
-    assert.ok(errors.some(error => error.includes('중복')));
-    assert.ok(errors.some(error => error.includes('부옵')));
+test('정적 추천 조합은 지정된 네 각성체와 범용 세팅을 사용한다', () => {
+    const data = JSON.parse(fs.readFileSync(require.resolve('../data/recommended_teams.json'), 'utf8'));
+    assert.equal(data.teams.length, 1);
+    assert.deepEqual(data.teams[0].members, [
+        {
+            character_id: 'Murphy_Fauxborn', breakthrough: '3돌 ~ 초한',
+            wheel_ids: ['wheel_wheel_of_seclusion', 'wheel_eternal_requiem'], covenant_id: 'covenant_medicine',
+            main_stats: ['은열쇠 충전', '크리티컬 피해', '크리티컬 피해', '은열쇠 충전', '은열쇠 충전', '영역 숙련'],
+            sub_stats: ['은열쇠 충전', '크리티컬 피해', '크리티컬 확률']
+        },
+        {
+            character_id: 'miryam', breakthrough: '2돌',
+            wheel_ids: ['wheel_peace_sleep_in_dark', 'wheel_spring_of_yakut'], covenant_id: 'covenant_deus',
+            main_stats: ['은열쇠 충전', '영역 숙련', '피해 증폭', '영역 숙련', '피해 증폭', '영역 숙련'],
+            sub_stats: ['영역 숙련']
+        },
+        {
+            character_id: 'goliath', breakthrough: '2돌',
+            wheel_ids: ['wheel_birth_of_soul', 'wheel_in_the_hard_rain'], covenant_id: 'covenant_deus',
+            main_stats: ['은열쇠 충전', '영역 숙련', '피해 증폭', '영역 숙련', '피해 증폭', '영역 숙련'],
+            sub_stats: ['영역 숙련']
+        },
+        {
+            character_id: 'tulu', breakthrough: '1돌',
+            wheel_ids: ['wheel_hymn_of_godking', 'wheel_never_ending_calculation'], covenant_id: 'covenant_reEvolve',
+            main_stats: ['광기 회복', '영역 숙련', '피해 증폭', '광기 회복', '광기 회복', '영역 숙련'],
+            sub_stats: ['광기 회복', '영역 숙련', '피해 증폭']
+        }
+    ]);
 });
