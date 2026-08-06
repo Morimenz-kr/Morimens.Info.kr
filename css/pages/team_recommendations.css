@@ -75,6 +75,10 @@
 .community-sub-stats span { padding: 4px 8px; border: 1px solid #4a4a52; border-radius: 999px; background: #202025; color: #aaa; font-size: 0.66rem; }
 .community-team-empty { padding: 50px 20px; border: 1px dashed #444; border-radius: 10px; color: #888; text-align: center; }
 
+@media (min-width: 1180px) {
+    .community-team-members { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
 @media (max-width: 760px) {
     .team-toolbar { align-items: stretch; flex-direction: column; }
     .community-team-members { grid-template-columns: 1fr; }
