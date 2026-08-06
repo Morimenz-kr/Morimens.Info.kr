@@ -149,16 +149,21 @@
                 <div><strong>${character.name}</strong><span>${member.breakthrough}</span></div>
             </a>
             <div class="community-member-equipment">
-                ${wheels.map((wheel, index) => renderEquipment(wheel, `명륜 ${index + 1}`, false)).join('')}
-                ${covenant ? renderEquipment(covenant, '비밀계약', true) : ''}
+                <section class="community-wheel-group" aria-label="추천 명륜">
+                    <h3>명륜</h3>
+                    <div>${wheels.map(wheel => renderEquipment(wheel, false)).join('')}</div>
+                </section>
+                ${covenant ? `<section class="community-covenant-group" aria-label="추천 비밀계약">
+                    <h3>비밀계약</h3>${renderEquipment(covenant, true)}
+                </section>` : ''}
             </div>
             ${renderMainStats(member.main_stats)}${renderSubStats(member.sub_stats)}
         </section>`;
     }
 
-    function renderEquipment(item, label, covenant) {
-        return `<div class="community-equipment-item${covenant ? ' covenant' : ''}"><small>${label}</small>
-            <img src="${item.image_path}" alt="" width="${covenant ? 68 : 54}" height="68" loading="lazy" onerror="this.src='images/placeholder.png';">
+    function renderEquipment(item, covenant) {
+        return `<div class="community-equipment-item${covenant ? ' covenant' : ' wheel'}">
+            <img src="${item.image_path}" alt="" width="${covenant ? 92 : 62}" height="${covenant ? 92 : 124}" loading="lazy" onerror="this.src='images/placeholder.png';">
             <strong>${item.korean_name}</strong></div>`;
     }
 
