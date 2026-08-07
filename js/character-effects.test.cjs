@@ -1041,6 +1041,14 @@ test('차원 이동과 특이점 계열은 같은 전용 아이콘을 사용한�
     assert.equal((result.match(/special\.png/g) || []).length, 2);
 });
 
+test('풍요의 의식에서 일반 명사 의식은 키워드로 표시하지 않는다', () => {
+    characterEffects.configureTooltips({ 의식: '의식 설명' });
+    const result = characterEffects.renderRichText('「풍요의 의식」으로 카드를 복제한다. 의식을 사용한다.');
+
+    assert.doesNotMatch(result, /data-keyword="의식"[^>]*>.*풍요의 의식/);
+    assert.match(result, /data-keyword="의식"/);
+});
+
 test('임시 특이점 프리즘은 임시를 색상 범위에서 제외한다', () => {
     characterEffects.configureTooltips({ '특이점 프리즘': '설명' });
     const bareResult = characterEffects.renderRichText('임시 특이점 프리즘 5스택');
