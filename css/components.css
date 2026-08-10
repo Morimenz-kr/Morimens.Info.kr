@@ -459,3 +459,47 @@ select:focus {
     color: #ffc107;
     text-align: center;
 }
+
+/* 설명 없는 링크 카드: 제목과 출처를 중심으로 정돈 */
+.notion-bookmark {
+    min-height: 96px;
+    height: auto;
+}
+
+.bookmark-content {
+    justify-content: center;
+}
+
+.bookmark-title {
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    border-bottom: 0;
+}
+
+.bookmark-image {
+    width: 96px;
+    height: 96px;
+}
+
+.bookmark-url {
+    margin-top: 0;
+}
+
+@media (max-width: 600px) {
+    .notion-bookmark {
+        min-height: 80px;
+    }
+
+    .bookmark-content {
+        padding: 10px 12px;
+    }
+
+    .bookmark-title {
+        font-size: 1em;
+    }
+
+    .bookmark-image {
+        width: 80px;
+        height: 80px;
+    }
+}
