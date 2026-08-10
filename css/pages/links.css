@@ -674,6 +674,11 @@
     visibility: hidden;
 }
 
+/* 메인 카드에서는 명륜 슬롯 위의 대체 라벨을 표시하지 않음 */
+.wheel-pair .equip-label {
+    visibility: hidden;
+}
+
 /* 대체 텍스트 버튼 스타일 */
 .sub-link {
     font-size: 0.75em;
