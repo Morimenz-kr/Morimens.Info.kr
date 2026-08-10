@@ -576,7 +576,7 @@
     min-height: 100%;
     box-sizing: border-box;
     justify-content: flex-start;
-    padding-top: 8%;
+    padding-top: calc(8% + 8px);
 }
 
 .wheel-pair-heading {
