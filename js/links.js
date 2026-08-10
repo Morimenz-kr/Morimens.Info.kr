@@ -792,13 +792,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                             </div>`;
                     });
                     gridContainer.querySelectorAll('.wheel-options-link').forEach(link => {
-                        link.textContent = '명륜 선택지';
+                        link.textContent = '\uBA85\uB95C \uC120\uD0DD\uC9C0';
                     });
                     gridContainer.querySelectorAll('.wheel-pair-heading').forEach(heading => {
-                        heading.textContent = '추천 명륜';
+                        heading.textContent = '\uCD94\uCC9C \uBA85\uB95C';
                     });
                     gridContainer.querySelectorAll('.equip-label').forEach(label => {
-                        if (label.textContent.trim() === '대체') label.textContent = '대체 명륜';
+                        if (label.textContent.trim() === '\uB300\uCCB4') label.textContent = '\uB300\uCCB4 \uBA85\uB95C';
                     });
                     bindDynamicTooltips(gridContainer);
                 } else {
