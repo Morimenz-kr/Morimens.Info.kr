@@ -577,7 +577,7 @@
     box-sizing: border-box;
     justify-content: flex-start;
     padding-top: 0;
-    transform: translateY(calc(8% + 1.2em + 19px));
+    transform: translateY(calc(8% + 1.2em + 8px));
 }
 
 .wheel-pair-heading {
