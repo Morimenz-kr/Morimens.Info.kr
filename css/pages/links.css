@@ -232,10 +232,6 @@
     width: 100%;
 }
 
-.wheel-option-column > h3:empty {
-    display: none;
-}
-
 .notion-bookmark-fallback {
     padding: 15px;
     color: #fff;

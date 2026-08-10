@@ -1099,7 +1099,7 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
     ].filter(Boolean);
 
     const substituteSection = sections.find(section => section.className === 'wheel-option-substitute');
-    if (substituteSection) substituteSection.title = '';
+    if (substituteSection) substituteSection.title = '\uB300\uCCB4 \uBA85\uB95C';
 
     if (sections.length === 0) {
         return '<div class="sub-modal-empty">등록된 선택지가 없습니다.</div>';
