@@ -586,7 +586,7 @@ function trackLinksPageView() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+const initializeLinksPage = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const category = urlParams.get('category');
     const charId = urlParams.get('id');
@@ -877,7 +877,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
     });
 
-});
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeLinksPage, { once: true });
+} else {
+    initializeLinksPage();
+}
 
 function createWheelRecommendationLookup(records) {
     const exact = new Map();
