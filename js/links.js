@@ -1089,6 +1089,9 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
         } : null
     ].filter(Boolean);
 
+    const substituteSection = sections.find(section => section.className === 'wheel-option-substitute');
+    if (substituteSection) substituteSection.title = '';
+
     if (sections.length === 0) {
         return '<div class="sub-modal-empty">등록된 선택지가 없습니다.</div>';
     }
