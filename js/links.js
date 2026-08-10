@@ -791,6 +791,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 </div>
                             </div>`;
                     });
+                    gridContainer.querySelectorAll('.wheel-options-link').forEach(link => {
+                        link.textContent = '명륜 선택지';
+                    });
+                    gridContainer.querySelectorAll('.wheel-pair-heading').forEach(heading => {
+                        heading.textContent = '추천 명륜';
+                    });
+                    gridContainer.querySelectorAll('.equip-label').forEach(label => {
+                        if (label.textContent.trim() === '대체') label.textContent = '대체 명륜';
+                    });
                     bindDynamicTooltips(gridContainer);
                 } else {
                     gridContainer.innerHTML = `<div class="no-setting-notice"><div class="no-setting-icon">📝</div><div>아직 추천 세팅 정보가 등록되지 않았습니다.</div></div>`;

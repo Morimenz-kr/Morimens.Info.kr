@@ -585,6 +585,18 @@
     white-space: nowrap;
 }
 
+.recommend-right > .equip-slot {
+    justify-content: flex-start;
+    padding-top: 8%;
+    box-sizing: border-box;
+}
+
+.wheel-pair-heading,
+.recommend-right > .equip-slot > .equip-label {
+    line-height: 1.2;
+    min-height: 1.2em;
+}
+
 .wheel-options-link {
     position: absolute;
     bottom: 4%;
