@@ -570,6 +570,13 @@
     height: 100%;
 }
 
+/* 명륜 추천/대체 슬롯끼리만 동일한 높이를 사용 */
+.wheel-pair > .equip-slot {
+    height: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+}
+
 .wheel-pair-heading {
     position: absolute;
     top: 8%;
