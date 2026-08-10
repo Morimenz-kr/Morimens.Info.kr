@@ -539,13 +539,13 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
     /* 6. 이미지 크기 보정 */
     .equip-img-myeongryun {
         width: 80px !important;
-        height: auto !important;
+        height: 160px !important;
     }
 
     .equip-stat-card {
         width: 80px !important;
-        height: auto !important;
-        min-height: 162px;
+        height: 160px !important;
+        min-height: 160px;
     }
 
     .equip-img-covenant {
