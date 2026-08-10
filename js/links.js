@@ -797,8 +797,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     gridContainer.querySelectorAll('.wheel-pair-heading').forEach(heading => {
                         heading.textContent = '\uCD94\uCC9C \uBA85\uB95C';
                     });
-                    gridContainer.querySelectorAll('.equip-label').forEach(label => {
-                        if (label.textContent.trim() === '\uB300\uCCB4') label.textContent = '\uB300\uCCB4 \uBA85\uB95C';
+                    gridContainer.querySelectorAll('.wheel-pair .equip-label').forEach(label => {
+                        if (label.textContent.trim() === '\uB300\uCCB4') {
+                            label.textContent = '';
+                            label.setAttribute('aria-hidden', 'true');
+                        }
                     });
                     bindDynamicTooltips(gridContainer);
                 } else {
