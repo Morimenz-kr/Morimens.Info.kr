@@ -18,6 +18,7 @@ jobs:
     timeout-minutes: 3
     steps:
       - name: Check the latest completed cron heartbeat
+        continue-on-error: true
         env:
           WATCHDOG_TOKEN: ${{ secrets.WATCHDOG_TOKEN }}
         run: |

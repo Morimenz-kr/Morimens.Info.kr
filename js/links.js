@@ -838,7 +838,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
         } else {
             targetItems.forEach(item => {
-                if (typeof item === 'string') createLinkCardFromAPI(item, listEl);
+                if (typeof item === 'string') createLinkCardInstant({ url: item }, listEl);
                 else createLinkCardInstant(item, listEl);
             });
         }
@@ -1215,14 +1215,13 @@ function createLinkCardInstant(data, container) {
     try {
         let domain = 'link';
         try { if(data.url) domain = new URL(data.url).hostname; } catch(e) {}
-        const safeImage = getProxyImage(data.image);
+        const safeImage = 'images/smile_Ramona.webp';
 
         const html = `
             <a href="${data.url}" target="_blank" class="notion-bookmark">
                 <div class="bookmark-content">
                     <div>
                         <div class="bookmark-title">${data.title || '제목 없음'}</div>
-                        <div class="bookmark-desc">${data.desc || ''}</div>
                     </div>
                     <div class="bookmark-url">
                         <img src="https://www.google.com/s2/favicons?domain=${domain}" width="14" height="14" class="bookmark-favicon">
@@ -1239,6 +1238,9 @@ function createLinkCardInstant(data, container) {
 }
 
 async function createLinkCardFromAPI(url, container) {
+    createLinkCardInstant({ url }, container);
+    return;
+    /*
     const cardWrap = document.createElement('div');
     cardWrap.className = 'skeleton skeleton-card';
     cardWrap.innerHTML = `<div class="skeleton-content"><div class="skeleton skeleton-title"></div><div class="skeleton skeleton-desc"></div></div><div class="skeleton skeleton-img"></div>`;
@@ -1278,4 +1280,5 @@ async function createLinkCardFromAPI(url, container) {
         cardWrap.className = 'notion-bookmark';
         cardWrap.innerHTML = `<a href="${url}" target="_blank" class="notion-bookmark-fallback"><div class="notion-bookmark-fallback-title">${url}</div><div class="notion-bookmark-fallback-desc">(미리보기 로드 실패)</div></a>`;
     }
+    */
 }
