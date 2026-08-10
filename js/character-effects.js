@@ -117,6 +117,7 @@
             if (keyword === '침식' && (/침식\s*$/.test(precedingText) || /(?:과 감염|하는 색채|\s*·\s*로탄)/.test(followingText))) return true;
             if (keyword === '침식' && /잠재의식의\s*$/.test(precedingText)) return true;
             if (keyword === '경계' && /^(?:를 베는 검|\s+너머의 목소리)/.test(followingText)) return true;
+            if (keyword === '의식' && /풍요의\s*$/.test(precedingText)) return true;
             if (keyword === '준비' && /출전\s*$/.test(precedingText) && /^\s*완료/.test(followingText)) return true;
             if (keyword === '허무' && /^의 종언/.test(followingText)) return true;
             if (keyword === '소멸' && /마땅한 고통의\s*$/.test(precedingText)) return true;
