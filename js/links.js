@@ -1006,6 +1006,7 @@ function openDynamicSubModal(type, charId, idx = 0) {
                 html += `
                 <div class="sub-item-vertical">
                     <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}"
+                         alt=""
                          class="${isWheel ? 'sub-img-myeongryun' : 'sub-img-covenant'}"
                          data-tooltip-kind="${isWheel ? 'wheel' : 'covenant'}"
                          data-tooltip-id="${id}"
@@ -1047,6 +1048,7 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
             return `
                 <div class="sub-item-vertical">
                     <img src="${wheel.image_path || 'images/placeholder.png'}"
+                         alt=""
                          class="sub-img-myeongryun"
                          data-tooltip-kind="wheel"
                          data-tooltip-id="${id}"
@@ -1115,6 +1117,7 @@ function renderCovenantFreeModal(optionIds, stats) {
             return `
                 <div class="sub-item-vertical">
                     <img src="${covenant.image_path || 'images/placeholder.png'}"
+                         alt=""
                          class="sub-img-covenant"
                          data-tooltip-kind="covenant"
                          data-tooltip-id="${id}"
@@ -1229,7 +1232,7 @@ function createLinkCardInstant(data, container) {
                     </div>
                 </div>
                 <div class="bookmark-image">
-                    <img src="${safeImage}" alt="썸네일" loading="lazy" 
+                    <img src="${safeImage}" alt="" loading="lazy"
                          onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
                 </div>
             </a>`;
@@ -1271,7 +1274,7 @@ async function createLinkCardFromAPI(url, container) {
                     <div class="bookmark-url">🔗 ${data.publisher || 'Link'}</div>
                 </div>
                 <div class="bookmark-image">
-                    <img src="${safeImage}" alt="썸네일" loading="lazy" onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
+                    <img src="${safeImage}" alt="" loading="lazy" onerror="this.onerror=null; this.src='images/smile_Ramona.webp';">
                 </div>`;
 
             container.replaceChild(linkEl, cardWrap);

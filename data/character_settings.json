@@ -763,6 +763,16 @@
       "settings_source": "chaos"
     }
   ],
+  "lotan_cetarchon": [
+    {
+      "settingName": "범용",
+      "myeongryun_ssr": { "main_id": "wheel_lotan_cetarchon_ssr", "substitutes": ["wheel_star_beast"] },
+      "myeongryun_sr": { "main_id": "wheel_lotan_cetarchon_sr", "substitutes": [] },
+      "covenant": { "main_id": "covenant_April", "substitutes": ["covenant_betray", "covenant_scarlet"], "main_stats": ["크리티컬 피해", "크리티컬 피해", "크리티컬 피해", "자유", "검은 인장 획득", "검은 인장 획득"] },
+      "recommendStep": "2돌~초한",
+      "settings_source": "chaos"
+    }
+  ],
   "lotan": [
     {
       "settingName": "범용",
