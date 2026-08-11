@@ -556,12 +556,18 @@ function renderDictionaryItems(data, category) {
             card.classList.remove('active');
             hideTooltip();
         };
-        card.onclick = (e) => {
+        const pinTooltip = (e) => {
             e.preventDefault();
             e.stopPropagation();
             card.classList.add('active');
             showTooltip(item, e, [], true);
         };
+        // 모바일 브라우저가 이미지 터치 뒤 click 이벤트를 만들지 않는 경우에도
+        // 툴팁을 열 수 있도록 실제 터치 종료 이벤트를 함께 처리한다.
+        card.onpointerup = (e) => {
+            if (e.pointerType !== 'mouse') pinTooltip(e);
+        };
+        card.onclick = pinTooltip;
 
         card.append(img, name);
         grid.appendChild(card);
