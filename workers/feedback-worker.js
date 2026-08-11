@@ -26,11 +26,14 @@ const CRON_STARTED_KEY = 'cron:heartbeat:started:v1';
 const CRON_COMPLETED_KEY = 'cron:heartbeat:completed:v1';
 const CRON_WATCHDOG_STATE_KEY = 'cron:watchdog-state:v1';
 const CRON_STATUS_KEY = 'cron:status:v1';
+const CRON_TASK_STATE_KEY_PREFIX = 'cron:task:';
 const DEFAULT_CRON_STALE_MS = 15 * 60 * 1000;
+const DEFAULT_CRON_TASK_TIMEOUT_MS = 75 * 1000;
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
 const GIFT_CODE_NOTIFICATION_KEY_PREFIX = 'gift-code:notification:';
 const DEFAULT_GIFT_CODE_CHANNEL_ID = '1529856105562247358';
 const DEFAULT_GIFT_CODE_SCAN_LIMIT = 25;
+const DEFAULT_GIFT_CODE_MONITOR_ENABLED = false;
 const DEFAULT_GIFT_CODE_RESOURCE_URL = 'https://morimenz-kr.github.io/Morimens.Info.kr/data/resource_links.json';
 const DEFAULT_GIFT_CODE_PUBLISH_CHECK_ATTEMPTS = 12;
 const DEFAULT_GIFT_CODE_PUBLISH_CHECK_INTERVAL_MS = 5000;
@@ -40,6 +43,65 @@ const DISCORD_RESOURCE_COMMANDS = [
     { name: 'push', description: '대기 중인 리소스 링크를 main에 병합합니다.' }
 ];
 const ARCA_FETCH_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36';
+
+const ARCA_CLAIM_LEASE_MS = 2 * 60 * 1000;
+
+export class ArcaDedupObject {
+    constructor(state) {
+        this.state = state;
+        this.storage = state.storage;
+    }
+
+    async fetch(request) {
+        const run = () => this.handleRequest(request);
+        return typeof this.state.blockConcurrencyWhile === 'function'
+            ? this.state.blockConcurrencyWhile(run)
+            : run();
+    }
+
+    async handleRequest(request) {
+        if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+        const body = await request.json().catch(() => ({}));
+        const action = String(body.action || '');
+        const postId = String(body.postId || '');
+        if (!postId || !['claim', 'sent', 'release'].includes(action)) {
+            return Response.json({ ok: false, error: 'invalid request' }, { status: 400 });
+        }
+
+        const current = await this.storage.get('state');
+        const now = Date.now();
+        if (action === 'claim') {
+            if (current?.status === 'sent') return Response.json({ ok: false, reason: 'sent' });
+            if (current?.status === 'claimed' && Number(current.leaseUntil) > now) {
+                return Response.json({ ok: false, reason: 'claimed' });
+            }
+            const token = crypto.randomUUID();
+            await this.storage.put('state', {
+                postId,
+                status: 'claimed',
+                token,
+                leaseUntil: now + Math.max(30_000, Number(body.leaseMs) || ARCA_CLAIM_LEASE_MS),
+                claimedAt: new Date(now).toISOString()
+            });
+            return Response.json({ ok: true, token });
+        }
+
+        if (current?.token !== String(body.token || '')) {
+            return Response.json({ ok: false, reason: 'claim-mismatch' }, { status: 409 });
+        }
+        if (action === 'sent') {
+            await this.storage.put('state', {
+                ...current,
+                status: 'sent',
+                sentAt: new Date(now).toISOString(),
+                discordMessageId: body.discordMessageId || null
+            });
+        } else {
+            await this.storage.delete('state');
+        }
+        return Response.json({ ok: true });
+    }
+}
 
 const RESOURCE_CATEGORIES = [
     'event',
@@ -204,40 +266,92 @@ async function runScheduledMaintenance(env) {
         console.error('Cron start heartbeat failed', error);
     });
 
-    const [commands, arca, giftCodes, recovery] = await Promise.all([
-            ensureDiscordResourceCommands(env).then(() => ({ ok: true })).catch(error => {
-                console.error('Discord command registration failed', error);
-                return { ok: false, error: error.message };
-            }),
-            runArcaResourceMaintenance(env).catch(error => {
-                console.error('Arca resource maintenance failed', error);
-                return { ok: false, error: error.message };
-            }),
-            handleGiftCodeMonitor(env).catch(error => {
-                console.error('Gift code monitor failed', error);
-                return { ok: false, error: error.message };
-            }),
-            recoverStaleResourceProposals(env).catch(error => {
-                console.error('Stale resource proposal recovery failed', error);
-                return { ok: false, error: error.message };
-            })
-    ]);
+    const tasks = [
+        { name: 'discord-commands', run: () => ensureDiscordResourceCommands(env) },
+        { name: 'arca-resource-maintenance', run: () => runArcaResourceMaintenance(env) },
+        { name: 'stale-proposal-recovery', run: () => recoverStaleResourceProposals(env) }
+    ];
+    if (isGiftCodeMonitorEnabled(env)) {
+        tasks.push({ name: 'gift-code-monitor', run: () => handleGiftCodeMonitor(env) });
+    }
 
-    const completedAt = new Date().toISOString();
-    await env.RESOURCE_LINK_STATE.put(CRON_STATUS_KEY, JSON.stringify({
-        completedAt,
-        commands,
-        arca,
-        giftCodes,
-        recovery
-    }));
-    await writeCronHeartbeat(env, CRON_COMPLETED_KEY, completedAt);
-    console.log('Scheduled maintenance completed', { startedAt, completedAt });
+    try {
+        const results = await Promise.all(tasks.map(task => runScheduledTask(env, task)));
+        const resultFor = (name, skipped = false) => {
+            const result = results.find(item => item.name === name);
+            if (!result) return skipped ? { ok: true, skipped: 'disabled' } : { ok: false, error: 'missing task result' };
+            return result.status === 'completed'
+                ? { ok: true, result: result.result }
+                : { ok: false, error: result.error };
+        };
+        const completedAt = new Date().toISOString();
+        await env.RESOURCE_LINK_STATE?.put(CRON_STATUS_KEY, JSON.stringify({
+            completedAt,
+            commands: resultFor('discord-commands'),
+            arca: resultFor('arca-resource-maintenance'),
+            giftCodes: resultFor('gift-code-monitor', true),
+            recovery: resultFor('stale-proposal-recovery'),
+            tasks: results
+        })).catch(error => console.error('Cron status write failed', error));
+        console.log('Scheduled maintenance task results', results);
+    } finally {
+        const completedAt = new Date().toISOString();
+        await writeCronHeartbeat(env, CRON_COMPLETED_KEY, completedAt).catch(error => {
+            console.error('Cron completion heartbeat failed', error);
+        });
+        console.log('Scheduled maintenance completed', { startedAt, completedAt });
+    }
 }
 
 async function writeCronHeartbeat(env, key, timestamp) {
     if (!env.RESOURCE_LINK_STATE) throw new Error('RESOURCE_LINK_STATE KV binding is missing');
     await env.RESOURCE_LINK_STATE.put(key, JSON.stringify({ timestamp }));
+}
+
+function isGiftCodeMonitorEnabled(env) {
+    const value = String(env.GIFT_CODE_MONITOR_ENABLED ?? DEFAULT_GIFT_CODE_MONITOR_ENABLED).trim().toLowerCase();
+    return value === 'true' || value === '1' || value === 'yes';
+}
+
+function getCronTaskTimeoutMs(env, taskName) {
+    const key = `CRON_${String(taskName).replace(/[^a-z0-9]+/gi, '_').toUpperCase()}_TIMEOUT_SECONDS`;
+    return getPositiveIntegerEnv(env[key], DEFAULT_CRON_TASK_TIMEOUT_MS / 1000, 10, 240) * 1000;
+}
+
+async function runScheduledTask(env, task) {
+    const startedAt = new Date().toISOString();
+    const timeoutMs = getCronTaskTimeoutMs(env, task.name);
+    const stateKey = `${CRON_TASK_STATE_KEY_PREFIX}${task.name}`;
+    await env.RESOURCE_LINK_STATE?.put(stateKey, JSON.stringify({
+        status: 'running',
+        startedAt,
+        timeoutMs
+    })).catch(error => console.error(`Cron task state write failed: ${task.name}`, error));
+
+    let timeoutId;
+    try {
+        const result = await Promise.race([
+            Promise.resolve().then(task.run),
+            new Promise((_, reject) => {
+                timeoutId = setTimeout(() => reject(new Error(`Timed out after ${timeoutMs}ms`)), timeoutMs);
+            })
+        ]);
+        const completedAt = new Date().toISOString();
+        await env.RESOURCE_LINK_STATE?.put(stateKey, JSON.stringify({
+            status: 'completed', startedAt, completedAt, timeoutMs
+        })).catch(error => console.error(`Cron task state write failed: ${task.name}`, error));
+        return { name: task.name, status: 'completed', result };
+    } catch (error) {
+        const failedAt = new Date().toISOString();
+        const message = error?.message || String(error);
+        await env.RESOURCE_LINK_STATE?.put(stateKey, JSON.stringify({
+            status: 'failed', startedAt, failedAt, timeoutMs, error: message
+        })).catch(stateError => console.error(`Cron task state write failed: ${task.name}`, stateError));
+        console.error(`Scheduled task failed: ${task.name}`, error);
+        return { name: task.name, status: 'failed', error: message };
+    } finally {
+        if (timeoutId) clearTimeout(timeoutId);
+    }
 }
 
 async function handleCronWatchdog(request, env, corsHeaders) {
@@ -672,6 +786,12 @@ async function processPendingArcaPosts(env, seenIds, maxProposals) {
             continue;
         }
 
+        const claim = await claimArcaPost(env, postId);
+        if (claim && !claim.ok) {
+            if (claim.reason === 'sent') await env.RESOURCE_LINK_STATE.delete(key.name);
+            continue;
+        }
+
         try {
             let detail;
             try {
@@ -708,10 +828,20 @@ async function processPendingArcaPosts(env, seenIds, maxProposals) {
                 });
                 throw error;
             }
+            try {
+                await markArcaPostSent(env, postId, claim?.token, discordMessage.id);
+            } catch (error) {
+                await env.RESOURCE_LINK_STATE.delete(`${ARCA_SEEN_KEY_PREFIX}${postId}`);
+                await deleteDiscordResourceMessage(env, discordMessage.id).catch(deleteError => {
+                    console.error('Failed to roll back untracked Discord proposal', deleteError);
+                });
+                throw error;
+            }
             await env.RESOURCE_LINK_STATE.delete(key.name);
             seenIds.add(postId);
             result.proposed += 1;
         } catch (error) {
+            if (claim?.token) await releaseArcaPost(env, postId, claim.token);
             result.failed += 1;
             console.warn(`Pending Arca post proposal failed: ${post.url}`, error);
             break;
@@ -719,6 +849,33 @@ async function processPendingArcaPosts(env, seenIds, maxProposals) {
     }
 
     return result;
+}
+
+async function callArcaDedup(env, action, postId, token, extra = {}) {
+    if (!env.ARCA_DEDUPE) return null;
+    const id = env.ARCA_DEDUPE.idFromName(String(postId));
+    const stub = env.ARCA_DEDUPE.get(id);
+    const response = await stub.fetch('https://arca-dedupe.local/', {
+        method: 'POST',
+        body: JSON.stringify({ action, postId: String(postId), token, ...extra })
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || `Arca dedupe request failed: ${response.status}`);
+    return result;
+}
+
+async function claimArcaPost(env, postId) {
+    return callArcaDedup(env, 'claim', postId, null, { leaseMs: ARCA_CLAIM_LEASE_MS });
+}
+
+async function markArcaPostSent(env, postId, token, discordMessageId) {
+    if (!token) return null;
+    return callArcaDedup(env, 'sent', postId, token, { discordMessageId });
+}
+
+async function releaseArcaPost(env, postId, token) {
+    if (!token) return null;
+    return callArcaDedup(env, 'release', postId, token);
 }
 
 function normalizeArcaFeedState(state) {

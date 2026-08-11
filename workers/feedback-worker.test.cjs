@@ -7,11 +7,13 @@ function loadWorkerInternals() {
     const workerPath = path.join(__dirname, 'feedback-worker.js');
     const source = fs
         .readFileSync(workerPath, 'utf8')
+        .replace('export class ArcaDedupObject', 'class ArcaDedupObject')
         .replace('export default {', 'const worker = {');
 
     return new Function(`
         ${source}
         return {
+            ArcaDedupObject,
             extractArcaPostsFromList,
             fetchText,
             fetchArcaPostDetail,
@@ -44,12 +46,15 @@ function loadWorkerInternals() {
             buildGiftCodePublishedMessage,
             getGiftCodeDaysRemaining,
             getCronHealth,
+            isGiftCodeMonitorEnabled,
+            getCronTaskTimeoutMs,
             handleCronWatchdog
         };
     `)();
 }
 
 const {
+    ArcaDedupObject,
     extractArcaPostsFromList,
     fetchText,
     fetchArcaPostDetail,
@@ -82,9 +87,50 @@ const {
     buildGiftCodePublishedMessage,
     getGiftCodeDaysRemaining,
     getCronHealth,
+    isGiftCodeMonitorEnabled,
+    getCronTaskTimeoutMs,
     handleCronWatchdog
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
+
+test('Gift Code 감시는 명시적으로 활성화할 때만 실행된다', () => {
+    assert.equal(isGiftCodeMonitorEnabled({}), false);
+    assert.equal(isGiftCodeMonitorEnabled({ GIFT_CODE_MONITOR_ENABLED: 'false' }), false);
+    assert.equal(isGiftCodeMonitorEnabled({ GIFT_CODE_MONITOR_ENABLED: 'true' }), true);
+});
+
+test('크론 작업 시간 제한은 작업별 환경변수로 조정할 수 있다', () => {
+    assert.equal(getCronTaskTimeoutMs({}, 'arca-resource-maintenance'), 75_000);
+    assert.equal(getCronTaskTimeoutMs({ CRON_ARCA_RESOURCE_MAINTENANCE_TIMEOUT_SECONDS: '120' }, 'arca-resource-maintenance'), 120_000);
+});
+
+test('Arca Durable Object는 같은 글의 동시 claim을 하나만 허용한다', async () => {
+    const values = new Map();
+    const storage = {
+        async get(key) { return values.get(key); },
+        async put(key, value) { values.set(key, value); },
+        async delete(key) { values.delete(key); }
+    };
+    const object = new ArcaDedupObject({ storage });
+    const request = action => new Request('https://dedupe.test/', {
+        method: 'POST',
+        body: JSON.stringify({ action, postId: '123', leaseMs: 60_000 })
+    });
+
+    const first = await (await object.fetch(request('claim'))).json();
+    const second = await (await object.fetch(request('claim'))).json();
+    assert.equal(first.ok, true);
+    assert.equal(second.ok, false);
+    assert.equal(second.reason, 'claimed');
+
+    const sent = await (await object.fetch(new Request('https://dedupe.test/', {
+        method: 'POST',
+        body: JSON.stringify({ action: 'sent', postId: '123', token: first.token, discordMessageId: 'discord-1' })
+    }))).json();
+    assert.equal(sent.ok, true);
+    const afterSent = await (await object.fetch(request('claim'))).json();
+    assert.deepEqual(afterSent, { ok: false, reason: 'sent' });
+});
 
 test('크론 완료 heartbeat가 기준 시간보다 오래되면 비정상으로 판단한다', () => {
     const now = new Date('2026-08-02T13:30:00.000Z');

@@ -14,6 +14,20 @@
       "id": "6225ba1d64f34c05a063adf74a9782b9"
     }
   ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "ARCA_DEDUPE",
+        "class_name": "ArcaDedupObject"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["ArcaDedupObject"]
+    }
+  ],
   "queues": {
     "producers": [
       {

@@ -105,7 +105,9 @@ Behavior:
 
 ## Gift code scheduled monitor
 
-The scheduled Worker also reads the mirrored official gift-code channel and writes newly detected codes directly to `data/resource_links.json` on `main`.
+The Gift Code monitor is currently disabled by default while scheduled-task reliability is being verified. Set `GIFT_CODE_MONITOR_ENABLED=true` in the Worker only when it is ready to be resumed.
+
+When enabled, the scheduled Worker reads the mirrored official gift-code channel and writes newly detected codes directly to `data/resource_links.json` on `main`.
 
 Required setup:
 
