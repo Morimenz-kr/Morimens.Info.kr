@@ -580,6 +580,10 @@
     transform: translateY(calc(8% + 1.2em + 8px));
 }
 
+.wheel-pair > .equip-slot-empty {
+    display: none;
+}
+
 .wheel-pair-heading {
     position: absolute;
     top: 8%;

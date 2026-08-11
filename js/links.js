@@ -731,6 +731,12 @@ const initializeLinksPage = async () => {
                         const wheelDisplay = wheelRecommendation
                             ? buildWheelDisplayItems(wheelRecommendation)
                             : null;
+                        const wheelPairClass = wheelDisplay?.length === 1
+                            ? 'wheel-pair wheel-pair-single'
+                            : 'wheel-pair';
+                        const secondWheelSlotClass = wheelDisplay && !wheelDisplay[1]
+                            ? 'equip-slot equip-slot-empty'
+                            : 'equip-slot';
                         const renderWheelDisplay = (item, position) => {
                             if (!item) return '';
                             const label = item.tier === 'substitute' ? '대체' : '';
@@ -762,7 +768,7 @@ const initializeLinksPage = async () => {
                                     <div class="recommend-step">${setInfo.recommendStep} 추천</div>
                                 </div>
                                 <div class="recommend-right">
-                                    <div class="wheel-pair">
+                                    <div class="${wheelPairClass}">
                                         <div class="wheel-pair-heading">추천 명륜</div>
                                         <div class="equip-slot">
                                             ${wheelDisplay ? renderWheelDisplay(wheelDisplay[0], 0) : `
@@ -772,7 +778,7 @@ const initializeLinksPage = async () => {
                                                 <div class="sub-link sub-link-spacer" aria-hidden="true">보기</div>
                                             `}
                                         </div>
-                                        <div class="equip-slot">
+                                        <div class="${secondWheelSlotClass}">
                                             ${wheelDisplay ? renderWheelDisplay(wheelDisplay[1], 1) : `
                                                 <div class="equip-label equip-label-spacer" aria-hidden="true">추천 명륜</div>
                                                 <img src="${srWheel.image_path}" class="equip-img-myeongryun" data-tooltip-kind="wheel" data-tooltip-id="${srWheelId}" onerror="this.src='images/placeholder.png';">

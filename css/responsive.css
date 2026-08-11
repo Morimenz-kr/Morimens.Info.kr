@@ -488,6 +488,14 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         box-sizing: border-box;
     }
 
+    .recommend-right > .wheel-pair-single {
+        grid-template-columns: minmax(0, 96px) !important;
+    }
+
+    .wheel-pair > .equip-slot-empty {
+        display: none !important;
+    }
+
     .wheel-pair-heading {
         position: static;
         grid-column: 1 / -1;
