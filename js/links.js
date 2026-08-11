@@ -178,6 +178,7 @@ function renderDictionaryRichText(value) {
 
 // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환 + 파밍처 추가) ㅁㄴㅇ
 function showTooltip(item, e, mainStats = [], pinned = false) {
+    if (itemTooltipPinned && !pinned) return;
     const ttTitle = document.getElementById('tt-title');
     const ttDesc = document.getElementById('tt-desc');
     const ttTags = document.getElementById('tt-tags');
@@ -271,13 +272,27 @@ function bindDynamicTooltips(root) {
         const item = map && map[el.dataset.tooltipId];
         if (!item) return;
         const mainStats = decodeTooltipMainStats(el.dataset.tooltipMainStats);
+        const pinTooltip = event => {
+            event.preventDefault();
+            event.stopPropagation();
+            const rect = el.getBoundingClientRect();
+            const position = Number.isFinite(event.clientX) && Number.isFinite(event.clientY)
+                ? event
+                : { clientX: rect.left + (rect.width / 2), clientY: rect.top + (rect.height / 2) };
+            showTooltip(item, position, mainStats, true);
+        };
+        el.tabIndex = 0;
+        el.setAttribute('role', 'button');
+        el.setAttribute('aria-label', `${item.korean_name} 상세 정보`);
         el.onmouseenter = e => showTooltip(item, e, mainStats);
         el.onmousemove = moveTooltip;
-        el.onmouseleave = hideTooltip;
-        el.onclick = e => {
-            e.preventDefault();
-            e.stopPropagation();
-            showTooltip(item, e, mainStats, true);
+        el.onmouseleave = () => hideTooltip();
+        el.onpointerup = event => {
+            if (event.pointerType !== 'mouse') pinTooltip(event);
+        };
+        el.onclick = pinTooltip;
+        el.onkeydown = event => {
+            if (event.key === 'Enter' || event.key === ' ') pinTooltip(event);
         };
     });
 }

@@ -921,6 +921,11 @@
         border-left: 0;
     }
 
+    .wheel-option-substitute {
+        margin-top: 8px;
+        padding-top: 28px;
+    }
+
     .wheel-option-stats .wheel-option-stat-content {
         position: static;
         width: auto;

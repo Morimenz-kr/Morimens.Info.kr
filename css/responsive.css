@@ -459,7 +459,7 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         width: 100% !important;
         display: grid !important;
         grid-template-columns: 1fr 1fr !important;
-        gap: 25px 10px !important;
+        gap: 16px 10px !important;
         padding: 25px 15px !important;
         align-items: start !important;
     }
@@ -485,6 +485,7 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         position: relative !important;
         justify-content: center !important;
         padding-top: 0;
+        height: auto !important;
         box-sizing: border-box;
     }
 
@@ -520,6 +521,7 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         width: 96px !important;
         height: auto !important;
         gap: 8px !important;
+        transform: none !important;
     }
 
     .wheel-pair > .equip-slot > .equip-label-spacer,
@@ -540,8 +542,8 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
     .recommend-right > div:last-child {
         grid-column: 1 / -1 !important;
         border-top: 1px dashed #444 !important;
-        padding-top: 20px !important;
-        margin-top: 10px !important;
+        padding-top: 16px !important;
+        margin-top: 0 !important;
     }
 
     /* 6. 이미지 크기 보정 */
