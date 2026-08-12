@@ -4,15 +4,11 @@
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488';
     const FALLBACK_IMAGE = 'images/smile_Ramona.webp';
     const DEFAULT_CURRENT_RERUNS = [
-        { id: 'helot_catena', name: '혈쇄 · 히로', start_date: '2026-07-13', end_date: '2026-08-10' },
-        { id: 'coporsant', name: '코퍼산트', start_date: '2026-07-13', end_date: '2026-08-10' },
-        { id: 'pollux', name: '폴룩스', start_date: '2026-07-13', end_date: '2026-08-10' }
-    ];
-    const DEFAULT_NEXT_RERUNS = [
         { id: 'horla', name: '오를라', start_date: '2026-08-10', end_date: '2026-09-07' },
         { id: 'doresain', name: '도어세인', start_date: '2026-08-10', end_date: '2026-09-07' },
         { id: 'mouchette', name: '무셰트', start_date: '2026-08-10', end_date: '2026-09-07' }
     ];
+    const DEFAULT_NEXT_RERUNS = [];
 
     const currentBox = document.getElementById('current-schedules');
     const nextBox = document.getElementById('next-schedules');
@@ -61,6 +57,30 @@
         const monthNumber = Number(match[2]);
         const now = new Date();
         return Math.max(0, (now.getFullYear() - year) * 12 + (now.getMonth() + 1 - monthNumber));
+    }
+
+    function localDateKey(date = new Date()) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    function normalizeScheduleBuckets(current, next, today = localDateKey()) {
+        const schedules = [...current, ...next];
+        const uniqueSchedules = [...new Map(schedules
+            .filter(item => item?.id && item?.start_date && item?.end_date)
+            .map(item => [`${item.id}:${item.start_date}:${item.end_date}`, item])).values()];
+        const active = uniqueSchedules.filter(item => item.start_date <= today && today < item.end_date);
+        const upcoming = uniqueSchedules
+            .filter(item => item.start_date > today)
+            .sort((a, b) => a.start_date.localeCompare(b.start_date));
+        const nextStartDate = upcoming[0]?.start_date;
+
+        return {
+            current: active,
+            next: nextStartDate ? upcoming.filter(item => item.start_date === nextStartDate) : []
+        };
     }
 
     function getCharacter(id, entry, characterMap) {
@@ -210,8 +230,9 @@
             const [data, manifest] = await Promise.all([scheduleResponse.json(), manifestResponse.json()]);
             const manifestItems = Array.isArray(manifest) ? manifest : [];
             const characterMap = new Map(manifestItems.filter(item => item?.id).map(item => [item.id, item]));
-            const current = Array.isArray(data?.current_reruns) ? data.current_reruns : DEFAULT_CURRENT_RERUNS;
-            const next = Array.isArray(data?.next_reruns) ? data.next_reruns : DEFAULT_NEXT_RERUNS;
+            const configuredCurrent = Array.isArray(data?.current_reruns) ? data.current_reruns : DEFAULT_CURRENT_RERUNS;
+            const configuredNext = Array.isArray(data?.next_reruns) ? data.next_reruns : DEFAULT_NEXT_RERUNS;
+            const { current, next } = normalizeScheduleBuckets(configuredCurrent, configuredNext);
             const history = Array.isArray(data?.history) ? data.history : [];
 
             renderRerunCards(current, characterMap, currentBox, '현재 복각 정보를 준비 중입니다.');

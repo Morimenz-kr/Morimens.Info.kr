@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-23",
+  "updated_at": "2026-08-12",
   "source": "https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488",
   "schedules": [],
   "history": [
@@ -597,29 +597,29 @@
           "appearance": 2
         }
       ]
+    },
+    {
+      "month": "2026-08",
+      "characters": [
+        {
+          "id": "horla",
+          "name": "오를라",
+          "appearance": 4
+        },
+        {
+          "id": "doresain",
+          "name": "도어세인",
+          "appearance": 3
+        },
+        {
+          "id": "mouchette",
+          "name": "무셰트",
+          "appearance": 2
+        }
+      ]
     }
   ],
   "current_reruns": [
-    {
-      "id": "helot_catena",
-      "name": "혈쇄 · 히로",
-      "start_date": "2026-07-13",
-      "end_date": "2026-08-10"
-    },
-    {
-      "id": "coporsant",
-      "name": "코퍼산트",
-      "start_date": "2026-07-13",
-      "end_date": "2026-08-10"
-    },
-    {
-      "id": "pollux",
-      "name": "폴룩스",
-      "start_date": "2026-07-13",
-      "end_date": "2026-08-10"
-    }
-  ],
-  "next_reruns": [
     {
       "id": "horla",
       "name": "오를라",
@@ -638,5 +638,6 @@
       "start_date": "2026-08-10",
       "end_date": "2026-09-07"
     }
-  ]
+  ],
+  "next_reruns": []
 }
