@@ -3,18 +3,21 @@
 
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488';
     const FALLBACK_IMAGE = 'images/smile_Ramona.webp';
-    const DEFAULT_CURRENT_RERUNS = [
-        { id: 'horla', name: '오를라', start_date: '2026-08-10', end_date: '2026-09-07' },
-        { id: 'doresain', name: '도어세인', start_date: '2026-08-10', end_date: '2026-09-07' },
-        { id: 'mouchette', name: '무셰트', start_date: '2026-08-10', end_date: '2026-09-07' }
+    const DEFAULT_CURRENT_PICKUPS = [
+        { id: 'saya', name: '사야', start_date: '2026-05-30', end_date: '2026-08-24', kind: 'release' },
+        { id: 'lotan_cetarchon', name: '침식 · 로탄', start_date: '2026-07-27', end_date: '2026-08-24', kind: 'release' },
+        { id: 'horla', name: '오를라', start_date: '2026-08-10', end_date: '2026-09-07', kind: 'rerun' },
+        { id: 'doresain', name: '도어세인', start_date: '2026-08-10', end_date: '2026-09-07', kind: 'rerun' },
+        { id: 'mouchette', name: '무셰트', start_date: '2026-08-10', end_date: '2026-09-07', kind: 'rerun' }
     ];
-    const DEFAULT_NEXT_RERUNS = [];
+    const DEFAULT_NEXT_PICKUPS = [];
 
     const currentBox = document.getElementById('current-schedules');
+    const currentRerunBox = document.getElementById('current-reruns');
     const nextBox = document.getElementById('next-schedules');
     const gapBox = document.getElementById('rerun-gap-list');
     const historyBox = document.getElementById('rerun-history');
-    if (!currentBox || !nextBox || !gapBox || !historyBox) return;
+    if (!currentBox || !currentRerunBox || !nextBox || !gapBox || !historyBox) return;
 
     function createElement(tag, className, text) {
         const element = document.createElement(tag);
@@ -45,18 +48,23 @@
     }
 
     function setBusy(busy) {
-        [currentBox, nextBox, gapBox, historyBox].forEach(element => {
+        [currentBox, currentRerunBox, nextBox, gapBox, historyBox].forEach(element => {
             element.setAttribute('aria-busy', String(busy));
         });
     }
 
-    function monthDifference(month) {
-        const match = /^(\d{4})-(\d{1,2})$/.exec(String(month || ''));
-        if (!match) return 0;
-        const year = Number(match[1]);
-        const monthNumber = Number(match[2]);
-        const now = new Date();
-        return Math.max(0, (now.getFullYear() - year) * 12 + (now.getMonth() + 1 - monthNumber));
+    function parseLocalDate(dateKey) {
+        const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateKey || ''));
+        if (!match) return null;
+        return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+    }
+
+    function daysSince(fromDateKey, today = new Date()) {
+        const from = parseLocalDate(fromDateKey);
+        if (!from) return null;
+        const to = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const totalDays = Math.floor((to - from) / 86400000);
+        return totalDays >= 0 ? totalDays : null;
     }
 
     function localDateKey(date = new Date()) {
@@ -105,9 +113,9 @@
         return image;
     }
 
-    function renderRerunCards(items, characterMap, targetBox, emptyMessage) {
+    function renderPickupCards(items, characterMap, targetBox, emptyMessage, emptyOptions = { source: true }) {
         if (!items.length) {
-            targetBox.replaceChildren(createEmptyState(emptyMessage, { source: true }));
+            targetBox.replaceChildren(createEmptyState(emptyMessage, emptyOptions));
             return;
         }
 
@@ -130,7 +138,7 @@
         targetBox.replaceChildren(fragment);
     }
 
-    function collectLastAppearances(history) {
+    function collectLastAppearances(history, verifiedPeriods) {
         const result = new Map();
         history.forEach(group => {
             const month = String(group?.month || '');
@@ -144,25 +152,36 @@
                 result.set(entry.id, previous);
             });
         });
+        result.forEach((entry, id) => {
+            const period = verifiedPeriods?.[id];
+            const lastMonth = entry.rerun || entry.release;
+            if (period?.start_date?.slice(0, 7) === lastMonth && period?.end_date) {
+                entry.period = period;
+            }
+        });
         return result;
     }
 
-    function renderGapRanking(history, current, characterMap) {
+    function renderGapRanking(history, current, characterMap, verifiedPeriods) {
         const currentIds = new Set(current.map(item => item?.id).filter(Boolean));
-        const rows = [...collectLastAppearances(history)]
+        const today = new Date();
+        const todayKey = localDateKey(today);
+        const rows = [...collectLastAppearances(history, verifiedPeriods)]
             .filter(([id]) => !currentIds.has(id))
             .map(([id, entry]) => {
-                const lastMonth = entry.rerun || entry.release;
+                const elapsedDays = entry.period?.end_date <= todayKey
+                    ? daysSince(entry.period.end_date, today)
+                    : null;
                 return {
                     id,
                     entry,
-                    lastMonth,
-                    months: monthDifference(lastMonth),
-                    neverRerun: !entry.rerun
+                    elapsedDays,
+                    neverRerun: !entry.rerun,
+                    sortDays: elapsedDays ?? -1
                 };
             })
-            .filter(row => row.lastMonth)
-            .sort((a, b) => b.months - a.months || String(a.entry.name).localeCompare(String(b.entry.name), 'ko'));
+            .filter(row => row.entry.period && row.elapsedDays !== null)
+            .sort((a, b) => b.sortDays - a.sortDays || String(a.entry.name).localeCompare(String(b.entry.name), 'ko'));
 
         if (!rows.length) {
             gapBox.replaceChildren(createEmptyState('공백 정보를 표시할 수 없습니다.', { source: true }));
@@ -171,21 +190,27 @@
 
         const fragment = document.createDocumentFragment();
         let displayedRank = 0;
-        let previousMonth = null;
+        let previousGap = null;
         rows.forEach((row, index) => {
-            if (row.lastMonth !== previousMonth) displayedRank = index + 1;
-            previousMonth = row.lastMonth;
+            const gapKey = `day:${row.elapsedDays}`;
+            if (gapKey !== previousGap) displayedRank = index + 1;
+            previousGap = gapKey;
             const character = getCharacter(row.id, row.entry, characterMap);
             const article = createElement('article', 'rerun-gap-card');
             const rank = createElement('span', 'gap-rank', String(displayedRank));
             rank.setAttribute('aria-label', `${displayedRank}위`);
             const details = createElement('div', 'gap-details');
+            const appearanceLabel = row.neverRerun ? '출시' : '마지막 복각';
             details.append(
                 createElement('h3', '', character.name),
-                createElement('p', '', row.neverRerun ? `출시 ${row.lastMonth}` : `마지막 복각 ${row.lastMonth}`)
+                createElement(
+                    'p',
+                    '',
+                    `${appearanceLabel} ${row.entry.period.start_date} ~ ${row.entry.period.end_date}`
+                )
             );
             const period = createElement('div', 'gap-period');
-            period.append(createElement('strong', '', `${row.months}개월 전`));
+            period.append(createElement('strong', '', `${row.elapsedDays}일 전`));
             article.append(rank, makePortrait(character), details, period);
             fragment.append(article);
         });
@@ -230,18 +255,29 @@
             const [data, manifest] = await Promise.all([scheduleResponse.json(), manifestResponse.json()]);
             const manifestItems = Array.isArray(manifest) ? manifest : [];
             const characterMap = new Map(manifestItems.filter(item => item?.id).map(item => [item.id, item]));
-            const configuredCurrent = Array.isArray(data?.current_reruns) ? data.current_reruns : DEFAULT_CURRENT_RERUNS;
-            const configuredNext = Array.isArray(data?.next_reruns) ? data.next_reruns : DEFAULT_NEXT_RERUNS;
+            const configuredCurrent = Array.isArray(data?.current_pickups)
+                ? data.current_pickups
+                : (Array.isArray(data?.current_reruns) ? data.current_reruns : DEFAULT_CURRENT_PICKUPS);
+            const configuredNext = Array.isArray(data?.next_pickups)
+                ? data.next_pickups
+                : (Array.isArray(data?.next_reruns) ? data.next_reruns : DEFAULT_NEXT_PICKUPS);
             const { current, next } = normalizeScheduleBuckets(configuredCurrent, configuredNext);
+            const currentReleases = current.filter(item => item?.kind === 'release');
+            const currentReruns = current.filter(item => item?.kind !== 'release');
             const history = Array.isArray(data?.history) ? data.history : [];
+            const verifiedPeriods = data?.verified_periods && typeof data.verified_periods === 'object'
+                ? data.verified_periods
+                : {};
 
-            renderRerunCards(current, characterMap, currentBox, '현재 복각 정보를 준비 중입니다.');
-            renderRerunCards(next, characterMap, nextBox, '다음 복각 정보를 준비 중입니다.');
-            renderGapRanking(history, current, characterMap);
+            renderPickupCards(currentReleases, characterMap, currentBox, '현재 픽업 데이터가 없습니다.');
+            renderPickupCards(currentReruns, characterMap, currentRerunBox, '현재 복각 데이터가 없습니다.');
+            renderPickupCards(next, characterMap, nextBox, '다음 픽업 데이터가 없습니다.', { source: false });
+            renderGapRanking(history, current, characterMap, verifiedPeriods);
             renderHistory(history, characterMap);
         } catch (error) {
-            console.error('복각 일정 로드 실패:', error);
-            currentBox.replaceChildren(createEmptyState('복각 정보를 표시할 수 없습니다.', { retry: true, source: true }));
+            console.error('픽업·복각 일정 로드 실패:', error);
+            currentBox.replaceChildren(createEmptyState('픽업 정보를 표시할 수 없습니다.', { retry: true, source: true }));
+            currentRerunBox.replaceChildren();
             nextBox.replaceChildren();
             gapBox.replaceChildren();
             historyBox.replaceChildren();

@@ -1,6 +1,163 @@
 {
   "updated_at": "2026-08-12",
   "source": "https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488",
+  "verified_periods": {
+    "ryker": {
+      "start_date": "2025-09-22",
+      "end_date": "2025-10-20",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1809869180065192"
+    },
+    "lily": {
+      "start_date": "2025-12-15",
+      "end_date": "2026-01-12",
+      "source_url": "https://discord.com/channels/1131791637933199470/1181135756958371881/threads/1448990353519804467"
+    },
+    "thais": {
+      "start_date": "2025-12-15",
+      "end_date": "2026-01-12",
+      "source_url": "https://discord.com/channels/1131791637933199470/1181135756958371881/threads/1448990353519804467"
+    },
+    "dafoodil": {
+      "start_date": "2026-01-12",
+      "end_date": "2026-02-09",
+      "source_url": "https://discord.com/channels/1131791637933199470/1181135756958371881/threads/1453726962899091498"
+    },
+    "miryam": {
+      "start_date": "2026-01-12",
+      "end_date": "2026-02-09",
+      "source_url": "https://discord.com/channels/1131791637933199470/1181135756958371881/threads/1453726962899091498"
+    },
+    "vortice": {
+      "start_date": "2026-03-09",
+      "end_date": "2026-04-06",
+      "source_url": "https://steamcommunity.com/app/3052450/announcements/"
+    },
+    "salvador": {
+      "start_date": "2026-03-23",
+      "end_date": "2026-04-20",
+      "source_url": "https://discord.com/channels/1131791637933199470/1484467018118987888/1484467090726584522"
+    },
+    "wanda": {
+      "start_date": "2026-03-23",
+      "end_date": "2026-04-20",
+      "source_url": "https://discord.com/channels/1131791637933199470/1484467018118987888/1484467090726584522"
+    },
+    "kathigu-ra": {
+      "start_date": "2026-03-23",
+      "end_date": "2026-04-20",
+      "source_url": "https://discord.com/channels/1131791637933199470/1484467018118987888/1484467090726584522"
+    },
+    "sorel": {
+      "start_date": "2026-04-06",
+      "end_date": "2026-05-04",
+      "source_url": "https://discord.com/channels/1131791637933199470/1484467018118987888/1484467090726584522"
+    },
+    "doll_inferno": {
+      "start_date": "2026-04-06",
+      "end_date": "2026-05-04",
+      "source_url": "https://discord.com/channels/1131791637933199470/1484467018118987888/1484467090726584522"
+    },
+    "tulu": {
+      "start_date": "2026-04-06",
+      "end_date": "2026-05-04",
+      "source_url": "https://discord.com/channels/1131791637933199470/1484467018118987888/1484467090726584522"
+    },
+    "castor": {
+      "start_date": "2025-10-20",
+      "end_date": "2025-11-17",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1813674389021054"
+    },
+    "tawil": {
+      "start_date": "2025-11-03",
+      "end_date": "2025-12-01",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1813674389021054"
+    },
+    "Murphy_Fauxborn": {
+      "start_date": "2025-11-24",
+      "end_date": "2025-12-29",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1816307528966176"
+    },
+    "xu": {
+      "start_date": "2026-01-26",
+      "end_date": "2026-02-23",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1822556746161336"
+    },
+    "24": {
+      "start_date": "2026-02-23",
+      "end_date": "2026-03-23",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1823825466499508"
+    },
+    "pickman": {
+      "start_date": "2026-02-23",
+      "end_date": "2026-03-23",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1823825466499508"
+    },
+    "arachne": {
+      "start_date": "2026-04-20",
+      "end_date": "2026-05-18",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1830163047263589"
+    },
+    "saya": {
+      "start_date": "2026-05-30",
+      "end_date": "2026-08-24",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1832700592794352"
+    },
+    "hameln": {
+      "start_date": "2026-06-15",
+      "end_date": "2026-07-13",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1832700592794352"
+    },
+    "murphy": {
+      "start_date": "2026-06-15",
+      "end_date": "2026-07-13",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1832700592794352"
+    },
+    "clementine": {
+      "start_date": "2026-06-15",
+      "end_date": "2026-07-13",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1832700592794352"
+    },
+    "pontos": {
+      "start_date": "2026-06-29",
+      "end_date": "2026-07-27",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1836506165557679"
+    },
+    "helot_catena": {
+      "start_date": "2026-07-13",
+      "end_date": "2026-08-10",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1836506165557679"
+    },
+    "coporsant": {
+      "start_date": "2026-07-13",
+      "end_date": "2026-08-10",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1836506165557679"
+    },
+    "pollux": {
+      "start_date": "2026-07-13",
+      "end_date": "2026-08-10",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1836506165557679"
+    },
+    "lotan_cetarchon": {
+      "start_date": "2026-07-27",
+      "end_date": "2026-08-24",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1839041357033310"
+    },
+    "horla": {
+      "start_date": "2026-08-10",
+      "end_date": "2026-09-07",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1839041357033310"
+    },
+    "doresain": {
+      "start_date": "2026-08-10",
+      "end_date": "2026-09-07",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1839041357033310"
+    },
+    "mouchette": {
+      "start_date": "2026-08-10",
+      "end_date": "2026-09-07",
+      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1839041357033310"
+    }
+  },
   "schedules": [],
   "history": [
     {
@@ -582,6 +739,11 @@
       "month": "2026-07",
       "characters": [
         {
+          "id": "lotan_cetarchon",
+          "name": "침식 · 로탄",
+          "appearance": 1
+        },
+        {
           "id": "helot_catena",
           "name": "혈쇄 · 히로",
           "appearance": 3
@@ -619,25 +781,42 @@
       ]
     }
   ],
-  "current_reruns": [
+  "current_pickups": [
+    {
+      "id": "saya",
+      "name": "사야",
+      "start_date": "2026-05-30",
+      "end_date": "2026-08-24",
+      "kind": "release"
+    },
+    {
+      "id": "lotan_cetarchon",
+      "name": "침식 · 로탄",
+      "start_date": "2026-07-27",
+      "end_date": "2026-08-24",
+      "kind": "release"
+    },
     {
       "id": "horla",
       "name": "오를라",
       "start_date": "2026-08-10",
-      "end_date": "2026-09-07"
+      "end_date": "2026-09-07",
+      "kind": "rerun"
     },
     {
       "id": "doresain",
       "name": "도어세인",
       "start_date": "2026-08-10",
-      "end_date": "2026-09-07"
+      "end_date": "2026-09-07",
+      "kind": "rerun"
     },
     {
       "id": "mouchette",
       "name": "무셰트",
       "start_date": "2026-08-10",
-      "end_date": "2026-09-07"
+      "end_date": "2026-09-07",
+      "kind": "rerun"
     }
   ],
-  "next_reruns": []
+  "next_pickups": []
 }

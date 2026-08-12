@@ -105,7 +105,7 @@
 
 .character-card-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
     gap: 12px;
 }
 
@@ -169,6 +169,10 @@
     background: var(--color-accent);
 }
 
+.current-rerun-section {
+    margin-top: 22px;
+}
+
 .next-rerun-section,
 .gap-section {
     margin-top: 34px;
@@ -212,6 +216,7 @@
 .gap-period strong {
     color: var(--color-text-primary);
     font-size: 1.05rem;
+    white-space: nowrap;
 }
 
 
