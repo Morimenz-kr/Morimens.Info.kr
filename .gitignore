@@ -1,1 +1,4 @@
 .wrangler/
+
+# Local validation and deployment artifacts
+/tmp/

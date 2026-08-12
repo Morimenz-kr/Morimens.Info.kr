@@ -370,7 +370,7 @@
 }
 
 .payment-image-viewer {
-    width: min(100%, 1065px);
+    width: min(100%, 1075px);
     margin-inline: auto;
     overflow: hidden;
     border: 1px solid var(--color-border);
@@ -386,7 +386,7 @@
 }
 
 .payment-image-credit {
-    width: min(100%, 1065px);
+    width: min(100%, 1075px);
     margin: var(--space-2) auto 0;
     font-size: 0.85rem;
     line-height: 1.5;
