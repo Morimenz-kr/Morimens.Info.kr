@@ -22,12 +22,9 @@ const DEFAULT_ARCA_FETCH_TIMEOUT_MS = 10 * 1000;
 const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
 const ARCA_PENDING_KEY_PREFIX = 'arca:pending:';
 const ARCA_FEED_STATE_KEY_PREFIX = 'arca:feed:';
-const CRON_STARTED_KEY = 'cron:heartbeat:started:v1';
-const CRON_COMPLETED_KEY = 'cron:heartbeat:completed:v1';
 const CRON_WATCHDOG_STATE_KEY = 'cron:watchdog-state:v1';
 const CRON_STATUS_KEY = 'cron:status:v1';
-const CRON_TASK_STATE_KEY_PREFIX = 'cron:task:';
-const DEFAULT_CRON_STALE_MS = 15 * 60 * 1000;
+const DEFAULT_CRON_STALE_MS = 30 * 60 * 1000;
 const DEFAULT_CRON_TASK_TIMEOUT_MS = 75 * 1000;
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
 const GIFT_CODE_NOTIFICATION_KEY_PREFIX = 'gift-code:notification:';
@@ -35,8 +32,6 @@ const DEFAULT_GIFT_CODE_CHANNEL_ID = '1529856105562247358';
 const DEFAULT_GIFT_CODE_SCAN_LIMIT = 25;
 const DEFAULT_GIFT_CODE_MONITOR_ENABLED = false;
 const DEFAULT_GIFT_CODE_RESOURCE_URL = 'https://morimenz-kr.github.io/Morimens.Info.kr/data/resource_links.json';
-const DEFAULT_GIFT_CODE_PUBLISH_CHECK_ATTEMPTS = 12;
-const DEFAULT_GIFT_CODE_PUBLISH_CHECK_INTERVAL_MS = 5000;
 const DISCORD_RESOURCE_COMMANDS_STATE_KEY = 'discord:resource-commands:v1';
 const DISCORD_RESOURCE_COMMANDS = [
     { name: 'list', description: '열린 리소스 링크 대기 목록을 표시합니다.' },
@@ -226,6 +221,10 @@ export default {
                 return await handleCronWatchdog(request, env, corsHeaders);
             }
 
+            if (url.pathname === '/deployment-complete' && request.method === 'POST') {
+                return await handleDeploymentComplete(request, env, corsHeaders);
+            }
+
             if (request.method === 'GET') {
                 return handleGet(url, env, corsHeaders);
             }
@@ -260,13 +259,9 @@ export default {
     }
 };
 
-async function runScheduledMaintenance(env) {
+async function runScheduledMaintenance(env, scheduledTasks = null) {
     const startedAt = new Date().toISOString();
-    await writeCronHeartbeat(env, CRON_STARTED_KEY, startedAt).catch(error => {
-        console.error('Cron start heartbeat failed', error);
-    });
-
-    const tasks = [
+    const tasks = scheduledTasks ? [...scheduledTasks] : [
         { name: 'discord-commands', run: () => ensureDiscordResourceCommands(env) },
         { name: 'arca-resource-maintenance', run: () => runArcaResourceMaintenance(env) },
         { name: 'stale-proposal-recovery', run: () => recoverStaleResourceProposals(env) }
@@ -275,37 +270,103 @@ async function runScheduledMaintenance(env) {
         tasks.push({ name: 'gift-code-monitor', run: () => handleGiftCodeMonitor(env) });
     }
 
-    try {
-        const results = await Promise.all(tasks.map(task => runScheduledTask(env, task)));
-        const resultFor = (name, skipped = false) => {
-            const result = results.find(item => item.name === name);
-            if (!result) return skipped ? { ok: true, skipped: 'disabled' } : { ok: false, error: 'missing task result' };
-            return result.status === 'completed'
-                ? { ok: true, result: result.result }
-                : { ok: false, error: result.error };
-        };
-        const completedAt = new Date().toISOString();
-        await env.RESOURCE_LINK_STATE?.put(CRON_STATUS_KEY, JSON.stringify({
-            completedAt,
-            commands: resultFor('discord-commands'),
-            arca: resultFor('arca-resource-maintenance'),
-            giftCodes: resultFor('gift-code-monitor', true),
-            recovery: resultFor('stale-proposal-recovery'),
-            tasks: results
-        })).catch(error => console.error('Cron status write failed', error));
-        console.log('Scheduled maintenance task results', results);
-    } finally {
-        const completedAt = new Date().toISOString();
-        await writeCronHeartbeat(env, CRON_COMPLETED_KEY, completedAt).catch(error => {
-            console.error('Cron completion heartbeat failed', error);
-        });
-        console.log('Scheduled maintenance completed', { startedAt, completedAt });
+    const results = await Promise.all(tasks.map(task => runScheduledTask(env, task)));
+    const resultFor = (name, skipped = false) => {
+        const result = results.find(item => item.name === name);
+        if (!result) return skipped ? { ok: true, skipped: 'disabled' } : { ok: false, error: 'missing task result' };
+        return result.status === 'completed'
+            ? { ok: true, result: result.result }
+            : { ok: false, error: result.error };
+    };
+    const completedAt = new Date().toISOString();
+    const cronStatus = {
+        startedAt,
+        completedAt,
+        ok: results.every(result => result.status === 'completed'),
+        commands: resultFor('discord-commands'),
+        arca: resultFor('arca-resource-maintenance'),
+        giftCodes: resultFor('gift-code-monitor', true),
+        recovery: resultFor('stale-proposal-recovery'),
+        tasks: results
+    };
+
+    if (env.RESOURCE_LINK_STATE) {
+        await env.RESOURCE_LINK_STATE.put(CRON_STATUS_KEY, JSON.stringify(cronStatus))
+            .catch(error => console.error('Cron status write failed', error));
     }
+    console.log('Scheduled maintenance completed', cronStatus);
+    return cronStatus;
 }
 
-async function writeCronHeartbeat(env, key, timestamp) {
-    if (!env.RESOURCE_LINK_STATE) throw new Error('RESOURCE_LINK_STATE KV binding is missing');
-    await env.RESOURCE_LINK_STATE.put(key, JSON.stringify({ timestamp }));
+export class ResourceProposalObject {
+    constructor(state) {
+        this.state = state;
+        this.storage = state.storage;
+    }
+
+    async fetch(request) {
+        const run = () => this.handleRequest(request);
+        return typeof this.state.blockConcurrencyWhile === 'function'
+            ? this.state.blockConcurrencyWhile(run)
+            : run();
+    }
+
+    async handleRequest(request) {
+        if (request.method !== 'POST') return new Response('Method not allowed', { status: 405 });
+        const body = await request.json().catch(() => ({}));
+        const action = String(body.action || '');
+        const current = await this.storage.get('state');
+
+        if (action === 'get') {
+            return current
+                ? Response.json({ ok: true, state: current })
+                : Response.json({ ok: false, reason: 'not-found' }, { status: 404 });
+        }
+
+        if (action === 'delete') {
+            await this.storage.delete('state');
+            return Response.json({ ok: true });
+        }
+
+        const nextState = body.state;
+        if (!nextState?.id || !nextState?.proposal) {
+            return Response.json({ ok: false, error: 'invalid proposal state' }, { status: 400 });
+        }
+
+        if (action === 'create') {
+            if (current) {
+                return Response.json({ ok: false, reason: 'already-exists', state: current }, { status: 409 });
+            }
+            await this.storage.put('state', nextState);
+            return Response.json({ ok: true, state: nextState });
+        }
+
+        if (action === 'transition') {
+            const expectedStatuses = Array.isArray(body.expectedStatuses)
+                ? body.expectedStatuses.map(String)
+                : [];
+            if (!current) {
+                return Response.json({ ok: false, reason: 'not-found' }, { status: 404 });
+            }
+            if (expectedStatuses.length > 0 && !expectedStatuses.includes(String(current.status))) {
+                return Response.json({ ok: false, reason: 'status-mismatch', state: current }, { status: 409 });
+            }
+            if (Object.hasOwn(body, 'expectedProcessingToken')
+                && String(current.processingToken || '') !== String(body.expectedProcessingToken || '')) {
+                return Response.json({ ok: false, reason: 'processing-token-mismatch', state: current }, { status: 409 });
+            }
+            if (Object.hasOwn(body, 'expectedSelectionRevision')
+                && normalizeResourceSelectionRevision(current.selection?.revision)
+                    !== normalizeResourceSelectionRevision(body.expectedSelectionRevision)) {
+                return Response.json({ ok: false, reason: 'selection-revision-mismatch', state: current }, { status: 409 });
+            }
+        } else if (action !== 'put') {
+            return Response.json({ ok: false, error: 'invalid action' }, { status: 400 });
+        }
+
+        await this.storage.put('state', nextState);
+        return Response.json({ ok: true, state: nextState });
+    }
 }
 
 function isGiftCodeMonitorEnabled(env) {
@@ -321,12 +382,6 @@ function getCronTaskTimeoutMs(env, taskName) {
 async function runScheduledTask(env, task) {
     const startedAt = new Date().toISOString();
     const timeoutMs = getCronTaskTimeoutMs(env, task.name);
-    const stateKey = `${CRON_TASK_STATE_KEY_PREFIX}${task.name}`;
-    await env.RESOURCE_LINK_STATE?.put(stateKey, JSON.stringify({
-        status: 'running',
-        startedAt,
-        timeoutMs
-    })).catch(error => console.error(`Cron task state write failed: ${task.name}`, error));
 
     let timeoutId;
     try {
@@ -337,18 +392,12 @@ async function runScheduledTask(env, task) {
             })
         ]);
         const completedAt = new Date().toISOString();
-        await env.RESOURCE_LINK_STATE?.put(stateKey, JSON.stringify({
-            status: 'completed', startedAt, completedAt, timeoutMs
-        })).catch(error => console.error(`Cron task state write failed: ${task.name}`, error));
-        return { name: task.name, status: 'completed', result };
+        return { name: task.name, status: 'completed', startedAt, completedAt, timeoutMs, result };
     } catch (error) {
         const failedAt = new Date().toISOString();
         const message = error?.message || String(error);
-        await env.RESOURCE_LINK_STATE?.put(stateKey, JSON.stringify({
-            status: 'failed', startedAt, failedAt, timeoutMs, error: message
-        })).catch(stateError => console.error(`Cron task state write failed: ${task.name}`, stateError));
         console.error(`Scheduled task failed: ${task.name}`, error);
-        return { name: task.name, status: 'failed', error: message };
+        return { name: task.name, status: 'failed', startedAt, failedAt, timeoutMs, error: message };
     } finally {
         if (timeoutId) clearTimeout(timeoutId);
     }
@@ -367,38 +416,84 @@ async function handleCronWatchdog(request, env, corsHeaders) {
     const staleMs = getPositiveIntegerEnv(
         env.CRON_WATCHDOG_STALE_MINUTES,
         DEFAULT_CRON_STALE_MS / 60000,
-        10,
+        30,
         120
     ) * 60 * 1000;
     const now = new Date();
-    const [completed, watchdogState, status] = await Promise.all([
-        env.RESOURCE_LINK_STATE.get(CRON_COMPLETED_KEY, 'json'),
-        env.RESOURCE_LINK_STATE.get(CRON_WATCHDOG_STATE_KEY, 'json'),
-        env.RESOURCE_LINK_STATE.get(CRON_STATUS_KEY, 'json')
+    const [status, watchdogState] = await Promise.all([
+        env.RESOURCE_LINK_STATE.get(CRON_STATUS_KEY, 'json'),
+        env.RESOURCE_LINK_STATE.get(CRON_WATCHDOG_STATE_KEY, 'json')
     ]);
-    const health = getCronHealth(completed?.timestamp, now, staleMs);
+    const freshness = getCronHealth(status?.completedAt, now, staleMs);
+    const tasksHealthy = status?.ok !== false;
+    const health = {
+        ...freshness,
+        healthy: freshness.healthy && tasksHealthy,
+        tasksHealthy
+    };
 
     if (!health.healthy && !watchdogState?.alertActive) {
-        await sendCronWatchdogDiscordMessage(env,
-            `🚨 정보글 자동 수집 크론이 멈춘 것 같습니다.\n마지막 정상 완료: ${health.lastCompletedAt || '기록 없음'}\n경과 시간: ${health.ageMinutes ?? '알 수 없음'}분`
-        );
-        await env.RESOURCE_LINK_STATE.put(CRON_WATCHDOG_STATE_KEY, JSON.stringify({
-            alertActive: true,
-            alertedAt: now.toISOString(),
-            lastCompletedAt: health.lastCompletedAt
-        }));
+        const failedTasks = Array.isArray(status?.tasks)
+            ? status.tasks.filter(task => task.status === 'failed').map(task => task.name).join(', ')
+            : '';
+        await publishCronWatchdogTransition(env, {
+            id: `cron-watchdog:down:${health.lastCompletedAt || 'never'}`,
+            content: [
+                '🚨 정보글 자동 수집 크론이 멈췄거나 작업에 실패했습니다.',
+                `마지막 실행 완료: ${health.lastCompletedAt || '기록 없음'}`,
+                `경과 시간: ${health.ageMinutes ?? '알 수 없음'}분`,
+                failedTasks ? `실패 작업: ${failedTasks}` : null
+            ].filter(Boolean).join('\n'),
+            state: {
+                alertActive: true,
+                alertedAt: now.toISOString(),
+                lastCompletedAt: health.lastCompletedAt
+            }
+        });
     } else if (health.healthy && watchdogState?.alertActive) {
-        await sendCronWatchdogDiscordMessage(env,
-            `✅ 정보글 자동 수집 크론이 정상화되었습니다.\n최근 정상 완료: ${health.lastCompletedAt}`
-        );
-        await env.RESOURCE_LINK_STATE.put(CRON_WATCHDOG_STATE_KEY, JSON.stringify({
-            alertActive: false,
-            recoveredAt: now.toISOString(),
-            lastCompletedAt: health.lastCompletedAt
-        }));
+        await publishCronWatchdogTransition(env, {
+            id: `cron-watchdog:up:${watchdogState.lastCompletedAt || 'never'}`,
+            content: `✅ 정보글 자동 수집 크론이 정상화되었습니다.\n최근 정상 완료: ${health.lastCompletedAt}`,
+            state: {
+                alertActive: false,
+                recoveredAt: now.toISOString(),
+                lastCompletedAt: health.lastCompletedAt
+            }
+        });
     }
 
     return jsonResponse({ ...health, status: status || null }, health.healthy ? 200 : 503, corsHeaders);
+}
+
+async function publishCronWatchdogTransition(env, transition) {
+    const claim = await callArcaDedup(env, 'claim', transition.id, null, {
+        leaseMs: ARCA_CLAIM_LEASE_MS
+    });
+    if (claim && !claim.ok) {
+        if (claim.reason === 'sent') {
+            await env.RESOURCE_LINK_STATE.put(CRON_WATCHDOG_STATE_KEY, JSON.stringify(transition.state));
+        }
+        return { sent: false, reason: claim.reason };
+    }
+
+    let discordMessage;
+    try {
+        discordMessage = await sendCronWatchdogDiscordMessage(env, transition.content);
+        if (claim?.token) {
+            await callArcaDedup(env, 'sent', transition.id, claim.token, {
+                discordMessageId: discordMessage?.id || null
+            });
+        }
+        await env.RESOURCE_LINK_STATE.put(CRON_WATCHDOG_STATE_KEY, JSON.stringify(transition.state));
+        return { sent: true };
+    } catch (error) {
+        if (claim?.token && !discordMessage) {
+            await callArcaDedup(env, 'release', transition.id, claim.token).catch(releaseError => {
+                console.error('Cron watchdog claim release failed', releaseError);
+            });
+        }
+        throw error;
+    }
 }
 
 function getCronHealth(lastCompletedAt, now = new Date(), staleMs = DEFAULT_CRON_STALE_MS) {
@@ -425,6 +520,7 @@ async function sendCronWatchdogDiscordMessage(env, content) {
         const detail = await response.text();
         throw new Error(`Discord watchdog notification failed: ${response.status} ${detail.slice(0, 300)}`);
     }
+    return response.json().catch(() => null);
 }
 
 async function runArcaResourceMaintenance(env) {
@@ -642,11 +738,10 @@ async function scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds) {
                 }
             }
             : state.scan.finishAfterBuffer
-                ? {
-                    checkpointId: state.scan.targetHighWatermarkId || state.checkpointId,
-                    checkpointUpdatedAt: new Date().toISOString(),
-                    scan: null
-                }
+                ? buildCompletedArcaFeedState(
+                    state,
+                    state.scan.targetHighWatermarkId || state.checkpointId
+                )
                 : {
                     ...state,
                     scan: {
@@ -655,7 +750,7 @@ async function scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds) {
                         finishAfterBuffer: false
                     }
                 };
-        await env.RESOURCE_LINK_STATE.put(stateKey, JSON.stringify(nextState));
+        await putArcaFeedStateIfChanged(env, stateKey, state, nextState);
         return {
             scanned: 0,
             discovered: bufferResult.persisted,
@@ -712,11 +807,7 @@ async function scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds) {
             }
         }
         : reachedBoundary
-        ? {
-            checkpointId: targetHighWatermarkId || state.checkpointId,
-            checkpointUpdatedAt: new Date().toISOString(),
-            scan: null
-        }
+        ? buildCompletedArcaFeedState(state, targetHighWatermarkId || state.checkpointId)
         : {
             ...state,
             scan: {
@@ -727,7 +818,7 @@ async function scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds) {
                 finishAfterBuffer: false
             }
         };
-    await env.RESOURCE_LINK_STATE.put(stateKey, JSON.stringify(nextState));
+    await putArcaFeedStateIfChanged(env, stateKey, state, nextState);
 
     return {
         scanned: posts.length,
@@ -737,6 +828,26 @@ async function scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds) {
         checkpointId: nextState.checkpointId || null,
         buffered: pendingResult.remaining.length
     };
+}
+
+function buildCompletedArcaFeedState(state, checkpointId) {
+    const normalizedCheckpointId = /^\d+$/.test(String(checkpointId || ''))
+        ? String(checkpointId)
+        : null;
+    const changed = normalizedCheckpointId !== state.checkpointId || Boolean(state.scan);
+    return {
+        checkpointId: normalizedCheckpointId,
+        checkpointUpdatedAt: changed ? new Date().toISOString() : state.checkpointUpdatedAt,
+        scan: null
+    };
+}
+
+async function putArcaFeedStateIfChanged(env, stateKey, currentState, nextState) {
+    const current = normalizeArcaFeedState(currentState);
+    const next = normalizeArcaFeedState(nextState);
+    if (JSON.stringify(current) === JSON.stringify(next)) return false;
+    await env.RESOURCE_LINK_STATE.put(stateKey, JSON.stringify(next));
+    return true;
 }
 
 async function persistPendingArcaPosts(env, posts, pendingIds, limit, listUrl) {
@@ -762,6 +873,9 @@ async function persistPendingArcaPosts(env, posts, pendingIds, limit, listUrl) {
 }
 
 async function processPendingArcaPosts(env, seenIds, maxProposals) {
+    if (!env.ARCA_DEDUPE) {
+        throw new Error('ARCA_DEDUPE binding is required before sending monitored posts');
+    }
     const page = await env.RESOURCE_LINK_STATE.list({
         prefix: ARCA_PENDING_KEY_PREFIX,
         limit: 1000
@@ -1083,9 +1197,17 @@ async function handleGiftCodeMonitor(env) {
 
     requireEnv(env, ['GITHUB_TOKEN', 'GITHUB_OWNER', 'GITHUB_REPO', 'DISCORD_BOT_TOKEN']);
 
+    let recovered = null;
+    try {
+        recovered = await flushPendingGiftCodeNotifications(env, channelId);
+    } catch (error) {
+        recovered = { ok: false, error: error?.message || String(error) };
+        console.warn('Pending gift code notification recovery failed', error);
+    }
+
     const scanLimit = getPositiveIntegerEnv(env.GIFT_CODE_SCAN_LIMIT, DEFAULT_GIFT_CODE_SCAN_LIMIT, 1, 100);
     const messages = await fetchDiscordChannelMessages(env, channelId, scanLimit);
-    const result = { ok: true, scanned: messages.length, skippedSeen: 0, added: 0, notified: 0, failed: 0 };
+    const result = { ok: true, recovered, scanned: messages.length, skippedSeen: 0, added: 0, pending: 0, failed: 0 };
 
     for (const message of messages) {
         const seenKey = `${GIFT_CODE_SEEN_KEY_PREFIX}${message.id}`;
@@ -1105,16 +1227,13 @@ async function handleGiftCodeMonitor(env) {
                     commits.push(update.commitUrl);
                     await env.RESOURCE_LINK_STATE.put(notificationKey, JSON.stringify({
                         code,
+                        channelId,
                         commitUrl: update.commitUrl,
                         createdAt: new Date().toISOString()
                     }));
-                }
-
-                if (update.added || pendingNotification) {
-                    await waitForGiftCodePublished(env, code);
-                    await sendGiftCodePublishedMessage(env, channelId, code);
-                    await env.RESOURCE_LINK_STATE.delete(notificationKey);
-                    result.notified += 1;
+                    result.pending += 1;
+                } else if (pendingNotification) {
+                    result.pending += 1;
                 }
             }
 
@@ -1133,6 +1252,121 @@ async function handleGiftCodeMonitor(env) {
 
     console.log('Gift code monitor result', result);
     return result;
+}
+
+async function handleDeploymentComplete(request, env, corsHeaders) {
+    const expectedToken = String(env.DEPLOYMENT_CALLBACK_TOKEN || '');
+    const suppliedToken = String(request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!expectedToken || !suppliedToken || suppliedToken !== expectedToken) {
+        return jsonResponse({ error: 'Unauthorized' }, 401, corsHeaders);
+    }
+    if (!env.RESOURCE_LINK_STATE) {
+        return jsonResponse({ error: 'RESOURCE_LINK_STATE KV binding is missing' }, 503, corsHeaders);
+    }
+
+    const channelId = String(env.GIFT_CODE_CHANNEL_ID || DEFAULT_GIFT_CODE_CHANNEL_ID).trim();
+    const result = await flushPendingGiftCodeNotifications(env, channelId);
+    return jsonResponse(result, result.ok ? 200 : 503, corsHeaders);
+}
+
+async function flushPendingGiftCodeNotifications(env, defaultChannelId) {
+    if (!env.RESOURCE_LINK_STATE) {
+        throw new Error('RESOURCE_LINK_STATE KV binding is missing');
+    }
+
+    const pendingKeys = await listGiftCodeNotificationKeys(env);
+    if (pendingKeys.length === 0) {
+        return { ok: true, pending: 0, published: 0, notified: 0, retained: 0, failed: 0 };
+    }
+
+    const publishedCodes = await fetchPublishedGiftCodeTitles(env);
+    const result = { ok: true, pending: pendingKeys.length, published: 0, notified: 0, retained: 0, failed: 0 };
+    for (const key of pendingKeys) {
+        const notification = await env.RESOURCE_LINK_STATE.get(key, 'json');
+        const code = notification?.code;
+        const normalizedTitle = normalizeGiftCodeTitle(code?.title);
+        if (!normalizedTitle || !publishedCodes.has(normalizedTitle)) {
+            result.retained += 1;
+            continue;
+        }
+        result.published += 1;
+
+        const claimId = `gift-notification:${key}`;
+        let claim = null;
+        let discordMessage = null;
+        try {
+            claim = await callArcaDedup(env, 'claim', claimId, null, { leaseMs: ARCA_CLAIM_LEASE_MS });
+            if (claim && !claim.ok) {
+                if (claim.reason === 'sent') {
+                    await env.RESOURCE_LINK_STATE.delete(key);
+                } else {
+                    result.retained += 1;
+                }
+                continue;
+            }
+
+            discordMessage = await sendGiftCodePublishedMessage(
+                env,
+                String(notification.channelId || defaultChannelId || DEFAULT_GIFT_CODE_CHANNEL_ID),
+                code
+            );
+            if (claim?.token) {
+                await callArcaDedup(env, 'sent', claimId, claim.token, {
+                    discordMessageId: discordMessage?.id || null
+                });
+            }
+            await env.RESOURCE_LINK_STATE.delete(key);
+            result.notified += 1;
+        } catch (error) {
+            result.failed += 1;
+            console.warn(`Pending gift code notification failed: ${normalizedTitle || key}`, error);
+            if (claim?.token && !discordMessage) {
+                await callArcaDedup(env, 'release', claimId, claim.token).catch(releaseError => {
+                    console.warn(`Gift code notification claim release failed: ${normalizedTitle || key}`, releaseError);
+                });
+            }
+        }
+    }
+    result.ok = result.failed === 0;
+    return result;
+}
+
+async function listGiftCodeNotificationKeys(env) {
+    const keys = [];
+    let cursor;
+    do {
+        const options = { prefix: GIFT_CODE_NOTIFICATION_KEY_PREFIX, limit: 1000 };
+        if (cursor) options.cursor = cursor;
+        const page = await env.RESOURCE_LINK_STATE.list(options);
+        keys.push(...page.keys.map(key => key.name));
+        cursor = page.list_complete ? null : page.cursor;
+    } while (cursor);
+    return keys;
+}
+
+async function fetchPublishedGiftCodeTitles(env) {
+    const resourceUrl = String(env.GIFT_CODE_RESOURCE_URL || DEFAULT_GIFT_CODE_RESOURCE_URL).trim();
+    const url = new URL(resourceUrl);
+    url.searchParams.set('deployment-complete', `${Date.now()}-${crypto.randomUUID()}`);
+    const response = await fetch(url, {
+        cache: 'no-store',
+        headers: {
+            'Cache-Control': 'no-cache, no-store',
+            Pragma: 'no-cache'
+        },
+        cf: { cacheTtl: 0, cacheEverything: false }
+    });
+    if (!response.ok) {
+        const detail = await response.text();
+        throw new Error(`Published resource links fetch failed: ${response.status} ${detail.slice(0, 300)}`);
+    }
+    const db = await response.json();
+    const links = Array.isArray(db.categories?.code?.links) ? db.categories.code.links : [];
+    return new Set(links.map(link => normalizeGiftCodeTitle(link?.title)).filter(Boolean));
+}
+
+function normalizeGiftCodeTitle(value) {
+    return String(value || '').trim().toUpperCase();
 }
 
 async function fetchDiscordChannelMessages(env, channelId, limit) {
@@ -1318,37 +1552,6 @@ function getGiftCodeDaysRemaining(expiry, now = new Date()) {
     const today = Date.parse(`${koreanToday}T00:00:00.000Z`);
     if (Number.isNaN(expiryDay) || Number.isNaN(today)) return null;
     return Math.max(0, Math.round((expiryDay - today) / (24 * 60 * 60 * 1000)));
-}
-
-async function waitForGiftCodePublished(env, code) {
-    const resourceUrl = String(env.GIFT_CODE_RESOURCE_URL || DEFAULT_GIFT_CODE_RESOURCE_URL).trim();
-    const attempts = getPositiveIntegerEnv(
-        env.GIFT_CODE_PUBLISH_CHECK_ATTEMPTS,
-        DEFAULT_GIFT_CODE_PUBLISH_CHECK_ATTEMPTS,
-        1,
-        60
-    );
-
-    for (let attempt = 0; attempt < attempts; attempt += 1) {
-        try {
-            const url = new URL(resourceUrl);
-            url.searchParams.set('gift-code-check', `${code.title}-${Date.now()}`);
-            const response = await fetch(url, { headers: { 'Cache-Control': 'no-cache' } });
-            if (response.ok) {
-                const db = await response.json();
-                const links = db.categories?.code?.links || [];
-                if (links.some(link => String(link?.title || '').toUpperCase() === code.title.toUpperCase())) return;
-            }
-        } catch (error) {
-            console.warn(`Gift code publish check failed: ${code.title}`, error);
-        }
-
-        if (attempt + 1 < attempts) {
-            await new Promise(resolve => setTimeout(resolve, DEFAULT_GIFT_CODE_PUBLISH_CHECK_INTERVAL_MS));
-        }
-    }
-
-    throw new Error(`Gift code was not published before timeout: ${code.title}`);
 }
 
 async function sendGiftCodePublishedMessage(env, channelId, code) {
@@ -2053,13 +2256,79 @@ function createResourceProposalState(proposal) {
     };
 }
 
+function normalizeStoredResourceProposalState(proposalId, state) {
+    return {
+        ...state,
+        id: proposalId,
+        selection: normalizeResourceSelection(state.selection),
+        updatedAt: new Date().toISOString()
+    };
+}
+
+async function callResourceProposalObject(env, proposalId, action, payload = {}) {
+    if (!env.RESOURCE_PROPOSAL_STATE) return null;
+    const id = env.RESOURCE_PROPOSAL_STATE.idFromName(String(proposalId));
+    const stub = env.RESOURCE_PROPOSAL_STATE.get(id);
+    const response = await stub.fetch('https://resource-proposal.local/', {
+        method: 'POST',
+        body: JSON.stringify({ action, ...payload })
+    });
+    const result = await response.json();
+    if (!response.ok && ![404, 409].includes(response.status)) {
+        throw new Error(result.error || `Resource proposal state request failed: ${response.status}`);
+    }
+    return { ...result, status: response.status };
+}
+
+async function mirrorResourceProposalState(env, proposalId, state) {
+    if (!env.RESOURCE_LINK_STATE) return false;
+    await env.RESOURCE_LINK_STATE.put(
+        getResourceProposalStateKey(proposalId),
+        JSON.stringify(state)
+    );
+    return true;
+}
+
+async function deleteResourceProposalState(env, proposalId) {
+    await callResourceProposalObject(env, proposalId, 'delete').catch(error => {
+        console.error('Failed to delete durable proposal state', { proposalId, error });
+    });
+    await env.RESOURCE_LINK_STATE?.delete(getResourceProposalStateKey(proposalId)).catch(error => {
+        console.error('Failed to delete mirrored proposal state', { proposalId, error });
+    });
+}
+
 async function createResourceProposalMessage(env, proposal) {
-    if (!env.RESOURCE_LINK_STATE) {
-        throw new Error('RESOURCE_LINK_STATE KV binding is required for resource link proposals');
+    if (!env.RESOURCE_PROPOSAL_STATE && !env.RESOURCE_LINK_STATE) {
+        throw new Error('RESOURCE_PROPOSAL_STATE or RESOURCE_LINK_STATE binding is required for resource link proposals');
     }
 
     const state = createResourceProposalState(proposal);
-    const discordMessage = await sendResourceProposalMessage(env, proposal, state.id);
+    if (env.RESOURCE_PROPOSAL_STATE) {
+        const created = await callResourceProposalObject(env, state.id, 'create', { state });
+        if (!created?.ok) throw new Error('링크 제보 상태 초기화에 실패했습니다.');
+    }
+
+    let discordMessage;
+    try {
+        discordMessage = await sendResourceProposalMessage(env, proposal, state.id);
+    } catch (error) {
+        if (env.RESOURCE_PROPOSAL_STATE) {
+            await updateResourceProposalState(env, state.id, {
+                ...state,
+                deliveryStatus: 'unknown',
+                deliveryError: error.message || 'unknown error'
+            }).catch(stateError => {
+                console.error('Failed to preserve uncertain Discord delivery state', {
+                    proposalId: state.id,
+                    stateError
+                });
+            });
+        } else {
+            await deleteResourceProposalState(env, state.id);
+        }
+        throw error;
+    }
     const proposalState = {
         ...state,
         discordMessageId: discordMessage.id
@@ -2078,13 +2347,28 @@ async function createResourceProposalMessage(env, proposal) {
 }
 
 async function getResourceProposalState(env, proposalId) {
-    if (!env.RESOURCE_LINK_STATE) {
-        throw new Error('RESOURCE_LINK_STATE KV binding is required for resource link proposals');
+    if (!env.RESOURCE_PROPOSAL_STATE && !env.RESOURCE_LINK_STATE) {
+        throw new Error('RESOURCE_PROPOSAL_STATE or RESOURCE_LINK_STATE binding is required for resource link proposals');
     }
 
-    const state = await env.RESOURCE_LINK_STATE.get(getResourceProposalStateKey(proposalId), 'json');
+    const durable = await callResourceProposalObject(env, proposalId, 'get');
+    if (durable?.ok && durable.state?.proposal && durable.state?.id) {
+        return {
+            ...durable.state,
+            selection: normalizeResourceSelection(durable.state.selection)
+        };
+    }
+
+    const state = await env.RESOURCE_LINK_STATE?.get(getResourceProposalStateKey(proposalId), 'json');
     if (!state?.proposal || !state?.id) {
-        throw new Error('링크 제보 상태를 찾을 수 없습니다.');
+        const error = new Error('만료되었거나 복구할 수 없는 링크 제보입니다. 새 제보를 생성해주세요.');
+        error.code = 'RESOURCE_PROPOSAL_NOT_FOUND';
+        throw error;
+    }
+    if (env.RESOURCE_PROPOSAL_STATE) {
+        await callResourceProposalObject(env, proposalId, 'create', {
+            state: normalizeStoredResourceProposalState(proposalId, state)
+        }).catch(error => console.error('Failed to migrate proposal state from KV', { proposalId, error }));
     }
     return {
         ...state,
@@ -2093,19 +2377,85 @@ async function getResourceProposalState(env, proposalId) {
 }
 
 async function updateResourceProposalState(env, proposalId, state) {
-    if (!env.RESOURCE_LINK_STATE) {
-        throw new Error('RESOURCE_LINK_STATE KV binding is required for resource link proposals');
+    if (!env.RESOURCE_PROPOSAL_STATE && !env.RESOURCE_LINK_STATE) {
+        throw new Error('RESOURCE_PROPOSAL_STATE or RESOURCE_LINK_STATE binding is required for resource link proposals');
     }
 
-    await env.RESOURCE_LINK_STATE.put(
-        getResourceProposalStateKey(proposalId),
-        JSON.stringify({
-            ...state,
-            id: proposalId,
-            selection: normalizeResourceSelection(state.selection),
-            updatedAt: new Date().toISOString()
-        })
+    const normalizedState = normalizeStoredResourceProposalState(proposalId, state);
+    if (env.RESOURCE_PROPOSAL_STATE) {
+        const result = await callResourceProposalObject(env, proposalId, 'put', { state: normalizedState });
+        if (!result?.ok) throw new Error('링크 제보 상태 저장에 실패했습니다.');
+        await mirrorResourceProposalState(env, proposalId, normalizedState).catch(error => {
+            console.error('Proposal KV mirror write failed', { proposalId, error });
+        });
+        return normalizedState;
+    }
+    await mirrorResourceProposalState(env, proposalId, normalizedState);
+    return normalizedState;
+}
+
+async function claimResourceProposalProcessing(env, proposalId, state) {
+    return transitionResourceProposalState(
+        env,
+        proposalId,
+        state,
+        ['pending'],
+        undefined,
+        state.selection?.revision
     );
+}
+
+async function transitionResourceProposalState(
+    env,
+    proposalId,
+    state,
+    expectedStatuses,
+    expectedProcessingToken,
+    expectedSelectionRevision
+) {
+    const normalizedState = normalizeStoredResourceProposalState(proposalId, state);
+    if (!env.RESOURCE_PROPOSAL_STATE) {
+        await updateResourceProposalState(env, proposalId, normalizedState);
+        return { ok: true, state: normalizedState };
+    }
+
+    const payload = {
+        expectedStatuses,
+        state: normalizedState
+    };
+    if (expectedProcessingToken !== undefined) {
+        payload.expectedProcessingToken = expectedProcessingToken;
+    }
+    if (expectedSelectionRevision !== undefined) {
+        payload.expectedSelectionRevision = expectedSelectionRevision;
+    }
+    const result = await callResourceProposalObject(env, proposalId, 'transition', {
+        ...payload
+    });
+    if (!result?.ok) return result;
+    await mirrorResourceProposalState(env, proposalId, normalizedState).catch(error => {
+        console.error('Proposal KV mirror write failed after processing claim', { proposalId, error });
+    });
+    return result;
+}
+
+async function transitionResourceProposalFromSnapshot(env, proposalId, currentState, nextState) {
+    return transitionResourceProposalState(
+        env,
+        proposalId,
+        nextState,
+        [currentState.status],
+        currentState.status === 'processing' ? currentState.processingToken : undefined,
+        currentState.selection?.revision
+    );
+}
+
+function requireResourceProposalTransition(result) {
+    if (result?.ok) return result.state;
+    const error = new Error('제보 상태가 다른 요청에서 변경되었습니다. 최신 메시지에서 다시 시도해주세요.');
+    error.code = 'RESOURCE_PROPOSAL_STATE_CHANGED';
+    error.currentState = result?.state || null;
+    throw error;
 }
 
 async function notifyDiscord(env, feedback, issue) {
@@ -2210,7 +2560,12 @@ async function processResourceDecision(env, interaction, decision) {
                 status: 'pending',
                 unheldBy: getInteractionUserLabel(interaction)
             };
-            await updateResourceProposalState(env, decision.proposalId, updatedState);
+            requireResourceProposalTransition(await transitionResourceProposalFromSnapshot(
+                env,
+                decision.proposalId,
+                proposalState,
+                updatedState
+            ));
             await editDiscordMessage(env, interaction, {
                 content: [
                     '보류가 해제되었습니다. 다시 등록 대상을 선택하고 승인할 수 있습니다.',
@@ -2235,11 +2590,16 @@ async function processResourceDecision(env, interaction, decision) {
         }
 
         if (decision.action === 'hold') {
-            await updateResourceProposalState(env, decision.proposalId, {
-                ...proposalState,
-                status: 'held',
-                handledBy: getInteractionUserLabel(interaction)
-            });
+            requireResourceProposalTransition(await transitionResourceProposalFromSnapshot(
+                env,
+                decision.proposalId,
+                proposalState,
+                {
+                    ...proposalState,
+                    status: 'held',
+                    handledBy: getInteractionUserLabel(interaction)
+                }
+            ));
             await editDiscordMessage(env, interaction, {
                 content: `보류 처리됨: resource_links를 변경하지 않았습니다. (${getInteractionUserLabel(interaction)})`,
                 components: buildResourceComponents(decision.proposalId, false, selection, 'held')
@@ -2255,7 +2615,9 @@ async function processResourceDecision(env, interaction, decision) {
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
-            await updateResourceProposalState(env, decision.proposalId, { ...proposalState, selection: updatedSelection });
+            requireResourceProposalTransition(await transitionResourceProposalFromSnapshot(
+                env, decision.proposalId, proposalState, { ...proposalState, selection: updatedSelection }
+            ));
             await editDiscordMessage(env, interaction, {
                 content: buildResourceMessageContent(updatedSelection),
                 components: buildResourceComponents(decision.proposalId, false, updatedSelection)
@@ -2271,7 +2633,9 @@ async function processResourceDecision(env, interaction, decision) {
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
-            await updateResourceProposalState(env, decision.proposalId, { ...proposalState, selection: updatedSelection });
+            requireResourceProposalTransition(await transitionResourceProposalFromSnapshot(
+                env, decision.proposalId, proposalState, { ...proposalState, selection: updatedSelection }
+            ));
             await editDiscordMessage(env, interaction, {
                 content: buildResourceMessageContent(updatedSelection),
                 components: buildResourceComponents(decision.proposalId, false, updatedSelection)
@@ -2288,7 +2652,9 @@ async function processResourceDecision(env, interaction, decision) {
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
-            await updateResourceProposalState(env, decision.proposalId, { ...proposalState, selection: updatedSelection });
+            requireResourceProposalTransition(await transitionResourceProposalFromSnapshot(
+                env, decision.proposalId, proposalState, { ...proposalState, selection: updatedSelection }
+            ));
             await editDiscordMessage(env, interaction, {
                 content: buildResourceMessageContent(updatedSelection),
                 components: buildResourceComponents(decision.proposalId, false, updatedSelection)
@@ -2304,7 +2670,9 @@ async function processResourceDecision(env, interaction, decision) {
                 updatedAt: new Date().toISOString(),
                 updatedBy: getInteractionUserLabel(interaction)
             };
-            await updateResourceProposalState(env, decision.proposalId, { ...proposalState, selection: updatedSelection });
+            requireResourceProposalTransition(await transitionResourceProposalFromSnapshot(
+                env, decision.proposalId, proposalState, { ...proposalState, selection: updatedSelection }
+            ));
             await editDiscordMessage(env, interaction, {
                 content: buildResourceMessageContent(updatedSelection),
                 components: buildResourceComponents(decision.proposalId, false, updatedSelection)
@@ -2342,7 +2710,22 @@ async function processResourceDecision(env, interaction, decision) {
         };
 
         try {
-            await updateResourceProposalState(env, decision.proposalId, processingState);
+            const claim = await claimResourceProposalProcessing(env, decision.proposalId, processingState);
+            if (!claim?.ok) {
+                const current = claim?.state;
+                await editDiscordMessage(env, interaction, {
+                    content: current?.status === 'processing'
+                        ? 'resource_links 반영을 이미 처리 중입니다. 잠시만 기다려주세요.'
+                        : `이미 처리 상태가 변경된 제보입니다. (상태: ${current?.status || 'unknown'})`,
+                    components: buildResourceComponents(
+                        decision.proposalId,
+                        true,
+                        current?.selection || selection,
+                        current?.status || 'processing'
+                    )
+                });
+                return;
+            }
             await editDiscordMessage(env, interaction, {
                 content: 'resource_links 반영을 처리 중입니다. 잠시만 기다려주세요.',
                 components: buildResourceComponents(decision.proposalId, true, selection)
@@ -2356,21 +2739,38 @@ async function processResourceDecision(env, interaction, decision) {
                 processingToken
             });
         } catch (error) {
-            await updateResourceProposalState(env, decision.proposalId, {
-                ...proposalState,
-                status: 'pending',
-                selection,
-                lastError: error.message || 'unknown error'
-            });
+            await transitionResourceProposalState(
+                env,
+                decision.proposalId,
+                {
+                    ...proposalState,
+                    status: 'pending',
+                    selection,
+                    processingToken: null,
+                    lastError: error.message || 'unknown error'
+                },
+                ['processing'],
+                processingToken,
+                selection.revision
+            );
             throw error;
         }
     } catch (error) {
         console.error(error);
         await editDiscordMessage(env, interaction, {
             content: `처리 실패: ${error.message}`,
-            components: interaction.message?.components || []
+            components: error.code === 'RESOURCE_PROPOSAL_NOT_FOUND'
+                ? disableDiscordComponents(interaction.message?.components || [])
+                : interaction.message?.components || []
         });
     }
+}
+
+function disableDiscordComponents(components) {
+    return (components || []).map(row => ({
+        ...row,
+        components: (row.components || []).map(component => ({ ...component, disabled: true }))
+    }));
 }
 
 async function enqueueResourceUpdate(env, job) {
@@ -2401,7 +2801,14 @@ async function processQueuedResourceUpdate(env, message) {
                 processingToken,
                 automaticRetryCount: Number(proposalState.automaticRetryCount || 0) + 1
             };
-            await updateResourceProposalState(env, job.proposalId, proposalState);
+            const transition = await transitionResourceProposalFromSnapshot(
+                env, job.proposalId, { ...proposalState, status: 'pending', processingToken: null }, proposalState
+            );
+            if (!transition?.ok) {
+                message.ack();
+                return;
+            }
+            proposalState = transition.state;
         }
         if (proposalState.status !== 'processing') {
             message.ack();
@@ -2414,8 +2821,15 @@ async function processQueuedResourceUpdate(env, message) {
             }
         } else {
             processingToken = processingToken || createResourceProposalId();
-            proposalState = { ...proposalState, processingToken };
-            await updateResourceProposalState(env, job.proposalId, proposalState);
+            const nextState = { ...proposalState, processingToken };
+            const transition = await transitionResourceProposalFromSnapshot(
+                env, job.proposalId, proposalState, nextState
+            );
+            if (!transition?.ok) {
+                message.ack();
+                return;
+            }
+            proposalState = transition.state;
         }
 
         const targets = normalizeTargets(job.targets?.length ? job.targets : proposalState.selection.targets);
@@ -2431,7 +2845,9 @@ async function processQueuedResourceUpdate(env, message) {
             failedAt: null,
             result: storedResult
         };
-        await updateResourceProposalState(env, job.proposalId, completedState);
+        requireResourceProposalTransition(await transitionResourceProposalFromSnapshot(
+            env, job.proposalId, proposalState, completedState
+        ));
         await editResourceProposalMessage(env, job, {
             content: buildResourceUpdateResultMessage(storedResult),
             components: buildResourceComponents(job.proposalId, true, completedState.selection)
@@ -2454,7 +2870,13 @@ async function processQueuedResourceUpdate(env, message) {
                 lastError: error.message || 'unknown error',
                 failedAt: new Date().toISOString()
             };
-            await updateResourceProposalState(env, job.proposalId, pendingState);
+            const transition = await transitionResourceProposalFromSnapshot(
+                env, job.proposalId, currentState, pendingState
+            );
+            if (!transition?.ok) {
+                message.ack();
+                return;
+            }
             await editResourceProposalMessage(env, job, {
                 content: `처리 실패: ${error.message}. 선택을 확인한 뒤 다시 눌러주세요.`,
                 components: buildResourceComponents(job.proposalId, false, pendingState.selection)
@@ -2480,7 +2902,7 @@ async function recoverStaleResourceProposals(env) {
         1,
         20
     );
-    const savedCursor = await env.RESOURCE_LINK_STATE.get(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY);
+    let savedCursor = await env.RESOURCE_LINK_STATE.get(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY);
     const listOptions = {
         prefix: RESOURCE_PROPOSAL_STATE_PREFIX,
         limit: scanLimit
@@ -2494,6 +2916,7 @@ async function recoverStaleResourceProposals(env) {
         if (!savedCursor) throw error;
         console.warn('Stale proposal recovery cursor was invalid; restarting scan');
         await env.RESOURCE_LINK_STATE.delete(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY);
+        savedCursor = null;
         page = await env.RESOURCE_LINK_STATE.list({
             prefix: RESOURCE_PROPOSAL_STATE_PREFIX,
             limit: scanLimit
@@ -2502,7 +2925,16 @@ async function recoverStaleResourceProposals(env) {
 
     let requeued = 0;
     for (const key of page.keys) {
-        const state = await env.RESOURCE_LINK_STATE.get(key.name, 'json');
+        const mirroredState = await env.RESOURCE_LINK_STATE.get(key.name, 'json');
+        if (!mirroredState?.id) continue;
+        const state = await getResourceProposalState(env, mirroredState.id).catch(error => {
+            console.error('Failed to read canonical proposal during recovery', {
+                proposalId: mirroredState.id,
+                error
+            });
+            return null;
+        });
+        if (!state) continue;
         const retryFailedUpdate = state?.status === 'pending'
             && state.lastError
             && Number(state.automaticRetryCount || 0) < 1;
@@ -2524,7 +2956,14 @@ async function recoverStaleResourceProposals(env) {
             recoveryCount: Number(state.recoveryCount || 0) + 1,
             automaticRetryCount: Number(state.automaticRetryCount || 0) + (retryFailedUpdate ? 1 : 0)
         };
-        await updateResourceProposalState(env, state.id, processingState);
+        const transition = await transitionResourceProposalState(
+            env,
+            state.id,
+            processingState,
+            [state.status],
+            state.status === 'processing' ? state.processingToken : undefined
+        );
+        if (!transition?.ok) continue;
         await enqueueResourceUpdate(env, {
             proposalId: state.id,
             targets: normalizeTargets(state.selection?.targets || state.proposal?.targets || []),
@@ -2538,8 +2977,10 @@ async function recoverStaleResourceProposals(env) {
     }
 
     if (page.list_complete || !page.cursor) {
-        await env.RESOURCE_LINK_STATE.delete(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY);
-    } else {
+        if (savedCursor) {
+            await env.RESOURCE_LINK_STATE.delete(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY);
+        }
+    } else if (page.cursor !== savedCursor) {
         await env.RESOURCE_LINK_STATE.put(RESOURCE_PROPOSAL_RECOVERY_CURSOR_KEY, page.cursor);
     }
 

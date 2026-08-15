@@ -8,12 +8,15 @@ function loadWorkerInternals() {
     const source = fs
         .readFileSync(workerPath, 'utf8')
         .replace('export class ArcaDedupObject', 'class ArcaDedupObject')
+        .replace('export class ResourceProposalObject', 'class ResourceProposalObject')
         .replace('export default {', 'const worker = {');
 
     return new Function(`
         ${source}
         return {
+            worker,
             ArcaDedupObject,
+            ResourceProposalObject,
             extractArcaPostsFromList,
             fetchText,
             fetchArcaPostDetail,
@@ -26,6 +29,7 @@ function loadWorkerInternals() {
             buildResourceUpdateResultMessage,
             buildResourceComponents,
             createResourceProposalMessage,
+            getResourceProposalState,
             getSeenArcaPostIds,
             scanArcaFeedPage,
             processPendingArcaPosts,
@@ -48,13 +52,19 @@ function loadWorkerInternals() {
             getCronHealth,
             isGiftCodeMonitorEnabled,
             getCronTaskTimeoutMs,
+            runScheduledTask,
+            runScheduledMaintenance,
+            handleGiftCodeMonitor,
+            flushPendingGiftCodeNotifications,
             handleCronWatchdog
         };
     `)();
 }
 
 const {
+    worker,
     ArcaDedupObject,
+    ResourceProposalObject,
     extractArcaPostsFromList,
     fetchText,
     fetchArcaPostDetail,
@@ -67,6 +77,7 @@ const {
     buildResourceUpdateResultMessage,
     buildResourceComponents,
     createResourceProposalMessage,
+    getResourceProposalState,
     getSeenArcaPostIds,
     scanArcaFeedPage,
     processPendingArcaPosts,
@@ -89,9 +100,110 @@ const {
     getCronHealth,
     isGiftCodeMonitorEnabled,
     getCronTaskTimeoutMs,
+    runScheduledTask,
+    runScheduledMaintenance,
+    handleGiftCodeMonitor,
+    flushPendingGiftCodeNotifications,
     handleCronWatchdog
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
+
+function createJsonKv(initial = {}) {
+    const values = new Map(Object.entries(initial));
+    const mutations = [];
+    return {
+        values,
+        mutations,
+        async get(key, type) {
+            const value = values.get(key);
+            if (type === 'json' && typeof value === 'string') return JSON.parse(value);
+            return value ?? null;
+        },
+        async put(key, value) {
+            values.set(key, value);
+            mutations.push({ type: 'put', key, value });
+        },
+        async delete(key) {
+            values.delete(key);
+            mutations.push({ type: 'delete', key });
+        },
+        async list(options = {}) {
+            const names = [...values.keys()]
+                .filter(key => !options.prefix || key.startsWith(options.prefix))
+                .sort();
+            return {
+                keys: names.map(name => ({ name })),
+                list_complete: true
+            };
+        }
+    };
+}
+
+function createArcaDedupBinding() {
+    const objects = new Map();
+    return {
+        idFromName(name) { return String(name); },
+        get(id) {
+            if (!objects.has(id)) {
+                const values = new Map();
+                let tail = Promise.resolve();
+                const storage = {
+                    async get(key) { return values.get(key); },
+                    async put(key, value) { values.set(key, value); },
+                    async delete(key) { values.delete(key); }
+                };
+                objects.set(id, new ArcaDedupObject({
+                    storage,
+                    blockConcurrencyWhile(callback) {
+                        const current = tail.then(callback);
+                        tail = current.catch(() => {});
+                        return current;
+                    }
+                }));
+            }
+            const object = objects.get(id);
+            return {
+                fetch(input, init) {
+                    return object.fetch(new Request(input, init));
+                }
+            };
+        }
+    };
+}
+
+function createResourceProposalBinding() {
+    const objects = new Map();
+    return {
+        objects,
+        idFromName(name) { return String(name); },
+        get(id) {
+            if (!objects.has(id)) {
+                const values = new Map();
+                let tail = Promise.resolve();
+                const storage = {
+                    async get(key) { return values.get(key); },
+                    async put(key, value) { values.set(key, value); },
+                    async delete(key) { values.delete(key); }
+                };
+                const state = {
+                    storage,
+                    blockConcurrencyWhile(callback) {
+                        const current = tail.then(callback);
+                        tail = current.catch(() => {});
+                        return current;
+                    }
+                };
+                objects.set(id, new ResourceProposalObject(state));
+            }
+            const object = objects.get(id);
+            return {
+                fetch(input, init) {
+                    return object.fetch(new Request(input, init));
+                }
+            };
+        }
+    };
+}
 
 test('Gift Code 감시는 명시적으로 활성화할 때만 실행된다', () => {
     assert.equal(isGiftCodeMonitorEnabled({}), false);
@@ -132,13 +244,297 @@ test('Arca Durable Object는 같은 글의 동시 claim을 하나만 허용한�
     assert.deepEqual(afterSent, { ok: false, reason: 'sent' });
 });
 
-test('크론 완료 heartbeat가 기준 시간보다 오래되면 비정상으로 판단한다', () => {
-    const now = new Date('2026-08-02T13:30:00.000Z');
-    const healthy = getCronHealth('2026-08-02T13:20:00.000Z', now, 15 * 60 * 1000);
-    const stale = getCronHealth('2026-08-02T13:10:00.000Z', now, 15 * 60 * 1000);
+test('크론 상태의 completedAt이 30분보다 오래되면 비정상으로 판단한다', () => {
+    const now = new Date('2026-08-02T13:40:00.000Z');
+    const healthy = getCronHealth('2026-08-02T13:20:00.000Z', now);
+    const stale = getCronHealth('2026-08-02T13:00:00.000Z', now);
     assert.equal(healthy.healthy, true);
     assert.equal(stale.healthy, false);
-    assert.equal(stale.ageMinutes, 20);
+    assert.equal(stale.ageMinutes, 40);
+    assert.equal(stale.staleAfterMinutes, 30);
+});
+
+test('배포 완료 콜백은 올바른 Bearer 토큰 없이는 pending을 읽지 않는다', async () => {
+    let reads = 0;
+    const response = await worker.fetch(new Request('https://worker.test/deployment-complete', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer wrong' }
+    }), {
+        DEPLOYMENT_CALLBACK_TOKEN: 'secret',
+        RESOURCE_LINK_STATE: {
+            async list() { reads += 1; throw new Error('인증 전에 KV를 읽으면 안 됩니다.'); }
+        }
+    }, {});
+
+    assert.equal(response.status, 401);
+    assert.equal(reads, 0);
+});
+
+test('배포 완료 콜백은 아직 공개되지 않은 코드를 알리지 않고 pending으로 유지한다', async () => {
+    const originalFetch = global.fetch;
+    const pendingKey = 'gift-code:notification:message-1:NOT-PUBLISHED';
+    const kv = createJsonKv({
+        [pendingKey]: JSON.stringify({
+            code: { title: 'NOT-PUBLISHED', desc: '보상', expiry: null },
+            channelId: 'gift-channel'
+        })
+    });
+    const publicFetches = [];
+    global.fetch = async (url, options = {}) => {
+        publicFetches.push({ url: String(url), options });
+        return Response.json({ categories: { code: { links: [{ title: 'OTHER-CODE' }] } } });
+    };
+
+    try {
+        const response = await worker.fetch(new Request('https://worker.test/deployment-complete', {
+            method: 'POST',
+            headers: { Authorization: 'Bearer secret' }
+        }), {
+            DEPLOYMENT_CALLBACK_TOKEN: 'secret',
+            RESOURCE_LINK_STATE: kv
+        }, {});
+        const body = await response.json();
+
+        assert.equal(response.status, 200);
+        assert.deepEqual({ pending: body.pending, notified: body.notified, retained: body.retained }, {
+            pending: 1,
+            notified: 0,
+            retained: 1
+        });
+        assert.equal(kv.values.has(pendingKey), true);
+        assert.equal(publicFetches.length, 1);
+        assert.match(publicFetches[0].url, /[?&]deployment-complete=/);
+        assert.equal(publicFetches[0].options.cache, 'no-store');
+        assert.equal(publicFetches[0].options.headers['Cache-Control'], 'no-cache, no-store');
+        assert.deepEqual(publicFetches[0].options.cf, { cacheTtl: 0, cacheEverything: false });
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('게시된 코드의 중복 배포 콜백은 Discord 알림을 한 번만 보낸다', async () => {
+    const originalFetch = global.fetch;
+    const pendingKey = 'gift-code:notification:message-2:LIVE-CODE';
+    const kv = createJsonKv({
+        [pendingKey]: JSON.stringify({
+            code: { title: 'LIVE-CODE', desc: '은심 500개', expiry: null },
+            channelId: 'gift-channel'
+        })
+    });
+    let publicFetches = 0;
+    let discordMessages = 0;
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.startsWith('https://public.test/resource_links.json')) {
+            publicFetches += 1;
+            return Response.json({ categories: { code: { links: [{ title: 'live-code' }] } } });
+        }
+        if (requestUrl.includes('/channels/gift-channel/messages')) {
+            discordMessages += 1;
+            return Response.json({ id: 'published-message' });
+        }
+        throw new Error(`unexpected request: ${requestUrl}`);
+    };
+    const env = {
+        DEPLOYMENT_CALLBACK_TOKEN: 'secret',
+        GIFT_CODE_RESOURCE_URL: 'https://public.test/resource_links.json',
+        DISCORD_BOT_TOKEN: 'bot',
+        RESOURCE_LINK_STATE: kv,
+        ARCA_DEDUPE: createArcaDedupBinding()
+    };
+    const callback = () => worker.fetch(new Request('https://worker.test/deployment-complete', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer secret' }
+    }), env, {});
+
+    try {
+        const first = await callback();
+        const second = await callback();
+        assert.equal(first.status, 200);
+        assert.equal(second.status, 200);
+        assert.equal(discordMessages, 1);
+        assert.equal(publicFetches, 1);
+        assert.equal(kv.values.has(pendingKey), false);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('콜백이 누락되면 다음 기프트 크론 시작 시 pending 알림을 복구한다', async () => {
+    const originalFetch = global.fetch;
+    const pendingKey = 'gift-code:notification:message-3:RECOVERY-CODE';
+    const kv = createJsonKv({
+        [pendingKey]: JSON.stringify({
+            code: { title: 'RECOVERY-CODE', desc: '보상', expiry: null },
+            channelId: 'gift-channel'
+        })
+    });
+    const calls = [];
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        calls.push(requestUrl);
+        if (requestUrl.startsWith('https://public.test/resource_links.json')) {
+            return Response.json({ categories: { code: { links: [{ title: 'RECOVERY-CODE' }] } } });
+        }
+        if (requestUrl.includes('/channels/gift-channel/messages') && options.method === 'POST') {
+            return Response.json({ id: 'recovered-message' });
+        }
+        if (requestUrl.includes('/channels/gift-channel/messages?limit=')) {
+            return Response.json([]);
+        }
+        throw new Error(`unexpected request: ${requestUrl}`);
+    };
+
+    try {
+        const result = await handleGiftCodeMonitor({
+            GIFT_CODE_RESOURCE_URL: 'https://public.test/resource_links.json',
+            GIFT_CODE_CHANNEL_ID: 'gift-channel',
+            GITHUB_TOKEN: 'github',
+            GITHUB_OWNER: 'owner',
+            GITHUB_REPO: 'repo',
+            DISCORD_BOT_TOKEN: 'bot',
+            RESOURCE_LINK_STATE: kv,
+            ARCA_DEDUPE: createArcaDedupBinding()
+        });
+
+        assert.equal(result.recovered.notified, 1);
+        assert.equal(result.scanned, 0);
+        assert.equal(kv.values.has(pendingKey), false);
+        assert.equal(calls.filter(url => url.startsWith('https://public.test/resource_links.json')).length, 1);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('기프트 모니터는 GitHub 커밋 후 pending과 seen만 저장하고 공개 배포를 기다리지 않는다', async () => {
+    const originalFetch = global.fetch;
+    const kv = createJsonKv();
+    const resourceLinks = JSON.stringify({
+        categories: {
+            code: { links: [] }
+        }
+    }, null, 2);
+    const calls = [];
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        const method = options.method || 'GET';
+        calls.push({ url: requestUrl, method });
+        if (requestUrl.includes('/channels/gift-channel/messages?limit=')) {
+            return Response.json([{
+                id: 'gift-message',
+                timestamp: '2026-08-12T00:00:00.000Z',
+                content: 'Gift Code: NEW1-GIFT-CODE\nRewards: Silver ×500'
+            }]);
+        }
+        if (requestUrl.endsWith('/contents/data/resource_links.json?ref=main')) {
+            return Response.json({ sha: 'file-sha', content: Buffer.from(resourceLinks).toString('base64') });
+        }
+        if (requestUrl.endsWith('/git/ref/heads/main')) {
+            return Response.json({ object: { sha: 'parent-sha' } });
+        }
+        if (requestUrl.endsWith('/git/commits/parent-sha')) {
+            return Response.json({ tree: { sha: 'parent-tree-sha' } });
+        }
+        if (requestUrl.endsWith('/git/blobs') && method === 'POST') {
+            return Response.json({ sha: 'blob-sha' });
+        }
+        if (requestUrl.endsWith('/git/trees') && method === 'POST') {
+            return Response.json({ sha: 'tree-sha' });
+        }
+        if (requestUrl.endsWith('/git/commits') && method === 'POST') {
+            return Response.json({ sha: 'new-commit-sha' });
+        }
+        if (requestUrl.endsWith('/git/refs/heads/main') && method === 'PATCH') {
+            return Response.json({ object: { sha: 'new-commit-sha' } });
+        }
+        throw new Error(`unexpected request: ${method} ${requestUrl}`);
+    };
+
+    try {
+        const result = await handleGiftCodeMonitor({
+            GIFT_CODE_RESOURCE_URL: 'https://public.test/resource_links.json',
+            GIFT_CODE_CHANNEL_ID: 'gift-channel',
+            GITHUB_TOKEN: 'github',
+            GITHUB_OWNER: 'owner',
+            GITHUB_REPO: 'repo',
+            DISCORD_BOT_TOKEN: 'bot',
+            RESOURCE_LINK_STATE: kv
+        });
+
+        assert.equal(result.added, 1);
+        assert.equal(result.pending, 1);
+        assert.equal(result.failed, 0);
+        const pendingKeys = [...kv.values.keys()].filter(key => key.startsWith('gift-code:notification:'));
+        assert.equal(pendingKeys.length, 1);
+        const pending = JSON.parse(kv.values.get(pendingKeys[0]));
+        assert.equal(pending.code.title, 'NEW1-GIFT-CODE');
+        assert.match(pending.commitUrl, /new-commit-sha$/);
+        assert.equal(kv.values.has('gift-code:seen:gift-message'), true);
+        assert.equal(calls.some(call => call.url.startsWith('https://public.test/resource_links.json')), false);
+        assert.equal(calls.some(call => call.url.includes('/channels/gift-channel/messages') && call.method === 'POST'), false);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('크론은 정상·실패 작업 결과를 cron:status 단일 문서에 한 번만 기록한다', async () => {
+    const writes = [];
+    const env = {
+        RESOURCE_LINK_STATE: {
+            async put(key, value) {
+                writes.push({ key, value: JSON.parse(value) });
+            }
+        }
+    };
+    const status = await runScheduledMaintenance(env, [
+        { name: 'discord-commands', run: async () => ({ registered: true }) },
+        { name: 'arca-resource-maintenance', run: async () => { throw new Error('Arca failed'); } },
+        { name: 'stale-proposal-recovery', run: async () => ({ requeued: 0 }) }
+    ]);
+
+    assert.equal(writes.length, 1);
+    assert.equal(writes[0].key, 'cron:status:v1');
+    assert.equal(writes[0].value.completedAt, status.completedAt);
+    assert.equal(writes[0].value.ok, false);
+    assert.equal(writes[0].value.tasks[0].status, 'completed');
+    assert.equal(writes[0].value.tasks[1].status, 'failed');
+    assert.equal(writes[0].value.tasks[1].error, 'Arca failed');
+    assert.equal(writes[0].value.tasks[2].status, 'completed');
+    assert.equal(writes.some(write => write.key.includes('heartbeat') || write.key.startsWith('cron:task:')), false);
+});
+
+test('개별 크론 작업은 성공과 실패를 반환하지만 KV에는 직접 쓰지 않는다', async () => {
+    let writes = 0;
+    const env = {
+        RESOURCE_LINK_STATE: {
+            async put() { writes += 1; }
+        }
+    };
+    const completed = await runScheduledTask(env, { name: 'success', run: () => 42 });
+    const failed = await runScheduledTask(env, { name: 'failure', run: () => { throw new Error('failed'); } });
+
+    assert.equal(completed.status, 'completed');
+    assert.equal(completed.result, 42);
+    assert.equal(failed.status, 'failed');
+    assert.equal(failed.error, 'failed');
+    assert.equal(writes, 0);
+});
+
+test('10분 크론의 고정 KV 쓰기는 무료 일일 예산 이내다', () => {
+    const wrangler = fs.readFileSync(path.join(__dirname, '..', 'wrangler.jsonc'), 'utf8');
+    assert.match(wrangler, /"\*\/10 \* \* \* \*"/);
+    assert.match(wrangler, /"name": "RESOURCE_PROPOSAL_STATE"/);
+    assert.match(wrangler, /"new_sqlite_classes": \["ResourceProposalObject"\]/);
+
+    const runsPerDay = 24 * 60 / 10;
+    const fixedCronWritesPerDay = runsPerDay;
+    const maximumWatchdogTransitionWritesPerDay = 2;
+    const scheduledListOperationsPerRun = 4;
+    const scheduledListOperationsPerDay = runsPerDay * scheduledListOperationsPerRun;
+    assert.equal(fixedCronWritesPerDay, 144);
+    assert.ok(fixedCronWritesPerDay + maximumWatchdogTransitionWritesPerDay < 1000);
+    assert.equal(scheduledListOperationsPerDay, 576);
+    assert.ok(scheduledListOperationsPerDay < 1000);
 });
 
 test('watchdog는 같은 장애에 Discord 경고를 한 번만 보낸다', async () => {
@@ -155,7 +551,7 @@ test('watchdog는 같은 장애에 Discord 경고를 한 번만 보낸다', asyn
         DISCORD_CHANNEL_ID: 'channel',
         RESOURCE_LINK_STATE: {
             async get(key) {
-                if (key === 'cron:heartbeat:completed:v1') return { timestamp: '2020-01-01T00:00:00.000Z' };
+                if (key === 'cron:status:v1') return { completedAt: '2020-01-01T00:00:00.000Z', tasks: [] };
                 if (key === 'cron:watchdog-state:v1') return watchdogState;
                 return null;
             },
@@ -175,6 +571,158 @@ test('watchdog는 같은 장애에 Discord 경고를 한 번만 보낸다', asyn
         assert.equal(second.status, 503);
         assert.equal(messages.length, 1);
         assert.equal(watchdogState.alertActive, true);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('watchdog 동시 4회 호출은 장애 경고를 한 번만 보낸다', async () => {
+    const originalFetch = global.fetch;
+    const messages = [];
+    const kv = createJsonKv({
+        'cron:status:v1': JSON.stringify({ completedAt: '2020-01-01T00:00:00.000Z', tasks: [] })
+    });
+    global.fetch = async (url, options) => {
+        messages.push(JSON.parse(options.body).content);
+        await new Promise(resolve => setTimeout(resolve, 5));
+        return Response.json({ id: 'watchdog-message' });
+    };
+    const env = {
+        WATCHDOG_TOKEN: 'secret',
+        DISCORD_BOT_TOKEN: 'bot',
+        DISCORD_CHANNEL_ID: 'channel',
+        RESOURCE_LINK_STATE: kv,
+        ARCA_DEDUPE: createArcaDedupBinding()
+    };
+    const createRequest = () => new Request('https://worker.test/cron-watchdog', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer secret' }
+    });
+
+    try {
+        await Promise.all(Array.from({ length: 4 }, () => handleCronWatchdog(createRequest(), env, {})));
+        assert.equal(messages.length, 1);
+        assert.equal(JSON.parse(kv.values.get('cron:watchdog-state:v1')).alertActive, true);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('watchdog는 최근 실행이라도 필수 크론 작업 실패를 경고한다', async () => {
+    const originalFetch = global.fetch;
+    const messages = [];
+    const kv = createJsonKv({
+        'cron:status:v1': JSON.stringify({
+            completedAt: new Date().toISOString(),
+            ok: false,
+            tasks: [{ name: 'arca-resource-maintenance', status: 'failed' }]
+        })
+    });
+    global.fetch = async (url, options) => {
+        messages.push(JSON.parse(options.body).content);
+        return Response.json({ id: 'failed-task-alert' });
+    };
+
+    try {
+        const response = await handleCronWatchdog(new Request('https://worker.test/cron-watchdog', {
+            method: 'POST',
+            headers: { Authorization: 'Bearer secret' }
+        }), {
+            WATCHDOG_TOKEN: 'secret',
+            DISCORD_BOT_TOKEN: 'bot',
+            DISCORD_CHANNEL_ID: 'channel',
+            RESOURCE_LINK_STATE: kv,
+            ARCA_DEDUPE: createArcaDedupBinding()
+        }, {});
+        assert.equal(response.status, 503);
+        assert.equal(messages.length, 1);
+        assert.match(messages[0], /실패 작업: arca-resource-maintenance/);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('watchdog Discord 성공 뒤 KV 쓰기가 실패해도 다음 호출은 중복 없이 상태를 복구한다', async () => {
+    const originalFetch = global.fetch;
+    const values = new Map([
+        ['cron:status:v1', JSON.stringify({ completedAt: '2020-01-01T00:00:00.000Z', ok: true, tasks: [] })]
+    ]);
+    let watchdogPutAttempts = 0;
+    const kv = {
+        async get(key, type) {
+            const value = values.get(key);
+            return type === 'json' && value ? JSON.parse(value) : value ?? null;
+        },
+        async put(key, value) {
+            if (key === 'cron:watchdog-state:v1') {
+                watchdogPutAttempts += 1;
+                if (watchdogPutAttempts === 1) throw new Error('KV temporarily unavailable');
+            }
+            values.set(key, value);
+        }
+    };
+    let messages = 0;
+    global.fetch = async () => {
+        messages += 1;
+        return Response.json({ id: 'watchdog-message' });
+    };
+    const env = {
+        WATCHDOG_TOKEN: 'secret',
+        DISCORD_BOT_TOKEN: 'bot',
+        DISCORD_CHANNEL_ID: 'channel',
+        RESOURCE_LINK_STATE: kv,
+        ARCA_DEDUPE: createArcaDedupBinding()
+    };
+    const request = () => new Request('https://worker.test/cron-watchdog', {
+        method: 'POST', headers: { Authorization: 'Bearer secret' }
+    });
+
+    try {
+        await assert.rejects(() => handleCronWatchdog(request(), env, {}), /KV temporarily unavailable/);
+        await handleCronWatchdog(request(), env, {});
+        assert.equal(messages, 1);
+        assert.equal(watchdogPutAttempts, 2);
+        assert.equal(JSON.parse(values.get('cron:watchdog-state:v1')).alertActive, true);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('watchdog는 cron:status completedAt이 회복되면 복구 알림을 한 번 보낸다', async () => {
+    const originalFetch = global.fetch;
+    const messages = [];
+    let watchdogState = { alertActive: true, alertedAt: '2026-08-02T00:00:00.000Z' };
+    global.fetch = async (url, options) => {
+        messages.push(JSON.parse(options.body).content);
+        return Response.json({ id: 'watchdog-message' });
+    };
+    const env = {
+        WATCHDOG_TOKEN: 'secret',
+        DISCORD_BOT_TOKEN: 'bot',
+        DISCORD_CHANNEL_ID: 'channel',
+        RESOURCE_LINK_STATE: {
+            async get(key) {
+                if (key === 'cron:status:v1') return { completedAt: new Date().toISOString(), tasks: [] };
+                if (key === 'cron:watchdog-state:v1') return watchdogState;
+                throw new Error(`예상하지 못한 KV 읽기: ${key}`);
+            },
+            async put(key, value) {
+                assert.equal(key, 'cron:watchdog-state:v1');
+                watchdogState = JSON.parse(value);
+            }
+        }
+    };
+    const request = new Request('https://worker.test/cron-watchdog', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer secret' }
+    });
+    try {
+        const first = await handleCronWatchdog(request, env, {});
+        const second = await handleCronWatchdog(request, env, {});
+        assert.equal(first.status, 200);
+        assert.equal(second.status, 200);
+        assert.equal(messages.length, 1);
+        assert.equal(watchdogState.alertActive, false);
     } finally {
         global.fetch = originalFetch;
     }
@@ -247,6 +795,37 @@ test('탭별 체크포인트를 만날 때까지 다음 페이지를 이어 읽�
         assert.equal(writes[1].key, feedStateKey);
         assert.equal(writes[1].value.checkpointId, '200');
         assert.equal(writes[1].value.scan, null);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('Arca 체크포인트 의미가 바뀌지 않으면 feed 상태를 다시 쓰지 않는다', async () => {
+    const originalFetch = global.fetch;
+    const writes = [];
+    const feedStateKey = getArcaFeedStateKey(listUrl);
+    global.fetch = async () => new Response('<div class="list-table table"></div>', { status: 200 });
+
+    try {
+        const result = await scanArcaFeedPage({
+            RESOURCE_LINK_STATE: {
+                async get(key) {
+                    assert.equal(key, feedStateKey);
+                    return {
+                        checkpointId: '200',
+                        checkpointUpdatedAt: '2026-08-02T00:00:00.000Z',
+                        scan: null
+                    };
+                },
+                async put(key, value) {
+                    writes.push({ key, value });
+                }
+            }
+        }, listUrl, 20, new Set(), new Set());
+
+        assert.equal(result.checkpointId, '200');
+        assert.equal(result.discovered, 0);
+        assert.equal(writes.length, 0);
     } finally {
         global.fetch = originalFetch;
     }
@@ -346,6 +925,7 @@ test('Arca 대기열은 오래된 글부터 Discord로 전송한다', async () =
         const result = await processPendingArcaPosts({
             DISCORD_CHANNEL_ID: 'channel-id',
             DISCORD_BOT_TOKEN: 'bot-token',
+            ARCA_DEDUPE: createArcaDedupBinding(),
             RESOURCE_LINK_STATE: {
                 async list() {
                     return {
@@ -1166,6 +1746,355 @@ test('stale 제보 복구는 한 번에 제한된 수만 읽고 다음 cursor를
         key: 'resource-link:recovery-cursor:v1',
         value: 'next-page-cursor'
     }]);
+});
+
+test('Arca 중복 조정 binding이 없으면 Discord 제보를 보내지 않는다', async () => {
+    const originalFetch = global.fetch;
+    let discordPosts = 0;
+    global.fetch = async () => {
+        discordPosts += 1;
+        return Response.json({ id: 'unexpected' });
+    };
+
+    try {
+        await assert.rejects(() => processPendingArcaPosts({
+            RESOURCE_LINK_STATE: createJsonKv()
+        }, new Set(), 1), /ARCA_DEDUPE binding is required/);
+        assert.equal(discordPosts, 0);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('같은 Arca 대기 글을 동시에 처리해도 Discord 제보는 한 번만 보낸다', async () => {
+    const originalFetch = global.fetch;
+    const postId = '777';
+    const kv = createJsonKv({
+        [`arca:pending:${postId}`]: JSON.stringify({
+            id: postId,
+            url: `https://arca.live/b/forgettingeve/${postId}`,
+            title: '동시 수집 글',
+            image: '',
+            sourceTab: '정보',
+            sourceListUrl: listUrl,
+            discoveredAt: '2026-08-15T00:00:00.000Z'
+        })
+    });
+    let discordPosts = 0;
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.startsWith('https://arca.live/')) {
+            return new Response(`
+                <meta property="og:title" content="동시 수집 글">
+                <meta property="og:description" content="설명">
+                <meta property="og:url" content="${requestUrl}">
+            `, { status: 200 });
+        }
+        if (requestUrl.includes('/channels/channel-id/messages') && options.method === 'POST') {
+            discordPosts += 1;
+            await new Promise(resolve => setTimeout(resolve, 5));
+            return Response.json({ id: 'only-message' });
+        }
+        throw new Error(`unexpected request: ${requestUrl}`);
+    };
+    const env = {
+        DISCORD_CHANNEL_ID: 'channel-id',
+        DISCORD_BOT_TOKEN: 'bot-token',
+        RESOURCE_LINK_STATE: kv,
+        RESOURCE_PROPOSAL_STATE: createResourceProposalBinding(),
+        ARCA_DEDUPE: createArcaDedupBinding()
+    };
+
+    try {
+        await Promise.all(Array.from({ length: 4 }, () => processPendingArcaPosts(env, new Set(), 1)));
+        assert.equal(discordPosts, 1);
+        assert.equal(kv.values.has(`arca:pending:${postId}`), false);
+        assert.equal(kv.values.has(`arca:seen:${postId}`), true);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('Durable Object 제보 상태는 KV 미러 쓰기가 실패해도 버튼 조회에 남는다', async () => {
+    const originalFetch = global.fetch;
+    const durable = createResourceProposalBinding();
+    global.fetch = async () => Response.json({ id: 'durable-discord-message' });
+
+    try {
+        const created = await createResourceProposalMessage({
+            DISCORD_CHANNEL_ID: 'channel-id',
+            DISCORD_BOT_TOKEN: 'bot-token',
+            RESOURCE_PROPOSAL_STATE: durable,
+            RESOURCE_LINK_STATE: {
+                async put() { throw new Error('KV mirror unavailable'); }
+            }
+        }, {
+            link: {
+                url: 'https://arca.live/b/forgettingeve/101',
+                title: 'Durable 제보',
+                desc: '',
+                image: ''
+            },
+            targets: [],
+            sourceTab: '정보',
+            submittedBy: 'arca-monitor'
+        });
+
+        const state = await getResourceProposalState({
+            RESOURCE_PROPOSAL_STATE: durable,
+            RESOURCE_LINK_STATE: { async get() { return null; } }
+        }, created.proposalState.id);
+        assert.equal(state.discordMessageId, 'durable-discord-message');
+        assert.equal(state.proposal.link.title, 'Durable 제보');
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('Discord 전송 결과가 불명확하면 Durable 제보 상태를 삭제하지 않는다', async () => {
+    const originalFetch = global.fetch;
+    const durable = createResourceProposalBinding();
+    global.fetch = async () => { throw new Error('response lost'); };
+    let proposalId;
+
+    try {
+        await assert.rejects(async () => {
+            try {
+                await createResourceProposalMessage({
+                    DISCORD_CHANNEL_ID: 'channel-id',
+                    DISCORD_BOT_TOKEN: 'bot-token',
+                    RESOURCE_PROPOSAL_STATE: durable,
+                    RESOURCE_LINK_STATE: createJsonKv()
+                }, {
+                    link: { url: 'https://example.com/uncertain', title: '불명확 전송', desc: '', image: '' },
+                    targets: [],
+                    sourceTab: '정보',
+                    submittedBy: 'arca-monitor'
+                });
+            } finally {
+                proposalId = [...durable.objects.keys()][0];
+            }
+        }, /response lost/);
+        const state = await getResourceProposalState({
+            RESOURCE_PROPOSAL_STATE: durable,
+            RESOURCE_LINK_STATE: createJsonKv()
+        }, proposalId);
+        assert.equal(state.status, 'pending');
+        assert.equal(state.deliveryStatus, 'unknown');
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('같은 제보를 동시에 승인해도 Queue 작업은 하나만 생성한다', async () => {
+    const originalFetch = global.fetch;
+    const proposalId = 'd'.repeat(32);
+    const durable = createResourceProposalBinding();
+    const stub = durable.get(durable.idFromName(proposalId));
+    await stub.fetch('https://resource-proposal.local/', {
+        method: 'POST',
+        body: JSON.stringify({
+            action: 'create',
+            state: {
+                id: proposalId,
+                status: 'pending',
+                proposal: {
+                    link: { url: 'https://example.com/concurrent', title: '동시 승인', desc: '' },
+                    targets: [{ type: 'category', id: 'etc' }]
+                },
+                selection: { targets: [], activeRelems: 'chaos', revision: '1234abcd' }
+            }
+        })
+    });
+    let queued = 0;
+    global.fetch = async () => Response.json({ id: 'message-id' });
+    const env = {
+        DISCORD_APPLICATION_ID: 'application-id',
+        RESOURCE_PROPOSAL_STATE: durable,
+        RESOURCE_LINK_STATE: createJsonKv(),
+        RESOURCE_LINK_QUEUE: { async send() { queued += 1; } }
+    };
+    const interaction = {
+        token: 'interaction-token',
+        channel_id: 'channel-id',
+        member: { user: { id: 'user-id', username: 'tester' } },
+        message: { id: 'message-id', components: [] }
+    };
+
+    try {
+        await Promise.all(Array.from({ length: 4 }, () => processResourceDecision(env, interaction, {
+            action: 'approve',
+            proposalId,
+            selectionRevision: null,
+            targets: []
+        })));
+        assert.equal(queued, 1);
+        const state = await getResourceProposalState(env, proposalId);
+        assert.equal(state.status, 'processing');
+        assert.ok(state.processingToken);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('승인과 보류가 동시에 도착해도 하나의 상태 전이만 반영한다', async () => {
+    const originalFetch = global.fetch;
+    const proposalId = '1'.repeat(32);
+    const durable = createResourceProposalBinding();
+    await durable.get(durable.idFromName(proposalId)).fetch('https://resource-proposal.local/', {
+        method: 'POST',
+        body: JSON.stringify({
+            action: 'create',
+            state: {
+                id: proposalId,
+                status: 'pending',
+                proposal: {
+                    link: { url: 'https://example.com/decision-race', title: '상태 경합', desc: '' },
+                    targets: [{ type: 'category', id: 'etc' }]
+                },
+                selection: { targets: [], activeRelems: 'chaos', revision: '1234abcd' }
+            }
+        })
+    });
+    let queued = 0;
+    global.fetch = async () => Response.json({ id: 'message-id' });
+    const env = {
+        DISCORD_APPLICATION_ID: 'application-id',
+        RESOURCE_PROPOSAL_STATE: durable,
+        RESOURCE_LINK_STATE: createJsonKv(),
+        RESOURCE_LINK_QUEUE: { async send() { queued += 1; } }
+    };
+    const interaction = {
+        token: 'interaction-token',
+        channel_id: 'channel-id',
+        member: { user: { id: 'user-id', username: 'tester' } },
+        message: { id: 'message-id', components: [] }
+    };
+
+    try {
+        await Promise.all([
+            processResourceDecision(env, interaction, {
+                action: 'approve', proposalId, selectionRevision: null, targets: []
+            }),
+            processResourceDecision(env, interaction, {
+                action: 'hold', proposalId, selectionRevision: null, targets: []
+            })
+        ]);
+        const state = await getResourceProposalState(env, proposalId);
+        assert.ok(['processing', 'held'].includes(state.status));
+        assert.equal(queued, state.status === 'processing' ? 1 : 0);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('복구할 수 없는 오래된 제보 버튼은 만료 안내 후 비활성화한다', async () => {
+    const originalFetch = global.fetch;
+    const proposalId = 'e'.repeat(32);
+    let updatedMessage;
+    global.fetch = async (url, options = {}) => {
+        updatedMessage = JSON.parse(options.body);
+        return Response.json({ id: 'expired-message' });
+    };
+    const interaction = {
+        token: 'interaction-token',
+        message: {
+            id: 'expired-message',
+            components: [{
+                type: 1,
+                components: [{ type: 2, label: '추천대로 OK', custom_id: `rl:approve:${proposalId}` }]
+            }]
+        }
+    };
+
+    try {
+        await processResourceDecision({
+            DISCORD_APPLICATION_ID: 'application-id',
+            RESOURCE_PROPOSAL_STATE: createResourceProposalBinding(),
+            RESOURCE_LINK_STATE: createJsonKv()
+        }, interaction, {
+            action: 'approve',
+            proposalId,
+            selectionRevision: null,
+            targets: []
+        });
+        assert.match(updatedMessage.content, /새 제보를 생성해주세요/);
+        assert.equal(updatedMessage.components[0].components[0].disabled, true);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('stale 제보 복구 cursor가 없고 순회가 끝났으면 불필요한 KV 삭제를 하지 않는다', async () => {
+    let mutations = 0;
+    await recoverStaleResourceProposals({
+        RESOURCE_LINK_STATE: {
+            async get(key) {
+                assert.equal(key, 'resource-link:recovery-cursor:v1');
+                return null;
+            },
+            async list() {
+                return { keys: [], list_complete: true };
+            },
+            async put() { mutations += 1; },
+            async delete() { mutations += 1; }
+        },
+        RESOURCE_LINK_QUEUE: {
+            async send() {
+                throw new Error('빈 순회에서는 Queue를 사용하면 안 됩니다.');
+            }
+        }
+    });
+
+    assert.equal(mutations, 0);
+});
+
+test('stale KV 미러가 canonical 완료 상태를 복구 작업으로 되돌리지 않는다', async () => {
+    const proposalId = 'f'.repeat(32);
+    const durable = createResourceProposalBinding();
+    await durable.get(durable.idFromName(proposalId)).fetch('https://resource-proposal.local/', {
+        method: 'POST',
+        body: JSON.stringify({
+            action: 'create',
+            state: {
+                id: proposalId,
+                status: 'completed',
+                completedAt: new Date().toISOString(),
+                proposal: {
+                    link: { url: 'https://example.com/completed', title: '완료 글', desc: '' },
+                    targets: [{ type: 'category', id: 'etc' }]
+                },
+                selection: { targets: [], activeRelems: 'chaos', revision: '1234abcd' }
+            }
+        })
+    });
+    const kv = createJsonKv({
+        [`resource-link:proposal:${proposalId}`]: JSON.stringify({
+            id: proposalId,
+            status: 'processing',
+            processingToken: 'stale-token',
+            processingStartedAt: '2020-01-01T00:00:00.000Z',
+            proposal: {
+                link: { url: 'https://example.com/completed', title: '완료 글', desc: '' },
+                targets: [{ type: 'category', id: 'etc' }]
+            },
+            selection: { targets: [], activeRelems: 'chaos', revision: '1234abcd' }
+        })
+    });
+    let queued = 0;
+
+    await recoverStaleResourceProposals({
+        RESOURCE_PROPOSAL_STATE: durable,
+        RESOURCE_LINK_STATE: kv,
+        RESOURCE_LINK_QUEUE: { async send() { queued += 1; } }
+    });
+
+    assert.equal(queued, 0);
+    const state = await getResourceProposalState({
+        RESOURCE_PROPOSAL_STATE: durable,
+        RESOURCE_LINK_STATE: kv
+    }, proposalId);
+    assert.equal(state.status, 'completed');
 });
 
 test('잘못된 Queue 작업은 GitHub를 건드리지 않고 완료 처리한다', async () => {

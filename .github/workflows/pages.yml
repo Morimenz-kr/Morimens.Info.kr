@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -21,15 +21,89 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    env:
+      SITE_DATA_SOURCE: ${{ vars.SITE_DATA_SOURCE || 'repository' }}
+      FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Upload static site
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test and validate data
+        run: |
+          npm test
+          npm run data:validate
+
+      - name: Authenticate to Google Cloud
+        if: env.SITE_DATA_SOURCE == 'firestore'
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Upload inactive Firestore release
+        if: env.SITE_DATA_SOURCE == 'firestore'
+        shell: bash
+        run: |
+          IMPORT_RESULT="$RUNNER_TEMP/firebase-import.json"
+          node tools/firebase-data.mjs import \
+            --source data \
+            --project "$FIREBASE_PROJECT_ID" \
+            --source-revision "$GITHUB_SHA" | tee "$IMPORT_RESULT"
+          FIREBASE_RELEASE_ID="$(node -e "const fs=require('fs');const p=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));process.stdout.write(p.releaseId)" "$IMPORT_RESULT")"
+          echo "FIREBASE_RELEASE_ID=$FIREBASE_RELEASE_ID" >> "$GITHUB_ENV"
+
+      - name: Prepare repository fallback artifact
+        if: env.SITE_DATA_SOURCE == 'repository'
+        run: npm run pages:prepare -- --data-source repository
+
+      - name: Prepare Firestore release artifact
+        if: env.SITE_DATA_SOURCE == 'firestore'
+        run: npm run pages:prepare -- --data-source firestore --project "$FIREBASE_PROJECT_ID" --release "$FIREBASE_RELEASE_ID"
+
+      - name: Upload static site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: .generated/site
 
-      - name: Deploy
+      - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Activate deployed Firestore release
+        if: env.SITE_DATA_SOURCE == 'firestore'
+        env:
+          RELEASE_ACTIVATION_SEQUENCE: ${{ github.run_id }}
+        run: node tools/firebase-data.mjs activate --project "$FIREBASE_PROJECT_ID" --release "$FIREBASE_RELEASE_ID" --source-revision "$GITHUB_SHA"
+
+      - name: Prune old Firestore releases
+        if: env.SITE_DATA_SOURCE == 'firestore'
+        run: node tools/firebase-data.mjs gc --project "$FIREBASE_PROJECT_ID" --retain 10 --min-age-days 7 --apply
+
+      - name: Notify Cloudflare of completed deployment
+        env:
+          DEPLOYMENT_CALLBACK_URL: ${{ secrets.CLOUDFLARE_DEPLOYMENT_CALLBACK_URL }}
+          DEPLOYMENT_CALLBACK_TOKEN: ${{ secrets.CLOUDFLARE_DEPLOYMENT_CALLBACK_TOKEN }}
+        shell: bash
+        run: |
+          if [[ -z "$DEPLOYMENT_CALLBACK_URL" || -z "$DEPLOYMENT_CALLBACK_TOKEN" ]]; then
+            echo "Cloudflare deployment callback is not configured; cron recovery will handle pending notifications."
+            exit 0
+          fi
+          if ! curl --fail-with-body --silent --show-error \
+            --retry 3 \
+            --request POST \
+            --header "Authorization: Bearer $DEPLOYMENT_CALLBACK_TOKEN" \
+            --header "Content-Type: application/json" \
+            --data-binary @.generated/site/.data-release.json \
+            "$DEPLOYMENT_CALLBACK_URL"; then
+            echo "Cloudflare callback failed; the next cron run will recover pending notifications."
+          fi
