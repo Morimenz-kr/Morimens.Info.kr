@@ -12,6 +12,10 @@ const VALIDATION_WORKFLOW = fs.readFileSync(
   path.join(ROOT, '.github', 'workflows', 'data-validation.yml'),
   'utf8'
 );
+const FIREBASE_DATA_TOOL = fs.readFileSync(
+  path.join(ROOT, 'tools', 'firebase-data.mjs'),
+  'utf8'
+);
 
 test('Pages는 허용된 생성 아티팩트만 배포하고 저장소에 다시 쓰지 않는다', () => {
   assert.match(PAGES_WORKFLOW, /contents:\s*read/);
@@ -28,6 +32,14 @@ test('Firestore 릴리스는 Pages 성공 뒤에만 활성화한다', () => {
   assert.ok(importPosition >= 0 && deployPosition > importPosition && activatePosition > deployPosition);
   assert.doesNotMatch(PAGES_WORKFLOW.slice(importPosition, deployPosition), /--activate(?:\s|$)/);
   assert.match(PAGES_WORKFLOW, /RELEASE_ACTIVATION_SEQUENCE:\s*\$\{\{ github\.run_id \}\}/);
+});
+
+test('수동 Firestore 실행은 운영 run ID보다 큰 순번을 자동 생성하지 않는다', () => {
+  assert.doesNotMatch(FIREBASE_DATA_TOOL, /RELEASE_ACTIVATION_SEQUENCE[\s\S]{0,80}Date\.now\(\)/);
+  assert.equal(
+    (FIREBASE_DATA_TOOL.match(/process\.env\.RELEASE_ACTIVATION_SEQUENCE\s*\n\s*\?\? 0/g) ?? []).length,
+    2
+  );
 });
 
 test('Firebase 장애와 무관한 repository 롤백 경로가 유지된다', () => {

@@ -301,7 +301,7 @@ async function runCommand() {
         activate: hasFlag('--activate'),
         activationSequence: Number(getArgument('--activation-sequence')
           ?? process.env.RELEASE_ACTIVATION_SEQUENCE
-          ?? Date.now()),
+          ?? 0),
         sourceRevision: getArgument('--source-revision')
           ?? process.env.GITHUB_SHA
           ?? null
@@ -316,7 +316,7 @@ async function runCommand() {
       const result = await activateRelease(context.db, releaseId, {
         activationSequence: Number(getArgument('--activation-sequence')
           ?? process.env.RELEASE_ACTIVATION_SEQUENCE
-          ?? Date.now()),
+          ?? 0),
         sourceRevision: getArgument('--source-revision')
           ?? process.env.GITHUB_SHA
           ?? null
