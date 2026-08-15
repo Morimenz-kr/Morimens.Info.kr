@@ -1,4 +1,13 @@
 .wrangler/
+node_modules/
+.generated/
+
+# Firebase / Google Cloud local credentials
+.firebaserc
+service-account*.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
 
 # Local validation and deployment artifacts
 /tmp/

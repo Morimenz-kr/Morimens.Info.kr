@@ -1,7 +1,7 @@
 # Feedback Worker Setup
 
 This Worker receives website feedback, creates a GitHub Issue, and posts a Discord notification.
-Resource link proposals do not create GitHub Issues; their Discord approval state is stored in Cloudflare KV, and approved updates are batched into a single PR.
+Resource link proposals do not create GitHub Issues. `RESOURCE_PROPOSAL_STATE` SQLite Durable Object is the canonical proposal state; `RESOURCE_LINK_STATE` KV is a mirror and recovery index. Approved updates are batched into a single PR.
 
 ## Required Cloudflare secrets
 
@@ -58,6 +58,16 @@ resource-links/pending
 
 The Worker creates or reuses one open PR from `resource-links/pending` into `main`. Its description is automatically updated with every link added to the pending branch, including the target category or character.
 
+운영 전략은 **단일 pending PR + 제보별 commit**이다. 승인된 제보 하나가 Queue 작업 하나와 commit 하나가 되며, 모든 commit은 `resource-links/pending`의 열린 PR 하나에 순서대로 쌓인다. Queue consumer는 `max_batch_size: 1`, `max_concurrency: 1`로 고정하여 여러 제보가 같은 브랜치를 동시에 수정하는 충돌을 막는다. 별도 PR을 제보마다 만들지 않으므로 GitHub Actions와 관리 비용도 줄어 무료 운영에 유리하다.
+
+사용자 흐름은 다음과 같다.
+
+1. 10분 Cron이 새 글을 찾고 중복 여부를 확인한 뒤 Discord에 한 번만 제보한다.
+2. 사용자는 Discord에서 추천 대상을 승인하거나 직접 대상을 선택한 뒤 `선택 반영`을 누른다.
+3. Worker가 제보를 원자적으로 선점하고 Queue에 넣는다. 중복 클릭은 같은 작업을 다시 만들지 않는다.
+4. Queue가 제보별 commit을 `resource-links/pending`에 추가하고 단일 PR을 생성하거나 갱신한다.
+5. 사용자는 `/list`로 누적 내용을 확인하고 `/push`로 PR을 `main`에 병합한다.
+
 After the next Cron run following deployment, the Worker registers two global Discord commands automatically. They use the same `DISCORD_APPROVER_USER_IDS` permission check as the approval controls.
 
 - `/list`: show the links newly added to the currently open `resource-links/pending` PR.
@@ -74,7 +84,7 @@ Discord approval messages support both recommended targets and manual target sel
 - `선택 초기화`: clear manual selections without closing the Discord approval request.
 - `보류`: close the request without changing `resource_links`.
 
-Manual selections are saved in `RESOURCE_LINK_STATE` KV. Category selections and character selections do not update the PR by themselves; use `선택 반영` after choosing all targets. Character selections are grouped by relems tabs: `혼돈`, `심해`, `혈육`, `초차원`.
+Manual selections and proposal transitions are saved canonically in the `RESOURCE_PROPOSAL_STATE` SQLite Durable Object. `RESOURCE_LINK_STATE` KV receives a best-effort mirror used for recovery and indexing; it is not the authority for a live proposal. If a Durable Object record is unavailable, the Worker may restore it from the KV mirror. Category selections and character selections do not update the PR by themselves; use `선택 반영` after choosing all targets. Character selections are grouped by relems tabs: `혼돈`, `심해`, `혈육`, `초차원`.
 
 ## Arca scheduled monitor
 
@@ -82,9 +92,14 @@ The Worker can periodically scan Arca list pages and send new posts to the same 
 
 Required setup:
 
-- Add a KV namespace and bind it to this Worker as `RESOURCE_LINK_STATE`.
-- Add a Cron Trigger: `*/5 * * * *`.
+- Bind the SQLite Durable Object classes as `RESOURCE_PROPOSAL_STATE` and `ARCA_DEDUPE`.
+- Add a KV namespace and bind it to this Worker as `RESOURCE_LINK_STATE` for mirror/recovery data.
+- Add a Cron Trigger: `*/10 * * * *`.
 - Set `ARCA_LIST_URLS` to the list pages to watch.
+
+`ARCA_DEDUPE`는 선택 사항이 아니다. 바인딩이 없거나 호출할 수 없으면 감시 글을 Discord로 보내지 않는 **fail-closed** 방식으로 동작한다. 중복 방지 장치가 고장 난 상태에서 중복 메시지를 양산하는 것보다 해당 실행을 실패시키고 다음 Cron에서 재시도하는 편이 안전하다.
+
+10분 주기는 새 글 알림에 충분히 빠르면서 무료 한도에 여유를 둔다. 하루 실행 횟수는 5분 주기의 288회에서 144회로 절반이 되어 목록 조회, Durable Object, KV, Queue 호출과 외부 API 부하를 함께 줄인다. 수집 지연은 최대 약 10분이며, 이 서비스의 사람이 승인하는 흐름에서는 안정성과 비용 대비 적절한 절충이다.
 
 Current watch list:
 
@@ -95,7 +110,7 @@ https://arca.live/b/forgettingeve?category=dwrr
 
 Behavior:
 
-- If `ARCA_LIST_URLS` or `RESOURCE_LINK_STATE` is missing, the scheduled monitor exits without changing anything.
+- If `ARCA_LIST_URLS` is missing, the scheduled monitor exits without changing anything. If `ARCA_DEDUPE` is missing, monitored proposals fail closed and are not sent.
 - Each run checks only the top `ARCA_LIST_SCAN_LIMIT` posts per list.
 - Each run sends at most `ARCA_MAX_PROPOSALS_PER_RUN` Discord approval requests.
 - A post is saved to KV only after the Discord approval message is created successfully.
@@ -112,7 +127,7 @@ When enabled, the scheduled Worker reads the mirrored official gift-code channel
 Required setup:
 
 - Keep the existing `RESOURCE_LINK_STATE` KV binding for message deduplication.
-- Add a Cron Trigger. `*/5 * * * *` is sufficient.
+- Add a Cron Trigger. `*/10 * * * *` is sufficient.
 - Give the bot `View Channel` and `Read Message History` permissions in the alert channel.
 - Enable `Message Content Intent` in the Discord Developer Portal.
 
@@ -137,6 +152,27 @@ FEEDBACK_ENDPOINT_URL: 'https://your-worker.your-subdomain.workers.dev'
 ```
 
 in `config/config.js`.
+
+## Deploy and verify
+
+`wrangler.jsonc`에는 `ArcaDedupObject`를 추가하는 `v1`과 `ResourceProposalObject`를 추가하는 `v2` SQLite migration이 모두 있어야 한다. 특히 기존 v1 배포에 proposal state를 추가할 때는 `v2`를 제거하거나 이름을 바꾸지 말고 다음과 같이 배포한다.
+
+```bash
+npx wrangler deploy
+```
+
+배포 과정에서 Wrangler가 미적용된 `v2` migration을 적용한다. 이미 적용된 migration tag는 재사용하거나 수정하지 말고, 이후 Durable Object 스키마 변경은 새 tag로 추가한다.
+
+배포 후에는 다음을 점검한다.
+
+- Worker bindings에 `RESOURCE_PROPOSAL_STATE`, `ARCA_DEDUPE`, `RESOURCE_LINK_STATE`, `RESOURCE_LINK_QUEUE`가 모두 표시되는지 확인한다.
+- Durable Object migration 목록에 `v1`과 `v2`가 성공적으로 반영됐는지 확인한다.
+- Cron Trigger가 `*/10 * * * *`, Queue consumer가 `max_batch_size: 1`과 `max_concurrency: 1`인지 확인한다.
+- 테스트 제보를 하나 만들고 Discord에서 선택 변경 후 승인하여 상태가 유지되는지 확인한다.
+- 승인 한 번에 Queue 작업과 `resource-links/pending` commit이 각각 하나만 생기는지 확인한다.
+- 같은 감시 게시글 ID를 다시 수집해 Discord 메시지나 commit이 중복 생성되지 않는지 확인한다.
+- 열린 PR이 하나만 유지되고 `/list` 조회와 `/push` 병합이 정상 동작하는지 확인한다.
+- Worker 로그에 Durable Object, KV mirror, Queue 재시도, Discord 또는 GitHub 오류가 없는지 확인한다.
 
 ## Test payload
 

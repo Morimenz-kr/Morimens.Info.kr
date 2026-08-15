@@ -1,0 +1,23 @@
+{
+  "name": "morimens-info-kr",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test js/*.test.cjs tools/firebase-data-core.test.cjs tools/prepare-pages-artifact.test.cjs tools/workflow-config.test.cjs workers/*.test.cjs",
+    "data:validate": "node tools/validate-character.mjs --all && node tools/firebase-data.mjs validate --source data",
+    "data:import": "node tools/firebase-data.mjs import --source data",
+    "data:export": "node tools/firebase-data.mjs export --out .generated/data",
+    "pages:prepare": "node tools/prepare-pages-artifact.mjs --out .generated/site",
+    "firebase:emulators": "firebase emulators:start --only firestore",
+    "firebase:emulator-test": "firebase emulators:exec --only firestore \"node --test tools/firebase-firestore.test.cjs\""
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "5.0.1",
+    "firebase-admin": "14.2.0",
+    "firebase-tools": "15.26.0",
+    "firebase": "12.17.1"
+  }
+}

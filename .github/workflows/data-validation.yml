@@ -1,0 +1,51 @@
+name: Validate published data
+
+on:
+  pull_request:
+    paths:
+      - 'data/**'
+      - 'tools/firebase-*.mjs'
+      - 'tools/*.test.cjs'
+      - 'firestore.rules'
+      - 'firestore.indexes.json'
+      - 'firebase.json'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup Java for Firestore Emulator
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run repository tests
+        run: npm test
+
+      - name: Validate and build repository artifact
+        run: |
+          npm run data:validate
+          npm run pages:prepare -- --data-source repository
+
+      - name: Run Firestore Emulator tests
+        run: npm run firebase:emulator-test
