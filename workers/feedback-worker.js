@@ -1586,18 +1586,26 @@ function parseArcaListUrls(value) {
 }
 
 async function fetchText(url, timeoutMs = DEFAULT_ARCA_FETCH_TIMEOUT_MS) {
-    const response = await fetch(url, {
-        headers: {
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
-            'User-Agent': ARCA_FETCH_USER_AGENT
-        },
-        signal: AbortSignal.timeout(timeoutMs)
-    });
-    if (!response.ok) {
-        throw new HttpError(`Fetch failed: ${response.status}`, response.status);
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => {
+        controller.abort(new DOMException(`Fetch timed out after ${timeoutMs}ms`, 'TimeoutError'));
+    }, timeoutMs);
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7',
+                'User-Agent': ARCA_FETCH_USER_AGENT
+            },
+            signal: controller.signal
+        });
+        if (!response.ok) {
+            throw new HttpError(`Fetch failed: ${response.status}`, response.status);
+        }
+        return response.text();
+    } finally {
+        clearTimeout(timeoutId);
     }
-    return response.text();
 }
 
 async function fetchTextWithRetry(url, attempts = 3) {
