@@ -916,6 +916,9 @@ async function processPendingArcaPosts(
     if (!env.ARCA_DEDUPE) {
         throw new Error('ARCA_DEDUPE binding is required before sending monitored posts');
     }
+    if (!env.RESOURCE_PROPOSAL_STATE) {
+        throw new Error('RESOURCE_PROPOSAL_STATE binding is required before sending monitored posts');
+    }
     const page = await env.RESOURCE_LINK_STATE.list({
         prefix: ARCA_PENDING_KEY_PREFIX,
         limit: 1000
@@ -983,7 +986,40 @@ async function processPendingArcaPosts(
                 submittedBy: 'arca-monitor',
                 submittedAt
             });
-            const { proposalState, discordMessage } = await createResourceProposalMessage(env, proposal);
+            const canonicalProposalId = await createCanonicalResourceProposalId(
+                canonicalizeResourceUrl(proposal.link.url)
+            );
+            let proposalDelivery;
+            try {
+                proposalDelivery = await createResourceProposalMessage(
+                    env,
+                    proposal,
+                    canonicalProposalId
+                );
+            } catch (error) {
+                if (error.code !== 'RESOURCE_PROPOSAL_ALREADY_EXISTS') throw error;
+                await env.RESOURCE_LINK_STATE.put(`${ARCA_SEEN_KEY_PREFIX}${postId}`, JSON.stringify({
+                    id: postId,
+                    url: proposal.link.url,
+                    title: proposal.link.title,
+                    sourceListUrl: post.sourceListUrl,
+                    proposalId: canonicalProposalId,
+                    discordMessageId: error.currentState?.discordMessageId || null,
+                    firstSeenAt: post.discoveredAt || submittedAt,
+                    duplicateProposalAt: new Date().toISOString()
+                }));
+                await markArcaPostSent(
+                    env,
+                    postId,
+                    claim?.token,
+                    error.currentState?.discordMessageId || null
+                );
+                await env.RESOURCE_LINK_STATE.delete(key.name);
+                seenIds.add(postId);
+                result.skippedRegistered += 1;
+                continue;
+            }
+            const { proposalState, discordMessage } = proposalDelivery;
             try {
                 await env.RESOURCE_LINK_STATE.put(`${ARCA_SEEN_KEY_PREFIX}${postId}`, JSON.stringify({
                     id: postId,
@@ -2005,26 +2041,35 @@ function canonicalizeResourceUrl(value) {
 
     try {
         const url = new URL(raw);
-        const hostname = url.hostname.toLowerCase().replace(/^www\./, '');
-        const pathname = url.pathname.replace(/\/+$/, '') || '/';
+        const hostname = url.hostname.toLowerCase().replace(/\.$/, '').replace(/^www\./, '');
+        let decodedPathname;
+        try {
+            decodedPathname = decodeURIComponent(url.pathname);
+        } catch (error) {
+            decodedPathname = url.pathname;
+        }
+        const pathname = decodedPathname.replace(/\/+$/, '') || '/';
         const arcaPost = hostname === 'arca.live'
             ? pathname.match(/^\/b\/([^/]+)\/(\d+)$/i)
             : null;
         if (arcaPost) {
             return `arca:${arcaPost[1].toLowerCase()}:${arcaPost[2]}`;
         }
-
-        url.hash = '';
-        for (const key of [...url.searchParams.keys()]) {
-            if (/^(utm_|fbclid$|gclid$)/i.test(key)) url.searchParams.delete(key);
-        }
-        url.searchParams.sort();
-        url.hostname = hostname;
-        url.pathname = pathname;
-        return url.toString();
+        return raw;
     } catch (error) {
-        return raw.replace(/#.*$/, '').replace(/\/+$/, '').toLowerCase();
+        return raw;
     }
+}
+
+async function createCanonicalResourceProposalId(linkIdentity) {
+    const digest = await crypto.subtle.digest(
+        'SHA-256',
+        new TextEncoder().encode(`resource-link:${linkIdentity}`)
+    );
+    return [...new Uint8Array(digest)]
+        .map(byte => byte.toString(16).padStart(2, '0'))
+        .join('')
+        .slice(0, 32);
 }
 
 function collectResourceLinkIdentities(database) {
@@ -2419,9 +2464,9 @@ function getResourceProposalStateKey(proposalId) {
     return `${RESOURCE_PROPOSAL_STATE_PREFIX}${proposalId}`;
 }
 
-function createResourceProposalState(proposal) {
+function createResourceProposalState(proposal, proposalId = createResourceProposalId()) {
     return {
-        id: createResourceProposalId(),
+        id: proposalId,
         proposal,
         selection: defaultResourceSelection(),
         status: 'pending',
@@ -2472,15 +2517,22 @@ async function deleteResourceProposalState(env, proposalId) {
     });
 }
 
-async function createResourceProposalMessage(env, proposal) {
+async function createResourceProposalMessage(env, proposal, proposalId = createResourceProposalId()) {
     if (!env.RESOURCE_PROPOSAL_STATE && !env.RESOURCE_LINK_STATE) {
         throw new Error('RESOURCE_PROPOSAL_STATE or RESOURCE_LINK_STATE binding is required for resource link proposals');
     }
 
-    const state = createResourceProposalState(proposal);
+    const state = createResourceProposalState(proposal, proposalId);
     if (env.RESOURCE_PROPOSAL_STATE) {
         const created = await callResourceProposalObject(env, state.id, 'create', { state });
-        if (!created?.ok) throw new Error('링크 제보 상태 초기화에 실패했습니다.');
+        if (!created?.ok) {
+            const error = new Error('동일한 링크 제보가 이미 처리 중이거나 처리되었습니다.');
+            error.code = created?.reason === 'already-exists'
+                ? 'RESOURCE_PROPOSAL_ALREADY_EXISTS'
+                : 'RESOURCE_PROPOSAL_CREATE_FAILED';
+            error.currentState = created?.state || null;
+            throw error;
+        }
     }
 
     let discordMessage;
