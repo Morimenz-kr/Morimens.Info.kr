@@ -1207,6 +1207,57 @@ test('Discord 전송 결과가 불명확하면 같은 Arca 글을 자동 재전�
     }
 });
 
+test('Discord가 확정 HTTP 실패를 반환하면 다음 Cron에서 안전하게 재시도한다', async () => {
+    const originalFetch = global.fetch;
+    const postId = '828282';
+    const pendingKey = `arca:pending:${postId}`;
+    const kv = createJsonKv({
+        [pendingKey]: JSON.stringify({
+            id: postId,
+            url: `https://arca.live/b/forgettingeve/${postId}`,
+            title: '확정 실패 재시도 테스트',
+            sourceListUrl: listUrl
+        })
+    });
+    let discordPosts = 0;
+
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.startsWith('https://arca.live/')) {
+            return new Response(`
+                <meta property="og:title" content="확정 실패 재시도 테스트">
+                <meta property="og:description" content="설명">
+            `, { status: 200 });
+        }
+        if (requestUrl.includes('/channels/channel-id/messages') && options.method === 'POST') {
+            discordPosts += 1;
+            return discordPosts === 1
+                ? new Response('temporary failure', { status: 500 })
+                : Response.json({ id: 'retried-discord-message' });
+        }
+        throw new Error(`unexpected request: ${options.method || 'GET'} ${requestUrl}`);
+    };
+
+    try {
+        const env = {
+            DISCORD_CHANNEL_ID: 'channel-id',
+            DISCORD_BOT_TOKEN: 'bot-token',
+            RESOURCE_LINK_STATE: kv,
+            RESOURCE_PROPOSAL_STATE: createResourceProposalBinding(),
+            ARCA_DEDUPE: createArcaDedupBinding()
+        };
+        const first = await processPendingArcaPosts(env, new Set(), 1, new Set());
+        const second = await processPendingArcaPosts(env, new Set(), 1, new Set());
+
+        assert.equal(first.failed, 1);
+        assert.equal(second.proposed, 1);
+        assert.equal(discordPosts, 2);
+        assert.equal(kv.values.has(pendingKey), false);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
 test('서로 다른 post ID가 같은 canonical URL을 가리켜도 Discord 제보는 하나만 생성한다', async () => {
     const originalFetch = global.fetch;
     const canonicalPostId = '919191';

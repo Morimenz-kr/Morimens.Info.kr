@@ -334,11 +334,11 @@ export class ResourceProposalObject {
         }
 
         if (action === 'create') {
-            if (current) {
+            if (current && current.deliveryStatus !== 'confirmed_failed') {
                 return Response.json({ ok: false, reason: 'already-exists', state: current }, { status: 409 });
             }
             await this.storage.put('state', nextState);
-            return Response.json({ ok: true, state: nextState });
+            return Response.json({ ok: true, state: nextState, retried: Boolean(current) });
         }
 
         if (action === 'transition') {
@@ -2470,6 +2470,7 @@ function createResourceProposalState(proposal, proposalId = createResourcePropos
         proposal,
         selection: defaultResourceSelection(),
         status: 'pending',
+        deliveryStatus: 'sending',
         createdAt: new Date().toISOString(),
         discordMessageId: null
     };
@@ -2539,7 +2540,19 @@ async function createResourceProposalMessage(env, proposal, proposalId = createR
     try {
         discordMessage = await sendResourceProposalMessage(env, proposal, state.id);
     } catch (error) {
-        if (env.RESOURCE_PROPOSAL_STATE) {
+        if (Number.isFinite(error.status)) {
+            await updateResourceProposalState(env, state.id, {
+                ...state,
+                status: 'delivery_failed',
+                deliveryStatus: 'confirmed_failed',
+                deliveryError: error.message || 'known HTTP error'
+            }).catch(stateError => {
+                console.error('Failed to release confirmed Discord delivery failure', {
+                    proposalId: state.id,
+                    stateError
+                });
+            });
+        } else if (env.RESOURCE_PROPOSAL_STATE) {
             await updateResourceProposalState(env, state.id, {
                 ...state,
                 deliveryStatus: 'unknown',
@@ -2561,6 +2574,7 @@ async function createResourceProposalMessage(env, proposal, proposalId = createR
     }
     const proposalState = {
         ...state,
+        deliveryStatus: 'delivered',
         discordMessageId: discordMessage.id
     };
 
@@ -2573,7 +2587,19 @@ async function createResourceProposalMessage(env, proposal, proposalId = createR
         }).catch(deleteError => {
             console.error('Failed to roll back orphaned Discord proposal', deleteError);
         });
-        if (!deleted) {
+        if (deleted) {
+            await updateResourceProposalState(env, state.id, {
+                ...state,
+                status: 'delivery_failed',
+                deliveryStatus: 'confirmed_failed',
+                deliveryError: error.message || 'proposal state persistence failed after Discord rollback'
+            }).catch(stateError => {
+                console.error('Failed to release rolled back Discord delivery', {
+                    proposalId: state.id,
+                    stateError
+                });
+            });
+        } else {
             error.deliveryStatusUnknown = true;
             error.proposalId = state.id;
             error.discordMessageId = discordMessage.id;
