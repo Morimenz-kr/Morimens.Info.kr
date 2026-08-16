@@ -33,6 +33,9 @@ function loadWorkerInternals() {
             getSeenArcaPostIds,
             scanArcaFeedPage,
             processPendingArcaPosts,
+            canonicalizeResourceUrl,
+            collectResourceLinkIdentities,
+            getRegisteredResourceLinkIdentities,
             getArcaFeedStateKey,
             compareArcaPostIds,
             parseResourceDecision,
@@ -81,6 +84,9 @@ const {
     getSeenArcaPostIds,
     scanArcaFeedPage,
     processPendingArcaPosts,
+    canonicalizeResourceUrl,
+    collectResourceLinkIdentities,
+    getRegisteredResourceLinkIdentities,
     getArcaFeedStateKey,
     compareArcaPostIds,
     parseResourceDecision,
@@ -951,6 +957,247 @@ test('Arca 대기열은 오래된 글부터 Discord로 전송한다', async () =
         assert.equal(result.proposed, 2);
         assert.deepEqual(sentTitles, ['글 100', '글 200']);
         assert.deepEqual(deletedKeys, ['arca:pending:100', 'arca:pending:200']);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('resource-links/pending에 같은 canonical Arca URL이 있으면 Discord 제보를 보내지 않는다', async () => {
+    const originalFetch = global.fetch;
+    const postId = '424242';
+    const pendingKey = `arca:pending:${postId}`;
+    const kv = createJsonKv({
+        [pendingKey]: JSON.stringify({
+            id: postId,
+            url: `https://arca.live/b/forgettingeve/${postId}`,
+            title: '이미 등록 대기 중인 글',
+            image: '',
+            sourceTab: '정보',
+            sourceListUrl: listUrl,
+            discoveredAt: '2026-08-16T00:00:00.000Z'
+        })
+    });
+    const pendingResourceLinks = JSON.stringify({
+        categories: {
+            etc: {
+                links: [{
+                    url: `https://arca.live/b/forgettingeve/${postId}`,
+                    title: '이미 등록 대기 중인 글',
+                    desc: ''
+                }]
+            }
+        },
+        characters: {}
+    });
+    let discordPosts = 0;
+
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.includes('/contents/data/resource_links.json?ref=resource-links%2Fpending')) {
+            return Response.json({
+                sha: 'pending-resource-links-sha',
+                content: Buffer.from(pendingResourceLinks).toString('base64')
+            });
+        }
+        if (requestUrl.startsWith('https://arca.live/')) {
+            return new Response(`
+                <meta property="og:title" content="이미 등록 대기 중인 글">
+                <meta property="og:description" content="설명">
+                <meta property="og:url" content="https://arca.live/b/forgettingeve/${postId}">
+            `, { status: 200 });
+        }
+        if (requestUrl.includes('/channels/channel-id/messages') && options.method === 'POST') {
+            discordPosts += 1;
+            return Response.json({ id: 'unexpected-discord-message' });
+        }
+        throw new Error(`unexpected request: ${options.method || 'GET'} ${requestUrl}`);
+    };
+
+    try {
+        const result = await processPendingArcaPosts({
+            GITHUB_OWNER: 'owner',
+            GITHUB_REPO: 'repo',
+            GITHUB_TOKEN: 'github-token',
+            DISCORD_CHANNEL_ID: 'channel-id',
+            DISCORD_BOT_TOKEN: 'bot-token',
+            RESOURCE_LINK_STATE: kv,
+            RESOURCE_PROPOSAL_STATE: createResourceProposalBinding(),
+            ARCA_DEDUPE: createArcaDedupBinding()
+        }, new Set(), 1, collectResourceLinkIdentities(JSON.parse(pendingResourceLinks)));
+
+        assert.equal(discordPosts, 0);
+        assert.equal(result.proposed, 0);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('main에 등록된 Arca URL은 query·hash·trailing slash가 달라도 Discord 제보를 보내지 않는다', async () => {
+    const originalFetch = global.fetch;
+    const postId = '525252';
+    const pendingKey = `arca:pending:${postId}`;
+    const kv = createJsonKv({
+        [pendingKey]: JSON.stringify({
+            id: postId,
+            url: `https://arca.live/b/forgettingeve/${postId}/?category=info#comments`,
+            title: '이미 main에 등록된 글',
+            image: '',
+            sourceTab: '정보',
+            sourceListUrl: listUrl,
+            discoveredAt: '2026-08-16T00:00:00.000Z'
+        })
+    });
+    const emptyResourceLinks = JSON.stringify({ categories: {}, characters: {} });
+    const mainResourceLinks = JSON.stringify({
+        categories: {
+            etc: {
+                links: [{
+                    url: `https://arca.live/b/forgettingeve/${postId}`,
+                    title: '이미 main에 등록된 글',
+                    desc: ''
+                }]
+            }
+        },
+        characters: {}
+    });
+    let discordPosts = 0;
+
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.includes('/contents/data/resource_links.json?ref=resource-links%2Fpending')) {
+            return Response.json({
+                sha: 'pending-resource-links-sha',
+                content: Buffer.from(emptyResourceLinks).toString('base64')
+            });
+        }
+        if (requestUrl.includes('/contents/data/resource_links.json?ref=main')) {
+            return Response.json({
+                sha: 'main-resource-links-sha',
+                content: Buffer.from(mainResourceLinks).toString('base64')
+            });
+        }
+        if (requestUrl.startsWith('https://arca.live/')) {
+            return new Response(`
+                <meta property="og:title" content="이미 main에 등록된 글">
+                <meta property="og:description" content="설명">
+                <meta property="og:url" content="https://arca.live/b/forgettingeve/${postId}/?mode=best#article-comment">
+            `, { status: 200 });
+        }
+        if (requestUrl.includes('/channels/channel-id/messages') && options.method === 'POST') {
+            discordPosts += 1;
+            return Response.json({ id: 'unexpected-discord-message' });
+        }
+        throw new Error(`unexpected request: ${options.method || 'GET'} ${requestUrl}`);
+    };
+
+    try {
+        const result = await processPendingArcaPosts({
+            GITHUB_OWNER: 'owner',
+            GITHUB_REPO: 'repo',
+            GITHUB_TOKEN: 'github-token',
+            DISCORD_CHANNEL_ID: 'channel-id',
+            DISCORD_BOT_TOKEN: 'bot-token',
+            RESOURCE_LINK_STATE: kv,
+            RESOURCE_PROPOSAL_STATE: createResourceProposalBinding(),
+            ARCA_DEDUPE: createArcaDedupBinding()
+        }, new Set(), 1, collectResourceLinkIdentities(JSON.parse(mainResourceLinks)));
+
+        assert.equal(discordPosts, 0);
+        assert.equal(result.proposed, 0);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('등록 URL 인덱스는 main과 열린 pending PR을 함께 읽는다', async () => {
+    const originalFetch = global.fetch;
+    const mainUrl = 'https://arca.live/b/forgettingeve/616161';
+    const pendingUrl = 'https://arca.live/b/forgettingeve/717171/?mode=best#comments';
+    const encode = value => Buffer.from(JSON.stringify(value)).toString('base64');
+
+    global.fetch = async url => {
+        const requestUrl = String(url);
+        if (requestUrl.includes('/pulls?')) {
+            return Response.json([{ number: 123, html_url: 'https://github.test/pull/123' }]);
+        }
+        if (requestUrl.includes('/contents/data/resource_links.json?ref=main')) {
+            return Response.json({
+                sha: 'main-sha',
+                content: encode({ categories: { etc: { links: [{ url: mainUrl }] } }, characters: {} })
+            });
+        }
+        if (requestUrl.includes('/contents/data/resource_links.json?ref=resource-links%2Fpending')) {
+            return Response.json({
+                sha: 'pending-sha',
+                content: encode({ categories: {}, characters: { test: [{ url: pendingUrl }] } })
+            });
+        }
+        throw new Error(`unexpected request: ${requestUrl}`);
+    };
+
+    try {
+        const identities = await getRegisteredResourceLinkIdentities({
+            GITHUB_OWNER: 'owner',
+            GITHUB_REPO: 'repo',
+            GITHUB_TOKEN: 'token'
+        });
+        assert.equal(identities.has(canonicalizeResourceUrl(mainUrl)), true);
+        assert.equal(identities.has(canonicalizeResourceUrl(pendingUrl)), true);
+        assert.equal(
+            canonicalizeResourceUrl(pendingUrl),
+            canonicalizeResourceUrl('https://arca.live/b/forgettingeve/717171')
+        );
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('Discord 전송 결과가 불명확하면 같은 Arca 글을 자동 재전송하지 않는다', async () => {
+    const originalFetch = global.fetch;
+    const postId = '818181';
+    const pendingKey = `arca:pending:${postId}`;
+    const kv = createJsonKv({
+        [pendingKey]: JSON.stringify({
+            id: postId,
+            url: `https://arca.live/b/forgettingeve/${postId}`,
+            title: '전송 불명확 테스트',
+            sourceListUrl: listUrl,
+            discoveredAt: '2026-08-16T00:00:00.000Z'
+        })
+    });
+    let discordPosts = 0;
+
+    global.fetch = async (url, options = {}) => {
+        const requestUrl = String(url);
+        if (requestUrl.startsWith('https://arca.live/')) {
+            return new Response(`
+                <meta property="og:title" content="전송 불명확 테스트">
+                <meta property="og:description" content="설명">
+            `, { status: 200 });
+        }
+        if (requestUrl.includes('/channels/channel-id/messages') && options.method === 'POST') {
+            discordPosts += 1;
+            throw new TypeError('connection reset after request upload');
+        }
+        throw new Error(`unexpected request: ${options.method || 'GET'} ${requestUrl}`);
+    };
+
+    try {
+        const env = {
+            DISCORD_CHANNEL_ID: 'channel-id',
+            DISCORD_BOT_TOKEN: 'bot-token',
+            RESOURCE_LINK_STATE: kv,
+            RESOURCE_PROPOSAL_STATE: createResourceProposalBinding(),
+            ARCA_DEDUPE: createArcaDedupBinding()
+        };
+        const first = await processPendingArcaPosts(env, new Set(), 1, new Set());
+        const second = await processPendingArcaPosts(env, await getSeenArcaPostIds(env), 1, new Set());
+
+        assert.equal(first.failed, 1);
+        assert.equal(second.proposed, 0);
+        assert.equal(discordPosts, 1);
+        assert.equal(kv.values.has(`arca:seen:${postId}`), true);
+        assert.equal(kv.values.has(pendingKey), false);
     } finally {
         global.fetch = originalFetch;
     }
