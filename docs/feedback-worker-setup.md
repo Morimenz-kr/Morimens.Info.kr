@@ -68,6 +68,8 @@ The Worker creates or reuses one open PR from `resource-links/pending` into `mai
 4. Queue가 제보별 commit을 `resource-links/pending`에 추가하고 단일 PR을 생성하거나 갱신한다.
 5. 사용자는 `/list`로 누적 내용을 확인하고 `/push`로 PR을 `main`에 병합한다.
 
+`resource-links/pending` 복구는 Git ref의 강제 갱신을 사용하지 않는다. 새 링크가 없는 뒤처진 브랜치만 fast-forward하고, pending에 main에 없는 링크가 하나라도 있으면 PR 조회가 일시적으로 어긋나더라도 커밋을 보존한 채 재시도한다.
+
 After the next Cron run following deployment, the Worker registers two global Discord commands automatically. They use the same `DISCORD_APPROVER_USER_IDS` permission check as the approval controls.
 
 - `/list`: show the links newly added to the currently open `resource-links/pending` PR.

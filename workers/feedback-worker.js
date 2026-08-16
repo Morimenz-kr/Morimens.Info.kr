@@ -3299,11 +3299,29 @@ async function updateResourceLinks(env, link, targets) {
         const update = buildResourceLinksUpdate(file.content, link, targets);
 
         if (update.added.length === 0) {
-            const pr = await findOpenResourceLinksPullRequest(env);
+            let pr = await findOpenResourceLinksPullRequest(env);
+            if (!pr) {
+                const baseFile = await getGitHubFile(env, RESOURCE_LINKS_PATH, getBaseBranch(env));
+                const baseCheck = buildResourceLinksUpdate(baseFile.content, link, targets);
+                if (baseCheck.added.length === 0) {
+                    return {
+                        ...update,
+                        commitUrl: 'already merged',
+                        prUrl: 'already merged into main'
+                    };
+                }
+                pr = await ensureResourceLinksPullRequest(env);
+                if (!pr) {
+                    throw new HttpError(
+                        'resource_links pending commit exists but its PR is not visible yet',
+                        409
+                    );
+                }
+            }
             return {
                 ...update,
-                commitUrl: 'no changes',
-                prUrl: pr?.html_url || 'no open PR'
+                commitUrl: 'already committed to pending branch',
+                prUrl: pr.html_url
             };
         }
 
@@ -3317,10 +3335,7 @@ async function updateResourceLinks(env, link, targets) {
             const pr = await ensureResourceLinksPullRequest(env);
             if (!pr) {
                 const baseBranch = getBaseBranch(env);
-                const [baseFile, baseRef] = await Promise.all([
-                    getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
-                    getGitHubRef(env, baseBranch)
-                ]);
+                const baseFile = await getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch);
                 const baseCheck = buildResourceLinksUpdate(baseFile.content, link, targets);
                 if (baseCheck.added.length === 0) {
                     return {
@@ -3329,11 +3344,10 @@ async function updateResourceLinks(env, link, targets) {
                         prUrl: 'already merged into main'
                     };
                 }
-                if (baseRef && attempt === 0) {
-                    await updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha, true);
-                    continue;
-                }
-                throw new Error('resource_links pending branch has no PR diff and the link is not in main');
+                throw new HttpError(
+                    'resource_links commit exists but GitHub has not exposed its PR diff yet',
+                    409
+                );
             }
             await appendResourceLinksPullRequestSummary(env, pr, link, update.added);
 
@@ -3654,14 +3668,33 @@ async function ensureResourceLinksPendingBranch(env) {
         );
 
         if (pendingAdditions.length === 0) {
-            return updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha, true);
+            return updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha, false);
         }
 
         const pullRequest = await ensureResourceLinksPullRequest(env);
         if (!pullRequest) {
-            const latestBaseRef = await getGitHubRef(env, baseBranch);
+            const [latestBaseRef, latestBaseFile, latestPendingFile] = await Promise.all([
+                getGitHubRef(env, baseBranch),
+                getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
+                getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH)
+            ]);
             if (!latestBaseRef) throw new Error(`Base branch not found: ${baseBranch}`);
-            return updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, latestBaseRef.object.sha, true);
+            const latestAdditions = collectPendingResourceLinkAdditions(
+                JSON.parse(latestBaseFile.content),
+                JSON.parse(latestPendingFile.content)
+            );
+            if (latestAdditions.length === 0) {
+                return updateGitHubRef(
+                    env,
+                    RESOURCE_LINKS_PENDING_BRANCH,
+                    latestBaseRef.object.sha,
+                    false
+                );
+            }
+            throw new HttpError(
+                'resource_links pending branch has additions but its PR is not visible yet',
+                409
+            );
         }
         await updateResourceLinksPullRequestSummary(env, pullRequest, pendingFile.content);
         return pendingRef;
