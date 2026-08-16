@@ -1876,10 +1876,18 @@ test('닫힌 PR의 pending 브랜치에 새 링크가 없으면 main으로 안�
         });
 
         assert.equal(result.object.sha, 'main-sha');
-        assert.deepEqual(updates, [{ sha: 'main-sha', force: true }]);
+        assert.deepEqual(updates, [{ sha: 'main-sha', force: false }]);
     } finally {
         global.fetch = originalFetch;
     }
+});
+
+test('resource-links pending 복구는 Git ref 강제 갱신을 사용하지 않는다', () => {
+    const source = fs.readFileSync(path.join(__dirname, 'feedback-worker.js'), 'utf8');
+    assert.doesNotMatch(
+        source,
+        /updateGitHubRef\(env,\s*RESOURCE_LINKS_PENDING_BRANCH,[\s\S]{0,120},\s*true\s*\)/
+    );
 });
 
 test('PR 생성 중 이미 main에 병합되어 커밋 차이가 없으면 경쟁 상태로 처리한다', async () => {
@@ -1913,7 +1921,7 @@ test('PR 생성 중 이미 main에 병합되어 커밋 차이가 없으면 경�
     }
 });
 
-test('pending 변경 확인 중 PR 차이가 사라지면 최신 main으로 재설정한다', async () => {
+test('pending에 추가 링크가 남아 있으면 PR 조회가 어긋나도 강제 재설정하지 않는다', async () => {
     const originalFetch = global.fetch;
     const updates = [];
     const baseContent = Buffer.from(JSON.stringify({
@@ -1954,14 +1962,13 @@ test('pending 변경 확인 중 PR 차이가 사라지면 최신 main으로 재�
     };
 
     try {
-        const result = await ensureResourceLinksPendingBranch({
+        await assert.rejects(() => ensureResourceLinksPendingBranch({
             GITHUB_OWNER: 'example',
             GITHUB_REPO: 'repo',
             GITHUB_TOKEN: 'test-token',
             GITHUB_BASE_BRANCH: 'main'
-        });
-        assert.equal(result.object.sha, 'main-sha');
-        assert.deepEqual(updates, [{ sha: 'main-sha', force: true }]);
+        }), /pending branch has additions/);
+        assert.deepEqual(updates, []);
     } finally {
         global.fetch = originalFetch;
     }
