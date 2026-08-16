@@ -11,6 +11,8 @@ on:
       - 'firebase.json'
       - 'package.json'
       - 'package-lock.json'
+      - 'workers/**'
+      - 'wrangler.jsonc'
       - '.github/workflows/**'
   workflow_dispatch:
 

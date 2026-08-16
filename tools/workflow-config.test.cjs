@@ -54,3 +54,9 @@ test('PR 데이터 검증은 Java와 Firestore Emulator를 자동 준비한다',
   assert.match(VALIDATION_WORKFLOW, /npm run firebase:emulator-test/);
   assert.doesNotMatch(VALIDATION_WORKFLOW, /GCP_WORKLOAD_IDENTITY_PROVIDER|GCP_FIREBASE_SERVICE_ACCOUNT/);
 });
+
+test('Worker 변경은 PR 검증 워크플로를 반드시 실행한다', () => {
+  assert.match(VALIDATION_WORKFLOW, /- 'workers\/\*\*'/);
+  assert.match(VALIDATION_WORKFLOW, /- 'wrangler\.jsonc'/);
+  assert.match(VALIDATION_WORKFLOW, /run:\s*npm test/);
+});

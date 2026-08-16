@@ -62,7 +62,7 @@ The Worker creates or reuses one open PR from `resource-links/pending` into `mai
 
 사용자 흐름은 다음과 같다.
 
-1. 10분 Cron이 새 글을 찾고 중복 여부를 확인한 뒤 Discord에 한 번만 제보한다.
+1. 10분 Cron이 새 글을 찾고 게시물 ID, canonical URL, 열린 pending PR, main 등록 여부를 확인한 뒤 Discord에 한 번만 제보한다.
 2. 사용자는 Discord에서 추천 대상을 승인하거나 직접 대상을 선택한 뒤 `선택 반영`을 누른다.
 3. Worker가 제보를 원자적으로 선점하고 Queue에 넣는다. 중복 클릭은 같은 작업을 다시 만들지 않는다.
 4. Queue가 제보별 commit을 `resource-links/pending`에 추가하고 단일 PR을 생성하거나 갱신한다.
@@ -98,6 +98,12 @@ Required setup:
 - Set `ARCA_LIST_URLS` to the list pages to watch.
 
 `ARCA_DEDUPE`는 선택 사항이 아니다. 바인딩이 없거나 호출할 수 없으면 감시 글을 Discord로 보내지 않는 **fail-closed** 방식으로 동작한다. 중복 방지 장치가 고장 난 상태에서 중복 메시지를 양산하는 것보다 해당 실행을 실패시키고 다음 Cron에서 재시도하는 편이 안전하다.
+
+Discord 전송 직전에는 `main`과 열린 `resource-links/pending` PR의 `data/resource_links.json`을 함께 읽는다. Arca URL은 query, fragment, trailing slash와 관계없이 채널/게시물 ID를 canonical identity로 사용한다. 어느 쪽에든 같은 identity가 있으면 대기 항목을 terminal 상태로 기록하고 Discord 전송을 생략한다. GitHub 등록 상태를 확인할 수 없을 때도 fail-closed로 해당 실행을 중단한다.
+
+자동 감시 proposal ID는 canonical identity의 SHA-256에서 결정적으로 만든다. `RESOURCE_PROPOSAL_STATE` Durable Object의 원자적 create가 URL별 전송 잠금이므로, 서로 다른 post ID가 같은 원문을 가리키거나 여러 Cron이 겹쳐도 활성 proposal은 하나만 존재한다. 자동 감시는 `ARCA_DEDUPE`와 `RESOURCE_PROPOSAL_STATE` 중 하나라도 없으면 Discord를 호출하지 않는다.
+
+Discord POST 결과가 네트워크 단절 등으로 불명확하면 자동 재전송하지 않는다. 해당 글을 `deliveryStatus: unknown`으로 보존하고 중복 가능성을 차단한다. 명확한 Discord HTTP 실패는 다음 Cron에서 재시도할 수 있다.
 
 10분 주기는 새 글 알림에 충분히 빠르면서 무료 한도에 여유를 둔다. 하루 실행 횟수는 5분 주기의 288회에서 144회로 절반이 되어 목록 조회, Durable Object, KV, Queue 호출과 외부 API 부하를 함께 줄인다. 수집 지연은 최대 약 10분이며, 이 서비스의 사람이 승인하는 흐름에서는 안정성과 비용 대비 적절한 절충이다.
 

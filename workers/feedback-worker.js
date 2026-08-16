@@ -334,11 +334,11 @@ export class ResourceProposalObject {
         }
 
         if (action === 'create') {
-            if (current) {
+            if (current && current.deliveryStatus !== 'confirmed_failed') {
                 return Response.json({ ok: false, reason: 'already-exists', state: current }, { status: 409 });
             }
             await this.storage.put('state', nextState);
-            return Response.json({ ok: true, state: nextState });
+            return Response.json({ ok: true, state: nextState, retried: Boolean(current) });
         }
 
         if (action === 'transition') {
@@ -681,6 +681,9 @@ async function handleArcaMonitor(env) {
     const scanLimit = getPositiveIntegerEnv(env.ARCA_LIST_SCAN_LIMIT, DEFAULT_ARCA_LIST_SCAN_LIMIT, 1, 50);
     const maxProposals = getPositiveIntegerEnv(env.ARCA_MAX_PROPOSALS_PER_RUN, DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN, 1, 10);
     const seenIds = await getSeenArcaPostIds(env);
+    // GitHub is the authoring authority. If this lookup fails, fail closed instead of
+    // sending a proposal that may already be in main or the pending PR.
+    const registeredLinkIdentities = await getRegisteredResourceLinkIdentities(env);
     const result = {
         ok: true,
         lists: listUrls.length,
@@ -690,14 +693,27 @@ async function handleArcaMonitor(env) {
         failed: 0
     };
 
-    const delivery = await processPendingArcaPosts(env, seenIds, maxProposals);
+    const delivery = await processPendingArcaPosts(
+        env,
+        seenIds,
+        maxProposals,
+        registeredLinkIdentities
+    );
     result.proposed = delivery.proposed;
     result.failed += delivery.failed;
+    result.skippedRegistered = delivery.skippedRegistered;
 
     const pendingIds = await getPendingArcaPostIds(env);
     for (const listUrl of listUrls) {
         try {
-            const discovery = await scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds);
+            const discovery = await scanArcaFeedPage(
+                env,
+                listUrl,
+                scanLimit,
+                seenIds,
+                pendingIds,
+                registeredLinkIdentities
+            );
             result.scanned += discovery.scanned;
             result.discovered += discovery.discovered;
         } catch (error) {
@@ -710,7 +726,14 @@ async function handleArcaMonitor(env) {
     return result;
 }
 
-async function scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds) {
+async function scanArcaFeedPage(
+    env,
+    listUrl,
+    scanLimit,
+    seenIds,
+    pendingIds,
+    registeredLinkIdentities = new Set()
+) {
     const stateKey = getArcaFeedStateKey(listUrl);
     const savedState = await env.RESOURCE_LINK_STATE.get(stateKey, 'json');
     const state = normalizeArcaFeedState(savedState);
@@ -727,7 +750,8 @@ async function scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds) {
             state.scan.bufferedPosts,
             pendingIds,
             writeLimit,
-            listUrl
+            listUrl,
+            registeredLinkIdentities
         );
         const nextState = bufferResult.remaining.length > 0
             ? {
@@ -792,7 +816,8 @@ async function scanArcaFeedPage(env, listUrl, scanLimit, seenIds, pendingIds) {
         candidates,
         pendingIds,
         writeLimit,
-        listUrl
+        listUrl,
+        registeredLinkIdentities
     );
 
     const nextState = pendingResult.remaining.length > 0
@@ -850,8 +875,18 @@ async function putArcaFeedStateIfChanged(env, stateKey, currentState, nextState)
     return true;
 }
 
-async function persistPendingArcaPosts(env, posts, pendingIds, limit, listUrl) {
-    const candidates = posts.filter(post => post?.id && !pendingIds.has(String(post.id)));
+async function persistPendingArcaPosts(
+    env,
+    posts,
+    pendingIds,
+    limit,
+    listUrl,
+    registeredLinkIdentities = new Set()
+) {
+    const candidates = posts.filter(post => {
+        if (!post?.id || pendingIds.has(String(post.id))) return false;
+        return !registeredLinkIdentities.has(canonicalizeResourceUrl(post.url));
+    });
     const selected = candidates.slice(0, limit);
     for (const post of selected) {
         const postId = String(post.id);
@@ -872,9 +907,17 @@ async function persistPendingArcaPosts(env, posts, pendingIds, limit, listUrl) {
     };
 }
 
-async function processPendingArcaPosts(env, seenIds, maxProposals) {
+async function processPendingArcaPosts(
+    env,
+    seenIds,
+    maxProposals,
+    registeredLinkIdentities = new Set()
+) {
     if (!env.ARCA_DEDUPE) {
         throw new Error('ARCA_DEDUPE binding is required before sending monitored posts');
+    }
+    if (!env.RESOURCE_PROPOSAL_STATE) {
+        throw new Error('RESOURCE_PROPOSAL_STATE binding is required before sending monitored posts');
     }
     const page = await env.RESOURCE_LINK_STATE.list({
         prefix: ARCA_PENDING_KEY_PREFIX,
@@ -884,7 +927,7 @@ async function processPendingArcaPosts(env, seenIds, maxProposals) {
         left.name.slice(ARCA_PENDING_KEY_PREFIX.length),
         right.name.slice(ARCA_PENDING_KEY_PREFIX.length)
     ));
-    const result = { proposed: 0, failed: 0 };
+    const result = { proposed: 0, failed: 0, skippedRegistered: 0 };
 
     for (const key of keys) {
         if (result.proposed >= maxProposals) break;
@@ -907,6 +950,25 @@ async function processPendingArcaPosts(env, seenIds, maxProposals) {
         }
 
         try {
+            const linkIdentity = canonicalizeResourceUrl(post.url);
+            if (linkIdentity && registeredLinkIdentities.has(linkIdentity)) {
+                await env.RESOURCE_LINK_STATE.put(`${ARCA_SEEN_KEY_PREFIX}${postId}`, JSON.stringify({
+                    id: postId,
+                    url: post.url,
+                    title: post.title,
+                    sourceListUrl: post.sourceListUrl,
+                    proposalId: null,
+                    discordMessageId: null,
+                    firstSeenAt: post.discoveredAt || new Date().toISOString(),
+                    registeredAt: new Date().toISOString()
+                }));
+                await markArcaPostSent(env, postId, claim?.token, null);
+                await env.RESOURCE_LINK_STATE.delete(key.name);
+                seenIds.add(postId);
+                result.skippedRegistered += 1;
+                continue;
+            }
+
             let detail;
             try {
                 detail = await fetchArcaPostDetail(post, post.sourceListUrl);
@@ -924,7 +986,40 @@ async function processPendingArcaPosts(env, seenIds, maxProposals) {
                 submittedBy: 'arca-monitor',
                 submittedAt
             });
-            const { proposalState, discordMessage } = await createResourceProposalMessage(env, proposal);
+            const canonicalProposalId = await createCanonicalResourceProposalId(
+                canonicalizeResourceUrl(proposal.link.url)
+            );
+            let proposalDelivery;
+            try {
+                proposalDelivery = await createResourceProposalMessage(
+                    env,
+                    proposal,
+                    canonicalProposalId
+                );
+            } catch (error) {
+                if (error.code !== 'RESOURCE_PROPOSAL_ALREADY_EXISTS') throw error;
+                await env.RESOURCE_LINK_STATE.put(`${ARCA_SEEN_KEY_PREFIX}${postId}`, JSON.stringify({
+                    id: postId,
+                    url: proposal.link.url,
+                    title: proposal.link.title,
+                    sourceListUrl: post.sourceListUrl,
+                    proposalId: canonicalProposalId,
+                    discordMessageId: error.currentState?.discordMessageId || null,
+                    firstSeenAt: post.discoveredAt || submittedAt,
+                    duplicateProposalAt: new Date().toISOString()
+                }));
+                await markArcaPostSent(
+                    env,
+                    postId,
+                    claim?.token,
+                    error.currentState?.discordMessageId || null
+                );
+                await env.RESOURCE_LINK_STATE.delete(key.name);
+                seenIds.add(postId);
+                result.skippedRegistered += 1;
+                continue;
+            }
+            const { proposalState, discordMessage } = proposalDelivery;
             try {
                 await env.RESOURCE_LINK_STATE.put(`${ARCA_SEEN_KEY_PREFIX}${postId}`, JSON.stringify({
                     id: postId,
@@ -937,25 +1032,66 @@ async function processPendingArcaPosts(env, seenIds, maxProposals) {
                     notifiedAt: new Date().toISOString()
                 }));
             } catch (error) {
-                await deleteDiscordResourceMessage(env, discordMessage.id).catch(deleteError => {
+                let deleted = false;
+                await deleteDiscordResourceMessage(env, discordMessage.id).then(() => {
+                    deleted = true;
+                }).catch(deleteError => {
                     console.error('Failed to roll back untracked Discord proposal', deleteError);
                 });
+                if (!deleted) {
+                    error.deliveryStatusUnknown = true;
+                    error.proposalId = proposalState.id;
+                    error.discordMessageId = discordMessage.id;
+                }
                 throw error;
             }
             try {
                 await markArcaPostSent(env, postId, claim?.token, discordMessage.id);
             } catch (error) {
-                await env.RESOURCE_LINK_STATE.delete(`${ARCA_SEEN_KEY_PREFIX}${postId}`);
-                await deleteDiscordResourceMessage(env, discordMessage.id).catch(deleteError => {
+                let deleted = false;
+                await deleteDiscordResourceMessage(env, discordMessage.id).then(() => {
+                    deleted = true;
+                }).catch(deleteError => {
                     console.error('Failed to roll back untracked Discord proposal', deleteError);
                 });
+                if (deleted) {
+                    await env.RESOURCE_LINK_STATE.delete(`${ARCA_SEEN_KEY_PREFIX}${postId}`);
+                } else {
+                    error.deliveryStatusUnknown = true;
+                    error.proposalId = proposalState.id;
+                    error.discordMessageId = discordMessage.id;
+                }
                 throw error;
             }
             await env.RESOURCE_LINK_STATE.delete(key.name);
             seenIds.add(postId);
             result.proposed += 1;
         } catch (error) {
-            if (claim?.token) await releaseArcaPost(env, postId, claim.token);
+            if (error.deliveryStatusUnknown) {
+                await env.RESOURCE_LINK_STATE.put(`${ARCA_SEEN_KEY_PREFIX}${postId}`, JSON.stringify({
+                    id: postId,
+                    url: post.url,
+                    title: post.title,
+                    sourceListUrl: post.sourceListUrl,
+                    proposalId: error.proposalId || null,
+                    discordMessageId: error.discordMessageId || null,
+                    firstSeenAt: post.discoveredAt || new Date().toISOString(),
+                    deliveryStatus: 'unknown',
+                    suppressedAt: new Date().toISOString()
+                })).catch(stateError => {
+                    console.error('Failed to preserve uncertain Arca delivery in KV', stateError);
+                });
+                await markArcaPostSent(
+                    env,
+                    postId,
+                    claim?.token,
+                    error.discordMessageId || null
+                ).catch(stateError => {
+                    console.error('Failed to preserve uncertain Arca delivery in Durable Object', stateError);
+                });
+            } else if (claim?.token) {
+                await releaseArcaPost(env, postId, claim.token);
+            }
             result.failed += 1;
             console.warn(`Pending Arca post proposal failed: ${post.url}`, error);
             break;
@@ -1899,6 +2035,81 @@ function normalizeResourceProposal(payload) {
     return normalized;
 }
 
+function canonicalizeResourceUrl(value) {
+    const raw = String(value || '').trim();
+    if (!raw) return '';
+
+    try {
+        const url = new URL(raw);
+        const hostname = url.hostname.toLowerCase().replace(/\.$/, '').replace(/^www\./, '');
+        let decodedPathname;
+        try {
+            decodedPathname = decodeURIComponent(url.pathname);
+        } catch (error) {
+            decodedPathname = url.pathname;
+        }
+        const pathname = decodedPathname.replace(/\/+$/, '') || '/';
+        const arcaPost = hostname === 'arca.live'
+            ? pathname.match(/^\/b\/([^/]+)\/(\d+)$/i)
+            : null;
+        if (arcaPost) {
+            return `arca:${arcaPost[1].toLowerCase()}:${arcaPost[2]}`;
+        }
+        return raw;
+    } catch (error) {
+        return raw;
+    }
+}
+
+async function createCanonicalResourceProposalId(linkIdentity) {
+    const digest = await crypto.subtle.digest(
+        'SHA-256',
+        new TextEncoder().encode(`resource-link:${linkIdentity}`)
+    );
+    return [...new Uint8Array(digest)]
+        .map(byte => byte.toString(16).padStart(2, '0'))
+        .join('')
+        .slice(0, 32);
+}
+
+function collectResourceLinkIdentities(database) {
+    const identities = new Set();
+    const addLinks = links => {
+        if (!Array.isArray(links)) return;
+        for (const link of links) {
+            const identity = canonicalizeResourceUrl(link?.url);
+            if (identity) identities.add(identity);
+        }
+    };
+
+    for (const category of Object.values(database?.categories || {})) {
+        addLinks(category?.links);
+    }
+    for (const links of Object.values(database?.characters || {})) {
+        addLinks(links);
+    }
+    return identities;
+}
+
+async function getRegisteredResourceLinkIdentities(env) {
+    const baseBranch = getBaseBranch(env);
+    const [baseFile, openPendingPullRequest] = await Promise.all([
+        getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
+        findOpenResourceLinksPullRequest(env)
+    ]);
+    const files = [baseFile];
+    if (openPendingPullRequest) {
+        files.push(await getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH));
+    }
+
+    const identities = new Set();
+    for (const file of files) {
+        const current = collectResourceLinkIdentities(JSON.parse(file.content));
+        for (const identity of current) identities.add(identity);
+    }
+    return identities;
+}
+
 function normalizeTargets(targets) {
     const result = [];
     const seen = new Set();
@@ -2040,7 +2251,7 @@ async function sendResourceProposalMessage(env, proposal, proposalId) {
 
     if (!response.ok) {
         const detail = await response.text();
-        throw new Error(`Discord resource proposal failed: ${response.status} ${detail.slice(0, 300)}`);
+        throw new HttpError(`Discord resource proposal failed: ${response.status} ${detail.slice(0, 300)}`, response.status);
     }
 
     return response.json();
@@ -2253,12 +2464,13 @@ function getResourceProposalStateKey(proposalId) {
     return `${RESOURCE_PROPOSAL_STATE_PREFIX}${proposalId}`;
 }
 
-function createResourceProposalState(proposal) {
+function createResourceProposalState(proposal, proposalId = createResourceProposalId()) {
     return {
-        id: createResourceProposalId(),
+        id: proposalId,
         proposal,
         selection: defaultResourceSelection(),
         status: 'pending',
+        deliveryStatus: 'sending',
         createdAt: new Date().toISOString(),
         discordMessageId: null
     };
@@ -2306,22 +2518,41 @@ async function deleteResourceProposalState(env, proposalId) {
     });
 }
 
-async function createResourceProposalMessage(env, proposal) {
+async function createResourceProposalMessage(env, proposal, proposalId = createResourceProposalId()) {
     if (!env.RESOURCE_PROPOSAL_STATE && !env.RESOURCE_LINK_STATE) {
         throw new Error('RESOURCE_PROPOSAL_STATE or RESOURCE_LINK_STATE binding is required for resource link proposals');
     }
 
-    const state = createResourceProposalState(proposal);
+    const state = createResourceProposalState(proposal, proposalId);
     if (env.RESOURCE_PROPOSAL_STATE) {
         const created = await callResourceProposalObject(env, state.id, 'create', { state });
-        if (!created?.ok) throw new Error('링크 제보 상태 초기화에 실패했습니다.');
+        if (!created?.ok) {
+            const error = new Error('동일한 링크 제보가 이미 처리 중이거나 처리되었습니다.');
+            error.code = created?.reason === 'already-exists'
+                ? 'RESOURCE_PROPOSAL_ALREADY_EXISTS'
+                : 'RESOURCE_PROPOSAL_CREATE_FAILED';
+            error.currentState = created?.state || null;
+            throw error;
+        }
     }
 
     let discordMessage;
     try {
         discordMessage = await sendResourceProposalMessage(env, proposal, state.id);
     } catch (error) {
-        if (env.RESOURCE_PROPOSAL_STATE) {
+        if (Number.isFinite(error.status)) {
+            await updateResourceProposalState(env, state.id, {
+                ...state,
+                status: 'delivery_failed',
+                deliveryStatus: 'confirmed_failed',
+                deliveryError: error.message || 'known HTTP error'
+            }).catch(stateError => {
+                console.error('Failed to release confirmed Discord delivery failure', {
+                    proposalId: state.id,
+                    stateError
+                });
+            });
+        } else if (env.RESOURCE_PROPOSAL_STATE) {
             await updateResourceProposalState(env, state.id, {
                 ...state,
                 deliveryStatus: 'unknown',
@@ -2335,19 +2566,44 @@ async function createResourceProposalMessage(env, proposal) {
         } else {
             await deleteResourceProposalState(env, state.id);
         }
+        if (!Number.isFinite(error.status)) {
+            error.deliveryStatusUnknown = true;
+            error.proposalId = state.id;
+        }
         throw error;
     }
     const proposalState = {
         ...state,
+        deliveryStatus: 'delivered',
         discordMessageId: discordMessage.id
     };
 
     try {
         await updateResourceProposalState(env, state.id, proposalState);
     } catch (error) {
-        await deleteDiscordResourceMessage(env, discordMessage.id).catch(deleteError => {
+        let deleted = false;
+        await deleteDiscordResourceMessage(env, discordMessage.id).then(() => {
+            deleted = true;
+        }).catch(deleteError => {
             console.error('Failed to roll back orphaned Discord proposal', deleteError);
         });
+        if (deleted) {
+            await updateResourceProposalState(env, state.id, {
+                ...state,
+                status: 'delivery_failed',
+                deliveryStatus: 'confirmed_failed',
+                deliveryError: error.message || 'proposal state persistence failed after Discord rollback'
+            }).catch(stateError => {
+                console.error('Failed to release rolled back Discord delivery', {
+                    proposalId: state.id,
+                    stateError
+                });
+            });
+        } else {
+            error.deliveryStatusUnknown = true;
+            error.proposalId = state.id;
+            error.discordMessageId = discordMessage.id;
+        }
         throw error;
     }
 
@@ -3115,7 +3371,8 @@ function buildResourceLinksUpdate(content, link, targets) {
             continue;
         }
 
-        if (list.some(item => item && item.url === link.url)) {
+        const incomingIdentity = canonicalizeResourceUrl(link.url);
+        if (list.some(item => item && canonicalizeResourceUrl(item.url) === incomingIdentity)) {
             result.skipped.push(target);
             continue;
         }
