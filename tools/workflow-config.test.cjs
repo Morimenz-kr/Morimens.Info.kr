@@ -12,6 +12,10 @@ const VALIDATION_WORKFLOW = fs.readFileSync(
   path.join(ROOT, '.github', 'workflows', 'data-validation.yml'),
   'utf8'
 );
+const CRON_WATCHDOG_WORKFLOW = fs.readFileSync(
+  path.join(ROOT, '.github', 'workflows', 'cron-watchdog.yml'),
+  'utf8'
+);
 const FIREBASE_DATA_TOOL = fs.readFileSync(
   path.join(ROOT, 'tools', 'firebase-data.mjs'),
   'utf8'
@@ -59,4 +63,13 @@ test('Worker 변경은 PR 검증 워크플로를 반드시 실행한다', () => 
   assert.match(VALIDATION_WORKFLOW, /- 'workers\/\*\*'/);
   assert.match(VALIDATION_WORKFLOW, /- 'wrangler\.jsonc'/);
   assert.match(VALIDATION_WORKFLOW, /run:\s*npm test/);
+});
+
+test('Cron watchdog는 main Worker만 단계적으로 자동 복구한다', () => {
+  assert.match(CRON_WATCHDOG_WORKFLOW, /ref:\s*main/);
+  assert.match(CRON_WATCHDOG_WORKFLOW, /node tools\/cron-auto-recovery\.mjs/);
+  assert.match(CRON_WATCHDOG_WORKFLOW, /CLOUDFLARE_API_TOKEN:\s*\$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}\}/);
+  assert.match(CRON_WATCHDOG_WORKFLOW, /CLOUDFLARE_ACCOUNT_ID:\s*\$\{\{ vars\.CLOUDFLARE_ACCOUNT_ID \}\}/);
+  assert.match(CRON_WATCHDOG_WORKFLOW, /cancel-in-progress:\s*false/);
+  assert.doesNotMatch(CRON_WATCHDOG_WORKFLOW, /continue-on-error:\s*true/);
 });

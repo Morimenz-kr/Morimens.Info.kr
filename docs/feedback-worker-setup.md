@@ -182,6 +182,23 @@ npx wrangler deploy
 - 열린 PR이 하나만 유지되고 `/list` 조회와 `/push` 병합이 정상 동작하는지 확인한다.
 - Worker 로그에 Durable Object, KV mirror, Queue 재시도, Discord 또는 GitHub 오류가 없는지 확인한다.
 
+## Cron watchdog and automatic recovery
+
+`.github/workflows/cron-watchdog.yml`은 Worker와 독립된 GitHub Actions 스케줄에서 heartbeat를 확인한다. 최근 Cron 작업 하나가 실패했지만 heartbeat가 최신인 경우에는 원인을 가리지 않도록 재배포하지 않는다. heartbeat가 오래됐거나 Worker가 두 번 연속 응답하지 않을 때만 다음 순서로 복구한다.
+
+1. 현재 `main` 배포의 Cron Trigger를 다시 적용한다.
+2. 다음 예약 실행을 기다리며 heartbeat를 확인한다.
+3. 회복하지 않으면 검증된 `main`의 Worker 전체를 다시 배포한다.
+4. 다음 예약 실행 뒤에도 회복하지 않으면 GitHub Actions를 실패시킨다.
+
+자동복구에는 다음 GitHub 설정이 필요하다.
+
+- Actions secret `WATCHDOG_TOKEN`: Worker의 같은 이름 secret과 동일한 값
+- Actions secret `CLOUDFLARE_API_TOKEN`: 해당 계정의 Workers Script 및 Cron Trigger를 배포할 수 있는 최소 권한 API token
+- Actions variable `CLOUDFLARE_ACCOUNT_ID`: Worker가 속한 Cloudflare account ID
+
+자동복구는 항상 저장소의 `main`을 checkout한다. PR 브랜치나 수동 실행 브랜치의 코드를 운영 Worker에 배포하지 않는다. 같은 장애에서 실행이 겹치면 이전 복구가 끝날 때까지 다음 watchdog 실행은 대기하며, 진행 중인 복구를 취소하지 않는다.
+
 ## Test payload
 
 Feedback:
