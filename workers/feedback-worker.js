@@ -115,7 +115,7 @@ const RESOURCE_CATEGORIES = [
 ];
 
 const RESOURCE_CATEGORY_LABELS = {
-    event: '2.5주년 + 이벤트',
+    event: '이벤트',
     weekly_yungjae: '진행중인 융재금구 팁',
     newbie: '뉴비 팁',
     system: '시스템 정보',
