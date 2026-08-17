@@ -31,7 +31,13 @@
     },
     "weekly_yungjae": {
       "title": "🔥 진행중인 융재금구 팁",
-      "links": []
+      "links": [        {
+          "url": "https://arca.live/b/forgettingeve/180133731",
+          "title": "오랜만에 융재 얼리버드 후기",
+          "desc": "",
+          "image": "https://ac.arca.live/20260817sac/cb29d344c95d204070296ad09a3b400febdf66762e7420da37e88b81d8c2e51b.png?expires=1786969226&key=TtkHBOzFvFjvg74S_AOGHA&type=list"
+        }
+]
     },
     "newbie": {
       "title": "🐣 뉴비 필독 가이드",
