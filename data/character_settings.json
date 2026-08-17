@@ -506,6 +506,19 @@
     {
       "settingName": "범용",
       "recommendStep": "2돌 이상",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_merciful_upbringing",
+          "wheel_spring_of_yakut",
+          "wheel_never_ending_calculation",
+          "wheel_door_of_truth",
+          "wheel_channeling"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": ["은열쇠 충전"]
+      },
       "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_never_ending_calculation", "wheel_spring_of_yakut"] },
       "myeongryun_sr": { "main_id": "wheel_door_of_truth", "substitutes": ["wheel_channeling"] },
       "covenant": {

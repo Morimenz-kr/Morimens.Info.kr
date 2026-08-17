@@ -940,8 +940,11 @@ function createWheelRecommendationLookup(records) {
 }
 
 function findWheelRecommendation(charId, setInfo) {
+    if (!setInfo) return null;
+    if (setInfo.myeongryun) return setInfo.myeongryun;
+
     const lookup = window.wheelRecommendationLookup;
-    if (!lookup || !setInfo) return null;
+    if (!lookup) return null;
 
     const exactKey = `${charId}|${setInfo.settings_source || ''}|${setInfo.settingName || ''}`;
     const fallbackKey = `${charId}|${setInfo.settingName || ''}`;
@@ -1112,7 +1115,7 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
     const hasSubstitutes = unique(substituteIds).length > 0;
     const hasStats = uniqueStats.length > 0;
     const statGuide = hasRecommended || hasSubstitutes
-        ? '추천·대체 명륜을 보유하지 않았을 때, 아래 주옵을 가진 명륜을 사용하는 것을 추천합니다.'
+        ? `${hasSubstitutes ? '추천·대체' : '추천'} 명륜을 보유하지 않았을 때, 아래 주옵을 가진 명륜을 사용하는 것을 추천합니다.`
         : '아래 주옵을 가진 명륜을 사용하는 것을 추천합니다.';
     const sections = [
         hasRecommended ? {
@@ -1129,7 +1132,7 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
         } : null,
         hasStats ? {
             className: 'wheel-option-stats',
-            title: '주옵',
+            title: hasRecommended || hasSubstitutes ? '대체 주옵' : '추천 주옵',
             content: `
                 <div class="wheel-option-stat-content">
                     <p class="wheel-option-stat-guide">${statGuide}</p>
