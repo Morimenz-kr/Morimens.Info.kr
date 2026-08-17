@@ -216,7 +216,7 @@ function showTooltip(item, e, mainStats = [], subStats = [], pinned = false) {
         contentHtml += `<div class="tooltip-effect-desc tooltip-effect-body tooltip-effect-muted">${formatTooltipMainStats(mainStats)}</div>`;
     }
     if (subStats.length > 0) {
-        contentHtml += `<div class="tooltip-effect-desc tooltip-effect-body tooltip-effect-muted"><strong>[추천 부옵]</strong> ${subStats.join(', ')}</div>`;
+        contentHtml += `<div class="tooltip-effect-desc tooltip-effect-body tooltip-effect-muted tooltip-effect-sub-stats"><strong>[추천 부옵]</strong> ${subStats.join(', ')}</div>`;
     }
 
     ttDesc.innerHTML = contentHtml;
