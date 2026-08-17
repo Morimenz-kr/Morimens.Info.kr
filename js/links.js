@@ -1056,6 +1056,7 @@ function openDynamicSubModal(type, charId, idx = 0) {
             const data = isWheel ? window.wheelMap[id] : window.covMap[id];
             if (data) {
                 const mainStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_main_stats?.[id]) : '';
+                const subStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_sub_stats?.[id]) : '';
                 html += `
                 <div class="sub-item-vertical">
                     <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}"
@@ -1064,6 +1065,7 @@ function openDynamicSubModal(type, charId, idx = 0) {
                          data-tooltip-kind="${isWheel ? 'wheel' : 'covenant'}"
                          data-tooltip-id="${id}"
                          data-tooltip-main-stats="${mainStats}"
+                         data-tooltip-sub-stats="${subStats}"
                          onerror="this.src='images/placeholder.png';">
                     <div class="sub-item-name">${data.korean_name}</div>
                 </div>`;
