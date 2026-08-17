@@ -506,9 +506,14 @@
     {
       "settingName": "범용",
       "recommendStep": "2돌 이상",
-      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_never_ending_calculation", "wheel_over_the_death"] },
-      "myeongryun_sr": { "main_id": "wheel_channeling", "substitutes": ["wheel_door_of_truth"] },
-      "covenant": { "main_id": "covenant_vampire", "substitutes": ["covenant_reEvolve"] }
+      "myeongryun_ssr": { "main_id": "wheel_merciful_upbringing", "substitutes": ["wheel_never_ending_calculation", "wheel_spring_of_yakut"] },
+      "myeongryun_sr": { "main_id": "wheel_door_of_truth", "substitutes": ["wheel_channeling"] },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [],
+        "main_stats": ["은열쇠 충전", "검은 인장 획득", "피해 증폭", "은열쇠 충전", "은열쇠 충전", "피해 증폭"],
+        "sub_stats": ["은열쇠 충전"]
+      }
     }
   ],
   "faint": [
