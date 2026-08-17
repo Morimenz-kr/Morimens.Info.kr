@@ -1841,7 +1841,7 @@ test('실제 resource_links에는 침식 로탄 키가 하나만 있고 필수 �
     assert.ok(urls.includes('https://arca.live/b/forgettingeve/178103784'));
 });
 
-test('닫힌 PR의 pending 브랜치에 새 링크가 없으면 main으로 안전하게 재설정한다', async () => {
+test('닫힌 PR의 pending 파일이 main과 같으면 브랜치를 되감지 않는다', async () => {
     const originalFetch = global.fetch;
     const updates = [];
     const content = Buffer.from(JSON.stringify({ categories: {}, characters: {} }), 'utf8').toString('base64');
@@ -1855,10 +1855,10 @@ test('닫힌 PR의 pending 브랜치에 새 링크가 없으면 main으로 안�
         if (requestUrl.includes('/git/ref/heads/main')) {
             return Response.json({ object: { sha: 'main-sha' } });
         }
-        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=main')) {
+        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=main-sha')) {
             return Response.json({ sha: 'main-file-sha', content, encoding: 'base64' });
         }
-        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=resource-links%2Fpending')) {
+        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=pending-sha')) {
             return Response.json({ sha: 'pending-file-sha', content, encoding: 'base64' });
         }
         if (requestUrl.includes('/git/refs/heads/resource-links/pending') && options.method === 'PATCH') {
@@ -1875,8 +1875,38 @@ test('닫힌 PR의 pending 브랜치에 새 링크가 없으면 main으로 안�
             GITHUB_TOKEN: 'test-token'
         });
 
-        assert.equal(result.object.sha, 'main-sha');
-        assert.deepEqual(updates, [{ sha: 'main-sha', force: false }]);
+        assert.equal(result.object.sha, 'pending-sha');
+        assert.deepEqual(updates, []);
+    } finally {
+        global.fetch = originalFetch;
+    }
+});
+
+test('파일을 읽은 뒤 pending ref가 바뀌면 stale 내용으로 커밋하지 않는다', async () => {
+    const originalFetch = global.fetch;
+    const calls = [];
+    global.fetch = async (url, options = {}) => {
+        calls.push({ url: String(url), method: options.method });
+        if (String(url).includes('/git/ref/heads/resource-links/pending')) {
+            return Response.json({ object: { sha: 'new-parent-sha' } });
+        }
+        throw new Error(`unexpected request: ${options.method || 'GET'} ${url}`);
+    };
+
+    try {
+        await assert.rejects(() => putGitHubFile({
+            GITHUB_OWNER: 'example',
+            GITHUB_REPO: 'repo',
+            GITHUB_TOKEN: 'test-token'
+        }, 'data/resource_links.json', {
+            message: 'Update resource links',
+            content: '{"categories":{}}',
+            branch: 'resource-links/pending',
+            expectedRefSha: 'old-parent-sha'
+        }), error => error.status === 409 && /GitHub ref changed before update/.test(error.message));
+
+        assert.equal(calls.length, 1);
+        assert.equal(calls[0].method, 'GET');
     } finally {
         global.fetch = originalFetch;
     }
@@ -1948,10 +1978,10 @@ test('pending에 추가 링크가 남아 있으면 PR 조회가 어긋나도 강
         if (requestUrl.includes('/git/ref/heads/main')) {
             return Response.json({ object: { sha: 'main-sha' } });
         }
-        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=main')) {
+        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=main-sha')) {
             return Response.json({ sha: 'main-file-sha', content: baseContent, encoding: 'base64' });
         }
-        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=resource-links%2Fpending')) {
+        if (requestUrl.includes('/contents/') && requestUrl.includes('ref=pending-sha')) {
             return Response.json({ sha: 'pending-file-sha', content: pendingContent, encoding: 'base64' });
         }
         if (requestUrl.includes('/git/refs/heads/resource-links/pending') && options.method === 'PATCH') {
