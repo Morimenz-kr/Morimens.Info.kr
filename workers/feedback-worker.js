@@ -19,6 +19,7 @@ const DEFAULT_ARCA_MAX_PROPOSALS_PER_RUN = 5;
 const DEFAULT_ARCA_PENDING_WRITES_PER_FEED = 5;
 const DEFAULT_ARCA_DESCRIPTION_BACKFILL_LIMIT = 5;
 const DEFAULT_ARCA_FETCH_TIMEOUT_MS = 10 * 1000;
+const DEFAULT_GITHUB_REF_CONFLICT_ATTEMPTS = 4;
 const ARCA_SEEN_KEY_PREFIX = 'arca:seen:';
 const ARCA_PENDING_KEY_PREFIX = 'arca:pending:';
 const ARCA_FEED_STATE_KEY_PREFIX = 'arca:feed:';
@@ -3294,8 +3295,12 @@ async function getPendingArcaPostIds(env) {
 async function updateResourceLinks(env, link, targets) {
     await ensureResourceLinksPendingBranch(env);
 
-    for (let attempt = 0; attempt < 2; attempt += 1) {
-        const file = await getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH);
+    for (let attempt = 0; attempt < DEFAULT_GITHUB_REF_CONFLICT_ATTEMPTS; attempt += 1) {
+        const ref = await getGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH);
+        if (!ref?.object?.sha) {
+            throw new Error(`GitHub branch not found: ${RESOURCE_LINKS_PENDING_BRANCH}`);
+        }
+        const file = await getGitHubFile(env, RESOURCE_LINKS_PATH, ref.object.sha);
         const update = buildResourceLinksUpdate(file.content, link, targets);
 
         if (update.added.length === 0) {
@@ -3330,7 +3335,8 @@ async function updateResourceLinks(env, link, targets) {
                 message: `Update resource links: ${link.title.slice(0, 60)}`,
                 content: update.content,
                 sha: file.sha,
-                branch: RESOURCE_LINKS_PENDING_BRANCH
+                branch: RESOURCE_LINKS_PENDING_BRANCH,
+                expectedRefSha: ref.object.sha
             });
             const pr = await ensureResourceLinksPullRequest(env);
             if (!pr) {
@@ -3357,7 +3363,10 @@ async function updateResourceLinks(env, link, targets) {
                 prUrl: pr.html_url
             };
         } catch (error) {
-            if ((error.status === 409 || error.status === 422) && attempt === 0) continue;
+            if (isGitHubRefConflict(error) && attempt < DEFAULT_GITHUB_REF_CONFLICT_ATTEMPTS - 1) {
+                await waitForGitHubRefRetry(attempt);
+                continue;
+            }
             throw error;
         }
     }
@@ -3646,6 +3655,22 @@ function escapeJsonString(value) {
 }
 
 async function ensureResourceLinksPendingBranch(env) {
+    for (let attempt = 0; attempt < DEFAULT_GITHUB_REF_CONFLICT_ATTEMPTS; attempt += 1) {
+        try {
+            return await ensureResourceLinksPendingBranchOnce(env);
+        } catch (error) {
+            if (isGitHubRefConflict(error) && attempt < DEFAULT_GITHUB_REF_CONFLICT_ATTEMPTS - 1) {
+                await waitForGitHubRefRetry(attempt);
+                continue;
+            }
+            throw error;
+        }
+    }
+
+    throw new Error('resource_links pending branch preparation failed after retry');
+}
+
+async function ensureResourceLinksPendingBranchOnce(env) {
     const baseBranch = getBaseBranch(env);
     const openPr = await findOpenResourceLinksPullRequest(env);
     const pendingRef = await getGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH);
@@ -3659,8 +3684,8 @@ async function ensureResourceLinksPendingBranch(env) {
         if (pendingRef.object.sha === baseRef.object.sha) return pendingRef;
 
         const [baseFile, pendingFile] = await Promise.all([
-            getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
-            getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH)
+            getGitHubFile(env, RESOURCE_LINKS_PATH, baseRef.object.sha),
+            getGitHubFile(env, RESOURCE_LINKS_PATH, pendingRef.object.sha)
         ]);
         const pendingAdditions = collectPendingResourceLinkAdditions(
             JSON.parse(baseFile.content),
@@ -3668,28 +3693,43 @@ async function ensureResourceLinksPendingBranch(env) {
         );
 
         if (pendingAdditions.length === 0) {
-            return updateGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH, baseRef.object.sha, false);
+            if (pendingFile.content === baseFile.content) return pendingRef;
+            const commit = await putGitHubFile(env, RESOURCE_LINKS_PATH, {
+                message: `Synchronize ${RESOURCE_LINKS_PENDING_BRANCH} with ${baseBranch}`,
+                content: baseFile.content,
+                sha: pendingFile.sha,
+                branch: RESOURCE_LINKS_PENDING_BRANCH,
+                expectedRefSha: pendingRef.object.sha
+            });
+            return { object: { sha: commit.commit?.sha } };
         }
 
         const pullRequest = await ensureResourceLinksPullRequest(env);
         if (!pullRequest) {
-            const [latestBaseRef, latestBaseFile, latestPendingFile] = await Promise.all([
+            const [latestBaseRef, latestPendingRef] = await Promise.all([
                 getGitHubRef(env, baseBranch),
-                getGitHubFile(env, RESOURCE_LINKS_PATH, baseBranch),
-                getGitHubFile(env, RESOURCE_LINKS_PATH, RESOURCE_LINKS_PENDING_BRANCH)
+                getGitHubRef(env, RESOURCE_LINKS_PENDING_BRANCH)
             ]);
             if (!latestBaseRef) throw new Error(`Base branch not found: ${baseBranch}`);
+            if (!latestPendingRef) throw new Error(`GitHub branch not found: ${RESOURCE_LINKS_PENDING_BRANCH}`);
+            const [latestBaseFile, latestPendingFile] = await Promise.all([
+                getGitHubFile(env, RESOURCE_LINKS_PATH, latestBaseRef.object.sha),
+                getGitHubFile(env, RESOURCE_LINKS_PATH, latestPendingRef.object.sha)
+            ]);
             const latestAdditions = collectPendingResourceLinkAdditions(
                 JSON.parse(latestBaseFile.content),
                 JSON.parse(latestPendingFile.content)
             );
             if (latestAdditions.length === 0) {
-                return updateGitHubRef(
-                    env,
-                    RESOURCE_LINKS_PENDING_BRANCH,
-                    latestBaseRef.object.sha,
-                    false
-                );
+                if (latestPendingFile.content === latestBaseFile.content) return latestPendingRef;
+                const commit = await putGitHubFile(env, RESOURCE_LINKS_PATH, {
+                    message: `Synchronize ${RESOURCE_LINKS_PENDING_BRANCH} with ${baseBranch}`,
+                    content: latestBaseFile.content,
+                    sha: latestPendingFile.sha,
+                    branch: RESOURCE_LINKS_PENDING_BRANCH,
+                    expectedRefSha: latestPendingRef.object.sha
+                });
+                return { object: { sha: commit.commit?.sha } };
             }
             throw new HttpError(
                 'resource_links pending branch has additions but its PR is not visible yet',
@@ -4085,6 +4125,12 @@ async function getGitHubFile(env, path, ref) {
 async function putGitHubFile(env, path, data) {
     const ref = await getGitHubRef(env, data.branch);
     if (!ref?.object?.sha) throw new Error(`GitHub branch not found: ${data.branch}`);
+    if (data.expectedRefSha && ref.object.sha !== data.expectedRefSha) {
+        throw new HttpError(
+            `GitHub ref changed before update: expected ${data.expectedRefSha}, got ${ref.object.sha}`,
+            409
+        );
+    }
 
     const commitResponse = await githubJsonFetch(env, `/git/commits/${encodeURIComponent(ref.object.sha)}`, {
         method: 'GET'
@@ -4153,6 +4199,15 @@ async function putGitHubFile(env, path, data) {
             html_url: `https://github.com/${env.GITHUB_OWNER}/${env.GITHUB_REPO}/commit/${commit.sha}`
         }
     };
+}
+
+function isGitHubRefConflict(error) {
+    if (![409, 422].includes(Number(error?.status))) return false;
+    return /GitHub (?:ref changed|ref update failed|file update failed)/i.test(String(error?.message || ''));
+}
+
+function waitForGitHubRefRetry(attempt) {
+    return new Promise(resolve => setTimeout(resolve, 100 * (2 ** attempt)));
 }
 
 async function putGitHubFileViaContentsApi(env, path, data) {
