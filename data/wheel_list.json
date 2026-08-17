@@ -95,7 +95,7 @@
     "english_name": "wheel_countdown_moment",
     "optimized_for": [""],
     "main_stat": "은열쇠 충전 21.6",
-    "description": "팀 고유: 탐험이 시작된 후, 1장의 '카운트다운:5'를 덱에 추가합니다. '카운트 다운: 0' 발동 시 3장의 카드를 뽑고 3 포인트의 산출력을 얻으며, 40% 확률로 다시 섞습니다.",
+    "description": "팀 고유: 탐험이 시작된 후, 1장의 '카운트다운:5'를 덱에 추가합니다. '카운트 다운: 0' 발동 시 3장의 카드를 뽑고 3 포인트의 산출력을 얻으며, 40/60/80/100% 확률로 다시 섞습니다.",
     "image_path": "images/wheel_countdown_moment.png"
   },
   {
@@ -104,7 +104,7 @@
     "english_name": "wheel_fun_in_box",
     "optimized_for": [""],
     "main_stat": "죽음 저항 50.4%",
-    "description": "팀 유일: '융흔'에서 '각인'을 처음 구매하거나 '회색빛 유적지'에서 할인 상품을 처음 구매하는데 필요한 블랙 프린트의 비용이 100% 확률로 0이 됩니다. (탐색당 1회)",
+    "description": "팀 유일: '융흔'에서 '각인'을 처음 구매하거나 '회색빛 유적지'에서 할인 상품을 처음 구매하는데 필요한 블랙 프린트의 비용이 70/80/90/100% 확률로 0이 됩니다. (탐색당 1회)",
     "image_path": "images/wheel_fun_in_box.png"
   },
   {

@@ -177,7 +177,7 @@ function renderDictionaryRichText(value) {
 }
 
 // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환 + 파밍처 추가) ㅁㄴㅇ
-function showTooltip(item, e, mainStats = [], pinned = false) {
+function showTooltip(item, e, mainStats = [], subStats = [], pinned = false) {
     if (itemTooltipPinned && !pinned) return;
     const ttTitle = document.getElementById('tt-title');
     const ttDesc = document.getElementById('tt-desc');
@@ -214,6 +214,9 @@ function showTooltip(item, e, mainStats = [], pinned = false) {
     if (mainStats.length > 0) {
         contentHtml += `<div class="tooltip-effect-desc tooltip-effect-heading tooltip-effect-heading-large">[추천 주옵]</div>`;
         contentHtml += `<div class="tooltip-effect-desc tooltip-effect-body tooltip-effect-muted">${formatTooltipMainStats(mainStats)}</div>`;
+    }
+    if (subStats.length > 0) {
+        contentHtml += `<div class="tooltip-effect-desc tooltip-effect-body tooltip-effect-muted tooltip-effect-sub-stats"><strong>[추천 부옵]</strong> ${subStats.join(', ')}</div>`;
     }
 
     ttDesc.innerHTML = contentHtml;
@@ -272,6 +275,7 @@ function bindDynamicTooltips(root) {
         const item = map && map[el.dataset.tooltipId];
         if (!item) return;
         const mainStats = decodeTooltipMainStats(el.dataset.tooltipMainStats);
+        const subStats = decodeTooltipMainStats(el.dataset.tooltipSubStats);
         const pinTooltip = event => {
             event.preventDefault();
             event.stopPropagation();
@@ -279,12 +283,12 @@ function bindDynamicTooltips(root) {
             const position = Number.isFinite(event.clientX) && Number.isFinite(event.clientY)
                 ? event
                 : { clientX: rect.left + (rect.width / 2), clientY: rect.top + (rect.height / 2) };
-            showTooltip(item, position, mainStats, true);
+            showTooltip(item, position, mainStats, subStats, true);
         };
         el.tabIndex = 0;
         el.setAttribute('role', 'button');
         el.setAttribute('aria-label', `${item.korean_name} 상세 정보`);
-        el.onmouseenter = e => showTooltip(item, e, mainStats);
+        el.onmouseenter = e => showTooltip(item, e, mainStats, subStats);
         el.onmousemove = moveTooltip;
         el.onmouseleave = () => hideTooltip();
         el.onpointerup = event => {
@@ -575,7 +579,7 @@ function renderDictionaryItems(data, category) {
             e.preventDefault();
             e.stopPropagation();
             card.classList.add('active');
-            showTooltip(item, e, [], true);
+            showTooltip(item, e, [], [], true);
         };
         // 모바일 브라우저가 이미지 터치 뒤 click 이벤트를 만들지 않는 경우에도
         // 툴팁을 열 수 있도록 실제 터치 종료 이벤트를 함께 처리한다.
@@ -737,6 +741,7 @@ const initializeLinksPage = async () => {
                         const covenantMainId = setInfo.covenant?.main_id;
                         const mainCov = getCov(covenantMainId);
                         const mainCovStats = encodeTooltipMainStats(setInfo.covenant?.main_stats);
+                        const covenantSubStats = encodeTooltipMainStats(setInfo.covenant?.sub_stats);
                         const renderSubLink = (type, list, charId, idx) => {
                             const label = type === 'covenant' ? '대체 비밀계약' : '대체 명륜';
                             if (list && list.length > 0) return `<div class="sub-link" data-sub-modal-type="${type}" data-character-id="${charId}" data-setting-index="${idx}">${label}</div>`;
@@ -806,7 +811,7 @@ const initializeLinksPage = async () => {
                                     <div class="equip-slot">
                                         <div class="equip-label">추천 비밀계약</div>
                                         ${covenantMainId ? `
-                                            <img src="${mainCov.image_path}" class="equip-img-covenant" data-tooltip-kind="covenant" data-tooltip-id="${covenantMainId}" data-tooltip-main-stats="${mainCovStats}" onerror="this.src='images/placeholder.png';">
+                                            <img src="${mainCov.image_path}" class="equip-img-covenant" data-tooltip-kind="covenant" data-tooltip-id="${covenantMainId}" data-tooltip-main-stats="${mainCovStats}" data-tooltip-sub-stats="${covenantSubStats}" onerror="this.src='images/placeholder.png';">
                                             <div class="equip-name-label">${mainCov.korean_name}</div>
                                             ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
                                         ` : `
@@ -935,8 +940,11 @@ function createWheelRecommendationLookup(records) {
 }
 
 function findWheelRecommendation(charId, setInfo) {
+    if (!setInfo) return null;
+    if (setInfo.myeongryun) return setInfo.myeongryun;
+
     const lookup = window.wheelRecommendationLookup;
-    if (!lookup || !setInfo) return null;
+    if (!lookup) return null;
 
     const exactKey = `${charId}|${setInfo.settings_source || ''}|${setInfo.settingName || ''}`;
     const fallbackKey = `${charId}|${setInfo.settingName || ''}`;
@@ -1048,6 +1056,7 @@ function openDynamicSubModal(type, charId, idx = 0) {
             const data = isWheel ? window.wheelMap[id] : window.covMap[id];
             if (data) {
                 const mainStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_main_stats?.[id]) : '';
+                const subStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_sub_stats?.[id]) : '';
                 html += `
                 <div class="sub-item-vertical">
                     <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}"
@@ -1056,6 +1065,7 @@ function openDynamicSubModal(type, charId, idx = 0) {
                          data-tooltip-kind="${isWheel ? 'wheel' : 'covenant'}"
                          data-tooltip-id="${id}"
                          data-tooltip-main-stats="${mainStats}"
+                         data-tooltip-sub-stats="${subStats}"
                          onerror="this.src='images/placeholder.png';">
                     <div class="sub-item-name">${data.korean_name}</div>
                 </div>`;
@@ -1107,7 +1117,7 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
     const hasSubstitutes = unique(substituteIds).length > 0;
     const hasStats = uniqueStats.length > 0;
     const statGuide = hasRecommended || hasSubstitutes
-        ? '추천·대체 명륜을 보유하지 않았을 때, 아래 주옵을 가진 명륜을 사용하는 것을 추천합니다.'
+        ? `${hasSubstitutes ? '추천·대체' : '추천'} 명륜을 보유하지 않았을 때, 아래 주옵을 가진 명륜을 사용하는 것을 추천합니다.`
         : '아래 주옵을 가진 명륜을 사용하는 것을 추천합니다.';
     const sections = [
         hasRecommended ? {
@@ -1124,7 +1134,7 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
         } : null,
         hasStats ? {
             className: 'wheel-option-stats',
-            title: '주옵',
+            title: hasRecommended || hasSubstitutes ? '대체 주옵' : '추천 주옵',
             content: `
                 <div class="wheel-option-stat-content">
                     <p class="wheel-option-stat-guide">${statGuide}</p>
