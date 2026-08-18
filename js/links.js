@@ -1208,15 +1208,31 @@ function getProxyImage(url) {
 function renderCodeLinks(items, container) {
     container.innerHTML = ''; // 초기화
 
+    const getExpiryDate = (item) => {
+        const rawValue = String(item.expiryAt || item.expiry || '').trim();
+        if (!rawValue) return null;
+        const normalizedValue = /^\d{4}-\d{2}-\d{2}$/.test(rawValue)
+            ? `${rawValue}T23:59:59+09:00`
+            : rawValue;
+        const expiryDate = new Date(normalizedValue);
+        return Number.isNaN(expiryDate.getTime()) ? null : expiryDate;
+    };
+
     // 1. 데이터 분류
     const permanent = items.filter(item => !item.expiry);
-    const temporary = items.filter(item => item.expiry && new Date(item.expiry) >= new Date().setHours(0,0,0,0));
+    const now = new Date();
+    const temporary = items.filter(item => {
+        const expiryDate = getExpiryDate(item);
+        return expiryDate && expiryDate >= now;
+    });
 
     // D-Day 계산 함수
-    const getDDay = (dateStr) => {
-        const diff = new Date(dateStr) - new Date();
+    const getDDay = (item) => {
+        const expiryDate = getExpiryDate(item);
+        if (!expiryDate) return '만료일 확인 필요';
+        const diff = expiryDate - new Date();
         const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-        return days === 0 ? "오늘 만료" : `${days}일 남음`;
+        return days <= 0 ? "오늘 만료" : `${days}일 남음`;
     };
 
     // 코드 문자열을 버튼 속성에서 다시 읽지 않고, 생성 시점에 직접 묶는다.
@@ -1239,7 +1255,7 @@ function renderCodeLinks(items, container) {
         if (isTemp) {
             const timer = document.createElement('div');
             timer.className = 'code-timer';
-            timer.textContent = `⏳ ${getDDay(item.expiry)}`;
+            timer.textContent = `⏳ ${getDDay(item)}`;
             details.appendChild(timer);
         }
 
