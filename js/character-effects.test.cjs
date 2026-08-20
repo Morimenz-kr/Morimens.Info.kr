@@ -1252,12 +1252,16 @@ test('키워드 아이콘은 텍스트 중심에 맞추고 부드럽게 렌더�
     assert.match(css, /\.tooltip-trigger \.keyword-icon\s*\{[^}]*transform:\s*translateY\(0\.075em\);/s);
 });
 
-test('카라부 특성은 번식 혈육 툴팁과 성신편 영혼 단련 전문을 사용한다', () => {
+test('카라부 특성은 번식 혈육, 광기의 징조, 성신편 영혼 단련 정보를 사용한다', () => {
     const caraboo = effectsData.caraboo;
     const breeding = caraboo.traits.find(trait => trait.name === '번식 정토');
+    const omen = caraboo.traits.find(trait => trait.name === '광기의 징조');
     const training = caraboo.traits.find(trait => trait.name === '영혼 단련');
 
     assert.match(breeding.effect, /\[번식 · 혈육\]/);
+    assert.equal(omen.level_range, 'Lv. 1 ~ 12');
+    assert.equal(omen.effect, '탐색 시작 후, 5 ~ 60 광기를 획득한다.');
+    assert.equal(training.level_range, 'Lv. 1 ~ 10');
     assert.match(training.effect, /^이 특성은 \[성신편\] 스테이지에서만 유효하다/);
     assert.match(training.effect, /처음으로 영지 각성을 사용한 후 50 ~ 500 은열쇠 에너지를 획득한다/);
     assert.match(training.effect, /「빙역」지형에서 「흩날리는 눈의 저주」/);
