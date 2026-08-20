@@ -561,6 +561,15 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "달콤한 열매의 낭설",
+    "english_name": "wheel_caraboo_ssr",
+    "optimized_for": ["카라부"],
+    "main_stat": "영역 숙련 36",
+    "description": "장착자의 광기 폭발로 생성되는 기본 방어막이 22/28/34/40% 증가한다. 장착자가 [허약]을 부여하는 명령 카드를 사용한 후, 다음 명령 카드가 생성하는 기본 방어막이 22/28/34/40% 증가한다. [진홍빛 용광로] 사용 시 장착자의 행동력 소모가 가장 높은 스킬 카드 1장을 드로우하고, 배아 융합이 22/28/34/40% 증가한다.",
+    "image_path": "images/wheel_caraboo_ssr.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "환희의 마법 공연",
     "english_name": "wheel_magical_performance",
     "optimized_for": ["카시아"],
@@ -1242,15 +1251,5 @@
     "description": "팀 유일: 탐색 중 시야 +1, 맵의 시야가 전부 열린 후 검은 인장 15/20/25/30개를 획득한다. 보스 전투 시작 시, 모든 적에게 1턴 허약과 취약을 부여한다. [성신편] 스테이지에서는 효과가 \"장비자의 차원 영상 유물 등장 확률이 100%로 증가\"로 변경된다.",
     "image_path": "images/wheel_insight.png",
     "optimized_for" : [""]
-  }
-,
-  {
-    "grade": "SSR",
-    "korean_name": "달콤한 열매의 낭설",
-    "english_name": "wheel_caraboo_ssr",
-    "optimized_for": ["카라부", "Caraboo"],
-    "main_stat": "영역 숙련 36",
-    "description": "장착자의 광기 폭발로 생성되는 기본 방어막이 22/28/34/40% 증가한다. 장착자가 [허약]을 부여하는 명령 카드를 사용한 후, 다음 명령 카드가 생성하는 기본 방어막이 22/28/34/40% 증가한다. [진홍빛 용광로] 사용 시 장착자의 행동력 소모가 가장 높은 스킬 카드 1장을 드로우하고, 배아 융합이 22/28/34/40% 증가한다.",
-    "image_path": "images/wheel_caraboo_ssr.png"
   }
 ]
