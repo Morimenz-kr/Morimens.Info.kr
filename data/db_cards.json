@@ -221,5 +221,14 @@
       "image": "images/Tawil-PolarDusk.webp",
       "description": "드로우 덱 또는 버린 패에서 카드 1장을 선택해 손패로 가져오고, 그 카드의 산출력 소모를 0으로 한다."
     }
+    ,
+    { "id": "caraboo_strike", "name": "타격", "cost": 1, "type": "명령", "description": "피해를 22% 입히고, 카라부가 광기 10pt를 획득한다." },
+    { "id": "caraboo_defense", "name": "방어", "cost": 1, "type": "명령", "description": "방어막을 30pt 획득하고, 카라부가 광기 10pt를 획득한다." },
+    { "id": "caraboo_fairy_entrance", "name": "짜잔☆요정님 등장!", "cost_energy": 150, "type": "광기 폭발", "description": "[포식]: [과식]을 획득하고, 피해를 입힐 때마다 대상에게 침식을 2592스택 적용시킨다. 손에 든 모든 카드의 연소 상태를 해제한다. 방어막 135를 획득하고 전체 적에게 피해를 195pt씩 3회 입힌다. 모든 [봉헌]을 소모해 스택당 피해 횟수가 1 증가한다." },
+    { "id": "caraboo_blessing", "name": "축복", "cost": null, "type": "버프", "description": "[대가]가 있는 [선물] 1개와 [봉헌] 1스택을 획득한다. 보유·예비." },
+    { "id": "caraboo_sweet_fruit", "name": "유혹하는 달콤한 열매", "cost": 1, "type": "영지 각성", "description": "카라부가 기초 광기의 50%를 획득한다. [진홍빛 용광로] 사용 후 다음 [기적의 축복] 행동력 소모가 3 감소하며, 각 발견 옵션에 [축복]이 1장씩 추가된다." },
+    { "id": "caraboo_miracle_blessing", "name": "기적의 축복", "cost": 3, "type": "명령", "description": "방어막을 105pt 획득한다. [대가]가 다른 [축복] 2장을 발견하고 1장을 선택해 드로우 덱에 넣는다." },
+    { "id": "caraboo_curse_of_wavering_eyes", "name": "흩날리는 눈의 저주", "cost": 2, "type": "명령", "description": "HP가 가장 높은 적에게 고정 피해를 10800pt 입히고, 2턴 [허약]을 부여한다." },
+    { "id": "caraboo_flawless_fairy_tale", "name": "흠 없는 동화", "cost_energy": 400, "type": "초한 폭발", "description": "[선물]이 다른 [축복] 2세트를 발견하고 1세트를 선택해 손에 넣는다. 모든 적의 힘을 14pt 감소시킨다." }
   ]
 }

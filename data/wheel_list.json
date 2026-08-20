@@ -1243,4 +1243,14 @@
     "image_path": "images/wheel_insight.png",
     "optimized_for" : [""]
   }
+,
+  {
+    "grade": "SSR",
+    "korean_name": "달콤한 열매의 낭설",
+    "english_name": "wheel_caraboo_ssr",
+    "optimized_for": ["카라부", "Caraboo"],
+    "main_stat": "영역 숙련 36",
+    "description": "장착자의 광기 폭발로 생성되는 기본 방어막이 22/28/34/40% 증가한다. 장착자가 [허약]을 부여하는 명령 카드를 사용한 후, 다음 명령 카드가 생성하는 기본 방어막이 22/28/34/40% 증가한다. [진홍빛 용광로] 사용 시 장착자의 행동력 소모가 가장 높은 스킬 카드 1장을 드로우하고, 배아 융합이 22/28/34/40% 증가한다.",
+    "image_path": "images/wheel_caraboo_ssr.png"
+  }
 ]

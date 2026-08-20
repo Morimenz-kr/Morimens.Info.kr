@@ -61,6 +61,26 @@
       }
     ]
   },
+  "caraboo": {
+    "base_stats": [
+      { "stat": "체력", "value": 90 },
+      { "stat": "공격", "value": 108 },
+      { "stat": "방어", "value": 149 },
+      { "stat": "기초 광기", "value": 150 },
+      { "stat": "영역 숙련", "value": 24 },
+      { "stat": "인격 심화", "value": "없음" },
+      { "stat": "광기 재충전 레벨", "value": 2.4 },
+      { "stat": "영역 숙련 (인격 심화 12)", "value": 72 },
+      { "stat": "광기 재충전 레벨 (인격 심화 12)", "value": 7.2 }
+    ],
+    "level_growth": [],
+    "breakthroughs": [],
+    "awakening_path": [],
+    "talents": [
+      { "name": "변식 정토", "level_range": "고유", "description": "카라부가 파티에 있을 시, 혈육 영역이 [변식·혈육] 영역으로 조정된다." },
+      { "name": "영소 적성", "level_range": "고유", "description": "광기 폭발의 치명타 확률과 치명타 피해량이 50% 증가한다." }
+    ]
+  },
   "nautila": {
     "base_stats": [],
     "level_growth": [],

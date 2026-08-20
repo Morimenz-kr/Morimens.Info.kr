@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 gridHTML += `
                     <a href="links.html?category=character&id=${char.id}" class="card-link">
                         <div class="character-card ${char.relems} ${char.grade} ${char.class}">
-                            <img src="${char.image_thumb}" alt="${char.name}">
+                            <img src="${char.image_thumb}" alt="${char.name}" onerror="this.onerror=null;this.src='images/character_caro.png';">
                             <span class="relems-tag ${char.relems}">${relemName}</span>
                             <h3>${char.name}</h3>
                             <p>${className}</p>

@@ -3,6 +3,12 @@ import path from 'node:path';
 import process from 'node:process';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
+const PENDING_CHARACTER_DATA = new Set([
+  'tide_image',
+  'settings',
+  'dimensional_image',
+  'gachatype'
+]);
 
 const paths = {
   manifest: path.join(ROOT, 'data', 'character_manifest.json'),
@@ -46,6 +52,14 @@ function addIssue(list, code, message) {
   list.push({ code, message });
 }
 
+function addMissingDataIssue(character, errors, warnings, pendingKey, code, message) {
+  if (asArray(character.pending_data).includes(pendingKey)) {
+    addIssue(warnings, `${code}.pending`, `${message} (declared pending in character_manifest.json)`);
+    return;
+  }
+  addIssue(errors, code, message);
+}
+
 function buildIdSet(items, field = 'english_name') {
   return new Set(items.map((item) => item?.[field]).filter(Boolean));
 }
@@ -86,6 +100,12 @@ function validateCharacter(character, db) {
   const warnings = [];
   const details = [];
 
+  for (const pendingKey of asArray(character.pending_data)) {
+    if (!PENDING_CHARACTER_DATA.has(pendingKey)) {
+      addIssue(errors, 'manifest.pending_data.invalid', `${character.id} declares unknown pending data: ${pendingKey}`);
+    }
+  }
+
   if (!character.id) addIssue(errors, 'manifest.id', 'Character has no id.');
   if (!character.name) addIssue(errors, 'manifest.name', `${character.id} has no name.`);
   if (!character.image_thumb) {
@@ -96,13 +116,13 @@ function validateCharacter(character, db) {
 
   const tidePath = `images/${character.id}_tide.webp`;
   if (!existsRelative(tidePath)) {
-    addIssue(errors, 'image.tide.missing', `${tidePath} does not exist.`);
+    addMissingDataIssue(character, errors, warnings, 'tide_image', 'image.tide.missing', `${tidePath} does not exist.`);
   }
 
   const settings = db.settings[character.id] ?? db.settings[character.name];
   const settingsList = Array.isArray(settings) ? settings : settings ? [settings] : [];
   if (settingsList.length === 0) {
-    addIssue(errors, 'settings.missing', `${character.id} has no character_settings entry.`);
+    addMissingDataIssue(character, errors, warnings, 'settings', 'settings.missing', `${character.id} has no character_settings entry.`);
   } else {
     const wheelIds = [
       ...collectSettingIds(settingsList, 'myeongryun_ssr'),
@@ -143,7 +163,7 @@ function validateCharacter(character, db) {
       addIssue(errors, 'effects.traits.missing', `${character.id} has no traits.`);
     }
     if (!effects.dimensionalImage?.effect) {
-      addIssue(errors, 'effects.dimensional_image.missing', `${character.id} has no dimensionalImage effect.`);
+      addMissingDataIssue(character, errors, warnings, 'dimensional_image', 'effects.dimensional_image.missing', `${character.id} has no dimensionalImage effect.`);
     }
     if (effects.breakthroughs !== undefined) {
       addIssue(warnings, 'effects.breakthroughs.legacy', `${character.id} still uses legacy breakthroughs data.`);
@@ -154,7 +174,7 @@ function validateCharacter(character, db) {
     .filter(([, ids]) => asArray(ids).includes(character.id))
     .map(([group]) => group);
   if (gachaGroups.length === 0) {
-    addIssue(errors, 'gachatype.missing', `${character.id} is not included in gachatype.json.`);
+    addMissingDataIssue(character, errors, warnings, 'gachatype', 'gachatype.missing', `${character.id} is not included in gachatype.json.`);
   }
 
   const resourceItems = db.resourceLinks.characters?.[character.id] ?? [];

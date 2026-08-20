@@ -1,0 +1,28 @@
+{
+  "id": "caraboo",
+  "name": "카라부",
+  "info": {
+    "story": "달콤한 열매의 낭설을 품은 요정.",
+    "relems": "caro",
+    "rarity": "ssr",
+    "class": "warden"
+  },
+  "images": {
+    "thumb": "images/caraboo-thumb.png",
+    "full": "images/character_caro.png",
+    "card_art": "images/character_caro.png"
+  },
+  "skill_kit_ids": {
+    "command_cards": ["caraboo_strike", "caraboo_defense", "caraboo_blessing", "caraboo_miracle_blessing", "caraboo_curse_of_wavering_eyes"],
+    "rouse_skill": "caraboo_sweet_fruit",
+    "exalt": "caraboo_fairy_entrance",
+    "overexalt": "caraboo_flawless_fairy_tale"
+  },
+  "stats_id": "caraboo",
+  "guide": {
+    "strategy": "카라부는 방어막과 축복을 중심으로 아군을 보호하는 방어형 각성체입니다.",
+    "recommended_wheel_id": "wheel_caraboo_ssr",
+    "recommended_covenants": [],
+    "recommended_team_ids": []
+  }
+}

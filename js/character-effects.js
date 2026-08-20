@@ -52,7 +52,7 @@
     };
     [
         '소모', '유지', '발견', '준비', '관통 피해', '촉수 피해', '영지 각성',
-        '영감', '여파', '포식', '배아 융합', '초차원 공간',
+        '영감', '여파', '포식', '과식', '봉헌', '축복', '선물', '대가', '배아 융합', '초차원 공간',
         '명계', '공명', '인지 착란', '제의', '의식', '초거리', '허무', '워프', '은유'
     ].forEach(keyword => {
         keywordIcons[keyword] = ['special.png', '#c79374'];
@@ -128,6 +128,8 @@
             if (keyword === '잔해' && /부패된\s*$/.test(precedingText)) return true;
             if (keyword === '사냥' && (/(?:끝없는|영혼)\s*$/.test(precedingText) || /^(?:의 건트|\s+선언)/.test(followingText))) return true;
             if (keyword === '메아리' && /(?:과거의|잠결의|원초의|호숫가의)\s*$/.test(precedingText)) return true;
+            if (keyword === '축복' && /기적의\s*$/.test(precedingText)) return true;
+            if (keyword === '저주' && /흩날리는 눈의\s*$/.test(precedingText)) return true;
             return keyword === '광상' && (followingText.startsWith('곡') || followingText.startsWith('의 시편'));
         }
 
@@ -173,12 +175,15 @@
         text.replace(/\[([^\]]+)\]/g, (match, keyword, offset) => {
             parts.push(renderBareText(text.slice(lastIndex, offset)));
             const followingText = text.slice(offset + match.length);
+            const labeledKeyword = keywords.find(baseKeyword => keyword.startsWith(`${baseKeyword}:`));
             const numericBaseKeyword = keywords.find(baseKeyword =>
                 keyword.startsWith(baseKeyword) && /^\s*\d+$/.test(keyword.slice(baseKeyword.length))
             );
             const numericKeywordSuffix = numericBaseKeyword ? keyword.slice(numericBaseKeyword.length) : '';
             const plainUsageKeyword = numericBaseKeyword || keyword;
-            if (isPlainUsage(plainUsageKeyword, text.slice(0, offset), followingText)) {
+            if (labeledKeyword) {
+                parts.push(`[${renderBareText(keyword)}]`);
+            } else if (isPlainUsage(plainUsageKeyword, text.slice(0, offset), followingText)) {
                 parts.push(escapeHtml(keyword));
             } else if (numericBaseKeyword) {
                 const tooltipKeyword = activeAliases[numericBaseKeyword] || numericBaseKeyword;

@@ -1156,3 +1156,77 @@ test('지연 희생과 은유는 승인된 아이콘을 사용한다', () => {
     assert.match(result, /data-keyword="지연 희생"[^>]*>.*delayed-sacrifice\.png/);
     assert.match(result, /data-keyword="은유"[^>]*>.*special\.png/);
 });
+
+test('카라부 스킬과 계령은 소개 이미지의 카드 유형과 키워드를 유지한다', () => {
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8')).caraboo;
+    const fairyEntrance = data.skills.find(skill => skill.name === '짜잔☆요정님 등장!');
+    const miracleBlessing = data.skills.find(skill => skill.name === '기적의 축복');
+    const curse = data.skills.find(skill => skill.name === '흩날리는 눈의 저주');
+
+    assert.equal(fairyEntrance.type, '광기 폭발');
+    assert.equal(fairyEntrance.cost.value, 150);
+    assert.match(fairyEntrance.effect, /^\[포식: 「과식」을 획득[^\n]+\]/);
+    assert.equal(miracleBlessing.type, '명령');
+    assert.equal(miracleBlessing.cost.value, 3);
+    assert.equal(curse.type, '명령');
+    assert.match(curse.effect, /10800pt/);
+    assert.deepEqual(data.skills.map(skill => skill.name), [
+        '타격', '방어', '기적의 축복', '흩날리는 눈의 저주', '유혹하는 달콤한 열매', '짜잔☆요정님 등장!'
+    ]);
+    assert.equal(data.derivedCards[0].name, '축복');
+    assert.deepEqual(data.enlighten.map(item => item.name), [
+        '은밀한 신앙', '7번의 예배', '3번의 서약', '흠 없는 동화', '중첩의 초승달'
+    ]);
+    assert.equal(data.enlighten[3].type, '초월 폭발');
+    assert.equal(data.enlighten[4].type, '최종 법칙');
+});
+
+test('키워드와 전문을 함께 감싼 대괄호는 화면에 보존한다', () => {
+    characterEffects.configureTooltips({ 포식: '설명', 과식: '설명', 침식: '설명' });
+    const result = characterEffects.renderRichText('[포식: 과식을 획득하고 침식을 부여한다.]');
+
+    assert.match(result, /^\[/);
+    assert.match(result, /\]$/);
+    assert.match(result, /data-keyword="포식"/);
+    assert.match(result, /data-keyword="과식"/);
+});
+
+test('카라부는 혈육 캐릭터 목록에서 유우하시와 타이스 사이에 배치한다', () => {
+    const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_manifest.json'), 'utf8'));
+    const caroIds = manifest.filter(character => character.relems === 'caro').map(character => character.id);
+    const carabooIndex = caroIds.indexOf('caraboo');
+
+    assert.equal(caroIds[carabooIndex - 1], 'uvhash');
+    assert.equal(caroIds[carabooIndex + 1], 'thais');
+});
+
+test('카라부 고유 키워드는 인게임 전문을 축약하지 않는다', () => {
+    const tooltips = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_tooltips.json'), 'utf8'));
+
+    assert.match(tooltips.과식, /초과되는 1스택당 3배에 해당하는 HP를 회복하는 것으로 대체된다/);
+    assert.match(tooltips.봉헌, /너도 축복의 일부라구~/);
+    assert.match(tooltips.선물, /은열쇠 에너지를 2000pt 획득한다/);
+    assert.match(tooltips.대가, /임시 중상 카드 2장을 생성하여 뽑기 덱 맨 위에 넣기/);
+});
+
+test('카라부 카드명 내부의 축복과 저주는 키워드 툴팁으로 처리하지 않는다', () => {
+    characterEffects.configureTooltips({ 축복: '설명', 저주: '설명', 과식: '설명' });
+    const result = characterEffects.renderRichText(
+        '다음 「기적의 축복」을 사용한다. 「흩날리는 눈의 저주」의 행동력 소모가 감소한다. 「과식」을 획득한다.'
+    );
+
+    assert.equal((result.match(/data-keyword="축복"/g) || []).length, 0);
+    assert.equal((result.match(/data-keyword="저주"/g) || []).length, 0);
+    assert.equal((result.match(/data-keyword="과식"/g) || []).length, 1);
+});
+
+test('카라부 특성은 번식 혈육 툴팁과 성신편 영혼 단련 전문을 사용한다', () => {
+    const caraboo = effectsData.caraboo;
+    const breeding = caraboo.traits.find(trait => trait.name === '번식 정토');
+    const training = caraboo.traits.find(trait => trait.name === '영혼 단련');
+
+    assert.match(breeding.effect, /\[번식 · 혈육\]/);
+    assert.match(training.effect, /^이 특성은 \[성신편\] 스테이지에서만 유효하다/);
+    assert.match(training.effect, /처음으로 영지 각성을 사용한 후 50 ~ 500 은열쇠 에너지를 획득한다/);
+    assert.match(training.effect, /「빙역」지형에서 「흩날리는 눈의 저주」/);
+});
