@@ -837,7 +837,7 @@ const initializeLinksPage = async () => {
                     });
                     bindDynamicTooltips(gridContainer);
                 } else {
-                    gridContainer.innerHTML = `<div class="no-setting-notice"><div class="no-setting-icon">📝</div><div>아직 추천 세팅 정보가 등록되지 않았습니다.</div></div>`;
+                    gridContainer.innerHTML = `<div class="no-data"><p>아직 추천 세팅 정보가 등록되지 않았습니다.</p></div>`;
                 }
             }
             switchTab('character-effects');
@@ -879,7 +879,7 @@ const initializeLinksPage = async () => {
         // 공통: 리스트 카드 출력 (교환 코드가 아닌 일반 링크용)
         listEl.innerHTML = '';
         if (targetItems.length === 0) {
-            listEl.innerHTML = `<div class="no-data"><p>📭</p><p>아직 등록된 정보가 없습니다.</p></div>`;
+            listEl.innerHTML = `<div class="no-data"><p>아직 채널 정보글이 등록되지 않았습니다.</p></div>`;
         } else {
             targetItems.forEach(item => {
                 if (typeof item === 'string') createLinkCardInstant({ url: item }, listEl);
