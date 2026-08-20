@@ -1220,6 +1220,38 @@ test('카라부 카드명 내부의 축복과 저주는 키워드 툴팁으로 �
     assert.equal((result.match(/data-keyword="과식"/g) || []).length, 1);
 });
 
+test('카라부 파생 버프 카드의 축복은 아이콘과 툴팁 없이 일반 텍스트로 표시한다', () => {
+    const blessing = effectsData.caraboo.derivedCards.find(card => card.name === '축복');
+    const result = characterEffects.renderRichText(
+        blessing.effect,
+        { 축복: '설명', 대가: '설명', 선물: '설명', 봉헌: '설명', 보유: '설명', 예비: '설명', 소모: '설명' },
+        { plainKeywords: blessing.plainKeywords }
+    );
+
+    assert.deepEqual(blessing.plainKeywords, ['축복']);
+    assert.doesNotMatch(result, /data-keyword="축복"/);
+    assert.doesNotMatch(result, /<span>축복<\/span>/);
+    assert.match(result, /「축복」은 총 3종/);
+    assert.match(result, /data-keyword="대가"/);
+    assert.match(result, /data-keyword="봉헌"[^>]*style="--keyword-color:#c4cad2"[^>]*>.*caraboo-apple\.png/);
+    assert.match(result, /data-keyword="보유"[^>]*>.*special\.png/);
+    assert.match(result, /data-keyword="예비"[^>]*>.*special\.png/);
+    assert.match(result, /data-keyword="소모"[^>]*>.*special\.png/);
+    assert.match(result, /<span>보유<\/span><\/strong>\. <strong[^>]*data-keyword="예비"/);
+    assert.match(result, /<span>예비<\/span><\/strong>\. <strong[^>]*data-keyword="소모"/);
+
+    const gluttonyResult = characterEffects.renderRichText('「과식」을 획득한다.', { 과식: '설명' });
+    assert.match(gluttonyResult, /data-keyword="과식"[^>]*style="--keyword-color:#c4cad2"[^>]*>.*caraboo-apple\.png/);
+});
+
+test('키워드 아이콘은 텍스트 중심에 맞추고 부드럽게 렌더링한다', () => {
+    const css = fs.readFileSync(path.join(__dirname, '..', 'css', 'character-effects.css'), 'utf8');
+
+    assert.match(css, /\.tooltip-trigger \.keyword-icon\s*\{[^}]*image-rendering:\s*auto;/s);
+    assert.doesNotMatch(css, /image-rendering:\s*pixelated;/);
+    assert.match(css, /\.tooltip-trigger \.keyword-icon\s*\{[^}]*transform:\s*translateY\(0\.075em\);/s);
+});
+
 test('카라부 특성은 번식 혈육 툴팁과 성신편 영혼 단련 전문을 사용한다', () => {
     const caraboo = effectsData.caraboo;
     const breeding = caraboo.traits.find(trait => trait.name === '번식 정토');

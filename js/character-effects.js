@@ -51,12 +51,15 @@
         '허약': ['weakness.png', '#aa71ae']
     };
     [
-        '소모', '유지', '발견', '준비', '관통 피해', '촉수 피해', '영지 각성',
+        '소모', '보유', '예비', '유지', '발견', '준비', '관통 피해', '촉수 피해', '영지 각성',
         '영감', '여파', '포식', '과식', '봉헌', '축복', '선물', '대가', '배아 융합', '초차원 공간',
         '명계', '공명', '인지 착란', '제의', '의식', '초거리', '허무', '워프', '은유'
     ].forEach(keyword => {
         keywordIcons[keyword] = ['special.png', '#c79374'];
     });
+
+    keywordIcons['봉헌'] = ['caraboo-apple.png', '#c4cad2'];
+    keywordIcons['과식'] = ['caraboo-apple.png', '#c4cad2'];
 
     keywordIcons['공허'] = ['void.png', '#ac9a76'];
 
@@ -84,8 +87,9 @@
         return `<span class="character-effect-cost">${escapeHtml(cost.type)} ${escapeHtml(cost.value)}</span>`;
     }
 
-    function renderRichText(value) {
+    function renderRichText(value, options = {}) {
         const text = String(value ?? '');
+        const plainKeywords = new Set(options.plainKeywords || []);
         const tooltipAliases = {
             '고정 중독': '중독',
             '고정 반격': '반격',
@@ -95,6 +99,7 @@
             Object.entries(tooltipAliases).filter(([, tooltipKeyword]) => tooltipDictionary[tooltipKeyword])
         );
         const keywords = [...Object.keys(tooltipDictionary), ...Object.keys(activeAliases)]
+            .filter(keyword => !plainKeywords.has(activeAliases[keyword] || keyword))
             .sort((left, right) => right.length - left.length || left.localeCompare(right, 'ko'));
         const keywordPattern = keywords.length
             ? new RegExp(keywords.map(keyword => keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'), 'g')
@@ -345,7 +350,9 @@
         );
 
         return `
-            <div class="character-effect-description" data-effect-template="${escapeHtml(displayedEffect.effect)}">${renderRichText(interpolatedEffect)}</div>
+            <div class="character-effect-description" data-effect-template="${escapeHtml(displayedEffect.effect)}">${renderRichText(interpolatedEffect, {
+                plainKeywords: displayedEffect.plainKeywords || effect.plainKeywords
+            })}</div>
         `;
     }
 
@@ -650,7 +657,9 @@
                     description.dataset.effectTemplate = displayedEffect.effect;
                     description.innerHTML = renderRichText(sanitizeDisplayedEffect(
                         interpolateEffect(displayedEffect.effect, levels, selectedLevel)
-                    ));
+                    ), {
+                        plainKeywords: displayedEffect.plainKeywords || effect.plainKeywords
+                    });
                 }
                 return;
             }
@@ -676,11 +685,14 @@
             const description = scope.querySelector('.character-effect-description');
             if (description) {
                 const levels = JSON.parse(event.target.dataset.levels || '[]');
+                const effect = JSON.parse(scope.dataset.effectDefinition || '{}');
                 description.innerHTML = renderRichText(interpolateEffect(
                     description.dataset.effectTemplate,
                     levels,
                     event.target.value
-                ));
+                ), {
+                    plainKeywords: effect.plainKeywords
+                });
             }
         });
 
@@ -765,9 +777,9 @@
         configureTooltips(tooltips = {}) {
             tooltipDictionary = tooltips;
         },
-        renderRichText(value, tooltips) {
+        renderRichText(value, tooltips, options = {}) {
             if (tooltips) tooltipDictionary = tooltips;
-            return renderRichText(value);
+            return renderRichText(value, options);
         },
         renderKeyword: renderKeywordTrigger,
         setupTooltips,

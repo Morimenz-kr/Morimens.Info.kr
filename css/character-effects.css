@@ -319,7 +319,8 @@
     height: 1em;
     flex: 0 0 auto;
     object-fit: contain;
-    vertical-align: -0.12em;
+    image-rendering: auto;
+    transform: translateY(0.075em);
 }
 
 .character-effect-tooltip-box {
