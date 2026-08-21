@@ -40,7 +40,8 @@
       "cost": null,
       "type": "명령",
       "ui_type": "basic",
-      "description": "손패에 있을 때, 드로우 덱 맨 위의 카드가 명령 카드라면 그 카드의 복제로 변한다. (돌파 1 | 산출력 소모 -1.) 사용 후 원래 상태로 돌아가고, n점의 광기를 얻는다.",
+      "description": "손패에 있을 때, 드로우 덱 맨 위의 카드가 명령 카드라면 그 카드의 복제본으로 변한다. 사용 후 원래 상태로 돌아가고, n점의 광기를 얻는다.",
+      "breakthrough_effect": "[돌파 1] 변화한 명령 카드의 산출력 소모가 1 감소한다.",
       "levels": [
         { "level": "Lv.1", "energy": 5 },
         { "level": "Lv.2", "energy": 6 },
@@ -56,7 +57,7 @@
       "cost": 2,
       "type": "명령",
       "ui_type": "basic",
-      "description": "공격력 n% 힘을 얻는다. (돌파 1 | '<link id=\"tawil_insight\">영감</link>' 1장을 손패에 추가한다.) '<link id=\"tawil_twin_wings\">쌍익이 처음 펼쳐지다</link>' 1장을 드로우 덱에 섞는다. <b>[유지]</b>.",
+      "description": "공격력 n%만큼 힘을 획득한다. (돌파 1 | '<link id=\"tawil_insight\">영감</link>' 1장을 손패에 추가한다.) '<link id=\"tawil_twin_wings\">쌍익이 처음 펼쳐지다</link>' 1장을 드로우 덱에 섞는다. <b>[유지]</b>.",
       "derives_cards": ["tawil_insight", "tawil_twin_wings"],
       "levels": [
         { "level": "Lv.1", "strength": "3%" },

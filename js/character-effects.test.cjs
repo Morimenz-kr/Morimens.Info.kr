@@ -13,6 +13,7 @@ function loadClassifier() {
 const characterEffects = loadClassifier();
 const { classifyCharacterEffects } = characterEffects;
 const effectsData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
+const cardsData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_cards.json'), 'utf8'));
 
 test('카드별 3돌 뱃지는 선행 돌파 뱃지도 함께 활성화한다', () => {
     const result = characterEffects.renderBreakthroughBadges({
@@ -70,6 +71,25 @@ test('3돌에서는 앞 단계에서 변경된 레벨 수치도 누적한다', (
 
     const result = characterEffects.getBreakthroughVariant(skill, 3);
     assert.deepEqual(result.levels, [{ level: 1, 피해: '15%', 방어막: '30%' }]);
+});
+
+test('타비의 만물을 꿰뚫는 이치와 힘 획득 문구가 두 화면 데이터에 함께 반영된다', () => {
+    const allSeeingReason = effectsData.tawil.skills.find(skill => skill.name === '만물을 꿰뚫는 이치');
+    const tomeCard = cardsData.cards.find(card => card.id === 'tawil_skill1_tome');
+    const wingsCard = cardsData.cards.find(card => card.id === 'tawil_skill2_wings');
+    const wingsEffect = effectsData.tawil.skills.find(skill => skill.name === '시공을 가르는 날개');
+
+    assert.ok(allSeeingReason);
+    assert.equal(allSeeingReason.levels[0].광기, '5');
+    assert.equal(allSeeingReason.levels[5].광기, '10');
+    assert.equal(tomeCard.cost, null);
+    assert.match(tomeCard.breakthrough_effect, /돌파 1.*산출력 소모가 1 감소/);
+    assert.equal(
+        characterEffects.getBreakthroughVariant(allSeeingReason, 1).effect,
+        '손패에 있을 때, 드로우 덱 맨 위의 카드가 명령 카드라면 산출력 소모가 1 감소한 그 카드의 복사본으로 변한다. 사용 후 원래 상태로 돌아가고, n 광기를 획득한다.'
+    );
+    assert.match(wingsCard.description, /공격력 n%만큼 힘을 획득한다/);
+    assert.match(wingsEffect.effect, /공격력 n%만큼 힘을 획득한다/);
 });
 
 test('확정된 24와 님피아 돌파 수치를 단계별 전문에 적용한다', () => {
