@@ -251,7 +251,13 @@
     "newbie": {
       "title": "🐣 뉴비 필독 가이드",
       "links": [
-                                {
+                                        {
+          "url": "https://arca.live/b/forgettingeve/180679662",
+          "title": "뉴비는 순은의 초심이랑 극야와 새벽 매달 사두셈",
+          "desc": "",
+          "image": "https://ac.arca.live/20260822sac/386a3260721cb3a872a056acec5d305ca67842b34c07b0906f3869424656ee0b.png?expires=1787386818&key=W1h4kvTCI9z9m2nCJ7CWuA&type=list"
+        },
+{
           "url": "https://arca.live/b/forgettingeve/180613564",
           "title": "망각전야 뉴비 가이드-덱 구성 방법",
           "desc": "카라부챈에 오랜만에 돌아온 뉴비용 공략글. 그래도 이제 융재 380 정도는 무난하게 따는 편이라 슬슬 적어봐도 괜찮지 않을까 싶어서 써봄.목차0. 서론1. 기본적인 덱 구성2. 은열쇠 요원은 왜 필수적인가?2-1.",
@@ -1189,7 +1195,13 @@
     "myeongryun": {
       "title": "🔘 명륜 정보",
       "links": [
-        {
+                {
+          "url": "https://arca.live/b/forgettingeve/180679662",
+          "title": "뉴비는 순은의 초심이랑 극야와 새벽 매달 사두셈",
+          "desc": "",
+          "image": "https://ac.arca.live/20260822sac/386a3260721cb3a872a056acec5d305ca67842b34c07b0906f3869424656ee0b.png?expires=1787386818&key=W1h4kvTCI9z9m2nCJ7CWuA&type=list"
+        },
+{
           "url": "https://arca.live/b/forgettingeve/177903472",
           "title": "침탄 고래, 속박된 노래 성능비교",
           "desc": "고래: 크피 43.2%, 타격/궁 기본피해 50%, 크리율 최대 30%새장: 흑인 21.6%(=크피 10.8%, 기초피해 21.6%), 타격 기본피해 30%, 타격 시 매턴 드로우 1회크피고래>새장 32.4%차",
