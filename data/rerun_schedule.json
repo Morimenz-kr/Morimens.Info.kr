@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-12",
+  "updated_at": "2026-08-22",
   "source": "https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488",
   "verified_periods": {
     "ryker": {
@@ -18,9 +18,12 @@
       "source_url": "https://discord.com/channels/1131791637933199470/1181135756958371881/threads/1448990353519804467"
     },
     "dafoodil": {
-      "start_date": "2026-01-12",
-      "end_date": "2026-02-09",
-      "source_url": "https://discord.com/channels/1131791637933199470/1181135756958371881/threads/1453726962899091498"
+      "start_date": "2026-09-07",
+      "start_time": "10:00",
+      "end_date": "2026-10-05",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "source_note": "2026-08-22 인게임 업데이트 공지"
     },
     "miryam": {
       "start_date": "2026-01-12",
@@ -43,9 +46,12 @@
       "source_url": "https://discord.com/channels/1131791637933199470/1484467018118987888/1484467090726584522"
     },
     "kathigu-ra": {
-      "start_date": "2026-03-23",
-      "end_date": "2026-04-20",
-      "source_url": "https://discord.com/channels/1131791637933199470/1484467018118987888/1484467090726584522"
+      "start_date": "2026-09-07",
+      "start_time": "10:00",
+      "end_date": "2026-10-05",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "source_note": "2026-08-22 인게임 업데이트 공지"
     },
     "sorel": {
       "start_date": "2026-04-06",
@@ -73,9 +79,12 @@
       "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1813674389021054"
     },
     "Murphy_Fauxborn": {
-      "start_date": "2025-11-24",
-      "end_date": "2025-12-29",
-      "source_url": "https://steamstore-a.akamaihd.net/news/externalpost/steam_community_announcements/1816307528966176"
+      "start_date": "2026-09-07",
+      "start_time": "10:00",
+      "end_date": "2026-10-05",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "source_note": "2026-08-22 인게임 업데이트 공지"
     },
     "xu": {
       "start_date": "2026-01-26",
@@ -818,5 +827,36 @@
       "kind": "rerun"
     }
   ],
-  "next_pickups": []
+  "next_pickups": [
+    {
+      "id": "kathigu-ra",
+      "name": "카티구라",
+      "start_date": "2026-09-07",
+      "start_time": "10:00",
+      "end_date": "2026-10-05",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "rerun"
+    },
+    {
+      "id": "dafoodil",
+      "name": "다포딜",
+      "start_date": "2026-09-07",
+      "start_time": "10:00",
+      "end_date": "2026-10-05",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "rerun"
+    },
+    {
+      "id": "Murphy_Fauxborn",
+      "name": "탄망 · 머피",
+      "start_date": "2026-09-07",
+      "start_time": "10:00",
+      "end_date": "2026-10-05",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "rerun"
+    }
+  ]
 }

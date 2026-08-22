@@ -154,6 +154,15 @@
   },
   {
     "grade": "SSR",
+    "korean_name": "영혼의 동조",
+    "english_name": "wheel_soul_sync",
+    "optimized_for": [""],
+    "main_stat": "검은 인장 드롭 10.8%",
+    "description": "탐색 시작 시, 「영혼의 동조」 1장을 생성하여 덱에 넣는다. 「영혼의 동조」: 행동력 소모 0, 사용 시 행동력을 1pt 회복한다. 보유: 장착자 체력의 3/4/5/6%에 해당하는 고정 HP 회복량과 고정 광기 1/2/3/4pt를 해당 카드에 적립한다. 해당 카드가 소멸되지 않았다면, 죽음을 1회 면역하고 적립된 모든 HP 회복량과 광기를 방출한 후, 카드를 소멸시킨다.",
+    "image_path": "images/wheel_soul_sync.png"
+  },
+  {
+    "grade": "SSR",
     "korean_name": "행운의 시간",
     "english_name": "wheel_time_of_luck",
     "optimized_for": ["라이커"],
@@ -564,6 +573,7 @@
     "korean_name": "달콤한 열매의 낭설",
     "english_name": "wheel_caraboo_ssr",
     "optimized_for": ["카라부"],
+    "owner_character_ids": ["caraboo"],
     "main_stat": "영역 숙련 36",
     "description": "장착자의 광기 폭발로 생성되는 기본 방어막이 22/28/34/40% 증가한다. 장착자가 [허약]을 부여하는 명령 카드를 사용한 후, 다음 명령 카드가 생성하는 기본 방어막이 22/28/34/40% 증가한다. [진홍빛 용광로] 사용 시 장착자의 행동력 소모가 가장 높은 스킬 카드 1장을 드로우하고, 배아 융합이 22/28/34/40% 증가한다.",
     "image_path": "images/wheel_caraboo_ssr.png"
@@ -1107,6 +1117,16 @@
     "main_stat": "검은 인장 드롭율 5.4%",
     "description": "장착자의 「타격」 크리티컬 피해가 35/40/45/50% 증가한다.",
     "image_path": "images/wheel_lotan_cetarchon_sr.png"
+  },
+  {
+    "grade": "SR",
+    "korean_name": "평온한 진실",
+    "english_name": "wheel_caraboo_sr",
+    "optimized_for": ["카라부"],
+    "owner_character_ids": ["caraboo"],
+    "main_stat": "영역 숙련 18",
+    "description": "장착자가 「허약」을 부여하는 명령 카드를 사용한 후, 다음 명령 카드가 생성하는 기본 방어막이 22/28/34/40% 증가한다.",
+    "image_path": "images/wheel_caraboo_sr.png"
   },
   {
     "grade": "R",

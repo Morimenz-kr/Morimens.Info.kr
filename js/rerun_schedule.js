@@ -10,7 +10,11 @@
         { id: 'doresain', name: '도어세인', start_date: '2026-08-10', end_date: '2026-09-07', kind: 'rerun' },
         { id: 'mouchette', name: '무셰트', start_date: '2026-08-10', end_date: '2026-09-07', kind: 'rerun' }
     ];
-    const DEFAULT_NEXT_PICKUPS = [];
+    const DEFAULT_NEXT_PICKUPS = [
+        { id: 'kathigu-ra', name: '카티구라', start_date: '2026-09-07', start_time: '10:00', end_date: '2026-10-05', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' },
+        { id: 'dafoodil', name: '다포딜', start_date: '2026-09-07', start_time: '10:00', end_date: '2026-10-05', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' },
+        { id: 'Murphy_Fauxborn', name: '탄망 · 머피', start_date: '2026-09-07', start_time: '10:00', end_date: '2026-10-05', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' }
+    ];
 
     const currentBox = document.getElementById('current-schedules');
     const currentRerunBox = document.getElementById('current-reruns');
@@ -74,21 +78,52 @@
         return `${year}-${month}-${day}`;
     }
 
-    function normalizeScheduleBuckets(current, next, today = localDateKey()) {
+    function dateTimeKey(date = new Date(), timeZone = 'Asia/Seoul') {
+        const parts = new Intl.DateTimeFormat('en-CA', {
+            timeZone,
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hourCycle: 'h23'
+        }).formatToParts(date);
+        const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
+        return `${values.year}-${values.month}-${values.day}T${values.hour}:${values.minute}`;
+    }
+
+    function scheduleBoundary(item, boundary) {
+        const date = item?.[`${boundary}_date`];
+        if (!date) return '';
+        const time = item?.[`${boundary}_time`] || '00:00';
+        return `${date}T${time}`;
+    }
+
+    function normalizeScheduleBuckets(current, next, now = new Date()) {
         const schedules = [...current, ...next];
         const uniqueSchedules = [...new Map(schedules
             .filter(item => item?.id && item?.start_date && item?.end_date)
             .map(item => [`${item.id}:${item.start_date}:${item.end_date}`, item])).values()];
-        const active = uniqueSchedules.filter(item => item.start_date <= today && today < item.end_date);
+        const nowKey = dateTimeKey(now);
+        const active = uniqueSchedules.filter(item => {
+            const start = scheduleBoundary(item, 'start');
+            const end = scheduleBoundary(item, 'end');
+            return start <= nowKey && nowKey < end;
+        });
         const upcoming = uniqueSchedules
-            .filter(item => item.start_date > today)
-            .sort((a, b) => a.start_date.localeCompare(b.start_date));
-        const nextStartDate = upcoming[0]?.start_date;
+            .filter(item => scheduleBoundary(item, 'start') > nowKey)
+            .sort((a, b) => scheduleBoundary(a, 'start').localeCompare(scheduleBoundary(b, 'start')));
+        const nextStart = upcoming[0] ? scheduleBoundary(upcoming[0], 'start') : '';
 
         return {
             current: active,
-            next: nextStartDate ? upcoming.filter(item => item.start_date === nextStartDate) : []
+            next: nextStart ? upcoming.filter(item => scheduleBoundary(item, 'start') === nextStart) : []
         };
+    }
+
+    function formatSchedulePeriod(item) {
+        if (!item?.start_date || !item?.end_date) return '기간 정보는 추후 업데이트됩니다.';
+        return `${item.start_date} ~ ${item.end_date}`;
     }
 
     function getCharacter(id, entry, characterMap) {
@@ -125,12 +160,7 @@
             const card = createElement('article', 'character-rerun-card');
             const content = createElement('div');
             const name = createElement('h3', '', character.name);
-            const hasDates = item?.start_date && item?.end_date;
-            const meta = createElement(
-                'p',
-                '',
-                hasDates ? `${item.start_date} ~ ${item.end_date}` : '기간 정보는 추후 업데이트됩니다.'
-            );
+            const meta = createElement('p', '', formatSchedulePeriod(item));
             content.append(name, meta);
             card.append(makePortrait(character), content);
             fragment.append(card);

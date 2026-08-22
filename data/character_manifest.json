@@ -35,7 +35,7 @@
   { "id": "agrippa", "name": "아그리파", "image_thumb": "images/Agrippa-thumb.png", "relems": "caro", "class": "warden", "grade": "ssr" },
   { "id": "aigis", "name": "아이기스", "image_thumb": "images/Aigis-thumb.png", "relems": "caro", "class": "chorus", "grade": "ssr" },
   { "id": "uvhash", "name": "유우하시", "image_thumb": "images/Uvhash-thumb.png", "relems": "caro", "class": "assault", "grade": "ssr" },
-  { "id": "caraboo", "name": "카라부", "name_en": "Caraboo", "image_thumb": "images/caraboo-thumb.png", "relems": "caro", "class": "warden", "grade": "ssr", "pending_data": ["tide_image", "settings", "dimensional_image", "gachatype"] },
+  { "id": "caraboo", "name": "카라부", "name_en": "Caraboo", "image_thumb": "images/caraboo-thumb.png", "relems": "caro", "class": "warden", "grade": "ssr", "pending_data": ["settings", "dimensional_image"] },
   { "id": "thais", "name": "타이스", "image_thumb": "images/Thais-thumb.png", "relems": "caro", "class": "chorus", "grade": "ssr" },
   { "id": "faint", "name": "파인트", "image_thumb": "images/Faint-thumb.png", "relems": "caro", "class": "warden", "grade": "ssr" },
   { "id": "pickman", "name": "픽맨", "image_thumb": "images/Pickman-thumb.png", "relems": "caro", "class": "chorus", "grade": "ssr" },
