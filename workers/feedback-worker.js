@@ -180,6 +180,7 @@ const RESOURCE_CHARACTERS = [
     { id: 'pickman', name: '픽맨', relems: 'caro' },
     { id: 'helot_catena', name: '혈쇄 · 히로', relems: 'caro' },
     { id: 'saya', name: '사야', relems: 'caro' },
+    { id: 'caraboo', name: '카라부', relems: 'caro' },
     { id: 'helot', name: '히로', relems: 'caro' },
     { id: 'dafoodil', name: '다포딜', relems: 'ultra' },
     { id: 'liz', name: '리즈', relems: 'ultra' },
