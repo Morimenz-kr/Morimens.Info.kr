@@ -1416,7 +1416,13 @@
     "covenant": {
       "title": "📜 비밀계약 정보",
       "links": [
-                {
+                        {
+          "url": "https://arca.live/b/forgettingeve/180888098",
+          "title": "비밀계약 결속에 대하여",
+          "desc": "2.6.0 업데이트와 함께 미리 예고되었던 비밀계약 결속 시스템이 도입되었다.캐릭터 상세 정보에 비밀계약 탭이 추가되었고, 해당 탭에서 각 비밀계약 1~6번 슬롯을 선택하여 비밀계약을 결속할 수 있다.결속한 비밀계약",
+          "image": "https://ac.arca.live/20260824sac/832ecb61848d43b8f90eabe1ab259018e29771bd9e30865e53faf01066cac96c.png?expires=1787564418&key=nldi_hO3BWUTXGcrXIgpVA"
+        },
+{
           "url": "https://arca.live/b/forgettingeve/178652615",
           "title": "비밀계약 수치 정리",
           "desc": "심심해서 정리해봐써수치 큰 순서로 정리해써시험 범위니까 열심히 암기하도록",
