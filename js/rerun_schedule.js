@@ -9,7 +9,7 @@
         { id: 'horla', name: '오를라', start_date: '2026-08-10', end_date: '2026-09-07', kind: 'rerun' },
         { id: 'doresain', name: '도어세인', start_date: '2026-08-10', end_date: '2026-09-07', kind: 'rerun' },
         { id: 'mouchette', name: '무셰트', start_date: '2026-08-10', end_date: '2026-09-07', kind: 'rerun' },
-        { id: 'caraboo', name: '카라부', start_date: '2026-08-24', end_date: '2026-09-21', kind: 'rerun' }
+        { id: 'caraboo', name: '카라부', start_date: '2026-08-24', end_date: '2026-09-21', kind: 'release' }
     ];
     const DEFAULT_NEXT_PICKUPS = [
         { id: 'kathigu-ra', name: '카티구라', start_date: '2026-09-07', start_time: '10:00', end_date: '2026-10-05', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' },
