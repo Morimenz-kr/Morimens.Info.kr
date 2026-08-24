@@ -825,6 +825,13 @@
       "start_date": "2026-08-10",
       "end_date": "2026-09-07",
       "kind": "rerun"
+    },
+    {
+      "id": "caraboo",
+      "name": "카라부",
+      "start_date": "2026-08-24",
+      "end_date": "2026-09-21",
+      "kind": "rerun"
     }
   ],
   "next_pickups": [
