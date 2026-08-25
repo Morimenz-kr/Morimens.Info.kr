@@ -1264,6 +1264,22 @@ test('카라부 파생 버프 카드의 축복은 아이콘과 툴팁 없이 일
     assert.match(gluttonyResult, /data-keyword="과식"[^>]*style="--keyword-color:#c4cad2"[^>]*>.*caraboo-apple\.png/);
 });
 
+test('카티구라 계령 2의 보유는 원문을 유지하면서 일반 텍스트로 표시한다', () => {
+    const secondEnlighten = effectsData['kathigu-ra'].enlighten[1];
+    const result = characterEffects.renderRichText(
+        secondEnlighten.effect,
+        { 활염: '설명', 보유: '설명' },
+        { plainKeywords: secondEnlighten.plainKeywords }
+    );
+
+    assert.match(secondEnlighten.effect, /활염 을 3스택 보유한 경우/);
+    assert.deepEqual(secondEnlighten.plainKeywords, ['보유']);
+    assert.match(result, /data-keyword="활염"[\s\S]*living-flame\.png/);
+    assert.doesNotMatch(result, /data-keyword="보유"/);
+    assert.doesNotMatch(result, /<span>보유<\/span>/);
+    assert.match(result, /3스택 보유한 경우/);
+});
+
 test('키워드 아이콘은 텍스트 중심에 맞추고 부드럽게 렌더링한다', () => {
     const css = fs.readFileSync(path.join(__dirname, '..', 'css', 'character-effects.css'), 'utf8');
 

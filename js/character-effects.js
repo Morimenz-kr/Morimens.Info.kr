@@ -429,7 +429,7 @@
                                 <h3>${escapeHtml(item.name)}</h3>
                                 <div class="character-effect-rich-text">${renderRichText(sanitizeDisplayedEffect(
                                     interpolateEffect(item.effect, item.levels, getDefaultLevel(item.levels))
-                                ))}</div>
+                                ), { plainKeywords: item.plainKeywords })}</div>
                             </article>
                         `).join('')}
                     </div>
