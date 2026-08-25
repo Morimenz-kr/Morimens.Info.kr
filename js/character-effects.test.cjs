@@ -136,8 +136,10 @@ test('확정된 셀레스트 1~3돌은 카드 전문과 레벨별 수치에 반�
 
     assert.equal(eternalVision.levels[0].회복, '40%');
     assert.equal(eternalVision.levels[5].회복, '80%');
+    assert.match(celeste.skills.find(skill => skill.name === '영원한 환영').effect, /임시 촉수 피해가 공격력 n% 증가/);
     assert.match(eternalVision.effect, /유지$/);
     assert.doesNotMatch(eternalVision.effect, /항해의 호각/);
+    assert.equal(celeste.enlighten[0].effect, "'영원한 환영'에 유지가 추가되고, 회복량이 25% 증가한다.");
     assert.equal(pureDream.levels[0]['턴당 추가 회복'], '10%');
     assert.equal(pureDream.levels[5]['턴당 추가 회복'], '20%');
     assert.match(pureDream.effect, /^HP를 체력의 n% 회복한다/);
