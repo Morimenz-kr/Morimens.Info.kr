@@ -772,7 +772,12 @@
     "system": {
       "title": "⚙️ 시스템 정보",
       "links": [
-        {
+                {
+          "url": "https://arca.live/b/forgettingeve/181049265",
+          "title": "[스포있음] 동조율 노가다 얼핏 확인한거 (노약자 전용)",
+          "desc": ""
+        },
+{
           "url": "https://arca.live/b/forgettingeve/175808146",
           "title": "광기 스탯값과 실제 회복량 사이의 식과 도출과정",
           "desc": "안녕하다. 우선 해당글은https://arca.live/b/forgettingeve/154442648이 글의 도움이 매우매우 컷으을 밝히며 시작하겠다.우선 식부터 보자.X는 광기회복 스탯Y는 실제 광기 회복량일때,Y",
