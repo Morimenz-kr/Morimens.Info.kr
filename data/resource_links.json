@@ -3,7 +3,13 @@
     "event": {
       "title": "진행 중인 이벤트 정보",
       "links": [
-                                {
+                                        {
+          "url": "https://arca.live/b/forgettingeve/181377537",
+          "title": "현재 픽업에맞춘 유입 뉴비가 만들어볼수있는 쌀먹덱 추천",
+          "desc": "",
+          "image": "https://ac.arca.live/20260829sac/f38b764a8e0d1bc9e795da130d2fdbbe46eb647f3f760fc91fb9ba7fd2ba8e23.jpg?expires=1787979622&key=jK5JVk98HrgluoAa1lAEeg&type=list"
+        },
+{
           "url": "https://arca.live/b/forgettingeve/180894937",
           "title": "뉴비입장에서 성신짬통 정해져있음",
           "desc": "침탄 사야는 전 픽업이니 있다치고모스,카스,?,폴룩스,?? 자리에 융돌 서 아라크네 없는거 골라무셰트는 현재 픽업으로 가져가고 카티 탄피는 담픽업에 가져감여유있으면 카티용 오를라이러면 좋은 각성체 대부분 얻을수있음부",
@@ -425,7 +431,13 @@
     "newbie": {
       "title": "🐣 뉴비 필독 가이드",
       "links": [
-                                                                {
+                                                                        {
+          "url": "https://arca.live/b/forgettingeve/181377537",
+          "title": "현재 픽업에맞춘 유입 뉴비가 만들어볼수있는 쌀먹덱 추천",
+          "desc": "",
+          "image": "https://ac.arca.live/20260829sac/f38b764a8e0d1bc9e795da130d2fdbbe46eb647f3f760fc91fb9ba7fd2ba8e23.jpg?expires=1787979622&key=jK5JVk98HrgluoAa1lAEeg&type=list"
+        },
+{
           "url": "https://arca.live/b/forgettingeve/181207356",
           "title": "[ 뉴비용 ] 비밀 계약 추천 세팅",
           "desc": "뉴비에게 추천하는 계약이란..막간훈련에서 쉽게 얻을 수 있는 기계장치의 신이걸로 도배하는 것이다.또한 비밀계약 강화는주옵션에 가장 높은 수치를 주는 죽음저항이 있는 3,5,6 부위만 강화를 해주는 것을 추천한다.14",
