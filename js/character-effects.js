@@ -45,6 +45,7 @@
         '힘 감소': ['strength-down.png', '#976798'],
         '사냥': ['group-hunt.png', '#628da5'],
         '집단 사냥': ['group-hunt.png', '#628da5'],
+        '동결': ['special.png', '#628da5'],
         '힘': ['strength.png', '#5e9177'],
         '소용돌이 장전': ['vortex-loading.png', '#628da5'],
         '취약': ['vulnerability.png', '#b75a64'],
@@ -157,7 +158,8 @@
                 const before = segment[offset - 1] || '';
                 const after = segment[offset + keyword.length] || '';
                 const followingText = segment.slice(offset + keyword.length);
-                if (/[가-힣A-Za-z0-9]/.test(before) || (/[A-Za-z0-9]/.test(after) && !hasNumericSuffix(followingText))) return keyword;
+                const isKoreanInflection = keyword === '동결' && /^(?:한다|하고|합니다|된|되지)/.test(followingText);
+                if (/[가-힣A-Za-z0-9]/.test(before) || (/[A-Za-z0-9]/.test(after) && !hasNumericSuffix(followingText) && !isKoreanInflection)) return keyword;
                 if (isPlainUsage(keyword, segment.slice(0, offset), followingText)) return keyword;
 
                 const precedingSegment = segment.slice(lastIndex, offset);

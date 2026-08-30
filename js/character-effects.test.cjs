@@ -1076,6 +1076,13 @@ test('하티·스콜 사냥 무리 이름의 사냥은 키워드로 처리하지
     assert.equal((result.match(/data-keyword="집단 사냥"/g) || []).length, 1);
 });
 
+test('동결의 활용형을 전투 기믹 키워드로 처리한다', () => {
+    characterEffects.configureTooltips({ 동결: '설명' });
+    const result = characterEffects.renderRichText('카드를 동결하고, 동결된 카드를 소모하며, 동결되지 않은 카드를 동결한다.');
+
+    assert.equal((result.match(/data-keyword="동결"/g) || []).length, 4);
+});
+
 test('다른 단어 안에 포함된 문자열은 키워드로 처리하지 않는다', () => {
     characterEffects.configureTooltips({ '배아': '설명' });
 

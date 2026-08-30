@@ -159,6 +159,7 @@
         { label: '기절', terms: ['기절'] },
         { label: '손상', terms: ['손상'] },
         { label: '둔화', terms: ['둔화'] },
+        { label: '동결', terms: ['동결', '빙결'] },
         { label: '인지착란', terms: ['인지착란'] }
     ]);
     const DZONE_CARD_TOOLTIPS = Object.freeze({
@@ -236,6 +237,7 @@
 
     function dynamicMarkup(description, options = {}) {
         const cleaned = politeText(description || '상세 설명이 없습니다.')
+            .replace(/빙결/g, '동결')
             .replace(/\[Damage:Arg\d+\]\s*(?:pt|포인트)?의 피해/g, '현재 상태에 따라 달라지는 피해')
             .replace(/피해\s*\[Damage:Arg\d+\]\s*(?:pt|포인트)?/g, '현재 상태에 따라 달라지는 피해')
             .replace(/\(\s*\[Damage:Arg\d+\]\s*\)/g, '(피해량에 따라 결정되는 수치)')

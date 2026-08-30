@@ -184,6 +184,8 @@ test('현재 시즌에 존재하는 기믹만 바로가기 뱃지로 제공한�
     assert.match(source, /scrollIntoView/);
     assert.match(source, /aria-pressed/);
     assert.doesNotMatch(source, /renderSearchResults|searchQuery|data-search-wave/);
+    assert.match(source, /\{ label: '동결', terms: \['동결', '빙결'\] \}/);
+    assert.match(source, /\.replace\(\/빙결\/g, '동결'\)/);
 });
 
 test('카드류와 다중 체력·부활은 기믹 뱃지에서 제외하고 본문 툴팁으로 안내한다', () => {
