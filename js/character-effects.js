@@ -56,7 +56,8 @@
     [
         '소모', '보유', '예비', '유지', '발견', '준비', '관통 피해', '촉수 피해', '영지 각성',
         '여파', '포식', '과식', '봉헌', '축복', '선물', '대가', '배아 융합', '초차원 공간',
-        '명계', '공명', '인지 착란', '제의', '의식', '초거리', '허무', '워프', '은유'
+        '명계', '공명', '인지 착란', '제의', '의식', '초거리', '허무', '워프', '은유',
+        '피의 맹세', '연결 해제'
     ].forEach(keyword => {
         keywordIcons[keyword] = ['special.png', '#c79374'];
     });
@@ -121,6 +122,9 @@
                 if (!isCardKeyword || followingText.startsWith('할 때마다')) return true;
                 if (/(?:행동력|산출력|광기|은열쇠)\s*$/.test(precedingText)) return true;
             }
+            if (keyword === '보유' && /(?:방어막|스택)(?:을)?\s*$/.test(precedingText)) return true;
+            if (keyword === '포식' && /^자\s+군집/.test(followingText)) return true;
+            if (keyword === '저주' && /^\s*방패/.test(followingText)) return true;
             if (keyword === '고유' && /(?:팀|파티)\s*$/.test(precedingText)) return true;
             if (keyword === '침식' && (/침식\s*$/.test(precedingText) || /(?:과 감염|하는 색채|\s*·\s*로탄)/.test(followingText))) return true;
             if (keyword === '침식' && /잠재의식의\s*$/.test(precedingText)) return true;

@@ -1084,6 +1084,21 @@ test('조난한 탐험대가 손에 넣는 경계 카드는 키워드로 처리�
     assert.match(result, /경계 1장을 손에 넣는다/);
 });
 
+test('몬스터 설명의 보유·포식·저주는 일반 명사로 처리한다', () => {
+    characterEffects.configureTooltips({ 보유: '설명', 포식: '설명', 저주: '설명' });
+    const result = characterEffects.renderRichText('방어막 보유 시 또는 방어막을 보유한 경우, 등불 포식자 군집을 소환하고 저주 방패를 획득한다.');
+
+    assert.doesNotMatch(result, /data-keyword=/);
+});
+
+test('피의 맹세와 연결 해제는 전용 기믹 툴팁으로 표시한다', () => {
+    characterEffects.configureTooltips({ '피의 맹세': '설명', '연결 해제': '설명' });
+    const result = characterEffects.renderRichText('피의 맹세 1스택을 획득하고 의도를 「연결 해제」로 전환한다.');
+
+    assert.match(result, /data-keyword="피의 맹세"/);
+    assert.match(result, /data-keyword="연결 해제"/);
+});
+
 test('동결의 활용형을 전투 기믹 키워드로 처리한다', () => {
     characterEffects.configureTooltips({ 동결: '설명' });
     const result = characterEffects.renderRichText('카드를 동결하고, 동결된 카드를 소모하며, 동결되지 않은 카드를 동결한다.');

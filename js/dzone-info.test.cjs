@@ -62,6 +62,28 @@ test('하티·스콜 소환체의 능력치와 잠복 힘은 스테이지 배율
     }), true);
 });
 
+test('상태 의존 행동은 기본값과 스택당 증가량을 정확히 표시한다', () => {
+    const wave2Madness = dzoneData.waves.find(wave => wave.wave === 2).alerts.find(alert => alert.difficulty === 'madness');
+    const saint = wave2Madness.monsters.find(monster => monster.tid === 149109);
+    assert.equal(saint.resolvedSkills['149130'].description, '기본 365 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 43 증가.');
+    assert.match(saint.resolvedStates.find(state => state.id === 149143).description, /둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득/);
+
+    const visibleDescriptions = dzoneData.waves.flatMap(wave => wave.alerts.flatMap(alert => [
+        ...alert.monsters,
+        ...(alert.summonedMonsters || [])
+    ].flatMap(monster => [
+        ...Object.values(monster.resolvedSkills || {}).map(skill => skill.description),
+        ...(monster.resolvedStates || []).filter(state => state.visible).map(state => state.description)
+    ])));
+    assert.equal(visibleDescriptions.some(description => /\[[^\]]*?(?:Arg|Layer)\d*\]/.test(description || '')), false);
+    assert.doesNotMatch(source, /현재 상태에 따라 달라지는|조건에 따라 정해진 횟수/);
+});
+
+test('위치 제약이 없다는 중복 문구를 화면에서 제거한다', () => {
+    assert.match(source, /\(\?:어디든\|위치에\)/);
+    assert.match(source, /\(\?:관계\|상관\)/);
+});
+
 test('융재금구는 금기 학식 등급만 받고 정확한 연구 깊이는 노출하지 않는다', () => {
     assert.match(html, /id="dzone-research-level"/);
     assert.doesNotMatch(html, /dzone-depth-summary/);

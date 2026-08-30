@@ -170,6 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return !isCardKeyword || followingText.startsWith('할 때마다') ||
                     /(?:행동력|산출력|광기|은열쇠)\s*$/.test(precedingText);
             }
+            if (keyword === '보유') return /(?:방어막|스택)(?:을)?\s*$/.test(precedingText);
+            if (keyword === '포식') return /^자\s+군집/.test(followingText);
+            if (keyword === '저주') return /^\s*방패/.test(followingText);
             if (keyword === '고유') return /(?:팀|파티)\s*$/.test(precedingText);
             if (keyword === '침식') return /침식\s*$/.test(precedingText) || /잠재의식의\s*$/.test(precedingText) ||
                 /(?:과 감염|하는 색채|\s*·\s*로탄)/.test(followingText);

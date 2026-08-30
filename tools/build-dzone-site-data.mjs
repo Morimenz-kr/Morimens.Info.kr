@@ -90,8 +90,10 @@ const TARGET_LABELS = Object.freeze({
   FrontAlly: '전방 적'
 });
 
-function evaluateExpression(expression, stats) {
-  let source = String(expression || '')
+function evaluateExpression(expression, stats, context = {}) {
+  const original = String(expression || '');
+  const dynamic = /GetStateLayer|\.tentacle_count|HandDeck\.CardCount/.test(original);
+  let source = original
     .replaceAll('BattleAtkForce', String(stats.attack))
     .replaceAll('BattleDefForce', String(stats.defense))
     .replaceAll('CmdCaster.max_hp', String(stats.hp))
@@ -102,12 +104,23 @@ function evaluateExpression(expression, stats) {
     .replaceAll('StateOwner.def', String(stats.defense))
     .replace(/GetMonsterByID\(\d+\)\.atk/g, String(stats.attack))
     .replace(/GetMonsterByID\(\d+\)\.max_hp/g, String(stats.hp))
-    .replaceAll('math.ceil', 'Math.ceil');
-  if (!/^(?:[0-9+\-*/().\s]|Math\.ceil)+$/.test(source)) return null;
+    .replace(/CmdCaster\.GetStateLayer\((\d+)\)/g, (_, id) => String(context.stateLayers?.[id] ?? 0))
+    .replace(/FrontEnemy\.GetStateLayer\(\d+\)/g, '0')
+    .replace(/PlayerRole\.GetStateLayer\(\d+\)/g, '0')
+    .replace(/StateArg(\d+)/g, (token, number) => {
+      const value = context.stateArgs?.[Number(number) - 1]?.value?.raw;
+      return value === undefined ? token : String(value);
+    })
+    .replaceAll('CmdCaster.tentacle_count', String(context.tentacleCount ?? 0))
+    .replaceAll('HandDeck.CardCount', '0')
+    .replaceAll('math.ceil', 'Math.ceil')
+    .replaceAll('math.min', 'Math.min')
+    .replaceAll('math.max', 'Math.max');
+  if (!/^(?:[0-9+\-*/(),.\s]|Math\.(?:ceil|min|max))+$/.test(source)) return null;
   try {
     const value = Function(`"use strict"; return (${source});`)();
     if (!Number.isFinite(value)) return null;
-    return { raw: value, display: Math.ceil(value) };
+    return { raw: value, display: Math.ceil(value), ...(dynamic ? { dynamic: true } : {}) };
   } catch {
     return null;
   }
@@ -127,10 +140,7 @@ function resolveStateDescription(template, resolved) {
       if (display === null) return;
       const number = index + 1;
       description = description
-        .replaceAll(`[Power:${kind}${number}]`, display)
-        .replaceAll(`[Block:${kind}${number}]`, display)
-        .replaceAll(`[Damage:${kind}${number}]`, display)
-        .replaceAll(`[AttackTimes:${kind}${number}]`, display)
+        .replace(new RegExp(`\\[[A-Za-z]+:${kind}${number}\\]`, 'g'), display)
         .replaceAll(`[${kind}${number}]`, display);
     });
   };
@@ -138,13 +148,24 @@ function resolveStateDescription(template, resolved) {
   replaceArgument('DescArg', resolved.descArgs);
   const layer = resolvedDisplay(resolved.initialLayer?.value);
   if (layer !== null) description = description.replaceAll('[Layer]', layer);
-  return description;
+  return description
+    .replace(/적의 손패에 ([\d,]+)장의 둔화 명령 카드가/g, '적의 손패에 둔화 명령 카드가 $1장')
+    .replace(/자신이 ([\d,]+) 스택의 피의 맹세를/g, '피의 맹세 $1스택을')
+    .replace(/명령 카드 ([\d,]+)장에 무작위로 ([\d,]+) 스택의 둔화를/g, '명령 카드 $1장에 둔화 $2스택을 무작위로');
 }
 
 function resolveDescription(template, args) {
   return template.replace(/\[(?:[A-Za-z]+:)?Arg(\d+)\]/g, (match, number) => {
     const resolved = args[Number(number) - 1]?.value;
-    return resolved ? new Intl.NumberFormat('ko-KR').format(resolved.display) : match;
+    if (!resolved && !args[Number(number) - 1]?.expression && match.startsWith('[AttackTimes:')) return '1';
+    if (!resolved) return match;
+    const display = new Intl.NumberFormat('ko-KR').format(resolved.display);
+    if (!resolved.dynamic) return display;
+    const expression = args[Number(number) - 1]?.expression || '';
+    if (/FrontEnemy\.GetStateLayer\(2840\)\/3/.test(expression)) {
+      return `기본 ${display}(대상의 출혈 3스택당 +1)`;
+    }
+    return `기본 ${display}`;
   });
 }
 
@@ -365,25 +386,36 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
   };
 
   const resolveMonster = (definition, stats) => {
+    const stateLayers = Object.fromEntries((definition?.states || []).map(state => {
+      const value = state.initialLayerExpression
+        ? evaluateExpression(state.initialLayerExpression, stats)
+        : null;
+      return [String(state.id), value?.raw ?? 0];
+    }));
+    const expressionContext = {
+      stateLayers,
+      tentacleCount: (definition?.states || []).some(state => state.id === 118118) ? 1 : 0
+    };
     stats.resolvedSkills = Object.fromEntries((definition?.skills || []).map(skill => {
       const args = skill.expressions.map(expression => ({
         expression,
-        value: evaluateExpression(expression, stats)
+        value: evaluateExpression(expression, stats, expressionContext)
       }));
       return [String(skill.id), { args, description: resolveDescription(skill.descriptionTemplate, args) }];
     }));
     stats.resolvedStates = (definition?.states || []).map(state => {
+      const stateArgs = state.stateParamExpressions.map(expression => ({
+        expression,
+        value: evaluateExpression(expression, stats, expressionContext)
+      }));
       const resolved = {
         initialLayer: state.initialLayerExpression
-          ? { expression: state.initialLayerExpression, value: evaluateExpression(state.initialLayerExpression, stats) }
+          ? { expression: state.initialLayerExpression, value: evaluateExpression(state.initialLayerExpression, stats, expressionContext) }
           : null,
-        stateArgs: state.stateParamExpressions.map(expression => ({
-          expression,
-          value: evaluateExpression(expression, stats)
-        })),
+        stateArgs,
         descArgs: state.descParamExpressions.map(expression => ({
           expression,
-          value: evaluateExpression(expression, stats)
+          value: evaluateExpression(expression, stats, { ...expressionContext, stateArgs })
         }))
       };
       return {

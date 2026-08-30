@@ -145,3 +145,64 @@ test('소환 개체의 패턴과 조물의 연구 깊이 수식을 함께 생성
   ]);
   assert.equal(wave.initialRelics[0].image, 'images/dzone/relic/icon_creation_001.webp');
 });
+
+test('상태 의존 수식은 기본값을 남기고 DescArg는 StateArg로 해결한다', async () => {
+  const { buildDzoneSiteData } = await buildModule;
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'morimens-dzone-dynamic-'));
+  const staticDirectory = path.join(root, 'static');
+  const basePath = path.join(root, 'base.json');
+  const outputPath = path.join(root, 'out.json');
+  await fs.mkdir(staticDirectory);
+  await fs.writeFile(basePath, JSON.stringify({
+    waves: [{
+      wave: 1,
+      encounters: [],
+      monsters: [{ tid: 100, nameKo: '적심 성도' }],
+      alerts: [{ alert: 5, monsters: [{ tid: 100, hp: 1000, attack: 1216, defense: 50 }] }]
+    }]
+  }), 'utf8');
+  await writeDocument(staticDirectory, 'Config.MonsterConfig.json', {
+    100: { InitSkillList: { 1: 201, 2: 202, 3: 203 }, ExistState: { 1: 301 }, StateParams: '1,1,1,1' }
+  });
+  await writeDocument(staticDirectory, 'Text_KR.Text_MonsterConfig.json', {});
+  await writeDocument(staticDirectory, 'Config.Skill.json', {
+    201: {
+      Name: 'Skill_201_Name|새로운 생명을 포옹하다',
+      Desc: 'Skill_201_Desc|[Damage:Arg1] 피해를 [AttackTimes:Arg2]회 입히고, 피의 맹세 1 스택마다 [Arg3] 증가.',
+      Type: { 1: 'Intent_Attack' },
+      Para: 'BattleAtkForce*0.3+BattleAtkForce*0.035*CmdCaster.GetStateLayer(999),3,BattleAtkForce*0.035'
+    },
+    202: {
+      Name: 'Skill_202_Name|미지원 계산식',
+      Desc: 'Skill_202_Desc|[AttackTimes:Arg1]회',
+      Type: { 1: 'Intent_Attack' },
+      Para: 'UnknownCounter()'
+    },
+    203: {
+      Name: 'Skill_203_Name|손패 연동',
+      Desc: 'Skill_203_Desc|[AttackTimes:Arg1]회',
+      Type: { 1: 'Intent_Attack' },
+      Para: 'math.min(10,4+math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692)))'
+    }
+  });
+  await writeDocument(staticDirectory, 'Text_KR.Text_Skill.json', {});
+  await writeDocument(staticDirectory, 'Config.State.json', {
+    301: {
+      Name: 'State_301_Name|피의 서약',
+      Desc: 'State_301_Desc|적의 손패에 [DescArg1]장의 둔화 명령 카드가 있을 때마다 자신이 [DescArg2] 스택의 피의 맹세를 획득한다.',
+      DescPara: { 1: 'StateArg1', 2: 'StateArg2' }, ShowType: 'Normal'
+    }
+  });
+  await writeDocument(staticDirectory, 'Text_KR.Text_State.json', {});
+  await writeDocument(staticDirectory, 'Config.Cmd.json', {});
+  await writeDocument(staticDirectory, 'Config.RelicConfig.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_RelicConfig.json', {});
+
+  await buildDzoneSiteData({ basePath, staticDirectory, outputPath });
+  const output = JSON.parse(await fs.readFile(outputPath, 'utf8'));
+  const monster = output.waves[0].alerts[0].monsters[0];
+  assert.equal(monster.resolvedSkills['201'].description, '기본 365 피해를 3회 입히고, 피의 맹세 1 스택마다 43 증가.');
+  assert.equal(monster.resolvedSkills['202'].description, '[AttackTimes:Arg1]회');
+  assert.equal(monster.resolvedSkills['203'].description, '기본 4회');
+  assert.equal(monster.resolvedStates[0].description, '적의 손패에 둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득한다.');
+});

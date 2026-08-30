@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-30T18:40:48.811Z",
+  "generatedAt": "2026-08-30T19:02:33.406Z",
   "period": 68,
   "source": {
     "kind": "runtime-config-ab",
@@ -2111,20 +2111,32 @@
                     },
                     {
                       "expression": "(CmdCaster.GetStateLayer(2886)+1)",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "CmdCaster.GetStateLayer(3606)",
-                      "value": null
+                      "value": {
+                        "raw": 0,
+                        "display": 0,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "87pt의 피해를 [AttackTimes:Arg2]회 입히고, 「살려줘」 1장을 손에 넣는다."
+                  "description": "87pt의 피해를 기본 1회 입히고, 「살려줘」 1장을 손에 넣는다."
                 },
                 "48581": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 52.199999999999996,
+                        "display": 53,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -2134,13 +2146,17 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 3회 입힌다."
+                  "description": "기본 53pt의 피해를 3회 입힌다."
                 },
                 "48582": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 174,
+                        "display": 174,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -2151,10 +2167,14 @@
                     },
                     {
                       "expression": "(BattleAtkForce*1.2+CmdCaster.GetStateLayer(3926))*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 104.39999999999999,
+                        "display": 105,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 추가로 방어되지 않은 피해량의 50%에 해당하는 출혈을 부여한다."
+                  "description": "기본 174pt의 피해를 1회 입히고, 추가로 방어되지 않은 피해량의 50%에 해당하는 출혈을 부여한다."
                 },
                 "48583": {
                   "args": [
@@ -2186,7 +2206,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 174,
+                        "display": 174,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -2203,13 +2227,17 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 반격 9스택을 획득한다."
+                  "description": "기본 174pt의 피해를 1회 입히고, 반격 9스택을 획득한다."
                 },
                 "48585": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 174,
+                        "display": 174,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -2226,7 +2254,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 추가로 중독 27스택을 부여한다."
+                  "description": "기본 174pt의 피해를 1회 입히고, 추가로 중독 27스택을 부여한다."
                 },
                 "48593": {
                   "args": [
@@ -2258,7 +2286,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 174,
+                        "display": 174,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -2268,7 +2300,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입힌다."
+                  "description": "기본 174pt의 피해를 1회 입힌다."
                 },
                 "48600": {
                   "args": [
@@ -3199,20 +3231,32 @@
                     },
                     {
                       "expression": "(CmdCaster.GetStateLayer(2886)+1)",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "CmdCaster.GetStateLayer(3606)",
-                      "value": null
+                      "value": {
+                        "raw": 0,
+                        "display": 0,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "392pt의 피해를 [AttackTimes:Arg2]회 입히고, 「살려줘」 1장을 손에 넣는다."
+                  "description": "392pt의 피해를 기본 1회 입히고, 「살려줘」 1장을 손에 넣는다."
                 },
                 "48581": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 234.89999999999998,
+                        "display": 235,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -3222,13 +3266,17 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 3회 입힌다."
+                  "description": "기본 235pt의 피해를 3회 입힌다."
                 },
                 "48582": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 783,
+                        "display": 783,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -3239,10 +3287,14 @@
                     },
                     {
                       "expression": "(BattleAtkForce*1.2+CmdCaster.GetStateLayer(3926))*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 469.79999999999995,
+                        "display": 470,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 추가로 방어되지 않은 피해량의 50%에 해당하는 출혈을 부여한다."
+                  "description": "기본 783pt의 피해를 1회 입히고, 추가로 방어되지 않은 피해량의 50%에 해당하는 출혈을 부여한다."
                 },
                 "48583": {
                   "args": [
@@ -3274,7 +3326,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 783,
+                        "display": 783,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -3291,13 +3347,17 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 반격 40스택을 획득한다."
+                  "description": "기본 783pt의 피해를 1회 입히고, 반격 40스택을 획득한다."
                 },
                 "48585": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 783,
+                        "display": 783,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -3314,7 +3374,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 추가로 중독 118스택을 부여한다."
+                  "description": "기본 783pt의 피해를 1회 입히고, 추가로 중독 118스택을 부여한다."
                 },
                 "48593": {
                   "args": [
@@ -3346,7 +3406,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 783,
+                        "display": 783,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -3356,7 +3420,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입힌다."
+                  "description": "기본 783pt의 피해를 1회 입힌다."
                 },
                 "48600": {
                   "args": [
@@ -4287,20 +4351,32 @@
                     },
                     {
                       "expression": "(CmdCaster.GetStateLayer(2886)+1)",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "CmdCaster.GetStateLayer(3606)",
-                      "value": null
+                      "value": {
+                        "raw": 0,
+                        "display": 0,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "879pt의 피해를 [AttackTimes:Arg2]회 입히고, 「살려줘」 1장을 손에 넣는다."
+                  "description": "879pt의 피해를 기본 1회 입히고, 「살려줘」 1장을 손에 넣는다."
                 },
                 "48581": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 527.1,
+                        "display": 528,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -4310,13 +4386,17 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 3회 입힌다."
+                  "description": "기본 528pt의 피해를 3회 입힌다."
                 },
                 "48582": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 1757,
+                        "display": 1757,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -4327,10 +4407,14 @@
                     },
                     {
                       "expression": "(BattleAtkForce*1.2+CmdCaster.GetStateLayer(3926))*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1054.2,
+                        "display": 1055,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 추가로 방어되지 않은 피해량의 50%에 해당하는 출혈을 부여한다."
+                  "description": "기본 1,757pt의 피해를 1회 입히고, 추가로 방어되지 않은 피해량의 50%에 해당하는 출혈을 부여한다."
                 },
                 "48583": {
                   "args": [
@@ -4362,7 +4446,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 1757,
+                        "display": 1757,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -4379,13 +4467,17 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 반격 88스택을 획득한다."
+                  "description": "기본 1,757pt의 피해를 1회 입히고, 반격 88스택을 획득한다."
                 },
                 "48585": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 1757,
+                        "display": 1757,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -4402,7 +4494,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 추가로 중독 264스택을 부여한다."
+                  "description": "기본 1,757pt의 피해를 1회 입히고, 추가로 중독 264스택을 부여한다."
                 },
                 "48593": {
                   "args": [
@@ -4434,7 +4526,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 1757,
+                        "display": 1757,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -4444,7 +4540,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입힌다."
+                  "description": "기본 1,757pt의 피해를 1회 입힌다."
                 },
                 "48600": {
                   "args": [
@@ -5375,20 +5471,32 @@
                     },
                     {
                       "expression": "(CmdCaster.GetStateLayer(2886)+1)",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "CmdCaster.GetStateLayer(3606)",
-                      "value": null
+                      "value": {
+                        "raw": 0,
+                        "display": 0,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "1,200pt의 피해를 [AttackTimes:Arg2]회 입히고, 「살려줘」 1장을 손에 넣는다."
+                  "description": "1,200pt의 피해를 기본 1회 입히고, 「살려줘」 1장을 손에 넣는다."
                 },
                 "48581": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 719.6999999999999,
+                        "display": 720,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -5398,13 +5506,17 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 3회 입힌다."
+                  "description": "기본 720pt의 피해를 3회 입힌다."
                 },
                 "48582": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 2399,
+                        "display": 2399,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -5415,10 +5527,14 @@
                     },
                     {
                       "expression": "(BattleAtkForce*1.2+CmdCaster.GetStateLayer(3926))*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1439.3999999999999,
+                        "display": 1440,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 추가로 방어되지 않은 피해량의 50%에 해당하는 출혈을 부여한다."
+                  "description": "기본 2,399pt의 피해를 1회 입히고, 추가로 방어되지 않은 피해량의 50%에 해당하는 출혈을 부여한다."
                 },
                 "48583": {
                   "args": [
@@ -5450,7 +5566,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 2399,
+                        "display": 2399,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -5467,13 +5587,17 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 반격 120스택을 획득한다."
+                  "description": "기본 2,399pt의 피해를 1회 입히고, 반격 120스택을 획득한다."
                 },
                 "48585": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 2399,
+                        "display": 2399,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -5490,7 +5614,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입히고, 추가로 중독 360스택을 부여한다."
+                  "description": "기본 2,399pt의 피해를 1회 입히고, 추가로 중독 360스택을 부여한다."
                 },
                 "48593": {
                   "args": [
@@ -5522,7 +5646,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*1+CmdCaster.GetStateLayer(3926)",
-                      "value": null
+                      "value": {
+                        "raw": 2399,
+                        "display": 2399,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -5532,7 +5660,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1]pt의 피해를 1회 입힌다."
+                  "description": "기본 2,399pt의 피해를 1회 입힌다."
                 },
                 "48600": {
                   "args": [
@@ -7938,7 +8066,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+BattleAtkForce*0.035*CmdCaster.GetStateLayer(149140)",
-                      "value": null
+                      "value": {
+                        "raw": 35.4,
+                        "display": 36,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -7962,7 +8094,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 5 증가."
+                  "description": "기본 36 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 5 증가."
                 },
                 "149131": {
                   "args": [
@@ -8029,7 +8161,7 @@
                   "id": 149143,
                   "name": "얼어붙은 피의 서약",
                   "visible": true,
-                  "description": "드로우 단계 종료 후, 적의 손패에 [DescArg1]장의 둔화 명령 카드가 있을 때마다 자신이 [DescArg2] 스택의 피의 맹세를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 [DescArg3]장에 무작위로 [DescArg4] 스택의 둔화를 부여합니다.",
+                  "description": "드로우 단계 종료 후, 적의 손패에 둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 1장에 둔화 1스택을 무작위로 부여합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -8070,19 +8202,31 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg2",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg3",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg4",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     }
                   ]
                 },
@@ -8507,7 +8651,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -8527,7 +8671,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -8739,7 +8886,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -8759,7 +8906,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -8971,7 +9121,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 150%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -8991,7 +9141,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 150,
+                        "display": 150
+                      }
                     }
                   ]
                 },
@@ -10116,7 +10269,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -10136,7 +10289,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -10362,7 +10518,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -10382,7 +10538,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -10608,7 +10767,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -10628,7 +10787,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -10854,7 +11016,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -10874,7 +11036,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -11100,7 +11265,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -11120,7 +11285,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -11346,7 +11514,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -11366,7 +11534,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -11592,7 +11763,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -11612,7 +11783,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -11838,7 +12012,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -11858,7 +12032,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -12556,7 +12733,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+BattleAtkForce*0.035*CmdCaster.GetStateLayer(149140)",
-                      "value": null
+                      "value": {
+                        "raw": 144.29999999999998,
+                        "display": 145,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -12580,7 +12761,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 17 증가."
+                  "description": "기본 145 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 17 증가."
                 },
                 "149131": {
                   "args": [
@@ -12647,7 +12828,7 @@
                   "id": 149143,
                   "name": "얼어붙은 피의 서약",
                   "visible": true,
-                  "description": "드로우 단계 종료 후, 적의 손패에 [DescArg1]장의 둔화 명령 카드가 있을 때마다 자신이 [DescArg2] 스택의 피의 맹세를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 [DescArg3]장에 무작위로 [DescArg4] 스택의 둔화를 부여합니다.",
+                  "description": "드로우 단계 종료 후, 적의 손패에 둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 1장에 둔화 1스택을 무작위로 부여합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -12688,19 +12869,31 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg2",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg3",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg4",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     }
                   ]
                 },
@@ -13125,7 +13318,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -13145,7 +13338,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -13357,7 +13553,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -13377,7 +13573,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -13589,7 +13788,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 150%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -13609,7 +13808,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 150,
+                        "display": 150
+                      }
                     }
                   ]
                 },
@@ -14734,7 +14936,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -14754,7 +14956,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -14980,7 +15185,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -15000,7 +15205,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -15226,7 +15434,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -15246,7 +15454,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -15472,7 +15683,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -15492,7 +15703,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -15718,7 +15932,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -15738,7 +15952,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -15964,7 +16181,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -15984,7 +16201,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -16210,7 +16430,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -16230,7 +16450,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -16456,7 +16679,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -16476,7 +16699,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -17174,7 +17400,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+BattleAtkForce*0.035*CmdCaster.GetStateLayer(149140)",
-                      "value": null
+                      "value": {
+                        "raw": 271.8,
+                        "display": 272,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -17198,7 +17428,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 32 증가."
+                  "description": "기본 272 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 32 증가."
                 },
                 "149131": {
                   "args": [
@@ -17265,7 +17495,7 @@
                   "id": 149143,
                   "name": "얼어붙은 피의 서약",
                   "visible": true,
-                  "description": "드로우 단계 종료 후, 적의 손패에 [DescArg1]장의 둔화 명령 카드가 있을 때마다 자신이 [DescArg2] 스택의 피의 맹세를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 [DescArg3]장에 무작위로 [DescArg4] 스택의 둔화를 부여합니다.",
+                  "description": "드로우 단계 종료 후, 적의 손패에 둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 1장에 둔화 1스택을 무작위로 부여합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -17306,19 +17536,31 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg2",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg3",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg4",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     }
                   ]
                 },
@@ -17743,7 +17985,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -17763,7 +18005,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -17975,7 +18220,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -17995,7 +18240,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -18207,7 +18455,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 150%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -18227,7 +18475,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 150,
+                        "display": 150
+                      }
                     }
                   ]
                 },
@@ -19352,7 +19603,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -19372,7 +19623,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -19598,7 +19852,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -19618,7 +19872,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -19844,7 +20101,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -19864,7 +20121,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -20090,7 +20350,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -20110,7 +20370,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -20336,7 +20599,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -20356,7 +20619,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -20582,7 +20848,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -20602,7 +20868,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -20828,7 +21097,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -20848,7 +21117,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -21074,7 +21346,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -21094,7 +21366,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -21792,7 +22067,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+BattleAtkForce*0.035*CmdCaster.GetStateLayer(149140)",
-                      "value": null
+                      "value": {
+                        "raw": 364.8,
+                        "display": 365,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -21816,7 +22095,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 43 증가."
+                  "description": "기본 365 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 43 증가."
                 },
                 "149131": {
                   "args": [
@@ -21883,7 +22162,7 @@
                   "id": 149143,
                   "name": "얼어붙은 피의 서약",
                   "visible": true,
-                  "description": "드로우 단계 종료 후, 적의 손패에 [DescArg1]장의 둔화 명령 카드가 있을 때마다 자신이 [DescArg2] 스택의 피의 맹세를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 [DescArg3]장에 무작위로 [DescArg4] 스택의 둔화를 부여합니다.",
+                  "description": "드로우 단계 종료 후, 적의 손패에 둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 1장에 둔화 1스택을 무작위로 부여합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -21924,19 +22203,31 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg2",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg3",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg4",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     }
                   ]
                 },
@@ -22361,7 +22652,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -22381,7 +22672,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -22593,7 +22887,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -22613,7 +22907,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -22825,7 +23122,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 150%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -22845,7 +23142,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 150,
+                        "display": 150
+                      }
                     }
                   ]
                 },
@@ -23970,7 +24270,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -23990,7 +24290,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -24216,7 +24519,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -24236,7 +24539,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -24462,7 +24768,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -24482,7 +24788,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -24708,7 +25017,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -24728,7 +25037,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -24954,7 +25266,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -24974,7 +25286,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -25200,7 +25515,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -25220,7 +25535,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -25446,7 +25764,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -25466,7 +25784,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -25692,7 +26013,7 @@
                   "id": 149229,
                   "name": "서리 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「서리 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 125%에 해당하는 「서리 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -25712,7 +26033,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 125,
+                        "display": 125
+                      }
                     }
                   ]
                 },
@@ -27245,7 +27569,7 @@
                       }
                     }
                   ],
-                  "description": "110pt의 피해를 [AttackTimes:Arg2]회 입히고, 자신이 사망한다."
+                  "description": "110pt의 피해를 1회 입히고, 자신이 사망한다."
                 }
               },
               "resolvedStates": [
@@ -27314,7 +27638,7 @@
                       }
                     }
                   ],
-                  "description": "110pt의 피해를 [AttackTimes:Arg2]회 입히고, 자신이 사망한다."
+                  "description": "110pt의 피해를 1회 입히고, 자신이 사망한다."
                 }
               },
               "resolvedStates": [
@@ -27538,7 +27862,7 @@
                       }
                     }
                   ],
-                  "description": "456pt의 피해를 [AttackTimes:Arg2]회 입히고, 자신이 사망한다."
+                  "description": "456pt의 피해를 1회 입히고, 자신이 사망한다."
                 }
               },
               "resolvedStates": [
@@ -27607,7 +27931,7 @@
                       }
                     }
                   ],
-                  "description": "456pt의 피해를 [AttackTimes:Arg2]회 입히고, 자신이 사망한다."
+                  "description": "456pt의 피해를 1회 입히고, 자신이 사망한다."
                 }
               },
               "resolvedStates": [
@@ -27831,7 +28155,7 @@
                       }
                     }
                   ],
-                  "description": "756pt의 피해를 [AttackTimes:Arg2]회 입히고, 자신이 사망한다."
+                  "description": "756pt의 피해를 1회 입히고, 자신이 사망한다."
                 }
               },
               "resolvedStates": [
@@ -27900,7 +28224,7 @@
                       }
                     }
                   ],
-                  "description": "756pt의 피해를 [AttackTimes:Arg2]회 입히고, 자신이 사망한다."
+                  "description": "756pt의 피해를 1회 입히고, 자신이 사망한다."
                 }
               },
               "resolvedStates": [
@@ -28124,7 +28448,7 @@
                       }
                     }
                   ],
-                  "description": "1,013pt의 피해를 [AttackTimes:Arg2]회 입히고, 자신이 사망한다."
+                  "description": "1,013pt의 피해를 1회 입히고, 자신이 사망한다."
                 }
               },
               "resolvedStates": [
@@ -28193,7 +28517,7 @@
                       }
                     }
                   ],
-                  "description": "1,013pt의 피해를 [AttackTimes:Arg2]회 입히고, 자신이 사망한다."
+                  "description": "1,013pt의 피해를 1회 입히고, 자신이 사망한다."
                 }
               },
               "resolvedStates": [
@@ -29075,7 +29399,11 @@
                     },
                     {
                       "expression": "math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692))",
-                      "value": null
+                      "value": {
+                        "raw": 0,
+                        "display": 0,
+                        "dynamic": true
+                      }
                     }
                   ],
                   "description": "244pt의 피해를 1회 입히고, 실드를 820pt 획득한다. 턴 종료 전까지 플레이어의 남은 손패 1장당 실드가 205pt 추가로 증가한다."
@@ -29223,7 +29551,11 @@
                     },
                     {
                       "expression": "CmdCaster.GetStateLayer(95001)+2",
-                      "value": null
+                      "value": {
+                        "raw": 10,
+                        "display": 10,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -29233,7 +29565,7 @@
                       }
                     }
                   ],
-                  "description": "42pt의 피해를 [AttackTimes:Arg2]회 입히고, 치명타 피해를 받을 때마다 공격 횟수가 1회 감소하며, 최대 3회까지 감소한다."
+                  "description": "42pt의 피해를 기본 10회 입히고, 치명타 피해를 받을 때마다 공격 횟수가 1회 감소하며, 최대 3회까지 감소한다."
                 },
                 "94966": {
                   "args": [
@@ -29450,7 +29782,11 @@
                     },
                     {
                       "expression": "1+CmdCaster.tentacle_count*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1.5,
+                        "display": 2,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "2",
@@ -29467,7 +29803,7 @@
                       }
                     }
                   ],
-                  "description": "59pt의 피해를 [AttackTimes:Arg2]회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
+                  "description": "59pt의 피해를 기본 2회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
                 },
                 "118065": {
                   "args": [
@@ -29584,7 +29920,11 @@
                     },
                     {
                       "expression": "1+CmdCaster.tentacle_count*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1.5,
+                        "display": 2,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "2",
@@ -29601,7 +29941,7 @@
                       }
                     }
                   ],
-                  "description": "79pt의 피해를 [AttackTimes:Arg2]회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
+                  "description": "79pt의 피해를 기본 2회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
                 },
                 "118975": {
                   "args": [
@@ -29650,7 +29990,7 @@
                   "id": 118118,
                   "name": "촉수 집결",
                   "visible": true,
-                  "description": "촉수 피해가 [TentaclePower:DescArg1]인 촉수 1개와 촉수 상한 5개를 획득한다. 턴 종료 후 촉수 1개를 획득한다. 받는 힘 감소 효과가 50% 감소한다.",
+                  "description": "촉수 피해가 40인 촉수 1개와 촉수 상한 5개를 획득한다. 턴 종료 후 촉수 1개를 획득한다. 받는 힘 감소 효과가 50% 감소한다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -30120,7 +30460,11 @@
                     },
                     {
                       "expression": "math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692))",
-                      "value": null
+                      "value": {
+                        "raw": 0,
+                        "display": 0,
+                        "dynamic": true
+                      }
                     }
                   ],
                   "description": "876pt의 피해를 1회 입히고, 실드를 9,168pt 획득한다. 턴 종료 전까지 플레이어의 남은 손패 1장당 실드가 2,292pt 추가로 증가한다."
@@ -30268,7 +30612,11 @@
                     },
                     {
                       "expression": "CmdCaster.GetStateLayer(95001)+2",
-                      "value": null
+                      "value": {
+                        "raw": 10,
+                        "display": 10,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -30278,7 +30626,7 @@
                       }
                     }
                   ],
-                  "description": "148pt의 피해를 [AttackTimes:Arg2]회 입히고, 치명타 피해를 받을 때마다 공격 횟수가 1회 감소하며, 최대 3회까지 감소한다."
+                  "description": "148pt의 피해를 기본 10회 입히고, 치명타 피해를 받을 때마다 공격 횟수가 1회 감소하며, 최대 3회까지 감소한다."
                 },
                 "94966": {
                   "args": [
@@ -30495,7 +30843,11 @@
                     },
                     {
                       "expression": "1+CmdCaster.tentacle_count*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1.5,
+                        "display": 2,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "2",
@@ -30512,7 +30864,7 @@
                       }
                     }
                   ],
-                  "description": "194pt의 피해를 [AttackTimes:Arg2]회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
+                  "description": "194pt의 피해를 기본 2회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
                 },
                 "118065": {
                   "args": [
@@ -30629,7 +30981,11 @@
                     },
                     {
                       "expression": "1+CmdCaster.tentacle_count*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1.5,
+                        "display": 2,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "2",
@@ -30646,7 +31002,7 @@
                       }
                     }
                   ],
-                  "description": "258pt의 피해를 [AttackTimes:Arg2]회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
+                  "description": "258pt의 피해를 기본 2회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
                 },
                 "118975": {
                   "args": [
@@ -30695,7 +31051,7 @@
                   "id": 118118,
                   "name": "촉수 집결",
                   "visible": true,
-                  "description": "촉수 피해가 [TentaclePower:DescArg1]인 촉수 1개와 촉수 상한 5개를 획득한다. 턴 종료 후 촉수 1개를 획득한다. 받는 힘 감소 효과가 50% 감소한다.",
+                  "description": "촉수 피해가 129인 촉수 1개와 촉수 상한 5개를 획득한다. 턴 종료 후 촉수 1개를 획득한다. 받는 힘 감소 효과가 50% 감소한다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -31165,7 +31521,11 @@
                     },
                     {
                       "expression": "math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692))",
-                      "value": null
+                      "value": {
+                        "raw": 0,
+                        "display": 0,
+                        "dynamic": true
+                      }
                     }
                   ],
                   "description": "1,300pt의 피해를 1회 입히고, 실드를 20,166pt 획득한다. 턴 종료 전까지 플레이어의 남은 손패 1장당 실드가 5,042pt 추가로 증가한다."
@@ -31313,7 +31673,11 @@
                     },
                     {
                       "expression": "CmdCaster.GetStateLayer(95001)+2",
-                      "value": null
+                      "value": {
+                        "raw": 10,
+                        "display": 10,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -31323,7 +31687,7 @@
                       }
                     }
                   ],
-                  "description": "220pt의 피해를 [AttackTimes:Arg2]회 입히고, 치명타 피해를 받을 때마다 공격 횟수가 1회 감소하며, 최대 3회까지 감소한다."
+                  "description": "220pt의 피해를 기본 10회 입히고, 치명타 피해를 받을 때마다 공격 횟수가 1회 감소하며, 최대 3회까지 감소한다."
                 },
                 "94966": {
                   "args": [
@@ -31540,7 +31904,11 @@
                     },
                     {
                       "expression": "1+CmdCaster.tentacle_count*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1.5,
+                        "display": 2,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "2",
@@ -31557,7 +31925,7 @@
                       }
                     }
                   ],
-                  "description": "283pt의 피해를 [AttackTimes:Arg2]회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
+                  "description": "283pt의 피해를 기본 2회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
                 },
                 "118065": {
                   "args": [
@@ -31674,7 +32042,11 @@
                     },
                     {
                       "expression": "1+CmdCaster.tentacle_count*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1.5,
+                        "display": 2,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "2",
@@ -31691,7 +32063,7 @@
                       }
                     }
                   ],
-                  "description": "377pt의 피해를 [AttackTimes:Arg2]회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
+                  "description": "377pt의 피해를 기본 2회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
                 },
                 "118975": {
                   "args": [
@@ -31740,7 +32112,7 @@
                   "id": 118118,
                   "name": "촉수 집결",
                   "visible": true,
-                  "description": "촉수 피해가 [TentaclePower:DescArg1]인 촉수 1개와 촉수 상한 5개를 획득한다. 턴 종료 후 촉수 1개를 획득한다. 받는 힘 감소 효과가 50% 감소한다.",
+                  "description": "촉수 피해가 189인 촉수 1개와 촉수 상한 5개를 획득한다. 턴 종료 후 촉수 1개를 획득한다. 받는 힘 감소 효과가 50% 감소한다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -32210,7 +32582,11 @@
                     },
                     {
                       "expression": "math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692))",
-                      "value": null
+                      "value": {
+                        "raw": 0,
+                        "display": 0,
+                        "dynamic": true
+                      }
                     }
                   ],
                   "description": "1,740pt의 피해를 1회 입히고, 실드를 28,018pt 획득한다. 턴 종료 전까지 플레이어의 남은 손패 1장당 실드가 7,005pt 추가로 증가한다."
@@ -32358,7 +32734,11 @@
                     },
                     {
                       "expression": "CmdCaster.GetStateLayer(95001)+2",
-                      "value": null
+                      "value": {
+                        "raw": 10,
+                        "display": 10,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -32368,7 +32748,7 @@
                       }
                     }
                   ],
-                  "description": "294pt의 피해를 [AttackTimes:Arg2]회 입히고, 치명타 피해를 받을 때마다 공격 횟수가 1회 감소하며, 최대 3회까지 감소한다."
+                  "description": "294pt의 피해를 기본 10회 입히고, 치명타 피해를 받을 때마다 공격 횟수가 1회 감소하며, 최대 3회까지 감소한다."
                 },
                 "94966": {
                   "args": [
@@ -32585,7 +32965,11 @@
                     },
                     {
                       "expression": "1+CmdCaster.tentacle_count*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1.5,
+                        "display": 2,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "2",
@@ -32602,7 +32986,7 @@
                       }
                     }
                   ],
-                  "description": "378pt의 피해를 [AttackTimes:Arg2]회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
+                  "description": "378pt의 피해를 기본 2회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
                 },
                 "118065": {
                   "args": [
@@ -32719,7 +33103,11 @@
                     },
                     {
                       "expression": "1+CmdCaster.tentacle_count*0.5",
-                      "value": null
+                      "value": {
+                        "raw": 1.5,
+                        "display": 2,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "2",
@@ -32736,7 +33124,7 @@
                       }
                     }
                   ],
-                  "description": "504pt의 피해를 [AttackTimes:Arg2]회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
+                  "description": "504pt의 피해를 기본 2회 주며(촉수 2개당 피해 횟수가 1회 증가한다), 2턴간 허약과 취약을 부여하고, 자신의 부정 상태를 해제한다."
                 },
                 "118975": {
                   "args": [
@@ -32785,7 +33173,7 @@
                   "id": 118118,
                   "name": "촉수 집결",
                   "visible": true,
-                  "description": "촉수 피해가 [TentaclePower:DescArg1]인 촉수 1개와 촉수 상한 5개를 획득한다. 턴 종료 후 촉수 1개를 획득한다. 받는 힘 감소 효과가 50% 감소한다.",
+                  "description": "촉수 피해가 252인 촉수 1개와 촉수 상한 5개를 획득한다. 턴 종료 후 촉수 1개를 획득한다. 받는 힘 감소 효과가 50% 감소한다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -36164,7 +36552,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 100%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -36184,7 +36572,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 100,
+                        "display": 100
+                      }
                     }
                   ]
                 },
@@ -36289,10 +36680,14 @@
                     },
                     {
                       "expression": "math.min(10,4+math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692)))",
-                      "value": null
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "59pt의 피해를 [AttackTimes:Arg2]회 입히고, 턴 종료 전까지 손패 1장당 추가로 1회 피해를 입힌다. (최대 10회)"
+                  "description": "59pt의 피해를 기본 4회 입히고, 턴 종료 전까지 손패 1장당 추가로 1회 피해를 입힌다. (최대 10회)"
                 }
               },
               "resolvedStates": [
@@ -36405,7 +36800,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+BattleAtkForce*0.035*CmdCaster.GetStateLayer(149140)",
-                      "value": null
+                      "value": {
+                        "raw": 147,
+                        "display": 147,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -36429,7 +36828,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 18 증가."
+                  "description": "기본 147 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 18 증가."
                 },
                 "149131": {
                   "args": [
@@ -36496,7 +36895,7 @@
                   "id": 149143,
                   "name": "얼어붙은 피의 서약",
                   "visible": true,
-                  "description": "드로우 단계 종료 후, 적의 손패에 [DescArg1]장의 둔화 명령 카드가 있을 때마다 자신이 [DescArg2] 스택의 피의 맹세를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 [DescArg3]장에 무작위로 [DescArg4] 스택의 둔화를 부여합니다.",
+                  "description": "드로우 단계 종료 후, 적의 손패에 둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 1장에 둔화 2스택을 무작위로 부여합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -36537,19 +36936,31 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg2",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg3",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg4",
-                      "value": null
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
                     }
                   ]
                 },
@@ -36716,7 +37127,11 @@
                     },
                     {
                       "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
-                      "value": null
+                      "value": {
+                        "raw": 766.25,
+                        "display": 767,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -36726,13 +37141,17 @@
                       }
                     }
                   ],
-                  "description": "123 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 [Damage:Arg6] 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
+                  "description": "123 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 기본 767(대상의 출혈 3스택당 +1) 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
                 },
                 "148365": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
-                      "value": null
+                      "value": {
+                        "raw": 245.20000000000002,
+                        "display": 246,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -36743,7 +37162,11 @@
                     },
                     {
                       "expression": "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
-                      "value": null
+                      "value": {
+                        "raw": 15.325000000000001,
+                        "display": 16,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.5",
@@ -36753,7 +37176,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 1회 입히고, [Arg3] 힘 획득. 자신의 HP가 117,444(50%) 미만이면 피해와 획득 힘이 2배."
+                  "description": "기본 246 피해를 1회 입히고, 기본 16 힘 획득. 자신의 HP가 117,444(50%) 미만이면 피해와 획득 힘이 2배."
                 }
               },
               "resolvedStates": [
@@ -38533,7 +38956,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 100%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -38553,7 +38976,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 100,
+                        "display": 100
+                      }
                     }
                   ]
                 },
@@ -38658,10 +39084,14 @@
                     },
                     {
                       "expression": "math.min(10,4+math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692)))",
-                      "value": null
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "163pt의 피해를 [AttackTimes:Arg2]회 입히고, 턴 종료 전까지 손패 1장당 추가로 1회 피해를 입힌다. (최대 10회)"
+                  "description": "163pt의 피해를 기본 4회 입히고, 턴 종료 전까지 손패 1장당 추가로 1회 피해를 입힌다. (최대 10회)"
                 }
               },
               "resolvedStates": [
@@ -38774,7 +39204,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+BattleAtkForce*0.035*CmdCaster.GetStateLayer(149140)",
-                      "value": null
+                      "value": {
+                        "raw": 405.9,
+                        "display": 406,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -38798,7 +39232,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 48 증가."
+                  "description": "기본 406 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 48 증가."
                 },
                 "149131": {
                   "args": [
@@ -38865,7 +39299,7 @@
                   "id": 149143,
                   "name": "얼어붙은 피의 서약",
                   "visible": true,
-                  "description": "드로우 단계 종료 후, 적의 손패에 [DescArg1]장의 둔화 명령 카드가 있을 때마다 자신이 [DescArg2] 스택의 피의 맹세를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 [DescArg3]장에 무작위로 [DescArg4] 스택의 둔화를 부여합니다.",
+                  "description": "드로우 단계 종료 후, 적의 손패에 둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 1장에 둔화 2스택을 무작위로 부여합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -38906,19 +39340,31 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg2",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg3",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg4",
-                      "value": null
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
                     }
                   ]
                 },
@@ -39085,7 +39531,11 @@
                     },
                     {
                       "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
-                      "value": null
+                      "value": {
+                        "raw": 2208.75,
+                        "display": 2209,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -39095,13 +39545,17 @@
                       }
                     }
                   ],
-                  "description": "354 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 [Damage:Arg6] 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
+                  "description": "354 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 기본 2,209(대상의 출혈 3스택당 +1) 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
                 },
                 "148365": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
-                      "value": null
+                      "value": {
+                        "raw": 706.8000000000001,
+                        "display": 707,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -39112,7 +39566,11 @@
                     },
                     {
                       "expression": "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
-                      "value": null
+                      "value": {
+                        "raw": 44.175000000000004,
+                        "display": 45,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.5",
@@ -39122,7 +39580,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 1회 입히고, [Arg3] 힘 획득. 자신의 HP가 1,159,284(50%) 미만이면 피해와 획득 힘이 2배."
+                  "description": "기본 707 피해를 1회 입히고, 기본 45 힘 획득. 자신의 HP가 1,159,284(50%) 미만이면 피해와 획득 힘이 2배."
                 }
               },
               "resolvedStates": [
@@ -40902,7 +41360,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 100%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -40922,7 +41380,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 100,
+                        "display": 100
+                      }
                     }
                   ]
                 },
@@ -41027,10 +41488,14 @@
                     },
                     {
                       "expression": "math.min(10,4+math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692)))",
-                      "value": null
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "213pt의 피해를 [AttackTimes:Arg2]회 입히고, 턴 종료 전까지 손패 1장당 추가로 1회 피해를 입힌다. (최대 10회)"
+                  "description": "213pt의 피해를 기본 4회 입히고, 턴 종료 전까지 손패 1장당 추가로 1회 피해를 입힌다. (최대 10회)"
                 }
               },
               "resolvedStates": [
@@ -41143,7 +41608,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+BattleAtkForce*0.035*CmdCaster.GetStateLayer(149140)",
-                      "value": null
+                      "value": {
+                        "raw": 530.6999999999999,
+                        "display": 531,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -41167,7 +41636,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 62 증가."
+                  "description": "기본 531 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 62 증가."
                 },
                 "149131": {
                   "args": [
@@ -41234,7 +41703,7 @@
                   "id": 149143,
                   "name": "얼어붙은 피의 서약",
                   "visible": true,
-                  "description": "드로우 단계 종료 후, 적의 손패에 [DescArg1]장의 둔화 명령 카드가 있을 때마다 자신이 [DescArg2] 스택의 피의 맹세를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 [DescArg3]장에 무작위로 [DescArg4] 스택의 둔화를 부여합니다.",
+                  "description": "드로우 단계 종료 후, 적의 손패에 둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 1장에 둔화 2스택을 무작위로 부여합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -41275,19 +41744,31 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg2",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg3",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg4",
-                      "value": null
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
                     }
                   ]
                 },
@@ -41454,7 +41935,11 @@
                     },
                     {
                       "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
-                      "value": null
+                      "value": {
+                        "raw": 2815,
+                        "display": 2815,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -41464,13 +41949,17 @@
                       }
                     }
                   ],
-                  "description": "451 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 [Damage:Arg6] 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
+                  "description": "451 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 기본 2,815(대상의 출혈 3스택당 +1) 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
                 },
                 "148365": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
-                      "value": null
+                      "value": {
+                        "raw": 900.8000000000001,
+                        "display": 901,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -41481,7 +41970,11 @@
                     },
                     {
                       "expression": "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
-                      "value": null
+                      "value": {
+                        "raw": 56.300000000000004,
+                        "display": 57,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.5",
@@ -41491,7 +41984,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 1회 입히고, [Arg3] 힘 획득. 자신의 HP가 2,849,024(50%) 미만이면 피해와 획득 힘이 2배."
+                  "description": "기본 901 피해를 1회 입히고, 기본 57 힘 획득. 자신의 HP가 2,849,024(50%) 미만이면 피해와 획득 힘이 2배."
                 }
               },
               "resolvedStates": [
@@ -43271,7 +43764,7 @@
                   "id": 149234,
                   "name": "저주 방패 전환",
                   "visible": true,
-                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 [DescArg1]%에 해당하는 「저주 방패」로 전환합니다.",
+                  "description": "등장 시 최대 HP의 25%를 잃고, 잃은 수치의 100%에 해당하는 「저주 방패」로 전환합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -43291,7 +43784,10 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 100,
+                        "display": 100
+                      }
                     }
                   ]
                 },
@@ -43396,10 +43892,14 @@
                     },
                     {
                       "expression": "math.min(10,4+math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692)))",
-                      "value": null
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
                     }
                   ],
-                  "description": "284pt의 피해를 [AttackTimes:Arg2]회 입히고, 턴 종료 전까지 손패 1장당 추가로 1회 피해를 입힌다. (최대 10회)"
+                  "description": "284pt의 피해를 기본 4회 입히고, 턴 종료 전까지 손패 1장당 추가로 1회 피해를 입힌다. (최대 10회)"
                 }
               },
               "resolvedStates": [
@@ -43512,7 +44012,11 @@
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.3+BattleAtkForce*0.035*CmdCaster.GetStateLayer(149140)",
-                      "value": null
+                      "value": {
+                        "raw": 708,
+                        "display": 708,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "3",
@@ -43536,7 +44040,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 83 증가."
+                  "description": "기본 708 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 83 증가."
                 },
                 "149131": {
                   "args": [
@@ -43603,7 +44107,7 @@
                   "id": 149143,
                   "name": "얼어붙은 피의 서약",
                   "visible": true,
-                  "description": "드로우 단계 종료 후, 적의 손패에 [DescArg1]장의 둔화 명령 카드가 있을 때마다 자신이 [DescArg2] 스택의 피의 맹세를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 [DescArg3]장에 무작위로 [DescArg4] 스택의 둔화를 부여합니다.",
+                  "description": "드로우 단계 종료 후, 적의 손패에 둔화 명령 카드가 1장 있을 때마다 피의 맹세 1스택을 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 둔화 상태가 아닌 명령 카드 1장에 둔화 2스택을 무작위로 부여합니다.",
                   "initialLayer": {
                     "expression": "1",
                     "value": {
@@ -43644,19 +44148,31 @@
                   "descArgs": [
                     {
                       "expression": "StateArg1",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg2",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg3",
-                      "value": null
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
                     },
                     {
                       "expression": "StateArg4",
-                      "value": null
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
                     }
                   ]
                 },
@@ -43823,7 +44339,11 @@
                     },
                     {
                       "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
-                      "value": null
+                      "value": {
+                        "raw": 3756.25,
+                        "display": 3757,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -43833,13 +44353,17 @@
                       }
                     }
                   ],
-                  "description": "601 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 [Damage:Arg6] 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
+                  "description": "601 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 기본 3,757(대상의 출혈 3스택당 +1) 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
                 },
                 "148365": {
                   "args": [
                     {
                       "expression": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
-                      "value": null
+                      "value": {
+                        "raw": 1202,
+                        "display": 1202,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "1",
@@ -43850,7 +44374,11 @@
                     },
                     {
                       "expression": "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
-                      "value": null
+                      "value": {
+                        "raw": 75.125,
+                        "display": 76,
+                        "dynamic": true
+                      }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.5",
@@ -43860,7 +44388,7 @@
                       }
                     }
                   ],
-                  "description": "[Damage:Arg1] 피해를 1회 입히고, [Arg3] 힘 획득. 자신의 HP가 9,092,674(50%) 미만이면 피해와 획득 힘이 2배."
+                  "description": "기본 1,202 피해를 1회 입히고, 기본 76 힘 획득. 자신의 HP가 9,092,674(50%) 미만이면 피해와 획득 힘이 2배."
                 }
               },
               "resolvedStates": [
