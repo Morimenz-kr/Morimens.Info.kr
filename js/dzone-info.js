@@ -670,6 +670,10 @@
     }
 
     function render() {
+        if (data?.period !== window.DzoneSeason.selectSeason().period) {
+            void refreshSeason();
+            return;
+        }
         const selected = data.waves.find(wave => wave.wave === selectedWave) || data.waves[0];
         selectedWave = selected.wave;
         if (!selected.alerts.some(item => item.alert === selectedAlert)) {
@@ -677,6 +681,7 @@
         }
         const difficultyLabel = selected.alerts.find(item => item.alert === selectedAlert)?.difficultyLabel || `경보 ${selectedAlert}급`;
         const content = document.getElementById('dzone-content');
+        content.dataset.season = String(data.period);
         content.innerHTML = renderWave(selected);
         document.getElementById('selection-status').textContent = `${selectedWave}파, ${difficultyLabel} 난이도 선택됨`;
         document.querySelectorAll('[data-wave]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.wave) === selectedWave)));
@@ -689,31 +694,31 @@
     function buildControls() {
         const researchInput = document.getElementById('dzone-research-level');
         researchInput.value = researchLevel;
-        researchInput.addEventListener('input', () => {
+        researchInput.oninput = () => {
             researchLevel = window.ResearchDepth.selectLevel(researchInput.value);
             researchInput.value = researchLevel;
             render();
-        });
+        };
         const waveSelector = document.getElementById('wave-selector');
         waveSelector.innerHTML = data.waves.map(wave => `<button type="button" class="wave-button" data-wave="${wave.wave}" aria-pressed="${wave.wave === selectedWave}">${wave.wave}파</button>`).join('');
-        waveSelector.addEventListener('click', event => {
+        waveSelector.onclick = event => {
             const button = event.target.closest('[data-wave]');
             if (!button) return;
             selectedWave = Number(button.dataset.wave);
             render();
-        });
+        };
 
         const alertSelector = document.getElementById('alert-selector');
         const difficulties = data.waves[0]?.alerts || [];
         alertSelector.innerHTML = difficulties.map(item => `<button type="button" class="alert-button" data-alert="${item.alert}" aria-pressed="${item.alert === selectedAlert}">${escapeHtml(item.difficultyLabel || `${item.alert}급`)}</button>`).join('');
-        alertSelector.addEventListener('click', event => {
+        alertSelector.onclick = event => {
             const button = event.target.closest('[data-alert]');
             if (!button) return;
             selectedAlert = Number(button.dataset.alert);
             render();
-        });
+        };
 
-        document.getElementById('dzone-mechanic-chips').addEventListener('click', event => {
+        document.getElementById('dzone-mechanic-chips').onclick = event => {
             const button = event.target.closest('[data-mechanic]');
             if (!button) return;
             const mechanic = button.dataset.mechanic;
@@ -739,18 +744,56 @@
                 });
                 target.querySelector('summary')?.focus({ preventScroll: true });
             });
-        });
+        };
+    }
+
+    let seasonTimer = null;
+    let refreshingSeason = false;
+
+    function scheduleSeasonRefresh() {
+        clearTimeout(seasonTimer);
+        const delay = window.DzoneSeason.nextCheckDelay();
+        if (delay !== null) seasonTimer = setTimeout(refreshSeason, delay);
+    }
+
+    async function refreshSeason() {
+        if (refreshingSeason) return;
+        if (data?.period === window.DzoneSeason.selectSeason().period) {
+            scheduleSeasonRefresh();
+            return;
+        }
+        refreshingSeason = true;
+        const content = document.getElementById('dzone-content');
+        const toolbar = document.querySelector('.dzone-toolbar');
+        toolbar.inert = true;
+        delete content.dataset.season;
+        content.innerHTML = '<div class="dzone-loading">현재 시즌 데이터를 불러오는 중입니다.</div>';
+        try {
+            data = await window.DzoneSeason.loadCurrent();
+            selectedMechanic = '';
+            mechanicCursor = 0;
+            buildControls();
+            render();
+            toolbar.inert = false;
+            scheduleSeasonRefresh();
+        } catch (error) {
+            console.error('융재금구 시즌 전환 실패:', error);
+            content.innerHTML = '<div class="dzone-error">현재 시즌 정보를 불러오지 못했습니다. 잠시 후 다시 시도합니다.</div>';
+            clearTimeout(seasonTimer);
+            seasonTimer = setTimeout(refreshSeason, 60000);
+        } finally {
+            refreshingSeason = false;
+        }
     }
 
     async function initialize() {
         try {
-            const [response, tooltipResponse] = await Promise.all([
-                fetch(`data/dzone_current.json?t=${Date.now()}`),
+            const [seasonData, tooltipResponse] = await Promise.all([
+                window.DzoneSeason.loadCurrent(),
                 fetch(`data/db_tooltips.json?t=${Date.now()}`).catch(() => null),
                 window.ResearchDepth.load()
             ]);
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            data = await response.json();
+            data = seasonData;
             const rawTooltips = tooltipResponse?.ok ? await tooltipResponse.json() : {};
             tooltips = Object.fromEntries(Object.entries(rawTooltips).map(([keyword, description]) => [
                 keyword,
@@ -769,6 +812,12 @@
             document.getElementById('dzone-summary').textContent = '현재 진행 중인 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.';
             buildControls();
             render();
+            window.addEventListener('focus', refreshSeason);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) refreshSeason();
+            });
+            // Shared resources may have finished loading across the cutoff.
+            await refreshSeason();
         } catch (error) {
             console.error('융재금구 데이터 로드 실패:', error);
             document.getElementById('dzone-content').innerHTML = '<div class="dzone-error">융재금구 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>';
