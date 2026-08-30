@@ -176,6 +176,267 @@ function renderDictionaryRichText(value) {
     return window.CharacterEffects.renderRichText(value);
 }
 
+let dictionaryDialogTrigger = null;
+
+function appendDictionaryDialogSection(container, heading, value, options = {}) {
+    if (!value && value !== 0) return;
+    const section = document.createElement('section');
+    section.className = 'dictionary-dialog-section';
+    const title = document.createElement('h3');
+    title.textContent = heading;
+    const body = document.createElement('div');
+    body.className = `dictionary-dialog-copy${options.muted ? ' is-muted' : ''}`;
+    if (options.rich) body.innerHTML = renderDictionaryRichText(value);
+    else body.textContent = String(value);
+    section.append(title, body);
+    container.appendChild(section);
+}
+
+function parseWheelMainStat(mainStat) {
+    const match = String(mainStat || '').trim().match(/^(.*?)(-?\d+(?:\.\d+)?)(%)?$/);
+    if (!match) return null;
+    return {
+        name: match[1].trim(),
+        baseValue: Number(match[2]),
+        suffix: match[3] || ''
+    };
+}
+
+function formatWheelMainStatValue(value, suffix = '') {
+    const rounded = Math.round((value + Number.EPSILON) * 100) / 100;
+    return `${rounded.toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1')}${suffix}`;
+}
+
+function getWheelMainStatLevels(mainStat) {
+    const stat = parseWheelMainStat(mainStat);
+    if (!stat) return [];
+    return Array.from({ length: 16 }, (_, level) => {
+        const multiplier = level <= 3 ? 1 : 1 + ((level - 3) / 12);
+        return {
+            level,
+            value: formatWheelMainStatValue(stat.baseValue * multiplier, stat.suffix)
+        };
+    });
+}
+
+function hasWheelBreakthroughValues(description) {
+    return /(?:\d+(?:\.\d+)?\/){3}\d+(?:\.\d+)?/.test(String(description || ''));
+}
+
+function getWheelEffectAtBreakthrough(description, stage) {
+    return String(description || '').replace(
+        /(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)(%?)/g,
+        (...match) => `${match[Math.min(3, Math.max(0, stage)) + 1]}${match[5]}`
+    );
+}
+
+function appendWheelEffectSection(container, description) {
+    const section = document.createElement('section');
+    section.className = 'dictionary-dialog-section';
+    const title = document.createElement('h3');
+    title.textContent = '효과';
+    const body = document.createElement('div');
+    body.className = 'dictionary-dialog-copy';
+
+    if (!hasWheelBreakthroughValues(description)) {
+        body.innerHTML = renderDictionaryRichText(description);
+        section.append(title, body);
+        container.appendChild(section);
+        return;
+    }
+
+    const stages = ['명함', '1돌', '2돌', '3돌'];
+    const controls = document.createElement('div');
+    controls.className = 'dictionary-breakthrough-switch';
+    controls.setAttribute('role', 'group');
+    controls.setAttribute('aria-label', '명륜 돌파 단계');
+    const update = stage => {
+        body.innerHTML = renderDictionaryRichText(getWheelEffectAtBreakthrough(description, stage));
+        [...controls.children].forEach((button, index) => button.setAttribute('aria-pressed', String(index === stage)));
+    };
+    stages.forEach((label, stage) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = label;
+        button.addEventListener('click', () => update(stage));
+        controls.appendChild(button);
+    });
+    const hint = document.createElement('p');
+    hint.className = 'dictionary-breakthrough-hint';
+    hint.textContent = '선택한 돌파 단계의 효과 수치입니다.';
+    update(0);
+    section.append(title, controls, hint, body);
+    container.appendChild(section);
+}
+
+function appendWheelMainStatSection(container, mainStat) {
+    const levels = getWheelMainStatLevels(mainStat);
+    if (levels.length === 0) return;
+    const stat = parseWheelMainStat(mainStat);
+
+    const section = document.createElement('section');
+    section.className = 'dictionary-dialog-section dictionary-wheel-stat';
+    const title = document.createElement('h3');
+    title.textContent = '주옵션';
+    const hero = document.createElement('div');
+    hero.className = 'dictionary-wheel-stat-hero';
+    const statName = document.createElement('strong');
+    statName.textContent = stat.name;
+    const statValue = document.createElement('b');
+    statValue.className = 'dictionary-wheel-stat-value';
+    statValue.textContent = levels[0].value;
+
+    const preview = document.createElement('div');
+    preview.className = 'dictionary-enhancement-preview';
+    const previewHead = document.createElement('div');
+    previewHead.className = 'dictionary-enhancement-preview-head';
+    const sliderLabel = document.createElement('label');
+    sliderLabel.htmlFor = 'dictionary-enhancement-slider';
+    sliderLabel.textContent = '강화 수치 미리보기';
+    const currentLevel = document.createElement('output');
+    currentLevel.htmlFor = 'dictionary-enhancement-slider';
+    currentLevel.textContent = '0강';
+    const slider = document.createElement('input');
+    slider.id = 'dictionary-enhancement-slider';
+    slider.className = 'dictionary-enhancement-slider';
+    slider.type = 'range';
+    slider.min = '0';
+    slider.max = '15';
+    slider.step = '1';
+    slider.value = '0';
+    slider.setAttribute('aria-label', `${stat.name} 강화 단계`);
+    const rangeLabels = document.createElement('div');
+    rangeLabels.className = 'dictionary-enhancement-range-labels';
+    rangeLabels.innerHTML = '<span>0강</span><span>15강</span>';
+    const updateEnhancementPreview = () => {
+        const selected = levels[Number(slider.value)] || levels[0];
+        statValue.textContent = selected.value;
+        currentLevel.textContent = `${selected.level}강`;
+        slider.setAttribute('aria-valuetext', `${selected.level}강, ${stat.name} ${selected.value}`);
+    };
+    slider.addEventListener('input', updateEnhancementPreview);
+    updateEnhancementPreview();
+    previewHead.append(sliderLabel, currentLevel);
+    preview.append(previewHead, slider, rangeLabels);
+
+    const details = document.createElement('details');
+    details.className = 'dictionary-enhancement-details site-disclosure';
+    const summary = document.createElement('summary');
+    summary.textContent = '전체 강화 수치 표';
+    const note = document.createElement('p');
+    note.className = 'dictionary-enhancement-note';
+    note.textContent = '0~3강은 기본 수치이며, 4강부터 단계마다 증가합니다.';
+    const tableWrap = document.createElement('div');
+    tableWrap.className = 'dictionary-enhancement-table-wrap';
+    const table = document.createElement('table');
+    table.className = 'dictionary-enhancement-table';
+    table.innerHTML = '<thead><tr><th scope="col">강화</th><th scope="col">수치</th><th scope="col">강화</th><th scope="col">수치</th></tr></thead>';
+    const tbody = document.createElement('tbody');
+    for (let index = 0; index < 8; index += 1) {
+        const left = levels[index];
+        const right = levels[index + 8];
+        const row = document.createElement('tr');
+        row.innerHTML = `<th scope="row">${left.level}강</th><td>${left.value}</td><th scope="row">${right.level}강</th><td>${right.value}</td>`;
+        tbody.appendChild(row);
+    }
+    table.appendChild(tbody);
+    tableWrap.appendChild(table);
+    hero.append(statName, statValue);
+    details.append(summary, note, tableWrap);
+    section.append(title, hero, preview, details);
+    container.appendChild(section);
+}
+
+function formatSilverKeyEffect(item) {
+    if (!item?.effectFormula || !window.ResearchDepth) return item?.description || '';
+    const depth = window.ResearchDepth.depthAt(window.ResearchDepth.selectedLevel());
+    if (!depth) return item.description || '';
+
+    const variables = {
+        chaostype2_ks_atk_per: 1,
+        chaostype2_ks_def_per: 1
+    };
+    const expressionPattern = /(?:PlayerGrowth|InsightResearchDepth|GetAccountStageGrow\(\)|\d+(?:\.\d+)?)(?:\s*\*\s*(?:\d+(?:\.\d+)?|chaostype2_ks_(?:atk|def)_per))+/g;
+    let calculated = item.effectFormula.replace(expressionPattern, expression => {
+        const value = window.ResearchDepth.evaluate(expression, depth, variables);
+        return value === null ? expression : String(Math.ceil(value));
+    });
+
+    calculated = calculated
+        .replace(/\[(?:Block|Heal|Energy|Exhaustion):([^\]]+)\]/g, '$1')
+        .replace(/행동력 소모pt/g, '행동력 소모')
+        .replace(/(\d)\s*pt\b/g, '$1점')
+        .replace(/(\d)\s*포인트/g, '$1점')
+        .replace(/\s+점/g, '점')
+        .replace(/방어막/g, '실드')
+        .replace(/피해 증폭 효과|피해 증폭|피해 강화/g, '피해 강효');
+    return calculated;
+}
+
+function openDictionaryDialog(item, category, trigger, mainStats = [], subStats = []) {
+    const dialog = document.getElementById('dictionary-detail-dialog');
+    if (!dialog || !item) return;
+
+    const categoryMeta = {
+        myeongryun: { eyebrow: '명륜 상세 정보', label: item.grade || '명륜' },
+        silverkey: { eyebrow: '은열쇠 상세 정보', label: '은열쇠' },
+        covenant: { eyebrow: '비밀계약 상세 정보', label: '비밀계약' }
+    }[category] || { eyebrow: '도감 상세 정보', label: '' };
+
+    dictionaryDialogTrigger = trigger instanceof HTMLElement
+        ? trigger
+        : (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+    dialog.dataset.category = category || '';
+    document.getElementById('dictionary-dialog-eyebrow').textContent = categoryMeta.eyebrow;
+    document.getElementById('dictionary-dialog-title').textContent = item.korean_name || '';
+    document.getElementById('dictionary-dialog-meta').textContent = categoryMeta.label;
+
+    const image = document.createElement('img');
+    image.src = item.image_path;
+    image.alt = '';
+    const imageBox = document.getElementById('dictionary-dialog-image');
+    imageBox.replaceChildren(image);
+
+    const content = document.getElementById('dictionary-dialog-content');
+    content.replaceChildren();
+    if (category === 'myeongryun' && item.main_stat) appendWheelMainStatSection(content, item.main_stat);
+    else if (item.main_stat) appendDictionaryDialogSection(content, '주옵션', item.main_stat);
+    if (category === 'myeongryun' && item.description) appendWheelEffectSection(content, item.description);
+    else if (category === 'silverkey' && (item.effectFormula || item.description)) {
+        appendDictionaryDialogSection(content, '효과', formatSilverKeyEffect(item), { rich: true });
+    }
+    else if (item.description) appendDictionaryDialogSection(content, '효과', item.description, { rich: true });
+    if (item.set_effect_3) appendDictionaryDialogSection(content, '3세트 효과', item.set_effect_3, { rich: true });
+    if (item.set_effect_6) appendDictionaryDialogSection(content, '6세트 효과', item.set_effect_6, { rich: true });
+    if (item.source) appendDictionaryDialogSection(content, '획득처', item.source, { muted: true });
+    if (mainStats.length > 0) appendDictionaryDialogSection(content, '추천 주옵', mainStats.map((stat, index) => `${['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'][index] || index + 1} ${stat}`).join('\n'), { muted: true });
+    if (subStats.length > 0) appendDictionaryDialogSection(content, '추천 부옵', subStats.join(', '), { muted: true });
+
+    const tags = (item.tags || item.optimized_for || []).map(value => String(value || '').trim()).filter(Boolean);
+    if (tags.length > 0) {
+        const section = document.createElement('section');
+        section.className = 'dictionary-dialog-section';
+        const title = document.createElement('h3');
+        title.textContent = category === 'myeongryun' ? '추천 각성체' : '관련 효과';
+        const list = document.createElement('div');
+        list.className = 'dictionary-dialog-tags';
+        tags.forEach(tag => {
+            const badge = document.createElement('span');
+            badge.textContent = tag;
+            list.appendChild(badge);
+        });
+        section.append(title, list);
+        content.appendChild(section);
+    }
+
+    window.CharacterEffects?.setupTooltips(dialog);
+    hideTooltip(true);
+    if (!dialog.open) {
+        dialog.showModal();
+        dialog.focus({ preventScroll: true });
+    }
+}
+
 // 툴팁 화면 표시 및 데이터 주입 로직 (명륜/은열쇠/비밀계약 완벽 호환 + 파밍처 추가) ㅁㄴㅇ
 function showTooltip(item, e, mainStats = [], subStats = [], pinned = false) {
     if (itemTooltipPinned && !pinned) return;
@@ -276,27 +537,17 @@ function bindDynamicTooltips(root) {
         if (!item) return;
         const mainStats = decodeTooltipMainStats(el.dataset.tooltipMainStats);
         const subStats = decodeTooltipMainStats(el.dataset.tooltipSubStats);
-        const pinTooltip = event => {
+        const openDetails = event => {
             event.preventDefault();
             event.stopPropagation();
-            const rect = el.getBoundingClientRect();
-            const position = Number.isFinite(event.clientX) && Number.isFinite(event.clientY)
-                ? event
-                : { clientX: rect.left + (rect.width / 2), clientY: rect.top + (rect.height / 2) };
-            showTooltip(item, position, mainStats, subStats, true);
+            openDictionaryDialog(item, el.dataset.tooltipKind === 'wheel' ? 'myeongryun' : 'covenant', el, mainStats, subStats);
         };
         el.tabIndex = 0;
         el.setAttribute('role', 'button');
         el.setAttribute('aria-label', `${item.korean_name} 상세 정보`);
-        el.onmouseenter = e => showTooltip(item, e, mainStats, subStats);
-        el.onmousemove = moveTooltip;
-        el.onmouseleave = () => hideTooltip();
-        el.onpointerup = event => {
-            if (event.pointerType !== 'mouse') pinTooltip(event);
-        };
-        el.onclick = pinTooltip;
+        el.onclick = openDetails;
         el.onkeydown = event => {
-            if (event.key === 'Enter' || event.key === ' ') pinTooltip(event);
+            if (event.key === 'Enter' || event.key === ' ') openDetails(event);
         };
     });
 }
@@ -445,6 +696,7 @@ function renderDictionaryFilters(data, category, onFilterChange) {
     const mainStats = uniqueSortedValues([...metaByItem.values()].map(meta => meta.mainStat));
     const effects = uniqueSortedValues([...metaByItem.values()].flatMap(meta => meta.effectFilters));
     const isMyeongryun = category === 'myeongryun';
+    const isSilverKey = category === 'silverkey';
     const grades = uniqueSortedValues([...metaByItem.values()].map(meta => meta.grade));
     const optionFieldHtml = isMyeongryun ? `
         <div class="dictionary-filter-field">
@@ -468,13 +720,21 @@ function renderDictionaryFilters(data, category, onFilterChange) {
         </div>
     `;
 
+    const researchLevelHtml = isSilverKey ? `
+        <div class="dictionary-filter-field dictionary-research-field">
+            <label for="dictionary-research-level">금기 학식 등급</label>
+            <input id="dictionary-research-level" type="number" min="1" max="100" inputmode="numeric" value="${window.ResearchDepth.selectedLevel()}">
+        </div>
+    ` : '';
+
     panel.classList.add('show');
     panel.innerHTML = `
-        <div class="dictionary-filter-top">
+        <div class="dictionary-filter-top${isSilverKey ? ' dictionary-filter-top--research' : ''}">
             <div class="dictionary-filter-field">
                 <label for="dictionary-search">검색</label>
                 <input id="dictionary-search" type="search" placeholder="이름, 설명, 효과 검색">
             </div>
+            ${researchLevelHtml}
             <div class="dictionary-filter-footer">
                 <div id="dictionary-filter-summary" class="dictionary-filter-summary"></div>
                 <button type="button" id="dictionary-filter-reset" class="dictionary-filter-reset">필터 초기화</button>
@@ -489,6 +749,14 @@ function renderDictionaryFilters(data, category, onFilterChange) {
         reset: panel.querySelector('#dictionary-filter-reset'),
         summary: panel.querySelector('#dictionary-filter-summary')
     };
+
+    const researchInput = panel.querySelector('#dictionary-research-level');
+    researchInput?.addEventListener('input', () => {
+        if (researchInput.value !== '') window.ResearchDepth.selectLevel(researchInput.value);
+    });
+    researchInput?.addEventListener('change', () => {
+        researchInput.value = window.ResearchDepth.selectLevel(researchInput.value);
+    });
 
     const applyFilters = () => {
         const query = controls.search.value.trim();
@@ -566,27 +834,8 @@ function renderDictionaryItems(data, category) {
         name.className = 'dictionary-item-name';
         name.textContent = item.korean_name;
 
-        card.onmouseenter = (e) => {
-            card.classList.add('active');
-            showTooltip(item, e);
-        };
-        card.onmousemove = moveTooltip;
-        card.onmouseleave = () => {
-            card.classList.remove('active');
-            hideTooltip();
-        };
-        const pinTooltip = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            card.classList.add('active');
-            showTooltip(item, e, [], [], true);
-        };
-        // 모바일 브라우저가 이미지 터치 뒤 click 이벤트를 만들지 않는 경우에도
-        // 툴팁을 열 수 있도록 실제 터치 종료 이벤트를 함께 처리한다.
-        card.onpointerup = (e) => {
-            if (e.pointerType !== 'mouse') pinTooltip(e);
-        };
-        card.onclick = pinTooltip;
+        card.setAttribute('aria-haspopup', 'dialog');
+        card.onclick = () => openDictionaryDialog(item, category, card);
 
         card.append(img, name);
         grid.appendChild(card);
@@ -676,6 +925,8 @@ const initializeLinksPage = async () => {
             fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] }))
         ]);
 
+        if (isDictionaryPage) await window.ResearchDepth?.load();
+
         window.wheelMap = {};
         wheelList.forEach(w => {
             window.wheelMap[w.english_name] = w;
@@ -696,10 +947,16 @@ const initializeLinksPage = async () => {
         const charData = manifest.find(c => c.id === charId);
         let targetItems = [];
 
-        // 융재금구(weapon) 카테고리 진입 시 내부 시뮬레이터 버튼 노출
+        // 융재금구 카테고리에서 관련 도구와 현재 시즌 데이터 진입점 노출
         if (partySlot) {
             if (category === 'weapon') {
                 partySlot.innerHTML = `<a href="party_builder.html?from=weapon" class="party-link-btn">융재 금구 파티 시뮬레이터 실행 (Beta)</a>`;
+            } else if (category === 'weekly_yungjae') {
+                partySlot.innerHTML = `
+                    <a href="dzone_info.html" class="dzone-info-banner">
+                        <strong>이번 융재금구 데이터</strong>
+                        <span class="dzone-info-banner-action" aria-hidden="true">→</span>
+                    </a>`;
             } else {
                 partySlot.innerHTML = '';
             }
@@ -897,6 +1154,22 @@ const initializeLinksPage = async () => {
     const subModal = document.getElementById('substitute-modal');
     if (subModal) {
         subModal.addEventListener('click', (e) => { if (e.target === subModal) closeSubModal(); });
+    }
+
+    const dictionaryDialog = document.getElementById('dictionary-detail-dialog');
+    if (dictionaryDialog) {
+        document.getElementById('dictionary-dialog-close').addEventListener('click', () => dictionaryDialog.close());
+        dictionaryDialog.addEventListener('click', event => {
+            if (event.target !== dictionaryDialog) return;
+            const bounds = dictionaryDialog.getBoundingClientRect();
+            const inside = event.clientX >= bounds.left && event.clientX <= bounds.right
+                && event.clientY >= bounds.top && event.clientY <= bounds.bottom;
+            if (!inside) dictionaryDialog.close();
+        });
+        dictionaryDialog.addEventListener('close', () => {
+            if (dictionaryDialogTrigger?.isConnected) dictionaryDialogTrigger.focus();
+            dictionaryDialogTrigger = null;
+        });
     }
 
     document.addEventListener('click', (event) => {

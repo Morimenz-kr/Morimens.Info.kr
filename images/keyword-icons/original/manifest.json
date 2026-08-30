@@ -1,0 +1,1606 @@
+{
+  "extractedFrom": "Morimens runtime UI battle icon atlas",
+  "count": 200,
+  "assets": [
+    {
+      "file": "icons_buff_001.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_001.png",
+      "size": [
+        38,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_002.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_002.png",
+      "size": [
+        41,
+        41
+      ]
+    },
+    {
+      "file": "icons_buff_003.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_003.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_004.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_004.png",
+      "size": [
+        41,
+        41
+      ]
+    },
+    {
+      "file": "icons_buff_005.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_005.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_006.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_006.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_007.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_007.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_008.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_008.png",
+      "size": [
+        40,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_009.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_009.png",
+      "size": [
+        44,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_010.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_010.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_011.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_011.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_012.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_012.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_013.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_013.png",
+      "size": [
+        45,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_014.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_014.png",
+      "size": [
+        45,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_015.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_015.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_016.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_016.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_017.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_017.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_018.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_018.png",
+      "size": [
+        41,
+        41
+      ]
+    },
+    {
+      "file": "icons_buff_019.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_019.png",
+      "size": [
+        46,
+        45
+      ]
+    },
+    {
+      "file": "icons_buff_020.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_020.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_021.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_021.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_022.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_022.png",
+      "size": [
+        43,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_023.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_023.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_024.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_024.png",
+      "size": [
+        46,
+        45
+      ]
+    },
+    {
+      "file": "icons_buff_025.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_025.png",
+      "size": [
+        42,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_026.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_026.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_027.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_027.png",
+      "size": [
+        45,
+        45
+      ]
+    },
+    {
+      "file": "icons_buff_028.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_028.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_029.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_029.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_030.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_030.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_031.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_031.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_032.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_032.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_033.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_033.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_034.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_034.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_035.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_035.png",
+      "size": [
+        38,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_036.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_036.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_037.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_037.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_038.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_038.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_039.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_039.png",
+      "size": [
+        44,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_040.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_040.png",
+      "size": [
+        42,
+        44
+      ]
+    },
+    {
+      "file": "icons_buff_041.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_041.png",
+      "size": [
+        42,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_042.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_042.png",
+      "size": [
+        44,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_043.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_043.png",
+      "size": [
+        46,
+        39
+      ]
+    },
+    {
+      "file": "icons_buff_044.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_044.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_045.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_045.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_046.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_046.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_047.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_047.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_048.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_048.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_049.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_049.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_050.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_050.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_051.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_051.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_052.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_052.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_053.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_053.png",
+      "size": [
+        43,
+        40
+      ]
+    },
+    {
+      "file": "icons_buff_054.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_054.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_055.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_055.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_056.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_056.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_057.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_057.png",
+      "size": [
+        39,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_058.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_058.png",
+      "size": [
+        44,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_059.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_059.png",
+      "size": [
+        45,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_060.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_060.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_061.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_061.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_062.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_062.png",
+      "size": [
+        44,
+        44
+      ]
+    },
+    {
+      "file": "icons_buff_063.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_063.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_064.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_064.png",
+      "size": [
+        45,
+        44
+      ]
+    },
+    {
+      "file": "icons_buff_065.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_065.png",
+      "size": [
+        44,
+        44
+      ]
+    },
+    {
+      "file": "icons_buff_066.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_066.png",
+      "size": [
+        40,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_067.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_067.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_068.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_068.png",
+      "size": [
+        46,
+        43
+      ]
+    },
+    {
+      "file": "icons_buff_069.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_069.png",
+      "size": [
+        45,
+        45
+      ]
+    },
+    {
+      "file": "icons_buff_070.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_070.png",
+      "size": [
+        45,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_071.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_071.png",
+      "size": [
+        44,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_072.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_072.png",
+      "size": [
+        46,
+        45
+      ]
+    },
+    {
+      "file": "icons_buff_073.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_073.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_074.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_074.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_075.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_075.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_076.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_076.png",
+      "size": [
+        41,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_077.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_077.png",
+      "size": [
+        42,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_078.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_078.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_079.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_079.png",
+      "size": [
+        44,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_080.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_080.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_081.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_081.png",
+      "size": [
+        44,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_082.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_082.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_083.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_083.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_084.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_084.png",
+      "size": [
+        44,
+        43
+      ]
+    },
+    {
+      "file": "icons_buff_085.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_085.png",
+      "size": [
+        44,
+        44
+      ]
+    },
+    {
+      "file": "icons_buff_086.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_086.png",
+      "size": [
+        43,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_087.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_087.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_088.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_088.png",
+      "size": [
+        46,
+        45
+      ]
+    },
+    {
+      "file": "icons_buff_090.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_090.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_091.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_091.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_092.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_092.png",
+      "size": [
+        46,
+        46
+      ]
+    },
+    {
+      "file": "icons_buff_subicon_001.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_subicon_001.png",
+      "size": [
+        22,
+        22
+      ]
+    },
+    {
+      "file": "icons_buff_subicon_002.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/icons_buff_subicon_002.png",
+      "size": [
+        22,
+        22
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_001.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_001.png",
+      "size": [
+        34,
+        34
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_002.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_002.png",
+      "size": [
+        33,
+        33
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_003.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_003.png",
+      "size": [
+        35,
+        36
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_004.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_004.png",
+      "size": [
+        25,
+        38
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_005.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_005.png",
+      "size": [
+        21,
+        35
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_006.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_006.png",
+      "size": [
+        36,
+        36
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_007.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_007.png",
+      "size": [
+        33,
+        34
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_008.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_008.png",
+      "size": [
+        34,
+        34
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_009.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_009.png",
+      "size": [
+        30,
+        38
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_010.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_010.png",
+      "size": [
+        36,
+        36
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_011.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_011.png",
+      "size": [
+        36,
+        33
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_012.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_012.png",
+      "size": [
+        28,
+        27
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_013.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_013.png",
+      "size": [
+        30,
+        27
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_014.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_014.png",
+      "size": [
+        32,
+        19
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_015.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_015.png",
+      "size": [
+        34,
+        34
+      ]
+    },
+    {
+      "file": "ui_battle_white_buff_016.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_battle_white_buff_016.png",
+      "size": [
+        43,
+        28
+      ]
+    },
+    {
+      "file": "ui_rune_10_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_10_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_10_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_10_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_10_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_10_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_10_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_10_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_11_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_11_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_11_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_11_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_11_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_11_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_11_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_11_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_12_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_12_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_12_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_12_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_12_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_12_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_12_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_12_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_13_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_13_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_13_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_13_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_13_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_13_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_13_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_13_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_14_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_14_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_14_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_14_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_14_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_14_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_14_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_14_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_15_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_15_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_15_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_15_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_15_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_15_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_15_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_15_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_16_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_16_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_16_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_16_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_16_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_16_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_16_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_16_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_17_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_17_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_17_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_17_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_17_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_17_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_17_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_17_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_18_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_18_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_18_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_18_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_18_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_18_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_18_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_18_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_19_ash_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_19_ash_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_19_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_19_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_19_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_19_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_19_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_19_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_19_small_ash.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_19_small_ash.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_19_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_19_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_1_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_1_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_1_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_1_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_1_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_1_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_1_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_1_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_20_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_20_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_20_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_20_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_20_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_20_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_20_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_20_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_21_ash_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_21_ash_high.png",
+      "size": [
+        95,
+        95
+      ]
+    },
+    {
+      "file": "ui_rune_21_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_21_big_high.png",
+      "size": [
+        94,
+        94
+      ]
+    },
+    {
+      "file": "ui_rune_21_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_21_small_high.png",
+      "size": [
+        94,
+        94
+      ]
+    },
+    {
+      "file": "ui_rune_22_ash_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_22_ash_high.png",
+      "size": [
+        95,
+        95
+      ]
+    },
+    {
+      "file": "ui_rune_22_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_22_big_high.png",
+      "size": [
+        94,
+        94
+      ]
+    },
+    {
+      "file": "ui_rune_22_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_22_small_high.png",
+      "size": [
+        94,
+        94
+      ]
+    },
+    {
+      "file": "ui_rune_23_ash_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_23_ash_high.png",
+      "size": [
+        95,
+        95
+      ]
+    },
+    {
+      "file": "ui_rune_23_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_23_big_high.png",
+      "size": [
+        94,
+        94
+      ]
+    },
+    {
+      "file": "ui_rune_23_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_23_small_high.png",
+      "size": [
+        94,
+        94
+      ]
+    },
+    {
+      "file": "ui_rune_2_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_2_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_2_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_2_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_2_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_2_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_2_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_2_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_3_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_3_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_3_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_3_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_3_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_3_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_3_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_3_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_4_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_4_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_4_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_4_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_4_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_4_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_4_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_4_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_5_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_5_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_5_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_5_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_5_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_5_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_5_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_5_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_6_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_6_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_6_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_6_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_6_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_6_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_6_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_6_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_7_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_7_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_7_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_7_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_7_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_7_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_7_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_7_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_8_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_8_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_8_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_8_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_8_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_8_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_8_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_8_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_9_big.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_9_big.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_9_big_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_9_big_high.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_9_small.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_9_small.png",
+      "size": [
+        102,
+        102
+      ]
+    },
+    {
+      "file": "ui_rune_9_small_high.png",
+      "sourceAsset": "assets/artres/uiresources/atlassource/ui_battle_icon/ui_rune_9_small_high.png",
+      "size": [
+        102,
+        102
+      ]
+    }
+  ]
+}

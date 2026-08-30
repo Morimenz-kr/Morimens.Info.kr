@@ -8,8 +8,8 @@
     <title>픽업·복각 일정 | 미사그 대학 한국 캠퍼스</title>
     <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
     <link rel="stylesheet" href="css/common.css?v=v1.4.0-site-quality-20260713-r4">
-    <link rel="stylesheet" href="css/components.css?v=v1.4.0-site-quality-20260713-r4">
-    <link rel="stylesheet" href="css/pages/info_tools.css?v=rerun-schedule-20260824-1">
+    <link rel="stylesheet" href="css/components.css?v=disclosure-ui-20260830">
+    <link rel="stylesheet" href="css/pages/info_tools.css?v=rerun-schedule-20260829-dark-shell">
     <script defer src="config/config.js?v=v1.4.0-site-quality-20260713-r4"></script>
     <script defer src="js/ui/dialog.js?v=v1.4.0-site-quality-20260713-r4"></script>
     <script defer src="js/feedback.js?v=v1.4.0-site-quality-20260713-r4"></script>
@@ -20,7 +20,7 @@
 <div class="background-overlay"></div>
 <main id="main-content" class="container info-page">
     <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 뒤로가기</a></nav>
-    <section class="info-shell">
+    <section class="info-shell info-shell--dark">
         <header class="info-header">
             <div>
                 <h1>픽업·복각 일정</h1>
@@ -68,10 +68,10 @@
             <div id="rerun-gap-list" class="rerun-gap-list" aria-live="polite"></div>
         </section>
 
-        <details class="history-disclosure">
+        <details class="history-disclosure site-disclosure">
             <summary>
                 <span class="history-disclosure-title">출시·복각 기록</span>
-                <span class="history-disclosure-hint">기록 펼치기 <span class="history-disclosure-arrow" aria-hidden="true"></span></span>
+                <span class="history-disclosure-hint">전체 기록</span>
             </summary>
             <div id="rerun-history" class="history-list"></div>
         </details>

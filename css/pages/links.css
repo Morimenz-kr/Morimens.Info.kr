@@ -381,6 +381,182 @@
 .dictionary-item.active .dictionary-item-name {
     color: #ffc107;
 }
+
+.dictionary-detail-dialog {
+    width: min(42rem, calc(100vw - 2rem));
+    max-width: none;
+    max-height: min(44rem, calc(100dvh - 2rem));
+    margin: auto;
+    padding: 0;
+    overflow: visible;
+    border: 1px solid #555862;
+    border-radius: 1rem;
+    background: #24242a;
+    color: #f1f1f2;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.65);
+}
+
+.dictionary-detail-dialog::backdrop {
+    background: rgba(8, 8, 11, 0.78);
+    backdrop-filter: blur(3px);
+}
+
+.dictionary-dialog-frame {
+    position: relative;
+    display: flex;
+    max-height: inherit;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: inherit;
+}
+
+.dictionary-dialog-close {
+    position: absolute;
+    z-index: 2;
+    top: 0.7rem;
+    right: 0.7rem;
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: transparent;
+    font: inherit;
+    font-size: 0;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.dictionary-dialog-close::before {
+    content: '×';
+    display: grid;
+    width: 30px;
+    height: 30px;
+    place-items: center;
+    border: 1px solid #5b5d64;
+    border-radius: 999px;
+    background: rgba(28, 29, 34, 0.92);
+    color: #d8d9dd;
+    font-size: 1.25rem;
+}
+.dictionary-dialog-close:hover::before { border-color: #8b8e96; color: #fff; }
+.dictionary-dialog-close:focus-visible { outline: none; }
+.dictionary-dialog-close:focus-visible::before { outline: 2px solid rgba(255, 193, 7, 0.55); outline-offset: 2px; }
+
+.dictionary-dialog-header {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding: 1.25rem 4.25rem 1.25rem 1.25rem;
+    border-bottom: 1px solid #45474e;
+    background: #2a2a31;
+}
+
+.dictionary-dialog-image {
+    display: grid;
+    width: 104px;
+    aspect-ratio: 1;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid #595b63;
+    border-radius: 0.75rem;
+    background: #202127;
+}
+
+.dictionary-dialog-image img { width: 100%; height: 100%; object-fit: cover; }
+.dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-image { aspect-ratio: 225 / 456; }
+.dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-image img { object-fit: contain; }
+.dictionary-detail-dialog[data-category="myeongryun"] { width: min(36rem, calc(100vw - 2rem)); }
+.dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-header {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 3.5rem 1rem 1rem;
+}
+.dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-image { width: 72px; }
+.dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-heading {
+    display: flex;
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.65rem;
+    align-content: center;
+    align-items: center;
+}
+.dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-eyebrow { flex: 0 0 100%; margin: 0; color: #aeb0b6; font-size: 0.68rem; }
+.dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-heading h2 { flex: 0 1 auto; font-size: clamp(1.35rem, 3vw, 1.65rem); }
+.dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-meta {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 0.14rem 0.45rem;
+    border: 1px solid #555861;
+    border-radius: 999px;
+    background: #222329;
+    color: #c7c9ce;
+    font-size: 0.7rem;
+}
+.dictionary-dialog-heading { min-width: 0; }
+.dictionary-dialog-eyebrow { margin: 0 0 0.3rem; color: #ffc107; font-size: 0.72rem; font-weight: 900; letter-spacing: 0.06em; }
+.dictionary-dialog-heading h2 { margin: 0; color: #f4f4f5; font-size: clamp(1.25rem, 3vw, 1.65rem); line-height: 1.35; overflow-wrap: anywhere; }
+.dictionary-dialog-meta { margin: 0.35rem 0 0; color: #b9bbc1; font-size: 0.8rem; font-weight: 800; }
+.dictionary-dialog-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 1.25rem; }
+.dictionary-dialog-section + .dictionary-dialog-section { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #41434a; }
+.dictionary-dialog-section h3 { margin: 0; color: #dadbe0; font-size: 0.82rem; }
+.dictionary-dialog-copy { margin-top: 0.6rem; color: #d3d4d8; font-size: 0.9rem; line-height: 1.72; white-space: pre-line; overflow-wrap: anywhere; }
+.dictionary-dialog-copy.is-muted { color: #aeb0b6; }
+.dictionary-dialog-copy .dynamic-value { color: inherit; font-weight: inherit; }
+.dictionary-wheel-stat-hero {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: baseline;
+    margin-top: 0.7rem;
+}
+.dictionary-wheel-stat-hero > strong { color: #f0f0f2; font-size: 1.05rem; }
+.dictionary-wheel-stat-value { color: #e2e3e6; font-size: 1.05rem; font-weight: 900; }
+.dictionary-enhancement-preview { margin-top: 1rem; }
+.dictionary-enhancement-preview-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.dictionary-enhancement-preview-head label { color: #bfc1c7; font-size: 0.78rem; font-weight: 800; }
+.dictionary-enhancement-preview-head output { color: #f1c75b; font-size: 0.78rem; font-weight: 900; }
+.dictionary-enhancement-slider { width: 100%; min-height: 32px; margin: 0.35rem 0 0; accent-color: #f1c75b; cursor: pointer; }
+.dictionary-enhancement-slider:focus-visible { outline: 3px solid rgba(255, 193, 7, 0.4); outline-offset: 2px; border-radius: 999px; }
+.dictionary-enhancement-range-labels { display: flex; justify-content: space-between; margin-top: -0.2rem; color: #8f929a; font-size: 0.68rem; font-weight: 800; }
+.dictionary-enhancement-details { margin-top: 0.65rem; border-top: 1px solid #41434a; }
+.dictionary-enhancement-details summary {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    padding: 0;
+    color: #bfc1c7;
+    font-size: 0.78rem;
+    font-weight: 800;
+    cursor: pointer;
+    list-style: none;
+}
+.dictionary-enhancement-details summary::-webkit-details-marker { display: none; }
+.dictionary-enhancement-details summary:hover { color: #f0f0f2; }
+.dictionary-enhancement-details.site-disclosure > summary::after { right: 0.25rem; }
+.dictionary-enhancement-note { margin: 0.35rem 0 0; color: #aeb0b6; font-size: 0.76rem; line-height: 1.55; }
+.dictionary-enhancement-table-wrap { margin-top: 0.65rem; overflow-x: auto; border: 1px solid #484a52; border-radius: 0.65rem; }
+.dictionary-enhancement-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.dictionary-enhancement-table th,
+.dictionary-enhancement-table td { padding: 0.52rem 0.65rem; border-bottom: 1px solid #41434a; text-align: right; }
+.dictionary-enhancement-table thead th { background: #303138; color: #aeb0b6; font-size: 0.7rem; }
+.dictionary-enhancement-table tbody th { width: 4.25rem; color: #aeb0b6; font-weight: 800; }
+.dictionary-enhancement-table tbody td { color: #e2e3e6; font-weight: 900; }
+.dictionary-enhancement-table tbody tr:last-child td:last-child { color: #f1c75b; }
+.dictionary-enhancement-table tr:last-child > * { border-bottom: 0; }
+.dictionary-breakthrough-switch { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 0.7rem; overflow: hidden; border: 1px solid #484a52; border-radius: 0.65rem; background: transparent; }
+.dictionary-breakthrough-switch button { min-width: 0; min-height: 44px; padding: 0.4rem; border: 0; border-radius: 0; background: transparent; color: #aeb0b6; font: inherit; font-size: 0.76rem; font-weight: 800; cursor: pointer; }
+.dictionary-breakthrough-switch button + button { border-left: 1px solid #484a52; }
+.dictionary-breakthrough-switch button:hover { color: #f0f0f2; }
+.dictionary-breakthrough-switch button[aria-pressed="true"] { color: #f1c75b; }
+.dictionary-breakthrough-switch button:focus-visible { position: relative; z-index: 1; outline: 3px solid rgba(255, 193, 7, 0.45); outline-offset: -3px; }
+.dictionary-breakthrough-hint { margin: 0.55rem 0 0; color: #8f929a; font-size: 0.72rem; }
+.dictionary-dialog-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+.dictionary-dialog-tags span { padding: 0.25rem 0.55rem; border: 1px solid #50525a; border-radius: 999px; background: #303138; color: #c9cbd1; font-size: 0.72rem; }
 /* ============================================
    명륜 상세 정보 툴팁 디자인
    ============================================ */
@@ -421,6 +597,31 @@
         grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: 10px;
     }
+
+    .dictionary-detail-dialog {
+        width: calc(100vw - 0.75rem);
+        max-height: calc(100dvh - 0.75rem);
+        margin: auto auto 0.375rem;
+        border-radius: 1rem 1rem 0.75rem 0.75rem;
+    }
+
+    .dictionary-dialog-header {
+        grid-template-columns: 72px minmax(0, 1fr);
+        gap: 0.75rem;
+        padding: 1rem 3.8rem 1rem 1rem;
+    }
+
+    .dictionary-dialog-image { width: 72px; }
+    .dictionary-detail-dialog[data-category="myeongryun"] { width: calc(100vw - 0.75rem); }
+    .dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-header {
+        grid-template-columns: 60px minmax(0, 1fr);
+        gap: 0.75rem;
+        padding: 0.75rem 3.25rem 0.75rem 0.75rem;
+    }
+    .dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-image { width: 60px; }
+    .dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-heading { gap: 0.35rem 0.5rem; }
+    .dictionary-detail-dialog[data-category="myeongryun"] .dictionary-dialog-heading h2 { font-size: clamp(1.15rem, 6vw, 1.35rem); }
+    .dictionary-dialog-scroll { padding: 1rem; }
 }
 
 @media (max-width: 360px) {
@@ -455,6 +656,50 @@
     background-color: #3498db !important;
     color: #ffffff !important;
     cursor: pointer;
+}
+
+.dzone-info-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 52px;
+    margin: -35px 0 24px;
+    padding: 13px 16px;
+    border: 1px solid #414248;
+    border-radius: 8px;
+    background: #25262a;
+    color: #d2d3d7;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.dzone-info-banner strong {
+    color: #f1f1f3;
+    font-size: 0.95rem;
+}
+
+.dzone-info-banner-action {
+    color: #b9bbc2;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.dzone-info-banner:hover {
+    border-color: #6b6d75;
+    background: #2a2b30;
+    color: #fff;
+}
+
+.dzone-info-banner:focus-visible {
+    outline: 3px solid rgba(255, 193, 7, 0.45);
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    .dzone-info-banner {
+        padding: 12px 14px;
+    }
 }
 .party-credit-text {
     display: block;
@@ -1060,6 +1305,12 @@
     grid-template-columns: minmax(220px, 360px) 1fr;
     gap: 12px;
     align-items: end;
+}
+.dictionary-filter-top--research {
+    grid-template-columns: minmax(220px, 360px) minmax(8rem, 10rem) 1fr;
+}
+.dictionary-research-field input {
+    width: 100%;
 }
 .dictionary-filter-section-title {
     font-size: 0.82em;

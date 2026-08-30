@@ -25,7 +25,7 @@
         '활염': ['living-flame.png', '#b75a64'],
         '연소': ['living-flame.png', '#b75a64'],
         '폭염': ['living-flame.png', '#b75a64'],
-        '옛날 잔재': ['old-ember.png', '#b75a64'],
+        '옛날 잔재': ['old-ember.png', '#9f6aac'],
         '중독': ['poison.png', '#aa71ae'],
         '희생': ['sacrifice.png', '#628da5'],
         '죄의 낙인': ['sin-mark.png', '#aa71ae'],
@@ -50,9 +50,11 @@
         '취약': ['vulnerability.png', '#b75a64'],
         '허약': ['weakness.png', '#aa71ae']
     };
+    keywordIcons['봉인'] = ['seal.webp', '#aa71ae'];
+    keywordIcons['실명'] = ['blind.webp', '#aa71ae'];
     [
         '소모', '보유', '예비', '유지', '발견', '준비', '관통 피해', '촉수 피해', '영지 각성',
-        '영감', '여파', '포식', '과식', '봉헌', '축복', '선물', '대가', '배아 융합', '초차원 공간',
+        '여파', '포식', '과식', '봉헌', '축복', '선물', '대가', '배아 융합', '초차원 공간',
         '명계', '공명', '인지 착란', '제의', '의식', '초거리', '허무', '워프', '은유'
     ].forEach(keyword => {
         keywordIcons[keyword] = ['special.png', '#c79374'];
@@ -89,7 +91,7 @@
 
     function renderRichText(value, options = {}) {
         const text = String(value ?? '');
-        const plainKeywords = new Set(options.plainKeywords || []);
+        const plainKeywords = new Set(['영감', ...(options.plainKeywords || [])]);
         const tooltipAliases = {
             '고정 중독': '중독',
             '고정 반격': '반격',
@@ -398,7 +400,7 @@
         }
 
         return `
-            <details class="character-effect-card" data-effect-name="${escapeHtml(skill.name)}"
+            <details class="character-effect-card site-disclosure" data-effect-name="${escapeHtml(skill.name)}"
                 data-selected-breakthrough="${selectedBreakthrough}" data-effect-definition="${escapeHtml(JSON.stringify(skill))}" open>
                 <summary>
                     <span class="character-effect-type">${escapeHtml(skill.type)}</span>
@@ -476,13 +478,19 @@
         if (container.dataset.tooltipEventsBound === 'true') return;
         container.dataset.tooltipEventsBound = 'true';
 
-        let tooltipBox = document.getElementById('character-effect-tooltip-box');
+        const dialogHost = container.matches('dialog') ? container : container.closest('dialog');
+        const tooltipHost = dialogHost || document.body;
+        let tooltipBox = dialogHost
+            ? tooltipHost.querySelector(':scope > .character-effect-tooltip-box')
+            : document.getElementById('character-effect-tooltip-box');
         if (!tooltipBox) {
             tooltipBox = document.createElement('div');
-            tooltipBox.id = 'character-effect-tooltip-box';
+            tooltipBox.id = dialogHost
+                ? `character-effect-tooltip-box-${dialogHost.id || 'dialog'}`
+                : 'character-effect-tooltip-box';
             tooltipBox.className = 'character-effect-tooltip-box';
             tooltipBox.setAttribute('role', 'tooltip');
-            document.body.appendChild(tooltipBox);
+            tooltipHost.appendChild(tooltipBox);
         }
         let tooltipPinned = false;
 
@@ -613,6 +621,8 @@
             event.stopPropagation();
         });
         tooltipBox.addEventListener('mouseleave', () => hideTooltip());
+        container.addEventListener('scroll', () => hideTooltip(true), { capture: true, passive: true });
+        dialogHost?.addEventListener('close', () => hideTooltip(true));
         window.addEventListener('resize', () => hideTooltip(true));
         window.addEventListener('scroll', () => hideTooltip(), { passive: true });
     }

@@ -503,3 +503,46 @@ select:focus {
         height: 80px;
     }
 }
+
+/* 공통 접기/펼치기 UI */
+.site-disclosure > summary {
+    position: relative;
+    min-height: 44px;
+    padding-inline-end: 2.75rem !important;
+    cursor: pointer;
+    list-style: none;
+}
+
+.site-disclosure > summary::-webkit-details-marker { display: none; }
+.site-disclosure > summary::marker { content: ''; }
+
+.site-disclosure.site-disclosure > summary::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    color: var(--color-text-muted, #aeb0b6);
+    transform: translateY(-65%) rotate(45deg);
+    transition: transform 160ms ease;
+}
+
+.site-disclosure.site-disclosure:not([open]) > summary::after {
+    transform: translateY(-35%) rotate(-45deg);
+}
+
+.site-disclosure > summary:focus-visible {
+    outline: 3px solid rgba(244, 189, 80, 0.45) !important;
+    outline-offset: -3px !important;
+}
+
+.site-disclosure .collapse-indicator,
+.site-disclosure .target-fold-arrow,
+.site-disclosure .history-disclosure-arrow { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+    .site-disclosure.site-disclosure > summary::after { transition: none; }
+}

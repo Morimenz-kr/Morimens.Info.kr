@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>진행 중인 융재금구 정보</title>
+    <meta name="description" content="현재 융재금구의 파별 전투 구성, 몬스터 실제 체력과 행동 패턴을 확인합니다.">
+    <script src="config/config.js?v=design-system-20260831-10"></script>
+    <script>
+        CONFIG.VERSION = 'v1.3.59-dzone-research-depth-20260829';
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/character-effects.css');
+        loadCSS('css/pages/info_tools.css');
+        loadCSS('css/pages/dzone-info.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+
+<body>
+<div class="bg-image"></div>
+<div class="background-overlay"></div>
+<main class="container info-page dzone-page-shell">
+    <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 뒤로가기</a></nav>
+
+    <section class="info-shell info-shell--dark dzone-shell">
+        <header class="info-header dzone-hero">
+            <div>
+                <h1 id="dzone-title">진행 중인 융재금구 정보</h1>
+                <p id="dzone-summary" class="dzone-summary">현재 시즌 데이터를 불러오는 중입니다.</p>
+            </div>
+        </header>
+
+        <section class="dzone-toolbar" aria-labelledby="filter-heading">
+        <div class="dzone-toolbar-heading">
+            <h2 id="filter-heading">전투 선택</h2>
+        </div>
+        <div class="dzone-filter-grid">
+            <fieldset class="dzone-filter-group">
+                <legend class="dzone-visually-hidden">파 선택</legend>
+                <div id="wave-selector" class="wave-selector" role="group" aria-label="파 선택"></div>
+            </fieldset>
+            <fieldset class="dzone-filter-group">
+                <legend class="dzone-visually-hidden">난이도 선택</legend>
+                <div id="alert-selector" class="alert-selector" role="group" aria-label="난이도 선택"></div>
+            </fieldset>
+        </div>
+        <div class="dzone-research-panel">
+            <label for="dzone-research-level">금기 학식 등급</label>
+            <input id="dzone-research-level" type="number" min="1" max="100" inputmode="numeric" value="81">
+        </div>
+        <div class="dzone-mechanic-nav" aria-labelledby="mechanic-nav-label">
+            <span id="mechanic-nav-label" class="dzone-mechanic-nav-label">이번 융재 기믹</span>
+            <div id="dzone-mechanic-chips" class="dzone-mechanic-chips" role="group" aria-label="이번 융재 기믹 바로가기"></div>
+        </div>
+        <p id="selection-status" class="dzone-visually-hidden" aria-live="polite"></p>
+        </section>
+
+        <div id="dzone-content" class="dzone-content" aria-live="polite">
+            <div class="dzone-loading">융재금구 데이터를 정리하고 있습니다.</div>
+        </div>
+    </section>
+</main>
+<button class="floating-report-btn" type="button" title="버그 신고" aria-label="버그 또는 개선 의견 제보">
+    <span aria-hidden="true">🚨</span>
+</button>
+
+<script>
+    loadJS('js/character-effects.js');
+    loadJS('js/research-depth.js');
+    loadJS('js/dzone-info.js');
+    loadJS('js/feedback.js');
+</script>
+</body>
+</html>

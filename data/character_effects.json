@@ -1,5 +1,16 @@
 {
   "24": {
+    "derivedCards": [
+      {
+        "type": "파생 명령",
+        "name": "영감",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "산출력 1을 획득하고, 카드 1장을 뽑는다. 소모, 유지"
+      }
+    ],
     "skills": [
       {
         "type": "명령",
@@ -635,9 +646,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 「24」",
+      "name": "차원 영상 · 「24」",
       "characterName": "「24」",
-      "effect": "턴이 시작될 때 「24」는 15 광기를 얻는다. 턴 시작 시, 「24」가 우울 상태일 경우 추가로 24 광기를 얻고; 광란 상태일 경우 「24」의 임시 크리티컬 확률과 임시 크리티컬 데미지가 24% 증가한다."
+      "effect": "턴 시작 시 \"24\"는 15 광기를 획득합니다. 턴 시작 시 \"24\"가 \"우울증\" 상태일 경우 추가로 24 광기를 획득하며, \"조울증\" 상태일 경우 \"24\"의 임시 크리티컬 확률과 임시 크리티컬 피해가 24% 증가합니다.",
+      "clientRelicId": 71239,
+      "clientAwakenerId": 15601,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C06.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "nymphaea": {
@@ -1066,9 +1086,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 님피아",
+      "name": "차원 영상 · 님피아",
       "characterName": "님피아",
-      "effect": "턴이 시작될 때 님피아는 15 광기를 얻는다. 님피아가 \"타격\"을 시전한 후, 님피아가 이번 전투에서 가하는 중독이 10% 증가한다. 님피아가 \"방어\"를 시전한 후, 모든 적의 중독 50%를 발동시킨다. 매 턴 각각 1번씩만 발동한다."
+      "effect": "턴 시작 시 님피아는 15 광기를 획득합니다. 님피아의 \"타격\"을 사용한 후, \"님피아\"가 이번 전투에서 주는 중독이 10% 증가하며, 님피아의 \"방어\"를 사용한 후 모든 적에게 50% 중독을 유발합니다. 매 턴마다 각각 1회만 발동됩니다.",
+      "clientRelicId": 71267,
+      "clientAwakenerId": 15580,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C08.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "nautila": {
@@ -1485,9 +1514,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 노틸라",
+      "name": "차원 영상 · 노틸라",
       "characterName": "노틸라",
-      "effect": "턴이 시작될 때 노틸라는 15 광기를 얻는다. 노틸라가 광기 폭발을 사용한 후, 현재 방어막의 20%와 동일한 반격과 지연 보호막을 얻는다. 매 턴 1번만 발동한다."
+      "effect": "턴 시작 시 노틸라가 15 광기를 획득합니다. 노틸라의 \"광기 폭발\"을 사용한 후 현재 방어막의 20%와 동일한 반격과 지연 실드를 획득하며, 매 턴 최대 1회까지 발동됩니다.",
+      "clientRelicId": 71233,
+      "clientAwakenerId": 15565,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C07.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "ryker": {
@@ -1982,9 +2020,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 라이커",
+      "name": "차원 영상 · 라이커",
       "characterName": "라이커",
-      "effect": "턴이 시작될 때 라이커는 15 광기를 얻는다. 매 턴마다 처음 굴리는 주사위의 결과는 항상 6이다."
+      "effect": "턴 시작 시 라이커가 광기를 15 획득한다. 매 턴 최초 주사위 결과가 6으로 고정된다.",
+      "clientRelicId": 71249,
+      "clientAwakenerId": 15604,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C05.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "lily": {
@@ -2431,9 +2478,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 릴리",
+      "name": "차원 영상 · 릴리",
       "characterName": "릴리",
-      "effect": "턴이 시작될 때 릴리는 15 광기를 얻는다. 릴리의 인내 한도가 100% 증가한다. \"시들지 않는 진흙 속의 꽃\"이나 \"보복의 일격\"을 사용할 경우, 인내의 8%에 해당하는 생명력을 회복한다."
+      "effect": "턴 시작 시 릴리는 15 광기를 획득합니다. 릴리의 인내 상한이 [Arg2]% 증가하며, \"시들지 않는 진흙 속의 꽃\" 또는 \"보복의 일격\"을 사용할 때, \"인내\" 스택의 8%에 해당하는 HP을 회복합니다.",
+      "clientRelicId": 71263,
+      "clientAwakenerId": 15581,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C10.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "mouchette": {
@@ -2788,9 +2844,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 무셰트",
+      "name": "차원 영상 · 무셰트",
       "characterName": "무셰트",
-      "effect": "턴이 시작될 때 무셰트는 15 광기를 얻는다. 턴이 시작될 때, 산출력 소모가 0인 무셰트의 임시 \"타격\" 1장을 생성한다. 매 번 \"극적인 조우\"를 발동할 때마다 \"샤이닝☆토네이도\"가 이번 전투에서 입히는 기본 데미지와 타격 피해 증가량 효과가 5% 증가한다."
+      "effect": "턴 시작 시 무셰트가 광기 15pt를 획득하고, 행동력 소모가 0인 임시 「타격」 카드를 1장 생성한다. 매번 「극적인 만남」 발동 시마다 「샤이닝☆토네이도」가 해당 전투에서 입히는 기본 피해와 타격 피해 증가 효과가 5% 증가한다.",
+      "clientRelicId": 123724,
+      "clientAwakenerId": 94450,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C17.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "doll_inferno": {
@@ -3331,9 +3396,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 융해 · 돌",
+      "name": "차원 영상 · 융해·돌",
       "characterName": "융해 · 돌",
-      "effect": "턴이 시작될 때 융해 · 돌은 15 광기를 얻는다. 융해 · 돌이 광기 폭발을 시전하면 소모한 광기 20마다 다른 각성체들은 1 광기를 얻는다."
+      "effect": "턴 시작 시 융해·돌은 15 광기를 획득합니다. 용해 돌이 광기 폭발을 사용한 후, 다른 각성체들은 20 광기를 소모할 때마다 1 광기를 획득합니다.",
+      "clientRelicId": 71234,
+      "clientAwakenerId": 15602,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C02EX.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     },
     "derivedCards": [
       {
@@ -3723,9 +3797,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 앨바",
+      "name": "차원 영상 · 엘바",
       "characterName": "엘바",
-      "effect": "턴이 시작될 때 앨바는 15 광기를 얻는다. 앨바가 1턴에 2장의 \"방어\"를 사용하면, 소모가 부여된 \"심안의 칼날\" 1장을 패에 추가한다. 앨바가 1턴에 2장의 \"타격\"을 사용하면, 소모가 부여된 \"임전 태세\"를 패에 추가한다."
+      "effect": "턴 시작 시 엘바는 15 광기를 획득합니다. 엘바가 1턴 내에 2 장의 \"방어\"를 사용하면, 1장의 소모된 \"심안의 칼날\"을 손에 추가합니다; 2 장의 \"타격\"을 사용하면, 1장의 소모된 \"임전 태세\"를 손에 추가합니다.",
+      "clientRelicId": 71246,
+      "clientAwakenerId": 15588,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C11.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "karen": {
@@ -4129,9 +4212,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 카렌",
+      "name": "차원 영상 · 카렌",
       "characterName": "카렌",
-      "effect": "턴이 시작될 때 카렌은 15 광기를 얻는다. 카렌이 \"은밀한 헌신\"을 사용하면, 소모 산출력의 2배에 해당하는 산출력을 얻는다. 3턴의 쿨타임이 존재한다."
+      "effect": "턴 시작 시, 카렌이 광기를 15 획득한다. 「침묵의 수호」 사용 시 소모된 행동력의 2배를 반환한다, 재사용 대기시간 3턴.",
+      "clientRelicId": 71264,
+      "clientAwakenerId": 15571,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C12.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "kathigu-ra": {
@@ -4535,6 +4627,43 @@
         ]
       }
     ],
+    "derivedCards": [
+      {
+        "type": "명령",
+        "name": "엑사 플레어",
+        "cost": {
+          "type": "산출력",
+          "value": "전부"
+        },
+        "effect": "폭염이 10스택에 도달하면 모든 '테라 플레어'가 이 카드로 변환된다. 모든 적에게 공격력 n%의 피해를 입힌다. 산출력 1을 소모할 때마다 힘 계수가 150% 증가한다. 모든 폭염을 소모하고, 소모한 폭염 1스택마다 힘 계수가 50% 증가한다. 사용 후 모든 '엑사 플레어'가 '테라 플레어'로 되돌아간다.",
+        "levels": [
+          {
+            "level": 1,
+            "피해": "175%"
+          },
+          {
+            "level": 2,
+            "피해": "210%"
+          },
+          {
+            "level": 3,
+            "피해": "245%"
+          },
+          {
+            "level": 4,
+            "피해": "280%"
+          },
+          {
+            "level": 5,
+            "피해": "315%"
+          },
+          {
+            "level": 6,
+            "피해": "350%"
+          }
+        ]
+      }
+    ],
     "enlighten": [
       {
         "name": "꺼지지 않는 불꽃",
@@ -4542,7 +4671,9 @@
       },
       {
         "name": "수많은 별의 용해",
-        "plainKeywords": ["보유"],
+        "plainKeywords": [
+          "보유"
+        ],
         "effect": "'테라 플레어'는 활염 을 3스택 보유한 경우, 기본 피해가 50% 증가한다. '마지막 총성'은 활염 을 3스택 보유한 경우, 획득하는 힘 이 공격력 3% 증가한다."
       },
       {
@@ -4581,9 +4712,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 카티구라",
+      "name": "차원 영상 · 카티구라",
       "characterName": "카티구라",
-      "effect": "턴이 시작될 때 카티구라는 15 광기를 얻는다. 활염을 10중첩 소모했다면, 즉시 카티구라의 명령 카드 1장을 뽑고 활염 3중첩을 부여한다. 이 턴에는 더 이상 (차원 영상 효과 발동 조건의) 중첩이 누적되지 않는다."
+      "effect": "턴 시작 시 카티구라가 광기 15pt를 획득한다. 누적 「활염」 10스택 소모 즉시 카티구라의 명령 카드를 1장 드로우하여 「활염」 3스택을 부여하고, 해당 턴에는 더 이상 스택을 누적하지 않는다.",
+      "clientRelicId": 84125,
+      "clientAwakenerId": 77913,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C16.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "tawil": {
@@ -5072,6 +5212,24 @@
         ]
       },
       {
+        "type": "파생 명령",
+        "name": "은열쇠의 새벽빛",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "해금된 무작위 열쇠 지령 3개 중 1개를 선택하여 즉시 발동하며, 해당 효과를 2회 적용한다. 소모, 유지"
+      },
+      {
+        "type": "파생 명령",
+        "name": "영감",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "산출력 1을 획득하고, 카드 1장을 뽑는다. 소모, 유지"
+      },
+      {
         "type": "버프",
         "name": "천진한 답례",
         "cost": {
@@ -5182,9 +5340,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 타비",
+      "name": "차원 영상 · 타비",
       "characterName": "타비",
-      "effect": "턴이 시작될 때 타비는 15 광기를 얻는다. 1턴에 타비의 명령 카드를 6장 사용하면, '은열쇠의 새벽빛' 1장을 패에 추가한다. 3턴의 쿨타임이 존재한다."
+      "effect": "턴 시작 시 타비가 광기를 15 획득한다. 단일 턴 내 타비의 명령 카드를 6장 사용 시 「은열쇠의 새벽빛」1장을 손패에 추가한다. 해당 효과의 재사용 대기 시간 3턴.",
+      "clientRelicId": 71254,
+      "clientAwakenerId": 54116,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C15.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "pandia": {
@@ -5689,9 +5856,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 판디아",
+      "name": "차원 영상 · 판디아",
       "characterName": "판디아",
-      "effect": "턴이 시작될 때 판디아는 15 광기를 얻는다. 판디아가 광기 폭발을 사용하면 20%의 임시 반격에 해당하는 영구 반격을 얻는다."
+      "effect": "턴 시작 시 판디아는 15 광기를 획득합니다. 판디아가 광기 폭발을 방출한 후, 20%의 임시 반격을 영구적 반격으로 획득합니다.",
+      "clientRelicId": 71262,
+      "clientAwakenerId": 15560,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C09.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "hameln": {
@@ -6073,6 +6249,15 @@
     ],
     "derivedCards": [
       {
+        "type": "파생 명령",
+        "name": "영감",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "산출력 1을 획득하고, 카드 1장을 뽑는다. 소모, 유지"
+      },
+      {
         "type": "버프",
         "name": "협주의 교향",
         "cost": {
@@ -6129,9 +6314,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 하멜른",
+      "name": "차원 영상 · 하멜른",
       "characterName": "하멜른",
-      "effect": "턴이 시작될 때 하멜른은 15 광기를 얻는다. \"영혼의 서곡\"의 산출력 소모가 1 감소하고, 기본 데미지 횟수가 1 증가한다."
+      "effect": "턴 시작 시 하멜른이 광기를 15 획득한다. 「영혼의 서곡」의 행동력 소모가 1 줄어들고, 기본 피해 횟수가 1 증가한다.",
+      "clientRelicId": 71255,
+      "clientAwakenerId": 54117,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D12.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "goliath": {
@@ -6545,9 +6739,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 골리앗",
+      "name": "차원 영상 · 골리아",
       "characterName": "골리아",
-      "effect": "턴이 시작될 때 골리앗은 15 광기를 얻는다. 골리앗이 1턴에 피해를 3회 주었다면, 이번 전투에서 골리앗이 주는 피해는 1배의 힘 가성을 추가로 얻는다. 3턴의 쿨타임이 존재한다."
+      "effect": "턴 시작 시 골리아가 광기를 15 획득한다. 만약 골리아가 1턴 내로 피해를 3회 입혔다면, 해당 전투에서 입힌 피해는 추가 힘 보너스를 1배 적용받는다. 재사용 대기 시간 3턴.",
+      "clientRelicId": 71269,
+      "clientAwakenerId": 15564,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O06.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "coporsant": {
@@ -6989,9 +7192,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 코퍼산트",
+      "name": "차원 영상 · 코퍼산트",
       "characterName": "코퍼산트",
-      "effect": "턴이 시작될 때 코퍼산트는 15 광기를 얻는다. 턴이 시작될 때 임시 촉수를 1개 얻는다. 죽음 저항이 발동할 때마다 코퍼산트는 30 광기를 얻고, 산출력 소모가 0인 \"징벌의 천둥\" 1장을 패에 넣는다."
+      "effect": "턴 시작 시 코퍼산트는 광기를 15 얻고, 임시 촉수 1개를 얻는다. 죽음 저항이 발동될 때마다 코퍼산트는 광기를 30pt 얻고, 행동력 1을 0으로 소모하고, 소모한 「징벌 번개」를 손에 넣는다.",
+      "clientRelicId": 84127,
+      "clientAwakenerId": 77922,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O10.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "murphy": {
@@ -7422,9 +7634,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 머피",
+      "name": "차원 영상 · 머피",
       "characterName": "머피",
-      "effect": "턴이 시작될 때 머피는 15 광기를 얻는다. 머피의 \"타격\"과 \"방어\"는 현재 희생의 25%를 임시 촉수 피해로 전환한다. 이 효과는 턴 당 1번만 발동한다."
+      "effect": "턴 시작 시 머피가 15 광기를 획득합니다. 머피의 「타격」 및 「방어」 사용 시 「희생」의 25%를 임시 촉수 피해로 전환합니다. 턴마다 1번만 발동합니다.",
+      "clientRelicId": 71257,
+      "clientAwakenerId": 15576,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O02.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "miryam": {
@@ -8113,9 +8334,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 미리암",
+      "name": "차원 영상 · 미리암",
       "characterName": "미리암",
-      "effect": "턴이 시작될 때 미리암은 15 광기를 얻고, \"성례\" 1장을 패에 추가한다."
+      "effect": "턴 시작 시 미리암은 15 광기를 획득하고, 1장의 \"성례\"를 드립니다.",
+      "clientRelicId": 71250,
+      "clientAwakenerId": 15582,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O07.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "sanga": {
@@ -8538,9 +8768,20 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 산",
+      "name": "차원 영상 · 산",
       "characterName": "산",
-      "effect": "턴이 시작될 때 산은 15 광기를 얻는다. 전투 시작 시, 산의 모든 명령 카드에 \"유지, 준비 1, 사용 시 31의 방어막 획득\"을 부여한다."
+      "effect": "턴 시작 시 산은 15 광기를 획득합니다. 전투 시작 시 산의 모든 명령 카드에 보존, 예비 1, math.ceil(PlayerGrowth*0.03) 점 방어막을 부여합니다.",
+      "clientRelicId": 71270,
+      "clientAwakenerId": 15592,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O08.png",
+      "researchDependencies": {
+        "material": true,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": [
+          "math.ceil(PlayerGrowth*0.03)"
+        ]
+      }
     }
   },
   "celeste": {
@@ -8957,9 +9198,20 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 실레스트",
+      "name": "차원 영상 · 셀레스트",
       "characterName": "셀레스트",
-      "effect": "턴이 시작될 때 실레스트는 15 광기를 얻는다. 턴이 종료될 때마다 패에 존재하는 실레스트의 명령 카드 1장마다 1개의 촉수가 적을 공격하고 HP를 21 회복한다."
+      "effect": "턴 시작 시 셀레스트가 15 광기를 획득합니다. 턴이 종료되기 전, 손패에 남아있는 셀레스트의 명령 카드 1장마다 촉수 1개가 적을 공격하고 HP를 math.ceil(PlayerGrowth*0.02) 회복합니다.",
+      "clientRelicId": 71242,
+      "clientAwakenerId": 15566,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O09.png",
+      "researchDependencies": {
+        "material": true,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": [
+          "math.ceil(PlayerGrowth*0.02)"
+        ]
+      }
     }
   },
   "aurita": {
@@ -9344,9 +9596,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 오레타",
+      "name": "차원 영상 · 오레타",
       "characterName": "오레타",
-      "effect": "턴이 시작될 때 오레타는 15 광기를 얻는다. \"선체 분열\"이 추가로 피해를 1회 입히고, 오레타가 \"방어\"를 사용하면 1장의 \"선체 분열\"을 패에 더한다."
+      "effect": "턴 시작 시 오레타는 15 광기를 획득합니다. \"선체 분열\" 피해 횟수가 1만큼 증가하며, 오레타의 \"방어\"를 사용한 후 1장의 \"선체 분열\"을 손에 추가합니다.",
+      "clientRelicId": 71231,
+      "clientAwakenerId": 15573,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O05.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "caecus": {
@@ -9737,9 +9998,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 카이커스",
+      "name": "차원 영상 · 카이커스",
       "characterName": "카이커스",
-      "effect": "턴이 시작될 때 카이커스는 15 광기를 얻는다. 카이커스가 방어막을 얻을 때마다, 그 방어막의 50%에 해당하는 HP를 회복한다."
+      "effect": "턴 시작 시 케이크스는 15 광기를 획득합니다. 케이크스가 방어막을 획득할 때 50%의 방어막량만큼 HP을 회복.",
+      "clientRelicId": 71266,
+      "clientAwakenerId": 15594,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O04.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "Murphy_Fauxborn": {
@@ -10072,9 +10342,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 탄망 · 머피",
+      "name": "차원 영상 · 탄망·머피",
       "characterName": "탄망 · 머피",
-      "effect": "턴이 시작될 때 탄망 · 머피는 15 광기를 얻는다. 매 3번째로 발동하는 \"나선 원무\"는 3회 발동한다."
+      "effect": "턴 시작 시 탄망·머피가 광기를 15 획득한다. 「레무리아 왈츠」가 매 3번째 사용될 시 3회 발동한다.",
+      "clientRelicId": 84117,
+      "clientAwakenerId": 15589,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O02EX.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "tulu": {
@@ -10545,9 +10824,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 툴루",
+      "name": "차원 영상 · 툴루",
       "characterName": "툴루",
-      "effect": "턴이 시작될 때 툴루는 15 광기를 얻는다. 툴루의 기본 광기가 10 감소하고, 툴루가 광기 폭발을 사용하면 2개의 임시 촉수를 얻는다."
+      "effect": "턴 시작 시 툴루가 15 광기를 획득합니다. 툴루의 광기 소모량이 10 감소하고, 광기 폭발 사용 시 임시 촉수를 2개 생성합니다.",
+      "clientRelicId": 71252,
+      "clientAwakenerId": 15563,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O01.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "faros": {
@@ -10689,7 +10977,7 @@
         "breakthroughs": [
           {
             "stage": 1,
-          "effect": "공격력의 n%에 해당하는 피해를 입히고 동일한 양의 중독을 부여하며, 이 피해에는 100%의 촉수 피해 보너스가 적용된다. 임시 촉수 1개를 생성한다. 촉수 피해가 공격력의 m%만큼 증가한다."
+            "effect": "공격력의 n%에 해당하는 피해를 입히고 동일한 양의 중독을 부여하며, 이 피해에는 100%의 촉수 피해 보너스가 적용된다. 임시 촉수 1개를 생성한다. 촉수 피해가 공격력의 m%만큼 증가한다."
           }
         ]
       },
@@ -10844,9 +11132,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 파로스",
+      "name": "차원 영상 · 파로스",
       "characterName": "파로스",
-      "effect": "턴이 시작될 때 파로스는 15 광기를 얻는다. 촉수가 2번 공격할 때마다, 이번 전투에서 파로스의 중독 부여량과 방어막 획득량이 1% 증가한다. (최대 50%)"
+      "effect": "턴 시작 시 파로스가 15 광기를 획득합니다. 촉수가 2번 공격할 때마다, 해당 전투 동안 파로스의 중독 부여량과 방어막 획득량이 1% 증가합니다 (최대 50%).",
+      "clientRelicId": 71261,
+      "clientAwakenerId": 15575,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O03.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "vortice": {
@@ -11127,9 +11424,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 모스",
+      "name": "차원 영상 · 모스",
       "characterName": "모스",
-      "effect": "턴이 시작될 때 모스는 15 광기를 얻는다. 매 턴마다 처음으로 발동하는 \"차지!\" 또는 \"장전!\"은 2회 발동한다."
+      "effect": "턴 시작 시마다 모스가 15 광기를 획득합니다. 매 턴 처음 사용하는 「차지!」 또는 「장전!」 의 효과가 2회 발동됩니다.",
+      "clientRelicId": 131079,
+      "clientAwakenerId": 130901,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O11.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "doresain": {
@@ -11430,9 +11736,20 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 도어세인",
+      "name": "차원 영상 · 도어세인",
       "characterName": "도어세인",
-      "effect": "턴이 시작될 때 도어세인은 15 광기를 얻는다. 도어세인이 잔해를 소모할 때마다, 영구 힘의 20%에 해당하는 임시 힘을 얻는다."
+      "effect": "턴 시작 시 도어세인이 광기를 15, 힘을 math.ceil(PlayerGrowth*0.02)pt 획득한다. 도어세인이 「잔해」 사용 시 영구 힘 20%를 임시 힘으로 획득한다.",
+      "clientRelicId": 95976,
+      "clientAwakenerId": 95786,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B10.png",
+      "researchDependencies": {
+        "material": true,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": [
+          "math.ceil(PlayerGrowth*0.02)"
+        ]
+      }
     },
     "derivedCards": [
       {
@@ -11441,12 +11758,12 @@
           "type": "산출력",
           "value": 0
         },
-      "effect": "모든 적에게 공격력의 40%에 해당하는 관통 피해를 입힌다. 소모, 유지",
+        "effect": "모든 적에게 공격력의 40%에 해당하는 관통 피해를 입힌다. 소모, 유지",
         "name": "영원한 밤의 향연",
         "breakthroughs": [
           {
             "stage": 3,
-          "effect": "모든 적에게 공격력의 120%에 해당하는 관통 피해를 입힌다. 사용 후 해당 턴 동안 추가로 사용하는 「영원한 밤의 향연」의 힘 계수가 100% 상승한다. 소모, 유지"
+            "effect": "모든 적에게 공격력의 120%에 해당하는 관통 피해를 입힌다. 사용 후 해당 턴 동안 추가로 사용하는 「영원한 밤의 향연」의 힘 계수가 100% 상승한다. 소모, 유지"
           }
         ]
       }
@@ -11824,9 +12141,20 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 레아",
+      "name": "차원 영상 · 레아",
       "characterName": "레이아",
-      "effect": "턴이 시작될 때 레아는 15 광기를 얻는다. HP를 잃을 때마다 힘을 8 획득하며, 각 전투에서 최대 10회 중첩된다. 10회 중첩되었을 경우, \"고통과 환희\"의 산출력 소모가 2로 감소하고, 피해 횟수가 1 증가한다."
+      "effect": "턴 시작 시 레아는 15 광기를 획득합니다. HP을 잃을 때마다 math.ceil(PlayerGrowth*0.01) 힘을 획득하며, 각 전투에서 최대 10 회까지 중첩됩니다. 10 회 중첩된 후, \"고통과 환희\"의 행동력 소모가 2로 줄어들고, 피해 횟수가 1 증가합니다.",
+      "clientRelicId": 71230,
+      "clientAwakenerId": 15597,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B08.png",
+      "researchDependencies": {
+        "material": true,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": [
+          "math.ceil(PlayerGrowth*0.01)"
+        ]
+      }
     }
   },
   "salvador": {
@@ -11944,12 +12272,42 @@
             "stage": 2,
             "effect": "모든 적에게 1턴 허약을 부여하고, 배아 융합을 n 증가시킨다. 핏빛 용광로를 체력의 m%만큼 축적하고, 이번 전투에서 지난 턴마다 추가로 체력의 l%만큼 축적한다.",
             "levels": [
-              { "level": 1, "배아 융합": "40", "용광로 축적량": "18%", "추가 용광로 축적량 (돌파2)": "0.75%" },
-              { "level": 2, "배아 융합": "42", "용광로 축적량": "21.6%", "추가 용광로 축적량 (돌파2)": "0.9%" },
-              { "level": 3, "배아 융합": "44", "용광로 축적량": "25.2%", "추가 용광로 축적량 (돌파2)": "1.05%" },
-              { "level": 4, "배아 융합": "46", "용광로 축적량": "28.8%", "추가 용광로 축적량 (돌파2)": "1.2%" },
-              { "level": 5, "배아 융합": "48", "용광로 축적량": "32.4%", "추가 용광로 축적량 (돌파2)": "1.35%" },
-              { "level": 6, "배아 융합": "50", "용광로 축적량": "36%", "추가 용광로 축적량 (돌파2)": "1.5%" }
+              {
+                "level": 1,
+                "배아 융합": "40",
+                "용광로 축적량": "18%",
+                "추가 용광로 축적량 (돌파2)": "0.75%"
+              },
+              {
+                "level": 2,
+                "배아 융합": "42",
+                "용광로 축적량": "21.6%",
+                "추가 용광로 축적량 (돌파2)": "0.9%"
+              },
+              {
+                "level": 3,
+                "배아 융합": "44",
+                "용광로 축적량": "25.2%",
+                "추가 용광로 축적량 (돌파2)": "1.05%"
+              },
+              {
+                "level": 4,
+                "배아 융합": "46",
+                "용광로 축적량": "28.8%",
+                "추가 용광로 축적량 (돌파2)": "1.2%"
+              },
+              {
+                "level": 5,
+                "배아 융합": "48",
+                "용광로 축적량": "32.4%",
+                "추가 용광로 축적량 (돌파2)": "1.35%"
+              },
+              {
+                "level": 6,
+                "배아 융합": "50",
+                "용광로 축적량": "36%",
+                "추가 용광로 축적량 (돌파2)": "1.5%"
+              }
             ]
           }
         ],
@@ -12206,9 +12564,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 살바도르",
+      "name": "차원 영상 · 살바도르",
       "characterName": "살바도르",
-      "effect": "턴이 시작될 때 살바도르는 15 광기를 얻는다. 핏빛 용광로가 누적될 때마다 그 5%에 해당하는 힘을 얻는다. 살바도르의 \"타격\"과 \"고통의 해소\"는 1배의 힘 계수를 추가로 적용받는다."
+      "effect": "턴 시작 시 살바도르는 15 광기를 얻습니다. 매번 진홍색 용광로가 쌓일 때마다 쌓인 양의 5% 만큼 힘을 얻습니다. 살바도르의 \"공격\"과 \"소멸해야 할 고통\"은 추가로 1 배의 힘 증가 효과를 받습니다.",
+      "clientRelicId": 71265,
+      "clientAwakenerId": 15599,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B02.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "xu": {
@@ -12513,9 +12880,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 서",
+      "name": "차원 영상 · 서",
       "characterName": "서",
-      "effect": "턴이 시작될 때 서는 15 광기를 얻는다. 턴이 시작될 때 모든 적에게 매료를 1중첩 부여한다. 매 턴 서의 첫 번째 명령 카드는 반드시 공명 효과가 발동한다."
+      "effect": "턴 시작 시 서는 15 광기를 획득하고 모든 적에게 1층 취해 있다를 부여합니다. 매 턴 서의 첫 번째 명령 카드를 사용할 때마다 반드시 \"공명\" 효과가 발동됩니다.",
+      "clientRelicId": 125489,
+      "clientAwakenerId": 125346,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B14.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "sorel": {
@@ -12627,12 +13003,36 @@
             "stage": 2,
             "effect": "무작위로 공격력의 n%에 해당하는 피해를 4회 입힌다. 피해를 입힐 때마다 임시 크리티컬 확률이 5% 증가한다. 턴 종료 시 HP를 체력의 m% 회복한다.",
             "levels": [
-              { "level": 1, "피해": "20%", "회복": "10%" },
-              { "level": 2, "피해": "24%", "회복": "12%" },
-              { "level": 3, "피해": "28%", "회복": "14%" },
-              { "level": 4, "피해": "32%", "회복": "16%" },
-              { "level": 5, "피해": "36%", "회복": "18%" },
-              { "level": 6, "피해": "40%", "회복": "20%" }
+              {
+                "level": 1,
+                "피해": "20%",
+                "회복": "10%"
+              },
+              {
+                "level": 2,
+                "피해": "24%",
+                "회복": "12%"
+              },
+              {
+                "level": 3,
+                "피해": "28%",
+                "회복": "14%"
+              },
+              {
+                "level": 4,
+                "피해": "32%",
+                "회복": "16%"
+              },
+              {
+                "level": 5,
+                "피해": "36%",
+                "회복": "18%"
+              },
+              {
+                "level": 6,
+                "피해": "40%",
+                "회복": "20%"
+              }
             ]
           }
         ],
@@ -12856,9 +13256,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 소렐",
+      "name": "차원 영상 · 소렐",
       "characterName": "소렐",
-      "effect": "턴이 시작될 때 소렐은 15 광기를 얻는다. 소렐이 피해를 1회 입히면 배아 융합이 10% 증가하며, 턴 마다 최대 10회 발동된다. 10번 적용된 이후, 이번 전투에서 소렐의 최종 피해량이 5% 증가한다."
+      "effect": "턴 시작 시 소렐은 15 광기를 획득합니다. 소렐이 1번 피해를 입힐 때마다 배아 융합 +10%, 각 턴당 최대 10번까지 적용됩니다. 10번 적용된 후 소렐의 본 전투 최종 피해 +5%가 됩니다.",
+      "clientRelicId": 71244,
+      "clientAwakenerId": 15584,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B04.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "agrippa": {
@@ -13011,12 +13420,30 @@
             "stage": 3,
             "effect": "공격력의 n%에 해당하는 피해를 입히고, 동일한 양의 중독을 부여한다. 사용 후 배아 융합을 20% 증가시킨다. 포식이 발동할 때마다 「창백한 선회」를 버린 카드 더미에서 손패로 가져온다.",
             "levels": [
-              { "level": 1, "피해": "22.5%" },
-              { "level": 2, "피해": "27%" },
-              { "level": 3, "피해": "31.5%" },
-              { "level": 4, "피해": "36%" },
-              { "level": 5, "피해": "40.5%" },
-              { "level": 6, "피해": "45%" }
+              {
+                "level": 1,
+                "피해": "22.5%"
+              },
+              {
+                "level": 2,
+                "피해": "27%"
+              },
+              {
+                "level": 3,
+                "피해": "31.5%"
+              },
+              {
+                "level": 4,
+                "피해": "36%"
+              },
+              {
+                "level": 5,
+                "피해": "40.5%"
+              },
+              {
+                "level": 6,
+                "피해": "45%"
+              }
             ]
           }
         ],
@@ -13193,9 +13620,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 아그리파",
+      "name": "차원 영상 · 아그리파",
       "characterName": "아그리파",
-      "effect": "턴이 시작될 때 아그리파는 15 광기를 얻는다. \"마지못한 자비\"를 사용하면 이번 턴에 아그리파의 명령 카드의 산출력 소모가 1 감소한다. 매 턴 1번만 적용된다."
+      "effect": "턴 시작 시 아그리파는 15 광기를 획득합니다. \"불내의 시혜\"는 아그리파가 이번 턴 중에 산출 비용을 1 줄이게 만들며, 매 턴 최대 1회 적용됩니다.",
+      "clientRelicId": 71238,
+      "clientAwakenerId": 15600,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B06.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "aigis": {
@@ -13488,9 +13924,20 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 아이기스",
+      "name": "차원 영상 · 아이기스",
       "characterName": "아이기스",
-      "effect": "턴이 시작될 때 아이기스는 15 광기를 얻는다. 아이기스가 취약 상태인 적에게 피해를 가하면 힘을 13 강탈한다. 턴마다 최대 5회 발동한다."
+      "effect": "턴 시작 시 아이기스가 광기를 15pt 획득한다. 아이기스가 취약 상태인 적에게 피해를 입힐 때, 해당 적의 임시 힘을 math.ceil(PlayerGrowth*0.0125)pt 빼앗는다. 매 턴 최대 5회 발동한다.",
+      "clientRelicId": 71259,
+      "clientAwakenerId": 15591,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B03.png",
+      "researchDependencies": {
+        "material": true,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": [
+          "math.ceil(PlayerGrowth*0.0125)"
+        ]
+      }
     }
   },
   "uvhash": {
@@ -13590,12 +14037,36 @@
             "stage": 2,
             "effect": "공격력의 n%에 해당하는 피해를 3회 입히고, m 광기를 획득한다. 현재 HP가 25% 미만이면 피해를 총 5회 입히고, 획득하는 광기가 2배로 증가한다.",
             "levels": [
-              { "level": 1, "피해": "16%", "광기": "10" },
-              { "level": 2, "피해": "19.2%", "광기": "11" },
-              { "level": 3, "피해": "22.4%", "광기": "12" },
-              { "level": 4, "피해": "25.6%", "광기": "13" },
-              { "level": 5, "피해": "28.8%", "광기": "14" },
-              { "level": 6, "피해": "32%", "광기": "15" }
+              {
+                "level": 1,
+                "피해": "16%",
+                "광기": "10"
+              },
+              {
+                "level": 2,
+                "피해": "19.2%",
+                "광기": "11"
+              },
+              {
+                "level": 3,
+                "피해": "22.4%",
+                "광기": "12"
+              },
+              {
+                "level": 4,
+                "피해": "25.6%",
+                "광기": "13"
+              },
+              {
+                "level": 5,
+                "피해": "28.8%",
+                "광기": "14"
+              },
+              {
+                "level": 6,
+                "피해": "32%",
+                "광기": "15"
+              }
             ]
           }
         ],
@@ -13651,12 +14122,36 @@
             "stage": 1,
             "effect": "현재 HP의 10%를 잃고, 모든 적에게 공격력의 n%에 해당하는 피해를 입힌다. 공격력의 m%에 해당하는 힘을 획득한다.",
             "levels": [
-              { "level": 1, "피해": "19.5%", "힘": "2.6%" },
-              { "level": 2, "피해": "23.4%", "힘": "3.12%" },
-              { "level": 3, "피해": "27.3%", "힘": "3.64%" },
-              { "level": 4, "피해": "31.2%", "힘": "4.16%" },
-              { "level": 5, "피해": "35.1%", "힘": "4.68%" },
-              { "level": 6, "피해": "39%", "힘": "5.2%" }
+              {
+                "level": 1,
+                "피해": "19.5%",
+                "힘": "2.6%"
+              },
+              {
+                "level": 2,
+                "피해": "23.4%",
+                "힘": "3.12%"
+              },
+              {
+                "level": 3,
+                "피해": "27.3%",
+                "힘": "3.64%"
+              },
+              {
+                "level": 4,
+                "피해": "31.2%",
+                "힘": "4.16%"
+              },
+              {
+                "level": 5,
+                "피해": "35.1%",
+                "힘": "4.68%"
+              },
+              {
+                "level": 6,
+                "피해": "39%",
+                "힘": "5.2%"
+              }
             ]
           }
         ],
@@ -13829,9 +14324,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 유우하시",
+      "name": "차원 영상 · 유우하시",
       "characterName": "유우하시",
-      "effect": "턴이 시작될 때 유우하시는 15 광기를 얻는다. 유우하시의 기본 광기가 10 감소하고, 광기 폭발을 발동할 때마다 추가로 5 감소한다. 유우하시는 매 턴마다 광기 폭발을 2회 발동할 수 있다."
+      "effect": "턴 시작 시 유우하시는 15 광기를 얻습니다. 유우하시는 광기 소모가 10점 감소하며, 매번 광기 폭발을 발동할 때마다 추가로 5점 감소합니다. 매 턴마다 2회 광기 폭발을 발동할 수 있습니다.",
+      "clientRelicId": 71258,
+      "clientAwakenerId": 15598,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B07.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "thais": {
@@ -13943,12 +14447,36 @@
             "stage": 1,
             "effect": "다른 각성체를 선택하여 자신과 선택한 각성체가 n 광기를 획득한다. 공격력의 n%에 해당하는 힘을 획득한다.",
             "levels": [
-              { "level": 1, "광기": "15", "힘": "4.5%" },
-              { "level": 2, "광기": "16", "힘": "5.4%" },
-              { "level": 3, "광기": "17", "힘": "6.3%" },
-              { "level": 4, "광기": "18", "힘": "7.2%" },
-              { "level": 5, "광기": "19", "힘": "8.1%" },
-              { "level": 6, "광기": "20", "힘": "9%" }
+              {
+                "level": 1,
+                "광기": "15",
+                "힘": "4.5%"
+              },
+              {
+                "level": 2,
+                "광기": "16",
+                "힘": "5.4%"
+              },
+              {
+                "level": 3,
+                "광기": "17",
+                "힘": "6.3%"
+              },
+              {
+                "level": 4,
+                "광기": "18",
+                "힘": "7.2%"
+              },
+              {
+                "level": 5,
+                "광기": "19",
+                "힘": "8.1%"
+              },
+              {
+                "level": 6,
+                "광기": "20",
+                "힘": "9%"
+              }
             ]
           }
         ],
@@ -14145,17 +14673,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "감싸안는 숲",
-      "effect": "「고대의 애무」로 획득하는 힘이 50% 증가하고, 「성혈의 본능」의 선택 효과가 2배로 증가한다."
+      {
+        "name": "감싸안는 숲",
+        "effect": "「고대의 애무」로 획득하는 힘이 50% 증가하고, 「성혈의 본능」의 선택 효과가 2배로 증가한다."
       },
-    {
-      "name": "혼돈의 씨앗",
-      "effect": "「풍요의 의식」으로 손패에 넣은 복제 카드의 산출력 소모를 추가로 1 감소시킨다."
+      {
+        "name": "혼돈의 씨앗",
+        "effect": "「풍요의 의식」으로 손패에 넣은 복제 카드의 산출력 소모를 추가로 1 감소시킨다."
       },
-    {
-      "name": "영원히 이어지는 생명",
-      "effect": "혈육 영역이 매 턴 자동으로 회복하는 배아 융합이 50% 증가한다. 「타격」과 「방어」로 공격력의 3%에 해당하는 힘을 획득한다."
+      {
+        "name": "영원히 이어지는 생명",
+        "effect": "혈육 영역이 매 턴 자동으로 회복하는 배아 융합이 50% 증가한다. 「타격」과 「방어」로 공격력의 3%에 해당하는 힘을 획득한다."
       },
       {
         "type": "초월 폭발",
@@ -14185,9 +14713,20 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 타이스",
+      "name": "차원 영상 · 타이스",
       "characterName": "타이스",
-      "effect": "턴이 시작될 때 타이스는 15 광기를 얻는다. 한 턴에 타이스의 명령 카드를 2장 사용하면, \"성결의 자식\" 1장과 122의 임시 힘을 얻는다. 3턴의 쿨타임이 존재한다."
+      "effect": "턴 시작 시 테이스는 15 광기를 획득합니다. 테이스가 1 턴 내에 2 장의 명령 카드를 사용하면, \"성결의 자식\" 한 장과 math.ceil(PlayerGrowth*0.12) 점의 임시 힘을 획득하며, 3 턴의 재사용 대기시간이 발생합니다.",
+      "clientRelicId": 71260,
+      "clientAwakenerId": 15596,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B01.png",
+      "researchDependencies": {
+        "material": true,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": [
+          "math.ceil(PlayerGrowth*0.12)"
+        ]
+      }
     }
   },
   "faint": {
@@ -14252,12 +14791,36 @@
             "stage": 2,
             "effect": "방어력의 n%에 해당하는 방어막을 획득하고, n 광기를 획득한다. 획득한 방어막과 동일한 양의 반격을 획득한다.",
             "levels": [
-              { "level": 1, "방어막": "12.5%", "광기": "5" },
-              { "level": 2, "방어막": "15%", "광기": "6" },
-              { "level": 3, "방어막": "17.5%", "광기": "7" },
-              { "level": 4, "방어막": "20%", "광기": "8" },
-              { "level": 5, "방어막": "22.5%", "광기": "9" },
-              { "level": 6, "방어막": "25%", "광기": "10" }
+              {
+                "level": 1,
+                "방어막": "12.5%",
+                "광기": "5"
+              },
+              {
+                "level": 2,
+                "방어막": "15%",
+                "광기": "6"
+              },
+              {
+                "level": 3,
+                "방어막": "17.5%",
+                "광기": "7"
+              },
+              {
+                "level": 4,
+                "방어막": "20%",
+                "광기": "8"
+              },
+              {
+                "level": 5,
+                "방어막": "22.5%",
+                "광기": "9"
+              },
+              {
+                "level": 6,
+                "방어막": "25%",
+                "광기": "10"
+              }
             ]
           }
         ],
@@ -14478,17 +15041,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "쌍둥이 별",
-      "effect": "「타격」은 피해를 2회 입히며, 입힌 피해의 50%에 해당하는 임시 반격을 획득한다."
+      {
+        "name": "쌍둥이 별",
+        "effect": "「타격」은 피해를 2회 입히며, 입힌 피해의 50%에 해당하는 임시 반격을 획득한다."
       },
-    {
-      "name": "시듦의 노래",
-      "effect": "「방어」로 획득하는 방어막이 25% 증가하며, 획득한 방어막과 동일한 양의 반격을 획득한다."
+      {
+        "name": "시듦의 노래",
+        "effect": "「방어」로 획득하는 방어막이 25% 증가하며, 획득한 방어막과 동일한 양의 반격을 획득한다."
       },
-    {
-      "name": "사랑의 요람",
-      "effect": "죽음 저항이 발동할 때마다 전방의 적에게 반격의 100%에 해당하는 고정 피해를 입힌다. 이번 전투에서 죽음 저항이 발동한 횟수마다 이 고정 피해가 25% 증가한다."
+      {
+        "name": "사랑의 요람",
+        "effect": "죽음 저항이 발동할 때마다 전방의 적에게 반격의 100%에 해당하는 고정 피해를 입힌다. 이번 전투에서 죽음 저항이 발동한 횟수마다 이 고정 피해가 25% 증가한다."
       },
       {
         "type": "초월 폭발",
@@ -14548,9 +15111,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 페인트",
+      "name": "차원 영상 · 파인트",
       "characterName": "파인트",
-      "effect": "턴이 시작될 때 페인트는 15 광기를 얻는다. 페인트가 얻는 방어막, 반격, HP 회복이 15% 증가하고, 죽음 저항이 발동될 때마다 이번 탐색 동안 5% 추가로 증가한다. 최대 5회 적용된다."
+      "effect": "턴 시작 시 파인트는 15 광기를 획득합니다. 파인트가 생성하는 방어막, 반격, HP 답변이 15% 증가하며, 데스 리저스턴스가 발동할 때마다 이 효과는 이번 탐색 동안 5% 증가하며, 최대 5 번 적용됩니다.",
+      "clientRelicId": 71253,
+      "clientAwakenerId": 15577,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B09.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "pickman": {
@@ -14802,18 +15374,141 @@
         ]
       }
     ],
+    "derivedCards": [
+      {
+        "type": "발견 선택지",
+        "name": "영감 폭발!",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "광상 1스택을 소모하여 모든 발견 효과를 선택해 발동하고, 창의 1스택을 획득한다."
+      },
+      {
+        "type": "발견 선택지",
+        "name": "그려진 「무거운 자물쇠」",
+        "variants": [
+          {
+            "name": "은빛 유물",
+            "effect": "광기 폭발 발동 후 플레이어 성장값의 3.125%에 해당하는 임시 힘을 획득한다."
+          },
+          {
+            "name": "황금 유물",
+            "effect": "광기 폭발 발동 후 플레이어 성장값의 6.25%에 해당하는 임시 힘을 획득한다."
+          }
+        ]
+      },
+      {
+        "type": "발견 선택지",
+        "name": "그려진 「황금빛 꿈의 나라」",
+        "variants": [
+          {
+            "name": "은빛 유물",
+            "effect": "매 턴 처음으로 포식이 발동될 때 다른 각성체가 10 광기를 획득한다."
+          },
+          {
+            "name": "황금 유물",
+            "effect": "매 턴 처음으로 포식이 발동될 때 다른 각성체가 20 광기를 획득한다."
+          }
+        ]
+      },
+      {
+        "type": "발견 선택지",
+        "name": "그려진 「악동」",
+        "variants": [
+          {
+            "name": "은빛 유물",
+            "effect": "획득 시 모든 적에게 허약 1스택을 부여한다. 모든 각성체가 입히는 기본 피해가 15% 증가한다."
+          },
+          {
+            "name": "황금 유물",
+            "effect": "획득 시 모든 적에게 허약 2스택을 부여한다. 모든 각성체가 입히는 기본 피해가 30% 증가한다."
+          }
+        ]
+      },
+      {
+        "type": "발견 선택지",
+        "name": "그려진 「녹슨 강톱」",
+        "variants": [
+          {
+            "name": "은빛 유물",
+            "effect": "HP를 잃을 때 잃은 HP의 10%만큼 핏빛 용광로를 축적한다."
+          },
+          {
+            "name": "황금 유물",
+            "effect": "HP를 잃을 때 잃은 HP의 20%만큼 핏빛 용광로를 축적한다."
+          }
+        ]
+      },
+      {
+        "type": "발견 선택지",
+        "name": "그려진 「피 묻은 자갈」",
+        "variants": [
+          {
+            "name": "은빛 유물",
+            "effect": "매 턴 처음으로 배아를 직접 사용한 후, 이번 턴에 능동 피해를 줄 때 피해량의 15%에 해당하는 출혈을 추가로 부여한다."
+          },
+          {
+            "name": "황금 유물",
+            "effect": "매 턴 처음으로 배아를 직접 사용한 후, 이번 턴에 능동 피해를 줄 때 피해량의 30%에 해당하는 출혈을 추가로 부여한다."
+          }
+        ]
+      },
+      {
+        "type": "발견 선택지",
+        "name": "그려진 「봄의 제전」",
+        "variants": [
+          {
+            "name": "은빛 유물",
+            "effect": "획득 시 모든 적에게 취약 1스택을 부여한다. 모든 각성체가 입히는 기본 피해가 15% 증가한다."
+          },
+          {
+            "name": "황금 유물",
+            "effect": "획득 시 모든 적에게 취약 2스택을 부여한다. 모든 각성체가 입히는 기본 피해가 30% 증가한다."
+          }
+        ]
+      },
+      {
+        "type": "발견 선택지",
+        "name": "그려진 「실올 마노」",
+        "variants": [
+          {
+            "name": "은빛 유물",
+            "effect": "피해를 줄 때마다 플레이어 성장값의 0.75%에 해당하는 임시 힘을 획득한다. 매 턴 최대 15회 발동한다."
+          },
+          {
+            "name": "황금 유물",
+            "effect": "피해를 줄 때마다 플레이어 성장값의 1.5%에 해당하는 임시 힘을 획득한다. 매 턴 최대 15회 발동한다."
+          }
+        ]
+      },
+      {
+        "type": "발견 선택지",
+        "name": "그려진 「은혜의 피」",
+        "variants": [
+          {
+            "name": "은빛 유물",
+            "effect": "턴 종료 시 플레이어 성장값의 5%에 해당하는 HP를 회복한다."
+          },
+          {
+            "name": "황금 유물",
+            "effect": "턴 종료 시 플레이어 성장값의 10%에 해당하는 HP를 회복한다."
+          }
+        ]
+      }
+    ],
     "enlighten": [
-    {
-      "name": "교차 묘법",
-      "effect": "「타격」과 「방어」로 출전 각성체의 「스킬」 1장을 뽑는다. 이 효과는 매 턴 최대 1회 발동한다."
+      {
+        "name": "교차 묘법",
+        "effect": "「타격」과 「방어」로 출전 각성체의 「스킬」 1장을 뽑는다. 이 효과는 매 턴 최대 1회 발동한다."
       },
-    {
-      "name": "중심 각화",
-      "effect": "창조의 각인이 「고급 각인」으로 업그레이드되고, 창조의 은빛 유물이 「황금 유물」로 업그레이드된다."
+      {
+        "name": "중심 각화",
+        "effect": "창조의 각인이 「고급 각인」으로 업그레이드되고, 창조의 은빛 유물이 「황금 유물」로 업그레이드된다."
       },
-    {
-      "name": "뮤즈의 부름",
-      "effect": "픽맨이 창의를 소모하면 추가로 50 광기를 획득하고, 해당 턴에 광기 폭발을 최대 2회 사용할 수 있다."
+      {
+        "name": "뮤즈의 부름",
+        "effect": "픽맨이 창의를 소모하면 추가로 50 광기를 획득하고, 해당 턴에 광기 폭발을 최대 2회 사용할 수 있다."
       },
       {
         "type": "초월 폭발",
@@ -14847,9 +15542,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 픽맨",
+      "name": "차원 영상 · 픽맨",
       "characterName": "픽맨",
-      "effect": "턴이 시작될 때 픽맨은 15 광기를 얻는다. 픽맨이 창의를 얻을 때마다 패의 무작위 카드 1장의 산출력 소모가 이번 턴 동안 1 감소한다. 픽맨이 창의를 소모할 때마다 모든 각성체는 추가로 10 광기를 얻는다."
+      "effect": "턴 시작 시 픽맨이 광기를 15 획득한다. 「창의」 1스택 획득 시마다 랜덤으로 손패 1장의 해당 턴 행동력 소모를 1 감소시키며, 픽맨이 「창의」를 소비 시 추가로 모든 각성체가 광기를 10pt 획득한다.",
+      "clientRelicId": 84114,
+      "clientAwakenerId": 77926,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B12.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "helot_catena": {
@@ -15160,18 +15864,29 @@
         ]
       }
     ],
+    "derivedCards": [
+      {
+        "type": "파생 명령",
+        "name": "불규칙한 형태·혈쇄",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "혈쇄·히로의 기본 명령 카드 1장을 선택하여 손패에 추가한다. 소모, 유지."
+      }
+    ],
     "enlighten": [
-    {
-      "name": "끝없는 살육",
-      "effect": "「타격」으로 혈쇄·히로의 임시 크리티컬 확률과 임시 크리티컬 피해가 15% 증가한다. 「방어」로 모든 적의 출혈을 15% 발동시킨다."
+      {
+        "name": "끝없는 살육",
+        "effect": "「타격」으로 혈쇄·히로의 임시 크리티컬 확률과 임시 크리티컬 피해가 15% 증가한다. 「방어」로 모든 적의 출혈을 15% 발동시킨다."
       },
-    {
-      "name": "해방된 복수",
-      "effect": "「원한 발산」은 HP가 50% 미만일 경우 획득하는 힘이 2배로 증가한다. 「피에 굶주린 철구」의 준비 효과가 준비2로 변경된다."
+      {
+        "name": "해방된 복수",
+        "effect": "「원한 발산」은 HP가 50% 미만일 경우 획득하는 힘이 2배로 증가한다. 「피에 굶주린 철구」의 준비 효과가 준비2로 변경된다."
       },
-    {
-      "name": "죄업의 장송",
-      "effect": "전투 시작 시 「불규칙한 형태·혈쇄」 1장을 손패에 추가한다. 「구속의 사슬」은 목표의 방어막을 제거하고, 다음 턴에 방어막을 획득하지 못하게 한다."
+      {
+        "name": "죄업의 장송",
+        "effect": "전투 시작 시 「불규칙한 형태·혈쇄」 1장을 손패에 추가한다. 「구속의 사슬」은 목표의 방어막을 제거하고, 다음 턴에 방어막을 획득하지 못하게 한다."
       },
       {
         "type": "초월 폭발",
@@ -15201,9 +15916,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 혈쇄 · 히로",
+      "name": "차원 영상 · 혈쇄·히로",
       "characterName": "혈쇄 · 히로",
-      "effect": "턴이 시작될 때 혈쇄 · 히로는 15 광기를 얻는다. 혈쇄 · 히로가 입히는 피해량의 20%에 해당하는 출혈을 적용하며, 적을 처치했을 경우 다른 적들에게 초과 피해와 같은 출혈을 부여한다."
+      "effect": "턴 시작 시 혈쇄·히로는 15 광기를 획득합니다. 혈쇄·히로의 공격 시 피해에는 20% 출혈이 추가되며, 적을 킬한 후 다른 적에게 추가 피해와 동일한 출혈을 입힙니다.",
+      "clientRelicId": 71241,
+      "clientAwakenerId": 15567,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B05EX.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "saya": {
@@ -15315,12 +16039,30 @@
             "stage": 1,
             "effect": "현재 HP의 10%를 잃고, 모든 적에게 공격력의 n%에 해당하는 침식을 부여한다. 사야 자신과 장비한 명륜 및 비밀 계약의 검은 인장 드롭률 1%마다 침식 부여량이 추가로 0.5% 증가한다. 모든 명령 카드를 버리고 같은 수의 카드를 뽑는다. 유지",
             "levels": [
-              { "level": 1, "침식": "6050%" },
-              { "level": 2, "침식": "7260%" },
-              { "level": 3, "침식": "8470%" },
-              { "level": 4, "침식": "9680%" },
-              { "level": 5, "침식": "10890%" },
-              { "level": 6, "침식": "12100%" }
+              {
+                "level": 1,
+                "침식": "6050%"
+              },
+              {
+                "level": 2,
+                "침식": "7260%"
+              },
+              {
+                "level": 3,
+                "침식": "8470%"
+              },
+              {
+                "level": 4,
+                "침식": "9680%"
+              },
+              {
+                "level": 5,
+                "침식": "10890%"
+              },
+              {
+                "level": 6,
+                "침식": "12100%"
+              }
             ]
           },
           {
@@ -15450,12 +16192,30 @@
             "stage": 1,
             "effect": "【 포식: 무작위로 복사된 「타격」과 「방어」 2장을 강화하여, 산출력 소모를 0으로 만들고 추가로 1회 발동하게 한다. 】\n방어력의 n%에 해당하는 방어막을 획득한다. 사야 자신과 장비한 명륜 및 비밀 계약의 검은 인장 드롭률 1%마다 기본 방어막이 추가로 0.25% 증가한다. 다른 각성체 1명을 선택하여, 해당 각성체의 모든 기본 명령 카드를 각각 1장씩 복사해 덱과 버린 카드 더미에 넣고 공허와 파괴를 부여한다. 보유한 우종을 모두 소모하며, 1스택을 소모할 때마다 복사한 무작위 「스킬」 1장의 산출력 소모가 0이 된다.",
             "levels": [
-              { "level": 1, "방어막": "136.5%" },
-              { "level": 2, "방어막": "163.8%" },
-              { "level": 3, "방어막": "191.1%" },
-              { "level": 4, "방어막": "218.4%" },
-              { "level": 5, "방어막": "245.7%" },
-              { "level": 6, "방어막": "273%" }
+              {
+                "level": 1,
+                "방어막": "136.5%"
+              },
+              {
+                "level": 2,
+                "방어막": "163.8%"
+              },
+              {
+                "level": 3,
+                "방어막": "191.1%"
+              },
+              {
+                "level": 4,
+                "방어막": "218.4%"
+              },
+              {
+                "level": 5,
+                "방어막": "245.7%"
+              },
+              {
+                "level": 6,
+                "방어막": "273%"
+              }
             ]
           },
           {
@@ -15498,17 +16258,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "너를 위한 괴물이 될게",
-      "effect": "「사야의 노래」의 기본 방어막이 5% 증가하고, 「피어나는 살점」의 침식 부여량이 10% 증가한다. 사야 자신과 장비한 명륜 및 비밀 계약의 검은 인장 드롭률 1%마다 광기 폭발의 기본 방어막이 추가로 0.25% 증가하고, 「피어나는 살점」의 침식 부여량이 추가로 0.5% 증가한다."
+      {
+        "name": "너를 위한 괴물이 될게",
+        "effect": "「사야의 노래」의 기본 방어막이 5% 증가하고, 「피어나는 살점」의 침식 부여량이 10% 증가한다. 사야 자신과 장비한 명륜 및 비밀 계약의 검은 인장 드롭률 1%마다 광기 폭발의 기본 방어막이 추가로 0.25% 증가하고, 「피어나는 살점」의 침식 부여량이 추가로 0.5% 증가한다."
       },
-    {
-      "name": "계속 옆에 있어 줄래?",
-      "effect": "사야의 「타격」과 「방어」가 배아 융합을 15 증가시킨다. 현재 HP가 낮을수록 증가량이 최대 100% 증가한다."
+      {
+        "name": "계속 옆에 있어 줄래?",
+        "effect": "사야의 「타격」과 「방어」가 배아 융합을 15 증가시킨다. 현재 HP가 낮을수록 증가량이 최대 100% 증가한다."
       },
-    {
-      "name": "이것이 바로 사랑이라는 거겠지",
-      "effect": "「피어나는 살점」이 추가로 목표 최대 HP의 0.5%에 해당하는 침식을 부여한다. 「사야의 노래」가 우종 1스택을 소모할 때마다 다음에 발동하는 「피어나는 살점」이 추가로 카드 1장을 뽑는다."
+      {
+        "name": "이것이 바로 사랑이라는 거겠지",
+        "effect": "「피어나는 살점」이 추가로 목표 최대 HP의 0.5%에 해당하는 침식을 부여한다. 「사야의 노래」가 우종 1스택을 소모할 때마다 다음에 발동하는 「피어나는 살점」이 추가로 카드 1장을 뽑는다."
       },
       {
         "type": "초월 폭발",
@@ -15542,9 +16302,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 사야",
+      "name": "차원 영상 · 사야",
       "characterName": "사야",
-      "effect": "턴 시작 시 사야가 15 광기를 획득합니다. 사야의 광기 폭발 시 소모한 광기 100포인트당, 무작위 생성된 「스킬」 1장이 추가로 1회 더 발동합니다."
+      "effect": "턴 시작 시 사야가 15 광기를 획득합니다. 사야의 광기 폭발 시 소모한 광기 100pt당, 랜덤 생성된 「스킬」 1장이 추가로 1회 더 발동합니다.",
+      "clientRelicId": 139929,
+      "clientAwakenerId": 130226,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B15.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "helot": {
@@ -15810,9 +16579,9 @@
         "name": "성자의 반신",
         "effect": "'방어' 사용 시 히로의 임시 크리티컬 확률이 25% 증가한다."
       },
-    {
-      "name": "쇠사슬을 끊어내는 자",
-      "effect": "「타격」 사용 시, 히로의 크리티컬 피해가 10% 증가한다."
+      {
+        "name": "쇠사슬을 끊어내는 자",
+        "effect": "「타격」 사용 시, 히로의 크리티컬 피해가 10% 증가한다."
       },
       {
         "type": "초월 폭발",
@@ -15846,9 +16615,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 히로",
+      "name": "차원 영상 · 히로",
       "characterName": "히로",
-      "effect": "턴이 시작될 때 히로는 15 광기를 얻는다. 카드를 1장 버릴 때마다 히로는 5 광기를 얻는다."
+      "effect": "턴 시작 시 히로는 15 광기를 획득합니다. 매번 1장의 카드가 버려질 때마다 히로는 5 점의 광기를 획득합니다.",
+      "clientRelicId": 71235,
+      "clientAwakenerId": 15587,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B05.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "dafoodil": {
@@ -16103,6 +16881,15 @@
     "derivedCards": [
       {
         "type": "파생 명령",
+        "name": "영감",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "산출력 1을 획득하고, 카드 1장을 뽑는다. 소모, 유지"
+      },
+      {
+        "type": "파생 명령",
         "name": "천면환상",
         "variants": [
           {
@@ -16206,17 +16993,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "끝없는 통로",
-      "effect": "「타격」에 200%의 힘 계수가 적용된다. 워프: 산출력 1을 획득한다. 「방어」 사용 시 공격력의 1%에 해당하는 힘을 획득한다. 워프: 산출력 1을 획득한다."
+      {
+        "name": "끝없는 통로",
+        "effect": "「타격」에 200%의 힘 계수가 적용된다. 워프: 산출력 1을 획득한다. 「방어」 사용 시 공격력의 1%에 해당하는 힘을 획득한다. 워프: 산출력 1을 획득한다."
       },
-    {
-      "name": "탐욕의 회색 안개",
-      "effect": "다포딜이 적을 처치하면 이번 탐색에서 모든 각성체의 크리티컬 확률이 영구적으로 5% 증가한다."
+      {
+        "name": "탐욕의 회색 안개",
+        "effect": "다포딜이 적을 처치하면 이번 탐색에서 모든 각성체의 크리티컬 확률이 영구적으로 5% 증가한다."
       },
-    {
-      "name": "원질 침전",
-      "effect": "「영감」을 사용할 때마다 다포딜이 2 광기와 공격력의 1%에 해당하는 힘을 획득한다. 이 효과는 매 턴 최대 5회 발동한다."
+      {
+        "name": "원질 침전",
+        "effect": "「영감」을 사용할 때마다 다포딜이 2 광기와 공격력의 1%에 해당하는 힘을 획득한다. 이 효과는 매 턴 최대 5회 발동한다."
       },
       {
         "type": "초월 폭발",
@@ -16246,9 +17033,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 다포딜",
+      "name": "차원 영상 · 다포딜",
       "characterName": "다포딜",
-      "effect": "턴이 시작될 때 다포딜은 15의 광기와 1장의 '영감'을 획득합니다. '이질적 파고'가 얻는 힘이 50% 증가하며, 매번 사용 시 이번 탐색에서 추가로 영구적으로 10% 증가하고, 최대 150%까지 증가합니다."
+      "effect": "턴 시작 시 다포딜은 15의 광기와 1장의 \"영감\"을 획득합니다. \"이질적 파도\"가 얻는 힘이 50% 증가하며, 매번 사용 시 이번 탐색에서 추가로 영구적으로 10% 증가하고, 최대 150%까지 증가합니다.",
+      "clientRelicId": 71236,
+      "clientAwakenerId": 15590,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D02.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "liz": {
@@ -16571,17 +17367,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "녹색 화염의 씨앗",
-      "effect": "「부패 녹염」이 턴 종료 시 손패 또는 초차원 공간에 있으면 「사멸 녹염」으로 업그레이드된다."
+      {
+        "name": "녹색 화염의 씨앗",
+        "effect": "「부패 녹염」이 턴 종료 시 손패 또는 초차원 공간에 있으면 「사멸 녹염」으로 업그레이드된다."
       },
-    {
-      "name": "불멸 녹염",
-      "effect": "「타격」이 입힌 피해의 50%에 해당하는 중독을 부여한다. 「방어」가 모든 적의 중독을 25% 발동시킨다."
+      {
+        "name": "불멸 녹염",
+        "effect": "「타격」이 입힌 피해의 50%에 해당하는 중독을 부여한다. 「방어」가 모든 적의 중독을 25% 발동시킨다."
       },
-    {
-      "name": "마지막 여명",
-      "effect": "「죽음을 고하는 춤」으로 카드 2장을 버릴 때마다 카드 1장을 뽑는다."
+      {
+        "name": "마지막 여명",
+        "effect": "「죽음을 고하는 춤」으로 카드 2장을 버릴 때마다 카드 1장을 뽑는다."
       },
       {
         "type": "초월 폭발",
@@ -16611,9 +17407,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 리즈",
+      "name": "차원 영상 · 리즈",
       "characterName": "리즈",
-      "effect": "턴 시작 시 리즈가 15 광기를 획득합니다. '죽음의 춤'으로 버린 카드는 추가로 1번 발동하며, 3턴의 재사용 대기시간이 적용됩니다."
+      "effect": "턴 시작 시 리즈는 15 광기를 획득합니다. ‘죽음의 춤’으로 버린 카드는 추가로 1번 발동하며, 3턴의 재사용 대기시간이 적용됩니다.",
+      "clientRelicId": 71240,
+      "clientAwakenerId": 15562,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D01.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "winkle": {
@@ -16860,12 +17665,42 @@
             "stage": 3,
             "effect": "자신의 손상 상태를 해제하고 방어력의 n%에 해당하는 방어막을 획득한다. 공격력의 n%에 해당하는 반격을 획득한다. 다른 각성체 1명을 선택하여 n 광기를 부여한다. 선택한 각성체는 이번 턴에 광기 폭발을 최대 2회 사용할 수 있다.",
             "levels": [
-              { "level": 1, "방어막": "40%", "반격": "50%", "광기": "35" },
-              { "level": 2, "방어막": "48%", "반격": "60%", "광기": "38" },
-              { "level": 3, "방어막": "56%", "반격": "70%", "광기": "41" },
-              { "level": 4, "방어막": "64%", "반격": "80%", "광기": "44" },
-              { "level": 5, "방어막": "72%", "반격": "90%", "광기": "47" },
-              { "level": 6, "방어막": "80%", "반격": "100%", "광기": "50" }
+              {
+                "level": 1,
+                "방어막": "40%",
+                "반격": "50%",
+                "광기": "35"
+              },
+              {
+                "level": 2,
+                "방어막": "48%",
+                "반격": "60%",
+                "광기": "38"
+              },
+              {
+                "level": 3,
+                "방어막": "56%",
+                "반격": "70%",
+                "광기": "41"
+              },
+              {
+                "level": 4,
+                "방어막": "64%",
+                "반격": "80%",
+                "광기": "44"
+              },
+              {
+                "level": 5,
+                "방어막": "72%",
+                "반격": "90%",
+                "광기": "47"
+              },
+              {
+                "level": 6,
+                "방어막": "80%",
+                "반격": "100%",
+                "광기": "50"
+              }
             ]
           }
         ],
@@ -16922,17 +17757,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "암흑 공포증",
-      "effect": "「타격」과 「에너지 광선」이 입히는 피해에 50%의 반격 계수가 적용된다."
+      {
+        "name": "암흑 공포증",
+        "effect": "「타격」과 「에너지 광선」이 입히는 피해에 50%의 반격 계수가 적용된다."
       },
-    {
-      "name": "잃어버린 고향",
-      "effect": "「정신 재건」으로 버린 카드 1장마다 다음 턴에 방어력의 5~10%에 해당하는 방어막을 획득한다. 워프 효과가 발동하면 추가로 카드 1장을 뽑는다."
+      {
+        "name": "잃어버린 고향",
+        "effect": "「정신 재건」으로 버린 카드 1장마다 다음 턴에 방어력의 5~10%에 해당하는 방어막을 획득한다. 워프 효과가 발동하면 추가로 카드 1장을 뽑는다."
       },
-    {
-      "name": "죽음 뒤의 부활",
-      "effect": "「형태 없는 전이」가 생성하는 방어막과 반격이 25% 증가한다. 선택한 각성체는 이번 턴에 광기 폭발을 최대 2회 사용할 수 있다."
+      {
+        "name": "죽음 뒤의 부활",
+        "effect": "「형태 없는 전이」가 생성하는 방어막과 반격이 25% 증가한다. 선택한 각성체는 이번 턴에 광기 폭발을 최대 2회 사용할 수 있다."
       },
       {
         "type": "초월 폭발",
@@ -16962,9 +17797,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 윙클",
+      "name": "차원 영상 · 윙클",
       "characterName": "윙클",
-      "effect": "턴이 시작될 때 윙클은 15 광기를 획득합니다. 다른 각성체가 광기 폭발을 발동할 때마다 윙클은 5점의 광기를 획득하고, 손에 든 '정신 재건'의 산출력 소모를 1 줄입니다."
+      "effect": "턴 시작 시 벤코르는 15 광기를 획득합니다. 다른 각성체가 광기 폭발을 발동할 때마다 벤코르는 5 점의 광기를 획득하고, 손에 든 \"정신 재건\"의 행동력 소모를 1 줄입니다.",
+      "clientRelicId": 71251,
+      "clientAwakenerId": 15579,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D05.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "erica": {
@@ -17288,17 +18132,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "자가 수정",
-      "effect": "「기계 무장-전개」는 소모가 부여된 에리카의 「타격」 1장을 손패에 추가하고, 「기계 무장-회수」는 소모가 부여된 에리카의 「방어」 1장을 손패에 추가한다."
+      {
+        "name": "자가 수정",
+        "effect": "「기계 무장-전개」는 소모가 부여된 에리카의 「타격」 1장을 손패에 추가하고, 「기계 무장-회수」는 소모가 부여된 에리카의 「방어」 1장을 손패에 추가한다."
       },
-    {
-      "name": "강제 회로",
-      "effect": "「전자기 폭발」에는 추가로 100%의 힘 계수와 100%의 경계 계수가 적용된다."
+      {
+        "name": "강제 회로",
+        "effect": "「전자기 폭발」에는 추가로 100%의 힘 계수와 100%의 경계 계수가 적용된다."
       },
-    {
-      "name": "시스템 재시작",
-      "effect": "「기능 과부하」에 다음 워프 효과가 추가된다. 워프: 피해와 방어막 효과를 모두 발동한다."
+      {
+        "name": "시스템 재시작",
+        "effect": "「기능 과부하」에 다음 워프 효과가 추가된다. 워프: 피해와 방어막 효과를 모두 발동한다."
       },
       {
         "type": "초월 폭발",
@@ -17332,9 +18176,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 에리카",
+      "name": "차원 영상 · 에리카",
       "characterName": "에리카",
-      "effect": "턴이 시작될 때 에리카는 15 광기를 획득합니다. 에리카가 1턴 내에 3장의 명령 카드를 사용하면, 2포인트의 산출력을 획득하고 이 전투에서 '전자기 폭발'의 힘과 경계 가성이 2배로 증가합니다."
+      "effect": "턴 시작 시 에리카는 15 광기를 획득합니다. 에리카가 1 턴 내에 3 장의 명령 카드를 사용하면, 2 pt의 행동력을 획득하고 이 전투에서 \"전자기 폭발\"의 힘과 경계 가성이 2배로 증가합니다.",
+      "clientRelicId": 71268,
+      "clientAwakenerId": 15603,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D08.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "horla": {
@@ -17379,14 +18232,14 @@
             "광기": "10"
           }
         ],
-      "breakthroughs": [
-        {
-          "stage": 1,
-          "effect": "공격력의 n%에 해당하는 피해를 입히고, n 광기를 획득한다. 「타격」으로 간주된다. 모든 적에게 1턴 취약을 부여한다.\n워프: 감정을 「분노」로 전환한다. 「분노」 은유를 1스택 소모할 때마다 추가로 2회 피해를 입힌다.\n분노: 모든 각성체가 입히는 최종 피해가 21% 증가하고, 「화려한 장편」으로 증가하는 임시 크리티컬 확률과 임시 크리티컬 피해가 증가한다."
-        },
-        {
-          "stage": 2,
-          "append": "유지.",
+        "breakthroughs": [
+          {
+            "stage": 1,
+            "effect": "공격력의 n%에 해당하는 피해를 입히고, n 광기를 획득한다. 「타격」으로 간주된다. 모든 적에게 1턴 취약을 부여한다.\n워프: 감정을 「분노」로 전환한다. 「분노」 은유를 1스택 소모할 때마다 추가로 2회 피해를 입힌다.\n분노: 모든 각성체가 입히는 최종 피해가 21% 증가하고, 「화려한 장편」으로 증가하는 임시 크리티컬 확률과 임시 크리티컬 피해가 증가한다."
+          },
+          {
+            "stage": 2,
+            "append": "유지.",
             "levels": [
               {
                 "level": 1,
@@ -17468,14 +18321,14 @@
             "HP 회복": "25%"
           }
         ],
-      "breakthroughs": [
-        {
-          "stage": 1,
-          "effect": "방어력의 n%에 해당하는 방어막을 획득하고, n 광기를 획득한다. 「방어」로 간주된다. 모든 적에게 1턴 허약을 부여한다.\n워프: 감정을 「슬픔」으로 전환한다. 「슬픔」 은유를 1스택 소모할 때마다 체력의 n%만큼 HP를 회복한다.\n슬픔: 모든 각성체의 방어막, HP 회복 및 힘 감소 효과가 21% 증가하고, 「화려한 장편」의 HP 회복 효과가 증가한다."
-        },
-        {
-          "stage": 2,
-          "append": "유지.",
+        "breakthroughs": [
+          {
+            "stage": 1,
+            "effect": "방어력의 n%에 해당하는 방어막을 획득하고, n 광기를 획득한다. 「방어」로 간주된다. 모든 적에게 1턴 허약을 부여한다.\n워프: 감정을 「슬픔」으로 전환한다. 「슬픔」 은유를 1스택 소모할 때마다 체력의 n%만큼 HP를 회복한다.\n슬픔: 모든 각성체의 방어막, HP 회복 및 힘 감소 효과가 21% 증가하고, 「화려한 장편」의 HP 회복 효과가 증가한다."
+          },
+          {
+            "stage": 2,
+            "append": "유지.",
             "levels": [
               {
                 "level": 1,
@@ -17552,9 +18405,9 @@
           }
         ],
         "breakthroughs": [
-        {
-          "stage": 2,
-          "append": "유지.",
+          {
+            "stage": 2,
+            "append": "유지.",
             "levels": [
               {
                 "level": 1,
@@ -17631,9 +18484,9 @@
           }
         ],
         "breakthroughs": [
-        {
-          "stage": 2,
-          "append": "유지.",
+          {
+            "stage": 2,
+            "append": "유지.",
             "levels": [
               {
                 "level": 1,
@@ -17759,17 +18612,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "타오르는 불길 속",
-      "effect": "「광상의 시편」은 모든 적에게 1턴 취약을 부여하고, 「애통의 시편」은 모든 적에게 1턴 허약을 부여한다."
+      {
+        "name": "타오르는 불길 속",
+        "effect": "「광상의 시편」은 모든 적에게 1턴 취약을 부여하고, 「애통의 시편」은 모든 적에게 1턴 허약을 부여한다."
       },
-    {
-      "name": "어두운 방",
-      "effect": "오를라의 모든 시편에 유지가 추가된다."
+      {
+        "name": "어두운 방",
+        "effect": "오를라의 모든 시편에 유지가 추가된다."
       },
-    {
-      "name": "꽃과 시의 재회",
-      "effect": "매 턴 처음 시편을 사용할 때 오를라가 10 광기를 획득한다. 「화려한 장편」의 현재 감정에 대응하는 효과가 150%에서 250%로 증가한다."
+      {
+        "name": "꽃과 시의 재회",
+        "effect": "매 턴 처음 시편을 사용할 때 오를라가 10 광기를 획득한다. 「화려한 장편」의 현재 감정에 대응하는 효과가 150%에서 250%로 증가한다."
       },
       {
         "type": "초월 폭발",
@@ -17803,9 +18656,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 오를라",
+      "name": "차원 영상 · 오를라",
       "characterName": "오를라",
-      "effect": "턴이 시작될 때 오를라가 15 광기를 획득합니다. 전투 시작 시 모든 감정의 은유를 각각 1스택씩 얻으며, '은유'효과가 50% 증가합니다."
+      "effect": "턴 시작 시 오를라가 15 광기를 획득합니다. 전투 시작 시 모든 감정의 은유를 각각 1 층 얻으며, \"은유\" 효과가 50% 증가합니다.",
+      "clientRelicId": 71256,
+      "clientAwakenerId": 15583,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D06.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "wanda": {
@@ -17909,12 +18771,42 @@
             "stage": 2,
             "effect": "공격력의 n%에 해당하는 반격을 획득하고, 모든 적의 힘을 방어력의 n%만큼 임시로 감소시킨다. 적이 1명일 경우 힘 감소 효과가 50% 증가한다. 이 카드로 획득하는 기본 반격이 20% 증가한다.\n워프: 몽인 5스택을 소모하고, 공격력의 n%에 해당하는 반격을 추가로 획득한다. 몽인이 부족하면 몽인 2스택을 획득한다.",
             "levels": [
-              { "level": 1, "반격": "30%", "힘 감소": "16%", "추가 반격": "50%" },
-              { "level": 2, "반격": "36%", "힘 감소": "19.2%", "추가 반격": "60%" },
-              { "level": 3, "반격": "42%", "힘 감소": "22.4%", "추가 반격": "70%" },
-              { "level": 4, "반격": "48%", "힘 감소": "25.6%", "추가 반격": "80%" },
-              { "level": 5, "반격": "54%", "힘 감소": "28.8%", "추가 반격": "90%" },
-              { "level": 6, "반격": "60%", "힘 감소": "32%", "추가 반격": "100%" }
+              {
+                "level": 1,
+                "반격": "30%",
+                "힘 감소": "16%",
+                "추가 반격": "50%"
+              },
+              {
+                "level": 2,
+                "반격": "36%",
+                "힘 감소": "19.2%",
+                "추가 반격": "60%"
+              },
+              {
+                "level": 3,
+                "반격": "42%",
+                "힘 감소": "22.4%",
+                "추가 반격": "70%"
+              },
+              {
+                "level": 4,
+                "반격": "48%",
+                "힘 감소": "25.6%",
+                "추가 반격": "80%"
+              },
+              {
+                "level": 5,
+                "반격": "54%",
+                "힘 감소": "28.8%",
+                "추가 반격": "90%"
+              },
+              {
+                "level": 6,
+                "반격": "60%",
+                "힘 감소": "32%",
+                "추가 반격": "100%"
+              }
             ]
           }
         ],
@@ -17986,12 +18878,42 @@
             "stage": 2,
             "effect": "무작위로 공격력의 n%에 해당하는 피해를 5회 입히고, n%의 반격 계수가 적용된다. 이 피해의 크리티컬 확률이 25% 증가한다. 피해를 입힐 때마다 목표의 힘을 방어력의 n%만큼 임시로 감소시킨다.\n워프: 몽인 5스택을 소모하고, 소모한 산출력을 반환하며 추가로 2회 피해를 입힌다. 몽인이 부족하면 몽인 2스택을 획득한다.",
             "levels": [
-              { "level": 1, "피해": "35%", "반격 계수": "15%", "힘 감소": "2.5%" },
-              { "level": 2, "피해": "42%", "반격 계수": "16%", "힘 감소": "3%" },
-              { "level": 3, "피해": "49%", "반격 계수": "17%", "힘 감소": "3.5%" },
-              { "level": 4, "피해": "56%", "반격 계수": "18%", "힘 감소": "4%" },
-              { "level": 5, "피해": "63%", "반격 계수": "19%", "힘 감소": "4.5%" },
-              { "level": 6, "피해": "70%", "반격 계수": "20%", "힘 감소": "5%" }
+              {
+                "level": 1,
+                "피해": "35%",
+                "반격 계수": "15%",
+                "힘 감소": "2.5%"
+              },
+              {
+                "level": 2,
+                "피해": "42%",
+                "반격 계수": "16%",
+                "힘 감소": "3%"
+              },
+              {
+                "level": 3,
+                "피해": "49%",
+                "반격 계수": "17%",
+                "힘 감소": "3.5%"
+              },
+              {
+                "level": 4,
+                "피해": "56%",
+                "반격 계수": "18%",
+                "힘 감소": "4%"
+              },
+              {
+                "level": 5,
+                "피해": "63%",
+                "반격 계수": "19%",
+                "힘 감소": "4.5%"
+              },
+              {
+                "level": 6,
+                "피해": "70%",
+                "반격 계수": "20%",
+                "힘 감소": "5%"
+              }
             ]
           }
         ],
@@ -18094,12 +19016,48 @@
             "stage": 2,
             "effect": "방어력의 n%에 해당하는 방어막을 획득하고, 공격력의 n%에 해당하는 반격을 획득한다. 이번 턴에 사용하는 카드의 다음 워프 효과가 반드시 발동한다.\n「깊은 잠의 반격」 또는 「잠결의 메아리」 중 하나를 선택한다.\n- 깊은 잠의 반격: 몽인 5스택을 소모한다. 완다가 n 광기를 획득하고, 영구 반격의 n%에 해당하는 임시 반격을 획득한다.\n- 잠결의 메아리: 몽인 10스택을 소모한다. 모든 적에게 1턴 망언을 부여한다. 입히는 피해가 65% 감소하지만 공격 횟수가 2배로 증가한다.\n- 최면 맥박: 몽인이 5스택 미만이면 몽인 1스택을 획득한다.",
             "levels": [
-              { "level": 1, "방어막": "25%", "반격": "45%", "광기 (깊은 잠의 반격)": "25", "임시 반격 비율 (깊은 잠의 반격)": "35%" },
-              { "level": 2, "방어막": "30%", "반격": "54%", "광기 (깊은 잠의 반격)": "26", "임시 반격 비율 (깊은 잠의 반격)": "38%" },
-              { "level": 3, "방어막": "35%", "반격": "63%", "광기 (깊은 잠의 반격)": "27", "임시 반격 비율 (깊은 잠의 반격)": "41%" },
-              { "level": 4, "방어막": "40%", "반격": "72%", "광기 (깊은 잠의 반격)": "28", "임시 반격 비율 (깊은 잠의 반격)": "44%" },
-              { "level": 5, "방어막": "45%", "반격": "81%", "광기 (깊은 잠의 반격)": "29", "임시 반격 비율 (깊은 잠의 반격)": "47%" },
-              { "level": 6, "방어막": "50%", "반격": "90%", "광기 (깊은 잠의 반격)": "30", "임시 반격 비율 (깊은 잠의 반격)": "50%" }
+              {
+                "level": 1,
+                "방어막": "25%",
+                "반격": "45%",
+                "광기 (깊은 잠의 반격)": "25",
+                "임시 반격 비율 (깊은 잠의 반격)": "35%"
+              },
+              {
+                "level": 2,
+                "방어막": "30%",
+                "반격": "54%",
+                "광기 (깊은 잠의 반격)": "26",
+                "임시 반격 비율 (깊은 잠의 반격)": "38%"
+              },
+              {
+                "level": 3,
+                "방어막": "35%",
+                "반격": "63%",
+                "광기 (깊은 잠의 반격)": "27",
+                "임시 반격 비율 (깊은 잠의 반격)": "41%"
+              },
+              {
+                "level": 4,
+                "방어막": "40%",
+                "반격": "72%",
+                "광기 (깊은 잠의 반격)": "28",
+                "임시 반격 비율 (깊은 잠의 반격)": "44%"
+              },
+              {
+                "level": 5,
+                "방어막": "45%",
+                "반격": "81%",
+                "광기 (깊은 잠의 반격)": "29",
+                "임시 반격 비율 (깊은 잠의 반격)": "47%"
+              },
+              {
+                "level": 6,
+                "방어막": "50%",
+                "반격": "90%",
+                "광기 (깊은 잠의 반격)": "30",
+                "임시 반격 비율 (깊은 잠의 반격)": "50%"
+              }
             ]
           }
         ],
@@ -18156,17 +19114,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "계시록",
-      "effect": "「가시 사슬」의 크리티컬 확률이 25% 증가하고, 「방황의 수호자」로 획득하는 기본 반격이 20% 증가한다."
+      {
+        "name": "계시록",
+        "effect": "「가시 사슬」의 크리티컬 확률이 25% 증가하고, 「방황의 수호자」로 획득하는 기본 반격이 20% 증가한다."
       },
-    {
-      "name": "호수의 존재",
-      "effect": "몽인을 소모하는 모든 효과가 강화된다. 「꿈속 죽음의 도시」로 몽인 5스택을 소모하면 추가로 15 광기를 획득하고, 10스택을 소모하면 입히는 피해가 추가로 5% 감소한다. 「가시 사슬」의 힘 감소 효과가 2배로 증가하고, 「방황의 수호자」가 획득하는 추가 반격이 50% 증가한다."
+      {
+        "name": "호수의 존재",
+        "effect": "몽인을 소모하는 모든 효과가 강화된다. 「꿈속 죽음의 도시」로 몽인 5스택을 소모하면 추가로 15 광기를 획득하고, 10스택을 소모하면 입히는 피해가 추가로 5% 감소한다. 「가시 사슬」의 힘 감소 효과가 2배로 증가하고, 「방황의 수호자」가 획득하는 추가 반격이 50% 증가한다."
       },
-    {
-      "name": "털가죽과 비너스",
-      "effect": "전투 종료 시 검은 인장 5개를 추가로 획득한다. 이 효과는 검은 인장 드롭률의 영향을 받는다. 완다가 카드를 사용하면 몽인 1스택을 획득한다. 이 효과는 매 턴 최대 2회 발동한다."
+      {
+        "name": "털가죽과 비너스",
+        "effect": "전투 종료 시 검은 인장 5개를 추가로 획득한다. 이 효과는 검은 인장 드롭률의 영향을 받는다. 완다가 카드를 사용하면 몽인 1스택을 획득한다. 이 효과는 매 턴 최대 2회 발동한다."
       },
       {
         "type": "초월 폭발",
@@ -18200,9 +19158,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 완다",
+      "name": "차원 영상 · 완다",
       "characterName": "완다",
-      "effect": "턴 시작 시 완다가 15 광기를 획득하고 「꿈 인도」 1스택을 획득합니다. 현재 차원 턴이라면 임시 '가시 사슬' 및 '미로의 수호' 카드를 1장씩 손에 추가하고, 완다의 다음 명령 카드를 두 번 발동시킵니다."
+      "effect": "턴 시작 시 완다는 15 광기를 받고 1 층의「꿈 인도」를 획득합니다. 현재 차원 턴이라면 임시「가시 척추 사슬」 및「미로의 수호」카드를 1장씩 손에 추가하고, 완다의 다음 명령 카드를 두 번 발동시킵니다.",
+      "clientRelicId": 71237,
+      "clientAwakenerId": 15586,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D04.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "jenkin": {
@@ -18533,17 +19500,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "빨간 리본",
-      "effect": "「브라운 출동!」을 사용할 때마다 해당 전투에서 「쥐 떼 돌격」의 기본 피해가 공격력의 2.5~5%만큼 증가한다."
+      {
+        "name": "빨간 리본",
+        "effect": "「브라운 출동!」을 사용할 때마다 해당 전투에서 「쥐 떼 돌격」의 기본 피해가 공격력의 2.5~5%만큼 증가한다."
       },
-    {
-      "name": "노란 나비의 추억",
-      "effect": "「방어」 사용 시 카드 2장을 뽑고, 뽑은 카드가 젠킨의 카드가 아니면 버린다."
+      {
+        "name": "노란 나비의 추억",
+        "effect": "「방어」 사용 시 카드 2장을 뽑고, 뽑은 카드가 젠킨의 카드가 아니면 버린다."
       },
-    {
-      "name": "검은 용해",
-      "effect": "「안개 도시 거리의 아이들」이 발동할 때 「브라운 출동!」을 추가로 1장 손패에 추가한다."
+      {
+        "name": "검은 용해",
+        "effect": "「안개 도시 거리의 아이들」이 발동할 때 「브라운 출동!」을 추가로 1장 손패에 추가한다."
       },
       {
         "type": "초월 폭발",
@@ -18577,9 +19544,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 젠킨",
+      "name": "차원 영상 · 젠킨",
       "characterName": "젠킨",
-      "effect": "턴 시작 시 젠킨이 15 광기를 획득하고, 최종 피해가 5% 증가합니다. 「브라운 출동!」의 기본 피해와 피해 증가량이 200% 증가합니다."
+      "effect": "턴 시작 시 젠킨이 15 광기를 획득하고, 최종 피해가 5% 증가합니다. 「브라운 출동!」의 기본 피해와 피해 증가량이 200% 증가합니다.",
+      "clientRelicId": 71247,
+      "clientAwakenerId": 15593,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D07.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "castor": {
@@ -18867,17 +19843,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "지하에 갇힌 새",
-      "effect": "전투 시작 시 「검은 깃털」 1장을 손패에 추가한다."
+      {
+        "name": "지하에 갇힌 새",
+        "effect": "전투 시작 시 「검은 깃털」 1장을 손패에 추가한다."
       },
-    {
-      "name": "영원히 꺾이지 않는 의지",
-      "effect": "손패에 있는 「검은 깃털」 1장마다 「태양을 가리는 깃털」 사용 시 5 광기를 획득한다. 「검은 깃털」을 1장 사용할 때마다 해당 턴에 「끝없는 밤을 지나」의 산출력 소모가 1 감소한다."
+      {
+        "name": "영원히 꺾이지 않는 의지",
+        "effect": "손패에 있는 「검은 깃털」 1장마다 「태양을 가리는 깃털」 사용 시 5 광기를 획득한다. 「검은 깃털」을 1장 사용할 때마다 해당 턴에 「끝없는 밤을 지나」의 산출력 소모가 1 감소한다."
       },
-    {
-      "name": "하늘을 가리는 깃털",
-      "effect": "「검은 깃털」을 3장 사용할 때마다 산출력 1을 획득하고, 이번 전투에서 카스토르가 입히는 최종 피해가 10% 증가한다."
+      {
+        "name": "하늘을 가리는 깃털",
+        "effect": "「검은 깃털」을 3장 사용할 때마다 산출력 1을 획득하고, 이번 전투에서 카스토르가 입히는 최종 피해가 10% 증가한다."
       },
       {
         "type": "초월 폭발",
@@ -18911,12 +19887,34 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 카스토르",
+      "name": "차원 영상 · 카스토르",
       "characterName": "카스토르",
-      "effect": "턴 시작 시 카스토르는 15 광기를 얻습니다. 전투 시작 시 「검은 날개」 2장을 얻고, 매 턴 「검은 날개」를 처음 쓴 후 107 포인트의 임시 힘을 얻습니다."
+      "effect": "턴 시작 시 카스토르는 15 광기를 얻습니다. 전투 시작 시 「검은 날개」 2장을 손에 넣고, 매 턴 「검은 날개」를 처음 쓴 후 math.ceil(PlayerGrowth*0.075) pt의 임시 힘을 얻습니다.",
+      "clientRelicId": 84126,
+      "clientAwakenerId": 77923,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D11.png",
+      "researchDependencies": {
+        "material": true,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": [
+          "math.ceil(PlayerGrowth*0.075)"
+        ]
+      }
     }
   },
   "casiah": {
+    "derivedCards": [
+      {
+        "type": "파생 명령",
+        "name": "영감",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "산출력 1을 획득하고, 카드 1장을 뽑는다. 소모, 유지"
+      }
+    ],
     "skills": [
       {
         "type": "명령",
@@ -19178,17 +20176,17 @@
       }
     ],
     "enlighten": [
-    {
-      "name": "독심술",
-      "effect": "「사라지는 마술!」로 카드 1장을 뽑을 때마다 3 광기를 획득한다."
+      {
+        "name": "독심술",
+        "effect": "「사라지는 마술!」로 카드 1장을 뽑을 때마다 3 광기를 획득한다."
       },
-    {
-      "name": "눈속임",
-      "effect": "「마술 카니발」은 추가로 카드 1장을 뽑는다. 증상 및 상태 카드를 뽑을 때에도 무작위로 1회 피해를 입힌다."
+      {
+        "name": "눈속임",
+        "effect": "「마술 카니발」은 추가로 카드 1장을 뽑는다. 증상 및 상태 카드를 뽑을 때에도 무작위로 1회 피해를 입힌다."
       },
-    {
-      "name": "모방범",
-      "effect": "「허공 집기」에 다음 여파 효과가 추가된다. 여파: 「영감」 1장을 드로우 덱에 섞는다."
+      {
+        "name": "모방범",
+        "effect": "「허공 집기」에 다음 여파 효과가 추가된다. 여파: 「영감」 1장을 드로우 덱에 섞는다."
       },
       {
         "type": "초월 폭발",
@@ -19222,9 +20220,20 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 카시아",
+      "name": "차원 영상 · 카시아",
       "characterName": "카시아",
-      "effect": "턴이 시작될 때 카시아는 15 광기를 획득합니다. 매 1장의 카드를 뽑을 때마다 카시아는 1 광기를 획득합니다. 카시아가 광기 폭발을 릴리스할 때 모든 적은 힘을 43 잃습니다."
+      "effect": "턴 시작 시 카시아는 15 광기를 획득합니다. 매 1장의 카드를 뽑을 때마다 카시아는 1 광기를 획득합니다. 카시아가 광기 폭발을 방출할 때 모든 적은 math.ceil(PlayerGrowth*0.03) 힘을 잃습니다.",
+      "clientRelicId": 71243,
+      "clientAwakenerId": 15572,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D09.png",
+      "researchDependencies": {
+        "material": true,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": [
+          "math.ceil(PlayerGrowth*0.03)"
+        ]
+      }
     }
   },
   "clementine": {
@@ -19503,24 +20512,72 @@
             "stage": 1,
             "effect": "자신의 모든 공감을 제거하고, 정신적 외상 또는 두려움 고착 중 하나를 선택해 모든 적에게 부여한다.\n- 정신적 외상: 1스택마다 이번 턴에 받는 피해가 3% 증가한다. 최대 10스택까지 중첩된다.\n- 두려움 고착: 1스택마다 이번 턴에 입히는 피해가 3% 감소한다. 최대 10스택까지 중첩된다.\n모든 적에게 공격력의 n%에 해당하는 피해를 입히고, 클레멘타인의 은열쇠 충전의 n%에 해당하는 은열쇠 에너지를 획득한다.",
             "levels": [
-              { "level": 1, "피해": "180%", "은열쇠 에너지": "150%" },
-              { "level": 2, "피해": "216%", "은열쇠 에너지": "180%" },
-              { "level": 3, "피해": "252%", "은열쇠 에너지": "210%" },
-              { "level": 4, "피해": "288%", "은열쇠 에너지": "240%" },
-              { "level": 5, "피해": "324%", "은열쇠 에너지": "270%" },
-              { "level": 6, "피해": "360%", "은열쇠 에너지": "300%" }
+              {
+                "level": 1,
+                "피해": "180%",
+                "은열쇠 에너지": "150%"
+              },
+              {
+                "level": 2,
+                "피해": "216%",
+                "은열쇠 에너지": "180%"
+              },
+              {
+                "level": 3,
+                "피해": "252%",
+                "은열쇠 에너지": "210%"
+              },
+              {
+                "level": 4,
+                "피해": "288%",
+                "은열쇠 에너지": "240%"
+              },
+              {
+                "level": 5,
+                "피해": "324%",
+                "은열쇠 에너지": "270%"
+              },
+              {
+                "level": 6,
+                "피해": "360%",
+                "은열쇠 에너지": "300%"
+              }
             ]
           },
           {
             "stage": 2,
             "effect": "자신의 모든 공감을 제거하고, 정신적 외상 또는 두려움 고착 중 하나를 선택해 모든 적에게 부여한다.\n- 정신적 외상: 1스택마다 이번 턴에 받는 피해가 3% 증가한다. 최대 10스택까지 중첩된다.\n- 두려움 고착: 1스택마다 이번 턴에 입히는 피해가 3% 감소한다. 최대 10스택까지 중첩된다.\n모든 적에게 공격력의 n%에 해당하는 피해를 입히고, 클레멘타인의 은열쇠 충전의 m%에 해당하는 은열쇠 에너지를 획득한다. 제거한 공감 1스택마다 이번 전투에서 클레멘타인이 입히는 기본 피해가 3% 증가한다.",
             "levels": [
-              { "level": 1, "피해": "180%", "은열쇠 에너지": "350%" },
-              { "level": 2, "피해": "216%", "은열쇠 에너지": "380%" },
-              { "level": 3, "피해": "252%", "은열쇠 에너지": "410%" },
-              { "level": 4, "피해": "288%", "은열쇠 에너지": "440%" },
-              { "level": 5, "피해": "324%", "은열쇠 에너지": "470%" },
-              { "level": 6, "피해": "360%", "은열쇠 에너지": "500%" }
+              {
+                "level": 1,
+                "피해": "180%",
+                "은열쇠 에너지": "350%"
+              },
+              {
+                "level": 2,
+                "피해": "216%",
+                "은열쇠 에너지": "380%"
+              },
+              {
+                "level": 3,
+                "피해": "252%",
+                "은열쇠 에너지": "410%"
+              },
+              {
+                "level": 4,
+                "피해": "288%",
+                "은열쇠 에너지": "440%"
+              },
+              {
+                "level": 5,
+                "피해": "324%",
+                "은열쇠 에너지": "470%"
+              },
+              {
+                "level": 6,
+                "피해": "360%",
+                "은열쇠 에너지": "500%"
+              }
             ]
           }
         ]
@@ -19571,9 +20628,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 클레멘타인",
+      "name": "차원 영상 · 클레멘타인",
       "characterName": "클레멘타인",
-      "effect": "턴 시작 시 클레멘타인에게 15 광기가 부여됩니다. 클레멘타인의 모든 명령 카드 피해, 방패, 생명 회복, 광기 얻기, 은열쇠 에너지 얻기의 효과 횟수가 1 증가합니다."
+      "effect": "턴 시작 시 클레멘타인에게 15 광기가 부여됩니다. 클레멘타인의 모든 명령 카드 피해, 방패, HP 회복, 광기 얻기, 은열쇠 에너지 얻기의 효과 횟수가 1 증가합니다.",
+      "clientRelicId": 80340,
+      "clientAwakenerId": 77925,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D13.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "tinct": {
@@ -19882,9 +20948,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 틴커트",
+      "name": "차원 영상 · 틴커트",
       "characterName": "틴커트",
-      "effect": "턴이 시작될 때 틴커트는 15 광기를 획득합니다. 틴커트의 명령 카드가 점프를 유발한 후, 이를 손으로 반환하고 출전 전 산출력 소모를 -1 감소시킵니다. 매 턴 최대 2번 발동됩니다."
+      "effect": "턴 시작 시 틴커트는 15 광기를 획득합니다. 틴커트의 명령 카드가 점프를 유발한 후, 이를 손으로 반환하고 출전 전 행동력 소모를 -1로 감소시킵니다. 매 턴 최대 2 번 발동됩니다.",
+      "clientRelicId": 71232,
+      "clientAwakenerId": 15574,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D03.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "pollux": {
@@ -20128,21 +21203,21 @@
       {
         "type": "파생 명령",
         "name": "성심",
-      "cost": {
-        "type": "산출력",
-        "value": 1
-      },
-      "effect": "공격력의 70%에 해당하는 피해를 입히고, 죄의 낙인 3스택을 획득한다. 사용 후 이 카드를 드로우 덱 맨 위에 섞는다. 세 번째 사용 시 소모되고, 이번 턴에 다음으로 사용하는 명령 카드에 '고통 구원' 효과가 적용된다. 준비1, 유지",
-      "breakthroughs": [
-        {
-          "stage": 2,
-          "append": "'성심'을 사용할 때마다 다음에 사용하는 '부정의 심판'의 산출력 소모가 1 감소한다."
+        "cost": {
+          "type": "산출력",
+          "value": 1
         },
-        {
-          "stage": 3,
-          "effect": "공격력의 70%에 해당하는 피해를 입히고, 죄의 낙인 3스택을 획득한다. 사용 후 이 카드를 드로우 덱 맨 위에 섞는다. '성심'을 사용할 때마다 다음에 사용하는 '부정의 심판'의 산출력 소모가 1 감소한다. 세 번째 사용 시 소모되고, 이번 턴에 다음으로 사용하는 폴룩스의 명령 카드에 '고통 구원' 효과가 적용되며 추가로 1회 더 발동한다. 준비1, 유지"
-        }
-      ]
+        "effect": "공격력의 70%에 해당하는 피해를 입히고, 죄의 낙인 3스택을 획득한다. 사용 후 이 카드를 드로우 덱 맨 위에 섞는다. 세 번째 사용 시 소모되고, 이번 턴에 다음으로 사용하는 명령 카드에 '고통 구원' 효과가 적용된다. 준비1, 유지",
+        "breakthroughs": [
+          {
+            "stage": 2,
+            "append": "'성심'을 사용할 때마다 다음에 사용하는 '부정의 심판'의 산출력 소모가 1 감소한다."
+          },
+          {
+            "stage": 3,
+            "effect": "공격력의 70%에 해당하는 피해를 입히고, 죄의 낙인 3스택을 획득한다. 사용 후 이 카드를 드로우 덱 맨 위에 섞는다. '성심'을 사용할 때마다 다음에 사용하는 '부정의 심판'의 산출력 소모가 1 감소한다. 세 번째 사용 시 소모되고, 이번 턴에 다음으로 사용하는 폴룩스의 명령 카드에 '고통 구원' 효과가 적용되며 추가로 1회 더 발동한다. 준비1, 유지"
+          }
+        ]
       }
     ],
     "enlighten": [
@@ -20190,9 +21265,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 폴룩스",
+      "name": "차원 영상 · 폴룩스",
       "characterName": "폴룩스",
-      "effect": "턴이 시작될 때 폴룩스가 15 광기를 획득합니다. 전투 시작 시 「성심」 1장을 획득하며, 「성심」이 3번째 사용으로 소모될 때 모든 적에게 피해 증가를 부여하고 2회 피해를 입힙니다."
+      "effect": "턴 시작 시 폴룩스가 광기를 15pt 획득한다. 전투 시작 시 「성심」 1장을 획득하며, 「성심」이 3번째로 사용되며 소모될 때 모든 적에게 피해 증가를 부여하고 피해 2회를 입힌다.",
+      "clientRelicId": 84123,
+      "clientAwakenerId": 77917,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D14.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "arachne": {
@@ -20324,12 +21408,30 @@
             "stage": 2,
             "effect": "모든 적에게 공격력의 n%에 해당하는 운명 재단을 부여하고, '실로 이끄는 운명' 1장을 손패에 추가한다.",
             "levels": [
-              { "level": 1, "운명 재단": "450%" },
-              { "level": 2, "운명 재단": "540%" },
-              { "level": 3, "운명 재단": "630%" },
-              { "level": 4, "운명 재단": "720%" },
-              { "level": 5, "운명 재단": "810%" },
-              { "level": 6, "운명 재단": "900%" }
+              {
+                "level": 1,
+                "운명 재단": "450%"
+              },
+              {
+                "level": 2,
+                "운명 재단": "540%"
+              },
+              {
+                "level": 3,
+                "운명 재단": "630%"
+              },
+              {
+                "level": 4,
+                "운명 재단": "720%"
+              },
+              {
+                "level": 5,
+                "운명 재단": "810%"
+              },
+              {
+                "level": 6,
+                "운명 재단": "900%"
+              }
             ]
           }
         ]
@@ -20511,47 +21613,6 @@
           "value": 0
         },
         "effect": "HP를 최대 HP의 2% 잃고, 직명 1스택을 획득한다. 이번 전투에서, '실로 이끄는 운명'으로 잃는 HP 및 아라크네가 부여하는 운명 재단 이 10% 증가한다. 허무: 아라크네가 무작위로 15 ~ 30 광기를 획득한다. 허무, 소모"
-      },
-      {
-        "type": "추가 공격",
-        "name": "끝없는 실타래",
-        "cost": {
-          "type": "산출력",
-          "value": 0
-        },
-        "effect": "임시 특이점 프리즘 5스택 을 획득하고, HP가 가장 낮은 적에게 공격력 n% 의 운명 재단 을 부여한다.",
-        "levels": [
-          {
-            "level": 1,
-            "운명 재단": "1200%"
-          },
-          {
-            "level": 2,
-            "운명 재단": "1440%"
-          },
-          {
-            "level": 3,
-            "운명 재단": "1680%"
-          },
-          {
-            "level": 4,
-            "운명 재단": "1920%"
-          },
-          {
-            "level": 5,
-            "운명 재단": "2160%"
-          },
-          {
-            "level": 6,
-            "운명 재단": "2400%"
-          }
-        ],
-        "breakthroughs": [
-          {
-            "stage": 3,
-            "effect": "임시 특이점 프리즘 10스택을 획득하고, HP가 가장 낮은 적에게 공격력의 n%에 해당하는 운명 재단을 부여한다."
-          }
-        ]
       }
     ],
     "enlighten": [
@@ -20599,9 +21660,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 아라크네",
+      "name": "차원 영상 · 아라크네",
       "characterName": "아라크네",
-      "effect": "턴 시작 시 아라크네가 15 광기를 획득합니다. 「타격」과 「방어」가 즉시 「무한 실타래」 추격을 1회 발동하며, 매 턴 각각 최대 1회까지 발동됩니다."
+      "effect": "턴 시작 시 아라크네가 광기를 15 획득한다. 「타격」과 「방어」가 즉시 「끝없는 실타래」 추격을 1회 발동하며, 이는 매 턴 각각 최대 1회까지 적용된다.",
+      "clientRelicId": 84121,
+      "clientAwakenerId": 77918,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D10.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "doll": {
@@ -20733,12 +21803,30 @@
             "stage": 1,
             "effect": "HP를 체력의 n% 회복한다. 모든 적에게 2턴 허약을 부여한다.",
             "levels": [
-              { "level": 1, "회복": "20%" },
-              { "level": 2, "회복": "24%" },
-              { "level": 3, "회복": "28%" },
-              { "level": 4, "회복": "32%" },
-              { "level": 5, "회복": "36%" },
-              { "level": 6, "회복": "40%" }
+              {
+                "level": 1,
+                "회복": "20%"
+              },
+              {
+                "level": 2,
+                "회복": "24%"
+              },
+              {
+                "level": 3,
+                "회복": "28%"
+              },
+              {
+                "level": 4,
+                "회복": "32%"
+              },
+              {
+                "level": 5,
+                "회복": "36%"
+              },
+              {
+                "level": 6,
+                "회복": "40%"
+              }
             ]
           }
         ]
@@ -20800,12 +21888,36 @@
             "stage": 2,
             "effect": "HP를 체력의 n% 회복한다. 손패의 모든 카드를 버리고, 버린 카드 1장마다 추가로 HP를 체력의 m% 회복한다. 버린 카드 1장마다 추가로 회복한 HP와 같은 양의 방어막을 획득한다.",
             "levels": [
-              { "level": 1, "기본 회복": "30%", "카드당 회복": "6%" },
-              { "level": 2, "기본 회복": "36%", "카드당 회복": "7.2%" },
-              { "level": 3, "기본 회복": "42%", "카드당 회복": "8.4%" },
-              { "level": 4, "기본 회복": "48%", "카드당 회복": "9.6%" },
-              { "level": 5, "기본 회복": "54%", "카드당 회복": "10.8%" },
-              { "level": 6, "기본 회복": "60%", "카드당 회복": "12%" }
+              {
+                "level": 1,
+                "기본 회복": "30%",
+                "카드당 회복": "6%"
+              },
+              {
+                "level": 2,
+                "기본 회복": "36%",
+                "카드당 회복": "7.2%"
+              },
+              {
+                "level": 3,
+                "기본 회복": "42%",
+                "카드당 회복": "8.4%"
+              },
+              {
+                "level": 4,
+                "기본 회복": "48%",
+                "카드당 회복": "9.6%"
+              },
+              {
+                "level": 5,
+                "기본 회복": "54%",
+                "카드당 회복": "10.8%"
+              },
+              {
+                "level": 6,
+                "기본 회복": "60%",
+                "카드당 회복": "12%"
+              }
             ]
           }
         ]
@@ -20902,12 +22014,36 @@
             "stage": 3,
             "effect": "자신의 취약 상태를 해제한다. HP를 체력의 n% 회복하고, 모든 각성체가 n 광기를 획득한다.",
             "levels": [
-              { "level": 1, "회복": "40%", "광기": "5" },
-              { "level": 2, "회복": "48%", "광기": "6" },
-              { "level": 3, "회복": "56%", "광기": "7" },
-              { "level": 4, "회복": "64%", "광기": "8" },
-              { "level": 5, "회복": "72%", "광기": "9" },
-              { "level": 6, "회복": "80%", "광기": "10" }
+              {
+                "level": 1,
+                "회복": "40%",
+                "광기": "5"
+              },
+              {
+                "level": 2,
+                "회복": "48%",
+                "광기": "6"
+              },
+              {
+                "level": 3,
+                "회복": "56%",
+                "광기": "7"
+              },
+              {
+                "level": 4,
+                "회복": "64%",
+                "광기": "8"
+              },
+              {
+                "level": 5,
+                "회복": "72%",
+                "광기": "9"
+              },
+              {
+                "level": 6,
+                "회복": "80%",
+                "광기": "10"
+              }
             ]
           }
         ]
@@ -20984,12 +22120,32 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 돌",
+      "name": "차원 영상 · 돌",
       "characterName": "돌",
-      "effect": "턴이 시작될 때 돌은 15 광기를 얻는다. 전투 시작 시, 돌의 \"등가교환\"의 산출력 소모가 0이 되며, 사용한 다음 턴에 카드를 2장 추가로 뽑는다."
+      "effect": "턴 시작 시 돌은 15 광기를 획득합니다. 전투 시작 후 돌의 \"등가교환\" 행동력 소모가 0으로 변하며 사용한 후 다음 턴에 추가로 2 장의 카드를 뽑습니다.",
+      "clientRelicId": 71248,
+      "clientAwakenerId": 15570,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C02.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "ramona": {
+    "derivedCards": [
+      {
+        "type": "파생 명령",
+        "name": "영감",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "산출력 1을 획득하고, 카드 1장을 뽑는다. 소모, 유지"
+      }
+    ],
     "skills": [
       {
         "type": "명령",
@@ -21118,12 +22274,36 @@
             "stage": 1,
             "effect": "공격력의 n%에 해당하는 피해를 3회 입히고, 피해를 입힐 때마다 공격력의 m%만큼 임시 힘을 획득한다. 사용 후 '여왕의 검'의 피해 횟수가 1회 증가하며, 최대 6회까지 증가한다.\n여파: 카드를 사용했을 때와 같은 양의 은열쇠 에너지를 획득한다.",
             "levels": [
-              { "level": 1, "피해": "15%", "임시 힘": "2.5%" },
-              { "level": 2, "피해": "18%", "임시 힘": "3%" },
-              { "level": 3, "피해": "21%", "임시 힘": "3.5%" },
-              { "level": 4, "피해": "24%", "임시 힘": "4%" },
-              { "level": 5, "피해": "27%", "임시 힘": "4.5%" },
-              { "level": 6, "피해": "30%", "임시 힘": "5%" }
+              {
+                "level": 1,
+                "피해": "15%",
+                "임시 힘": "2.5%"
+              },
+              {
+                "level": 2,
+                "피해": "18%",
+                "임시 힘": "3%"
+              },
+              {
+                "level": 3,
+                "피해": "21%",
+                "임시 힘": "3.5%"
+              },
+              {
+                "level": 4,
+                "피해": "24%",
+                "임시 힘": "4%"
+              },
+              {
+                "level": 5,
+                "피해": "27%",
+                "임시 힘": "4.5%"
+              },
+              {
+                "level": 6,
+                "피해": "30%",
+                "임시 힘": "5%"
+              }
             ]
           }
         ]
@@ -21291,9 +22471,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 라모나",
+      "name": "차원 영상 · 라모나",
       "characterName": "라모나",
-      "effect": "턴이 시작될 때 라모나는 15 광기를 얻는다. 라모나가 매 3번째로 명령 카드를 사용하면, 해당 명령 카드가 추가로 1회 발동하고 은열 에너지를 250 얻는다."
+      "effect": "턴 시작 시 라모나는 15 광기를 획득합니다. 매 3번째로 라모나의 명령 카드를 사용할 때, 해당 명령 카드가 추가로 1회 발동하고 250 점의 은열쇠 에너지 획득합니다.",
+      "clientRelicId": 71197,
+      "clientAwakenerId": 15595,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C01.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "lotan": {
@@ -21343,12 +22532,36 @@
             "stage": 1,
             "effect": "공격력의 n%에 해당하는 피해를 입히고, n 광기를 획득한다.",
             "levels": [
-              { "level": 1, "피해": "13%", "광기": "5" },
-              { "level": 2, "피해": "15.6%", "광기": "6" },
-              { "level": 3, "피해": "18.2%", "광기": "7" },
-              { "level": 4, "피해": "20.8%", "광기": "8" },
-              { "level": 5, "피해": "23.4%", "광기": "9" },
-              { "level": 6, "피해": "26%", "광기": "10" }
+              {
+                "level": 1,
+                "피해": "13%",
+                "광기": "5"
+              },
+              {
+                "level": 2,
+                "피해": "15.6%",
+                "광기": "6"
+              },
+              {
+                "level": 3,
+                "피해": "18.2%",
+                "광기": "7"
+              },
+              {
+                "level": 4,
+                "피해": "20.8%",
+                "광기": "8"
+              },
+              {
+                "level": 5,
+                "피해": "23.4%",
+                "광기": "9"
+              },
+              {
+                "level": 6,
+                "피해": "26%",
+                "광기": "10"
+              }
             ]
           }
         ]
@@ -21486,12 +22699,36 @@
             "stage": 2,
             "effect": "'타격'으로 간주된다. 모든 적에게 공격력의 n%에 해당하는 피해를 입히고, 공격력의 m%만큼 힘을 획득한다.",
             "levels": [
-              { "level": 1, "피해": "7.5%", "힘": "5%" },
-              { "level": 2, "피해": "9%", "힘": "6%" },
-              { "level": 3, "피해": "10.5%", "힘": "7%" },
-              { "level": 4, "피해": "12%", "힘": "8%" },
-              { "level": 5, "피해": "13.5%", "힘": "9%" },
-              { "level": 6, "피해": "15%", "힘": "10%" }
+              {
+                "level": 1,
+                "피해": "7.5%",
+                "힘": "5%"
+              },
+              {
+                "level": 2,
+                "피해": "9%",
+                "힘": "6%"
+              },
+              {
+                "level": 3,
+                "피해": "10.5%",
+                "힘": "7%"
+              },
+              {
+                "level": 4,
+                "피해": "12%",
+                "힘": "8%"
+              },
+              {
+                "level": 5,
+                "피해": "13.5%",
+                "힘": "9%"
+              },
+              {
+                "level": 6,
+                "피해": "15%",
+                "힘": "10%"
+              }
             ]
           }
         ]
@@ -21620,9 +22857,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 로탄",
+      "name": "차원 영상 · 로탄",
       "characterName": "로탄",
-      "effect": "턴이 시작될 때 로탄은 15 광기를 얻는다. 매 턴 처음으로 로탄이 \"방어\"를 발동하면, 소모와 공허가 부여된 \"반항의 칼날\" 2장을 패에 추가한다."
+      "effect": "턴 시작 시 로탄은 15 광기를 획득합니다. 매 턴 처음으로 로탄의 \"방어\"를 발동한 후, 2 장의 소모와 공허가 부여된 \"고집스러운 검\"을 손에 추가합니다.",
+      "clientRelicId": 71196,
+      "clientAwakenerId": 15569,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C04.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "ogier": {
@@ -21670,6 +22916,47 @@
       },
       {
         "type": "명령",
+        "name": "방어",
+        "cost": {
+          "type": "산출력",
+          "value": 1
+        },
+        "effect": "방어력 n%의 방어막을 획득하고, n 광기를 획득한다.",
+        "levels": [
+          {
+            "level": 1,
+            "방어막": "10%",
+            "광기": "5"
+          },
+          {
+            "level": 2,
+            "방어막": "12%",
+            "광기": "6"
+          },
+          {
+            "level": 3,
+            "방어막": "14%",
+            "광기": "7"
+          },
+          {
+            "level": 4,
+            "방어막": "16%",
+            "광기": "8"
+          },
+          {
+            "level": 5,
+            "방어막": "18%",
+            "광기": "9"
+          },
+          {
+            "level": 6,
+            "방어막": "20%",
+            "광기": "10"
+          }
+        ]
+      },
+      {
+        "type": "명령",
         "name": "부정형 장벽",
         "cost": {
           "type": "산출력",
@@ -21707,12 +22994,36 @@
             "stage": 3,
             "effect": "방어력의 n%에 해당하는 방어막을 X+1회 획득한다. 산출력 1을 소모할 때마다 광기 5를 획득한다. 공격력의 m%만큼 힘을 획득한다.",
             "levels": [
-              { "level": 1, "방어막": "14.3%", "힘": "4%" },
-              { "level": 2, "방어막": "17.16%", "힘": "4.8%" },
-              { "level": 3, "방어막": "20.02%", "힘": "5.6%" },
-              { "level": 4, "방어막": "22.88%", "힘": "6.4%" },
-              { "level": 5, "방어막": "25.74%", "힘": "7.2%" },
-              { "level": 6, "방어막": "28.6%", "힘": "8%" }
+              {
+                "level": 1,
+                "방어막": "14.3%",
+                "힘": "4%"
+              },
+              {
+                "level": 2,
+                "방어막": "17.16%",
+                "힘": "4.8%"
+              },
+              {
+                "level": 3,
+                "방어막": "20.02%",
+                "힘": "5.6%"
+              },
+              {
+                "level": 4,
+                "방어막": "22.88%",
+                "힘": "6.4%"
+              },
+              {
+                "level": 5,
+                "방어막": "25.74%",
+                "힘": "7.2%"
+              },
+              {
+                "level": 6,
+                "방어막": "28.6%",
+                "힘": "8%"
+              }
             ]
           }
         ]
@@ -21762,12 +23073,30 @@
             "stage": 1,
             "effect": "공격력의 n%에 해당하는 관통 피해를 입히고, 2턴 취약을 부여한다. 이 피해에는 3배의 힘 계수가 적용된다.",
             "levels": [
-              { "level": 1, "피해": "50%" },
-              { "level": 2, "피해": "60%" },
-              { "level": 3, "피해": "70%" },
-              { "level": 4, "피해": "80%" },
-              { "level": 5, "피해": "90%" },
-              { "level": 6, "피해": "100%" }
+              {
+                "level": 1,
+                "피해": "50%"
+              },
+              {
+                "level": 2,
+                "피해": "60%"
+              },
+              {
+                "level": 3,
+                "피해": "70%"
+              },
+              {
+                "level": 4,
+                "피해": "80%"
+              },
+              {
+                "level": 5,
+                "피해": "90%"
+              },
+              {
+                "level": 6,
+                "피해": "100%"
+              }
             ]
           }
         ]
@@ -21882,12 +23211,42 @@
             "stage": 2,
             "effect": "방어력의 n%에 해당하는 방어막을 획득하고, 공격력의 m%만큼 임시 힘을 획득한다. 자신이 손상 상태라면 이를 해제하고, 방어력의 l%에 해당하는 방어막을 추가로 획득한다. 자신이 취약 상태라면 이 카드로 생성하는 방어막이 추가로 33% 증가한다.",
             "levels": [
-              { "level": 1, "손상 해제 방어막": "12%", "방어막": "36%", "임시 힘": "18%" },
-              { "level": 2, "손상 해제 방어막": "14.4%", "방어막": "43.2%", "임시 힘": "21.6%" },
-              { "level": 3, "손상 해제 방어막": "16.8%", "방어막": "50.4%", "임시 힘": "25.2%" },
-              { "level": 4, "손상 해제 방어막": "19.2%", "방어막": "57.6%", "임시 힘": "28.8%" },
-              { "level": 5, "손상 해제 방어막": "21.6%", "방어막": "64.8%", "임시 힘": "32.4%" },
-              { "level": 6, "손상 해제 방어막": "24%", "방어막": "72%", "임시 힘": "36%" }
+              {
+                "level": 1,
+                "손상 해제 방어막": "12%",
+                "방어막": "36%",
+                "임시 힘": "18%"
+              },
+              {
+                "level": 2,
+                "손상 해제 방어막": "14.4%",
+                "방어막": "43.2%",
+                "임시 힘": "21.6%"
+              },
+              {
+                "level": 3,
+                "손상 해제 방어막": "16.8%",
+                "방어막": "50.4%",
+                "임시 힘": "25.2%"
+              },
+              {
+                "level": 4,
+                "손상 해제 방어막": "19.2%",
+                "방어막": "57.6%",
+                "임시 힘": "28.8%"
+              },
+              {
+                "level": 5,
+                "손상 해제 방어막": "21.6%",
+                "방어막": "64.8%",
+                "임시 힘": "32.4%"
+              },
+              {
+                "level": 6,
+                "손상 해제 방어막": "24%",
+                "방어막": "72%",
+                "임시 힘": "36%"
+              }
             ]
           }
         ]
@@ -21970,9 +23329,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 오지에",
+      "name": "차원 영상 · 오지에",
       "characterName": "오지에",
-      "effect": "턴이 시작될 때 오지에는 15 광기를 얻는다. 매 턴 최초로 오지에가 \"관통의 창\" 또는 \"타격\"을 시전하면, 오지에가 이번 턴에 생성하는 보호막과 힘이 50% 증가한다."
+      "effect": "턴 시작 시 오지에는 15의 광기를 얻는다. 턴마다 최초로 오지에의 \"관통의 총\" 또는 \"타격\"을 시전한 후, 오지에가 이번 턴에 생성한 보호막과 힘이 50% 증가한다.",
+      "clientRelicId": 71245,
+      "clientAwakenerId": 15585,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C03.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "ramona_timeworn": {
@@ -22257,12 +23625,188 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 회귀 · 라모나",
+      "name": "차원 영상 · 회귀·라모나",
       "characterName": "회귀 · 라모나",
-      "effect": "턴이 시작될 때 회귀 · 라모나는 15 광기를 얻는다. 매 턴 처음 \"회귀\"가 발동하면 은열 에너지를 500, 음엔트로피를 1중첩 얻는다."
+      "effect": "턴 시작 시 회귀·라모나가 광기를 15 획득한다. 매 턴 최초로 「반복」이 발동될 때, 은열쇠 에너지 500pt와 「음엔트로피」 1스택을 획득한다.",
+      "clientRelicId": 71195,
+      "clientAwakenerId": 15568,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C01EX.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "pontos": {
+    "derivedCards": [
+      {
+        "type": "파생 명령",
+        "name": "영감",
+        "cost": {
+          "type": "산출력",
+          "value": 0
+        },
+        "effect": "산출력 1을 획득하고, 카드 1장을 뽑는다. 소모, 유지"
+      },
+      {
+        "type": "버프",
+        "name": "약식의 건트",
+        "cost": {
+          "type": "산출력",
+          "value": 1
+        },
+        "effect": "영감 1장을 드로우 덱에 섞고, 다른 각성체가 5 광기를 획득한다. 쌍생 건트로 업그레이드되면 산출력 소모가 2가 되고 효과가 2회 발동한다.",
+        "breakthroughs": [
+          {
+            "stage": 3,
+            "append": "여파: 산출력 소모가 1 감소한다."
+          }
+        ],
+        "level_source": "건트지기의 호각",
+        "levels": [
+          {
+            "level": 1
+          },
+          {
+            "level": 2
+          },
+          {
+            "level": 3
+          },
+          {
+            "level": 4
+          },
+          {
+            "level": 5
+          },
+          {
+            "level": 6
+          }
+        ]
+      },
+      {
+        "type": "버프",
+        "name": "교란의 건트",
+        "cost": {
+          "type": "산출력",
+          "value": 1
+        },
+        "effect": "모든 적의 힘을 임시로 방어력 n% 감소시키고, 촉수 피해가 공격력 n% 증가한다. 쌍생 건트로 업그레이드되면 산출력 소모가 2가 되고 효과가 2회 발동한다.",
+        "breakthroughs": [
+          {
+            "stage": 3,
+            "append": "여파: 산출력 소모가 1 감소한다."
+          }
+        ],
+        "level_source": "건트지기의 호각",
+        "levels": [
+          {
+            "level": 1,
+            "힘 감소": "5%",
+            "촉수 피해": "7.5%"
+          },
+          {
+            "level": 2,
+            "힘 감소": "6.5%",
+            "촉수 피해": "9%"
+          },
+          {
+            "level": 3,
+            "힘 감소": "8%",
+            "촉수 피해": "10.5%"
+          },
+          {
+            "level": 4,
+            "힘 감소": "9.5%",
+            "촉수 피해": "12%"
+          },
+          {
+            "level": 5,
+            "힘 감소": "11%",
+            "촉수 피해": "13.5%"
+          },
+          {
+            "level": 6,
+            "힘 감소": "12.5%",
+            "촉수 피해": "15%"
+          }
+        ]
+      },
+      {
+        "type": "버프",
+        "name": "사냥의 건트",
+        "cost": {
+          "type": "산출력",
+          "value": 1
+        },
+        "effect": "HP가 가장 낮은 적에게 촉수 피해의 n%에 해당하는 고정 피해를 입힌다. 폰토스의 기본 크리티컬 피해의 15%에 해당하는 임시 크리티컬 피해를 획득한다. 쌍생 건트로 업그레이드되면 산출력 소모가 2가 되고 효과가 2회 발동한다.",
+        "breakthroughs": [
+          {
+            "stage": 1,
+            "effect": "HP가 가장 낮은 적에게 촉수 피해의 n%에 해당하는 고정 피해를 입힌다. 폰토스의 기본 크리티컬 피해의 15%에 해당하는 임시 크리티컬 피해를 획득한다. 폰토스와 장비한 명륜 및 비밀 계약의 크리티컬 피해 1%마다 고정 피해가 추가로 0.2% 증가한다. 쌍생 건트로 업그레이드되면 산출력 소모가 2가 되고 효과가 2회 발동한다.",
+            "levels": [
+              {
+                "level": 1,
+                "피해량": "1100%"
+              },
+              {
+                "level": 2,
+                "피해량": "1320%"
+              },
+              {
+                "level": 3,
+                "피해량": "1540%"
+              },
+              {
+                "level": 4,
+                "피해량": "1760%"
+              },
+              {
+                "level": 5,
+                "피해량": "1980%"
+              },
+              {
+                "level": 6,
+                "피해량": "2200%"
+              }
+            ]
+          },
+          {
+            "stage": 3,
+            "append": "여파: 산출력 소모가 1 감소한다."
+          }
+        ],
+        "level_source": "건트지기의 호각",
+        "levels": [
+          {
+            "level": 1,
+            "피해량": "1000%"
+          },
+          {
+            "level": 2,
+            "피해량": "1200%"
+          },
+          {
+            "level": 3,
+            "피해량": "1400%"
+          },
+          {
+            "level": 4,
+            "피해량": "1600%"
+          },
+          {
+            "level": 5,
+            "피해량": "1800%"
+          },
+          {
+            "level": 6,
+            "피해량": "2000%"
+          }
+        ]
+      }
+    ],
     "skills": [
       {
         "type": "명령",
@@ -22473,162 +24017,6 @@
         ]
       },
       {
-        "type": "버프",
-        "name": "약탈의 건트",
-        "cost": {
-          "type": "산출력",
-          "value": 1
-        },
-        "effect": "'영감' 1장을 덱에 섞어넣고, 다른 각성체가 5 광기를 획득한다.",
-        "breakthroughs": [
-          {
-            "stage": 3,
-            "append": "여파: 산출력 소모가 1 감소한다."
-          }
-        ],
-        "level_source": "건트지기의 호각",
-        "levels": [
-          {
-            "level": 1
-          },
-          {
-            "level": 2
-          },
-          {
-            "level": 3
-          },
-          {
-            "level": 4
-          },
-          {
-            "level": 5
-          },
-          {
-            "level": 6
-          }
-        ]
-      },
-      {
-        "type": "버프",
-        "name": "교란의 건트",
-        "cost": {
-          "type": "산출력",
-          "value": 1
-        },
-        "effect": "모든 적의 힘을 임시로 방어력 n% 감소시키고, [촉수 피해]가 공격력 n% 증가한다.",
-        "breakthroughs": [
-          {
-            "stage": 3,
-            "append": "여파: 산출력 소모가 1 감소한다."
-          }
-        ],
-        "level_source": "건트지기의 호각",
-        "levels": [
-          {
-            "level": 1,
-            "힘 감소": "5%",
-            "촉수 피해": "7.5%"
-          },
-          {
-            "level": 2,
-            "힘 감소": "6.5%",
-            "촉수 피해": "9%"
-          },
-          {
-            "level": 3,
-            "힘 감소": "8%",
-            "촉수 피해": "10.5%"
-          },
-          {
-            "level": 4,
-            "힘 감소": "9.5%",
-            "촉수 피해": "12%"
-          },
-          {
-            "level": 5,
-            "힘 감소": "11%",
-            "촉수 피해": "13.5%"
-          },
-          {
-            "level": 6,
-            "힘 감소": "12.5%",
-            "촉수 피해": "15%"
-          }
-        ]
-      },
-      {
-        "type": "버프",
-        "name": "사냥의 건트",
-        "cost": {
-          "type": "산출력",
-          "value": 1
-        },
-        "effect": "HP가 가장 낮은 적에게 [촉수 피해]의 n%에 해당하는 [고정 피해]를 입힌다. 폰토스의 기본 크리티컬 피해의 15%에 해당하는 임시 크리티컬 피해를 얻는다.",
-        "breakthroughs": [
-          {
-            "stage": 1,
-            "effect": "HP가 가장 낮은 적에게 촉수 피해의 n%에 해당하는 고정 피해를 입힌다. 폰토스의 기본 크리티컬 피해의 15%에 해당하는 임시 크리티컬 피해를 획득한다. 폰토스와 장비한 명륜 및 비밀 계약의 크리티컬 피해 1%마다 고정 피해가 추가로 0.2% 증가한다.",
-            "levels": [
-              {
-                "level": 1,
-                "피해량": "1100%"
-              },
-              {
-                "level": 2,
-                "피해량": "1320%"
-              },
-              {
-                "level": 3,
-                "피해량": "1540%"
-              },
-              {
-                "level": 4,
-                "피해량": "1760%"
-              },
-              {
-                "level": 5,
-                "피해량": "1980%"
-              },
-              {
-                "level": 6,
-                "피해량": "2200%"
-              }
-            ]
-          },
-          {
-            "stage": 3,
-            "append": "여파: 산출력 소모가 1 감소한다."
-          }
-        ],
-        "level_source": "건트지기의 호각",
-        "levels": [
-          {
-            "level": 1,
-            "피해량": "1000%"
-          },
-          {
-            "level": 2,
-            "피해량": "1200%"
-          },
-          {
-            "level": 3,
-            "피해량": "1400%"
-          },
-          {
-            "level": 4,
-            "피해량": "1600%"
-          },
-          {
-            "level": 5,
-            "피해량": "1800%"
-          },
-          {
-            "level": 6,
-            "피해량": "2000%"
-          }
-        ]
-      },
-      {
         "type": "영지 각성",
         "name": "심연의 분노",
         "cost": {
@@ -22788,9 +24176,18 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 폰토스",
+      "name": "차원 영상 · 폰토스",
       "characterName": "폰토스",
-      "effect": "턴 시작 시 폰토스가 15 광기를 획득합니다. 획득 후 다음 전투 시작 시, 영구 '건트' 3장을 생성합니다. '건트'를 사용할 때 폰토스가 광기 3점을 획득합니다."
+      "effect": "턴 시작 시 폰토스가 광기를 15 획득한다. 획득 후 다음 전투 시작 시, 영구 「건트」 3장을 생성한다. 「건트」 사용 시 폰토스가 광기 3pt를 획득한다.",
+      "clientRelicId": 143665,
+      "clientAwakenerId": 141302,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O13.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "lotan_cetarchon": {
@@ -22804,12 +24201,36 @@
         },
         "effect": "공격력의 n%에 해당하는 피해를 입히고, n 광기를 획득한다.",
         "levels": [
-          { "level": 1, "피해": "10%", "광기": "5" },
-          { "level": 2, "피해": "12%", "광기": "6" },
-          { "level": 3, "피해": "14%", "광기": "7" },
-          { "level": 4, "피해": "16%", "광기": "8" },
-          { "level": 5, "피해": "18%", "광기": "9" },
-          { "level": 6, "피해": "20%", "광기": "10" }
+          {
+            "level": 1,
+            "피해": "10%",
+            "광기": "5"
+          },
+          {
+            "level": 2,
+            "피해": "12%",
+            "광기": "6"
+          },
+          {
+            "level": 3,
+            "피해": "14%",
+            "광기": "7"
+          },
+          {
+            "level": 4,
+            "피해": "16%",
+            "광기": "8"
+          },
+          {
+            "level": 5,
+            "피해": "18%",
+            "광기": "9"
+          },
+          {
+            "level": 6,
+            "피해": "20%",
+            "광기": "10"
+          }
         ],
         "breakthroughs": [
           {
@@ -22827,12 +24248,36 @@
         },
         "effect": "방어력의 n%에 해당하는 방어막을 획득하고, n 광기를 획득한다.",
         "levels": [
-          { "level": 1, "방어막": "10%", "광기": "5" },
-          { "level": 2, "방어막": "12%", "광기": "6" },
-          { "level": 3, "방어막": "14%", "광기": "7" },
-          { "level": 4, "방어막": "16%", "광기": "8" },
-          { "level": 5, "방어막": "18%", "광기": "9" },
-          { "level": 6, "방어막": "20%", "광기": "10" }
+          {
+            "level": 1,
+            "방어막": "10%",
+            "광기": "5"
+          },
+          {
+            "level": 2,
+            "방어막": "12%",
+            "광기": "6"
+          },
+          {
+            "level": 3,
+            "방어막": "14%",
+            "광기": "7"
+          },
+          {
+            "level": 4,
+            "방어막": "16%",
+            "광기": "8"
+          },
+          {
+            "level": 5,
+            "방어막": "18%",
+            "광기": "9"
+          },
+          {
+            "level": 6,
+            "방어막": "20%",
+            "광기": "10"
+          }
         ],
         "breakthroughs": [
           {
@@ -22850,12 +24295,30 @@
         },
         "effect": "「타격」으로 간주한다. 모든 적에게 공격력의 n%에 해당하는 피해를 입히고, 500%의 추가 힘 계수를 적용받는다. 이번 턴에 「타격」을 1장 사용할 때마다 다음에 사용하는 「장검·낙」의 산출력 소모가 1 감소한다. 보존.",
         "levels": [
-          { "level": 1, "피해": "150%" },
-          { "level": 2, "피해": "180%" },
-          { "level": 3, "피해": "210%" },
-          { "level": 4, "피해": "240%" },
-          { "level": 5, "피해": "270%" },
-          { "level": 6, "피해": "300%" }
+          {
+            "level": 1,
+            "피해": "150%"
+          },
+          {
+            "level": 2,
+            "피해": "180%"
+          },
+          {
+            "level": 3,
+            "피해": "210%"
+          },
+          {
+            "level": 4,
+            "피해": "240%"
+          },
+          {
+            "level": 5,
+            "피해": "270%"
+          },
+          {
+            "level": 6,
+            "피해": "300%"
+          }
         ]
       },
       {
@@ -22867,12 +24330,36 @@
         },
         "effect": "「타격」으로 간주한다. 무작위 적에게 공격력의 n%에 해당하는 피해를 3회 입히고, 공격력의 m%만큼 힘을 획득한다. 사용 후 드로우 덱으로 되돌린다. 세 번째 사용 시 추가로 1회 발동되며, 이번 턴에 「장검·낙」을 사용할 경우 「대검·고래 낙하」를 생성한다.",
         "levels": [
-          { "level": 1, "피해": "25%", "힘": "6%" },
-          { "level": 2, "피해": "30%", "힘": "7.2%" },
-          { "level": 3, "피해": "35%", "힘": "8.4%" },
-          { "level": 4, "피해": "40%", "힘": "9.6%" },
-          { "level": 5, "피해": "45%", "힘": "10.8%" },
-          { "level": 6, "피해": "50%", "힘": "12%" }
+          {
+            "level": 1,
+            "피해": "25%",
+            "힘": "6%"
+          },
+          {
+            "level": 2,
+            "피해": "30%",
+            "힘": "7.2%"
+          },
+          {
+            "level": 3,
+            "피해": "35%",
+            "힘": "8.4%"
+          },
+          {
+            "level": 4,
+            "피해": "40%",
+            "힘": "9.6%"
+          },
+          {
+            "level": 5,
+            "피해": "45%",
+            "힘": "10.8%"
+          },
+          {
+            "level": 6,
+            "피해": "50%",
+            "힘": "12%"
+          }
         ]
       },
       {
@@ -22884,12 +24371,30 @@
         },
         "effect": "기초 광기의 n%에 해당하는 광기를 획득한다. 영지 각성: 침식·로탄의 명령 카드 피해 횟수가 1 증가한다. 턴 시작 시 「대검·고래 낙하」가 손에 있을 경우, 이번 턴 첫 번째 「침멸」이 광기를 1 빼앗을 때마다 다음 「경계를 베는 검」의 최종 피해가 1% 증가한다. 최대 90%까지 중첩된다. 보존.",
         "levels": [
-          { "level": 1, "광기": "25%" },
-          { "level": 2, "광기": "30%" },
-          { "level": 3, "광기": "35%" },
-          { "level": 4, "광기": "40%" },
-          { "level": 5, "광기": "45%" },
-          { "level": 6, "광기": "50%" }
+          {
+            "level": 1,
+            "광기": "25%"
+          },
+          {
+            "level": 2,
+            "광기": "30%"
+          },
+          {
+            "level": 3,
+            "광기": "35%"
+          },
+          {
+            "level": 4,
+            "광기": "40%"
+          },
+          {
+            "level": 5,
+            "광기": "45%"
+          },
+          {
+            "level": 6,
+            "광기": "50%"
+          }
         ]
       },
       {
@@ -22901,12 +24406,36 @@
         },
         "effect": "손패의 「대검·고래 낙하」를 소모해야 발동할 수 있다. 가장 많은 피해를 입히는 적에게 반드시 크리티컬로 적중하는 공격력의 n%에 해당하는 피해를 입히고, m%의 추가 힘 계수를 적용받는다. 대상이 「대검·고래 낙하」의 효과로 자신에게 가하는 피해량이 1 증가할 때마다 이번 광기 폭발의 피해량이 75 증가한다.",
         "levels": [
-          { "level": 1, "피해": "400%", "추가 힘 계수": "1000%" },
-          { "level": 2, "피해": "480%", "추가 힘 계수": "1100%" },
-          { "level": 3, "피해": "560%", "추가 힘 계수": "1200%" },
-          { "level": 4, "피해": "640%", "추가 힘 계수": "1300%" },
-          { "level": 5, "피해": "720%", "추가 힘 계수": "1400%" },
-          { "level": 6, "피해": "800%", "추가 힘 계수": "1500%" }
+          {
+            "level": 1,
+            "피해": "400%",
+            "추가 힘 계수": "1000%"
+          },
+          {
+            "level": 2,
+            "피해": "480%",
+            "추가 힘 계수": "1100%"
+          },
+          {
+            "level": 3,
+            "피해": "560%",
+            "추가 힘 계수": "1200%"
+          },
+          {
+            "level": 4,
+            "피해": "640%",
+            "추가 힘 계수": "1300%"
+          },
+          {
+            "level": 5,
+            "피해": "720%",
+            "추가 힘 계수": "1400%"
+          },
+          {
+            "level": 6,
+            "피해": "800%",
+            "추가 힘 계수": "1500%"
+          }
         ],
         "breakthroughs": [
           {
@@ -22983,39 +24512,144 @@
       }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 침식 · 로탄",
+      "name": "차원 영상 · 침식·로탄",
       "characterName": "침식 · 로탄",
-      "effect": "턴 시작 시 침식·로탄이 15 점의 광기를 획득하고, 「경계를 끊는 검」은 다음 턴 시작 시 「저승의 인도」 추격을 해방: 모든 적에게 400% 침식·로탄 공격력의 피해를 입히며, 해당 피해는 이번 「경계를 끊는 검」이 「대검·고래 낙하」를 통해 획득한 데미지 보너스를 적용받고, 「타격」으로 간주합니다."
+      "effect": "턴 시작 시 침식·로탄이 광기를 15pt 획득한다. 「경계를 베는 검」은 다음 턴 시작 시 「저승의 인도」의 추격을 발동한다: 전체 적에게 침식·로탄 공격력의 400% 피해를 입히며, 해당 피해는 이번 「경계를 베는 검」이 「대검·고래 낙하」를 통해 획득한 피해 보너스를 적용받고, 「타격」으로 간주한다.",
+      "clientRelicId": 145438,
+      "clientAwakenerId": 145363,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C04EX.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   },
   "caraboo": {
     "skills": [
-      { "type": "명령", "name": "타격", "cost": { "type": "산출력", "value": 1 }, "effect": "피해를 22pt 입히고, 카라부가 광기를 10pt 획득한다." },
-      { "type": "명령", "name": "방어", "cost": { "type": "산출력", "value": 1 }, "effect": "방어막을 30pt 획득하고, 카라부가 광기를 10pt 획득한다." },
-      { "type": "명령", "name": "기적의 축복", "cost": { "type": "산출력", "value": 3 }, "effect": "방어막을 105pt 획득한다. 「대가」가 다른 「축복」 2장을 발견하고, 1장을 선택해 드로우 덱에 넣는다." },
-      { "type": "명령", "name": "흩날리는 눈의 저주", "cost": { "type": "산출력", "value": 2 }, "effect": "HP가 가장 높은 적에게 고정 피해를 10800pt 입히고, 2턴 허약을 부여한다." },
-      { "type": "영지 각성", "name": "유혹하는 달콤한 열매", "cost": { "type": "산출력", "value": 1 }, "effect": "카라부가 기초 광기의 50%를 획득한다. 「진홍빛 용광로」 사용 후, 다음 「기적의 축복」의 행동력 소모가 3 감소한다. 각 발견 옵션에 「축복」이 1장씩 추가로 포함되며, 1세트를 선택해 드로우 덱에 넣는다." },
-      { "type": "광기 폭발", "name": "짜잔☆요정님 등장!", "cost": { "type": "광기", "value": 150 }, "effect": "[포식: 「과식」을 획득하고, 피해를 입힐 때마다 대상에게 침식을 2592스택 적용시킨다.]\n손에 든 모든 카드의 연소 상태를 해제한다. 방어막을 135 획득하고, 전체 적에게 피해를 195pt씩 3회 입히며, 「과식」 스택 1당 광기 폭발 기본 피해량과 방어막 효과가 2% 증가한다. 모든 「봉헌」을 소모하고, 스택당 피해 횟수가 1 증가하며, 「과식」을 획득한다." }
+      {
+        "type": "명령",
+        "name": "타격",
+        "cost": {
+          "type": "산출력",
+          "value": 1
+        },
+        "effect": "피해를 22pt 입히고, 카라부가 광기를 10pt 획득한다."
+      },
+      {
+        "type": "명령",
+        "name": "방어",
+        "cost": {
+          "type": "산출력",
+          "value": 1
+        },
+        "effect": "방어막을 30pt 획득하고, 카라부가 광기를 10pt 획득한다."
+      },
+      {
+        "type": "명령",
+        "name": "기적의 축복",
+        "cost": {
+          "type": "산출력",
+          "value": 3
+        },
+        "effect": "방어막을 105pt 획득한다. 「대가」가 다른 「축복」 2장을 발견하고, 1장을 선택해 드로우 덱에 넣는다."
+      },
+      {
+        "type": "명령",
+        "name": "흩날리는 눈의 저주",
+        "cost": {
+          "type": "산출력",
+          "value": 2
+        },
+        "effect": "HP가 가장 높은 적에게 고정 피해를 10800pt 입히고, 2턴 허약을 부여한다."
+      },
+      {
+        "type": "영지 각성",
+        "name": "유혹하는 달콤한 열매",
+        "cost": {
+          "type": "산출력",
+          "value": 1
+        },
+        "effect": "카라부가 기초 광기의 50%를 획득한다. 「진홍빛 용광로」 사용 후, 다음 「기적의 축복」의 행동력 소모가 3 감소한다. 각 발견 옵션에 「축복」이 1장씩 추가로 포함되며, 1세트를 선택해 드로우 덱에 넣는다."
+      },
+      {
+        "type": "광기 폭발",
+        "name": "짜잔☆요정님 등장!",
+        "cost": {
+          "type": "광기",
+          "value": 150
+        },
+        "effect": "[포식: 「과식」을 획득하고, 피해를 입힐 때마다 대상에게 침식을 2592스택 적용시킨다.]\n손에 든 모든 카드의 연소 상태를 해제한다. 방어막을 135 획득하고, 전체 적에게 피해를 195pt씩 3회 입히며, 「과식」 스택 1당 광기 폭발 기본 피해량과 방어막 효과가 2% 증가한다. 모든 「봉헌」을 소모하고, 스택당 피해 횟수가 1 증가하며, 「과식」을 획득한다."
+      }
     ],
     "derivedCards": [
-      { "type": "버프", "name": "축복", "plainKeywords": ["축복"], "effect": "「대가」가 있는 「선물」 1개와 「봉헌」 1스택을 획득한다. 보유. 예비. 소모.\n「축복」은 총 3종(「바로 내려지는 축복」, 「호화로운 축복」, 「따뜻한 축복」)으로 구성된다.\n「바로 내려지는 축복」: 「놓쳐진 기회」가 발동되지 않는다.\n「호화로운 축복」: 「허풍」이 발동되지 않는다.\n「따뜻한 축복」: 「은폐된 살의」가 발동되지 않는다." }
+      {
+        "type": "버프",
+        "name": "축복",
+        "plainKeywords": [
+          "축복"
+        ],
+        "effect": "「대가」가 있는 「선물」 1개와 「봉헌」 1스택을 획득한다. 보유. 예비. 소모.\n「축복」은 총 3종(「바로 내려지는 축복」, 「호화로운 축복」, 「따뜻한 축복」)으로 구성된다.\n「바로 내려지는 축복」: 「놓쳐진 기회」가 발동되지 않는다.\n「호화로운 축복」: 「허풍」이 발동되지 않는다.\n「따뜻한 축복」: 「은폐된 살의」가 발동되지 않는다."
+      }
     ],
     "enlighten": [
-      { "name": "은밀한 신앙", "effect": "흩날리는 눈의 저주가 입히는 고정 피해가 30% 증가하며, 광기를 10pt 획득한다.\n카라부 각성체 본체, 명륜, 비밀계약이 보유한 영역 숙련도 1당 흩날리는 눈의 저주가 입히는 고정 피해가 0.15% 증가하고, 획득하는 광기가 0.05pt 증가한다." },
-      { "name": "7번의 예배", "effect": "카라부가 「타격」 또는 「방어」를 7번째마다 사용할 시, 「봉헌」 1스택을 획득하고, 「대가」가 다른 「축복」 2장을 발견하여 1장을 선택해 손에 넣는다." },
-      { "name": "3번의 서약", "effect": "카라부의 광기 폭발 피해 횟수가 2 증가한다. 「과식」 스택당 제공하는 HP 상한 증가 효과가 50% 증가하며, 광기 폭발 기본 피해량과 방어막 증가 효과가 50% 증가한다." },
-      { "type": "초월 폭발", "name": "흠 없는 동화", "cost": { "type": "광기", "value": 300 }, "effect": "「선물」이 다른 「축복」 2세트(각 세트는 2장으로 구성)를 발견하며, 1세트를 선택해 손에 넣는다. 모든 적의 힘을 14pt 감소시킨다." },
-      { "type": "최종 법칙", "name": "중첩의 초승달", "effect": "영지 각성 「유혹하는 달콤한 열매」가 강화된다. 진홍빛 용광로 사용 후, 다음 「기적의 축복」 발견 효과의 각 세트마다 「축복」이 1장씩 추가로 포함된다. 「축복」 사용 시 배아 융합이 10 증가하고, 이는 현재 HP가 낮을수록 효과가 증가하며, 최대 100%까지 증가한다." }
+      {
+        "name": "은밀한 신앙",
+        "effect": "흩날리는 눈의 저주가 입히는 고정 피해가 30% 증가하며, 광기를 10pt 획득한다.\n카라부 각성체 본체, 명륜, 비밀계약이 보유한 영역 숙련도 1당 흩날리는 눈의 저주가 입히는 고정 피해가 0.15% 증가하고, 획득하는 광기가 0.05pt 증가한다."
+      },
+      {
+        "name": "7번의 예배",
+        "effect": "카라부가 「타격」 또는 「방어」를 7번째마다 사용할 시, 「봉헌」 1스택을 획득하고, 「대가」가 다른 「축복」 2장을 발견하여 1장을 선택해 손에 넣는다."
+      },
+      {
+        "name": "3번의 서약",
+        "effect": "카라부의 광기 폭발 피해 횟수가 2 증가한다. 「과식」 스택당 제공하는 HP 상한 증가 효과가 50% 증가하며, 광기 폭발 기본 피해량과 방어막 증가 효과가 50% 증가한다."
+      },
+      {
+        "type": "초월 폭발",
+        "name": "흠 없는 동화",
+        "cost": {
+          "type": "광기",
+          "value": 300
+        },
+        "effect": "「선물」이 다른 「축복」 2세트(각 세트는 2장으로 구성)를 발견하며, 1세트를 선택해 손에 넣는다. 모든 적의 힘을 14pt 감소시킨다."
+      },
+      {
+        "type": "최종 법칙",
+        "name": "중첩의 초승달",
+        "effect": "영지 각성 「유혹하는 달콤한 열매」가 강화된다. 진홍빛 용광로 사용 후, 다음 「기적의 축복」 발견 효과의 각 세트마다 「축복」이 1장씩 추가로 포함된다. 「축복」 사용 시 배아 융합이 10 증가하고, 이는 현재 HP가 낮을수록 효과가 증가하며, 최대 100%까지 증가한다."
+      }
     ],
     "traits": [
-      { "name": "번식 정토", "effect": "카라부가 파티에 있을 시, 혈육 영역이 [번식 · 혈육] 영역으로 조정된다." },
-      { "name": "광기의 징조", "effect": "탐색 시작 후, 5 ~ 60 광기를 획득한다.", "level_range": "Lv. 1 ~ 12" },
-      { "name": "영혼 단련", "effect": "이 특성은 [성신편] 스테이지에서만 유효하다.\n이 각성체의 체력, 공격, 방어가 3 ~ 30% 증가하고, 이 각성체가 처음으로 영지 각성을 사용한 후 50 ~ 500 은열쇠 에너지를 획득한다.\n광기 폭발의 치명타 확률과 치명타 피해량이 50% 증가한다.\n「과식」이 제공하는 최대 HP가 100% 증가한다.\n「빙역」지형에서 「흩날리는 눈의 저주」의 행동력 소모가 1 감소하고, 피해 횟수가 1 증가하며, 피해와 허약 효과가 전체 적에게 적용된다.", "level_range": "Lv. 1 ~ 10" }
+      {
+        "name": "번식 정토",
+        "effect": "카라부가 파티에 있을 시, 혈육 영역이 [번식 · 혈육] 영역으로 조정된다."
+      },
+      {
+        "name": "광기의 징조",
+        "effect": "탐색 시작 후, 5 ~ 60 광기를 획득한다.",
+        "level_range": "Lv. 1 ~ 12"
+      },
+      {
+        "name": "영혼 단련",
+        "effect": "이 특성은 [성신편] 스테이지에서만 유효하다.\n이 각성체의 체력, 공격, 방어가 3 ~ 30% 증가하고, 이 각성체가 처음으로 영지 각성을 사용한 후 50 ~ 500 은열쇠 에너지를 획득한다.\n광기 폭발의 치명타 확률과 치명타 피해량이 50% 증가한다.\n「과식」이 제공하는 최대 HP가 100% 증가한다.\n「빙역」지형에서 「흩날리는 눈의 저주」의 행동력 소모가 1 감소하고, 피해 횟수가 1 증가하며, 피해와 허약 효과가 전체 적에게 적용된다.",
+        "level_range": "Lv. 1 ~ 10"
+      }
     ],
     "dimensionalImage": {
-      "name": "차원 영상: 카라부",
+      "name": "차원 영상·카라부",
       "characterName": "카라부",
-      "effect": "턴 시작 시 카라부가 15 광기를 획득합니다. 카라부가 발견 「축복」을 할 때마다 추가 선택지 1개가 나타나며, 광기 폭발은 동일한 양의 피해에 해당하는 침식을 가합니다."
+      "effect": "턴 시작 시 카라부가 15 광기를 획득합니다. 카라부가 발견 「축복」을 할 때마다 추가 선택지 1개가 나타나며, 광기 폭발은 동일한 양의 피해에 해당하는 침식을 가합니다.",
+      "clientRelicId": 84113,
+      "clientAwakenerId": 77921,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B11.png",
+      "researchDependencies": {
+        "material": false,
+        "spirit": false,
+        "vitalIndirect": false,
+        "formulas": []
+      }
     }
   }
 }

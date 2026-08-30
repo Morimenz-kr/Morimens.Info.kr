@@ -7,15 +7,18 @@ const ROOT_FILES = Object.freeze([
   '.nojekyll',
   'covenant_simulator.html',
   'detail.html',
+  'dzone_info.html',
   'index.html',
   'inventory_checker.html',
   'links.html',
   'list.html',
   'party_builder.html',
   'payment_efficiency.html',
+  'relic_info.html',
   'rerun_schedule.html'
 ]);
 const SITE_DIRECTORIES = Object.freeze(['config', 'css', 'data', 'images', 'js']);
+const DEPLOY_EXCLUDED_EXTENSIONS = new Set(['.zip', '.7z', '.rar']);
 
 function getArgument(name, fallback = null) {
   const index = process.argv.indexOf(name);
@@ -63,7 +66,10 @@ export async function preparePagesArtifact(options = {}) {
       await fs.cp(
         path.join(rootDirectory, directory),
         path.join(tempDirectory, directory),
-        { recursive: true }
+        {
+          recursive: true,
+          filter: source => !DEPLOY_EXCLUDED_EXTENSIONS.has(path.extname(source).toLowerCase())
+        }
       );
     }
 

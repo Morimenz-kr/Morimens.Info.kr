@@ -16,6 +16,10 @@
     box-shadow: var(--shadow-md);
 }
 
+.info-shell--dark {
+    background: #1e1e24;
+}
+
 .info-header {
     display: flex;
     align-items: flex-end;

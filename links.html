@@ -15,9 +15,9 @@
     <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
 
     <script>window.GA_DEFER_PAGE_VIEW = true;</script>
-    <script src="config/config.js?v=links-copy-20260811"></script>
+    <script src="config/config.js?v=design-system-20260831-10"></script>
     <script>
-        CONFIG.VERSION = 'v1.3.34';
+        CONFIG.VERSION = 'v1.3.36-dictionary-dialog';
         loadCSS('css/common.css');
         loadCSS('css/components.css');
         loadCSS('css/pages/links.css');
@@ -25,6 +25,7 @@
         loadCSS('css/responsive.css');
         loadJS('js/search_utils.js');
         loadJS('js/feedback.js');
+        loadJS('js/research-depth.js');
         loadJS('js/character-effects.js');
     </script>
 </head>
@@ -64,6 +65,21 @@
         </div>
     </div>
 </div>
+
+<dialog id="dictionary-detail-dialog" class="dictionary-detail-dialog" aria-labelledby="dictionary-dialog-title" tabindex="-1">
+    <div class="dictionary-dialog-frame">
+        <button id="dictionary-dialog-close" class="dictionary-dialog-close" type="button" aria-label="상세 정보 닫기">&times;</button>
+        <header class="dictionary-dialog-header">
+            <div id="dictionary-dialog-image" class="dictionary-dialog-image" aria-hidden="true"></div>
+            <div class="dictionary-dialog-heading">
+                <p id="dictionary-dialog-eyebrow" class="dictionary-dialog-eyebrow">도감 상세 정보</p>
+                <h2 id="dictionary-dialog-title"></h2>
+                <p id="dictionary-dialog-meta" class="dictionary-dialog-meta"></p>
+            </div>
+        </header>
+        <div id="dictionary-dialog-content" class="dictionary-dialog-scroll"></div>
+    </div>
+</dialog>
 
 
 <div id="substitute-modal" class="modal-overlay">

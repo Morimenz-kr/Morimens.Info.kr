@@ -1,0 +1,263 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const test = require('node:test');
+
+const source = fs.readFileSync(path.join(__dirname, 'dzone-info.js'), 'utf8');
+const html = fs.readFileSync(path.join(__dirname, '..', 'dzone_info.html'), 'utf8');
+const css = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'dzone-info.css'), 'utf8');
+const linksSource = fs.readFileSync(path.join(__dirname, 'links.js'), 'utf8');
+const linksCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'links.css'), 'utf8');
+const infoToolsCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'info_tools.css'), 'utf8');
+const rerunHtml = fs.readFileSync(path.join(__dirname, '..', 'rerun_schedule.html'), 'utf8');
+const landingHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
+const dzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
+const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
+
+test('융재금구 화면은 사용자용 제목과 초기 유물 용어를 사용한다', () => {
+    assert.match(html, /진행 중인 융재금구 정보/);
+    assert.match(source, /초기 유물/);
+    assert.doesNotMatch(source, /융재금구 제\$\{data\.period\}기/);
+});
+
+test('68기는 원본 스테이지 그룹과 네 가지 난이도를 사용한다', () => {
+    assert.equal(dzoneData.period, 68);
+    assert.deepEqual(dzoneData.waves.map(wave => wave.stageGroupId), [83389, 83391, 83390, 83393, 83392]);
+    for (const wave of dzoneData.waves) {
+        assert.deepEqual(wave.alerts.map(alert => alert.difficultyLabel), ['일반', '어려움', '악몽', '광기']);
+        assert.equal(wave.alerts.length, 4);
+    }
+    assert.match(source, /const difficulties = data\.waves\[0\]\?\.alerts \|\| \[\]/);
+    assert.doesNotMatch(source, /\[1, 2, 3, 4, 5\]\.map/);
+});
+
+test('68기 다중 체력 보스와 몬스터 초상은 추출 결과대로 제공한다', () => {
+    const wave4Madness = dzoneData.waves.find(wave => wave.wave === 4).alerts.find(alert => alert.difficulty === 'madness');
+    const deepSeaLady = wave4Madness.monsters.find(monster => monster.tid === 118029);
+    assert.deepEqual(deepSeaLady.phases.map(phase => phase.hp), [7959281, 7959281]);
+    assert.equal(deepSeaLady.effectiveHp, 15918562);
+
+    const definitions = dzoneData.waves.flatMap(wave => [...wave.monsters, ...(wave.summonDefinitions || [])]);
+    for (const monster of definitions) {
+        assert.ok(fs.existsSync(path.join(__dirname, '..', monster.webImage)), `초상 누락: ${monster.tid} ${monster.webImage}`);
+    }
+});
+
+test('융재금구는 금기 학식 등급만 받고 정확한 연구 깊이는 노출하지 않는다', () => {
+    assert.match(html, /id="dzone-research-level"/);
+    assert.doesNotMatch(html, /dzone-depth-summary/);
+    assert.doesNotMatch(source, /formatDepth\(/);
+    assert.doesNotMatch(source, /연구 깊이에 따라 결정되는 수치/);
+});
+
+test('융재금구 진입점과 헤더·초기 유물은 평면 톤으로 통일한다', () => {
+    const bannerMarkup = linksSource.match(/<a href="dzone_info\.html" class="dzone-info-banner">([\s\S]*?)<\/a>/)?.[0] || '';
+    assert.match(bannerMarkup, /<strong>이번 융재금구 데이터<\/strong>/);
+    assert.doesNotMatch(bannerMarkup, /현재 시즌 데이터|융재금구 전투 정보 한눈에 보기|몬스터 실제 HP|정보 열기/);
+    const bannerBlock = linksCss.match(/\.dzone-info-banner\s*\{([\s\S]*?)\}/)?.[1] || '';
+    const rootBlock = css.match(/:root\s*\{([\s\S]*?)\}/)?.[1] || '';
+    const relicBlock = css.match(/\.wave-relics\s*\{([\s\S]*?)\}/)?.[1] || '';
+    assert.doesNotMatch(bannerBlock, /gradient/);
+    assert.doesNotMatch(relicBlock, /gradient/);
+    assert.match(bannerBlock, /background:\s*#25262a/);
+    assert.match(html, /class="info-shell info-shell--dark dzone-shell"/);
+    assert.match(html, /class="info-header dzone-hero"/);
+    assert.match(rootBlock, /--dzone-panel:\s*#24242a/);
+    assert.match(relicBlock, /background:\s*var\(--dzone-panel\)/);
+});
+
+test('소환 개체는 상세 정보에 남기되 주요 기믹에서는 제외한다', () => {
+    const mechanicDefinitions = source.match(/const MECHANIC_DEFINITIONS = Object\.freeze\(\[([\s\S]*?)\]\);/)?.[1] || '';
+    const waveMechanicsBlock = source.match(/function waveMechanics\(wave\) \{([\s\S]*?)\n    \}/)?.[1] || '';
+    assert.doesNotMatch(mechanicDefinitions, /label:\s*'소환'/);
+    assert.doesNotMatch(waveMechanicsBlock, /mechanics\.push\('소환'\)/);
+    assert.match(source, /aria-label="소환 개체"/);
+});
+
+test('HP와 상성 각성체 영역은 몬스터 카드와 같은 배경을 사용한다', () => {
+    const statBlock = css.match(/\.monster-stat\s*\{([\s\S]*?)\}/)?.[1] || '';
+    const hpBlock = css.match(/\.hp-breakdown\s*\{([\s\S]*?)\}/)?.[1] || '';
+    const statLabelBlock = css.match(/\.monster-stat dt\s*\{([\s\S]*?)\}/)?.[1] || '';
+    const affinityLabelBlock = css.match(/\.monster-stat--affinity > h5\s*\{([\s\S]*?)\}/)?.[1] || '';
+    assert.match(statBlock, /background:\s*transparent/);
+    assert.match(hpBlock, /background:\s*transparent/);
+    assert.match(statLabelBlock, /color:\s*#f1f1f2/);
+    assert.match(statLabelBlock, /font-size:\s*0\.84rem/);
+    assert.match(affinityLabelBlock, /color:\s*#f1f1f2/);
+    assert.match(affinityLabelBlock, /font-size:\s*0\.84rem/);
+});
+
+test('본문 툴팁은 문장 기준선을 유지한다', () => {
+    const tooltipBlock = css.match(/\.action-copy p \.tooltip-trigger,([\s\S]*?)\}/)?.[1] || '';
+    assert.match(tooltipBlock, /align-items:\s*baseline/);
+    assert.match(tooltipBlock, /min-height:\s*0/);
+    assert.match(tooltipBlock, /line-height:\s*inherit/);
+});
+
+test('융재금구 페이지는 공통 뒤로가기와 신고 버튼을 제공한다', () => {
+    assert.match(html, /href="index\.html" class="back-link">⬅ 뒤로가기<\/a>/);
+    assert.match(html, /class="floating-report-btn"/);
+    assert.match(html, /loadJS\('js\/feedback\.js'\)/);
+    assert.match(css, /\.dzone-page-shell \.back-link\s*\{[\s\S]*?min-height:\s*44px/);
+});
+
+test('행동과 부가 정보는 상성 각성체의 안쪽 기준선에 맞춘다', () => {
+    const flowBlock = css.match(/\.combat-flow\s*\{([\s\S]*?)\}/)?.[1] || '';
+    const conditionalBlock = css.match(/\.conditional-actions\s*\{([\s\S]*?)\}/)?.[1] || '';
+    assert.match(flowBlock, /margin:\s*1rem var\(--monster-content-inset\) 0/);
+    assert.match(conditionalBlock, /margin:\s*0\.8rem var\(--monster-content-inset\) 0/);
+});
+
+test('파 제목과 기믹 뱃지는 같은 중심선에 놓고 전투 패널 밝기를 통일한다', () => {
+    const toolbarBlock = css.match(/\.dzone-toolbar\s*\{([\s\S]*?)\}/)?.[1] || '';
+    const rootBlock = css.match(/:root\s*\{([\s\S]*?)\}/)?.[1] || '';
+    const monsterCardBlock = css.match(/\.monster-card\s*\{([\s\S]*?)\}/)?.[1] || '';
+    const encounterHeaderBlock = css.match(/\.encounter-header\s*\{([\s\S]*?)\}/)?.[1] || '';
+    assert.match(css, /\.info-shell \.wave-title\s*\{\s*margin:\s*0;/);
+    assert.match(toolbarBlock, /margin:\s*0 0 0\.75rem/);
+    assert.match(rootBlock, /--dzone-panel:\s*#24242a/);
+    assert.match(rootBlock, /--dzone-combat-panel:\s*#2a2a32/);
+    assert.match(rootBlock, /--dzone-combat-header:\s*#25262a/);
+    assert.match(monsterCardBlock, /background:\s*var\(--dzone-combat-panel\)/);
+    assert.match(encounterHeaderBlock, /background:\s*var\(--dzone-combat-header\)/);
+});
+
+test('융재금구와 복각 일정은 은열쇠 정보와 같은 어두운 외곽 패널을 사용한다', () => {
+    assert.match(html, /class="info-shell info-shell--dark dzone-shell"/);
+    assert.match(rerunHtml, /class="info-shell info-shell--dark"/);
+    assert.match(infoToolsCss, /\.info-shell--dark\s*\{[\s\S]*?background:\s*#1e1e24/);
+});
+
+test('융재금구 전투 정보는 도서관과 진행 중인 팁에서 모두 접근할 수 있다', () => {
+    const librarySection = landingHtml.match(/<section class="menu-section menu-section-library"([\s\S]*?)<\/section>/)?.[0] || '';
+    assert.match(librarySection, /href="dzone_info\.html"/);
+    assert.match(librarySection, /융재금구 전투 정보/);
+    assert.match(linksSource, /href="dzone_info\.html" class="dzone-info-banner"/);
+});
+
+test('문맥상 일반어인 희생·기절·보유는 툴팁에서 제외한다', () => {
+    assert.match(source, /자신을 희생하여/);
+    assert.match(source, /「기절」/);
+    assert.match(source, /보유하고/);
+});
+
+test('다중 체력과 조건부 행동은 별도 라운드 박스를 사용하지 않는다', () => {
+    assert.match(source, /<h5>HP <span>/);
+    assert.doesNotMatch(source, /체력 단계/);
+    assert.doesNotMatch(css, /\.flow-phase--awakened/);
+    assert.match(css, /\.conditional-actions[\s\S]*border-top:/);
+});
+
+test('몬스터 카드는 화면 너비와 관계없이 한 행에 하나만 배치한다', () => {
+    assert.match(css, /\.monster-list\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+    assert.doesNotMatch(css, /\.monster-list\s*\{[^}]*repeat\(/);
+});
+
+test('현재 시즌에 존재하는 기믹만 바로가기 뱃지로 제공한다', () => {
+    assert.match(html, /id="dzone-mechanic-chips"/);
+    assert.match(html, /이번 융재 기믹/);
+    assert.doesNotMatch(html, /기믹 검색|type="search"|data-search-keyword/);
+    assert.match(source, /MECHANIC_DEFINITIONS/);
+    assert.match(source, /waveMechanics/);
+    assert.match(source, /renderMechanicNavigation/);
+    assert.match(source, /data-mechanic/);
+    assert.match(source, /mechanicMatches/);
+    assert.match(source, /scrollIntoView/);
+    assert.match(source, /aria-pressed/);
+    assert.doesNotMatch(source, /renderSearchResults|searchQuery|data-search-wave/);
+});
+
+test('카드류와 다중 체력·부활은 기믹 뱃지에서 제외하고 본문 툴팁으로 안내한다', () => {
+    const mechanicBlock = source.match(/const MECHANIC_DEFINITIONS = Object\.freeze\(\[([\s\S]*?)\]\);/)?.[1] || '';
+    assert.doesNotMatch(mechanicBlock, /증상 카드|상처|비틀거림|질식|다이얼 폭탄|다중 체력|부활/);
+    assert.doesNotMatch(source, /mechanics\.push\('다중 체력'\)|mechanics\.push\('부활'\)/);
+    assert.match(source, /const DZONE_CARD_TOOLTIPS/);
+    assert.match(source, /'「상처」': '상태 카드 \| 상처/);
+    assert.match(source, /'「비틀거림」': '상태 카드 \| 비틀거림/);
+    assert.match(source, /'「질식」': '상태 카드 \| 질식/);
+    assert.match(source, /'「다이얼 폭탄」': '상태 카드 \| 다이얼 폭탄/);
+    assert.match(source, /'증상: 쇠약': '증상 카드 \| 쇠약/);
+    assert.match(source, /Object\.assign\(tooltips, DZONE_CARD_TOOLTIPS\)/);
+    assert.match(css, /\.action-copy p \.tooltip-trigger[\s\S]*display:\s*inline-flex/);
+});
+
+test('다중 체력 몬스터는 체력바 개수와 정확한 수치를 보여준다', () => {
+    assert.match(source, /HP \$\{stats\.phases\.length\}줄/);
+    assert.match(source, /hp-phase-map/);
+    assert.match(source, /--hp-phase-size: \$\{phase\.hp\}/);
+    assert.match(css, /\.hp-phase-segment \+ \.hp-phase-segment\s*\{[^}]*border-left:/);
+    assert.match(source, /실질 총 HP/);
+    assert.doesNotMatch(source, /부활 후 \$\{index \+ 1\}번째 체력바/);
+});
+
+test('전투 선택 UI는 중복되는 표시 문구와 시각적 그룹 라벨을 숨긴다', () => {
+    assert.match(html, /<h2 id="filter-heading">전투 선택<\/h2>/);
+    assert.doesNotMatch(html, /보고 싶은 전투 선택|표시하고 있습니다/);
+    assert.match(html, /<legend class="dzone-visually-hidden">파 선택<\/legend>/);
+    assert.match(html, /<legend class="dzone-visually-hidden">난이도 선택<\/legend>/);
+    assert.match(html, /id="selection-status" class="dzone-visually-hidden"/);
+});
+
+test('몬스터 분류는 이름 옆에, 상성 각성체는 HP 아래 상세 카드로 보여준다', () => {
+    assert.match(source, /84297: \{ label: '각성체'/);
+    assert.match(source, /90645: \{ label: '인간형'/);
+    assert.match(source, /94556: \{ label: '망령'/);
+    assert.match(source, /monster-heading-tags/);
+    assert.match(source, /상성 각성체/);
+    assert.match(source, /affinity-awakener-effect/);
+    assert.match(source, /\$\{tag\.label\}에 추가 효과/);
+    assert.match(source, /name: '파인트'/);
+    assert.doesNotMatch(source, /name: '페인트'/);
+    assert.match(source, /images\/Lily-thumb\.png/);
+    assert.match(source, /links\.html\?category=character/);
+    assert.match(css, /\.monster-overview\s*\{/);
+    assert.match(css, /\.affinity-awakener\s*\{/);
+    assert.match(css, /\.monster-overview\s*\{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+    assert.doesNotMatch(css, /\.monster-overview\s*\{[^}]*repeat\(2/);
+    assert.match(css, /\.affinity-awakener-list\s*\{[^}]*auto-fit/);
+    assert.doesNotMatch(css, /#4d5c51|#242d27|#2b382f|#a8d2b1|#d8efde|#b8ddc1/);
+    assert.match(source, /if \(!counters\.length\) return '';/);
+    assert.doesNotMatch(source, /인게임 분류/);
+});
+
+test('번식 혈육을 활성화하는 사야와 카라부는 껍데기 적의 상성 각성체로 표시한다', () => {
+    assert.match(source, /90640: \{ label: '껍데기', counters:/);
+    assert.match(source, /id: 'saya'[\s\S]*'핏빛 침식'이 5배/);
+    assert.match(source, /id: 'caraboo'[\s\S]*'핏빛 침식'이 5배/);
+    assert.match(source, /84303: \{ label: '혈육', counters:[\s\S]*id: 'saya'/);
+});
+
+test('현재 융재의 상태 기믹은 전체 각성체 데이터에서 확인한 해제기와 연결한다', () => {
+    const allMonsters = dzoneData.waves.flatMap(wave => [...wave.monsters, ...(wave.summonDefinitions || [])]);
+    const mechanicText = tid => {
+        const monster = allMonsters.find(entry => entry.tid === tid);
+        return JSON.stringify([monster?.states, monster?.skills]);
+    };
+    assert.match(mechanicText(149116), /둔화/);
+    assert.match(mechanicText(149109), /허약/);
+    assert.match(mechanicText(118029), /취약/);
+    assert.match(mechanicText(149069), /봉인/);
+    assert.match(mechanicText(149070), /손상/);
+
+    assert.match(characterEffects.vortice.skills.find(skill => skill.name === '심연! 소용돌이! 대포!').effect, /모든 카드의 연소 상태를 해제/);
+    assert.match(characterEffects.caraboo.skills.find(skill => skill.name === '짜잔☆요정님 등장!').effect, /모든 카드의 연소 상태를 해제/);
+    assert.match(characterEffects['kathigu-ra'].traits.find(trait => trait.name === '영혼 단련').effect, /손패의 모든 \[연소\] 상태를 제거/);
+    assert.match(characterEffects.arachne.skills.find(skill => skill.name === '운명, 이로써 고하노라').effect, /모든 손패의 둔화 상태를 제거/);
+    assert.match(characterEffects.karen.skills.find(skill => skill.name === '손님, 천천히 드세요!').effect, /손패의 모든 둔화 상태를 제거/);
+    assert.match(characterEffects.celeste.skills.find(skill => skill.name === '순백의 꿈').effect, /손패의 둔화 상태를 제거/);
+    assert.match(characterEffects.alva.skills.find(skill => skill.name === '임전 태세').effect, /모든 각성체의 봉인 상태를 해제/);
+    assert.match(characterEffects.sanga.skills.find(skill => skill.name === '폐쇄적 창작').effect, /자신의 손상 상태를 해제/);
+    assert.match(characterEffects.tinct.skills.find(skill => skill.name === '진혼곡').effect, /자신의 손상, 허약, 취약 상태를 해제/);
+    assert.match(characterEffects.helot.skills.find(skill => skill.name === '절망 속의 생존').effect, /자신의 허약 과 임시 힘 감소 상태를 해제/);
+    assert.match(characterEffects.faros.skills.find(skill => skill.name === '잃어버린 고대의 도시').effect, /자신의 취약 상태를 해제/);
+
+    assert.match(source, /손상: \['sanga', 'faint', 'winkle', 'erica', 'tinct', 'ogier'\]/);
+    assert.match(source, /허약: \['caecus', 'tulu', 'helot', 'erica', 'tinct', 'lotan'\]/);
+    assert.match(source, /취약: \['faros', 'leigh', 'tinct', 'doll'\]/);
+    assert.match(source, /둔화: \['arachne', 'karen', 'celeste'\]/);
+    assert.match(source, /연소: \['vortice', 'kathigu-ra', 'caraboo'\]/);
+    assert.match(source, /118029: \['허약', '취약'\]/);
+    assert.match(source, /149116: \['손상', '둔화'\]/);
+    assert.match(source, /149069: \['봉인', '허약'\]/);
+    assert.match(source, /existing\.note = \[\.\.\.new Set/);
+});

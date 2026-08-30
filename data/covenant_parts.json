@@ -1,0 +1,1298 @@
+[
+  {
+    "suitId": 18335,
+    "name": "4월의 찬가",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9836,
+        "name": "4월의 찬가 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_1.png",
+        "imagePath": "images/covenant-parts/18335/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9723,
+        "name": "4월의 찬가 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_2.png",
+        "imagePath": "images/covenant-parts/18335/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9520,
+        "name": "4월의 찬가 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_3.png",
+        "imagePath": "images/covenant-parts/18335/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9652,
+        "name": "4월의 찬가 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_4.png",
+        "imagePath": "images/covenant-parts/18335/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9645,
+        "name": "4월의 찬가 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_5.png",
+        "imagePath": "images/covenant-parts/18335/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9868,
+        "name": "4월의 찬가 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_6.png",
+        "imagePath": "images/covenant-parts/18335/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18336,
+    "name": "환형의 시편",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9961,
+        "name": "환형의 시편 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_1.png",
+        "imagePath": "images/covenant-parts/18336/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 10091,
+        "name": "환형의 시편 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_2.png",
+        "imagePath": "images/covenant-parts/18336/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9747,
+        "name": "환형의 시편 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_3.png",
+        "imagePath": "images/covenant-parts/18336/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9990,
+        "name": "환형의 시편 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_4.png",
+        "imagePath": "images/covenant-parts/18336/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9507,
+        "name": "환형의 시편 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_5.png",
+        "imagePath": "images/covenant-parts/18336/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9564,
+        "name": "환형의 시편 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_6.png",
+        "imagePath": "images/covenant-parts/18336/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18337,
+    "name": "바다에서 돌아오는 길",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9640,
+        "name": "바다에서 돌아오는 길 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_1.png",
+        "imagePath": "images/covenant-parts/18337/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9922,
+        "name": "바다에서 돌아오는 길 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_2.png",
+        "imagePath": "images/covenant-parts/18337/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9931,
+        "name": "바다에서 돌아오는 길 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_3.png",
+        "imagePath": "images/covenant-parts/18337/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9831,
+        "name": "바다에서 돌아오는 길 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_4.png",
+        "imagePath": "images/covenant-parts/18337/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9587,
+        "name": "바다에서 돌아오는 길 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_5.png",
+        "imagePath": "images/covenant-parts/18337/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9996,
+        "name": "바다에서 돌아오는 길 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_6.png",
+        "imagePath": "images/covenant-parts/18337/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18338,
+    "name": "저주받은 토끼",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9682,
+        "name": "저주받은 토끼 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_1.png",
+        "imagePath": "images/covenant-parts/18338/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9978,
+        "name": "저주받은 토끼 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_2.png",
+        "imagePath": "images/covenant-parts/18338/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9891,
+        "name": "저주받은 토끼 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_3.png",
+        "imagePath": "images/covenant-parts/18338/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9582,
+        "name": "저주받은 토끼 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_4.png",
+        "imagePath": "images/covenant-parts/18338/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 10016,
+        "name": "저주받은 토끼 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_5.png",
+        "imagePath": "images/covenant-parts/18338/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9706,
+        "name": "저주받은 토끼 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_6.png",
+        "imagePath": "images/covenant-parts/18338/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18339,
+    "name": "이율배반",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9742,
+        "name": "이율배반 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_1.png",
+        "imagePath": "images/covenant-parts/18339/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9705,
+        "name": "이율배반 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_2.png",
+        "imagePath": "images/covenant-parts/18339/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9759,
+        "name": "이율배반 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_3.png",
+        "imagePath": "images/covenant-parts/18339/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9942,
+        "name": "이율배반 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_4.png",
+        "imagePath": "images/covenant-parts/18339/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9994,
+        "name": "이율배반 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_5.png",
+        "imagePath": "images/covenant-parts/18339/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9752,
+        "name": "이율배반 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_6.png",
+        "imagePath": "images/covenant-parts/18339/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18340,
+    "name": "유기 형태",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9634,
+        "name": "유기 형태 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_1.png",
+        "imagePath": "images/covenant-parts/18340/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9517,
+        "name": "유기 형태 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_2.png",
+        "imagePath": "images/covenant-parts/18340/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9860,
+        "name": "유기 형태 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_3.png",
+        "imagePath": "images/covenant-parts/18340/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9871,
+        "name": "유기 형태 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_4.png",
+        "imagePath": "images/covenant-parts/18340/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9853,
+        "name": "유기 형태 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_5.png",
+        "imagePath": "images/covenant-parts/18340/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9626,
+        "name": "유기 형태 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_6.png",
+        "imagePath": "images/covenant-parts/18340/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18341,
+    "name": "진홍빛 심동",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 10103,
+        "name": "진홍빛 심동 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_1.png",
+        "imagePath": "images/covenant-parts/18341/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 10115,
+        "name": "진홍빛 심동 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_2.png",
+        "imagePath": "images/covenant-parts/18341/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9655,
+        "name": "진홍빛 심동 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_3.png",
+        "imagePath": "images/covenant-parts/18341/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9554,
+        "name": "진홍빛 심동 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_4.png",
+        "imagePath": "images/covenant-parts/18341/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 10102,
+        "name": "진홍빛 심동 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_5.png",
+        "imagePath": "images/covenant-parts/18341/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9627,
+        "name": "진홍빛 심동 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_6.png",
+        "imagePath": "images/covenant-parts/18341/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18342,
+    "name": "표준 밀체 SSR",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9552,
+        "name": "표준 밀체 SSR",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_1.png",
+        "imagePath": "images/covenant-parts/18342/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9882,
+        "name": "표준 밀체 SSR",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_2.png",
+        "imagePath": "images/covenant-parts/18342/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9948,
+        "name": "표준 밀체 SSR",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_3.png",
+        "imagePath": "images/covenant-parts/18342/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9547,
+        "name": "표준 밀체 SSR",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_4.png",
+        "imagePath": "images/covenant-parts/18342/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9887,
+        "name": "표준 밀체 SSR",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_5.png",
+        "imagePath": "images/covenant-parts/18342/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9808,
+        "name": "표준 밀체 SSR",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_6.png",
+        "imagePath": "images/covenant-parts/18342/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18344,
+    "name": "기계장치의 신",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9867,
+        "name": "기계장치의 신 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_1.png",
+        "imagePath": "images/covenant-parts/18344/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 10059,
+        "name": "기계장치의 신 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_2.png",
+        "imagePath": "images/covenant-parts/18344/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 10029,
+        "name": "기계장치의 신 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_3.png",
+        "imagePath": "images/covenant-parts/18344/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9872,
+        "name": "기계장치의 신 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_4.png",
+        "imagePath": "images/covenant-parts/18344/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9893,
+        "name": "기계장치의 신 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_5.png",
+        "imagePath": "images/covenant-parts/18344/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 10110,
+        "name": "기계장치의 신 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_6.png",
+        "imagePath": "images/covenant-parts/18344/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18345,
+    "name": "광합성 제례",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9917,
+        "name": "광합성 제례 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_1.png",
+        "imagePath": "images/covenant-parts/18345/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9599,
+        "name": "광합성 제례 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_2.png",
+        "imagePath": "images/covenant-parts/18345/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9526,
+        "name": "광합성 제례 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_3.png",
+        "imagePath": "images/covenant-parts/18345/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9666,
+        "name": "광합성 제례 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_4.png",
+        "imagePath": "images/covenant-parts/18345/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9824,
+        "name": "광합성 제례 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_5.png",
+        "imagePath": "images/covenant-parts/18345/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9760,
+        "name": "광합성 제례 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_6.png",
+        "imagePath": "images/covenant-parts/18345/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18346,
+    "name": "재진화",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9813,
+        "name": "재진화 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_1.png",
+        "imagePath": "images/covenant-parts/18346/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9662,
+        "name": "재진화 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_2.png",
+        "imagePath": "images/covenant-parts/18346/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9968,
+        "name": "재진화 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_3.png",
+        "imagePath": "images/covenant-parts/18346/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9953,
+        "name": "재진화 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_4.png",
+        "imagePath": "images/covenant-parts/18346/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9923,
+        "name": "재진화 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_5.png",
+        "imagePath": "images/covenant-parts/18346/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9724,
+        "name": "재진화 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_6.png",
+        "imagePath": "images/covenant-parts/18346/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18347,
+    "name": "생명력 착취",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 10099,
+        "name": "생명력 착취 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_1.png",
+        "imagePath": "images/covenant-parts/18347/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9535,
+        "name": "생명력 착취 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_2.png",
+        "imagePath": "images/covenant-parts/18347/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 10094,
+        "name": "생명력 착취 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_3.png",
+        "imagePath": "images/covenant-parts/18347/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 10116,
+        "name": "생명력 착취 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_4.png",
+        "imagePath": "images/covenant-parts/18347/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9635,
+        "name": "생명력 착취 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_5.png",
+        "imagePath": "images/covenant-parts/18347/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9815,
+        "name": "생명력 착취 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_6.png",
+        "imagePath": "images/covenant-parts/18347/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18348,
+    "name": "약재의 꿈",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9683,
+        "name": "약재의 꿈 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_1.png",
+        "imagePath": "images/covenant-parts/18348/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9900,
+        "name": "약재의 꿈 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_2.png",
+        "imagePath": "images/covenant-parts/18348/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9525,
+        "name": "약재의 꿈 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_3.png",
+        "imagePath": "images/covenant-parts/18348/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9889,
+        "name": "약재의 꿈 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_4.png",
+        "imagePath": "images/covenant-parts/18348/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9573,
+        "name": "약재의 꿈 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_5.png",
+        "imagePath": "images/covenant-parts/18348/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9788,
+        "name": "약재의 꿈 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_6.png",
+        "imagePath": "images/covenant-parts/18348/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18349,
+    "name": "달콤한 달팽이",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9718,
+        "name": "달콤한 달팽이 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_1.png",
+        "imagePath": "images/covenant-parts/18349/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 10003,
+        "name": "달콤한 달팽이 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_2.png",
+        "imagePath": "images/covenant-parts/18349/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9796,
+        "name": "달콤한 달팽이 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_3.png",
+        "imagePath": "images/covenant-parts/18349/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9620,
+        "name": "달콤한 달팽이 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_4.png",
+        "imagePath": "images/covenant-parts/18349/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 10021,
+        "name": "달콤한 달팽이 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_5.png",
+        "imagePath": "images/covenant-parts/18349/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9988,
+        "name": "달콤한 달팽이 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_6.png",
+        "imagePath": "images/covenant-parts/18349/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18350,
+    "name": "극장의 고양이",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9883,
+        "name": "극장의 고양이 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_1.png",
+        "imagePath": "images/covenant-parts/18350/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9992,
+        "name": "극장의 고양이 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_2.png",
+        "imagePath": "images/covenant-parts/18350/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9700,
+        "name": "극장의 고양이 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_3.png",
+        "imagePath": "images/covenant-parts/18350/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9956,
+        "name": "극장의 고양이 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_4.png",
+        "imagePath": "images/covenant-parts/18350/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9841,
+        "name": "극장의 고양이 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_5.png",
+        "imagePath": "images/covenant-parts/18350/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9906,
+        "name": "극장의 고양이 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_6.png",
+        "imagePath": "images/covenant-parts/18350/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18351,
+    "name": "36호실의 고리",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 10111,
+        "name": "36호실의 고리 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_1.png",
+        "imagePath": "images/covenant-parts/18351/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 10045,
+        "name": "36호실의 고리 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_2.png",
+        "imagePath": "images/covenant-parts/18351/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9722,
+        "name": "36호실의 고리 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_3.png",
+        "imagePath": "images/covenant-parts/18351/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9569,
+        "name": "36호실의 고리 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_4.png",
+        "imagePath": "images/covenant-parts/18351/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9852,
+        "name": "36호실의 고리 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_5.png",
+        "imagePath": "images/covenant-parts/18351/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 10055,
+        "name": "36호실의 고리 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_6.png",
+        "imagePath": "images/covenant-parts/18351/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18352,
+    "name": "뒤틀린 쌍둥이·백",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9576,
+        "name": "뒤틀린 쌍둥이·백 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_1.png",
+        "imagePath": "images/covenant-parts/18352/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9731,
+        "name": "뒤틀린 쌍둥이·백 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_2.png",
+        "imagePath": "images/covenant-parts/18352/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9648,
+        "name": "뒤틀린 쌍둥이·백 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_3.png",
+        "imagePath": "images/covenant-parts/18352/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9952,
+        "name": "뒤틀린 쌍둥이·백 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_4.png",
+        "imagePath": "images/covenant-parts/18352/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9665,
+        "name": "뒤틀린 쌍둥이·백 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_5.png",
+        "imagePath": "images/covenant-parts/18352/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9509,
+        "name": "뒤틀린 쌍둥이·백 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_6.png",
+        "imagePath": "images/covenant-parts/18352/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18353,
+    "name": "핏빛의 포옹",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9980,
+        "name": "핏빛의 포옹 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_1.png",
+        "imagePath": "images/covenant-parts/18353/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 10051,
+        "name": "핏빛의 포옹 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_2.png",
+        "imagePath": "images/covenant-parts/18353/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9631,
+        "name": "핏빛의 포옹 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_3.png",
+        "imagePath": "images/covenant-parts/18353/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9659,
+        "name": "핏빛의 포옹 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_4.png",
+        "imagePath": "images/covenant-parts/18353/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9854,
+        "name": "핏빛의 포옹 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_5.png",
+        "imagePath": "images/covenant-parts/18353/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9519,
+        "name": "핏빛의 포옹 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_6.png",
+        "imagePath": "images/covenant-parts/18353/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18355,
+    "name": "무구의 계시록",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9513,
+        "name": "무구의 계시록 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_1.png",
+        "imagePath": "images/covenant-parts/18355/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9565,
+        "name": "무구의 계시록 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_2.png",
+        "imagePath": "images/covenant-parts/18355/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9596,
+        "name": "무구의 계시록 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_3.png",
+        "imagePath": "images/covenant-parts/18355/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9656,
+        "name": "무구의 계시록 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_4.png",
+        "imagePath": "images/covenant-parts/18355/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9960,
+        "name": "무구의 계시록 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_5.png",
+        "imagePath": "images/covenant-parts/18355/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 10090,
+        "name": "무구의 계시록 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_6.png",
+        "imagePath": "images/covenant-parts/18355/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18356,
+    "name": "황야의 늑대",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9774,
+        "name": "황야의 늑대 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_1.png",
+        "imagePath": "images/covenant-parts/18356/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9524,
+        "name": "황야의 늑대 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_2.png",
+        "imagePath": "images/covenant-parts/18356/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9657,
+        "name": "황야의 늑대 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_3.png",
+        "imagePath": "images/covenant-parts/18356/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9585,
+        "name": "황야의 늑대 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_4.png",
+        "imagePath": "images/covenant-parts/18356/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9628,
+        "name": "황야의 늑대 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_5.png",
+        "imagePath": "images/covenant-parts/18356/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9918,
+        "name": "황야의 늑대 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_6.png",
+        "imagePath": "images/covenant-parts/18356/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18357,
+    "name": "먼 곳의 잔치",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 10057,
+        "name": "먼 곳의 잔치 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_1.png",
+        "imagePath": "images/covenant-parts/18357/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9790,
+        "name": "먼 곳의 잔치 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_2.png",
+        "imagePath": "images/covenant-parts/18357/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 10119,
+        "name": "먼 곳의 잔치 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_3.png",
+        "imagePath": "images/covenant-parts/18357/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9969,
+        "name": "먼 곳의 잔치 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_4.png",
+        "imagePath": "images/covenant-parts/18357/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9663,
+        "name": "먼 곳의 잔치 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_5.png",
+        "imagePath": "images/covenant-parts/18357/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9869,
+        "name": "먼 곳의 잔치 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_6.png",
+        "imagePath": "images/covenant-parts/18357/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18358,
+    "name": "뒤틀린 쌍둥이·흑",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9962,
+        "name": "뒤틀린 쌍둥이·흑 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_1.png",
+        "imagePath": "images/covenant-parts/18358/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 10041,
+        "name": "뒤틀린 쌍둥이·흑 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_2.png",
+        "imagePath": "images/covenant-parts/18358/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9894,
+        "name": "뒤틀린 쌍둥이·흑 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_3.png",
+        "imagePath": "images/covenant-parts/18358/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9879,
+        "name": "뒤틀린 쌍둥이·흑 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_4.png",
+        "imagePath": "images/covenant-parts/18358/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9650,
+        "name": "뒤틀린 쌍둥이·흑 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_5.png",
+        "imagePath": "images/covenant-parts/18358/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9797,
+        "name": "뒤틀린 쌍둥이·흑 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_6.png",
+        "imagePath": "images/covenant-parts/18358/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18359,
+    "name": "소녀의 번데기",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 10105,
+        "name": "소녀의 번데기 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_1.png",
+        "imagePath": "images/covenant-parts/18359/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9679,
+        "name": "소녀의 번데기 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_2.png",
+        "imagePath": "images/covenant-parts/18359/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 10087,
+        "name": "소녀의 번데기 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_3.png",
+        "imagePath": "images/covenant-parts/18359/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 10071,
+        "name": "소녀의 번데기 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_4.png",
+        "imagePath": "images/covenant-parts/18359/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9858,
+        "name": "소녀의 번데기 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_5.png",
+        "imagePath": "images/covenant-parts/18359/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9976,
+        "name": "소녀의 번데기 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_6.png",
+        "imagePath": "images/covenant-parts/18359/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 18360,
+    "name": "무덤의 속삭임",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 9865,
+        "name": "무덤의 속삭임 Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_1.png",
+        "imagePath": "images/covenant-parts/18360/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 9951,
+        "name": "무덤의 속삭임 Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_2.png",
+        "imagePath": "images/covenant-parts/18360/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 9636,
+        "name": "무덤의 속삭임 Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_3.png",
+        "imagePath": "images/covenant-parts/18360/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 9672,
+        "name": "무덤의 속삭임 Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_4.png",
+        "imagePath": "images/covenant-parts/18360/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 9861,
+        "name": "무덤의 속삭임 Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_5.png",
+        "imagePath": "images/covenant-parts/18360/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 9749,
+        "name": "무덤의 속삭임 Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_6.png",
+        "imagePath": "images/covenant-parts/18360/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 99234,
+    "name": "부패질",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 99217,
+        "name": "부패질Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_1.png",
+        "imagePath": "images/covenant-parts/99234/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 99231,
+        "name": "부패질Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_2.png",
+        "imagePath": "images/covenant-parts/99234/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 99220,
+        "name": "부패질Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_3.png",
+        "imagePath": "images/covenant-parts/99234/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 99219,
+        "name": "부패질Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_4.png",
+        "imagePath": "images/covenant-parts/99234/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 99215,
+        "name": "부패질Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_5.png",
+        "imagePath": "images/covenant-parts/99234/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 99214,
+        "name": "부패질Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_6.png",
+        "imagePath": "images/covenant-parts/99234/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 99235,
+    "name": "비상",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 99230,
+        "name": "비상Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_1.png",
+        "imagePath": "images/covenant-parts/99235/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 99222,
+        "name": "비상Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_2.png",
+        "imagePath": "images/covenant-parts/99235/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 99226,
+        "name": "비상Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_3.png",
+        "imagePath": "images/covenant-parts/99235/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 99229,
+        "name": "비상Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_4.png",
+        "imagePath": "images/covenant-parts/99235/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 99227,
+        "name": "비상Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_5.png",
+        "imagePath": "images/covenant-parts/99235/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 99232,
+        "name": "비상Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_6.png",
+        "imagePath": "images/covenant-parts/99235/vi.webp"
+      }
+    ]
+  },
+  {
+    "suitId": 99236,
+    "name": "스틱스",
+    "parts": [
+      {
+        "slot": "I",
+        "clientItemId": 99213,
+        "name": "스틱스Ⅰ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_1.png",
+        "imagePath": "images/covenant-parts/99236/i.webp"
+      },
+      {
+        "slot": "II",
+        "clientItemId": 99216,
+        "name": "스틱스Ⅱ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_2.png",
+        "imagePath": "images/covenant-parts/99236/ii.webp"
+      },
+      {
+        "slot": "III",
+        "clientItemId": 99223,
+        "name": "스틱스Ⅲ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_3.png",
+        "imagePath": "images/covenant-parts/99236/iii.webp"
+      },
+      {
+        "slot": "IV",
+        "clientItemId": 99224,
+        "name": "스틱스Ⅳ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_4.png",
+        "imagePath": "images/covenant-parts/99236/iv.webp"
+      },
+      {
+        "slot": "V",
+        "clientItemId": 99233,
+        "name": "스틱스Ⅴ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_5.png",
+        "imagePath": "images/covenant-parts/99236/v.webp"
+      },
+      {
+        "slot": "VI",
+        "clientItemId": 99225,
+        "name": "스틱스Ⅵ",
+        "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_6.png",
+        "imagePath": "images/covenant-parts/99236/vi.webp"
+      }
+    ]
+  }
+]

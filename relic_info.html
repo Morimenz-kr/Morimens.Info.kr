@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유물 정보</title>
+    <meta name="description" content="인게임 전시관의 유물을 검색하고 망각편·성신편 및 일반·황금·저주 변형별 효과와 실제 수치를 확인합니다.">
+    <script src="config/config.js?v=design-system-20260831-10"></script>
+    <script>
+        CONFIG.VERSION = 'v1.1.12-relic-dialog-20260830';
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/character-effects.css');
+        loadCSS('css/pages/info_tools.css');
+        loadCSS('css/pages/relic-info.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+<body>
+<div class="bg-image"></div><div class="background-overlay"></div>
+<main class="container info-page relic-page-shell">
+    <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 뒤로가기</a></nav>
+    <section class="info-shell info-shell--dark relic-shell">
+        <header class="info-header relic-hero">
+            <div><h1>유물 정보</h1><p>유물을 챕터/등급 별로 확인할 수 있습니다.</p></div>
+        </header>
+        <section class="relic-toolbar" aria-label="유물 검색 및 계산 설정">
+            <div class="relic-toolbar-controls">
+                <label class="relic-search-control"><span>유물 검색</span><input id="relic-search" type="search" placeholder="이름 또는 효과 검색" autocomplete="off"></label>
+                <label class="research-level-control"><span>금기 학식 등급</span><input id="relic-research-level" type="number" min="1" max="100" inputmode="numeric" value="81"></label>
+            </div>
+            <div class="relic-toolbar-filters">
+                <div class="relic-chapter-filter">
+                    <span class="relic-filter-label">수록 편</span>
+                    <div id="relic-chapter-filter" class="relic-chip-group" role="group" aria-label="수록 편 선택">
+                        <button type="button" data-chapter="all" aria-pressed="true">전체</button>
+                        <button type="button" data-chapter="morimens" aria-pressed="false">망각편</button>
+                        <button type="button" data-chapter="stars" aria-pressed="false">성신편</button>
+                    </div>
+                </div>
+                <div class="relic-tier-filter">
+                    <span class="relic-filter-label">유물 분류</span>
+                    <div id="relic-tier-filter" class="relic-chip-group" role="group" aria-label="유물 분류"></div>
+                </div>
+            </div>
+        </section>
+        <p id="relic-result-summary" class="relic-result-summary" aria-live="polite"></p>
+        <div id="relic-list" class="relic-catalog"><div class="relic-loading">유물 데이터를 불러오는 중입니다.</div></div>
+    </section>
+</main>
+<dialog id="relic-detail-dialog" class="relic-detail-dialog" aria-labelledby="relic-dialog-title">
+    <div class="relic-dialog-frame">
+        <button id="relic-dialog-close" class="relic-dialog-close" type="button" aria-label="유물 상세 정보 닫기">&times;</button>
+        <header class="relic-dialog-header">
+            <div id="relic-dialog-image" class="relic-dialog-image" aria-hidden="true"></div>
+            <div class="relic-dialog-heading">
+                <p class="relic-dialog-eyebrow">유물 상세 정보</p>
+                <h2 id="relic-dialog-title"></h2>
+                <p id="relic-dialog-variant-label" class="relic-dialog-variant-label"></p>
+            </div>
+        </header>
+        <div class="relic-dialog-scroll">
+            <section class="relic-dialog-section" aria-labelledby="relic-dialog-variant-heading">
+                <h3 id="relic-dialog-variant-heading">효과 변형</h3>
+                <div id="relic-dialog-variants"></div>
+            </section>
+            <section class="relic-dialog-section" aria-labelledby="relic-dialog-effect-heading">
+                <h3 id="relic-dialog-effect-heading">효과</h3>
+                <p id="relic-dialog-effect" class="catalog-relic-effect"></p>
+            </section>
+        </div>
+    </div>
+</dialog>
+<button class="floating-report-btn" type="button" title="버그 신고" aria-label="버그 또는 개선 의견 제보"><span aria-hidden="true">🚨</span></button>
+<script>
+    loadJS('js/character-effects.js');
+    loadJS('js/research-depth.js');
+    loadJS('js/relic-info.js');
+    loadJS('js/feedback.js');
+</script>
+</body>
+</html>

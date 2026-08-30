@@ -244,7 +244,7 @@ test('탄망 머피와 미리암의 촉수 태세별 효과와 레벨 수치를 
     assert.match(prayerLv6, /노도:.*100%/s);
     assert.equal(
         effectsData.miryam.dimensionalImage.effect,
-        '턴이 시작될 때 미리암은 15 광기를 얻고, "성례" 1장을 패에 추가한다.'
+        '턴 시작 시 미리암은 15 광기를 획득하고, 1장의 "성례"를 드립니다.'
     );
 });
 
@@ -345,7 +345,7 @@ test('확정된 모스 2돌은 타격과 방어에만 전문을 연결한다', (
 
 test('확정된 폰토스 1~3돌은 레벨 수치와 건트 여파를 누적한다', () => {
     const pontos = effectsData.pontos;
-    const huntingGaunt = pontos.skills.find(skill => skill.name === '사냥의 건트');
+    const huntingGaunt = pontos.derivedCards.find(skill => skill.name === '사냥의 건트');
     const huntAtOne = characterEffects.getBreakthroughVariant(huntingGaunt, 1);
     const huntAtThree = characterEffects.getBreakthroughVariant(huntingGaunt, 3);
     const endlessHunt = characterEffects.getBreakthroughVariant(pontos.skills.find(skill => skill.name === '끝없는 사냥'), 1);
@@ -762,13 +762,80 @@ test('확정된 아라크네 1~3돌은 광기 폭발과 운명 재단 및 특이
     const burst = characterEffects.getBreakthroughVariant(arachne.skills.find(skill => skill.name === '운명, 이로써 고하노라'), 1);
     const loom = characterEffects.getBreakthroughVariant(arachne.skills.find(skill => skill.name === '영겁의 베틀'), 2);
     const thread = characterEffects.getBreakthroughVariant(arachne.skills.find(skill => skill.name === '운명을 얽는 실'), 2);
-    const endless = characterEffects.getBreakthroughVariant(arachne.derivedCards.find(card => card.name === '끝없는 실타래'), 3);
 
     assert.equal(burst.levels[0]['피해 증폭'], '93.75%');
     assert.match(burst.effect, /특이점 도약:.*직명 1스택/s);
     assert.equal(loom.levels[0]['운명 재단'], '450%');
     assert.match(thread.effect, /준비1, 유지/);
-    assert.match(endless.effect, /임시 특이점 프리즘 10스택/);
+    assert.equal(arachne.derivedCards.some(card => card.name === '끝없는 실타래'), false);
+    assert.match(arachne.enlighten[2].effect, /'끝없는 실타래'로 획득하는 특이점 프리즘이 2배/);
+});
+
+test('명령·발견·직접 생성 카드는 파생 카드 안에서 유형을 구분한다', () => {
+    const exaFlare = effectsData['kathigu-ra'].derivedCards.find(card => card.name === '엑사 플레어');
+    const inspirationBurst = effectsData.pickman.derivedCards.find(card => card.name === '영감 폭발!');
+    const silverKeyDawn = effectsData.tawil.derivedCards.find(card => card.name === '은열쇠의 새벽빛');
+    const catenaShape = effectsData.helot_catena.derivedCards.find(card => card.name === '불규칙한 형태·혈쇄');
+
+    assert.equal(exaFlare.type, '명령');
+    assert.equal(exaFlare.cost.value, '전부');
+    assert.match(exaFlare.effect, /'테라 플레어'가 이 카드로 변환/);
+    assert.match(exaFlare.effect, /사용 후 모든 '엑사 플레어'가 '테라 플레어'로 되돌아간다/);
+    assert.equal(inspirationBurst.type, '발견 선택지');
+    assert.match(inspirationBurst.effect, /모든 발견 효과를 선택해 발동/);
+    assert.equal(silverKeyDawn.type, '파생 명령');
+    assert.match(silverKeyDawn.effect, /무작위 열쇠 지령 3개 중 1개/);
+    assert.equal(catenaShape.type, '파생 명령');
+    assert.equal(catenaShape.cost.value, 0);
+    assert.match(catenaShape.effect, /기본 명령 카드 1장을 선택하여 손패에 추가/);
+    assert.equal(effectsData.helot_catena.skills.some(skill => skill.name === '불규칙한 형태·혈쇄'), false);
+});
+
+test('픽맨의 발견 선택지는 영감 폭발과 은빛·황금 유물 8종을 모두 표시한다', () => {
+    const choices = effectsData.pickman.derivedCards;
+    const relics = choices.filter(card => card.name.startsWith('그려진'));
+
+    assert.equal(choices.find(card => card.name === '영감 폭발!').type, '발견 선택지');
+    assert.equal(relics.length, 8);
+    relics.forEach(relic => {
+        assert.equal(relic.type, '발견 선택지');
+        assert.deepEqual(relic.variants.map(variant => variant.name), ['은빛 유물', '황금 유물']);
+    });
+});
+
+test('폰토스의 건트는 버프 뱃지를 유지한 파생 카드로만 표시한다', () => {
+    const pontos = effectsData.pontos;
+    const gauntNames = ['약식의 건트', '교란의 건트', '사냥의 건트'];
+
+    gauntNames.forEach(name => {
+        const gaunt = pontos.derivedCards.find(card => card.name === name);
+        assert.equal(gaunt.type, '버프');
+        assert.match(gaunt.effect, /쌍생 건트로 업그레이드되면.*효과가 2회 발동/);
+        assert.equal(pontos.skills.some(skill => skill.name === name), false);
+    });
+});
+
+test('영감을 실제 생성하는 각성체에만 파생 명령으로 등록한다', () => {
+    const inspirationOwners = ['24', 'tawil', 'hameln', 'dafoodil', 'casiah', 'ramona', 'pontos'];
+
+    inspirationOwners.forEach(id => {
+        const inspiration = effectsData[id].derivedCards.find(card => card.name === '영감');
+        assert.equal(inspiration.type, '파생 명령', `${id}의 영감 분류`);
+        assert.equal(inspiration.cost.value, 0, `${id}의 영감 소모값`);
+        assert.match(inspiration.effect, /산출력 1을 획득하고, 카드 1장을 뽑는다\. 소모, 유지/);
+    });
+});
+
+test('영감은 설명에서 툴팁 링크로 만들지 않는다', () => {
+    const tooltips = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_tooltips.json'), 'utf8'));
+    const result = characterEffects.renderRichText("'영감' 1장을 손패에 추가한다.", {
+        ...tooltips,
+        영감: '캐시된 이전 설명'
+    });
+
+    assert.equal(tooltips.영감, undefined);
+    assert.doesNotMatch(result, /data-keyword="영감"/);
+    assert.match(result, /영감/);
 });
 
 test('확정된 돌 1~3돌은 회복량과 허약·방어막·광기 대상을 반영한다', () => {
@@ -817,12 +884,16 @@ test('확정된 로탄 1~3돌은 타격 판정과 힘 및 혼돈의 짐승을 �
 
 test('확정된 오지에 1~3돌과 기본 카드명·비용을 인게임 전문대로 반영한다', () => {
     const ogier = effectsData.ogier;
+    const defense = ogier.skills.find(skill => skill.name === '방어');
     const barrier = ogier.skills.find(skill => skill.name === '부정형 장벽');
     const stage3 = characterEffects.getBreakthroughVariant(barrier, 3);
     const spear = characterEffects.getBreakthroughVariant(ogier.skills.find(skill => skill.name === '관통의 창'), 1);
     const virtues = characterEffects.getBreakthroughVariant(ogier.skills.find(skill => skill.name === '일곱 덕목, 미덕의 전승'), 2);
 
     assert.equal(ogier.skills.some(skill => skill.name === '천공의 창'), false);
+    assert.equal(defense.cost.value, 1);
+    assert.equal(defense.levels[0].방어막, '10%');
+    assert.equal(defense.levels[5].광기, '10');
     assert.equal(barrier.cost.value, 'X');
     assert.match(barrier.effect, /방어막을 X\+1회 획득한다/);
     assert.match(stage3.effect, /공격력의 m%만큼 힘을 획득한다/);
@@ -1288,6 +1359,24 @@ test('키워드 아이콘은 텍스트 중심에 맞추고 부드럽게 렌더�
     assert.match(css, /\.tooltip-trigger \.keyword-icon\s*\{[^}]*image-rendering:\s*auto;/s);
     assert.doesNotMatch(css, /image-rendering:\s*pixelated;/);
     assert.match(css, /\.tooltip-trigger \.keyword-icon\s*\{[^}]*transform:\s*translateY\(0\.075em\);/s);
+});
+
+test('봉인은 게임 원본 아이콘과 전용 색상을 사용한다', () => {
+    const result = characterEffects.renderRichText('1턴간 봉인한다.', { 봉인: '사용할 수 없습니다.' });
+
+    assert.match(result, /data-keyword="봉인"/);
+    assert.match(result, /seal\.webp/);
+    assert.match(result, /--keyword-color:#aa71ae/);
+});
+
+test('실명은 게임 원본 아이콘과 인게임 효과 설명을 사용한다', () => {
+    const tooltips = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_tooltips.json'), 'utf8'));
+    const result = characterEffects.renderRichText('1턴간 실명을 부여한다.', tooltips);
+
+    assert.equal(tooltips.실명, '모든 각성체의 치명타 피해 수치가 절반으로 감소한다.');
+    assert.match(result, /data-keyword="실명"/);
+    assert.match(result, /blind\.webp/);
+    assert.match(result, /--keyword-color:#aa71ae/);
 });
 
 test('카라부 특성은 번식 혈육, 광기의 징조, 성신편 영혼 단련 정보를 사용한다', () => {
