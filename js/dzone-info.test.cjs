@@ -43,6 +43,25 @@ test('68기 다중 체력 보스와 몬스터 초상은 추출 결과대로 제�
     }
 });
 
+test('하티·스콜 소환체의 능력치와 잠복 힘은 스테이지 배율로 계산한다', () => {
+    const wave2Madness = dzoneData.waves.find(wave => wave.wave === 2).alerts.find(alert => alert.difficulty === 'madness');
+    const wave2Pack = wave2Madness.summonedMonsters.filter(monster => [149104, 149114].includes(monster.tid));
+    assert.ok(wave2Pack.length > 0);
+    assert.equal(wave2Pack.every(monster => monster.hp === 197612 && monster.attack === 1178), true);
+    assert.equal(wave2Pack.every(monster => {
+        const skillId = monster.tid === 149104 ? '149081' : '149082';
+        return monster.resolvedSkills[skillId].args[0].value.display === 236;
+    }), true);
+
+    const wave5Madness = dzoneData.waves.find(wave => wave.wave === 5).alerts.find(alert => alert.difficulty === 'madness');
+    const wave5Pack = wave5Madness.summonedMonsters.filter(monster => [149104, 149114].includes(monster.tid));
+    assert.equal(wave5Pack.every(monster => monster.hp === 354418 && monster.attack === 1373), true);
+    assert.equal(wave5Pack.every(monster => {
+        const skillId = monster.tid === 149104 ? '149081' : '149082';
+        return monster.resolvedSkills[skillId].args[0].value.display === 275;
+    }), true);
+});
+
 test('융재금구는 금기 학식 등급만 받고 정확한 연구 깊이는 노출하지 않는다', () => {
     assert.match(html, /id="dzone-research-level"/);
     assert.doesNotMatch(html, /dzone-depth-summary/);
