@@ -1076,6 +1076,14 @@ test('하티·스콜 사냥 무리 이름의 사냥은 키워드로 처리하지
     assert.equal((result.match(/data-keyword="집단 사냥"/g) || []).length, 1);
 });
 
+test('조난한 탐험대가 손에 넣는 경계 카드는 키워드로 처리하지 않는다', () => {
+    characterEffects.configureTooltips({ 경계: '설명' });
+    const result = characterEffects.renderRichText('서리 방패를 획득하고, 경계 1장을 손에 넣는다. 다음 방어는 경계의 영향을 받는다.');
+
+    assert.equal((result.match(/data-keyword="경계"/g) || []).length, 1);
+    assert.match(result, /경계 1장을 손에 넣는다/);
+});
+
 test('동결의 활용형을 전투 기믹 키워드로 처리한다', () => {
     characterEffects.configureTooltips({ 동결: '설명' });
     const result = characterEffects.renderRichText('카드를 동결하고, 동결된 카드를 소모하며, 동결되지 않은 카드를 동결한다.');
