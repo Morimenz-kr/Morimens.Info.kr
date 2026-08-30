@@ -169,6 +169,39 @@ function resolveDescription(template, args) {
   });
 }
 
+// Recalculate archived public snapshots without requiring game config files.
+// Dynamic baselines exclude runtime stacks and hand cards; their conditions
+// remain in the description instead of implying a fixed in-battle total.
+export function resolveStoredSkillValues(snapshot) {
+  for (const wave of snapshot.waves || []) {
+    for (const alert of wave.alerts || []) {
+      for (const monster of [...(alert.monsters || []), ...(alert.summonedMonsters || [])]) {
+        for (const [id, skill] of Object.entries(monster.resolvedSkills || {})) {
+          if (!/\[(?:[A-Za-z]+:)?Arg\d+\]/.test(skill.description)) continue;
+          const args = skill.args.map(arg => ({
+            ...arg,
+            value: arg.value ?? evaluateExpression(arg.expression, monster)
+          }));
+          let description = resolveDescription(skill.description, args);
+          if (/\[(?:[A-Za-z]+:)?Arg\d+\]/.test(description)) continue;
+          if (id === '126447') {
+            // This archived skill uses 0.35 ATK for damage but 0.30 ATK
+            // for poison. Keep both source formulas, not the conflicting
+            // template claim that poison equals 10% of the displayed damage.
+            description = `기본 ${resolvedDisplay(args[0].value)}pt의 피해를 ${resolvedDisplay(args[1].value)}회 입히고, 중독 기본 ${resolvedDisplay(args[3].value)}스택을 부여한다. 손패 ${resolvedDisplay(args[4].value)}장에 연소를 부여한다.`;
+          }
+          if (args.some(arg => arg.expression.includes('GetStateLayer(126464)'))) {
+            description += ' 청록색 불씨가 없는 상태의 기본 수치이며, 불씨 1스택당 1회 피해에 공격력의 2%가 추가된다.';
+          }
+          skill.args = args;
+          skill.description = description;
+        }
+      }
+    }
+  }
+  return snapshot;
+}
+
 function patternEntries(config) {
   return Object.entries(config)
     .filter(([key, value]) => (
