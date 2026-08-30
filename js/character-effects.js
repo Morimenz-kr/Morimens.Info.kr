@@ -133,7 +133,7 @@
             if (keyword === '반격' && /깊은 잠의\s*$/.test(precedingText)) return true;
             if (keyword === '장벽' && /부정형\s*$/.test(precedingText)) return true;
             if (keyword === '잔해' && /부패된\s*$/.test(precedingText)) return true;
-            if (keyword === '사냥' && (/(?:끝없는|영혼)\s*$/.test(precedingText) || /^(?:의 건트|\s+선언)/.test(followingText))) return true;
+            if (keyword === '사냥' && (/(?:끝없는|영혼)\s*$/.test(precedingText) || /^(?:떼|\s+무리|의 건트|\s+선언)/.test(followingText))) return true;
             if (keyword === '메아리' && /(?:과거의|잠결의|원초의|호숫가의)\s*$/.test(precedingText)) return true;
             if (keyword === '축복' && /기적의\s*$/.test(precedingText)) return true;
             if (keyword === '저주' && /흩날리는 눈의\s*$/.test(precedingText)) return true;

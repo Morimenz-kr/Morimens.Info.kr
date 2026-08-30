@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (keyword === '반격') return /깊은 잠의\s*$/.test(precedingText);
             if (keyword === '장벽') return /부정형\s*$/.test(precedingText);
             if (keyword === '잔해') return /부패된\s*$/.test(precedingText);
-            if (keyword === '사냥') return /(?:끝없는|영혼)\s*$/.test(precedingText) || /^(?:의 건트|\s+선언)/.test(followingText);
+            if (keyword === '사냥') return /(?:끝없는|영혼)\s*$/.test(precedingText) || /^(?:떼|\s+무리|의 건트|\s+선언)/.test(followingText);
             return keyword === '메아리' && /(?:과거의|잠결의|원초의|호숫가의)\s*$/.test(precedingText);
         };
 

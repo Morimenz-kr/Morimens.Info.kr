@@ -1066,6 +1066,16 @@ test('캐릭터명과 카드·스킬명 안의 동음 키워드는 툴팁에서 
     assert.doesNotMatch(result, /data-keyword=/);
 });
 
+test('하티·스콜 사냥 무리 이름의 사냥은 키워드로 처리하지 않는다', () => {
+    characterEffects.configureTooltips({ 사냥: '설명', '집단 사냥': '설명' });
+    const result = characterEffects.renderRichText(
+        '하티 사냥떼와 스콜 사냥 무리를 소환하고 집단 사냥 1스택을 획득한다.'
+    );
+
+    assert.equal((result.match(/data-keyword="사냥"/g) || []).length, 0);
+    assert.equal((result.match(/data-keyword="집단 사냥"/g) || []).length, 1);
+});
+
 test('다른 단어 안에 포함된 문자열은 키워드로 처리하지 않는다', () => {
     characterEffects.configureTooltips({ '배아': '설명' });
 
