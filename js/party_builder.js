@@ -7,7 +7,7 @@ const INVENTORY_STORAGE_KEY = 'morimens_inventory_checker_v2';
 const MAX_WHEEL_BREAKTHROUGH = 15;
 const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 const DEFAULT_PARTY_BUILDER_RULES = {
-    exclusive_groups: [["ramona", "ramona_timeworn"], ["lotan", "lotan_cetarchon"]],
+    exclusive_groups: [["ramona", "ramona_timeworn"]],
     character_tags: {},
     tag_aliases: {},
     dedicated_wheel_aliases: {}
