@@ -109,6 +109,33 @@ test('일반 몬스터 HP는 방어 보정치를 HP 비율 바깥에서 차감�
   assert.match(stats.hpFormula, /StandardDef\*MonsterDefPercent\*0\.2/);
 });
 
+test('인간형 각성체 보스는 각성체 전용 방어 보정치를 사용한다', async () => {
+  const { buildDzoneSiteData } = await buildModule;
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'morimens-dzone-awakener-hp-'));
+  const staticDirectory = path.join(root, 'static');
+  const basePath = path.join(root, 'base.json');
+  const outputPath = path.join(root, 'out.json');
+  await fs.mkdir(staticDirectory);
+  await fs.writeFile(basePath, JSON.stringify({
+    waves: [{ wave: 3, encounters: [], monsters: [{ tid: 74035, battleTag: 'Boss', monsterClass: 'Boss', config: { MonsterProportion: 1, MonsterHpPercent: 1, MonsterDefPercent: 2.67 } }], alerts: [{ alert: 4, standardRows: [{ BattleTag: 'Boss', StandardHp: 7709681.13, StandardDef: 224772.04 }], monsters: [{ tid: 74035, hp: 1, attack: 2251, defense: 22477, hpFormula: 'old', phases: [{ bar: 1, hp: 1, maxHpMultiplier: 1 }] }] }] }]
+  }), 'utf8');
+  await writeDocument(staticDirectory, 'Config.MonsterConfig.json', { 74035: { MonsterClass: 'Boss', MonsterTag: { 1: 84277, 2: 90645 } } });
+  await writeDocument(staticDirectory, 'Text_KR.Text_MonsterConfig.json', {});
+  await writeDocument(staticDirectory, 'Config.Skill.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_Skill.json', {});
+  await writeDocument(staticDirectory, 'Config.State.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_State.json', {});
+  await writeDocument(staticDirectory, 'Config.Cmd.json', {});
+  await writeDocument(staticDirectory, 'Config.RelicConfig.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_RelicConfig.json', {});
+
+  await buildDzoneSiteData({ basePath, staticDirectory, outputPath });
+  const output = JSON.parse(await fs.readFile(outputPath, 'utf8'));
+  const stats = output.waves[0].alerts[0].monsters[0];
+  assert.equal(stats.hp, 7349597);
+  assert.match(stats.hpFormula, /MonsterDefPercent\*0\.6/);
+});
+
 test('소환 개체의 패턴과 조물의 연구 깊이 수식을 함께 생성한다', async () => {
   const { buildDzoneSiteData } = await buildModule;
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'morimens-dzone-'));

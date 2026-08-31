@@ -28277,20 +28277,20 @@
               "tid": 74035,
               "nameKo": "「원장」사라",
               "level": 51,
-              "hp": 50434,
+              "hp": 45933,
               "attack": 244,
               "defense": 421,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 50434,
+                  "hp": 45933,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 50434,
+              "effectiveHp": 45933,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "73525": {
@@ -28573,20 +28573,20 @@
               "tid": 74035,
               "nameKo": "「원장」사라",
               "level": 75,
-              "hp": 617066,
+              "hp": 561991,
               "attack": 1013,
               "defense": 5156,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 617066,
+                  "hp": 561991,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 617066,
+              "effectiveHp": 561991,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "73525": {
@@ -28869,20 +28869,20 @@
               "tid": 74035,
               "nameKo": "「원장」사라",
               "level": 89,
-              "hp": 2301783,
+              "hp": 2129346,
               "attack": 1678,
               "defense": 16145,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 2301783,
+                  "hp": 2129346,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 2301783,
+              "effectiveHp": 2129346,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "73525": {
@@ -29165,20 +29165,20 @@
               "tid": 74035,
               "nameKo": "「원장」사라",
               "level": 99,
-              "hp": 7589653,
+              "hp": 7349597,
               "attack": 2251,
               "defense": 22477,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 7589653,
+                  "hp": 7349597,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 7589653,
+              "effectiveHp": 7349597,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "73525": {
@@ -30727,26 +30727,26 @@
               "tid": 118029,
               "nameKo": "「심해의 숙녀」",
               "level": 57,
-              "hp": 89648,
+              "hp": 81866,
               "attack": 391,
               "defense": 1496,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
               "configuredBars": 2,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 89648,
+                  "hp": 81866,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 },
                 {
                   "bar": 2,
-                  "hp": 89648,
+                  "hp": 81866,
                   "maxHpMultiplier": 1,
                   "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
                 }
               ],
-              "effectiveHp": 179296,
+              "effectiveHp": 163732,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "118060": {
@@ -30788,8 +30788,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 13447.199999999999,
-                        "display": 13448
+                        "raw": 12279.9,
+                        "display": 12280
                       }
                     },
                     {
@@ -30807,7 +30807,7 @@
                       }
                     }
                   ],
-                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 13,448pt의 실드를 획득하고, 79pt의 피해를 5회 입힌다."
+                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 12,280pt의 실드를 획득하고, 79pt의 피해를 5회 입힌다."
                 },
                 "118072": {
                   "args": [
@@ -30840,15 +30840,15 @@
                     {
                       "expression": "CmdCaster.max_hp*0.1",
                       "value": {
-                        "raw": 8964.800000000001,
-                        "display": 8965
+                        "raw": 8186.6,
+                        "display": 8187
                       }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.025",
                       "value": {
-                        "raw": 2241.2000000000003,
-                        "display": 2242
+                        "raw": 2046.65,
+                        "display": 2047
                       }
                     },
                     {
@@ -30859,15 +30859,15 @@
                       }
                     }
                   ],
-                  "description": "실드를 8,965pt, 희생 2,242스택, 촉수 피해 14pt를 획득한다."
+                  "description": "실드를 8,187pt, 희생 2,047스택, 촉수 피해 14pt를 획득한다."
                 },
                 "118095": {
                   "args": [
                     {
                       "expression": "CmdCaster.max_hp*0.12",
                       "value": {
-                        "raw": 10757.76,
-                        "display": 10758
+                        "raw": 9823.92,
+                        "display": 9824
                       }
                     },
                     {
@@ -30885,7 +30885,7 @@
                       }
                     }
                   ],
-                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 10,758pt의 실드를 획득하고, 79pt의 피해를 3회 입힌다."
+                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 9,824pt의 실드를 획득하고, 79pt의 피해를 3회 입힌다."
                 },
                 "118929": {
                   "args": [
@@ -30945,15 +30945,15 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 13447.199999999999,
-                        "display": 13448
+                        "raw": 12279.9,
+                        "display": 12280
                       }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.025",
                       "value": {
-                        "raw": 2241.2000000000003,
-                        "display": 2242
+                        "raw": 2046.65,
+                        "display": 2047
                       }
                     },
                     {
@@ -30964,7 +30964,7 @@
                       }
                     }
                   ],
-                  "description": "실드를 13,448pt, 희생 2,242스택, 촉수 피해 8pt를 획득한다."
+                  "description": "실드를 12,280pt, 희생 2,047스택, 촉수 피해 8pt를 획득한다."
                 }
               },
               "resolvedStates": [
@@ -31017,8 +31017,8 @@
                   "initialLayer": {
                     "expression": "CmdCaster.max_hp*0.15",
                     "value": {
-                      "raw": 13447.199999999999,
-                      "display": 13448
+                      "raw": 12279.9,
+                      "display": 12280
                     }
                   },
                   "stateArgs": [],
@@ -31026,8 +31026,8 @@
                     {
                       "expression": "StateOwner.max_hp*0.1",
                       "value": {
-                        "raw": 8964.800000000001,
-                        "display": 8965
+                        "raw": 8186.6,
+                        "display": 8187
                       }
                     }
                   ]
@@ -31851,26 +31851,26 @@
               "tid": 118029,
               "nameKo": "「심해의 숙녀」",
               "level": 79,
-              "hp": 889758,
+              "hp": 812517,
               "attack": 1289,
               "defense": 14854,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
               "configuredBars": 2,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 889758,
+                  "hp": 812517,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 },
                 {
                   "bar": 2,
-                  "hp": 889758,
+                  "hp": 812517,
                   "maxHpMultiplier": 1,
                   "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
                 }
               ],
-              "effectiveHp": 1779516,
+              "effectiveHp": 1625034,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "118060": {
@@ -31912,8 +31912,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 133463.69999999998,
-                        "display": 133464
+                        "raw": 121877.54999999999,
+                        "display": 121878
                       }
                     },
                     {
@@ -31931,7 +31931,7 @@
                       }
                     }
                   ],
-                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 133,464pt의 실드를 획득하고, 258pt의 피해를 5회 입힌다."
+                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 121,878pt의 실드를 획득하고, 258pt의 피해를 5회 입힌다."
                 },
                 "118072": {
                   "args": [
@@ -31964,15 +31964,15 @@
                     {
                       "expression": "CmdCaster.max_hp*0.1",
                       "value": {
-                        "raw": 88975.8,
-                        "display": 88976
+                        "raw": 81251.70000000001,
+                        "display": 81252
                       }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.025",
                       "value": {
-                        "raw": 22243.95,
-                        "display": 22244
+                        "raw": 20312.925000000003,
+                        "display": 20313
                       }
                     },
                     {
@@ -31983,15 +31983,15 @@
                       }
                     }
                   ],
-                  "description": "실드를 88,976pt, 희생 22,244스택, 촉수 피해 46pt를 획득한다."
+                  "description": "실드를 81,252pt, 희생 20,313스택, 촉수 피해 46pt를 획득한다."
                 },
                 "118095": {
                   "args": [
                     {
                       "expression": "CmdCaster.max_hp*0.12",
                       "value": {
-                        "raw": 106770.95999999999,
-                        "display": 106771
+                        "raw": 97502.04,
+                        "display": 97503
                       }
                     },
                     {
@@ -32009,7 +32009,7 @@
                       }
                     }
                   ],
-                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 106,771pt의 실드를 획득하고, 258pt의 피해를 3회 입힌다."
+                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 97,503pt의 실드를 획득하고, 258pt의 피해를 3회 입힌다."
                 },
                 "118929": {
                   "args": [
@@ -32069,15 +32069,15 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 133463.69999999998,
-                        "display": 133464
+                        "raw": 121877.54999999999,
+                        "display": 121878
                       }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.025",
                       "value": {
-                        "raw": 22243.95,
-                        "display": 22244
+                        "raw": 20312.925000000003,
+                        "display": 20313
                       }
                     },
                     {
@@ -32088,7 +32088,7 @@
                       }
                     }
                   ],
-                  "description": "실드를 133,464pt, 희생 22,244스택, 촉수 피해 26pt를 획득한다."
+                  "description": "실드를 121,878pt, 희생 20,313스택, 촉수 피해 26pt를 획득한다."
                 }
               },
               "resolvedStates": [
@@ -32141,8 +32141,8 @@
                   "initialLayer": {
                     "expression": "CmdCaster.max_hp*0.15",
                     "value": {
-                      "raw": 133463.69999999998,
-                      "display": 133464
+                      "raw": 121877.54999999999,
+                      "display": 121878
                     }
                   },
                   "stateArgs": [],
@@ -32150,8 +32150,8 @@
                     {
                       "expression": "StateOwner.max_hp*0.1",
                       "value": {
-                        "raw": 88975.8,
-                        "display": 88976
+                        "raw": 81251.70000000001,
+                        "display": 81252
                       }
                     }
                   ]
@@ -32975,26 +32975,26 @@
               "tid": 118029,
               "nameKo": "「심해의 숙녀」",
               "level": 91,
-              "hp": 2750485,
+              "hp": 2582022,
               "attack": 1881,
               "defense": 32396,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
               "configuredBars": 2,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 2750485,
+                  "hp": 2582022,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 },
                 {
                   "bar": 2,
-                  "hp": 2750485,
+                  "hp": 2582022,
                   "maxHpMultiplier": 1,
                   "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
                 }
               ],
-              "effectiveHp": 5500970,
+              "effectiveHp": 5164044,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "118060": {
@@ -33036,8 +33036,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 412572.75,
-                        "display": 412573
+                        "raw": 387303.3,
+                        "display": 387304
                       }
                     },
                     {
@@ -33055,7 +33055,7 @@
                       }
                     }
                   ],
-                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 412,573pt의 실드를 획득하고, 377pt의 피해를 5회 입힌다."
+                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 387,304pt의 실드를 획득하고, 377pt의 피해를 5회 입힌다."
                 },
                 "118072": {
                   "args": [
@@ -33088,15 +33088,15 @@
                     {
                       "expression": "CmdCaster.max_hp*0.1",
                       "value": {
-                        "raw": 275048.5,
-                        "display": 275049
+                        "raw": 258202.2,
+                        "display": 258203
                       }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.025",
                       "value": {
-                        "raw": 68762.125,
-                        "display": 68763
+                        "raw": 64550.55,
+                        "display": 64551
                       }
                     },
                     {
@@ -33107,15 +33107,15 @@
                       }
                     }
                   ],
-                  "description": "실드를 275,049pt, 희생 68,763스택, 촉수 피해 66pt를 획득한다."
+                  "description": "실드를 258,203pt, 희생 64,551스택, 촉수 피해 66pt를 획득한다."
                 },
                 "118095": {
                   "args": [
                     {
                       "expression": "CmdCaster.max_hp*0.12",
                       "value": {
-                        "raw": 330058.2,
-                        "display": 330059
+                        "raw": 309842.64,
+                        "display": 309843
                       }
                     },
                     {
@@ -33133,7 +33133,7 @@
                       }
                     }
                   ],
-                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 330,059pt의 실드를 획득하고, 377pt의 피해를 3회 입힌다."
+                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 309,843pt의 실드를 획득하고, 377pt의 피해를 3회 입힌다."
                 },
                 "118929": {
                   "args": [
@@ -33193,15 +33193,15 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 412572.75,
-                        "display": 412573
+                        "raw": 387303.3,
+                        "display": 387304
                       }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.025",
                       "value": {
-                        "raw": 68762.125,
-                        "display": 68763
+                        "raw": 64550.55,
+                        "display": 64551
                       }
                     },
                     {
@@ -33212,7 +33212,7 @@
                       }
                     }
                   ],
-                  "description": "실드를 412,573pt, 희생 68,763스택, 촉수 피해 38pt를 획득한다."
+                  "description": "실드를 387,304pt, 희생 64,551스택, 촉수 피해 38pt를 획득한다."
                 }
               },
               "resolvedStates": [
@@ -33265,8 +33265,8 @@
                   "initialLayer": {
                     "expression": "CmdCaster.max_hp*0.15",
                     "value": {
-                      "raw": 412572.75,
-                      "display": 412573
+                      "raw": 387303.3,
+                      "display": 387304
                     }
                   },
                   "stateArgs": [],
@@ -33274,8 +33274,8 @@
                     {
                       "expression": "StateOwner.max_hp*0.1",
                       "value": {
-                        "raw": 275048.5,
-                        "display": 275049
+                        "raw": 258202.2,
+                        "display": 258203
                       }
                     }
                   ]
@@ -34099,26 +34099,26 @@
               "tid": 118029,
               "nameKo": "「심해의 숙녀」",
               "level": 101,
-              "hp": 8977720,
+              "hp": 8744674,
               "attack": 2517,
               "defense": 44816,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
               "configuredBars": 2,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 8977720,
+                  "hp": 8744674,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 },
                 {
                   "bar": 2,
-                  "hp": 8977720,
+                  "hp": 8744674,
                   "maxHpMultiplier": 1,
                   "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
                 }
               ],
-              "effectiveHp": 17955440,
+              "effectiveHp": 17489348,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "118060": {
@@ -34160,8 +34160,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 1346658,
-                        "display": 1346658
+                        "raw": 1311701.0999999999,
+                        "display": 1311702
                       }
                     },
                     {
@@ -34179,7 +34179,7 @@
                       }
                     }
                   ],
-                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 1,346,658pt의 실드를 획득하고, 504pt의 피해를 5회 입힌다."
+                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 1,311,702pt의 실드를 획득하고, 504pt의 피해를 5회 입힌다."
                 },
                 "118072": {
                   "args": [
@@ -34212,15 +34212,15 @@
                     {
                       "expression": "CmdCaster.max_hp*0.1",
                       "value": {
-                        "raw": 897772,
-                        "display": 897772
+                        "raw": 874467.4,
+                        "display": 874468
                       }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.025",
                       "value": {
-                        "raw": 224443,
-                        "display": 224443
+                        "raw": 218616.85,
+                        "display": 218617
                       }
                     },
                     {
@@ -34231,15 +34231,15 @@
                       }
                     }
                   ],
-                  "description": "실드를 897,772pt, 희생 224,443스택, 촉수 피해 89pt를 획득한다."
+                  "description": "실드를 874,468pt, 희생 218,617스택, 촉수 피해 89pt를 획득한다."
                 },
                 "118095": {
                   "args": [
                     {
                       "expression": "CmdCaster.max_hp*0.12",
                       "value": {
-                        "raw": 1077326.4,
-                        "display": 1077327
+                        "raw": 1049360.88,
+                        "display": 1049361
                       }
                     },
                     {
@@ -34257,7 +34257,7 @@
                       }
                     }
                   ],
-                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 1,077,327pt의 실드를 획득하고, 504pt의 피해를 3회 입힌다."
+                  "description": "해당 의도로 전환할 때, 현재 촉수 수만큼의 임시 촉수를 획득한다. 1,049,361pt의 실드를 획득하고, 504pt의 피해를 3회 입힌다."
                 },
                 "118929": {
                   "args": [
@@ -34317,15 +34317,15 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 1346658,
-                        "display": 1346658
+                        "raw": 1311701.0999999999,
+                        "display": 1311702
                       }
                     },
                     {
                       "expression": "CmdCaster.max_hp*0.025",
                       "value": {
-                        "raw": 224443,
-                        "display": 224443
+                        "raw": 218616.85,
+                        "display": 218617
                       }
                     },
                     {
@@ -34336,7 +34336,7 @@
                       }
                     }
                   ],
-                  "description": "실드를 1,346,658pt, 희생 224,443스택, 촉수 피해 51pt를 획득한다."
+                  "description": "실드를 1,311,702pt, 희생 218,617스택, 촉수 피해 51pt를 획득한다."
                 }
               },
               "resolvedStates": [
@@ -34389,8 +34389,8 @@
                   "initialLayer": {
                     "expression": "CmdCaster.max_hp*0.15",
                     "value": {
-                      "raw": 1346658,
-                      "display": 1346658
+                      "raw": 1311701.0999999999,
+                      "display": 1311702
                     }
                   },
                   "stateArgs": [],
@@ -34398,8 +34398,8 @@
                     {
                       "expression": "StateOwner.max_hp*0.1",
                       "value": {
-                        "raw": 897772,
-                        "display": 897772
+                        "raw": 874467.4,
+                        "display": 874468
                       }
                     }
                   ]

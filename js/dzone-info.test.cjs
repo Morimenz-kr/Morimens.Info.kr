@@ -75,8 +75,12 @@ test('68기는 원본 스테이지 그룹과 네 가지 난이도를 사용한�
 test('68기 다중 체력 보스와 몬스터 초상은 추출 결과대로 제공한다', () => {
     const wave4Madness = dzoneData.waves.find(wave => wave.wave === 4).alerts.find(alert => alert.difficulty === 'madness');
     const deepSeaLady = wave4Madness.monsters.find(monster => monster.tid === 118029);
-    assert.deepEqual(deepSeaLady.phases.map(phase => phase.hp), [8977720, 8977720]);
-    assert.equal(deepSeaLady.effectiveHp, 17955440);
+    assert.deepEqual(deepSeaLady.phases.map(phase => phase.hp), [8744674, 8744674]);
+    assert.equal(deepSeaLady.effectiveHp, 17489348);
+
+    const wave3Madness = dzoneData.waves.find(wave => wave.wave === 3).alerts.find(alert => alert.difficulty === 'madness');
+    const directorSara = wave3Madness.monsters.find(monster => monster.tid === 74035);
+    assert.equal(directorSara.hp, 7349597);
 
     const definitions = dzoneData.waves.flatMap(wave => [...wave.monsters, ...(wave.summonDefinitions || [])]);
     for (const monster of definitions) {

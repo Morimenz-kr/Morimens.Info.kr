@@ -346,7 +346,7 @@ function stateIconPath(icon) {
 }
 
 function normalizeMonsterHp(definition, stats, standardRows) {
-  if (!definition?.config || !/StandardTurn/.test(String(stats.hpFormula || ''))) return;
+  if (!definition?.config) return;
   const standard = (standardRows || []).find(row => row.BattleTag === definition.battleTag);
   if (!standard) return;
   const proportion = Number(definition.config.MonsterProportion);
@@ -354,12 +354,16 @@ function normalizeMonsterHp(definition, stats, standardRows) {
   const defensePercent = Number(definition.config.MonsterDefPercent);
   if (![standard.StandardHp, standard.StandardDef, proportion, hpPercent, defensePercent].every(Number.isFinite)) return;
 
+  const isAwakenerMonster = /MonsterDefPercent\*0\.6/.test(String(stats.hpFormula || ''))
+    || /EnemyAwaker/i.test(String(definition.image || ''))
+    || (definition.monsterClass === 'Boss' && definition.monsterTags?.includes(90645));
+  const defenseCoefficient = isAwakenerMonster ? 0.6 : 0.2;
   const hp = Math.ceil(
     standard.StandardHp * proportion * hpPercent
-    - standard.StandardDef * defensePercent * 0.2
+    - standard.StandardDef * defensePercent * defenseCoefficient
   );
   stats.hp = hp;
-  stats.hpFormula = 'ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)';
+  stats.hpFormula = `ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*${defenseCoefficient})`;
   if (Array.isArray(stats.phases) && stats.phases.length) {
     stats.phases = stats.phases.map(phase => ({
       ...phase,
