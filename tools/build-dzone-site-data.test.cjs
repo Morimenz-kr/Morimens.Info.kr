@@ -27,12 +27,13 @@ test('상태 명령으로 교체되는 몬스터 의도를 조건부 행동에 �
   }), 'utf8');
 
   await writeDocument(staticDirectory, 'Config.MonsterConfig.json', {
-    100: { InitSkillList: { 1: 200 }, CycleSkillList1: { 1: 200 }, ExistState: { 1: 300 }, MonsterTag: { 1: 90640, 2: 90645 } }
+    100: { InitSkillList: { 1: 200 }, CycleSkillList1: { 1: 200 }, ExistState: { 1: 300 }, MonsterTag: { 1: 90640, 2: 90645 } },
+    101: { InitSkillList: { 1: 200 }, CycleSkillList1: { 1: 200 } }
   });
   await writeDocument(staticDirectory, 'Text_KR.Text_MonsterConfig.json', {});
   await writeDocument(staticDirectory, 'Config.Skill.json', {
     200: { Name: 'Skill_200_Name|일반 공격', Desc: 'Skill_200_Desc|일반 피해', Type: { 1: 'Intent_Attack' }, Para: 'BattleAtkForce*1' },
-    201: { Name: 'Skill_201_Name|특수 공격', Desc: 'Skill_201_Desc|강한 피해', Type: { 1: 'Intent_HeavyAttack' }, Para: 'BattleAtkForce*2' }
+    201: { Name: 'Skill_201_Name|특수 공격', Desc: 'Skill_201_Desc|강한 피해', Type: { 1: 'Intent_HeavyAttack' }, Para: 'BattleAtkForce*2', CmdList: 401 }
   });
   await writeDocument(staticDirectory, 'Text_KR.Text_Skill.json', {
     Skill_200_Name: { Text: '일반 공격' }, Skill_200_Desc: { Text: '일반 피해' },
@@ -45,7 +46,8 @@ test('상태 명령으로 교체되는 몬스터 의도를 조건부 행동에 �
     State_300_Name: { Text: '누적' }, State_300_Desc: { Text: '10스택이면 특수 공격으로 전환한다.' }
   });
   await writeDocument(staticDirectory, 'Config.Cmd.json', {
-    400: { data_list: { 1: { Type: 'BEMonsterChangeSkill', Para: '201,1' } } }
+    400: { data_list: { 1: { Type: 'BEMonsterChangeSkill', Para: '201,1' } } },
+    401: { data_list: { 1: { Type: 'BESummonMonster', Para: '101,-4,CmdCaster.max_hp*0.3,CmdCaster.AtkForce*0.3,CmdCaster.DefForce*0.3' } } }
   });
   await writeDocument(staticDirectory, 'Config.RelicConfig.json', {});
   await writeDocument(staticDirectory, 'Text_KR.Text_RelicConfig.json', {});
@@ -68,6 +70,18 @@ test('상태 명령으로 교체되는 몬스터 의도를 조건부 행동에 �
   assert.equal(monster.states[0].icon, 'images/keyword-icons/original/icons_buff_061.png');
   assert.equal(output.waves[0].alerts[0].monsters[0].resolvedStates[0].icon, 'images/keyword-icons/original/icons_buff_061.png');
   assert.equal(output.waves[0].alerts[0].monsters[0].resolvedSkills['201'].description, '강한 피해');
+  assert.equal(output.waves[0].summonDefinitions[0].tid, 101);
+  const summon = output.waves[0].alerts[0].summonedMonsters[0];
+  assert.equal(summon.hp, 300);
+  assert.equal(summon.attack, 60);
+  assert.equal(summon.defense, 15);
+  assert.equal(summon.rule.sourceSkillId, 201);
+  assert.equal(summon.rule.commandId, 401);
+  assert.deepEqual(summon.positions, [-4]);
+  assert.equal(summon.resolvedSkills['200'].args[0].value.display, 60);
+  await buildDzoneSiteData({ basePath: outputPath, staticDirectory, outputPath, monsterTids: [100] });
+  const rebuilt = JSON.parse(await fs.readFile(outputPath, 'utf8'));
+  assert.deepEqual(rebuilt.waves[0].alerts[0].summonedMonsters, output.waves[0].alerts[0].summonedMonsters);
 });
 
 test('일반 몬스터 HP는 방어 보정치를 HP 비율 바깥에서 차감한다', async () => {

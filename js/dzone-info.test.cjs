@@ -220,6 +220,66 @@ test('사라 소환체의 HP와 체력바는 현재 보스 최대 HP의 2%로 �
     }
 });
 
+test('연결 해제로 소환되는 긴급 연락의 이미지·행동·패시브·난이도별 수치를 연결한다', () => {
+    const wave = dzoneData.waves.find(w => w.wave === 2);
+    const definition = wave.summonDefinitions.find(monster => monster.tid === 72150);
+    assert.ok(definition);
+    assert.equal(definition.nameKo, '긴급 연락');
+    assert.ok(fs.existsSync(path.join(__dirname, '..', definition.webImage)));
+    assert.deepEqual(definition.patterns.find(p => p.id === 'cycle-1').skillIds, [72125, 72115, 72119, 72115]);
+    for (const alert of wave.alerts) {
+        const parent = alert.monsters.find(monster => monster.tid === 72151);
+        const group = alert.summonedMonsters.filter(monster => monster.parentTid === 72151 && monster.rule.sourceSkillId === 72112);
+        assert.equal(group.length, 4);
+        const emergency = group.find(monster => monster.tid === 72150);
+        assert.equal(emergency.hp, Math.ceil(parent.hp * 0.3));
+        assert.equal(emergency.phases[0].hp, emergency.hp);
+        assert.equal(emergency.effectiveHp, emergency.hp);
+        assert.equal(emergency.attack, Math.ceil(parent.attack * 0.3));
+        assert.equal(emergency.resolvedSkills['72115'].args[0].value.display, Math.ceil(emergency.attack * 1.4));
+        const passive = emergency.resolvedStates.find(state => state.id === 73567);
+        assert.equal(passive.stateArgs[0].value.display, Math.ceil(emergency.attack * 0.025));
+        assert.equal(passive.stateArgs[1].value.display, Math.ceil(emergency.hp * 0.05));
+        assert.doesNotMatch(passive.richDescription, /\[StateArg/);
+    }
+    const context = vm.createContext({
+        selectedAlert: wave.alerts.at(-1).alert, escapeHtml: String,
+        summonDefinition: (w, id) => w.summonDefinitions.find(m => m.tid === id),
+        renderMonsterCard: m => `<article>${m.nameKo}</article>`
+    });
+    vm.runInContext(source.slice(source.indexOf('    function renderSummons('), source.indexOf('    function relicParameterText(')), context);
+    const rendered = context.renderSummons(wave, 72151);
+    assert.match(rendered, /aria-label="「연결 해제」로 소환"/);
+    assert.equal((rendered.match(/<article>긴급 연락<\/article>/g) || []).length, 1);
+});
+
+test('동일 소환체는 수량으로 묶되 다른 패턴·능력치·소환 경로는 합치지 않는다', () => {
+    const wave = dzoneData.waves.find(w => w.wave === 2);
+    const cards = [];
+    const context = vm.createContext({
+        selectedAlert: wave.alerts.at(-1).alert, escapeHtml: String,
+        summonDefinition: (w, id) => w.summonDefinitions.find(m => m.tid === id),
+        renderMonsterCard: (monster, stats, options) => { cards.push({ tid: monster.tid, stats, badge: options.badgeLabel }); return ''; }
+    });
+    vm.runInContext(source.slice(source.indexOf('    function renderSummons('), source.indexOf('    function relicParameterText(')), context);
+    context.renderSummons(wave, 72151);
+    assert.equal(cards.length, 5);
+    const disconnect = cards.filter(c => c.stats.rule.sourceSkillId === 72112);
+    assert.equal(disconnect.length, 3);
+    assert.match(disconnect.find(c => c.tid === 72144).badge, /최대 ×2/);
+    assert.equal(disconnect.find(c => c.tid === 72142).stats.count, 1);
+    assert.equal(disconnect.find(c => c.tid === 72150).stats.count, 1);
+    assert.equal(cards.filter(c => c.tid === 72144).length, 2);
+    assert.equal(wave.alerts.at(-1).summonedMonsters.filter(s => s.parentTid === 72151).length, 8);
+    cards.length = 0;
+    const sample = disconnect.find(c => c.tid === 72150).stats;
+    const triple = { ...wave, alerts: [{ alert: context.selectedAlert,
+        summonedMonsters: [1, 2, 3].map(position => ({ ...sample, positions: [position], count: 1 })) }] };
+    context.renderSummons(triple, 72151);
+    assert.equal(cards.length, 1);
+    assert.equal(cards[0].badge, '소환 개체 ×3');
+});
+
 test('순교자의 죽음 저항과 분열체의 포식당함을 다른 개체·효과로 유지한다', () => {
     const wave = dzoneData.waves.find(wave => wave.wave === 4);
     assert.equal(wave.monsters.find(monster => monster.tid === 94942).conditionalActions.some(action => action.skillId === 94957), false);
@@ -269,7 +329,7 @@ test('소환 개체는 상세 정보에 남기되 주요 기믹에서는 제외�
     const waveMechanicsBlock = source.match(/function waveMechanics\(wave\) \{([\s\S]*?)\n    \}/)?.[1] || '';
     assert.doesNotMatch(mechanicDefinitions, /label:\s*'소환'/);
     assert.doesNotMatch(waveMechanicsBlock, /mechanics\.push\('소환'\)/);
-    assert.match(source, /aria-label="소환 개체"/);
+    assert.match(source, /class="summon-section" aria-label=/);
 });
 
 test('HP와 상성 각성체 영역은 몬스터 카드와 같은 배경을 사용한다', () => {

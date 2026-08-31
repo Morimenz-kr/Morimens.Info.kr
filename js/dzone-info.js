@@ -543,16 +543,38 @@
         const alert = wave.alerts.find(item => item.alert === selectedAlert);
         const summons = (alert?.summonedMonsters || []).filter(monster => monster.parentTid === tid);
         if (!summons.length) return '';
-        const cards = summons.map(stats => {
+        const groups = new Map();
+        for (const summon of summons) {
+            const key = summon.rule?.sourceSkillId || 0;
+            if (!groups.has(key)) groups.set(key, []);
+            groups.get(key).push(summon);
+        }
+        const renderCards = items => {
+            const identical = new Map();
+            for (const stats of items) {
+                const key = JSON.stringify([stats.tid, stats.hp, stats.attack, stats.defense, stats.hpDisplay,
+                    stats.phases, stats.resolvedSkills, stats.resolvedStates, stats.entryStates,
+                    stats.rule?.hpExpression, stats.rule?.attackExpression, stats.rule?.defenseExpression]);
+                const merged = identical.get(key);
+                if (merged) {
+                    merged.count += stats.count || 1;
+                    merged.conditionalCount ||= Boolean(stats.rule?.condition);
+                } else identical.set(key, { ...stats, count: stats.count || 1, conditionalCount: Boolean(stats.rule?.condition) });
+            }
+            return [...identical.values()].map(stats => {
             const monster = summonDefinition(wave, stats.tid);
             if (!monster) return '';
             return renderMonsterCard(monster, stats, {
-                badgeLabel: stats.count > 1 ? `소환 개체 ×${stats.count}` : '소환 개체',
+                badgeLabel: stats.count > 1 ? `소환 개체 ${stats.conditionalCount ? '· 최대 ' : ''}×${stats.count}` : '소환 개체',
                 badgeType: 'Summon',
                 extraClass: 'monster-card--summon'
             });
+            }).join('');
+        };
+        return [...groups].map(([skillId, items]) => {
+            const label = skillId ? `「${items[0].rule.sourceSkillName}」로 소환` : '소환 개체';
+            return `<section class="summon-section" aria-label="${escapeHtml(label)}"><h5 class="section-label">${escapeHtml(label)}</h5><div class="summon-list">${renderCards(items)}</div></section>`;
         }).join('');
-        return `<section class="summon-section" aria-label="소환 개체"><h5 class="section-label">소환 개체</h5><div class="summon-list">${cards}</div></section>`;
     }
 
     function relicParameterText(parameter) {

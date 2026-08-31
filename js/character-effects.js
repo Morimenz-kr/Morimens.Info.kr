@@ -68,6 +68,7 @@
     keywordIcons['과식'] = ['caraboo-apple.png', '#c4cad2'];
 
     keywordIcons['공허'] = ['void.png', '#ac9a76'];
+    keywordIcons['보존'] = ['../original/icons_buff_016.png', '#c79374'];
 
     function escapeHtml(value) {
         return String(value ?? '')
@@ -125,6 +126,7 @@
                 if (/(?:행동력|산출력|광기|은열쇠)\s*$/.test(precedingText)) return true;
             }
             if (keyword === '보유' && /(?:방어막|스택)(?:을)?\s*$/.test(precedingText)) return true;
+            if (keyword === '보존' && /^(?:되|된|될|됩|됐|하|할|한|했)/.test(followingText)) return true;
             if (keyword === '포식' && /^자\s+군집/.test(followingText)) return true;
             if (keyword === '저주' && /^\s*방패/.test(followingText)) return true;
             if (keyword === '고유' && /(?:팀|파티)\s*$/.test(precedingText)) return true;

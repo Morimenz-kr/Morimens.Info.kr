@@ -295,6 +295,27 @@ function conditionalActionEntries(stateIds, states, commands, skills, stateText,
   return actions;
 }
 
+function conditionalSummonRules(actions, skills, commands, skillText) {
+  const rules = [];
+  for (const skillId of new Set(actions.map(action => action.skillId))) {
+    const skill = skills[skillId];
+    const commandIds = typeof skill.CmdList === 'object' ? orderedValues(skill.CmdList) : [skill.CmdList].filter(Boolean);
+    const args = splitTopLevel(skill.Para);
+    for (const commandId of commandIds) {
+      for (const entry of orderedValues(commands[commandId]?.data_list)) {
+        if (entry.Type !== 'BESummonMonster') continue;
+        const parts = splitTopLevel(entry.Para).map(part => part.replace(/\bArg(\d+)\b/g, (match, n) => args[n - 1] ?? match));
+        const [summonedTid, position] = parts.slice(0, 2).map(Number);
+        if (!Number.isInteger(summonedTid) || !Number.isInteger(position)) throw new Error(`Unresolved conditional summon in Cmd:${commandId}`);
+        rules.push({ summonedTid, position, hpExpression: parts[2], attackExpression: parts[3], defenseExpression: parts[4],
+          condition: entry.Cond || '', commandId, sourceSkillId: skillId,
+          sourceSkillName: stripGameMarkup(localized(skill.Name, skillText)) });
+      }
+    }
+  }
+  return rules;
+}
+
 function researchParameter(expression, index) {
   const source = String(expression ?? '');
   const numeric = Number(source);
@@ -589,6 +610,10 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
         expressions: splitTopLevel(row.Para)
       };
     });
+    monster.summonRules = [
+      ...(monster.summonRules || []).filter(rule => !rule.sourceSkillId),
+      ...conditionalSummonRules(monster.conditionalActions, skills, commands, skillText)
+    ];
     return monster;
   };
 
@@ -641,6 +666,19 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
     const selected = monster => !monsterTids || monsterTids.includes(monster.tid);
     for (const monster of wave.monsters || []) if (selected(monster)) enrichMonsterDefinition(monster);
 
+    for (const alert of wave.alerts || []) {
+      const selectedParents = new Set((wave.monsters || []).filter(selected).map(monster => monster.tid));
+      alert.summonedMonsters = (alert.summonedMonsters || []).filter(summon => !(summon.rule?.sourceSkillId && selectedParents.has(summon.parentTid)));
+      for (const parent of (wave.monsters || []).filter(selected)) {
+        for (const rule of (parent.summonRules || []).filter(rule => rule.sourceSkillId)) {
+          if (!monsters[rule.summonedTid]) throw new Error(`Missing summoned MonsterConfig:${rule.summonedTid}`);
+          alert.summonedMonsters.push({ parentTid: parent.tid, tid: rule.summonedTid,
+            nameKo: stripGameMarkup(localized(monsters[rule.summonedTid].MonsterName, monsterText)),
+            hp: null, attack: null, defense: null, count: 1, positions: [rule.position], rule: { ...rule } });
+        }
+      }
+    }
+
     const summonedTidSet = new Set((wave.alerts || []).flatMap(alert =>
       (alert.summonedMonsters || []).map(monster => monster.tid)
     ));
@@ -650,7 +688,8 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
         .map(action => ({ ...action, sourceMonsterTid: monster.tid, sourceMonsterName: monster.nameKo }))
     );
     wave.summonDefinitions = [...summonedTidSet].map(tid => {
-      if (!selected({ tid })) return wave.summonDefinitions?.find(monster => monster.tid === tid);
+      const existing = wave.summonDefinitions?.find(monster => monster.tid === tid);
+      if (!selected({ tid }) && existing) return existing;
       return enrichMonsterDefinition({ tid }, redirectedActions.filter(action => action.targetTid === tid));
     }).filter(Boolean);
 
@@ -687,7 +726,7 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
         }
       }
       for (const summon of alert.summonedMonsters || []) {
-        if (!selected(summon)) continue;
+        if (!selected(summon) && !summon.rule?.sourceSkillId) continue;
         const parent = (alert.monsters || []).find(monster => monster.tid === summon.parentTid);
         if (parent && summon.rule?.hpExpression) {
           const expression = summon.rule.hpExpression;

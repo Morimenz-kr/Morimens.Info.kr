@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { dimensionDescription } from './dimension-descriptions.mjs';
 
 const repositoryRoot = process.cwd();
 const sourceRoot = path.resolve(process.argv[2] || '');
@@ -155,7 +156,7 @@ const dimensionImages = Object.values(awakeners)
       clientAwakenerId: awakener.ID,
       clientRelicId: relicId,
       name: activeName,
-      effect: interpolate(rawEffect, relic.StatePara || {}),
+      effect: dimensionDescription({ rawEffect: clean(rawEffect), parameters: relic.StatePara || {}, clientRelicId: relicId }, relic),
       rawEffect: clean(rawEffect),
       parameters: relic.StatePara || {},
       sourceIcon: relic.Icon || relic.SmallIcon || null,

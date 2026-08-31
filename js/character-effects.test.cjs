@@ -15,6 +15,19 @@ const { classifyCharacterEffects } = characterEffects;
 const effectsData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 const cardsData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_cards.json'), 'utf8'));
 
+test('산 차원영상의 보존과 예비1은 실제 카드 상태 설명에 연결한다', () => {
+    const tooltips = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_tooltips.json'), 'utf8'));
+    const html = characterEffects.renderRichText(effectsData.sanga.dimensionalImage.effect, tooltips);
+    assert.match(html, /data-keyword="보존"/);
+    assert.match(html, /icons_buff_016\.png/);
+    assert.match(html, /data-keyword="예비"[^>]*>.*<span>예비1<\/span>/);
+    assert.match(tooltips.보존, /손패에 남는다/);
+    assert.match(tooltips.예비, /산출력 소모가 스택 수만큼 감소/);
+    assert.doesNotMatch(tooltips.예비, /복제본/);
+    assert.doesNotMatch(characterEffects.renderRichText('전투 종료 후에도 보존된다.', tooltips), /tooltip-trigger/);
+    assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/original/icons_buff_016.png')));
+});
+
 test('카드별 3돌 뱃지는 선행 돌파 뱃지도 함께 활성화한다', () => {
     const result = characterEffects.renderBreakthroughBadges({
         breakthroughs: [{ stage: 1 }, { stage: 3 }]

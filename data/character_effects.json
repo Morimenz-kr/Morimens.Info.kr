@@ -2480,7 +2480,7 @@
     "dimensionalImage": {
       "name": "차원 영상 · 릴리",
       "characterName": "릴리",
-      "effect": "턴 시작 시 릴리는 15 광기를 획득합니다. 릴리의 인내 상한이 [Arg2]% 증가하며, \"시들지 않는 진흙 속의 꽃\" 또는 \"보복의 일격\"을 사용할 때, \"인내\" 스택의 8%에 해당하는 HP을 회복합니다.",
+      "effect": "턴 시작 시 릴리는 15 광기를 획득합니다. 릴리의 인내 상한이 100% 증가하며, \"시들지 않는 진흙 속의 꽃\" 또는 \"보복의 일격\"을 사용할 때, \"인내\" 스택의 8%에 해당하는 HP을 회복합니다.",
       "clientRelicId": 71263,
       "clientAwakenerId": 15581,
       "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C10.png",
@@ -8770,7 +8770,7 @@
     "dimensionalImage": {
       "name": "차원 영상 · 산",
       "characterName": "산",
-      "effect": "턴 시작 시 산은 15 광기를 획득합니다. 전투 시작 시 산의 모든 명령 카드에 보존, 예비 1, math.ceil(PlayerGrowth*0.03) 점 방어막을 부여합니다.",
+      "effect": "턴 시작 시 산은 15 광기를 획득합니다. 전투 시작 시 산의 모든 명령 카드에 보존, 예비1, 물상 연구 깊이의 3%에 해당하는 방어막을 부여합니다.",
       "clientRelicId": 71270,
       "clientAwakenerId": 15592,
       "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O08.png",
@@ -9200,7 +9200,7 @@
     "dimensionalImage": {
       "name": "차원 영상 · 셀레스트",
       "characterName": "셀레스트",
-      "effect": "턴 시작 시 셀레스트가 15 광기를 획득합니다. 턴이 종료되기 전, 손패에 남아있는 셀레스트의 명령 카드 1장마다 촉수 1개가 적을 공격하고 HP를 math.ceil(PlayerGrowth*0.02) 회복합니다.",
+      "effect": "턴 시작 시 셀레스트가 15 광기를 획득합니다. 턴이 종료되기 전, 손패에 남아있는 셀레스트의 명령 카드 1장마다 촉수 1개가 적을 공격하고 HP를 물상 연구 깊이의 2%만큼 회복합니다.",
       "clientRelicId": 71242,
       "clientAwakenerId": 15566,
       "sourceIcon": "Icon/Relic/Icon_Creation_Unique_O09.png",
@@ -11738,7 +11738,7 @@
     "dimensionalImage": {
       "name": "차원 영상 · 도어세인",
       "characterName": "도어세인",
-      "effect": "턴 시작 시 도어세인이 광기를 15, 힘을 math.ceil(PlayerGrowth*0.02)pt 획득한다. 도어세인이 「잔해」 사용 시 영구 힘 20%를 임시 힘으로 획득한다.",
+      "effect": "턴 시작 시 도어세인이 광기를 15, 힘을 물상 연구 깊이의 2%만큼 획득한다. 도어세인이 「잔해」 사용 시 영구 힘 20%를 임시 힘으로 획득한다.",
       "clientRelicId": 95976,
       "clientAwakenerId": 95786,
       "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B10.png",
@@ -12143,7 +12143,7 @@
     "dimensionalImage": {
       "name": "차원 영상 · 레아",
       "characterName": "레이아",
-      "effect": "턴 시작 시 레아는 15 광기를 획득합니다. HP을 잃을 때마다 math.ceil(PlayerGrowth*0.01) 힘을 획득하며, 각 전투에서 최대 10 회까지 중첩됩니다. 10 회 중첩된 후, \"고통과 환희\"의 행동력 소모가 2로 줄어들고, 피해 횟수가 1 증가합니다.",
+      "effect": "턴 시작 시 레아는 15 광기를 획득합니다. HP을 잃을 때마다 물상 연구 깊이의 1%에 해당하는 힘을 획득하며, 각 전투에서 최대 10 회까지 중첩됩니다. 10 회 중첩된 후, \"고통과 환희\"의 행동력 소모가 2로 줄어들고, 피해 횟수가 1 증가합니다.",
       "clientRelicId": 71230,
       "clientAwakenerId": 15597,
       "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B08.png",
@@ -13926,7 +13926,7 @@
     "dimensionalImage": {
       "name": "차원 영상 · 아이기스",
       "characterName": "아이기스",
-      "effect": "턴 시작 시 아이기스가 광기를 15pt 획득한다. 아이기스가 취약 상태인 적에게 피해를 입힐 때, 해당 적의 임시 힘을 math.ceil(PlayerGrowth*0.0125)pt 빼앗는다. 매 턴 최대 5회 발동한다.",
+      "effect": "턴 시작 시 아이기스가 광기를 15pt 획득한다. 아이기스가 취약 상태인 적에게 피해를 입힐 때, 해당 적의 임시 힘을 물상 연구 깊이의 1.25%만큼 빼앗는다. 매 턴 최대 5회 발동한다.",
       "clientRelicId": 71259,
       "clientAwakenerId": 15591,
       "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B03.png",
@@ -14715,7 +14715,7 @@
     "dimensionalImage": {
       "name": "차원 영상 · 타이스",
       "characterName": "타이스",
-      "effect": "턴 시작 시 테이스는 15 광기를 획득합니다. 테이스가 1 턴 내에 2 장의 명령 카드를 사용하면, \"성결의 자식\" 한 장과 math.ceil(PlayerGrowth*0.12) 점의 임시 힘을 획득하며, 3 턴의 재사용 대기시간이 발생합니다.",
+      "effect": "턴 시작 시 테이스는 15 광기를 획득합니다. 테이스가 1 턴 내에 2 장의 명령 카드를 사용하면, \"성결의 자식\" 한 장과 물상 연구 깊이의 12%에 해당하는 임시 힘을 획득하며, 3 턴의 재사용 대기시간이 발생합니다.",
       "clientRelicId": 71260,
       "clientAwakenerId": 15596,
       "sourceIcon": "Icon/Relic/Icon_Creation_Unique_B01.png",
@@ -19889,7 +19889,7 @@
     "dimensionalImage": {
       "name": "차원 영상 · 카스토르",
       "characterName": "카스토르",
-      "effect": "턴 시작 시 카스토르는 15 광기를 얻습니다. 전투 시작 시 「검은 날개」 2장을 손에 넣고, 매 턴 「검은 날개」를 처음 쓴 후 math.ceil(PlayerGrowth*0.075) pt의 임시 힘을 얻습니다.",
+      "effect": "턴 시작 시 카스토르는 15 광기를 얻습니다. 전투 시작 시 「검은 날개」 2장을 손에 넣고, 매 턴 「검은 날개」를 처음 쓴 후 물상 연구 깊이의 7.5%에 해당하는 임시 힘을 얻습니다.",
       "clientRelicId": 84126,
       "clientAwakenerId": 77923,
       "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D11.png",
@@ -20222,7 +20222,7 @@
     "dimensionalImage": {
       "name": "차원 영상 · 카시아",
       "characterName": "카시아",
-      "effect": "턴 시작 시 카시아는 15 광기를 획득합니다. 매 1장의 카드를 뽑을 때마다 카시아는 1 광기를 획득합니다. 카시아가 광기 폭발을 방출할 때 모든 적은 math.ceil(PlayerGrowth*0.03) 힘을 잃습니다.",
+      "effect": "턴 시작 시 카시아는 15 광기를 획득합니다. 매 1장의 카드를 뽑을 때마다 카시아는 1 광기를 획득합니다. 카시아가 광기 폭발을 방출할 때 모든 적은 물상 연구 깊이의 3%에 해당하는 힘을 잃습니다.",
       "clientRelicId": 71243,
       "clientAwakenerId": 15572,
       "sourceIcon": "Icon/Relic/Icon_Creation_Unique_D09.png",

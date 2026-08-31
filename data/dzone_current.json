@@ -8148,6 +8148,50 @@
               "defenseExpression": "CmdCaster.DefForce*(0.1+BattleStats.BoutCount*0.01)",
               "condition": "IsHaveMonster(11)==0 and PlayerRole.GetStateLayer(73561)==0",
               "commandId": 73496
+            },
+            {
+              "summonedTid": 72144,
+              "position": -1,
+              "hpExpression": "CmdCaster.max_hp*0.15",
+              "attackExpression": "CmdCaster.AtkForce*0.15",
+              "defenseExpression": "CmdCaster.DefForce*0.15",
+              "condition": "",
+              "commandId": 73503,
+              "sourceSkillId": 72112,
+              "sourceSkillName": "연결 해제"
+            },
+            {
+              "summonedTid": 72150,
+              "position": -4,
+              "hpExpression": "CmdCaster.max_hp*0.3",
+              "attackExpression": "CmdCaster.AtkForce*0.3",
+              "defenseExpression": "CmdCaster.DefForce*0.3",
+              "condition": "",
+              "commandId": 73503,
+              "sourceSkillId": 72112,
+              "sourceSkillName": "연결 해제"
+            },
+            {
+              "summonedTid": 72142,
+              "position": -7,
+              "hpExpression": "CmdCaster.max_hp*0.15",
+              "attackExpression": "CmdCaster.AtkForce*0.15",
+              "defenseExpression": "CmdCaster.DefForce*0.15",
+              "condition": "IsHaveMonster(-7)==0",
+              "commandId": 73503,
+              "sourceSkillId": 72112,
+              "sourceSkillName": "연결 해제"
+            },
+            {
+              "summonedTid": 72144,
+              "position": 11,
+              "hpExpression": "CmdCaster.max_hp*0.15",
+              "attackExpression": "CmdCaster.AtkForce*0.15",
+              "defenseExpression": "CmdCaster.DefForce*0.15",
+              "condition": "IsHaveMonster(11)==0",
+              "commandId": 73503,
+              "sourceSkillId": 72112,
+              "sourceSkillName": "연결 해제"
             }
           ],
           "description": "“사랑해, 다시 너를 안을 수 있을까?”",
@@ -14029,6 +14073,600 @@
                   "sourceStateId": 149229
                 }
               ]
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72144,
+              "nameKo": "잿빛 융식체",
+              "hp": 1861,
+              "attack": 25,
+              "defense": 45,
+              "count": 1,
+              "positions": [
+                -1
+              ],
+              "rule": {
+                "summonedTid": 72144,
+                "position": -1,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 1861,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 1861,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 15,
+                        "display": 15
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "15pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:15pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 27.500000000000004,
+                        "display": 28
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "28pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:28pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 7.5,
+                        "display": 8
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "8pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:8pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72150,
+              "nameKo": "긴급 연락",
+              "hp": 3721,
+              "attack": 49,
+              "defense": 90,
+              "count": 1,
+              "positions": [
+                -4
+              ],
+              "rule": {
+                "summonedTid": 72150,
+                "position": -4,
+                "hpExpression": "CmdCaster.max_hp*0.3",
+                "attackExpression": "CmdCaster.AtkForce*0.3",
+                "defenseExpression": "CmdCaster.DefForce*0.3",
+                "condition": "",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.3",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 3721,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 3721,
+              "resolvedSkills": {
+                "72115": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.4",
+                      "value": {
+                        "raw": 68.6,
+                        "display": 69
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "69pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:69pt의 피해를 1회 입힌다.>"
+                },
+                "72119": {
+                  "args": [],
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                },
+                "72125": {
+                  "args": [],
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73567,
+                  "name": "「통신자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "비명령 카드를 1장 사용할 때마다, 2의 힘과 187의 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 1.225,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 186.05,
+                        "display": 187
+                      }
+                    }
+                  ],
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 2의 <kw_5cf0d03e7ace2271:힘>과 187의 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 1.225,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 186.05,
+                        "display": 187
+                      }
+                    }
+                  ],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 1.225,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 186.05,
+                        "display": 187
+                      }
+                    }
+                  ],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72142,
+              "nameKo": "잿빛 융식체",
+              "hp": 1861,
+              "attack": 25,
+              "defense": 45,
+              "count": 1,
+              "positions": [
+                -7
+              ],
+              "rule": {
+                "summonedTid": 72142,
+                "position": -7,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "IsHaveMonster(-7)==0",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 1861,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 1861,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 15,
+                        "display": 15
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "15pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:15pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 27.500000000000004,
+                        "display": 28
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "28pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:28pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 7.5,
+                        "display": 8
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "8pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:8pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72144,
+              "nameKo": "잿빛 융식체",
+              "hp": 1861,
+              "attack": 25,
+              "defense": 45,
+              "count": 1,
+              "positions": [
+                11
+              ],
+              "rule": {
+                "summonedTid": 72144,
+                "position": 11,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "IsHaveMonster(11)==0",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 1861,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 1861,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 15,
+                        "display": 15
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "15pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:15pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 27.500000000000004,
+                        "display": 28
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "28pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:28pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 7.5,
+                        "display": 8
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "8pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:8pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
             }
           ]
         },
@@ -19110,6 +19748,600 @@
                   "sourceStateId": 149229
                 }
               ]
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72144,
+              "nameKo": "잿빛 융식체",
+              "hp": 17940,
+              "attack": 100,
+              "defense": 435,
+              "count": 1,
+              "positions": [
+                -1
+              ],
+              "rule": {
+                "summonedTid": 72144,
+                "position": -1,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 17940,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 17940,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 60,
+                        "display": 60
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:60pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 110.00000000000001,
+                        "display": 111
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:111pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 30,
+                        "display": 30
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "30pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:30pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72150,
+              "nameKo": "긴급 연락",
+              "hp": 35880,
+              "attack": 199,
+              "defense": 869,
+              "count": 1,
+              "positions": [
+                -4
+              ],
+              "rule": {
+                "summonedTid": 72150,
+                "position": -4,
+                "hpExpression": "CmdCaster.max_hp*0.3",
+                "attackExpression": "CmdCaster.AtkForce*0.3",
+                "defenseExpression": "CmdCaster.DefForce*0.3",
+                "condition": "",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.3",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 35880,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 35880,
+              "resolvedSkills": {
+                "72115": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.4",
+                      "value": {
+                        "raw": 278.59999999999997,
+                        "display": 279
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "279pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:279pt의 피해를 1회 입힌다.>"
+                },
+                "72119": {
+                  "args": [],
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                },
+                "72125": {
+                  "args": [],
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73567,
+                  "name": "「통신자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "비명령 카드를 1장 사용할 때마다, 5의 힘과 1,794의 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 4.9750000000000005,
+                        "display": 5
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 1794,
+                        "display": 1794
+                      }
+                    }
+                  ],
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 5의 <kw_b2ea192c682f65c2:힘>과 1,794의 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 4.9750000000000005,
+                        "display": 5
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 1794,
+                        "display": 1794
+                      }
+                    }
+                  ],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 4.9750000000000005,
+                        "display": 5
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 1794,
+                        "display": 1794
+                      }
+                    }
+                  ],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72142,
+              "nameKo": "잿빛 융식체",
+              "hp": 17940,
+              "attack": 100,
+              "defense": 435,
+              "count": 1,
+              "positions": [
+                -7
+              ],
+              "rule": {
+                "summonedTid": 72142,
+                "position": -7,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "IsHaveMonster(-7)==0",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 17940,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 17940,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 60,
+                        "display": 60
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:60pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 110.00000000000001,
+                        "display": 111
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:111pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 30,
+                        "display": 30
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "30pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:30pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72144,
+              "nameKo": "잿빛 융식체",
+              "hp": 17940,
+              "attack": 100,
+              "defense": 435,
+              "count": 1,
+              "positions": [
+                11
+              ],
+              "rule": {
+                "summonedTid": 72144,
+                "position": 11,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "IsHaveMonster(11)==0",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 17940,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 17940,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 60,
+                        "display": 60
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:60pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 110.00000000000001,
+                        "display": 111
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:111pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 30,
+                        "display": 30
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "30pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:30pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
             }
           ]
         },
@@ -24191,6 +25423,600 @@
                   "sourceStateId": 149229
                 }
               ]
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72144,
+              "nameKo": "잿빛 융식체",
+              "hp": 78572,
+              "attack": 187,
+              "defense": 1902,
+              "count": 1,
+              "positions": [
+                -1
+              ],
+              "rule": {
+                "summonedTid": 72144,
+                "position": -1,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 78572,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 78572,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 112.2,
+                        "display": 113
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "113pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:113pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 205.70000000000002,
+                        "display": 206
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "206pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:206pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 56.1,
+                        "display": 57
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "57pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:57pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72150,
+              "nameKo": "긴급 연락",
+              "hp": 157143,
+              "attack": 374,
+              "defense": 3804,
+              "count": 1,
+              "positions": [
+                -4
+              ],
+              "rule": {
+                "summonedTid": 72150,
+                "position": -4,
+                "hpExpression": "CmdCaster.max_hp*0.3",
+                "attackExpression": "CmdCaster.AtkForce*0.3",
+                "defenseExpression": "CmdCaster.DefForce*0.3",
+                "condition": "",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.3",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 157143,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 157143,
+              "resolvedSkills": {
+                "72115": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.4",
+                      "value": {
+                        "raw": 523.6,
+                        "display": 524
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "524pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:524pt의 피해를 1회 입힌다.>"
+                },
+                "72119": {
+                  "args": [],
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                },
+                "72125": {
+                  "args": [],
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73567,
+                  "name": "「통신자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "비명령 카드를 1장 사용할 때마다, 10의 힘과 7,858의 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 9.35,
+                        "display": 10
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 7857.150000000001,
+                        "display": 7858
+                      }
+                    }
+                  ],
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 10의 <kw_798954184cb34866:힘>과 7,858의 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 9.35,
+                        "display": 10
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 7857.150000000001,
+                        "display": 7858
+                      }
+                    }
+                  ],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 9.35,
+                        "display": 10
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 7857.150000000001,
+                        "display": 7858
+                      }
+                    }
+                  ],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72142,
+              "nameKo": "잿빛 융식체",
+              "hp": 78572,
+              "attack": 187,
+              "defense": 1902,
+              "count": 1,
+              "positions": [
+                -7
+              ],
+              "rule": {
+                "summonedTid": 72142,
+                "position": -7,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "IsHaveMonster(-7)==0",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 78572,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 78572,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 112.2,
+                        "display": 113
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "113pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:113pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 205.70000000000002,
+                        "display": 206
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "206pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:206pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 56.1,
+                        "display": 57
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "57pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:57pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72144,
+              "nameKo": "잿빛 융식체",
+              "hp": 78572,
+              "attack": 187,
+              "defense": 1902,
+              "count": 1,
+              "positions": [
+                11
+              ],
+              "rule": {
+                "summonedTid": 72144,
+                "position": 11,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "IsHaveMonster(11)==0",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 78572,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 78572,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 112.2,
+                        "display": 113
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "113pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:113pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 205.70000000000002,
+                        "display": 206
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "206pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:206pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 56.1,
+                        "display": 57
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "57pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:57pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
             }
           ]
         },
@@ -29272,6 +31098,600 @@
                   "sourceStateId": 149229
                 }
               ]
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72144,
+              "nameKo": "잿빛 융식체",
+              "hp": 261916,
+              "attack": 251,
+              "defense": 2661,
+              "count": 1,
+              "positions": [
+                -1
+              ],
+              "rule": {
+                "summonedTid": 72144,
+                "position": -1,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 261916,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 261916,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 150.6,
+                        "display": 151
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "151pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:151pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 276.1,
+                        "display": 277
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "277pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:277pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 75.3,
+                        "display": 76
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "76pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:76pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72150,
+              "nameKo": "긴급 연락",
+              "hp": 523832,
+              "attack": 502,
+              "defense": 5321,
+              "count": 1,
+              "positions": [
+                -4
+              ],
+              "rule": {
+                "summonedTid": 72150,
+                "position": -4,
+                "hpExpression": "CmdCaster.max_hp*0.3",
+                "attackExpression": "CmdCaster.AtkForce*0.3",
+                "defenseExpression": "CmdCaster.DefForce*0.3",
+                "condition": "",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.3",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 523832,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 523832,
+              "resolvedSkills": {
+                "72115": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.4",
+                      "value": {
+                        "raw": 702.8,
+                        "display": 703
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "703pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:703pt의 피해를 1회 입힌다.>"
+                },
+                "72119": {
+                  "args": [],
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                },
+                "72125": {
+                  "args": [],
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73567,
+                  "name": "「통신자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "비명령 카드를 1장 사용할 때마다, 13의 힘과 26,192의 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 12.55,
+                        "display": 13
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 26191.600000000002,
+                        "display": 26192
+                      }
+                    }
+                  ],
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 13의 <kw_4e640ca49ea1780f:힘>과 26,192의 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 12.55,
+                        "display": 13
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 26191.600000000002,
+                        "display": 26192
+                      }
+                    }
+                  ],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [
+                    {
+                      "expression": "CmdCaster.atk*0.025",
+                      "value": {
+                        "raw": 12.55,
+                        "display": 13
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.max_hp*0.05",
+                      "value": {
+                        "raw": 26191.600000000002,
+                        "display": 26192
+                      }
+                    }
+                  ],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72142,
+              "nameKo": "잿빛 융식체",
+              "hp": 261916,
+              "attack": 251,
+              "defense": 2661,
+              "count": 1,
+              "positions": [
+                -7
+              ],
+              "rule": {
+                "summonedTid": 72142,
+                "position": -7,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "IsHaveMonster(-7)==0",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 261916,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 261916,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 150.6,
+                        "display": 151
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "151pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:151pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 276.1,
+                        "display": 277
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "277pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:277pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 75.3,
+                        "display": 76
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "76pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:76pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
+            },
+            {
+              "parentTid": 72151,
+              "tid": 72144,
+              "nameKo": "잿빛 융식체",
+              "hp": 261916,
+              "attack": 251,
+              "defense": 2661,
+              "count": 1,
+              "positions": [
+                11
+              ],
+              "rule": {
+                "summonedTid": 72144,
+                "position": 11,
+                "hpExpression": "CmdCaster.max_hp*0.15",
+                "attackExpression": "CmdCaster.AtkForce*0.15",
+                "defenseExpression": "CmdCaster.DefForce*0.15",
+                "condition": "IsHaveMonster(11)==0",
+                "commandId": 73503,
+                "sourceSkillId": 72112,
+                "sourceSkillName": "연결 해제"
+              },
+              "hpFormula": "CmdCaster.max_hp*0.15",
+              "phases": [
+                {
+                  "bar": 1,
+                  "hp": 261916,
+                  "maxHpMultiplier": 1,
+                  "source": "summon-command"
+                }
+              ],
+              "effectiveHp": 261916,
+              "resolvedSkills": {
+                "72108": {
+                  "args": [],
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                },
+                "72116": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.6",
+                      "value": {
+                        "raw": 150.6,
+                        "display": 151
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "151pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:151pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                },
+                "72117": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.1",
+                      "value": {
+                        "raw": 276.1,
+                        "display": 277
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "277pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:277pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                },
+                "72123": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 75.3,
+                        "display": 76
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "76pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:76pt의 피해를 2회 입힌다.>"
+                }
+              },
+              "resolvedStates": [
+                {
+                  "id": 73518,
+                  "name": "「암살자」",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": true,
+                  "description": "주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                },
+                {
+                  "id": 22074,
+                  "name": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false,
+                  "description": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+                  "initialLayer": {
+                    "expression": "1",
+                    "value": {
+                      "raw": 1,
+                      "display": 1
+                    }
+                  },
+                  "stateArgs": [],
+                  "descArgs": []
+                },
+                {
+                  "id": 89575,
+                  "name": "",
+                  "icon": "",
+                  "visible": false,
+                  "description": "",
+                  "initialLayer": null,
+                  "stateArgs": [],
+                  "descArgs": []
+                }
+              ],
+              "entryStates": []
             }
           ]
         }
@@ -30408,6 +32828,125 @@
               ]
             }
           ]
+        },
+        {
+          "tid": 72150,
+          "nameKo": "긴급 연락",
+          "description": "\"누나, 누나의 목소리를 다시 한 번 듣고 싶어.\"",
+          "monsterClass": "Common",
+          "monsterTags": [
+            90640,
+            84293
+          ],
+          "image": "Portraits/Minihead/Portrait_Small_Monster_S0902.png",
+          "webImage": "images/dzone/monster/Portrait_Small_Monster_S0902.webp",
+          "patterns": [
+            {
+              "id": "opening",
+              "label": "최초 행동",
+              "skillIds": [
+                72125,
+                72115,
+                72119,
+                72115
+              ]
+            },
+            {
+              "id": "cycle-1",
+              "label": "반복 행동 1",
+              "skillIds": [
+                72125,
+                72115,
+                72119,
+                72115
+              ]
+            }
+          ],
+          "states": [
+            {
+              "id": 73567,
+              "name": "「통신자」",
+              "descriptionTemplate": "비명령 카드를 1장 사용할 때마다, [Power:StateArg1]의 힘과 [Block:StateArg2]의 실드를 획득한다.",
+              "initialLayerExpression": "1",
+              "stateParamExpressions": [
+                "CmdCaster.atk*0.025",
+                "CmdCaster.max_hp*0.05"
+              ],
+              "descParamExpressions": [],
+              "icon": "images/keyword-icons/original/icons_buff_016.png",
+              "visible": true
+            },
+            {
+              "id": 22074,
+              "name": "",
+              "descriptionTemplate": "7턴 생존 시 의도가 응시로 변경되고, 8턴 이상에서는 의도가 모독으로 변경된다.",
+              "initialLayerExpression": "1",
+              "stateParamExpressions": [
+                "CmdCaster.atk*0.025",
+                "CmdCaster.max_hp*0.05"
+              ],
+              "descParamExpressions": [],
+              "icon": "images/keyword-icons/original/icons_buff_016.png",
+              "visible": false
+            },
+            {
+              "id": 89575,
+              "name": "",
+              "descriptionTemplate": "",
+              "initialLayerExpression": null,
+              "stateParamExpressions": [
+                "CmdCaster.atk*0.025",
+                "CmdCaster.max_hp*0.05"
+              ],
+              "descParamExpressions": [],
+              "icon": "",
+              "visible": false
+            }
+          ],
+          "conditionalActions": [],
+          "phaseTransitions": [],
+          "skills": [
+            {
+              "id": 72125,
+              "name": "차단",
+              "hasOfficialName": true,
+              "type": "Intent_Debuff",
+              "typeLabel": "약화",
+              "target": "PlayerRole",
+              "targetLabel": "아군",
+              "descriptionTemplate": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+              "para": null,
+              "expressions": []
+            },
+            {
+              "id": 72115,
+              "name": "물리적 수복",
+              "hasOfficialName": true,
+              "type": "Intent_HeavyAttack",
+              "typeLabel": "강공격",
+              "target": "PlayerRole",
+              "targetLabel": "아군",
+              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 입힌다.",
+              "para": "BattleAtkForce*1.4,1",
+              "expressions": [
+                "BattleAtkForce*1.4",
+                "1"
+              ]
+            },
+            {
+              "id": 72119,
+              "name": "호출",
+              "hasOfficialName": true,
+              "type": "Intent_Debuff",
+              "typeLabel": "약화",
+              "target": "PlayerRole",
+              "targetLabel": "아군",
+              "descriptionTemplate": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+              "para": null,
+              "expressions": []
+            }
+          ],
+          "summonRules": []
         }
       ]
     },
@@ -51720,8 +54259,8 @@
   "summary": {
     "waveCount": 5,
     "encounterCount": 20,
-    "uniqueMonsterCount": 39,
-    "summonedMonsterCount": 10,
+    "uniqueMonsterCount": 40,
+    "summonedMonsterCount": 11,
     "relicCount": 7
   },
   "keywordGlossary": {
@@ -52383,6 +54922,16 @@
         "id": 149265
       }
     },
+    "kw_5cf0d03e7ace2271": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 1.225pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
     "kw_b90426c2bf2510e5": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 95pt 증가한다.",
@@ -52416,6 +54965,16 @@
     "kw_a435fd9ac14a6c8d": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 59.8pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
+    "kw_b2ea192c682f65c2": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 4.975pt 증가한다.",
       "source": {
         "type": "State",
         "id": 2900
@@ -52463,6 +55022,16 @@
       "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
       "color": "#71aa86"
     },
+    "kw_798954184cb34866": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 9.35pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
     "kw_48fbaa7d09c4b1eb": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 235.6pt 증가한다.",
@@ -52496,6 +55065,16 @@
     "kw_8e1435e839c5f1c1": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 150.995pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
+    "kw_4e640ca49ea1780f": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 12.55pt 증가한다.",
       "source": {
         "type": "State",
         "id": 2900
@@ -53063,7 +55642,7 @@
       "resVersion": 140,
       "buildVersion": 51
     },
-    "glossaryCount": 138,
+    "glossaryCount": 142,
     "diagnostics": [],
     "warnings": [
       {
