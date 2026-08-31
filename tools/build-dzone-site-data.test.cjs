@@ -298,6 +298,10 @@ test('조건부 사망 저항은 HP 단계를 만들지 않고 다른 개체의 
   assert.equal(dynamic.phases[0].hp, null);
   assert.equal(dynamic.effectiveHp, null);
   assert.equal(dynamic.hpDisplay, '소환자의 최대 HP × (1.5% + 소환 턴 × 0.15%)');
+  await buildDzoneSiteData({ basePath: outputPath, staticDirectory, outputPath, monsterTids: [100] });
+  const focused = JSON.parse(await fs.readFile(outputPath, 'utf8')).waves[0];
+  assert.deepEqual(focused.summonDefinitions, wave.summonDefinitions);
+  assert.deepEqual(focused.alerts[0].summonedMonsters, wave.alerts[0].summonedMonsters);
 });
 
 test('소환 개체의 패턴과 조물의 연구 깊이 수식을 함께 생성한다', async () => {

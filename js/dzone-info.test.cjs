@@ -164,6 +164,50 @@ test('위치 제약이 없다는 중복 문구를 화면에서 제거한다', ()
     assert.match(source, /\(\?:관계\|상관\)/);
 });
 
+test('원본 키워드 연결 설명에서도 위치 괄호 문구를 제거하고 실제 조건은 보존한다', () => {
+    const context = vm.createContext({
+        window: { DzoneRichText: require('./dzone-richtext.js') },
+        data: { keywordGlossary: { kw_0123456789abcdef: { description: '힘', color: '#ffffff' } } },
+        escapeHtml: String, tooltips: {}
+    });
+    vm.runInContext(source.slice(source.indexOf('    const gameText ='), source.indexOf('    function staticMonster(')), context);
+    for (const suffix of ['(어디든 관계없이)', '(어디든 상관 없이)', '(위치에 관계없이)', '（위치에 상관없이）']) {
+        const text = `모든 적이 <kw_0123456789abcdef:힘> 51pt를 획득한다${suffix}.`;
+        const result = context.dynamicMarkup(`<game-text:${text}>`);
+        assert.doesNotMatch(result, /어디든|위치에/);
+        assert.match(result, /tooltip-trigger/);
+        assert.match(result, /51pt를 획득합니다\./);
+        assert.doesNotMatch(context.dynamicMarkup(`실드를 획득한다${suffix}.`), /어디든|위치에/);
+    }
+    assert.match(context.dynamicMarkup('<game-text:피해를 입힌다(HP가 50% 미만일 때).</game-text>'), /HP가 50% 미만일 때/);
+});
+
+test('연결 해제는 1 HP 생존 후 실행하는 조건부 행동이며 체력바를 추가하지 않는다', () => {
+    const wave = dzoneData.waves.find(wave => wave.wave === 2);
+    const monster = wave.monsters.find(monster => monster.tid === 72151);
+    const context = vm.createContext({
+        data: dzoneData, number: new Intl.NumberFormat('ko-KR'),
+        escapeHtml: String, gameText: String, politeText: String, dynamicMarkup: String,
+        renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id)
+    });
+    vm.runInContext(source.slice(source.indexOf('    function renderConditionalActions('), source.indexOf('    function renderSummons(')), context);
+    assert.deepEqual(monster.phaseTransitions, []);
+    for (const alert of wave.alerts) {
+        const stats = alert.monsters.find(monster => monster.tid === 72151);
+        assert.equal(stats.phases.length, 1);
+        assert.equal(stats.effectiveHp, stats.hp);
+        const result = context.renderConditionalActions(monster, stats);
+        assert.equal((result.match(/<article /g) || []).length, 1);
+        assert.match(result, /<strong>연결 해제<\/strong>/);
+        assert.match(result, /잿더미 융식체」 3명과 「긴급 연락」 1개를 소환/);
+        assert.doesNotMatch(result, /피해 완전 면역 1스택 보유/);
+        assert.doesNotMatch(result, /「「연결자」」/);
+        // Older snapshots must not hide an action behind a phase never rendered.
+        const legacy = { ...monster, phaseTransitions: [{ phaseIndex: 2, phaseSkillIds: [72112] }] };
+        assert.match(context.renderConditionalActions(legacy, stats), /<strong>연결 해제<\/strong>/);
+    }
+});
+
 test('사라 소환체의 HP와 체력바는 현재 보스 최대 HP의 2%로 일치한다', () => {
     const wave = dzoneData.waves.find(wave => wave.wave === 3);
     for (const alert of wave.alerts) {

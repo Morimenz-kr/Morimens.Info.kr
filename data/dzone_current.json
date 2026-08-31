@@ -8323,57 +8323,7 @@
               ]
             }
           ],
-          "phaseTransitions": [
-            {
-              "stateId": 73520,
-              "stateName": "「연결자」",
-              "triggerEvents": [
-                "BSTRoleBeforeDeath"
-              ],
-              "phaseIndex": 2,
-              "rebirth": true,
-              "maxHpMultiplier": null,
-              "healsToMax": false,
-              "phaseSkillIds": [
-                72112
-              ],
-              "addedStates": [
-                {
-                  "id": 66314,
-                  "name": "피해 완전 면역",
-                  "descriptionTemplate": "모든 데미지에 면역합니다.",
-                  "icon": "images/keyword-icons/original/icons_buff_058.png",
-                  "visible": true,
-                  "richDescriptionTemplate": "<game-text:모든 데미지에 면역합니다.>"
-                },
-                {
-                  "id": 74024,
-                  "name": "",
-                  "descriptionTemplate": "",
-                  "icon": "",
-                  "visible": false,
-                  "richDescriptionTemplate": null
-                },
-                {
-                  "id": 2900,
-                  "name": "힘",
-                  "descriptionTemplate": "이번 전투 내에서 주는 피해가 [Layer]pt 증가한다.",
-                  "icon": "images/keyword-icons/original/icons_buff_021.png",
-                  "visible": true,
-                  "richDescriptionTemplate": "<game-text:이번 전투 내에서 주는 피해가 스택 수pt 증가한다.>"
-                },
-                {
-                  "id": 73562,
-                  "name": "",
-                  "descriptionTemplate": "",
-                  "icon": "",
-                  "visible": false,
-                  "richDescriptionTemplate": null
-                }
-              ],
-              "createdCards": []
-            }
-          ]
+          "phaseTransitions": []
         },
         {
           "tid": 149105,
@@ -9983,15 +9933,9 @@
                   "hp": 12401,
                   "maxHpMultiplier": 1,
                   "source": "base"
-                },
-                {
-                  "bar": 2,
-                  "hp": 12401,
-                  "maxHpMultiplier": 1,
-                  "source": "「연결자」 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 24802,
+              "effectiveHp": 12401,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -10164,7 +10108,8 @@
                   "descArgs": []
                 }
               ],
-              "entryStates": []
+              "entryStates": [],
+              "phaseResolvedSkills": {}
             },
             {
               "tid": 149105,
@@ -15069,15 +15014,9 @@
                   "hp": 119598,
                   "maxHpMultiplier": 1,
                   "source": "base"
-                },
-                {
-                  "bar": 2,
-                  "hp": 119598,
-                  "maxHpMultiplier": 1,
-                  "source": "「연결자」 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 239196,
+              "effectiveHp": 119598,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -15250,7 +15189,8 @@
                   "descArgs": []
                 }
               ],
-              "entryStates": []
+              "entryStates": [],
+              "phaseResolvedSkills": {}
             },
             {
               "tid": 149105,
@@ -20155,15 +20095,9 @@
                   "hp": 523809,
                   "maxHpMultiplier": 1,
                   "source": "base"
-                },
-                {
-                  "bar": 2,
-                  "hp": 523809,
-                  "maxHpMultiplier": 1,
-                  "source": "「연결자」 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 1047618,
+              "effectiveHp": 523809,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -20336,7 +20270,8 @@
                   "descArgs": []
                 }
               ],
-              "entryStates": []
+              "entryStates": [],
+              "phaseResolvedSkills": {}
             },
             {
               "tid": 149105,
@@ -25241,15 +25176,9 @@
                   "hp": 1746106,
                   "maxHpMultiplier": 1,
                   "source": "base"
-                },
-                {
-                  "bar": 2,
-                  "hp": 1746106,
-                  "maxHpMultiplier": 1,
-                  "source": "「연결자」 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 3492212,
+              "effectiveHp": 1746106,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -25422,7 +25351,8 @@
                   "descArgs": []
                 }
               ],
-              "entryStates": []
+              "entryStates": [],
+              "phaseResolvedSkills": {}
             },
             {
               "tid": 149105,

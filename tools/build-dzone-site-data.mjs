@@ -498,7 +498,10 @@ function applyPhaseTransitions(definition, stats) {
   stats.phases = phases;
 }
 
-export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath, keywordPath, waveNumbers }) {
+export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath, keywordPath, waveNumbers, monsterTids }) {
+  for (const [name, ids] of Object.entries({ waveNumbers, monsterTids })) {
+    if (ids && (!ids.length || ids.some(id => !Number.isInteger(id) || id <= 0))) throw new Error(`Invalid ${name}`);
+  }
   const base = await readJson(basePath);
   const [monsterDocument, monsterTextDocument, skillDocument, skillTextDocument, stateDocument, stateTextDocument, commandDocument, relicDocument, relicTextDocument] = await Promise.all([
     readJson(path.join(staticDirectory, 'Config.MonsterConfig.json')),
@@ -635,7 +638,8 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
 
   for (const wave of base.waves || []) {
     if (waveNumbers && !waveNumbers.includes(wave.wave)) continue;
-    for (const monster of wave.monsters || []) enrichMonsterDefinition(monster);
+    const selected = monster => !monsterTids || monsterTids.includes(monster.tid);
+    for (const monster of wave.monsters || []) if (selected(monster)) enrichMonsterDefinition(monster);
 
     const summonedTidSet = new Set((wave.alerts || []).flatMap(alert =>
       (alert.summonedMonsters || []).map(monster => monster.tid)
@@ -645,9 +649,12 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
         .filter(action => action.targetTid && action.targetTid !== monster.tid)
         .map(action => ({ ...action, sourceMonsterTid: monster.tid, sourceMonsterName: monster.nameKo }))
     );
-    wave.summonDefinitions = [...summonedTidSet].map(tid => enrichMonsterDefinition({ tid }, redirectedActions.filter(action => action.targetTid === tid)));
+    wave.summonDefinitions = [...summonedTidSet].map(tid => {
+      if (!selected({ tid })) return wave.summonDefinitions?.find(monster => monster.tid === tid);
+      return enrichMonsterDefinition({ tid }, redirectedActions.filter(action => action.targetTid === tid));
+    }).filter(Boolean);
 
-    wave.initialRelics = (wave.initialRelics || []).map(relic => {
+    if (!monsterTids) wave.initialRelics = (wave.initialRelics || []).map(relic => {
       const row = relics[String(relic.id)] || {};
       const parameters = orderedValues(row.StatePara).map((expression, index) => researchParameter(expression, index + 1));
       return {
@@ -667,6 +674,7 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
     const summonByTid = new Map((wave.summonDefinitions || []).map(monster => [monster.tid, monster]));
     for (const alert of wave.alerts || []) {
       for (const monster of alert.monsters || []) {
+        if (!selected(monster)) continue;
         const definition = staticByTid.get(monster.tid);
         applyPhaseTransitions(definition, monster);
         normalizeMonsterHp(definition, monster, alert.standardRows);
@@ -679,6 +687,7 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
         }
       }
       for (const summon of alert.summonedMonsters || []) {
+        if (!selected(summon)) continue;
         const parent = (alert.monsters || []).find(monster => monster.tid === summon.parentTid);
         if (parent && summon.rule?.hpExpression) {
           const expression = summon.rule.hpExpression;
@@ -741,7 +750,8 @@ if (isMain) {
     staticDirectory: argument('--static'),
     outputPath: argument('--out'),
     keywordPath: process.argv.includes('--keywords') ? argument('--keywords') : undefined,
-    waveNumbers: process.argv.includes('--waves') ? process.argv[process.argv.indexOf('--waves') + 1].split(',').map(Number) : undefined
+    waveNumbers: process.argv.includes('--waves') ? process.argv[process.argv.indexOf('--waves') + 1].split(',').map(Number) : undefined,
+    monsterTids: process.argv.includes('--monsters') ? process.argv[process.argv.indexOf('--monsters') + 1].split(',').map(Number) : undefined
   }).then(summary => console.log(JSON.stringify(summary, null, 2))).catch(error => {
     console.error(error.stack || error.message || error);
     process.exitCode = 1;

@@ -206,6 +206,7 @@
 
     function politeText(value) {
         return gameText(value)
+            .replace(/\s*[（(]\s*(?:어디든|위치에)\s*(?:관계|상관)\s*없이\s*[)）]/g, '')
             .replace(/\b(\d+)\s*번\b/g, '$1번')
             .replace(/\b(\d+)\s*턴\b/g, '$1턴')
             .replace(/발생시킨다(?=[.!?]|\s|$)/g, '발생시킵니다')
@@ -244,7 +245,6 @@
         }
         const cleaned = politeText(description || '상세 설명이 없습니다.')
             .replace(/빙결/g, '동결')
-            .replace(/\s*\((?:어디든|위치에)\s*(?:관계|상관)\s*없이\)/g, '')
             .replace(/\(\s*\)/g, '')
             .replace(/\s+([,.])/g, '$1')
             .replace(/\s{2,}/g, ' ')
@@ -484,8 +484,16 @@
     }
 
     function renderConditionalActions(monster, stats) {
-        const phaseActionIds = new Set((monster.phaseTransitions || []).flatMap(transition => transition.phaseSkillIds || []));
-        const actions = (monster.conditionalActions || []).filter(action => !phaseActionIds.has(action.skillId));
+        const displayedTransitions = (monster.phaseTransitions || []).filter(transition =>
+            transition.phaseIndex === 2 && monster.patterns.some(pattern => pattern.id === 'cycle-2'));
+        const phaseActionIds = new Set(displayedTransitions.flatMap(transition => transition.phaseSkillIds || []));
+        const candidates = (monster.conditionalActions || []).filter(action => !phaseActionIds.has(action.skillId));
+        // Intent-lock commands restore an already displayed death action; they
+        // are not a second attack with an unnamed internal-state condition.
+        const actions = candidates.filter(action => !(action.triggerEvents?.includes('BSTAfterIntentionChanged')
+            && String(action.judgement).replace(/\s/g, '') === `TriggerValue2~=${action.skillId}`
+            && candidates.some(other => other !== action && other.skillId === action.skillId
+                && other.triggerEvents?.includes('BSTRoleBeforeDeath'))));
         if (!actions.length) return '';
         const cards = actions.map(action => {
             const skill = skillById(monster, action.skillId);
@@ -501,7 +509,8 @@
                 .replace(/때마다\.?$/, '때마다 발동합니다.')
                 .trim();
             const stateName = resolvedState?.visible ? gameText(resolvedState.name) : '';
-            const trigger = stateName ? `「${stateName}」 보유 중 · ${condition}` : condition;
+            const stateLabel = /^「.*」$/.test(stateName) ? stateName : `「${stateName}」`;
+            const trigger = stateName ? `${stateLabel} 보유 중 · ${condition}` : condition;
             return `<article class="conditional-action">
                 ${renderIntentIcon(skill)}
                 <div class="conditional-action-copy">
