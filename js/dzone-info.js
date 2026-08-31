@@ -500,7 +500,7 @@
         return `<section class="summon-section" aria-label="소환 개체"><h5 class="section-label">소환 개체</h5><div class="summon-list">${cards}</div></section>`;
     }
 
-    function relicParameterText(parameter, notes = new Set()) {
+    function relicParameterText(parameter) {
         if (parameter.kind === 'fixed') return number.format(parameter.fixedValue);
         // 유물 도감과 동일하게 전투 중 추가 보정이 없는 기본 획득량을 계산한다.
         const variables = {
@@ -510,12 +510,6 @@
         const expression = String(parameter.expression || '');
         const value = window.ResearchDepth?.evaluate(expression, window.ResearchDepth.depthAt(researchLevel), variables);
         if (value !== null && value !== undefined) {
-            if (expression.includes('PlayerRole.GetStateLayer(71006)')) {
-                notes.add('반격 증가 효과가 없는 기본 수치이며, 전투 중 반격 증가 효과에 따라 증가합니다.');
-            }
-            if (expression.includes('PlayerRole.GetStateLayer(71005)')) {
-                notes.add('중독 증가 효과가 없는 기본 수치이며, 전투 중 중독 증가 효과에 따라 증가합니다.');
-            }
             return number.format(value);
         }
         return '확인되지 않은 수치';
@@ -523,13 +517,12 @@
 
     function relicDescriptionMarkup(relic) {
         const parameters = new Map((relic.parameters || []).map(parameter => [parameter.index, parameter]));
-        const notes = new Set();
         const description = String(relic.battleDescription || relic.description || '효과 설명이 없습니다.')
             .replace(/\[(?:[A-Za-z]+:)?Arg(\d+)\]/g, (match, index) => {
                 const parameter = parameters.get(Number(index));
-                return parameter ? relicParameterText(parameter, notes) : '';
+                return parameter ? relicParameterText(parameter) : '';
             });
-        return dynamicMarkup(`${description}${notes.size ? ` (${[...notes].join(' ')})` : ''}`);
+        return dynamicMarkup(description);
     }
 
     function renderRelics(wave) {

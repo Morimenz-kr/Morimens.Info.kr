@@ -28,7 +28,7 @@ async function relicDisplayContext() {
     return context;
 }
 
-test('안전 출구+ 반격은 선택 등급에 맞는 올림 수치로 표시하고 전투 보정을 안내한다', async () => {
+test('안전 출구+ 반격은 선택 등급에 맞는 올림 수치만 표시한다', async () => {
     const context = await relicDisplayContext();
     const archive = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season67.json'), 'utf8'));
     const relic = archive.waves.flatMap(wave => wave.initialRelics).find(item => item.id === 98378);
@@ -36,7 +36,7 @@ test('안전 출구+ 반격은 선택 등급에 맞는 올림 수치로 표시�
         context.researchLevel = level;
         const text = context.relicDescriptionMarkup(relic);
         assert.ok(text.includes(`${expected} 반격`), text);
-        assert.match(text, /반격 증가 효과가 없는 기본 수치/);
+        assert.doesNotMatch(text, /기본 수치|증가 효과|전투 중/);
         assert.doesNotMatch(text, /연구 깊이|확인되지|\[Arg/);
     }
 });
