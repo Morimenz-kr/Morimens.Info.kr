@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const vm = require('node:vm');
 
 const repositoryRoot = path.join(__dirname, '..');
 const linksHtml = fs.readFileSync(path.join(repositoryRoot, 'links.html'), 'utf8');
@@ -9,6 +10,23 @@ const linksSource = fs.readFileSync(path.join(__dirname, 'links.js'), 'utf8');
 const linksCss = fs.readFileSync(path.join(repositoryRoot, 'css', 'pages', 'links.css'), 'utf8');
 const characterEffectsSource = fs.readFileSync(path.join(repositoryRoot, 'js', 'character-effects.js'), 'utf8');
 const silverKeys = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'silverkey_list.json'), 'utf8'));
+
+test('#219 꺼지지 않는 태양은 산출력·피해 강효 필터에 모두 포함된다', () => {
+    const context = vm.createContext({ window: { characterNameSet: new Set(['카티구라']) } });
+    vm.runInContext(linksSource.slice(
+        linksSource.indexOf('function getDictionaryFilterMeta('),
+        linksSource.indexOf('function uniqueSortedValues(')
+    ), context);
+    const key = silverKeys.find(item => item.english_name === 'key_never_falling_sun');
+    const meta = context.getDictionaryFilterMeta(key, 'silverkey');
+    assert.ok(meta.effectFilters.includes('산출력'));
+    assert.ok(meta.effectFilters.includes('피해 강효'));
+    assert.equal(meta.effectFilters.includes('카티구라'), false);
+    for (const alias of ['강효', '피해강효', '피해 강효', '피해 증폭', '임시 피해 증폭']) {
+        assert.equal(context.normalizeDictionaryFilterValue(alias, 'effect'), '피해 강효');
+    }
+    assert.equal(context.normalizeDictionaryFilterValue('최종 피해 증가', 'effect'), '최종 피해 증가');
+});
 
 test('은열쇠·비밀계약·명륜 도감은 공통 dialog 상세 UI를 사용한다', () => {
     assert.match(linksHtml, /<dialog id="dictionary-detail-dialog"/);

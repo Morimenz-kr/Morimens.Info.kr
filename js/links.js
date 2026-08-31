@@ -655,7 +655,10 @@ function normalizeDictionaryFilterValue(value, type) {
         명령카드복제: '명령 카드 복제',
         크리티컬피해: '크리티컬 피해',
         크리티컬확률: '크리티컬 확률',
-        피해증폭: '피해 증폭'
+        강효: '피해 강효',
+        피해강효: '피해 강효',
+        피해증폭: '피해 강효',
+        임시피해증폭: '피해 강효'
     };
 
     return effectAliases[compact] || raw;
