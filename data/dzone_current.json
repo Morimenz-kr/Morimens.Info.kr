@@ -232,7 +232,8 @@
                 "BattleAtkForce*0.2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 14036,
@@ -340,7 +341,8 @@
                 "2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 14075,
@@ -463,7 +465,8 @@
                 "2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 14095,
@@ -563,7 +566,8 @@
                 "1"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 14077,
@@ -686,7 +690,8 @@
                 "1"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 44631,
@@ -791,7 +796,8 @@
                 "BattleAtkForce*0.3"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 13975,
@@ -909,7 +915,8 @@
                 "BattleAtkForce*0.2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 44630,
@@ -1015,7 +1022,8 @@
                 "1"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 47981,
@@ -1255,6 +1263,51 @@
               "expressions": [
                 "BattleAtkForce*0.1",
                 "1"
+              ]
+            }
+          ],
+          "phaseTransitions": [
+            {
+              "stateId": 48589,
+              "stateName": "미각성",
+              "triggerEvents": [
+                "BSTRoleBeforeDeath"
+              ],
+              "phaseIndex": 2,
+              "rebirth": true,
+              "maxHpMultiplier": 2,
+              "healsToMax": true,
+              "phaseSkillIds": [
+                48592
+              ],
+              "addedStates": [
+                {
+                  "id": 46441,
+                  "name": "피해 면역",
+                  "descriptionTemplate": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+                  "icon": "images/keyword-icons/original/icons_buff_058.png",
+                  "visible": true
+                },
+                {
+                  "id": 48923,
+                  "name": "그림자 \"24\" 각성!",
+                  "descriptionTemplate": "그림자 「24」가 각성했다. 마지막 「살려줘」를 사용하여 기회를 찾아라!",
+                  "icon": "images/keyword-icons/original/icons_buff_010.png",
+                  "visible": true
+                }
+              ],
+              "createdCards": [
+                {
+                  "id": 4058,
+                  "name": "살려줘",
+                  "cost": 0,
+                  "descriptionTemplate": "「분열 환자」를 기절시키고, 카드를 3장 뽑으며 행동력 3pt를 획득한다.",
+                  "effects": [
+                    "전방 적의 행동을 「기절」으로 변경",
+                    "카드 3장 뽑기",
+                    "산출력 3pt 획득"
+                  ]
+                }
               ]
             }
           ]
@@ -2140,12 +2193,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 16618,
-                  "maxHpMultiplier": 1,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 33236,
+                  "maxHpMultiplier": 2,
+                  "source": "미각성 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 33236,
+              "effectiveHp": 49854,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "4695": {
@@ -3290,12 +3343,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 167466,
-                  "maxHpMultiplier": 1,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 334932,
+                  "maxHpMultiplier": 2,
+                  "source": "미각성 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 334932,
+              "effectiveHp": 502398,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "4695": {
@@ -4440,12 +4493,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 1047691,
-                  "maxHpMultiplier": 1,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 2095382,
+                  "maxHpMultiplier": 2,
+                  "source": "미각성 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 2095382,
+              "effectiveHp": 3143073,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "4695": {
@@ -5590,12 +5643,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 3004974,
-                  "maxHpMultiplier": 1,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 6009948,
+                  "maxHpMultiplier": 2,
+                  "source": "미각성 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 6009948,
+              "effectiveHp": 9014922,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "4695": {
@@ -6131,7 +6184,8 @@
                 "1"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149116,
@@ -6301,7 +6355,8 @@
                 "BattleAtkForce*0.2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 65534,
@@ -6400,7 +6455,8 @@
                 "BattleAtkForce*0.05"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 65532,
@@ -6499,7 +6555,8 @@
                 "2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 65530,
@@ -6633,7 +6690,8 @@
                 "2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149109,
@@ -6802,7 +6860,8 @@
                 "BattleAtkForce*0.035"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 72151,
@@ -7032,6 +7091,53 @@
                 "BattleAtkForce*0.3"
               ]
             }
+          ],
+          "phaseTransitions": [
+            {
+              "stateId": 73520,
+              "stateName": "「연결자」",
+              "triggerEvents": [
+                "BSTRoleBeforeDeath"
+              ],
+              "phaseIndex": 2,
+              "rebirth": true,
+              "maxHpMultiplier": null,
+              "healsToMax": false,
+              "phaseSkillIds": [
+                72112
+              ],
+              "addedStates": [
+                {
+                  "id": 66314,
+                  "name": "피해 완전 면역",
+                  "descriptionTemplate": "모든 데미지에 면역합니다.",
+                  "icon": "images/keyword-icons/original/icons_buff_058.png",
+                  "visible": true
+                },
+                {
+                  "id": 74024,
+                  "name": "",
+                  "descriptionTemplate": "",
+                  "icon": "",
+                  "visible": false
+                },
+                {
+                  "id": 2900,
+                  "name": "힘",
+                  "descriptionTemplate": "이번 전투 내에서 주는 피해가 [Layer]pt 증가한다.",
+                  "icon": "images/keyword-icons/original/icons_buff_021.png",
+                  "visible": true
+                },
+                {
+                  "id": 73562,
+                  "name": "",
+                  "descriptionTemplate": "",
+                  "icon": "",
+                  "visible": false
+                }
+              ],
+              "createdCards": []
+            }
           ]
         },
         {
@@ -7238,7 +7344,8 @@
                 "10"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149113,
@@ -7444,7 +7551,8 @@
                 "125"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149115,
@@ -7653,7 +7761,8 @@
                 "50"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         }
       ],
       "alerts": [
@@ -8609,9 +8718,15 @@
                   "hp": 12401,
                   "maxHpMultiplier": 1,
                   "source": "base"
+                },
+                {
+                  "bar": 2,
+                  "hp": 12401,
+                  "maxHpMultiplier": 1,
+                  "source": "「연결자」 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 12401,
+              "effectiveHp": 24802,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -13419,9 +13534,15 @@
                   "hp": 119598,
                   "maxHpMultiplier": 1,
                   "source": "base"
+                },
+                {
+                  "bar": 2,
+                  "hp": 119598,
+                  "maxHpMultiplier": 1,
+                  "source": "「연결자」 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 119598,
+              "effectiveHp": 239196,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -18229,9 +18350,15 @@
                   "hp": 523809,
                   "maxHpMultiplier": 1,
                   "source": "base"
+                },
+                {
+                  "bar": 2,
+                  "hp": 523809,
+                  "maxHpMultiplier": 1,
+                  "source": "「연결자」 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 523809,
+              "effectiveHp": 1047618,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -23039,9 +23166,15 @@
                   "hp": 1746106,
                   "maxHpMultiplier": 1,
                   "source": "base"
+                },
+                {
+                  "bar": 2,
+                  "hp": 1746106,
+                  "maxHpMultiplier": 1,
+                  "source": "「연결자」 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 1746106,
+              "effectiveHp": 3492212,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -26975,6 +27108,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 149079,
@@ -27101,6 +27235,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 149078,
@@ -27217,6 +27352,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 72123,
@@ -27343,6 +27479,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 72116,
@@ -27490,6 +27627,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 149281,
@@ -27645,6 +27783,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 149284,
@@ -27800,6 +27939,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 149277,
@@ -27955,6 +28095,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 149289,
@@ -28225,7 +28366,8 @@
                 "1"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         }
       ],
       "alerts": [
@@ -29449,6 +29591,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 73475,
@@ -29718,7 +29861,8 @@
                 "2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 94942,
@@ -29965,6 +30109,37 @@
                 "BattleAtkForce*0.5",
                 "CmdCaster.hp*2"
               ]
+            }
+          ],
+          "phaseTransitions": [
+            {
+              "stateId": 94600,
+              "stateName": "죽음 저항",
+              "triggerEvents": [
+                "BSTRoleBeforeDeath"
+              ],
+              "phaseIndex": 2,
+              "rebirth": true,
+              "maxHpMultiplier": 1.25,
+              "healsToMax": true,
+              "phaseSkillIds": [],
+              "addedStates": [
+                {
+                  "id": 94608,
+                  "name": "죽음 저항 발동 횟수",
+                  "descriptionTemplate": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false
+                },
+                {
+                  "id": 3330,
+                  "name": "둔화 [Layer]",
+                  "descriptionTemplate": "카드의 행동력 소모가 [Layer]pt 증가한다. 카드를 사용한 후 이 부정 효과는 제거된다.",
+                  "icon": "images/keyword-icons/original/icons_buff_024.png",
+                  "visible": true
+                }
+              ],
+              "createdCards": []
             }
           ]
         },
@@ -30246,6 +30421,46 @@
                 "2"
               ]
             }
+          ],
+          "phaseTransitions": [
+            {
+              "stateId": 118937,
+              "stateName": "",
+              "triggerEvents": [
+                "BSTRoleBeforeDeath"
+              ],
+              "phaseIndex": 2,
+              "rebirth": true,
+              "maxHpMultiplier": 2,
+              "healsToMax": true,
+              "phaseSkillIds": [
+                118929
+              ],
+              "addedStates": [
+                {
+                  "id": 46441,
+                  "name": "피해 면역",
+                  "descriptionTemplate": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+                  "icon": "images/keyword-icons/original/icons_buff_058.png",
+                  "visible": true
+                },
+                {
+                  "id": 118938,
+                  "name": "피조물",
+                  "descriptionTemplate": "「심해 숙녀」가 각성하여, 생성하는 실드량이 크게 증가한다!",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false
+                },
+                {
+                  "id": 118760,
+                  "name": "몬스터 영구 촉수 상한",
+                  "descriptionTemplate": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false
+                }
+              ],
+              "createdCards": []
+            }
           ]
         }
       ],
@@ -30473,9 +30688,15 @@
                   "hp": 47865,
                   "maxHpMultiplier": 1,
                   "source": "base"
+                },
+                {
+                  "bar": 2,
+                  "hp": 59832,
+                  "maxHpMultiplier": 1.25,
+                  "source": "죽음 저항 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 47865,
+              "effectiveHp": 107697,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "94952": {
@@ -30741,12 +30962,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 81866,
-                  "maxHpMultiplier": 1,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 163732,
+                  "maxHpMultiplier": 2,
+                  "source": "상태 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 163732,
+              "effectiveHp": 245598,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "118060": {
@@ -31597,9 +31818,15 @@
                   "hp": 534411,
                   "maxHpMultiplier": 1,
                   "source": "base"
+                },
+                {
+                  "bar": 2,
+                  "hp": 668014,
+                  "maxHpMultiplier": 1.25,
+                  "source": "죽음 저항 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 534411,
+              "effectiveHp": 1202425,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "94952": {
@@ -31865,12 +32092,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 812517,
-                  "maxHpMultiplier": 1,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 1625034,
+                  "maxHpMultiplier": 2,
+                  "source": "상태 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 1625034,
+              "effectiveHp": 2437551,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "118060": {
@@ -32721,9 +32948,15 @@
                   "hp": 1700019,
                   "maxHpMultiplier": 1,
                   "source": "base"
+                },
+                {
+                  "bar": 2,
+                  "hp": 2125024,
+                  "maxHpMultiplier": 1.25,
+                  "source": "죽음 저항 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 1700019,
+              "effectiveHp": 3825043,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "94952": {
@@ -32989,12 +33222,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 2582022,
-                  "maxHpMultiplier": 1,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 5164044,
+                  "maxHpMultiplier": 2,
+                  "source": "상태 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 5164044,
+              "effectiveHp": 7746066,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "118060": {
@@ -33845,9 +34078,15 @@
                   "hp": 5726329,
                   "maxHpMultiplier": 1,
                   "source": "base"
+                },
+                {
+                  "bar": 2,
+                  "hp": 7157912,
+                  "maxHpMultiplier": 1.25,
+                  "source": "죽음 저항 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 5726329,
+              "effectiveHp": 12884241,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "94952": {
@@ -34113,12 +34352,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 8744674,
-                  "maxHpMultiplier": 1,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 17489348,
+                  "maxHpMultiplier": 2,
+                  "source": "상태 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 17489348,
+              "effectiveHp": 26234022,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "118060": {
@@ -34815,6 +35054,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 94704,
@@ -35137,7 +35377,8 @@
                 "BattleAtkForce*0.05"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149107,
@@ -35296,7 +35537,8 @@
                 "BattleAtkForce*0.2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 65532,
@@ -35395,7 +35637,8 @@
                 "2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149069,
@@ -35534,7 +35777,8 @@
                 "BattleAtkForce*0.2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149070,
@@ -35675,7 +35919,8 @@
                 "1"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 22220,
@@ -35800,7 +36045,8 @@
                 "1"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149116,
@@ -35970,7 +36216,8 @@
                 "BattleAtkForce*0.2"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149097,
@@ -36139,7 +36386,8 @@
                 "10"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 65527,
@@ -36274,7 +36522,8 @@
                 "math.min(10,4+math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692)))"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 149103,
@@ -36428,7 +36677,8 @@
                 "BattleAtkForce*0.035"
               ]
             }
-          ]
+          ],
+          "phaseTransitions": []
         },
         {
           "tid": 148007,
@@ -36674,6 +36924,46 @@
                 "1",
                 "(CmdCaster.max_hp-CmdCaster.hp)*0.3"
               ]
+            }
+          ],
+          "phaseTransitions": [
+            {
+              "stateId": 148387,
+              "stateName": "미각성",
+              "triggerEvents": [
+                "BSTRoleBeforeDeath"
+              ],
+              "phaseIndex": 2,
+              "rebirth": true,
+              "maxHpMultiplier": 1.5,
+              "healsToMax": true,
+              "phaseSkillIds": [
+                148393
+              ],
+              "addedStates": [
+                {
+                  "id": 148020,
+                  "name": "은심 고정",
+                  "descriptionTemplate": "모든 피해에 면역되며 HP를 잃을 수 없음. 각성 발동 후, 턴 종료 시 제거.",
+                  "icon": "images/keyword-icons/original/icons_buff_058.png",
+                  "visible": true
+                },
+                {
+                  "id": 148394,
+                  "name": "영혼 사냥 선언",
+                  "descriptionTemplate": "턴 시작 시 증오의 사슬 1 스택을 획득합니다. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해와 HP 손실 효과에 면역됩니다.",
+                  "icon": "images/keyword-icons/original/icons_buff_010.png",
+                  "visible": true
+                },
+                {
+                  "id": 148021,
+                  "name": "상태@몬스터 공용 소생 각성 전 면역 해제 표식",
+                  "descriptionTemplate": "",
+                  "icon": "images/keyword-icons/original/icons_buff_016.png",
+                  "visible": false
+                }
+              ],
+              "createdCards": []
             }
           ]
         }
@@ -38353,12 +38643,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 117444,
-                  "maxHpMultiplier": 0.5,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 352331,
+                  "maxHpMultiplier": 1.5,
+                  "source": "미각성 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 352331,
+              "effectiveHp": 587218,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "148360": {
@@ -40846,12 +41136,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 1159284,
-                  "maxHpMultiplier": 0.5,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 3477851,
+                  "maxHpMultiplier": 1.5,
+                  "source": "미각성 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 3477851,
+              "effectiveHp": 5796418,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "148360": {
@@ -43339,12 +43629,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 2849024,
-                  "maxHpMultiplier": 0.5,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 8547072,
+                  "maxHpMultiplier": 1.5,
+                  "source": "미각성 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 8547072,
+              "effectiveHp": 14245120,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "148360": {
@@ -45832,12 +46122,12 @@
                 },
                 {
                   "bar": 2,
-                  "hp": 9092674,
-                  "maxHpMultiplier": 0.5,
-                  "source": "BSTRoleBeforeDeath → BEChangeMaxHp"
+                  "hp": 27278022,
+                  "maxHpMultiplier": 1.5,
+                  "source": "미각성 → 전투 단계 전환"
                 }
               ],
-              "effectiveHp": 27278022,
+              "effectiveHp": 45463370,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "148360": {
@@ -46728,6 +47018,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 149078,
@@ -46854,6 +47145,7 @@
             }
           ],
           "conditionalActions": [],
+          "phaseTransitions": [],
           "skills": [
             {
               "id": 149079,

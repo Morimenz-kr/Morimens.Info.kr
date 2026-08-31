@@ -407,10 +407,36 @@
         return `<section class="flow-phase"><header><h5>${escapeHtml(title)}</h5>${repeats ? '<span class="flow-badge">반복</span>' : ''}</header>${renderSequence(monster, stats, pattern, repeats)}</section>`;
     }
 
+    function renderPhaseTransition(monster, transition) {
+        if (!transition) return '';
+        const awakeningSkill = transition.phaseSkillIds?.[0];
+        const heading = awakeningSkill ? (skillById(monster, awakeningSkill)?.name || transition.stateName || '각성') : '단계 전환';
+        const effects = [];
+        if (transition.rebirth) effects.push('쓰러지면 부활');
+        if (transition.maxHpMultiplier) effects.push(`최대 HP ${transition.maxHpMultiplier}배로 증가`);
+        if (transition.healsToMax) effects.push('증가한 최대 HP까지 회복');
+        const stateItems = (transition.addedStates || [])
+            .filter(state => state.visible && (state.name || state.descriptionTemplate))
+            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(state.descriptionTemplate)}` : ''}</span></li>`)
+            .join('');
+        const cards = (transition.createdCards || []).map(card => `
+            <article class="phase-card">
+                <header><span>생성 카드</span><strong>${escapeHtml(card.name || '카드')}</strong><em>비용 ${number.format(card.cost || 0)}</em></header>
+                ${card.effects?.length ? `<p>${card.effects.map(effect => dynamicMarkup(effect)).join(' · ')}</p>` : (card.descriptionTemplate ? `<p>${dynamicMarkup(card.descriptionTemplate)}</p>` : '')}
+            </article>`).join('');
+        return `<section class="phase-transition" aria-label="${escapeHtml(heading)} 단계 전환">
+            <header><h5>${escapeHtml(heading)}</h5><span>2단계 전환</span></header>
+            ${effects.length ? `<p class="phase-transition-summary">${effects.join(' · ')}</p>` : ''}
+            ${stateItems ? `<ul class="phase-transition-states">${stateItems}</ul>` : ''}
+            ${cards}
+        </section>`;
+    }
+
     function renderActionFlow(monster, stats) {
         const opening = monster.patterns.find(pattern => pattern.id === 'opening');
         const firstCycle = monster.patterns.find(pattern => pattern.id === 'cycle-1');
         const secondCycle = monster.patterns.find(pattern => pattern.id === 'cycle-2');
+        const phaseTransition = (monster.phaseTransitions || []).find(transition => transition.phaseIndex === 2);
         if (!opening && !firstCycle) return '';
 
         const phases = [];
@@ -435,7 +461,9 @@
             }
         }
         if (secondCycle) {
-            phases.push('<div class="flow-connector flow-connector--phase"><span>첫 체력바 소진 · 부활</span></div>');
+            const phaseLabel = phaseTransition?.rebirth ? '첫 체력바 소진 · 각성' : '2번째 체력바 시작';
+            phases.push(`<div class="flow-connector flow-connector--phase"><span>${phaseLabel}</span></div>`);
+            phases.push(renderPhaseTransition(monster, phaseTransition));
             phases.push(renderFlowPhase(monster, stats, {
                 title: '2번째 체력바 행동',
                 pattern: secondCycle,
@@ -446,7 +474,8 @@
     }
 
     function renderConditionalActions(monster, stats) {
-        const actions = monster.conditionalActions || [];
+        const phaseActionIds = new Set((monster.phaseTransitions || []).flatMap(transition => transition.phaseSkillIds || []));
+        const actions = (monster.conditionalActions || []).filter(action => !phaseActionIds.has(action.skillId));
         if (!actions.length) return '';
         const cards = actions.map(action => {
             const skill = skillById(monster, action.skillId);
@@ -545,14 +574,15 @@
         return `<section class="wave-relics" aria-label="초기 유물"><header><h3>초기 유물</h3></header><div class="relic-grid">${cards}</div></section>`;
     }
 
-    function renderHp(stats) {
+    function renderHp(stats, monster) {
         if (!stats.phases || stats.phases.length < 2) {
             const hp = Number.isFinite(stats.hp) ? number.format(stats.hp) : '전투 중 결정';
             return `<dl class="monster-stats"><div class="monster-stat monster-stat--hp"><dt>HP</dt><dd>${hp}</dd></div></dl>`;
         }
         const phaseCount = stats.phases.length;
         const phaseMap = stats.phases.map((phase, index) => `<span class="hp-phase-segment" style="--hp-phase-size: ${phase.hp}" aria-hidden="true"><b>${index + 1}</b></span>`).join('');
-        const bars = stats.phases.map((phase, index) => `<div class="hp-stage"><dt>${index + 1}번째 체력바</dt><dd>${number.format(phase.hp)}</dd></div>`).join('');
+        const phaseTransition = (monster?.phaseTransitions || []).find(transition => transition.phaseIndex === 2);
+        const bars = stats.phases.map((phase, index) => `<div class="hp-stage"><dt>${index + 1}번째 체력바${index === 1 && phaseTransition ? ' · 각성 후' : ''}</dt><dd>${number.format(phase.hp)}</dd></div>`).join('');
         return `<section class="hp-breakdown" aria-label="HP ${phaseCount}줄"><header><h5>HP <span>${phaseCount}줄</span></h5></header><div class="hp-phase-map" aria-hidden="true">${phaseMap}</div><dl>${bars}<div class="hp-stage hp-stage--total"><dt>실질 총 HP</dt><dd>${number.format(stats.effectiveHp)}</dd></div></dl></section>`;
     }
 
@@ -628,7 +658,7 @@
                 </summary>
                 <div class="monster-body">
                     <div class="monster-overview">
-                        ${renderHp(stats)}
+                ${renderHp(stats, monster)}
                         ${renderMonsterAffinity(monster)}
                     </div>
                     ${renderRules(monster, stats)}

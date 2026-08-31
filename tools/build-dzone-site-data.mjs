@@ -338,6 +338,106 @@ function monsterImagePath(icon) {
   return basename ? `images/dzone/monster/${basename}` : '';
 }
 
+function stateDefinition(stateId, states, stateText) {
+  const row = states[String(stateId)] || {};
+  return {
+    id: Number(stateId),
+    name: stripGameMarkup(localized(row.Name, stateText)),
+    descriptionTemplate: stripGameMarkup(localized(row.Desc, stateText)),
+    icon: stateIconPath(row.Icon),
+    visible: row.ShowType !== 'Hide'
+  };
+}
+
+function phaseMultiplier(changeExpression) {
+  const source = String(changeExpression || '').replace(/\s+/g, '');
+  // BEChangeMaxHp adds the supplied amount to the current maximum HP.
+  // A value equal to the current maximum HP therefore makes phase 2 exactly 2× phase 1.
+  if (source === 'CmdCaster.max_hp' || source === 'UpperTarget.max_hp' || source === 'StateOwner.max_hp') return 2;
+  const matched = source.match(/^(?:CmdCaster|UpperTarget|StateOwner)\.max_hp\*(\d+(?:\.\d+)?)$/);
+  return matched ? 1 + Number(matched[1]) : null;
+}
+
+function cardEffects(card, commands, skills, skillText) {
+  const command = commands[String(card.CmdList)] || {};
+  const effects = [];
+  for (const entry of orderedValues(command.data_list)) {
+    if (entry?.Type === 'BEMonsterChangeSkill') {
+      const skillId = Number(splitTopLevel(entry.Para)[0]);
+      const skill = skills[String(skillId)] || {};
+      const name = stripGameMarkup(localized(skill.Name, skillText));
+      if (name) effects.push(`전방 적의 행동을 「${name}」으로 변경`);
+    }
+    if (entry?.Type === 'BEDrawCard') effects.push(`카드 ${splitTopLevel(entry.Para)[0]}장 뽑기`);
+    if (entry?.Type === 'BEChangeEnergy') effects.push(`산출력 ${splitTopLevel(entry.Para)[0]}pt 획득`);
+  }
+  return effects;
+}
+
+function createdCards(command, commands, skills, skillText) {
+  const cards = [];
+  for (const entry of orderedValues(command.data_list)) {
+    if (entry?.Type !== 'BECreateCard') continue;
+    const id = Number(String(entry.Target || '').match(/GetCardByID\((\d+)/)?.[1]);
+    if (!Number.isInteger(id)) continue;
+    const card = skills[String(id)] || {};
+    const name = stripGameMarkup(localized(card.Name, skillText));
+    cards.push({
+      id,
+      name,
+      cost: Number(card.Cost) || 0,
+      descriptionTemplate: stripGameMarkup(localized(card.Desc, skillText)),
+      effects: cardEffects(card, commands, skills, skillText)
+    });
+  }
+  return cards;
+}
+
+function phaseTransitionEntries(stateIds, states, commands, skills, stateText, skillText) {
+  const transitions = [];
+  for (const stateId of stateIds) {
+    const state = states[String(stateId)] || {};
+    for (const trigger of triggerSlots(state)) {
+      const command = commands[String(trigger.commandId)] || {};
+      const entries = orderedValues(command.data_list);
+      const skillList = entries.find(entry => entry?.Type === 'BEMonsterChangeSkillList');
+      const maxHp = entries.find(entry => entry?.Type === 'BEChangeMaxHp');
+      const rebirth = entries.some(entry => entry?.Type === 'BEPVERebirth');
+      if (!skillList && !maxHp && !rebirth) continue;
+
+      const phaseIndex = Number(splitTopLevel(skillList?.Para)[0]) || transitions.length + 2;
+      const phaseSkills = entries
+        .filter(entry => entry?.Type === 'BEMonsterChangeSkill')
+        .map(entry => Number(splitTopLevel(entry.Para)[0]))
+        .filter(Number.isInteger);
+      const phaseSkill = skills[String(phaseSkills[0])] || {};
+      const phaseCommand = commands[String(phaseSkill.CmdList)] || {};
+      const directAddedStateIds = entries
+        .filter(entry => entry?.Type === 'BEAddState')
+        .map(entry => Number(splitTopLevel(entry.Para)[0]))
+        .filter(Number.isInteger);
+      const skillAddedStateIds = orderedValues(phaseCommand.data_list)
+        .filter(entry => entry?.Type === 'BEAddState')
+        .map(entry => Number(splitTopLevel(entry.Para)[0]))
+        .filter(Number.isInteger);
+      transitions.push({
+        stateId: Number(stateId),
+        stateName: stripGameMarkup(localized(state.Name, stateText)),
+        triggerEvents: trigger.triggerEvents,
+        phaseIndex,
+        rebirth,
+        maxHpMultiplier: phaseMultiplier(maxHp?.Para),
+        healsToMax: entries.some(entry => entry?.Type === 'BEHeal'),
+        phaseSkillIds: phaseSkills,
+        addedStates: [...new Set([...directAddedStateIds, ...skillAddedStateIds])]
+          .map(id => stateDefinition(id, states, stateText)),
+        createdCards: createdCards(phaseCommand, commands, skills, skillText)
+      });
+    }
+  }
+  return transitions;
+}
+
 function stateIconPath(icon) {
   const basename = path.posix.basename(String(icon || ''))
     .replace(/^IconS_/i, 'icons_')
@@ -371,6 +471,24 @@ function normalizeMonsterHp(definition, stats, standardRows) {
   } else {
     stats.effectiveHp = hp;
   }
+}
+
+function applyPhaseTransitions(definition, stats) {
+  const transitions = definition?.phaseTransitions || [];
+  if (!transitions.length) return;
+  const phases = [...(stats.phases || [])];
+  for (const transition of transitions) {
+    const index = Math.max(0, transition.phaseIndex - 1);
+    const existing = phases[index] || { bar: transition.phaseIndex, hp: stats.hp, maxHpMultiplier: 1 };
+    phases[index] = {
+      ...existing,
+      bar: transition.phaseIndex,
+      ...(transition.maxHpMultiplier ? { maxHpMultiplier: transition.maxHpMultiplier } : {}),
+      source: `${transition.stateName || '상태'} → 전투 단계 전환`
+    };
+  }
+  if (!phases.length) return;
+  stats.phases = phases;
 }
 
 export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath }) {
@@ -424,6 +542,14 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
       };
     });
     monster.conditionalActions = conditionalActionEntries(
+      stateIds,
+      states,
+      commands,
+      skills,
+      stateText,
+      skillText
+    );
+    monster.phaseTransitions = phaseTransitionEntries(
       stateIds,
       states,
       commands,
@@ -529,6 +655,7 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
     for (const alert of wave.alerts || []) {
       for (const monster of alert.monsters || []) {
         const definition = staticByTid.get(monster.tid);
+        applyPhaseTransitions(definition, monster);
         normalizeMonsterHp(definition, monster, alert.standardRows);
         resolveMonster(definition, monster);
       }

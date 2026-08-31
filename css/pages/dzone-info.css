@@ -717,6 +717,81 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
 .flow-connector--phase { color: #e0a48d; }
 .flow-connector--phase::before { background: #805d4e; }
 
+.phase-transition {
+    display: grid;
+    gap: 0.55rem;
+    padding: 0.75rem 0.85rem;
+    border: 1px solid #664a45;
+    border-radius: 0.65rem;
+    background: #282427;
+}
+
+.phase-transition > header,
+.phase-card > header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.phase-transition h5,
+.phase-card strong { margin: 0; color: #f3eeee; font-size: 0.82rem; }
+.phase-transition > header > span,
+.phase-card header > span,
+.phase-card em {
+    padding: 0.13rem 0.38rem;
+    border: 1px solid #755348;
+    border-radius: 999px;
+    color: #e7b9a5;
+    font-size: 0.64rem;
+    font-style: normal;
+    font-weight: 800;
+}
+
+.phase-transition-summary,
+.phase-card p {
+    margin: 0;
+    color: #d2c4c6;
+    font-size: 0.76rem;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+}
+
+.phase-transition-states {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.phase-transition-states li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    color: #c6c8cf;
+    font-size: 0.73rem;
+    line-height: 1.5;
+}
+
+.phase-transition-states img {
+    flex: 0 0 1.375rem;
+    width: 1.375rem;
+    height: 1.375rem;
+    object-fit: contain;
+}
+
+.phase-transition-states b { color: #f0d3d5; }
+
+.phase-card {
+    display: grid;
+    gap: 0.35rem;
+    padding-top: 0.55rem;
+    border-top: 1px solid #4b4144;
+}
+
+.phase-card em { margin-left: auto; color: #d9c887; border-color: #6f6340; }
+
 .conditional-actions {
     display: grid;
     gap: 0.55rem;
@@ -829,6 +904,7 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
     .monster-heading h4 { overflow-wrap: anywhere; }
     .hp-stage { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
     .hp-stage dd { max-width: 100%; overflow-wrap: anywhere; }
+    .phase-card em { margin-left: 0; }
     .monster-stat--affinity { padding: 8px var(--monster-content-inset); }
     .affinity-awakener > summary { grid-template-columns: 40px minmax(0, 1fr); gap: 8px; padding: 8px; }
     .affinity-awakener > summary .collapse-indicator { display: none; }

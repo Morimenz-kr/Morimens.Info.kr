@@ -161,6 +161,82 @@ test('엘리트 몬스터는 기준 8턴에 따른 0.4 방어 보정치를 사�
   assert.equal(output.waves[0].alerts[0].monsters[0].hp, 3769743);
 });
 
+test('사망 직전 각성은 2배 HP, 2단계 행동, 생성 카드를 함께 보존한다', async () => {
+  const { buildDzoneSiteData } = await buildModule;
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'morimens-dzone-phase-'));
+  const staticDirectory = path.join(root, 'static');
+  const basePath = path.join(root, 'base.json');
+  const outputPath = path.join(root, 'out.json');
+  await fs.mkdir(staticDirectory);
+  await fs.writeFile(basePath, JSON.stringify({
+    waves: [{
+      wave: 1,
+      encounters: [],
+      monsters: [{ tid: 100, battleTag: 'Boss', config: { MonsterProportion: 1, MonsterHpPercent: 1, MonsterDefPercent: 0 } }],
+      alerts: [{
+        alert: 4,
+        standardRows: [{ BattleTag: 'Boss', StandardHp: 1000, StandardDef: 100, StandardTurn: 12 }],
+        monsters: [{ tid: 100, hp: 1, attack: 200, defense: 10, phases: [{ bar: 1, hp: 1, maxHpMultiplier: 1 }, { bar: 2, hp: 1, maxHpMultiplier: 1 }] }]
+      }]
+    }]
+  }), 'utf8');
+  await writeDocument(staticDirectory, 'Config.MonsterConfig.json', {
+    100: { ExistState: { 1: 300 }, CycleSkillList1: { 1: 200 }, CycleSkillList2: { 1: 201 } }
+  });
+  await writeDocument(staticDirectory, 'Text_KR.Text_MonsterConfig.json', {});
+  await writeDocument(staticDirectory, 'Config.Skill.json', {
+    200: { Name: 'Skill_200_Name|1단계 공격', Desc: 'Skill_200_Desc|공격', Type: { 1: 'Intent_Attack' }, Para: '1' },
+    201: { Name: 'Skill_201_Name|2단계 공격', Desc: 'Skill_201_Desc|강한 공격', Type: { 1: 'Intent_HeavyAttack' }, Para: '1' },
+    202: { Name: 'Skill_202_Name|각성', Desc: 'Skill_202_Desc|각성한다.', Type: { 1: 'Intent_StrongBuff' }, CmdList: 501 },
+    203: { Name: 'Skill_203_Name|살려줘', Desc: 'Skill_203_Desc|기절시키고 카드를 3장 뽑으며 산출력 3pt를 획득한다.', Type: { 1: 'Card_State' }, Cost: 0, CmdList: 502 },
+    204: { Name: 'Skill_204_Name|기절', Desc: 'Skill_204_Desc|행동할 수 없음', Type: { 1: 'Intent_Dizzy' } }
+  });
+  await writeDocument(staticDirectory, 'Text_KR.Text_Skill.json', {
+    Skill_200_Name: { Text: '1단계 공격' }, Skill_200_Desc: { Text: '공격' },
+    Skill_201_Name: { Text: '2단계 공격' }, Skill_201_Desc: { Text: '강한 공격' },
+    Skill_202_Name: { Text: '각성' }, Skill_202_Desc: { Text: '각성한다.' },
+    Skill_203_Name: { Text: '살려줘' }, Skill_203_Desc: { Text: '기절시키고 카드를 3장 뽑으며 산출력 3pt를 획득한다.' },
+    Skill_204_Name: { Text: '기절' }, Skill_204_Desc: { Text: '행동할 수 없음' }
+  });
+  await writeDocument(staticDirectory, 'Config.State.json', {
+    300: { Name: 'State_300_Name|미각성', Desc: 'State_300_Desc|쓰러질 때 각성한다.', ShowType: 'Normal', TriggerCmd1: 400, TriggerCond1: { 1: 'BSTRoleBeforeDeath' } },
+    301: { Name: 'State_301_Name|피해 면역', Desc: 'State_301_Desc|관통 피해가 아닌 피해에 면역', ShowType: 'Normal' }
+  });
+  await writeDocument(staticDirectory, 'Text_KR.Text_State.json', {
+    State_300_Name: { Text: '미각성' }, State_300_Desc: { Text: '쓰러질 때 각성한다.' },
+    State_301_Name: { Text: '피해 면역' }, State_301_Desc: { Text: '관통 피해가 아닌 피해에 면역' }
+  });
+  await writeDocument(staticDirectory, 'Config.Cmd.json', {
+    400: { data_list: {
+      1: { Type: 'BEPVERebirth', Para: 1 },
+      2: { Type: 'BEChangeMaxHp', Para: 'CmdCaster.max_hp' },
+      3: { Type: 'BEHeal', Para: 'CmdCaster.max_hp' },
+      4: { Type: 'BEAddState', Para: '301,1' },
+      5: { Type: 'BEMonsterChangeSkillList', Para: 2 },
+      6: { Type: 'BEMonsterChangeSkill', Para: '202,1' }
+    } },
+    501: { data_list: { 1: { Type: 'BECreateCard', Target: 'GetCardByID(203,1)', Para: 'HandDeck,TOP,1' } } },
+    502: { data_list: {
+      1: { Type: 'BEMonsterChangeSkill', Para: '204,1' },
+      2: { Type: 'BEDrawCard', Para: 3 },
+      3: { Type: 'BEChangeEnergy', Para: 3 }
+    } }
+  });
+  await writeDocument(staticDirectory, 'Config.RelicConfig.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_RelicConfig.json', {});
+
+  await buildDzoneSiteData({ basePath, staticDirectory, outputPath });
+  const output = JSON.parse(await fs.readFile(outputPath, 'utf8'));
+  const monster = output.waves[0].monsters[0];
+  const stats = output.waves[0].alerts[0].monsters[0];
+  assert.equal(monster.phaseTransitions[0].maxHpMultiplier, 2);
+  assert.equal(monster.phaseTransitions[0].phaseIndex, 2);
+  assert.deepEqual(monster.phaseTransitions[0].createdCards[0].effects, ['전방 적의 행동을 「기절」으로 변경', '카드 3장 뽑기', '산출력 3pt 획득']);
+  assert.equal(stats.phases[0].hp, 1000);
+  assert.equal(stats.phases[1].hp, 2000);
+  assert.equal(stats.effectiveHp, 3000);
+});
+
 test('소환 개체의 패턴과 조물의 연구 깊이 수식을 함께 생성한다', async () => {
   const { buildDzoneSiteData } = await buildModule;
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'morimens-dzone-'));
