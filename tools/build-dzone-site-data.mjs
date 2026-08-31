@@ -97,9 +97,11 @@ function evaluateExpression(expression, stats, context = {}) {
     .replaceAll('BattleAtkForce', String(stats.attack))
     .replaceAll('BattleDefForce', String(stats.defense))
     .replaceAll('CmdCaster.max_hp', String(stats.hp))
+    .replaceAll('CmdCaster.hp', String(stats.hp))
     .replaceAll('CmdCaster.atk', String(stats.attack))
     .replaceAll('CmdCaster.def', String(stats.defense))
     .replaceAll('StateOwner.max_hp', String(stats.hp))
+    .replaceAll('StateOwner.hp', String(stats.hp))
     .replaceAll('StateOwner.atk', String(stats.attack))
     .replaceAll('StateOwner.def', String(stats.defense))
     .replace(/GetMonsterByID\(\d+\)\.atk/g, String(stats.attack))
@@ -336,6 +338,39 @@ function monsterImagePath(icon) {
   return basename ? `images/dzone/monster/${basename}` : '';
 }
 
+function stateIconPath(icon) {
+  const basename = path.posix.basename(String(icon || ''))
+    .replace(/^IconS_/i, 'icons_')
+    .toLowerCase();
+  return basename ? `images/keyword-icons/original/${basename}` : '';
+}
+
+function normalizeMonsterHp(definition, stats, standardRows) {
+  if (!definition?.config || !/StandardTurn/.test(String(stats.hpFormula || ''))) return;
+  const standard = (standardRows || []).find(row => row.BattleTag === definition.battleTag);
+  if (!standard) return;
+  const proportion = Number(definition.config.MonsterProportion);
+  const hpPercent = Number(definition.config.MonsterHpPercent);
+  const defensePercent = Number(definition.config.MonsterDefPercent);
+  if (![standard.StandardHp, standard.StandardDef, proportion, hpPercent, defensePercent].every(Number.isFinite)) return;
+
+  const hp = Math.ceil(
+    standard.StandardHp * proportion * hpPercent
+    - standard.StandardDef * defensePercent * 0.2
+  );
+  stats.hp = hp;
+  stats.hpFormula = 'ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)';
+  if (Array.isArray(stats.phases) && stats.phases.length) {
+    stats.phases = stats.phases.map(phase => ({
+      ...phase,
+      hp: Math.ceil(hp * (Number(phase.maxHpMultiplier) || 1))
+    }));
+    stats.effectiveHp = stats.phases.reduce((sum, phase) => sum + phase.hp, 0);
+  } else {
+    stats.effectiveHp = hp;
+  }
+}
+
 export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath }) {
   const base = await readJson(basePath);
   const [monsterDocument, monsterTextDocument, skillDocument, skillTextDocument, stateDocument, stateTextDocument, commandDocument, relicDocument, relicTextDocument] = await Promise.all([
@@ -382,6 +417,7 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
         initialLayerExpression: stateLayers[index] || null,
         stateParamExpressions: stateParams,
         descParamExpressions: orderedValues(row.DescPara).map(String),
+        icon: stateIconPath(row.Icon),
         visible: row.ShowType !== 'Hide'
       };
     });
@@ -454,6 +490,7 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
       return {
         id: state.id,
         name: state.name,
+        icon: state.icon,
         visible: state.visible,
         description: resolveStateDescription(state.descriptionTemplate, resolved),
         ...resolved
@@ -489,7 +526,9 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
     const summonByTid = new Map((wave.summonDefinitions || []).map(monster => [monster.tid, monster]));
     for (const alert of wave.alerts || []) {
       for (const monster of alert.monsters || []) {
-        resolveMonster(staticByTid.get(monster.tid), monster);
+        const definition = staticByTid.get(monster.tid);
+        normalizeMonsterHp(definition, monster, alert.standardRows);
+        resolveMonster(definition, monster);
       }
       for (const summon of alert.summonedMonsters || []) {
         const parent = (alert.monsters || []).find(monster => monster.tid === summon.parentTid);
@@ -505,6 +544,9 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
   }
 
   base.schemaVersion = 3;
+  if (base.formulaNotes?.normalHp) {
+    base.formulaNotes.normalHp = 'ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)';
+  }
   base.source = {
     kind: base.source?.kind || 'local-config-ab-static-json',
     usesSkeyDbAsInput: false

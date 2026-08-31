@@ -481,7 +481,13 @@
             && (state.name || state.description)
         ));
         if (!rules.length) return '';
-        return `<section class="monster-rules" aria-label="특수 규칙">${rules.map(rule => `<article><strong>${escapeHtml(gameText(rule.name) || '특수 규칙')}</strong><p>${dynamicMarkup(rule.description || '전투 중 적용되는 특수 규칙입니다.')}</p></article>`).join('')}</section>`;
+        return `<section class="monster-rules" aria-label="특수 규칙">${rules.map(rule => {
+            const layer = rule.initialLayer?.value?.display;
+            const icon = rule.icon
+                ? `<span class="monster-rule-icon"><img src="${escapeHtml(rule.icon)}" alt="" width="28" height="28" loading="lazy" decoding="async">${layer > 1 ? `<b>${number.format(layer)}</b>` : ''}</span>`
+                : '';
+            return `<article>${icon}<div><strong>${escapeHtml(gameText(rule.name) || '특수 규칙')}</strong><p>${dynamicMarkup(rule.description || '전투 중 적용되는 특수 규칙입니다.')}</p></div></article>`;
+        }).join('')}</section>`;
     }
 
     function renderSummons(wave, tid) {
@@ -645,12 +651,13 @@
         });
     }
 
-    function renderEncounter(wave, encounter) {
+    function renderEncounter(wave, encounter, typeIndex, typeCount) {
         const typeLabel = TYPE_LABELS[encounter.battleType] || encounter.battleType;
+        const encounterLabel = typeCount > 1 ? `${typeLabel} 전투 구성 ${typeIndex}` : `${typeLabel} 전투`;
         return `
             <details class="encounter-card site-disclosure" open>
                 <summary class="encounter-header">
-                    <h3>${escapeHtml(typeLabel)} 전투</h3>
+                    <h3>${escapeHtml(encounterLabel)}</h3>
                 </summary>
                 <div class="monster-list">${encounter.members.map(member => renderMonster(wave, member)).join('')}</div>
             </details>`;
@@ -659,9 +666,15 @@
     function renderWave(wave) {
         const difficulty = wave.alerts.find(item => item.alert === selectedAlert);
         const difficultyLabel = difficulty?.difficultyLabel || `경보 ${selectedAlert}급`;
-        const encounters = [...wave.encounters]
-            .sort((left, right) => (TYPE_ORDER[left.battleType] ?? 99) - (TYPE_ORDER[right.battleType] ?? 99))
-            .map(encounter => renderEncounter(wave, encounter)).join('');
+        const sortedEncounters = [...wave.encounters]
+            .sort((left, right) => (TYPE_ORDER[left.battleType] ?? 99) - (TYPE_ORDER[right.battleType] ?? 99));
+        const typeCounts = sortedEncounters.reduce((counts, encounter) => counts.set(encounter.battleType, (counts.get(encounter.battleType) || 0) + 1), new Map());
+        const typeIndexes = new Map();
+        const encounters = sortedEncounters.map(encounter => {
+            const typeIndex = (typeIndexes.get(encounter.battleType) || 0) + 1;
+            typeIndexes.set(encounter.battleType, typeIndex);
+            return renderEncounter(wave, encounter, typeIndex, typeCounts.get(encounter.battleType));
+        }).join('');
         const mechanicBadges = waveMechanics(wave);
         return `
             <section class="wave-section" id="wave-${wave.wave}">

@@ -759,9 +759,38 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
     line-height: 1.55;
 }
 
-.monster-rules article { padding-left: 0.7rem; border-left: 3px solid #806d46; }
+.monster-rules article {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 0.55rem;
+    padding-left: 0.7rem;
+    border-left: 3px solid #806d46;
+}
 .monster-rules strong { color: #ebe2c8; }
 .monster-rules p { margin: 0.25rem 0 0; }
+.monster-rule-icon {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    inline-size: 1.75rem;
+    block-size: 1.75rem;
+}
+.monster-rule-icon img { inline-size: 100%; block-size: 100%; object-fit: contain; }
+.monster-rule-icon b {
+    position: absolute;
+    right: -0.22rem;
+    bottom: -0.2rem;
+    min-inline-size: 1rem;
+    padding: 0 0.18rem;
+    border: 1px solid #777167;
+    border-radius: 999px;
+    background: #292a2f;
+    color: #f1eee8;
+    font-size: 0.62rem;
+    line-height: 1rem;
+    text-align: center;
+}
 
 .summon-section {
     display: grid;

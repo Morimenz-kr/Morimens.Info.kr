@@ -39,7 +39,7 @@ test('상태 명령으로 교체되는 몬스터 의도를 조건부 행동에 �
     Skill_201_Name: { Text: '특수 공격' }, Skill_201_Desc: { Text: '강한 피해' }
   });
   await writeDocument(staticDirectory, 'Config.State.json', {
-    300: { Name: 'State_300_Name|누적', Desc: 'State_300_Desc|10스택이면 특수 공격으로 전환한다.', ShowType: 'Normal', TriggerCmd1: 400, TriggerCond1: { 1: 'BSTStateOnAdd' } }
+    300: { Name: 'State_300_Name|누적', Desc: 'State_300_Desc|10스택이면 특수 공격으로 전환한다.', Icon: 'IconS_Buff_061.png', ShowType: 'Normal', TriggerCmd1: 400, TriggerCond1: { 1: 'BSTStateOnAdd' } }
   });
   await writeDocument(staticDirectory, 'Text_KR.Text_State.json', {
     State_300_Name: { Text: '누적' }, State_300_Desc: { Text: '10스택이면 특수 공격으로 전환한다.' }
@@ -65,7 +65,48 @@ test('상태 명령으로 교체되는 몬스터 의도를 조건부 행동에 �
     conditionText: ''
   }]);
   assert.deepEqual(monster.skills.map(skill => skill.id), [200, 201]);
+  assert.equal(monster.states[0].icon, 'images/keyword-icons/original/icons_buff_061.png');
+  assert.equal(output.waves[0].alerts[0].monsters[0].resolvedStates[0].icon, 'images/keyword-icons/original/icons_buff_061.png');
   assert.equal(output.waves[0].alerts[0].monsters[0].resolvedSkills['201'].description, '강한 피해');
+});
+
+test('일반 몬스터 HP는 방어 보정치를 HP 비율 바깥에서 차감한다', async () => {
+  const { buildDzoneSiteData } = await buildModule;
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'morimens-dzone-hp-'));
+  const staticDirectory = path.join(root, 'static');
+  const basePath = path.join(root, 'base.json');
+  const outputPath = path.join(root, 'out.json');
+  await fs.mkdir(staticDirectory);
+  await fs.writeFile(basePath, JSON.stringify({
+    formulaNotes: { normalHp: 'old' },
+    waves: [{
+      wave: 1,
+      encounters: [],
+      monsters: [{ tid: 100, battleTag: 'MonsterGrade1', config: { MonsterProportion: 0.25, MonsterHpPercent: 1.05, MonsterDefPercent: 0.36 } }],
+      alerts: [{
+        alert: 4,
+        standardRows: [{ BattleTag: 'MonsterGrade1', StandardHp: 1687703.18, StandardDef: 97627.33 }],
+        monsters: [{ tid: 100, hp: 416019, attack: 534, defense: 9762, hpFormula: 'ceil(StandardHp*(MonsterProportion*MonsterHpPercent - MonsterDefPercent*StandardTurn/(20*StandardTurn+10)))', phases: [{ bar: 1, hp: 416019, maxHpMultiplier: 1 }] }]
+      }]
+    }]
+  }), 'utf8');
+  await writeDocument(staticDirectory, 'Config.MonsterConfig.json', { 100: {} });
+  await writeDocument(staticDirectory, 'Text_KR.Text_MonsterConfig.json', {});
+  await writeDocument(staticDirectory, 'Config.Skill.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_Skill.json', {});
+  await writeDocument(staticDirectory, 'Config.State.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_State.json', {});
+  await writeDocument(staticDirectory, 'Config.Cmd.json', {});
+  await writeDocument(staticDirectory, 'Config.RelicConfig.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_RelicConfig.json', {});
+
+  await buildDzoneSiteData({ basePath, staticDirectory, outputPath });
+  const output = JSON.parse(await fs.readFile(outputPath, 'utf8'));
+  const stats = output.waves[0].alerts[0].monsters[0];
+  assert.equal(stats.hp, 435993);
+  assert.equal(stats.phases[0].hp, 435993);
+  assert.equal(stats.effectiveHp, 435993);
+  assert.match(stats.hpFormula, /StandardDef\*MonsterDefPercent\*0\.2/);
 });
 
 test('소환 개체의 패턴과 조물의 연구 깊이 수식을 함께 생성한다', async () => {
