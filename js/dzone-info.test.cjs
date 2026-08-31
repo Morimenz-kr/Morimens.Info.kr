@@ -151,8 +151,9 @@ test('상태 의존 행동은 기본값과 스택당 증가량을 정확히 표�
         ...alert.monsters,
         ...(alert.summonedMonsters || [])
     ].flatMap(monster => [
-        ...Object.values(monster.resolvedSkills || {}).map(skill => skill.description),
-        ...(monster.resolvedStates || []).filter(state => state.visible).map(state => state.description)
+        ...Object.values(monster.resolvedSkills || {}).map(skill => skill.richDescription || skill.description),
+        ...Object.values(monster.phaseResolvedSkills || {}).flatMap(skills => Object.values(skills).map(skill => skill.richDescription || skill.description)),
+        ...(monster.resolvedStates || []).filter(state => state.visible).map(state => state.richDescription || state.description)
     ])));
     assert.equal(visibleDescriptions.some(description => /\[[^\]]*?(?:Arg|Layer)\d*\]/.test(description || '')), false);
     assert.doesNotMatch(source, /현재 상태에 따라 달라지는|조건에 따라 정해진 횟수/);
@@ -161,6 +162,39 @@ test('상태 의존 행동은 기본값과 스택당 증가량을 정확히 표�
 test('위치 제약이 없다는 중복 문구를 화면에서 제거한다', () => {
     assert.match(source, /\(\?:어디든\|위치에\)/);
     assert.match(source, /\(\?:관계\|상관\)/);
+});
+
+test('사라 소환체의 HP와 체력바는 현재 보스 최대 HP의 2%로 일치한다', () => {
+    const wave = dzoneData.waves.find(wave => wave.wave === 3);
+    for (const alert of wave.alerts) {
+        const boss = alert.monsters.find(monster => monster.tid === 74035);
+        for (const summon of alert.summonedMonsters.filter(monster => monster.tid === 73523)) {
+            assert.equal(summon.hp, Math.ceil(boss.hp * 0.02));
+            assert.equal(summon.phases[0].hp, summon.hp);
+            assert.equal(summon.effectiveHp, summon.hp);
+        }
+    }
+});
+
+test('순교자의 죽음 저항과 분열체의 포식당함을 다른 개체·효과로 유지한다', () => {
+    const wave = dzoneData.waves.find(wave => wave.wave === 4);
+    assert.equal(wave.monsters.find(monster => monster.tid === 94942).conditionalActions.some(action => action.skillId === 94957), false);
+    assert.equal(wave.summonDefinitions.find(monster => monster.tid === 94702).conditionalActions.some(action => action.skillId === 94957), true);
+    for (const alert of wave.alerts) {
+        assert.equal(alert.monsters.find(monster => monster.tid === 94942).phases.length, 1);
+        for (const summon of alert.summonedMonsters.filter(monster => monster.tid === 94702)) {
+            assert.equal(summon.hp, null);
+            assert.match(summon.hpDisplay, /소환 턴/);
+            assert.equal(summon.resolvedSkills['94957'].args[0].value.display, Math.ceil(summon.attack * 0.5));
+        }
+    }
+});
+
+test('각성 후 HP 비례 수치는 증가한 최대 HP를 사용한다', () => {
+    const wave = dzoneData.waves.find(wave => wave.wave === 4);
+    const boss = wave.alerts.find(alert => alert.difficulty === 'madness').monsters.find(monster => monster.tid === 118029);
+    assert.equal(boss.phaseResolvedSkills['2']['118975'].args[0].value.display, 2623403);
+    assert.match(source, /stats\.phaseResolvedSkills\?\.\['2'\]/);
 });
 
 test('융재금구는 금기 학식 등급만 받고 정확한 연구 깊이는 노출하지 않는다', () => {

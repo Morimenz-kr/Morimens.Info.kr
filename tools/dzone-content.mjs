@@ -114,6 +114,10 @@ export function enrichDzoneContent(document, tables) {
     return null;
   }
   function symbolic(expression, stats) {
+    if (stats.hp == null) {
+      const maximum = String(expression || '').match(/^(?:CmdCaster|StateOwner)\.max_hp\*(\d*\.?\d+)$/);
+      if (maximum) return `소환 시 최대 HP의 ${Number(maximum[1]) * 100}%`;
+    }
     const number = scalar(expression, stats); if (number !== null) return number;
     const hp = String(expression || '').match(/^(?:CmdCaster|StateOwner)\.hp\*(\d+(?:\.\d+)?)$/);
     if (hp) return `발동 시 현재 HP의 ${Number(hp[1]) * 100}%`;
@@ -215,7 +219,9 @@ export function enrichDzoneContent(document, tables) {
     if (commands.some(e => e.Type === 'BEGainBlock' && /TempArg1\*Arg3\/100/.test(e.Para || ''))) {
       raw = raw.replace(/(\[Arg3\]%\s*(?:<CardKeyWord:)?(?:서리|저주) 방패)/, '잃은 HP의 $1');
     }
-    if (refs.some(ref => ref.type === 'State' && ref.id === 149162)) raw = raw.replace(/죽음 저항을 (\[Arg\d+\])% 제거/g, '죽음 저항 확률을 $1%p 감소');
+    if (refs.some(ref => ref.type === 'State' && [149162, 149235].includes(ref.id))) raw = raw.replace(/죽음 저항을 (\[Arg\d+\])% 제거/g, '죽음 저항 확률을 $1%p 감소');
+    // State 95001 / Cmd 94980 stops decrementing at one stack; Skill 94959 adds two hits.
+    if (type === 'Skill' && Number(id) === 94959) raw = raw.replace('최대 3회까지 감소한다', '최소 3회까지 감소한다');
     if (type === 'Skill' && /CmdCaster.hp\*2/.test(row.Para || '')) raw = raw.replace(/\(\[Arg2\]\)/, '');
     raw = raw.replace(/\[(?:[A-Za-z]+:)?(Arg|DescArg|StateArg)(\d+)\]/g, (all, kind, n) => {
       if (type === 'Skill' && kind === 'Arg') {
@@ -227,8 +233,10 @@ export function enrichDzoneContent(document, tables) {
         return symbolic(args[n - 1], stats) ?? all;
       }
       const value = (kind === 'StateArg' ? resolved?.stateArgs : resolved?.descArgs)?.[n - 1]?.value;
-      return value ? new Intl.NumberFormat('ko-KR').format(value.display) : all;
+      const expression = kind === 'StateArg' ? externalArgs[n - 1] : values(row.DescPara)[n - 1];
+      return value ? new Intl.NumberFormat('ko-KR').format(value.display) : symbolic(expression, stats) ?? all;
     }).replace(/\[Layer\]/g, String(resolved?.initialLayer?.value?.display ?? '스택 수'));
+    raw = raw.replace(/(최대 HP의 [\d.]+%)의 HP/g, '$1에 해당하는 HP');
     const scopedRefs = [...new Map(refs.map(ref => [`${ref.type}:${ref.id}`, ref])).values()];
     const entries = scopedRefs.flatMap(ref => [name(ref.type, ref.id), ...(aliases[ref.id] || [])].filter(Boolean).map(label => ({ label, ref })))
       .sort((a, b) => b.label.length - a.label.length);
@@ -281,7 +289,7 @@ export function enrichDzoneContent(document, tables) {
       const layer = match[1] === '148383' && match[3] === '4' && limit === '3' ? '3' : match[3];
       parts.push(`${name('State', match[1])} ${layer}스택${match[2] === '>=' ? ' 이상' : ''} 보유`);
     }
-    if (parts.length) return parts.join(' · ');
+    if (parts.length) return (action.sourceMonsterName ? `${action.sourceMonsterName}가 ` : '') + parts.join(' · ');
     diagnostics.push({ kind: 'unresolved-condition', source: `State:${action.stateId}`, target: action.skillId });
     return '';
   }
@@ -298,6 +306,10 @@ export function enrichDzoneContent(document, tables) {
     for (const alert of wave.alerts) for (const stats of [...alert.monsters, ...(alert.summonedMonsters || [])]) {
       const definition = byId.get(stats.tid); if (!definition) throw new Error(`Missing monster definition ${stats.tid}`);
       for (const [id, resolved] of Object.entries(stats.resolvedSkills || {})) resolved.richDescription = richDescription('Skill', id, stats, resolved, [], definition.states);
+      for (const [phase, skills] of Object.entries(stats.phaseResolvedSkills || {})) {
+        const phaseStats = { ...stats, hp: stats.phases.find(item => item.bar === Number(phase))?.hp ?? stats.hp };
+        for (const [id, resolved] of Object.entries(skills)) resolved.richDescription = richDescription('Skill', id, phaseStats, resolved, [], definition.states);
+      }
       for (const resolved of stats.resolvedStates || []) {
         if (!resolved.visible) continue;
         const state = definition.states.find(state => state.id === resolved.id);

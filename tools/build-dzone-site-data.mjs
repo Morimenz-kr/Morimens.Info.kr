@@ -100,6 +100,8 @@ function evaluateExpression(expression, stats, context = {}) {
     .replaceAll('CmdCaster.max_hp', String(stats.hp))
     .replaceAll('CmdCaster.hp', String(stats.hp))
     .replaceAll('CmdCaster.atk', String(stats.attack))
+    .replaceAll('CmdCaster.AtkForce', String(stats.attack))
+    .replaceAll('CmdCaster.DefForce', String(stats.defense))
     .replaceAll('CmdCaster.def', String(stats.defense))
     .replaceAll('StateOwner.max_hp', String(stats.hp))
     .replaceAll('StateOwner.hp', String(stats.hp))
@@ -273,7 +275,7 @@ function conditionalActionEntries(stateIds, states, commands, skills, stateText,
         if (entry?.Type !== 'BEMonsterChangeSkill') continue;
         const skillId = Number(splitTopLevel(entry.Para)[0]);
         if (!Number.isInteger(skillId) || !skills[String(skillId)]) continue;
-        const key = `${stateId}:${trigger.commandId}:${skillId}:${entry.Cond || ''}`;
+        const key = `${stateId}:${trigger.commandId}:${skillId}:${entry.Target || ''}:${entry.Cond || ''}`;
         if (seen.has(key)) continue;
         seen.add(key);
         actions.push({
@@ -283,7 +285,9 @@ function conditionalActionEntries(stateIds, states, commands, skills, stateText,
           judgement: trigger.judgement,
           triggerEvents: trigger.triggerEvents,
           commandCondition: entry.Cond || '',
-          conditionText: humanizeCommandCondition(entry.Cond, states, skills, stateText, skillText)
+          conditionText: humanizeCommandCondition(entry.Cond, states, skills, stateText, skillText),
+          ...(String(entry.Target || '').match(/^GetMonsterByID\((\d+)\)$/)
+            ? { targetTid: Number(String(entry.Target).match(/\d+/)[0]) } : {})
         });
       }
     }
@@ -401,10 +405,13 @@ function phaseTransitionEntries(stateIds, states, commands, skills, stateText, s
     for (const trigger of triggerSlots(state)) {
       const command = commands[String(trigger.commandId)] || {};
       const entries = orderedValues(command.data_list);
-      const skillList = entries.find(entry => entry?.Type === 'BEMonsterChangeSkillList');
-      const maxHp = entries.find(entry => entry?.Type === 'BEChangeMaxHp');
+      const selfEntries = entries.filter(entry => !entry.Cond && (!entry.Target || ['UpperTarget', 'CmdCaster', 'StateOwner'].includes(entry.Target)));
+      const skillList = selfEntries.find(entry => entry?.Type === 'BEMonsterChangeSkillList');
+      const maxHp = selfEntries.find(entry => entry?.Type === 'BEChangeMaxHp');
       const rebirth = entries.some(entry => entry?.Type === 'BEPVERebirth');
-      if (!skillList && !maxHp && !rebirth) continue;
+      // A lethal-damage heal is not a new health bar. Conditional HP changes in
+      // shared death-resist commands must not become unconditional phase rules.
+      if (!skillList && !(rebirth && maxHp)) continue;
 
       const phaseIndex = Number(splitTopLevel(skillList?.Para)[0]) || transitions.length + 2;
       const phaseSkills = entries
@@ -413,7 +420,7 @@ function phaseTransitionEntries(stateIds, states, commands, skills, stateText, s
         .filter(Number.isInteger);
       const phaseSkill = skills[String(phaseSkills[0])] || {};
       const phaseCommand = commands[String(phaseSkill.CmdList)] || {};
-      const directAddedStateIds = entries
+      const directAddedStateIds = selfEntries
         .filter(entry => entry?.Type === 'BEAddState')
         .map(entry => Number(splitTopLevel(entry.Para)[0]))
         .filter(Number.isInteger);
@@ -428,7 +435,7 @@ function phaseTransitionEntries(stateIds, states, commands, skills, stateText, s
         phaseIndex,
         rebirth,
         maxHpMultiplier: phaseMultiplier(maxHp?.Para),
-        healsToMax: entries.some(entry => entry?.Type === 'BEHeal'),
+        healsToMax: selfEntries.some(entry => entry?.Type === 'BEHeal' && /^(?:CmdCaster|UpperTarget|StateOwner)\.max_hp$/.test(String(entry.Para))),
         phaseSkillIds: phaseSkills,
         addedStates: [...new Set([...directAddedStateIds, ...skillAddedStateIds])]
           .map(id => stateDefinition(id, states, stateText)),
@@ -476,8 +483,7 @@ function normalizeMonsterHp(definition, stats, standardRows) {
 
 function applyPhaseTransitions(definition, stats) {
   const transitions = definition?.phaseTransitions || [];
-  if (!transitions.length) return;
-  const phases = [...(stats.phases || [])];
+  const phases = [{ bar: 1, hp: stats.hp, maxHpMultiplier: 1, source: 'base' }];
   for (const transition of transitions) {
     const index = Math.max(0, transition.phaseIndex - 1);
     const existing = phases[index] || { bar: transition.phaseIndex, hp: stats.hp, maxHpMultiplier: 1 };
@@ -492,7 +498,7 @@ function applyPhaseTransitions(definition, stats) {
   stats.phases = phases;
 }
 
-export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath, keywordPath }) {
+export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath, keywordPath, waveNumbers }) {
   const base = await readJson(basePath);
   const [monsterDocument, monsterTextDocument, skillDocument, skillTextDocument, stateDocument, stateTextDocument, commandDocument, relicDocument, relicTextDocument] = await Promise.all([
     readJson(path.join(staticDirectory, 'Config.MonsterConfig.json')),
@@ -515,7 +521,7 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
   const stateText = textCatalog(stateTextDocument);
   const relicText = textCatalog(relicTextDocument);
 
-  const enrichMonsterDefinition = monster => {
+  const enrichMonsterDefinition = (monster, incomingActions = []) => {
     const config = monsters[String(monster.tid)] || {};
     monster.nameKo ||= stripGameMarkup(localized(config.MonsterName, monsterText));
     monster.description = stripGameMarkup(localized(config.Desc, monsterText));
@@ -549,7 +555,7 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
       skills,
       stateText,
       skillText
-    );
+    ).filter(action => !action.targetTid || action.targetTid === monster.tid).concat(incomingActions);
     monster.phaseTransitions = phaseTransitionEntries(
       stateIds,
       states,
@@ -628,12 +634,18 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
   };
 
   for (const wave of base.waves || []) {
+    if (waveNumbers && !waveNumbers.includes(wave.wave)) continue;
     for (const monster of wave.monsters || []) enrichMonsterDefinition(monster);
 
     const summonedTidSet = new Set((wave.alerts || []).flatMap(alert =>
       (alert.summonedMonsters || []).map(monster => monster.tid)
     ));
-    wave.summonDefinitions = [...summonedTidSet].map(tid => enrichMonsterDefinition({ tid }));
+    const redirectedActions = (wave.monsters || []).flatMap(monster =>
+      conditionalActionEntries(orderedValues(monsters[monster.tid]?.ExistState), states, commands, skills, stateText, skillText)
+        .filter(action => action.targetTid && action.targetTid !== monster.tid)
+        .map(action => ({ ...action, sourceMonsterTid: monster.tid, sourceMonsterName: monster.nameKo }))
+    );
+    wave.summonDefinitions = [...summonedTidSet].map(tid => enrichMonsterDefinition({ tid }, redirectedActions.filter(action => action.targetTid === tid)));
 
     wave.initialRelics = (wave.initialRelics || []).map(relic => {
       const row = relics[String(relic.id)] || {};
@@ -659,13 +671,32 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
         applyPhaseTransitions(definition, monster);
         normalizeMonsterHp(definition, monster, alert.standardRows);
         resolveMonster(definition, monster);
+        monster.phaseResolvedSkills = {};
+        for (const phase of (monster.phases || []).slice(1)) {
+          const phaseStats = { ...monster, hp: phase.hp };
+          resolveMonster(definition, phaseStats);
+          monster.phaseResolvedSkills[String(phase.bar)] = phaseStats.resolvedSkills;
+        }
       }
       for (const summon of alert.summonedMonsters || []) {
         const parent = (alert.monsters || []).find(monster => monster.tid === summon.parentTid);
-        if (summon.attack == null && parent && summon.rule?.attackExpression) {
+        if (parent && summon.rule?.hpExpression) {
+          const expression = summon.rule.hpExpression;
+          const turnFormula = expression.match(/^CmdCaster\.max_hp\*\((\d*\.?\d+)\+(\d*\.?\d+)\*BattleStats\.BoutCount\)$/);
+          summon.hp = evaluateExpression(expression, parent)?.display ?? null;
+          if (turnFormula) {
+            summon.hpDisplay = `소환자의 최대 HP × (${Number(turnFormula[1]) * 100}% + 소환 턴 × ${Number(turnFormula[2]) * 100}%)`;
+          } else {
+            delete summon.hpDisplay;
+          }
+          summon.hpFormula = expression;
+          summon.phases = [{ bar: 1, hp: summon.hp, maxHpMultiplier: 1, source: 'summon-command' }];
+          summon.effectiveHp = summon.hp;
+        }
+        if (parent && summon.rule?.attackExpression) {
           summon.attack = evaluateExpression(summon.rule.attackExpression, parent)?.display ?? null;
         }
-        if (summon.defense == null && parent && summon.rule?.defenseExpression) {
+        if (parent && summon.rule?.defenseExpression) {
           summon.defense = evaluateExpression(summon.rule.defenseExpression, parent)?.display ?? null;
         }
         resolveMonster(summonByTid.get(summon.tid), summon);
@@ -709,7 +740,8 @@ if (isMain) {
     basePath: argument('--base'),
     staticDirectory: argument('--static'),
     outputPath: argument('--out'),
-    keywordPath: process.argv.includes('--keywords') ? argument('--keywords') : undefined
+    keywordPath: process.argv.includes('--keywords') ? argument('--keywords') : undefined,
+    waveNumbers: process.argv.includes('--waves') ? process.argv[process.argv.indexOf('--waves') + 1].split(',').map(Number) : undefined
   }).then(summary => console.log(JSON.stringify(summary, null, 2))).catch(error => {
     console.error(error.stack || error.message || error);
     process.exitCode = 1;

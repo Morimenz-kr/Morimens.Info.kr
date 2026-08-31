@@ -413,10 +413,12 @@
         return `<section class="flow-phase"><header><h5>${escapeHtml(title)}</h5>${repeats ? '<span class="flow-badge">반복</span>' : ''}</header>${renderSequence(monster, stats, pattern, repeats)}</section>`;
     }
 
-    function renderPhaseTransition(monster, transition) {
+    function renderPhaseTransition(monster, transition, stats) {
         if (!transition) return '';
         const awakeningSkill = transition.phaseSkillIds?.[0];
         const heading = awakeningSkill ? (skillById(monster, awakeningSkill)?.name || transition.stateName || '각성') : '단계 전환';
+        const awakening = stats?.phaseResolvedSkills?.[String(transition.phaseIndex)]?.[String(awakeningSkill)]
+            || stats?.resolvedSkills?.[String(awakeningSkill)];
         const effects = [];
         if (transition.rebirth) effects.push('쓰러지면 부활');
         if (transition.maxHpMultiplier) effects.push(`최대 HP ${transition.maxHpMultiplier}배로 증가`);
@@ -433,6 +435,7 @@
         return `<section class="phase-transition" aria-label="${escapeHtml(heading)} 단계 전환">
             <header><h5>${escapeHtml(heading)}</h5><span>2단계 전환</span></header>
             ${effects.length ? `<p class="phase-transition-summary">${effects.join(' · ')}</p>` : ''}
+            ${awakening ? `<p>${dynamicMarkup(awakening.richDescription || awakening.description)}</p>` : ''}
             ${stateItems ? `<ul class="phase-transition-states">${stateItems}</ul>` : ''}
             ${cards}
         </section>`;
@@ -469,8 +472,9 @@
         if (secondCycle) {
             const phaseLabel = phaseTransition?.rebirth ? '첫 체력바 소진 · 각성' : '2번째 체력바 시작';
             phases.push(`<div class="flow-connector flow-connector--phase"><span>${phaseLabel}</span></div>`);
-            phases.push(renderPhaseTransition(monster, phaseTransition));
-            phases.push(renderFlowPhase(monster, stats, {
+            phases.push(renderPhaseTransition(monster, phaseTransition, stats));
+            const phaseStats = stats.phaseResolvedSkills?.['2'] ? { ...stats, resolvedSkills: stats.phaseResolvedSkills['2'] } : stats;
+            phases.push(renderFlowPhase(monster, phaseStats, {
                 title: '2번째 체력바 행동',
                 pattern: secondCycle,
                 repeats: true
@@ -583,7 +587,7 @@
 
     function renderHp(stats, monster) {
         if (!stats.phases || stats.phases.length < 2) {
-            const hp = Number.isFinite(stats.hp) ? number.format(stats.hp) : '전투 중 결정';
+            const hp = stats.hpDisplay ? escapeHtml(stats.hpDisplay) : Number.isFinite(stats.hp) ? number.format(stats.hp) : '전투 중 결정';
             return `<dl class="monster-stats"><div class="monster-stat monster-stat--hp"><dt>HP</dt><dd>${hp}</dd></div></dl>`;
         }
         const phaseCount = stats.phases.length;

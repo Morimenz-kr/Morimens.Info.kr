@@ -186,7 +186,7 @@ test('사망 직전 각성은 2배 HP, 2단계 행동, 생성 카드를 함께 �
   await writeDocument(staticDirectory, 'Text_KR.Text_MonsterConfig.json', {});
   await writeDocument(staticDirectory, 'Config.Skill.json', {
     200: { Name: 'Skill_200_Name|1단계 공격', Desc: 'Skill_200_Desc|공격', Type: { 1: 'Intent_Attack' }, Para: '1' },
-    201: { Name: 'Skill_201_Name|2단계 공격', Desc: 'Skill_201_Desc|강한 공격', Type: { 1: 'Intent_HeavyAttack' }, Para: '1' },
+    201: { Name: 'Skill_201_Name|2단계 공격', Desc: 'Skill_201_Desc|강한 공격', Type: { 1: 'Intent_HeavyAttack' }, Para: 'CmdCaster.max_hp*0.15' },
     202: { Name: 'Skill_202_Name|각성', Desc: 'Skill_202_Desc|각성한다.', Type: { 1: 'Intent_StrongBuff' }, CmdList: 501 },
     203: { Name: 'Skill_203_Name|살려줘', Desc: 'Skill_203_Desc|기절시키고 카드를 3장 뽑으며 산출력 3pt를 획득한다.', Type: { 1: 'Card_State' }, Cost: 0, CmdList: 502 },
     204: { Name: 'Skill_204_Name|기절', Desc: 'Skill_204_Desc|행동할 수 없음', Type: { 1: 'Intent_Dizzy' } }
@@ -235,6 +235,69 @@ test('사망 직전 각성은 2배 HP, 2단계 행동, 생성 카드를 함께 �
   assert.equal(stats.phases[0].hp, 1000);
   assert.equal(stats.phases[1].hp, 2000);
   assert.equal(stats.effectiveHp, 3000);
+  assert.equal(stats.resolvedSkills['201'].args[0].value.display, 150);
+  assert.equal(stats.phaseResolvedSkills['2']['201'].args[0].value.display, 300);
+});
+
+test('조건부 사망 저항은 HP 단계를 만들지 않고 다른 개체의 의도는 소환체에 연결한다', async () => {
+  const { buildDzoneSiteData } = await buildModule;
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'morimens-dzone-target-'));
+  const staticDirectory = path.join(root, 'static');
+  await fs.mkdir(staticDirectory);
+  const basePath = path.join(root, 'base.json'), outputPath = path.join(root, 'out.json');
+  await fs.writeFile(basePath, JSON.stringify({ waves: [{ wave: 4, encounters: [],
+    monsters: [{ tid: 100, nameKo: '소환자' }],
+    alerts: [{ alert: 4, monsters: [{ tid: 100, hp: 1000, attack: 200, defense: 50,
+      phases: [{ bar: 1, hp: 1000 }, { bar: 2, hp: 1250 }] }],
+    summonedMonsters: [
+      { tid: 101, parentTid: 100, hp: 999, attack: 999, defense: 999,
+        phases: [{ bar: 1, hp: 999 }], effectiveHp: 999,
+        rule: { hpExpression: 'CmdCaster.max_hp*0.02', attackExpression: 'CmdCaster.AtkForce*0.04', defenseExpression: 'CmdCaster.DefForce' } },
+      { tid: 102, parentTid: 100, hp: 999, attack: 999,
+        rule: { hpExpression: 'CmdCaster.max_hp*(0.015+0.0015*BattleStats.BoutCount)', attackExpression: 'CmdCaster.AtkForce*0.04' } }
+    ] }]
+  }] }));
+  const tables = {
+    MonsterConfig: { 100: { ExistState: { 1: 300, 2: 301 } }, 101: {}, 102: {} },
+    Skill: { 201: { Para: 'BattleAtkForce*0.5', Desc: 'Skill_201_Desc|[Arg1] 피해' } },
+    State: {
+      300: { ShowType: 'Hide', TriggerCmd1: 400, TriggerCond1: { 1: 'BSTRoleBeforeDeath' } },
+      301: { ShowType: 'Hide', TriggerCmd1: 401, TriggerCond1: { 1: 'BSTStateOnAdd' } }
+    },
+    Cmd: {
+      400: { data_list: { 1: { Type: 'BEPVERebirth', Para: 1 },
+        2: { Type: 'BEChangeMaxHp', Para: 'CmdCaster.max_hp*0.25', Cond: 'UpperTarget.GetStateLayer(999)==1' },
+        3: { Type: 'BEHeal', Para: 'CmdCaster.max_hp*0.05' } } },
+      401: { data_list: {
+        1: { Type: 'BEMonsterChangeSkill', Para: '201,1', Target: 'GetMonsterByID(101)' },
+        2: { Type: 'BEMonsterChangeSkill', Para: '201,1', Target: 'GetMonsterByID(102)' }
+      } }
+    }, RelicConfig: {}
+  };
+  for (const [name, data] of Object.entries(tables)) {
+    await writeDocument(staticDirectory, `Config.${name}.json`, data);
+    if (name !== 'Cmd') await writeDocument(staticDirectory, `Text_KR.Text_${name}.json`, {});
+  }
+  await buildDzoneSiteData({ basePath, staticDirectory, outputPath });
+  const wave = JSON.parse(await fs.readFile(outputPath, 'utf8')).waves[0];
+  assert.equal(wave.monsters[0].phaseTransitions.length, 0);
+  assert.equal(wave.alerts[0].monsters[0].phases.length, 1);
+  assert.equal(wave.monsters[0].conditionalActions.length, 0);
+  for (const definition of wave.summonDefinitions) {
+    assert.equal(definition.conditionalActions[0].skillId, 201);
+    assert.equal(definition.conditionalActions[0].sourceMonsterTid, 100);
+  }
+  const [fixed, dynamic] = wave.alerts[0].summonedMonsters;
+  assert.equal(fixed.hp, 20);
+  assert.equal(fixed.phases[0].hp, 20);
+  assert.equal(fixed.effectiveHp, 20);
+  assert.equal(fixed.attack, 8);
+  assert.equal(fixed.defense, 50);
+  assert.equal(fixed.resolvedSkills['201'].args[0].value.display, 4);
+  assert.equal(dynamic.hp, null);
+  assert.equal(dynamic.phases[0].hp, null);
+  assert.equal(dynamic.effectiveHp, null);
+  assert.equal(dynamic.hpDisplay, '소환자의 최대 HP × (1.5% + 소환 턴 × 0.15%)');
 });
 
 test('소환 개체의 패턴과 조물의 연구 깊이 수식을 함께 생성한다', async () => {
