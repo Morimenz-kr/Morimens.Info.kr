@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const vm = require('node:vm');
 
 const source = fs.readFileSync(path.join(__dirname, 'dzone-info.js'), 'utf8');
 const html = fs.readFileSync(path.join(__dirname, '..', 'dzone_info.html'), 'utf8');
@@ -13,6 +14,46 @@ const rerunHtml = fs.readFileSync(path.join(__dirname, '..', 'rerun_schedule.htm
 const landingHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const dzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
+
+async function relicDisplayContext() {
+    const levels = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/research_depth_levels.json'), 'utf8'));
+    const context = vm.createContext({
+        window: {}, fetch: async () => ({ ok: true, json: async () => levels }),
+        number: new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 2 }),
+        researchLevel: 81, dynamicMarkup: text => text
+    });
+    vm.runInContext(fs.readFileSync(path.join(__dirname, 'research-depth.js'), 'utf8'), context);
+    await context.window.ResearchDepth.load();
+    vm.runInContext(source.slice(source.indexOf('    function relicParameterText('), source.indexOf('    function renderRelics(')), context);
+    return context;
+}
+
+test('안전 출구+ 반격은 선택 등급에 맞는 올림 수치로 표시하고 전투 보정을 안내한다', async () => {
+    const context = await relicDisplayContext();
+    const archive = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season67.json'), 'utf8'));
+    const relic = archive.waves.flatMap(wave => wave.initialRelics).find(item => item.id === 98378);
+    for (const [level, expected] of [[1, 5], [40, 36], [81, 236], [100, 309]]) {
+        context.researchLevel = level;
+        const text = context.relicDescriptionMarkup(relic);
+        assert.ok(text.includes(`${expected} 반격`), text);
+        assert.match(text, /반격 증가 효과가 없는 기본 수치/);
+        assert.doesNotMatch(text, /연구 깊이|확인되지|\[Arg/);
+    }
+});
+
+test('67·68기 초기 유물의 모든 수치 인자는 금기 학식 등급으로 계산된다', async () => {
+    const context = await relicDisplayContext();
+    const archive = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season67.json'), 'utf8'));
+    for (const level of [1, 40, 81, 100]) {
+        context.researchLevel = level;
+        for (const data of [archive, dzoneData]) {
+            for (const relic of data.waves.flatMap(wave => wave.initialRelics)) {
+                assert.doesNotMatch(context.relicDescriptionMarkup(relic), /연구 깊이|확인되지|\[Arg/, `${data.period}기 ${relic.nameKo}, ${level}등급`);
+            }
+        }
+    }
+    assert.equal(context.relicParameterText({ expression: 'UnknownDepth*0.06', coefficient: 0.06, label: '영식 연구 깊이' }), '확인되지 않은 수치');
+});
 
 test('융재금구 화면은 사용자용 제목과 초기 유물 용어를 사용한다', () => {
     assert.match(html, /진행 중인 융재금구 정보/);
