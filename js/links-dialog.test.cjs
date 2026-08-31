@@ -39,7 +39,7 @@ test('은열쇠·비밀계약·명륜 도감은 공통 dialog 상세 UI를 사�
 test('시스템용 열쇠 지령 효과는 획득형 은열쇠 도감에서 제외한다', () => {
     assert.equal(silverKeys.some(item => item.clientItemId === 48014), false);
     assert.equal(silverKeys.some(item => item.clientItemId === 89964), false);
-    assert.match(fs.readFileSync(path.join(repositoryRoot, 'tools', 'sync-client-catalogs.mjs'), 'utf8'), /48014[\s\S]*89964[\s\S]*146947/);
+    assert.equal(silverKeys.some(item => item.clientItemId === 146947), false);
 });
 
 test('명륜 상세 dialog는 0강부터 15강까지 강화별 주옵션을 표시한다', () => {

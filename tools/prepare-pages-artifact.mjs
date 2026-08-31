@@ -2,7 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createReleaseBundle, readDatasets, releaseSummary } from './firebase-data-core.mjs';
-import { validateDzoneContent } from './dzone-content.mjs';
+import { validateDzoneContent } from './validate-dzone-content.mjs';
 
 const ROOT_FILES = Object.freeze([
   '.nojekyll',
@@ -69,7 +69,7 @@ export async function preparePagesArtifact(options = {}) {
         path.join(tempDirectory, directory),
         {
           recursive: true,
-          filter: source => !DEPLOY_EXCLUDED_EXTENSIONS.has(path.extname(source).toLowerCase())
+          filter: source => !source.endsWith('.test.cjs') && !DEPLOY_EXCLUDED_EXTENSIONS.has(path.extname(source).toLowerCase())
         }
       );
     }

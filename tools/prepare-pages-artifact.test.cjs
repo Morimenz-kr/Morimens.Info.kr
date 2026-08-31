@@ -32,6 +32,8 @@ test('repository 모드는 현재 사이트와 운영 데이터를 안전한 Pag
     assert.equal(await fs.stat(path.join(OUTPUT, '.data-release.json')).then(() => true), true);
     assert.equal(await fs.access(path.join(OUTPUT, 'node_modules')).then(() => true, () => false), false);
     assert.equal(await fs.access(path.join(OUTPUT, '.idea')).then(() => true, () => false), false);
+    assert.equal(await fs.access(path.join(OUTPUT, 'tools')).then(() => true, () => false), false);
+    assert.equal(await fs.access(path.join(OUTPUT, 'js', 'links-dialog.test.cjs')).then(() => true, () => false), false);
   } finally {
     await fs.rm(OUTPUT, { recursive: true, force: true });
   }
@@ -47,4 +49,14 @@ test('Pages 아티팩트는 .generated 밖에 쓸 수 없다', async () => {
     }),
     /.generated 내부/
   );
+});
+
+
+test('분리된 배포 검증은 진단 오류와 끊어진 툴팁 참조를 차단한다', async () => {
+  const { validateDzoneContent } = await import('./validate-dzone-content.mjs');
+  assert.throws(() => validateDzoneContent({ contentAudit: { diagnostics: [{ kind: 'unknown-tag' }] } }), /diagnostics/);
+  assert.throws(() => validateDzoneContent({ contentAudit: { diagnostics: [] }, waves: ['<kw_0123456789abcdef:효과>'] }), /Missing D-Zone reference/);
+  for (const name of ['dzone_current.json', 'dzone_season67.json']) {
+    validateDzoneContent(JSON.parse(await fs.readFile(path.join(ROOT, 'data', name), 'utf8')));
+  }
 });

@@ -1,5 +1,8 @@
 # 비밀계약 추천 정리
 
+이 문서의 데이터 가공 명령은 [비공개 도구를 복원한 작업 환경](private-data-tools.md)에서 실행한다. 도구는 공개 저장소에 포함되지 않는다.
+
+
 ## 기준
 
 - 캐릭터 전체 목록: `data/character_manifest.json`

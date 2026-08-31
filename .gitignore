@@ -11,3 +11,24 @@ ui-debug.log
 
 # Local validation and deployment artifacts
 /tmp/
+
+# Private data authoring tools: only reviewed deployment/validation utilities are public.
+/tools/*
+!/tools/cron-auto-recovery.mjs
+!/tools/cron-auto-recovery.test.cjs
+!/tools/firebase-data-core.mjs
+!/tools/firebase-data-core.test.cjs
+!/tools/firebase-data.mjs
+!/tools/firebase-firestore.test.cjs
+!/tools/prepare-pages-artifact.mjs
+!/tools/prepare-pages-artifact.test.cjs
+!/tools/validate-character.mjs
+!/tools/workflow-config.test.cjs
+!/tools/validate-dzone-content.mjs
+/js/dimension-descriptions.test.cjs
+
+# Local extracted sources and private tool bundles must never be published.
+/docs/client-data-*/
+/docs/morimens-client-data-audit-*.md
+/private-tools/
+/repomix-output*
