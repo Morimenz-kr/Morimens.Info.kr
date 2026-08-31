@@ -6,7 +6,7 @@
     "usesSkeyDbAsInput": false
   },
   "formulaNotes": {
-    "normalHp": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+    "normalHp": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
     "awakerMonsterHp": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
     "attack": "ceil(StandardAtk*MonsterProportion*MonsterAtkPercent)",
     "defense": "floor(StandardDef/10)",
@@ -1312,7 +1312,7 @@
               "hp": 1860,
               "attack": 70,
               "defense": 78,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -1395,7 +1395,7 @@
               "hp": 1663,
               "attack": 64,
               "defense": 78,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -1499,7 +1499,7 @@
               "hp": 1389,
               "attack": 54,
               "defense": 78,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -1622,7 +1622,7 @@
               "hp": 1519,
               "attack": 63,
               "defense": 78,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -1717,7 +1717,7 @@
               "hp": 1460,
               "attack": 51,
               "defense": 78,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -1840,7 +1840,7 @@
               "hp": 2180,
               "attack": 63,
               "defense": 78,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -1924,7 +1924,7 @@
               "hp": 842,
               "attack": 32,
               "defense": 78,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -2038,7 +2038,7 @@
               "hp": 1454,
               "attack": 77,
               "defense": 78,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -2129,7 +2129,7 @@
               "hp": 16618,
               "attack": 174,
               "defense": 335,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -2462,7 +2462,7 @@
               "hp": 24738,
               "attack": 343,
               "defense": 1041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -2545,7 +2545,7 @@
               "hp": 22123,
               "attack": 312,
               "defense": 1041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -2649,7 +2649,7 @@
               "hp": 18478,
               "attack": 262,
               "defense": 1041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -2772,7 +2772,7 @@
               "hp": 20196,
               "attack": 306,
               "defense": 1041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -2867,7 +2867,7 @@
               "hp": 19415,
               "attack": 250,
               "defense": 1041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -2990,7 +2990,7 @@
               "hp": 28995,
               "attack": 309,
               "defense": 1041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -3074,7 +3074,7 @@
               "hp": 11200,
               "attack": 156,
               "defense": 1041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -3188,7 +3188,7 @@
               "hp": 19334,
               "attack": 377,
               "defense": 1041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -3279,7 +3279,7 @@
               "hp": 167466,
               "attack": 783,
               "defense": 3383,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -3612,7 +3612,7 @@
               "hp": 145094,
               "attack": 743,
               "defense": 6109,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -3695,7 +3695,7 @@
               "hp": 129760,
               "attack": 676,
               "defense": 6109,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -3799,7 +3799,7 @@
               "hp": 108378,
               "attack": 568,
               "defense": 6109,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -3922,7 +3922,7 @@
               "hp": 118458,
               "attack": 662,
               "defense": 6109,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -4017,7 +4017,7 @@
               "hp": 113876,
               "attack": 541,
               "defense": 6109,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -4140,7 +4140,7 @@
               "hp": 170065,
               "attack": 669,
               "defense": 6109,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -4224,7 +4224,7 @@
               "hp": 65690,
               "attack": 338,
               "defense": 6109,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -4338,7 +4338,7 @@
               "hp": 113403,
               "attack": 818,
               "defense": 6109,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -4429,7 +4429,7 @@
               "hp": 1047691,
               "attack": 1757,
               "defense": 21165,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -4762,7 +4762,7 @@
               "hp": 437775,
               "attack": 988,
               "defense": 9214,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -4845,7 +4845,7 @@
               "hp": 394744,
               "attack": 898,
               "defense": 9214,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -4949,7 +4949,7 @@
               "hp": 322688,
               "attack": 755,
               "defense": 9214,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -5072,7 +5072,7 @@
               "hp": 381678,
               "attack": 881,
               "defense": 9214,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -5167,7 +5167,7 @@
               "hp": 338942,
               "attack": 719,
               "defense": 9214,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -5290,7 +5290,7 @@
               "hp": 530172,
               "attack": 890,
               "defense": 9214,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -5374,7 +5374,7 @@
               "hp": 203569,
               "attack": 449,
               "defense": 9214,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -5488,7 +5488,7 @@
               "hp": 335242,
               "attack": 1087,
               "defense": 9214,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -5579,7 +5579,7 @@
               "hp": 3004974,
               "attack": 2399,
               "defense": 35145,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -7708,7 +7708,7 @@
               "hp": 1580,
               "attack": 82,
               "defense": 112,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -7836,7 +7836,7 @@
               "hp": 1066,
               "attack": 106,
               "defense": 112,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -8018,7 +8018,7 @@
               "hp": 1251,
               "attack": 41,
               "defense": 112,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -8093,7 +8093,7 @@
               "hp": 1124,
               "attack": 43,
               "defense": 112,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -8165,20 +8165,20 @@
               "tid": 65530,
               "nameKo": "조난한 탐험대",
               "level": 43,
-              "hp": 10590,
+              "hp": 10514,
               "attack": 115,
               "defense": 300,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 10590,
+                  "hp": 10514,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 10590,
+              "effectiveHp": 10514,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "65546": {
@@ -8294,7 +8294,7 @@
               "hp": 15849,
               "attack": 118,
               "defense": 300,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -8598,20 +8598,20 @@
               "tid": 72151,
               "nameKo": "너와 나의 포옹",
               "level": 43,
-              "hp": 12521,
+              "hp": 12401,
               "attack": 162,
               "defense": 300,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 12521,
+                  "hp": 12401,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 12521,
+              "effectiveHp": 12401,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -8631,8 +8631,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 1878.1499999999999,
-                        "display": 1879
+                        "raw": 1860.1499999999999,
+                        "display": 1861
                       }
                     },
                     {
@@ -8645,8 +8645,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.3",
                       "value": {
-                        "raw": 3756.2999999999997,
-                        "display": 3757
+                        "raw": 3720.2999999999997,
+                        "display": 3721
                       }
                     },
                     {
@@ -8786,7 +8786,7 @@
               "hp": 8045,
               "attack": 90,
               "defense": 291,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -9025,7 +9025,7 @@
               "hp": 8045,
               "attack": 90,
               "defense": 291,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -9264,7 +9264,7 @@
               "hp": 202673,
               "attack": 225,
               "defense": 1000,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -12518,7 +12518,7 @@
               "hp": 20844,
               "attack": 370,
               "defense": 1487,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -12646,7 +12646,7 @@
               "hp": 14060,
               "attack": 475,
               "defense": 1487,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -12828,7 +12828,7 @@
               "hp": 16503,
               "attack": 185,
               "defense": 1487,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -12903,7 +12903,7 @@
               "hp": 14829,
               "attack": 193,
               "defense": 1487,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -12975,20 +12975,20 @@
               "tid": 65530,
               "nameKo": "조난한 탐험대",
               "level": 69,
-              "hp": 102135,
+              "hp": 101396,
               "attack": 467,
               "defense": 2894,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 102135,
+                  "hp": 101396,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 102135,
+              "effectiveHp": 101396,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "65546": {
@@ -13104,7 +13104,7 @@
               "hp": 152854,
               "attack": 481,
               "defense": 2894,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -13408,20 +13408,20 @@
               "tid": 72151,
               "nameKo": "너와 나의 포옹",
               "level": 69,
-              "hp": 120756,
+              "hp": 119598,
               "attack": 661,
               "defense": 2894,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 120756,
+                  "hp": 119598,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 120756,
+              "effectiveHp": 119598,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -13441,8 +13441,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 18113.399999999998,
-                        "display": 18114
+                        "raw": 17939.7,
+                        "display": 17940
                       }
                     },
                     {
@@ -13455,8 +13455,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.3",
                       "value": {
-                        "raw": 36226.799999999996,
-                        "display": 36227
+                        "raw": 35879.4,
+                        "display": 35880
                       }
                     },
                     {
@@ -13596,7 +13596,7 @@
               "hp": 72063,
               "attack": 352,
               "defense": 2608,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -13835,7 +13835,7 @@
               "hp": 72063,
               "attack": 352,
               "defense": 2608,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -14074,7 +14074,7 @@
               "hp": 1923184,
               "attack": 920,
               "defense": 9497,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -17328,7 +17328,7 @@
               "hp": 90268,
               "attack": 682,
               "defense": 6443,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -17456,7 +17456,7 @@
               "hp": 60887,
               "attack": 877,
               "defense": 6443,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -17638,7 +17638,7 @@
               "hp": 71470,
               "attack": 341,
               "defense": 6443,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -17713,7 +17713,7 @@
               "hp": 64222,
               "attack": 355,
               "defense": 6443,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -17785,20 +17785,20 @@
               "tid": 65530,
               "nameKo": "조난한 탐험대",
               "level": 85,
-              "hp": 447322,
+              "hp": 444089,
               "attack": 879,
               "defense": 12679,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 447322,
+                  "hp": 444089,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 447322,
+              "effectiveHp": 444089,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "65546": {
@@ -17914,7 +17914,7 @@
               "hp": 669461,
               "attack": 906,
               "defense": 12679,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -18218,20 +18218,20 @@
               "tid": 72151,
               "nameKo": "너와 나의 포옹",
               "level": 85,
-              "hp": 528881,
+              "hp": 523809,
               "attack": 1245,
               "defense": 12679,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 528881,
+                  "hp": 523809,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 528881,
+              "effectiveHp": 523809,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -18251,8 +18251,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 79332.15,
-                        "display": 79333
+                        "raw": 78571.34999999999,
+                        "display": 78572
                       }
                     },
                     {
@@ -18265,8 +18265,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.3",
                       "value": {
-                        "raw": 158664.3,
-                        "display": 158665
+                        "raw": 157142.69999999998,
+                        "display": 157143
                       }
                     },
                     {
@@ -18406,7 +18406,7 @@
               "hp": 316468,
               "attack": 671,
               "defense": 11455,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -18645,7 +18645,7 @@
               "hp": 316468,
               "attack": 671,
               "defense": 11455,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -18884,7 +18884,7 @@
               "hp": 8444766,
               "attack": 1730,
               "defense": 41702,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -22138,7 +22138,7 @@
               "hp": 399303,
               "attack": 916,
               "defense": 9016,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -22266,7 +22266,7 @@
               "hp": 197612,
               "attack": 1178,
               "defense": 9016,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -22448,7 +22448,7 @@
               "hp": 240523,
               "attack": 458,
               "defense": 9016,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -22523,7 +22523,7 @@
               "hp": 216998,
               "attack": 477,
               "defense": 9016,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -22595,20 +22595,20 @@
               "tid": 65530,
               "nameKo": "조난한 탐험대",
               "level": 95,
-              "hp": 1475042,
+              "hp": 1470519,
               "attack": 1179,
               "defense": 17736,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 1475042,
+                  "hp": 1470519,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 1475042,
+              "effectiveHp": 1470519,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "65546": {
@@ -22724,7 +22724,7 @@
               "hp": 2171831,
               "attack": 1216,
               "defense": 17736,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -23028,20 +23028,20 @@
               "tid": 72151,
               "nameKo": "너와 나의 포옹",
               "level": 95,
-              "hp": 1753201,
+              "hp": 1746106,
               "attack": 1672,
               "defense": 17736,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 1753201,
+                  "hp": 1746106,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 1753201,
+              "effectiveHp": 1746106,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "72107": {
@@ -23061,8 +23061,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.15",
                       "value": {
-                        "raw": 262980.14999999997,
-                        "display": 262981
+                        "raw": 261915.9,
+                        "display": 261916
                       }
                     },
                     {
@@ -23075,8 +23075,8 @@
                     {
                       "expression": "CmdCaster.max_hp*0.3",
                       "value": {
-                        "raw": 525960.2999999999,
-                        "display": 525961
+                        "raw": 523831.8,
+                        "display": 523832
                       }
                     },
                     {
@@ -23216,7 +23216,7 @@
               "hp": 1027228,
               "attack": 902,
               "defense": 16034,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -23455,7 +23455,7 @@
               "hp": 1027228,
               "attack": 902,
               "defense": 16034,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -23694,7 +23694,7 @@
               "hp": 27403701,
               "attack": 2323,
               "defense": 58353,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -28280,7 +28280,7 @@
               "hp": 45933,
               "attack": 244,
               "defense": 421,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -28576,7 +28576,7 @@
               "hp": 561991,
               "attack": 1013,
               "defense": 5156,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -28872,7 +28872,7 @@
               "hp": 2129346,
               "attack": 1678,
               "defense": 16145,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -29168,7 +29168,7 @@
               "hp": 7349597,
               "attack": 2251,
               "defense": 22477,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -30298,20 +30298,20 @@
               "tid": 13967,
               "nameKo": "「영원의 제사 보조」",
               "level": 56,
-              "hp": 33489,
+              "hp": 32077,
               "attack": 304,
               "defense": 410,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 33489,
+                  "hp": 32077,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 33489,
+              "effectiveHp": 32077,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "3987": {
@@ -30462,20 +30462,20 @@
               "tid": 94942,
               "nameKo": "순교자",
               "level": 56,
-              "hp": 50632,
+              "hp": 47865,
               "attack": 274,
               "defense": 410,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 50632,
+                  "hp": 47865,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 50632,
+              "effectiveHp": 47865,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "94952": {
@@ -30502,12 +30502,12 @@
                     {
                       "expression": "CmdCaster.hp*2",
                       "value": {
-                        "raw": 101264,
-                        "display": 101264
+                        "raw": 95730,
+                        "display": 95730
                       }
                     }
                   ],
-                  "description": "자신이 사망하여, 최대 HP가 가장 높은 아군에게 힘 137pt를 부여하고, 해당 아군의 최대 HP를 자신의 현재 HP의 2배만큼(101,264) 증가시킨다."
+                  "description": "자신이 사망하여, 최대 HP가 가장 높은 아군에게 힘 137pt를 부여하고, 해당 아군의 최대 HP를 자신의 현재 HP의 2배만큼(95,730) 증가시킨다."
                 },
                 "94959": {
                   "args": [
@@ -30624,8 +30624,8 @@
                   "initialLayer": {
                     "expression": "CmdCaster.max_hp*0.04",
                     "value": {
-                      "raw": 2025.28,
-                      "display": 2026
+                      "raw": 1914.6000000000001,
+                      "display": 1915
                     }
                   },
                   "stateArgs": [],
@@ -30730,7 +30730,7 @@
               "hp": 81866,
               "attack": 391,
               "defense": 1496,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -31422,20 +31422,20 @@
               "tid": 13967,
               "nameKo": "「영원의 제사 보조」",
               "level": 78,
-              "hp": 373909,
+              "hp": 358139,
               "attack": 1094,
               "defense": 4584,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 373909,
+                  "hp": 358139,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 373909,
+              "effectiveHp": 358139,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "3987": {
@@ -31586,20 +31586,20 @@
               "tid": 94942,
               "nameKo": "순교자",
               "level": 78,
-              "hp": 565311,
+              "hp": 534411,
               "attack": 985,
               "defense": 4584,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 565311,
+                  "hp": 534411,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 565311,
+              "effectiveHp": 534411,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "94952": {
@@ -31626,12 +31626,12 @@
                     {
                       "expression": "CmdCaster.hp*2",
                       "value": {
-                        "raw": 1130622,
-                        "display": 1130622
+                        "raw": 1068822,
+                        "display": 1068822
                       }
                     }
                   ],
-                  "description": "자신이 사망하여, 최대 HP가 가장 높은 아군에게 힘 493pt를 부여하고, 해당 아군의 최대 HP를 자신의 현재 HP의 2배만큼(1,130,622) 증가시킨다."
+                  "description": "자신이 사망하여, 최대 HP가 가장 높은 아군에게 힘 493pt를 부여하고, 해당 아군의 최대 HP를 자신의 현재 HP의 2배만큼(1,068,822) 증가시킨다."
                 },
                 "94959": {
                   "args": [
@@ -31748,8 +31748,8 @@
                   "initialLayer": {
                     "expression": "CmdCaster.max_hp*0.04",
                     "value": {
-                      "raw": 22612.44,
-                      "display": 22613
+                      "raw": 21376.44,
+                      "display": 21377
                     }
                   },
                   "stateArgs": [],
@@ -31854,7 +31854,7 @@
               "hp": 812517,
               "attack": 1289,
               "defense": 14854,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -32546,20 +32546,20 @@
               "tid": 13967,
               "nameKo": "「영원의 제사 보조」",
               "level": 90,
-              "hp": 1165278,
+              "hp": 1130590,
               "attack": 1624,
               "defense": 10083,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 1165278,
+                  "hp": 1130590,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 1165278,
+              "effectiveHp": 1130590,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "3987": {
@@ -32710,20 +32710,20 @@
               "tid": 94942,
               "nameKo": "순교자",
               "level": 90,
-              "hp": 1767983,
+              "hp": 1700019,
               "attack": 1461,
               "defense": 10083,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 1767983,
+                  "hp": 1700019,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 1767983,
+              "effectiveHp": 1700019,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "94952": {
@@ -32750,12 +32750,12 @@
                     {
                       "expression": "CmdCaster.hp*2",
                       "value": {
-                        "raw": 3535966,
-                        "display": 3535966
+                        "raw": 3400038,
+                        "display": 3400038
                       }
                     }
                   ],
-                  "description": "자신이 사망하여, 최대 HP가 가장 높은 아군에게 힘 731pt를 부여하고, 해당 아군의 최대 HP를 자신의 현재 HP의 2배만큼(3,535,966) 증가시킨다."
+                  "description": "자신이 사망하여, 최대 HP가 가장 높은 아군에게 힘 731pt를 부여하고, 해당 아군의 최대 HP를 자신의 현재 HP의 2배만큼(3,400,038) 증가시킨다."
                 },
                 "94959": {
                   "args": [
@@ -32872,8 +32872,8 @@
                   "initialLayer": {
                     "expression": "CmdCaster.max_hp*0.04",
                     "value": {
-                      "raw": 70719.32,
-                      "display": 70720
+                      "raw": 68000.76,
+                      "display": 68001
                     }
                   },
                   "stateArgs": [],
@@ -32978,7 +32978,7 @@
               "hp": 2582022,
               "attack": 1881,
               "defense": 32396,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -33670,20 +33670,20 @@
               "tid": 13967,
               "nameKo": "「영원의 제사 보조」",
               "level": 100,
-              "hp": 3817934,
+              "hp": 3769743,
               "attack": 2174,
               "defense": 14009,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 3817934,
+                  "hp": 3769743,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 3817934,
+              "effectiveHp": 3769743,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "3987": {
@@ -33834,20 +33834,20 @@
               "tid": 94942,
               "nameKo": "순교자",
               "level": 100,
-              "hp": 5820750,
+              "hp": 5726329,
               "attack": 1957,
               "defense": 14009,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 5820750,
+                  "hp": 5726329,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 5820750,
+              "effectiveHp": 5726329,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "94952": {
@@ -33874,12 +33874,12 @@
                     {
                       "expression": "CmdCaster.hp*2",
                       "value": {
-                        "raw": 11641500,
-                        "display": 11641500
+                        "raw": 11452658,
+                        "display": 11452658
                       }
                     }
                   ],
-                  "description": "자신이 사망하여, 최대 HP가 가장 높은 아군에게 힘 979pt를 부여하고, 해당 아군의 최대 HP를 자신의 현재 HP의 2배만큼(11,641,500) 증가시킨다."
+                  "description": "자신이 사망하여, 최대 HP가 가장 높은 아군에게 힘 979pt를 부여하고, 해당 아군의 최대 HP를 자신의 현재 HP의 2배만큼(11,452,658) 증가시킨다."
                 },
                 "94959": {
                   "args": [
@@ -33996,8 +33996,8 @@
                   "initialLayer": {
                     "expression": "CmdCaster.max_hp*0.04",
                     "value": {
-                      "raw": 232830,
-                      "display": 232830
+                      "raw": 229053.16,
+                      "display": 229054
                     }
                   },
                   "stateArgs": [],
@@ -34102,7 +34102,7 @@
               "hp": 8744674,
               "attack": 2517,
               "defense": 44816,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -36730,7 +36730,7 @@
               "hp": 4861,
               "attack": 111,
               "defense": 438,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -36805,7 +36805,7 @@
               "hp": 4142,
               "attack": 285,
               "defense": 438,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -36980,7 +36980,7 @@
               "hp": 4368,
               "attack": 116,
               "defense": 438,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -37055,7 +37055,7 @@
               "hp": 8519,
               "attack": 190,
               "defense": 438,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -37214,7 +37214,7 @@
               "hp": 10334,
               "attack": 172,
               "defense": 438,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -37380,7 +37380,7 @@
               "hp": 7722,
               "attack": 181,
               "defense": 438,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -37510,7 +37510,7 @@
               "hp": 4142,
               "attack": 285,
               "defense": 438,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -37692,7 +37692,7 @@
               "hp": 98711,
               "attack": 419,
               "defense": 963,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -37928,20 +37928,20 @@
               "tid": 65527,
               "nameKo": "설산의 번데기",
               "level": 61,
-              "hp": 76956,
+              "hp": 76315,
               "attack": 392,
               "defense": 963,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 76956,
+                  "hp": 76315,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 76956,
+              "effectiveHp": 76315,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "65545": {
@@ -38080,7 +38080,7 @@
               "hp": 75279,
               "attack": 490,
               "defense": 963,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -38342,7 +38342,7 @@
               "hp": 234887,
               "attack": 613,
               "defense": 3131,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -39223,7 +39223,7 @@
               "hp": 51099,
               "attack": 306,
               "defense": 4606,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -39298,7 +39298,7 @@
               "hp": 43532,
               "attack": 787,
               "defense": 4606,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -39473,7 +39473,7 @@
               "hp": 45916,
               "attack": 319,
               "defense": 4606,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -39548,7 +39548,7 @@
               "hp": 89552,
               "attack": 525,
               "defense": 4606,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -39707,7 +39707,7 @@
               "hp": 108623,
               "attack": 475,
               "defense": 4606,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -39873,7 +39873,7 @@
               "hp": 81168,
               "attack": 500,
               "defense": 4606,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -40003,7 +40003,7 @@
               "hp": 43532,
               "attack": 787,
               "defense": 4606,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -40185,7 +40185,7 @@
               "hp": 929967,
               "attack": 1157,
               "defense": 9080,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -40421,20 +40421,20 @@
               "tid": 65527,
               "nameKo": "설산의 번데기",
               "level": 81,
-              "hp": 725013,
+              "hp": 718974,
               "attack": 1082,
               "defense": 9080,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 725013,
+                  "hp": 718974,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 725013,
+              "effectiveHp": 718974,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "65545": {
@@ -40573,7 +40573,7 @@
               "hp": 709212,
               "attack": 1353,
               "defense": 9080,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -40835,7 +40835,7 @@
               "hp": 2318567,
               "attack": 1767,
               "defense": 30914,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -41716,7 +41716,7 @@
               "hp": 132710,
               "attack": 400,
               "defense": 7041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -41791,7 +41791,7 @@
               "hp": 110224,
               "attack": 1029,
               "defense": 7041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -41966,7 +41966,7 @@
               "hp": 119589,
               "attack": 417,
               "defense": 7041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -42041,7 +42041,7 @@
               "hp": 226746,
               "attack": 686,
               "defense": 7041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -42200,7 +42200,7 @@
               "hp": 275035,
               "attack": 621,
               "defense": 7041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -42366,7 +42366,7 @@
               "hp": 211435,
               "attack": 653,
               "defense": 7041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -42496,7 +42496,7 @@
               "hp": 110224,
               "attack": 1029,
               "defense": 7041,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -42678,7 +42678,7 @@
               "hp": 2356693,
               "attack": 1512,
               "defense": 13892,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -42914,20 +42914,20 @@
               "tid": 65527,
               "nameKo": "설산의 번데기",
               "level": 91,
-              "hp": 1861565,
+              "hp": 1852326,
               "attack": 1415,
               "defense": 13892,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 1861565,
+                  "hp": 1852326,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 1861565,
+              "effectiveHp": 1852326,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "65545": {
@@ -43066,7 +43066,7 @@
               "hp": 1797264,
               "attack": 1769,
               "defense": 13892,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -43328,7 +43328,7 @@
               "hp": 5698048,
               "attack": 2252,
               "defense": 45864,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {
@@ -44209,7 +44209,7 @@
               "hp": 435993,
               "attack": 534,
               "defense": 9762,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -44284,7 +44284,7 @@
               "hp": 354418,
               "attack": 1373,
               "defense": 9762,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -44459,7 +44459,7 @@
               "hp": 393801,
               "attack": 556,
               "defense": 9762,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -44534,7 +44534,7 @@
               "hp": 729088,
               "attack": 915,
               "defense": 9762,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -44693,7 +44693,7 @@
               "hp": 884357,
               "attack": 828,
               "defense": 9762,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -44859,7 +44859,7 @@
               "hp": 696340,
               "attack": 872,
               "defense": 9762,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -44989,7 +44989,7 @@
               "hp": 354418,
               "attack": 1373,
               "defense": 9762,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -45171,7 +45171,7 @@
               "hp": 7543450,
               "attack": 2018,
               "defense": 19174,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -45407,20 +45407,20 @@
               "tid": 65527,
               "nameKo": "설산의 번데기",
               "level": 101,
-              "hp": 6025890,
+              "hp": 6013139,
               "attack": 1888,
               "defense": 19174,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
                   "bar": 1,
-                  "hp": 6025890,
+                  "hp": 6013139,
                   "maxHpMultiplier": 1,
                   "source": "base"
                 }
               ],
-              "effectiveHp": 6025890,
+              "effectiveHp": 6013139,
               "phaseRuleResolved": true,
               "resolvedSkills": {
                 "65545": {
@@ -45559,7 +45559,7 @@
               "hp": 5752792,
               "attack": 2360,
               "defense": 19174,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 1,
               "phases": [
                 {
@@ -45821,7 +45821,7 @@
               "hp": 18185348,
               "attack": 3005,
               "defense": 63117,
-              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+              "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
               "configuredBars": 2,
               "phases": [
                 {

@@ -352,18 +352,16 @@ function normalizeMonsterHp(definition, stats, standardRows) {
   const proportion = Number(definition.config.MonsterProportion);
   const hpPercent = Number(definition.config.MonsterHpPercent);
   const defensePercent = Number(definition.config.MonsterDefPercent);
-  if (![standard.StandardHp, standard.StandardDef, proportion, hpPercent, defensePercent].every(Number.isFinite)) return;
+  const standardTurn = Number(standard.StandardTurn);
+  if (![standard.StandardHp, standard.StandardDef, standardTurn, proportion, hpPercent, defensePercent].every(Number.isFinite)) return;
 
-  const isAwakenerMonster = /MonsterDefPercent\*0\.6/.test(String(stats.hpFormula || ''))
-    || /EnemyAwaker/i.test(String(definition.image || ''))
-    || (definition.monsterClass === 'Boss' && definition.monsterTags?.includes(90645));
-  const defenseCoefficient = isAwakenerMonster ? 0.6 : 0.2;
+  const defenseCoefficient = standardTurn / 20;
   const hp = Math.ceil(
     standard.StandardHp * proportion * hpPercent
     - standard.StandardDef * defensePercent * defenseCoefficient
   );
   stats.hp = hp;
-  stats.hpFormula = `ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*${defenseCoefficient})`;
+  stats.hpFormula = 'ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)';
   if (Array.isArray(stats.phases) && stats.phases.length) {
     stats.phases = stats.phases.map(phase => ({
       ...phase,
@@ -549,7 +547,7 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
 
   base.schemaVersion = 3;
   if (base.formulaNotes?.normalHp) {
-    base.formulaNotes.normalHp = 'ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.2)';
+    base.formulaNotes.normalHp = 'ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)';
   }
   base.source = {
     kind: base.source?.kind || 'local-config-ab-static-json',

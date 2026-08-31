@@ -85,7 +85,7 @@ test('일반 몬스터 HP는 방어 보정치를 HP 비율 바깥에서 차감�
       monsters: [{ tid: 100, battleTag: 'MonsterGrade1', config: { MonsterProportion: 0.25, MonsterHpPercent: 1.05, MonsterDefPercent: 0.36 } }],
       alerts: [{
         alert: 4,
-        standardRows: [{ BattleTag: 'MonsterGrade1', StandardHp: 1687703.18, StandardDef: 97627.33 }],
+        standardRows: [{ BattleTag: 'MonsterGrade1', StandardHp: 1687703.18, StandardDef: 97627.33, StandardTurn: 4 }],
         monsters: [{ tid: 100, hp: 416019, attack: 534, defense: 9762, hpFormula: 'ceil(StandardHp*(MonsterProportion*MonsterHpPercent - MonsterDefPercent*StandardTurn/(20*StandardTurn+10)))', phases: [{ bar: 1, hp: 416019, maxHpMultiplier: 1 }] }]
       }]
     }]
@@ -106,7 +106,7 @@ test('일반 몬스터 HP는 방어 보정치를 HP 비율 바깥에서 차감�
   assert.equal(stats.hp, 435993);
   assert.equal(stats.phases[0].hp, 435993);
   assert.equal(stats.effectiveHp, 435993);
-  assert.match(stats.hpFormula, /StandardDef\*MonsterDefPercent\*0\.2/);
+  assert.match(stats.hpFormula, /StandardDef\*MonsterDefPercent\*StandardTurn\/20/);
 });
 
 test('인간형 각성체 보스는 각성체 전용 방어 보정치를 사용한다', async () => {
@@ -117,7 +117,7 @@ test('인간형 각성체 보스는 각성체 전용 방어 보정치를 사용�
   const outputPath = path.join(root, 'out.json');
   await fs.mkdir(staticDirectory);
   await fs.writeFile(basePath, JSON.stringify({
-    waves: [{ wave: 3, encounters: [], monsters: [{ tid: 74035, battleTag: 'Boss', monsterClass: 'Boss', config: { MonsterProportion: 1, MonsterHpPercent: 1, MonsterDefPercent: 2.67 } }], alerts: [{ alert: 4, standardRows: [{ BattleTag: 'Boss', StandardHp: 7709681.13, StandardDef: 224772.04 }], monsters: [{ tid: 74035, hp: 1, attack: 2251, defense: 22477, hpFormula: 'old', phases: [{ bar: 1, hp: 1, maxHpMultiplier: 1 }] }] }] }]
+    waves: [{ wave: 3, encounters: [], monsters: [{ tid: 74035, battleTag: 'Boss', monsterClass: 'Boss', config: { MonsterProportion: 1, MonsterHpPercent: 1, MonsterDefPercent: 2.67 } }], alerts: [{ alert: 4, standardRows: [{ BattleTag: 'Boss', StandardHp: 7709681.13, StandardDef: 224772.04, StandardTurn: 12 }], monsters: [{ tid: 74035, hp: 1, attack: 2251, defense: 22477, hpFormula: 'old', phases: [{ bar: 1, hp: 1, maxHpMultiplier: 1 }] }] }] }]
   }), 'utf8');
   await writeDocument(staticDirectory, 'Config.MonsterConfig.json', { 74035: { MonsterClass: 'Boss', MonsterTag: { 1: 84277, 2: 90645 } } });
   await writeDocument(staticDirectory, 'Text_KR.Text_MonsterConfig.json', {});
@@ -133,7 +133,32 @@ test('인간형 각성체 보스는 각성체 전용 방어 보정치를 사용�
   const output = JSON.parse(await fs.readFile(outputPath, 'utf8'));
   const stats = output.waves[0].alerts[0].monsters[0];
   assert.equal(stats.hp, 7349597);
-  assert.match(stats.hpFormula, /MonsterDefPercent\*0\.6/);
+  assert.match(stats.hpFormula, /MonsterDefPercent\*StandardTurn\/20/);
+});
+
+test('엘리트 몬스터는 기준 8턴에 따른 0.4 방어 보정치를 사용한다', async () => {
+  const { buildDzoneSiteData } = await buildModule;
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'morimens-dzone-elite-hp-'));
+  const staticDirectory = path.join(root, 'static');
+  const basePath = path.join(root, 'base.json');
+  const outputPath = path.join(root, 'out.json');
+  await fs.mkdir(staticDirectory);
+  await fs.writeFile(basePath, JSON.stringify({
+    waves: [{ wave: 4, encounters: [], monsters: [{ tid: 13967, battleTag: 'Elite', config: { MonsterProportion: 1, MonsterHpPercent: 1, MonsterDefPercent: 1.72 } }], alerts: [{ alert: 4, standardRows: [{ BattleTag: 'Elite', StandardHp: 3866124.54, StandardDef: 140090.53, StandardTurn: 8 }], monsters: [{ tid: 13967, hp: 1, attack: 1, defense: 1, hpFormula: 'old', phases: [{ bar: 1, hp: 1, maxHpMultiplier: 1 }] }] }] }]
+  }), 'utf8');
+  await writeDocument(staticDirectory, 'Config.MonsterConfig.json', { 13967: {} });
+  await writeDocument(staticDirectory, 'Text_KR.Text_MonsterConfig.json', {});
+  await writeDocument(staticDirectory, 'Config.Skill.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_Skill.json', {});
+  await writeDocument(staticDirectory, 'Config.State.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_State.json', {});
+  await writeDocument(staticDirectory, 'Config.Cmd.json', {});
+  await writeDocument(staticDirectory, 'Config.RelicConfig.json', {});
+  await writeDocument(staticDirectory, 'Text_KR.Text_RelicConfig.json', {});
+
+  await buildDzoneSiteData({ basePath, staticDirectory, outputPath });
+  const output = JSON.parse(await fs.readFile(outputPath, 'utf8'));
+  assert.equal(output.waves[0].alerts[0].monsters[0].hp, 3769743);
 });
 
 test('소환 개체의 패턴과 조물의 연구 깊이 수식을 함께 생성한다', async () => {

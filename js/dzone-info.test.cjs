@@ -82,6 +82,9 @@ test('68기 다중 체력 보스와 몬스터 초상은 추출 결과대로 제�
     const directorSara = wave3Madness.monsters.find(monster => monster.tid === 74035);
     assert.equal(directorSara.hp, 7349597);
 
+    const firstWave4Elite = wave4Madness.monsters.find(monster => monster.tid === 13967);
+    assert.equal(firstWave4Elite.hp, 3769743);
+
     const definitions = dzoneData.waves.flatMap(wave => [...wave.monsters, ...(wave.summonDefinitions || [])]);
     for (const monster of definitions) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', monster.webImage)), `초상 누락: ${monster.tid} ${monster.webImage}`);
