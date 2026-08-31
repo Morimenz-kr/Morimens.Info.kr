@@ -236,6 +236,12 @@
     }
 
     function dynamicMarkup(description, options = {}) {
+        if (String(description || '').startsWith('<game-text:')) {
+            return window.DzoneRichText.render(description, data.keywordGlossary, value => {
+                const leading = value.match(/^\s*/)[0], trailing = value.match(/\s*$/)[0];
+                return value.trim() ? leading + politeText(value) + trailing : value;
+            });
+        }
         const cleaned = politeText(description || '상세 설명이 없습니다.')
             .replace(/빙결/g, '동결')
             .replace(/\s*\((?:어디든|위치에)\s*(?:관계|상관)\s*없이\)/g, '')
@@ -396,7 +402,7 @@
                 </div>
                 <div class="action-copy">
                     <strong>${escapeHtml(skill?.name || `행동 ${index + 1}`)}</strong>
-                    <p>${dynamicMarkup(resolved?.description || skill?.descriptionTemplate)}</p>
+                    <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
                 </div>
             </li>`;
         }).join('');
@@ -417,7 +423,7 @@
         if (transition.healsToMax) effects.push('증가한 최대 HP까지 회복');
         const stateItems = (transition.addedStates || [])
             .filter(state => state.visible && (state.name || state.descriptionTemplate))
-            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(state.descriptionTemplate)}` : ''}</span></li>`)
+            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(state.richDescriptionTemplate || state.descriptionTemplate)}` : ''}</span></li>`)
             .join('');
         const cards = (transition.createdCards || []).map(card => `
             <article class="phase-card">
@@ -490,12 +496,14 @@
                 .replace(/,?\s*현재 의도를 「[^」]+」로 대체(?:한다|합니다?)\.?/g, '')
                 .replace(/때마다\.?$/, '때마다 발동합니다.')
                 .trim();
+            const stateName = resolvedState?.visible ? gameText(resolvedState.name) : '';
+            const trigger = stateName ? `「${stateName}」 보유 중 · ${condition}` : condition;
             return `<article class="conditional-action">
                 ${renderIntentIcon(skill)}
                 <div class="conditional-action-copy">
                     <header><strong>${escapeHtml(replacementName || skill?.name || '조건부 행동')}</strong><span>조건부</span></header>
-                    <p class="conditional-trigger"><b>발동:</b> ${dynamicMarkup(condition)}</p>
-                    <p>${dynamicMarkup(resolved?.description || skill?.descriptionTemplate)}</p>
+                    <p class="conditional-trigger"><b>발동:</b> ${dynamicMarkup(data.keywordGlossary ? `<game-text:${trigger}>` : trigger)}</p>
+                    <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
                 </div>
             </article>`;
         }).join('');
@@ -503,19 +511,18 @@
     }
 
     function renderRules(monster, stats) {
-        const conditionalStateIds = new Set((monster.conditionalActions || []).map(action => action.stateId));
-        const rules = (stats.resolvedStates || []).filter(state => (
+        const rules = [...(stats.resolvedStates || []), ...(stats.entryStates || [])].filter(state => (
             state.visible
-            && !conditionalStateIds.has(state.id)
             && (state.name || state.description)
         ));
         if (!rules.length) return '';
         return `<section class="monster-rules" aria-label="특수 규칙">${rules.map(rule => {
             const layer = rule.initialLayer?.value?.display;
             const icon = rule.icon
-                ? `<span class="monster-rule-icon"><img src="${escapeHtml(rule.icon)}" alt="" width="28" height="28" loading="lazy" decoding="async">${layer > 1 ? `<b>${number.format(layer)}</b>` : ''}</span>`
+                ? `<span class="monster-rule-icon"><img src="${escapeHtml(rule.icon)}" alt="" width="28" height="28" loading="lazy" decoding="async"></span>`
                 : '';
-            return `<article>${icon}<div><strong>${escapeHtml(gameText(rule.name) || '특수 규칙')}</strong><p>${dynamicMarkup(rule.description || '전투 중 적용되는 특수 규칙입니다.')}</p></div></article>`;
+            const initialStack = layer > 1 ? `<span class="monster-initial-stack">시작 ${number.format(layer)}스택</span>` : '';
+            return `<article>${icon}<div><div class="monster-rule-heading"><strong>${escapeHtml(gameText(rule.name) || '특수 규칙')}</strong>${initialStack}</div><p>${dynamicMarkup(rule.richDescription || rule.description || '전투 중 적용되는 특수 규칙입니다.')}</p></div></article>`;
         }).join('')}</section>`;
     }
 
@@ -818,6 +825,7 @@
         content.innerHTML = '<div class="dzone-loading">현재 시즌 데이터를 불러오는 중입니다.</div>';
         try {
             data = await window.DzoneSeason.loadCurrent();
+            configureGeneratedTooltips();
             selectedMechanic = '';
             mechanicCursor = 0;
             buildControls();
@@ -834,6 +842,13 @@
         }
     }
 
+    function configureGeneratedTooltips() {
+        for (const [key, entry] of Object.entries(data.keywordGlossary || {})) {
+            tooltips[key] = entry.description.split('\n').map(line => politeText(line)).join('\n');
+        }
+        window.CharacterEffects?.configureTooltips(tooltips);
+    }
+
     async function initialize() {
         try {
             const [seasonData, tooltipResponse] = await Promise.all([
@@ -848,7 +863,7 @@
                 typeof description === 'string' ? politeText(description) : description
             ]));
             Object.assign(tooltips, DZONE_CARD_TOOLTIPS);
-            window.CharacterEffects?.configureTooltips(tooltips);
+            configureGeneratedTooltips();
             researchLevel = window.ResearchDepth.selectedLevel();
             const hashSelection = location.hash.match(/^#wave-(\d+)(?:-alert-(\d+))?$/);
             if (hashSelection) {

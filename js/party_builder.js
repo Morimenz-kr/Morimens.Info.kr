@@ -1446,10 +1446,15 @@ function equipDedicatedKey() {
     const charInfo = DB.chars.find(x => String(x.id) === leaderCharId);
     if (!charInfo) return;
 
-    // 캐릭터 이름에 맞는 전용 은열쇠 찾기
-    const targetKey = DB.keys.find(function(key) {
+    // 전용 관계는 고정 ID를 우선하고, 관계가 없는 기존 데이터만 이름 태그로 찾는다.
+    const targetKey = DB.keys.find(key =>
+        Array.isArray(key.owner_character_ids)
+        && key.owner_character_ids.includes(leaderCharId)
+    ) || DB.keys.find(key => {
+        if (key.owner_character_ids?.length) return false;
         const tagArray = key.Tag || key.tags;
-        return Array.isArray(tagArray) && tagArray[0] === charInfo.name;
+        return Array.isArray(tagArray)
+            && normalizeDedicatedTarget(tagArray[0]) === normalizeDedicatedTarget(charInfo.name);
     });
 
     if (!targetKey) {

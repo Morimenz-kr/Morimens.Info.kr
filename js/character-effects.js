@@ -46,6 +46,8 @@
         '사냥': ['group-hunt.png', '#628da5'],
         '집단 사냥': ['group-hunt.png', '#628da5'],
         '동결': ['special.png', '#628da5'],
+        '서리 방패': ['special.png', '#76aac8'],
+        '뼈를 에는 일격': ['special.png', '#76aac8'],
         '힘': ['strength.png', '#5e9177'],
         '소용돌이 장전': ['vortex-loading.png', '#628da5'],
         '취약': ['vulnerability.png', '#b75a64'],

@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createReleaseBundle, readDatasets, releaseSummary } from './firebase-data-core.mjs';
+import { validateDzoneContent } from './dzone-content.mjs';
 
 const ROOT_FILES = Object.freeze([
   '.nojekyll',
@@ -92,6 +93,8 @@ export async function preparePagesArtifact(options = {}) {
       summary = releaseSummary(createReleaseBundle(source));
     }
 
+    const dzonePath = path.join(tempDirectory, 'data/dzone_current.json');
+    if (await pathExists(dzonePath)) validateDzoneContent(JSON.parse(await fs.readFile(dzonePath, 'utf8')));
     const outputData = await readDatasets(path.join(tempDirectory, 'data'));
     const outputBundle = createReleaseBundle(outputData);
     if (outputBundle.checksum !== summary.checksum) {

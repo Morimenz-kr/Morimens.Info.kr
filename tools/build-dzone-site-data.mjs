@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import { enrichDzoneContent, loadContentTables } from './dzone-content.mjs';
 
 function argument(name) {
   const index = process.argv.indexOf(name);
@@ -491,7 +492,7 @@ function applyPhaseTransitions(definition, stats) {
   stats.phases = phases;
 }
 
-export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath }) {
+export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath, keywordPath }) {
   const base = await readJson(basePath);
   const [monsterDocument, monsterTextDocument, skillDocument, skillTextDocument, stateDocument, stateTextDocument, commandDocument, relicDocument, relicTextDocument] = await Promise.all([
     readJson(path.join(staticDirectory, 'Config.MonsterConfig.json')),
@@ -691,6 +692,12 @@ export async function buildDzoneSiteData({ basePath, staticDirectory, outputPath
     relicCount: new Set(base.waves?.flatMap(wave => wave.initialRelics?.map(relic => relic.id) || [])).size
   };
 
+  if (keywordPath) {
+    const audit = enrichDzoneContent(base, await loadContentTables(staticDirectory, keywordPath));
+    if (audit.diagnostics.length) throw new Error(`D-Zone content validation failed: ${JSON.stringify(audit.diagnostics)}`);
+  } else if (base.contentAudit) {
+    throw new Error('A semantic snapshot must be regenerated with --keywords; stale links cannot be reused.');
+  }
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
   await fs.writeFile(outputPath, `${JSON.stringify(base, null, 2)}\n`, 'utf8');
   return base.summary;
@@ -701,7 +708,8 @@ if (isMain) {
   buildDzoneSiteData({
     basePath: argument('--base'),
     staticDirectory: argument('--static'),
-    outputPath: argument('--out')
+    outputPath: argument('--out'),
+    keywordPath: process.argv.includes('--keywords') ? argument('--keywords') : undefined
   }).then(summary => console.log(JSON.stringify(summary, null, 2))).catch(error => {
     console.error(error.stack || error.message || error);
     process.exitCode = 1;

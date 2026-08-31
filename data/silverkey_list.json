@@ -1099,11 +1099,14 @@
   {
     "korean_name": "안개 경계에서 온",
     "english_name": "key_from_fog",
-    "description": "'타격' 2장을 뽑습니다. 만약 '모샤'가 팀에 있다면, 그들의 산출력 소모를 -1로 줄입니다.",
+    "description": "「타격」 2장을 드로우합니다. 「무셰트」가 팀에 있을 경우, 그 카드들의 행동력 소모를 1 감소시킵니다.",
     "image_path": "images/key_from_fog.png",
     "tags": [
-      "모샤",
+      "무셰트",
       "카드 추가"
+    ],
+    "owner_character_ids": [
+      "mouchette"
     ],
     "source": "다차원 연결 - 은과 피의 세례",
     "clientItemId": 120491,

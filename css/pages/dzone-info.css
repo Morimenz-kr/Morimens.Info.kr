@@ -843,6 +843,8 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
     border-left: 3px solid #806d46;
 }
 .monster-rules strong { color: #ebe2c8; }
+.monster-rule-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.2rem 0.5rem; }
+.monster-initial-stack { color: #bfc1c7; font-size: 0.72rem; }
 .monster-rules p { margin: 0.25rem 0 0; }
 .monster-rule-icon {
     position: relative;

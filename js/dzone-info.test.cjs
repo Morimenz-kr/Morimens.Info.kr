@@ -28,6 +28,30 @@ async function relicDisplayContext() {
     return context;
 }
 
+test('조건부 행동과 연결되어도 시작 상태와 스택·전체 효과를 숨기지 않는다', () => {
+    const wave = dzoneData.waves.find(w => w.wave === 2);
+    const monster = wave.monsters.find(m => m.tid === 149115);
+    const stats = wave.alerts.at(-1).monsters.find(m => m.tid === 149115);
+    const context = vm.createContext({
+        data: dzoneData, number: new Intl.NumberFormat('ko-KR'),
+        escapeHtml: String, gameText: String, politeText: String, dynamicMarkup: String,
+        renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id)
+    });
+    vm.runInContext(source.slice(source.indexOf('    function renderConditionalActions('), source.indexOf('    function renderSummons(')), context);
+    const rules = context.renderRules(monster, stats);
+    assert.equal((rules.match(/<article>/g) || []).length, 4);
+    assert.match(rules, /눈보라 속으로 잠기다<\/strong><span[^>]+>시작 2스택/);
+    assert.match(rules, /75층/);
+    assert.match(rules, /1층을 제거/);
+    assert.match(rules, /서리 방패<\/strong>/);
+    assert.match(rules, /매 턴 최대 5회/);
+    const action = context.renderConditionalActions(monster, stats);
+    assert.match(action, /눈보라 속으로 잠기다」 보유 중/);
+    assert.match(action, /방어막이 모두 파괴되었을 때/);
+    assert.match(action, /설해/);
+    assert.doesNotMatch(action, /75층/);
+});
+
 test('안전 출구+ 반격은 선택 등급에 맞는 올림 수치만 표시한다', async () => {
     const context = await relicDisplayContext();
     const archive = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season67.json'), 'utf8'));
@@ -275,6 +299,11 @@ test('카드류와 다중 체력·부활은 기믹 뱃지에서 제외하고 본
     assert.match(source, /'「질식」': '상태 카드 \| 질식/);
     assert.match(source, /'「다이얼 폭탄」': '상태 카드 \| 다이얼 폭탄/);
     assert.match(source, /'증상: 쇠약': '증상 카드 \| 쇠약/);
+    const frost = Object.values(dzoneData.keywordGlossary).find(entry => entry.source.id === 149773);
+    assert.match(frost.description, /능동 피해.*둔화.*5회/);
+    assert.doesNotMatch(frost.description, /눈막에 감춰진 자취|피해를 먼저 흡수하는 방어막입니다/);
+    const bone = Object.values(dzoneData.keywordGlossary).find(entry => entry.source.id === 149167);
+    assert.match(bone.description, /최대 HP가 스택 수만큼 감소/);
     assert.match(source, /Object\.assign\(tooltips, DZONE_CARD_TOOLTIPS\)/);
     assert.match(css, /\.action-copy p \.tooltip-trigger[\s\S]*display:\s*inline-flex/);
 });
