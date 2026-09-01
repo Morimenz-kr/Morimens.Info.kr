@@ -10,6 +10,7 @@ const linksSource = fs.readFileSync(path.join(__dirname, 'links.js'), 'utf8');
 const linksCss = fs.readFileSync(path.join(repositoryRoot, 'css', 'pages', 'links.css'), 'utf8');
 const characterEffectsSource = fs.readFileSync(path.join(repositoryRoot, 'js', 'character-effects.js'), 'utf8');
 const silverKeys = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'silverkey_list.json'), 'utf8'));
+const wheels = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'wheel_list.json'), 'utf8'));
 
 test('#219 꺼지지 않는 태양은 산출력·피해 강효 필터에 모두 포함된다', () => {
     const context = vm.createContext({ window: { characterNameSet: new Set(['카티구라']) } });
@@ -80,4 +81,14 @@ test('은열쇠는 금기 학식 등급으로 효과 수치를 계산하고 정�
     assert.match(linksSource, /ResearchDepth\.evaluate\(expression, depth, variables\)/);
     assert.doesNotMatch(linksSource, /등급 기준/);
     assert.doesNotMatch(linksSource, /formatDepth\(/);
+});
+
+test('#227 모스·무셰트 전용 명륜은 돌파별 효과 수치와 인게임 이름을 표시한다', () => {
+    const eden = wheels.find(item => item.english_name === 'wheel_eden');
+    const rampage = wheels.find(item => item.english_name === 'wheel_doomsday_rampage');
+    assert.equal(eden.korean_name, '먼 곳의 에덴');
+    assert.match(eden.description, /기본 광기의 11\/14\/17\/20%/);
+    assert.equal(rampage.korean_name, '광란의 세계 끝에서');
+    assert.match(rampage.description, /기본 피해가 30\/40\/50\/60%/);
+    assert.match(rampage.description, /공격력의 13\/17\/21\/24%/);
 });
