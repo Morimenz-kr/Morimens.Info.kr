@@ -55,7 +55,13 @@
     },
     "weekly_yungjae": {
       "title": "🔥 진행중인 융재금구 팁",
-      "links": []
+      "links": [        {
+          "url": "https://arca.live/b/forgettingeve/181569152",
+          "title": "신융재 1파 악몽 노영지체 클리어",
+          "desc": "1파는 쉬움조력 사야 빌려서 갔는데 사실 필요 없었을듯부식 바르고 광폭 쓰고 샤이닝 크러시! 난타하면 평소의 모샤다근데 4파 악몽 어떻게 하지 슈밤...",
+          "image": "https://ac.arca.live/20260831sac/03b3e2a72facc8a66cc1d0cf1077d6932fc7120e5d3e0e6b2eb8a41209a9ed3d.png?expires=1788193835&key=75OEff7gxyToGUoMAPo3BQ"
+        }
+]
     },
     "newbie": {
       "title": "🐣 뉴비 필독 가이드",
