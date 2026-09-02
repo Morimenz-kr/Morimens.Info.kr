@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>산의 기생충 전투 정보</title>
+    <meta name="description" content="스토리 보스 산의 기생충의 체력 단계별 행동 순서와 핵심 기믹을 확인합니다.">
+    <script src="config/config.js?v=design-system-20260901-1"></script>
+    <script>
+        CONFIG.VERSION = 'v1.3.69-story-boss-mountain-parasite-20260901';
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/info_tools.css');
+        loadCSS('css/pages/dzone-info.css');
+        loadCSS('css/pages/story-boss-info.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+
+<body>
+<div class="bg-image"></div>
+<div class="background-overlay"></div>
+<main class="container info-page dzone-page-shell story-boss-page-shell">
+    <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 뒤로가기</a></nav>
+
+    <section class="info-shell info-shell--dark dzone-shell story-boss-shell">
+        <header class="info-header dzone-hero story-boss-hero">
+            <div>
+                <p class="story-boss-eyebrow">스토리 보스 전투 정보</p>
+                <h1>「산의 기생충」</h1>
+                <p class="dzone-summary">두 체력 단계의 행동 순서와 전환 후 해방되는 보물 기믹을 한눈에 확인합니다.</p>
+                <p><a class="back-link" href="monster_combat_preview.html">공용 변환 결과 보기 →</a></p>
+            </div>
+        </header>
+
+        <div id="story-boss-content" class="dzone-content story-boss-content" aria-live="polite">
+            <div class="dzone-loading">보스 패턴을 정리하고 있습니다.</div>
+        </div>
+    </section>
+</main>
+<button class="floating-report-btn" type="button" title="버그 신고" aria-label="버그 또는 개선 의견 제보">
+    <span aria-hidden="true">🚨</span>
+</button>
+
+<script>
+    loadJS('js/story-boss-info.js');
+    loadJS('js/feedback.js');
+</script>
+</body>
+</html>

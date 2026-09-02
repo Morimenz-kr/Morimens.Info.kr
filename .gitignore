@@ -20,11 +20,16 @@ ui-debug.log
 !/tools/firebase-data-core.test.cjs
 !/tools/firebase-data.mjs
 !/tools/firebase-firestore.test.cjs
+!/tools/generate-monster-combat.mjs
+!/tools/monster-combat-transformer.mjs
+!/tools/monster-combat-transformer.test.cjs
 !/tools/prepare-pages-artifact.mjs
 !/tools/prepare-pages-artifact.test.cjs
 !/tools/validate-character.mjs
 !/tools/workflow-config.test.cjs
 !/tools/validate-dzone-content.mjs
+!/tools/fixtures/
+!/tools/fixtures/monster-combat-148007.json
 /js/dimension-descriptions.test.cjs
 
 # Local extracted sources and private tool bundles must never be published.

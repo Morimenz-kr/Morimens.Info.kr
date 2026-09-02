@@ -15,6 +15,14 @@ const { classifyCharacterEffects } = characterEffects;
 const effectsData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 const cardsData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_cards.json'), 'utf8'));
 
+test('각성체 스킬 펼침 표시는 공통 꺾쇠 하나만 사용한다', () => {
+    const pageCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'character-effects.css'), 'utf8');
+    const componentCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'components.css'), 'utf8');
+
+    assert.doesNotMatch(pageCss, /content:\s*["'](?:▶|▼)["']/);
+    assert.match(componentCss, /\.site-disclosure\.site-disclosure\s*>\s*summary::after/);
+});
+
 test('산 차원영상의 보존과 예비1은 실제 카드 상태 설명에 연결한다', () => {
     const tooltips = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_tooltips.json'), 'utf8'));
     const html = characterEffects.renderRichText(effectsData.sanga.dimensionalImage.effect, tooltips);

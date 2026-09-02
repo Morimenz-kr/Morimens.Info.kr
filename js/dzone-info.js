@@ -391,26 +391,81 @@
         return `<img class="intent-icon" src="images/dzone/intent/intent_${iconId}.png" alt="" aria-hidden="true" decoding="async">`;
     }
 
-    function renderSequence(monster, stats, pattern, repeats = false) {
+    function isFoldedReplacementAction(monster, action) {
+        if (!Number.isInteger(action?.sourceSkillId)) return false;
+        const sourceSkill = skillById(monster, action.sourceSkillId);
+        const replacementSkill = skillById(monster, action.skillId);
+        const sourceIsDisplayed = monster.patterns.some(pattern => pattern.skillIds.includes(action.sourceSkillId));
+        return Boolean(sourceIsDisplayed && sourceSkill && replacementSkill
+            && sourceSkill.descriptionTemplate.includes(`「${replacementSkill.name}」`));
+    }
+
+    function foldedReplacementForSkill(monster, sourceSkillId) {
+        return (monster.conditionalActions || []).find(action =>
+            action.sourceSkillId === sourceSkillId && isFoldedReplacementAction(monster, action)) || null;
+    }
+
+    function withoutEmbeddedReplacementEffect(description, replacementName) {
+        const marker = `「${replacementName}」로 교체`;
+        const markerIndex = String(description || '').indexOf(marker);
+        const clauseStart = String(description || '').lastIndexOf('의도가 ', markerIndex);
+        if (markerIndex < 0 || clauseStart < 0) return description;
+        return `${description.slice(0, clauseStart)}의도가 ${description.slice(markerIndex)}`;
+    }
+
+    function renderSequence(monster, stats, pattern, repeats = false, { loopLabel = '이후 1번부터 반복', stepLabels = [] } = {}) {
         const sequence = pattern.skillIds.map((skillId, index) => {
             const skill = skillById(monster, skillId);
             const resolved = stats.resolvedSkills?.[String(skillId)];
+            const stepLabel = stepLabels[index] || String(index + 1);
+            const replacementAction = foldedReplacementForSkill(monster, skillId);
+            const replacementSkill = replacementAction ? skillById(monster, replacementAction.skillId) : null;
+            const description = replacementSkill
+                ? withoutEmbeddedReplacementEffect(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate, replacementSkill.name)
+                : resolved?.richDescription || resolved?.description || skill?.descriptionTemplate;
             return `<li class="action-step">
                 <div class="action-marker">
-                    <span class="flow-step-number">${index + 1}</span>
+                    <span class="flow-step-number"${stepLabel.endsWith('~') ? ` aria-label="${escapeHtml(stepLabel.slice(0, -1))}턴부터"` : ''}>${escapeHtml(stepLabel)}</span>
                     ${renderIntentIcon(skill)}
                 </div>
                 <div class="action-copy">
                     <strong>${escapeHtml(skill?.name || `행동 ${index + 1}`)}</strong>
-                    <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
+                    <p>${dynamicMarkup(description)}</p>
                 </div>
             </li>`;
         }).join('');
-        return `<ol class="flow-sequence">${sequence}</ol>${repeats ? '<div class="flow-loop" aria-label="반복">이후 1번부터 반복</div>' : ''}`;
+        return `<ol class="flow-sequence">${sequence}</ol>${repeats ? `<div class="flow-loop" aria-label="반복">${escapeHtml(loopLabel)}</div>` : ''}`;
     }
 
     function renderFlowPhase(monster, stats, { title, pattern, repeats = false }) {
         return `<section class="flow-phase"><header><h5>${escapeHtml(title)}</h5>${repeats ? '<span class="flow-badge">반복</span>' : ''}</header>${renderSequence(monster, stats, pattern, repeats)}</section>`;
+    }
+
+    function deterministicOverride(monster) {
+        return (monster.conditionalActions || [])
+            .filter(action => action.contextResolved && action.persistent && Number.isInteger(action.firstTurn))
+            .sort((left, right) => left.firstTurn - right.firstTurn)[0] || null;
+    }
+
+    function skillAtTurn(opening, cycle, turn) {
+        if (sameSequence(opening, cycle)) return cycle.skillIds[(turn - 1) % cycle.skillIds.length];
+        if (opening && turn <= opening.skillIds.length) return opening.skillIds[turn - 1];
+        const repeating = cycle || opening;
+        const offset = opening ? turn - opening.skillIds.length - 1 : turn - 1;
+        return repeating.skillIds[offset % repeating.skillIds.length];
+    }
+
+    function renderFinalTurnOrder(monster, stats, opening, cycle, override) {
+        const skillIds = [];
+        for (let turn = 1; turn < override.firstTurn; turn += 1) {
+            skillIds.push(skillAtTurn(opening, cycle, turn));
+        }
+        skillIds.push(override.skillId);
+        const stepLabels = skillIds.map((_, index) => index === skillIds.length - 1 ? `${override.firstTurn}~` : String(index + 1));
+        return `<section class="flow-phase flow-phase--final-order">
+            <header><h5>최종 행동 순서</h5></header>
+            ${renderSequence(monster, stats, { skillIds }, false, { stepLabels })}
+        </section>`;
     }
 
     function renderPhaseTransition(monster, transition, stats) {
@@ -424,6 +479,7 @@
         if (transition.maxHpMultiplier) effects.push(`최대 HP ${transition.maxHpMultiplier}배로 증가`);
         if (transition.healsToMax) effects.push('증가한 최대 HP까지 회복');
         const stateItems = (transition.addedStates || [])
+            .map(state => transition.displayStateReplacements?.[String(state.id)] || state)
             .filter(state => state.visible && (state.name || state.descriptionTemplate))
             .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(state.richDescriptionTemplate || state.descriptionTemplate)}` : ''}</span></li>`)
             .join('');
@@ -441,17 +497,44 @@
         </section>`;
     }
 
+    function renderFoldedReplacements(monster, stats) {
+        const replacements = (monster.conditionalActions || [])
+            .filter(action => isFoldedReplacementAction(monster, action))
+            .filter((action, index, actions) => actions.findIndex(candidate => candidate.skillId === action.skillId) === index);
+        if (!replacements.length) return '';
+        return `<section class="action-replacements" aria-label="조건부 의도">
+            <h5 class="section-label">조건부 의도</h5>
+            <ol class="flow-sequence">${replacements.map(action => {
+            const skill = skillById(monster, action.skillId);
+            const resolved = stats.resolvedSkills?.[String(action.skillId)];
+            return `<li class="action-step action-step--replacement">
+                <div class="action-marker">
+                    ${renderIntentIcon(skill)}
+                </div>
+                <div class="action-copy">
+                    <strong>${escapeHtml(skill?.name || '교체 의도')}</strong>
+                    <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
+                </div>
+            </li>`;
+        }).join('')}</ol></section>`;
+    }
+
     function renderActionFlow(monster, stats) {
         const opening = monster.patterns.find(pattern => pattern.id === 'opening');
         const firstCycle = monster.patterns.find(pattern => pattern.id === 'cycle-1');
         const secondCycle = monster.patterns.find(pattern => pattern.id === 'cycle-2');
         const phaseTransition = (monster.phaseTransitions || []).find(transition => transition.phaseIndex === 2);
         if (!opening && !firstCycle) return '';
+        const override = deterministicOverride(monster);
+
+        if (override && !secondCycle) {
+            return `<section class="combat-flow" aria-label="행동 진행 순서">${renderFinalTurnOrder(monster, stats, opening, firstCycle, override)}${renderFoldedReplacements(monster, stats)}</section>`;
+        }
 
         const phases = [];
         if (sameSequence(opening, firstCycle) || (!opening && firstCycle)) {
             phases.push(renderFlowPhase(monster, stats, {
-                title: secondCycle ? '1번째 체력바 행동' : '행동 순서',
+                title: secondCycle ? '1페이즈' : '행동 순서',
                 pattern: firstCycle || opening,
                 repeats: true
             }));
@@ -463,31 +546,34 @@
             if (firstCycle) {
                 phases.push('<div class="flow-connector"><span>이후</span></div>');
                 phases.push(renderFlowPhase(monster, stats, {
-                    title: secondCycle ? '1번째 체력바 반복 행동' : '이후 반복 행동',
+                    title: secondCycle ? '1페이즈' : '이후 반복 행동',
                     pattern: firstCycle,
                     repeats: true
                 }));
             }
         }
         if (secondCycle) {
-            const phaseLabel = phaseTransition?.rebirth ? '첫 체력바 소진 · 각성' : '2번째 체력바 시작';
+            const phaseLabel = phaseTransition?.rebirth ? '2페이즈 전환 · 각성' : '2페이즈 전환';
             phases.push(`<div class="flow-connector flow-connector--phase"><span>${phaseLabel}</span></div>`);
             phases.push(renderPhaseTransition(monster, phaseTransition, stats));
             const phaseStats = stats.phaseResolvedSkills?.['2'] ? { ...stats, resolvedSkills: stats.phaseResolvedSkills['2'] } : stats;
             phases.push(renderFlowPhase(monster, phaseStats, {
-                title: '2번째 체력바 행동',
+                title: '2페이즈',
                 pattern: secondCycle,
                 repeats: true
             }));
         }
-        return `<section class="combat-flow" aria-label="행동 진행 순서">${phases.join('')}</section>`;
+        return `<section class="combat-flow" aria-label="행동 진행 순서">${phases.join('')}${renderFoldedReplacements(monster, stats)}</section>`;
     }
 
     function renderConditionalActions(monster, stats) {
         const displayedTransitions = (monster.phaseTransitions || []).filter(transition =>
             transition.phaseIndex === 2 && monster.patterns.some(pattern => pattern.id === 'cycle-2'));
         const phaseActionIds = new Set(displayedTransitions.flatMap(transition => transition.phaseSkillIds || []));
-        const candidates = (monster.conditionalActions || []).filter(action => !phaseActionIds.has(action.skillId));
+        const candidates = (monster.conditionalActions || []).filter(action =>
+            !phaseActionIds.has(action.skillId)
+            && !isFoldedReplacementAction(monster, action)
+            && !(action.contextResolved && action.persistent && Number.isInteger(action.firstTurn)));
         // Intent-lock commands restore an already displayed death action; they
         // are not a second attack with an unnamed internal-state condition.
         const actions = candidates.filter(action => !(action.triggerEvents?.includes('BSTAfterIntentionChanged')
@@ -511,16 +597,20 @@
             const stateName = resolvedState?.visible ? gameText(resolvedState.name) : '';
             const stateLabel = /^「.*」$/.test(stateName) ? stateName : `「${stateName}」`;
             const trigger = stateName ? `${stateLabel} 보유 중 · ${condition}` : condition;
+            const conditionParts = condition.split(/\s*·\s*/).filter(Boolean);
+            const conditionMarkup = conditionParts.length > 1
+                ? `<div class="condition-chain" aria-label="모든 조건 충족">${conditionParts.map(part => `<span>${dynamicMarkup(data.keywordGlossary ? `<game-text:${part}>` : part)}</span>`).join('<b aria-hidden="true">+</b>')}</div>`
+                : `<p class="conditional-trigger"><b>발동:</b> ${dynamicMarkup(data.keywordGlossary ? `<game-text:${trigger}>` : trigger)}</p>`;
             return `<article class="conditional-action">
                 ${renderIntentIcon(skill)}
                 <div class="conditional-action-copy">
-                    <header><strong>${escapeHtml(replacementName || skill?.name || '조건부 행동')}</strong><span>조건부</span></header>
-                    <p class="conditional-trigger"><b>발동:</b> ${dynamicMarkup(data.keywordGlossary ? `<game-text:${trigger}>` : trigger)}</p>
+                    <header><strong>${escapeHtml(replacementName || skill?.name || '조건부 행동')}</strong><span>${conditionParts.length > 1 ? '모든 조건 충족' : '조건부'}</span></header>
+                    ${conditionMarkup}
                     <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
                 </div>
             </article>`;
         }).join('');
-        return `<section class="conditional-actions" aria-label="조건부 행동"><h5 class="section-label">조건부 행동</h5>${cards}</section>`;
+        return `<section class="conditional-actions" aria-label="의도 교체 규칙"><h5 class="section-label">의도 교체 규칙</h5>${cards}</section>`;
     }
 
     function renderRules(monster, stats) {
@@ -528,8 +618,32 @@
             state.visible
             && (state.name || state.description)
         ));
-        if (!rules.length) return '';
-        return `<section class="monster-rules" aria-label="특수 규칙">${rules.map(rule => {
+        const interventions = (monster.patternInterventions || []).filter(intervention =>
+            !rules.some(rule => rule.id === intervention.stateId));
+        if (!rules.length && !interventions.length) return '';
+        const remainingInterventions = new Set(interventions);
+        const rows = rules.flatMap(rule => {
+            const related = interventions.filter(intervention =>
+                intervention.sourceStateIds?.includes(rule.id));
+            related.forEach(intervention => remainingInterventions.delete(intervention));
+            return [rule, ...related.map(intervention => ({
+                id: intervention.stateId,
+                name: intervention.name,
+                description: intervention.descriptionTemplate,
+                icon: intervention.iconSource
+                    ? `images/keyword-icons/original/${intervention.iconSource.replace(/^IconS_/i, 'icons_').toLowerCase()}`
+                    : ''
+            }))];
+        });
+        rows.push(...[...remainingInterventions].map(intervention => ({
+            id: intervention.stateId,
+            name: intervention.name,
+            description: intervention.descriptionTemplate,
+            icon: intervention.iconSource
+                ? `images/keyword-icons/original/${intervention.iconSource.replace(/^IconS_/i, 'icons_').toLowerCase()}`
+                : ''
+        })));
+        return `<section class="monster-rules" aria-label="특수 규칙">${rows.map(rule => {
             const layer = rule.initialLayer?.value?.display;
             const icon = rule.icon
                 ? `<span class="monster-rule-icon"><img src="${escapeHtml(rule.icon)}" alt="" width="28" height="28" loading="lazy" decoding="async"></span>`

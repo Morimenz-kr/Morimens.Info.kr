@@ -626,10 +626,11 @@ function normalizeDictionaryFilterValue(value, type) {
         .trim();
 
     if (type === 'mainStat') {
-        return normalized
+        const mainStat = normalized
             .replace(/^영역숙련/, '영역 숙련')
             .replace(/검은 인장 드롭\s*(\d)/, '검은 인장 드롭 $1')
             .replace(/\s+\d+(?:\.\d+)?%?$/, '');
+        return mainStat === '검은 인장 획득' ? '검은 인장 드롭' : mainStat;
     }
 
     const compact = normalized.replace(/\s+/g, '');
@@ -1017,7 +1018,7 @@ const initializeLinksPage = async () => {
                         const secondWheelSlotClass = wheelDisplay && !wheelDisplay[1]
                             ? 'equip-slot equip-slot-empty'
                             : 'equip-slot';
-                        const renderWheelDisplay = (item, position) => {
+                        const renderWheelDisplay = item => {
                             if (!item) return '';
                             const label = item.tier === 'substitute' ? '대체' : '';
                             const labelMarkup = label
@@ -1027,17 +1028,19 @@ const initializeLinksPage = async () => {
                             if (item.kind === 'stat') {
                                 return `
                                     ${labelMarkup}
-                                    <div class="equip-stat-card">
-                                        <span class="equip-stat-value">${item.value}</span>
-                                    </div>
-                                    <div class="equip-name-label">${item.value}</div>
+                                    <button type="button" class="equip-recommendation-trigger" data-sub-modal-type="wheel-options" data-character-id="${charId}" data-setting-index="${idx}" aria-label="${item.value} 추천 명륜 보기">
+                                        <span class="equip-stat-card"><span class="equip-stat-value">${item.value}</span></span>
+                                        <span class="equip-name-label">${item.value}</span>
+                                    </button>
                                     ${action}`;
                             }
                             const wheel = getWheel(item.value);
                             return `
                                 ${labelMarkup}
-                                <img src="${wheel.image_path}" class="equip-img-myeongryun" data-tooltip-kind="wheel" data-tooltip-id="${item.value}" onerror="this.src='images/placeholder.png';">
-                                <div class="equip-name-label">${wheel.korean_name}</div>
+                                <button type="button" class="equip-recommendation-trigger" data-tooltip-kind="wheel" data-tooltip-id="${item.value}" aria-label="${wheel.korean_name} 상세 정보">
+                                    <img src="${wheel.image_path}" class="equip-img-myeongryun" alt="" onerror="this.src='images/placeholder.png';">
+                                    <span class="equip-name-label">${wheel.korean_name}</span>
+                                </button>
                                 ${action}`;
                         };
                         gridContainer.innerHTML += `
@@ -1053,16 +1056,20 @@ const initializeLinksPage = async () => {
                                         <div class="equip-slot">
                                             ${wheelDisplay ? renderWheelDisplay(wheelDisplay[0], 0) : `
                                                 <div class="equip-label equip-label-spacer" aria-hidden="true">추천 명륜</div>
-                                                <img src="${ssrWheel.image_path}" class="equip-img-myeongryun" data-tooltip-kind="wheel" data-tooltip-id="${ssrWheelId}" onerror="this.src='images/placeholder.png';">
-                                                <div class="equip-name-label">${ssrWheel.korean_name}</div>
+                                                <button type="button" class="equip-recommendation-trigger" data-tooltip-kind="wheel" data-tooltip-id="${ssrWheelId}" aria-label="${ssrWheel.korean_name} 상세 정보">
+                                                    <img src="${ssrWheel.image_path}" class="equip-img-myeongryun" alt="" onerror="this.src='images/placeholder.png';">
+                                                    <span class="equip-name-label">${ssrWheel.korean_name}</span>
+                                                </button>
                                                 <div class="sub-link sub-link-spacer" aria-hidden="true">보기</div>
                                             `}
                                         </div>
                                         <div class="${secondWheelSlotClass}">
                                             ${wheelDisplay ? renderWheelDisplay(wheelDisplay[1], 1) : `
                                                 <div class="equip-label equip-label-spacer" aria-hidden="true">추천 명륜</div>
-                                                <img src="${srWheel.image_path}" class="equip-img-myeongryun" data-tooltip-kind="wheel" data-tooltip-id="${srWheelId}" onerror="this.src='images/placeholder.png';">
-                                                <div class="equip-name-label">${srWheel.korean_name}</div>
+                                                <button type="button" class="equip-recommendation-trigger" data-tooltip-kind="wheel" data-tooltip-id="${srWheelId}" aria-label="${srWheel.korean_name} 상세 정보">
+                                                    <img src="${srWheel.image_path}" class="equip-img-myeongryun" alt="" onerror="this.src='images/placeholder.png';">
+                                                    <span class="equip-name-label">${srWheel.korean_name}</span>
+                                                </button>
                                                 <div class="sub-link sub-link-spacer" aria-hidden="true">보기</div>
                                             `}
                                         </div>
@@ -1071,12 +1078,16 @@ const initializeLinksPage = async () => {
                                     <div class="equip-slot">
                                         <div class="equip-label">추천 비밀계약</div>
                                         ${covenantMainId ? `
-                                            <img src="${mainCov.image_path}" class="equip-img-covenant" data-tooltip-kind="covenant" data-tooltip-id="${covenantMainId}" data-tooltip-main-stats="${mainCovStats}" data-tooltip-sub-stats="${covenantSubStats}" onerror="this.src='images/placeholder.png';">
-                                            <div class="equip-name-label">${mainCov.korean_name}</div>
+                                            <button type="button" class="equip-recommendation-trigger" data-tooltip-kind="covenant" data-tooltip-id="${covenantMainId}" data-tooltip-main-stats="${mainCovStats}" data-tooltip-sub-stats="${covenantSubStats}" aria-label="${mainCov.korean_name} 상세 정보">
+                                                <img src="${mainCov.image_path}" class="equip-img-covenant" alt="" onerror="this.src='images/placeholder.png';">
+                                                <span class="equip-name-label">${mainCov.korean_name}</span>
+                                            </button>
                                             ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
                                         ` : `
-                                            <div class="equip-covenant-free">자유</div>
-                                            <div class="equip-name-label">자유 선택</div>
+                                            <div class="equip-recommendation-static">
+                                                <div class="equip-covenant-free">자유</div>
+                                                <div class="equip-name-label">자유 선택</div>
+                                            </div>
                                             <div class="sub-link" data-sub-modal-type="covenant-free" data-character-id="${charId}" data-setting-index="${idx}">선택 조건 보기</div>
                                         `}
                                     </div>
@@ -1290,6 +1301,7 @@ function openDynamicSubModal(type, charId, idx = 0) {
             substituteIds,
             [...mainStats, ...substituteStats]
         );
+        body.scrollTop = 0;
         bindDynamicTooltips(body);
         modal.classList.add('show');
         return;
@@ -1298,6 +1310,7 @@ function openDynamicSubModal(type, charId, idx = 0) {
         const optionStats = setInfo.covenant?.recommended_stats || [];
         title.textContent = '비밀계약 선택 조건';
         body.innerHTML = renderCovenantFreeModal(optionIds, optionStats);
+        body.scrollTop = 0;
         bindDynamicTooltips(body);
         modal.classList.add('show');
         return;
@@ -1359,6 +1372,7 @@ function openDynamicSubModal(type, charId, idx = 0) {
     }
 
     body.innerHTML = html;
+    body.scrollTop = 0;
     bindDynamicTooltips(body);
     modal.classList.add('show');
 }
@@ -1392,6 +1406,9 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
     const hasRecommended = unique(recommendedIds).length > 0;
     const hasSubstitutes = unique(substituteIds).length > 0;
     const hasStats = uniqueStats.length > 0;
+    const statOnlyResults = !hasRecommended && !hasSubstitutes && hasStats
+        ? renderWheelStatMatches(uniqueStats)
+        : '';
     const statGuide = hasRecommended || hasSubstitutes
         ? `${hasSubstitutes ? '추천·대체' : '추천'} 명륜을 보유하지 않았을 때, 아래 주옵을 가진 명륜을 사용하는 것을 추천합니다.`
         : '아래 주옵을 가진 명륜을 사용하는 것을 추천합니다.';
@@ -1415,8 +1432,9 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
                 <div class="wheel-option-stat-content">
                     <p class="wheel-option-stat-guide">${statGuide}</p>
                     <div class="stat-chip-list">${uniqueStats.map(stat => `<span class="stat-chip">${stat}</span>`).join('')}</div>
+                    ${statOnlyResults}
                 </div>`,
-            width: 220
+            width: statOnlyResults ? 560 : 220
         } : null
     ].filter(Boolean);
 
@@ -1436,6 +1454,43 @@ function renderWheelOptionsModal(recommendedIds, substituteIds, stats) {
                 </section>
             `).join('')}
         </div>`;
+}
+
+function findWheelsByRecommendedStat(stat) {
+    const normalized = normalizeDictionaryFilterValue(stat, 'mainStat');
+    if (!normalized || normalized === '자유') return [];
+    const uniqueWheels = new Map();
+    Object.values(window.wheelMap || {}).forEach(wheel => {
+        if (!wheel?.english_name || uniqueWheels.has(wheel.english_name)) return;
+        uniqueWheels.set(wheel.english_name, wheel);
+    });
+    return [...uniqueWheels.values()]
+        .filter(wheel => normalizeDictionaryFilterValue(wheel.main_stat, 'mainStat') === normalized)
+        .sort((left, right) => {
+            const gradeOrder = { SSR: 0, SR: 1, R: 2 };
+            const gradeDiff = (gradeOrder[left.grade] ?? 9) - (gradeOrder[right.grade] ?? 9);
+            return gradeDiff || String(left.korean_name || '').localeCompare(String(right.korean_name || ''), 'ko');
+        });
+}
+
+function renderWheelStatMatches(stats) {
+    const sections = stats.map(stat => {
+        const wheels = findWheelsByRecommendedStat(stat);
+        const content = wheels.length > 0
+            ? `<div class="wheel-stat-match-grid">${wheels.map(wheel => `
+                <button type="button" class="sub-item-vertical wheel-stat-match" data-tooltip-kind="wheel" data-tooltip-id="${wheel.english_name}" aria-label="${wheel.korean_name} 상세 정보">
+                    <img src="${wheel.image_path || 'images/placeholder.png'}" alt="" class="sub-img-myeongryun" onerror="this.src='images/placeholder.png';">
+                    <span class="sub-item-name">${wheel.korean_name}</span>
+                    <span class="wheel-stat-match-grade">${wheel.grade || ''}</span>
+                </button>`).join('')}</div>`
+            : '<p class="wheel-option-empty">조건과 일치하는 명륜이 없습니다.</p>';
+        return `
+            <section class="wheel-stat-match-section">
+                <h4>${stat}<span>${wheels.length}개</span></h4>
+                ${content}
+            </section>`;
+    }).join('');
+    return `<div class="wheel-stat-match-results"><h3>조건에 맞는 명륜</h3>${sections}</div>`;
 }
 
 function renderCovenantFreeModal(optionIds, stats) {

@@ -785,44 +785,70 @@
 
 .recommend-right {
     flex: 1;
-    display: flex;
-    flex-direction: row;
+    --recommend-artwork-height: clamp(176px, 19vw, 240px);
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
     align-items: center;
     justify-content: center;
-    gap: 25px;            /* [수정] 이 수치를 조절해서 원하는 공백을 맞추세요 */
+    column-gap: clamp(40px, 5vw, 72px);
     height: 100%;
     padding: 0 20px;
     box-sizing: border-box;
 }
 
 .equip-slot {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: auto auto minmax(44px, auto);
+    align-content: center;
     align-items: center;
     justify-content: center;
     gap: 8px;
     height: 100%;
-    width: fit-content;    /* 너비를 내용물에 맞춤 */
-    min-width: 0;          /* 고정 너비 삭제 */
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .wheel-pair {
-    position: relative;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto minmax(44px, auto);
+    align-content: center;
     align-items: center;
     justify-content: center;
-    gap: 25px;
+    column-gap: 25px;
+    row-gap: 8px;
     height: 100%;
+    min-width: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wheel-pair-single {
+    grid-template-columns: minmax(0, 1fr);
 }
 
 /* 명륜 추천/대체 슬롯끼리만 동일한 높이를 사용 */
 .wheel-pair > .equip-slot {
-    height: 100%;
-    min-height: 100%;
-    box-sizing: border-box;
+    grid-row: 2;
+    display: flex;
+    align-self: start;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 0;
+    flex-direction: column;
+    align-items: center;
     justify-content: flex-start;
+    gap: 0;
     padding-top: 0;
-    transform: translateY(calc(8% + 1.2em + 8px));
+    transform: none;
+}
+
+.wheel-pair > .equip-slot > .equip-recommendation-trigger,
+.wheel-pair > .equip-slot > .equip-recommendation-static {
+    align-self: center;
 }
 
 .wheel-pair > .equip-slot-empty {
@@ -830,10 +856,9 @@
 }
 
 .wheel-pair-heading {
-    position: absolute;
-    top: 8%;
-    left: 0;
-    right: 0;
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: start;
     color: #aaa;
     font-size: 0.8em;
     text-align: center;
@@ -841,11 +866,13 @@
 }
 
 .wheel-options-link {
-    position: absolute;
-    bottom: 4%;
-    left: 50%;
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 3;
+    align-self: center;
+    justify-self: center;
     min-width: 120px;
-    min-height: 24px;
+    min-height: 44px;
     padding: 4px 10px;
     border: 0;
     background: transparent;
@@ -854,7 +881,7 @@
     font-size: 0.75em;
     text-decoration: underline;
     cursor: pointer;
-    transform: translateX(-50%);
+    transform: none;
 }
 
 .wheel-options-link:hover,
@@ -869,7 +896,7 @@
 }
 
 .equip-img-myeongryun {
-    height: 60%;
+    height: var(--recommend-artwork-height);
     aspect-ratio: 225 / 456;
     object-fit: cover;
     border-radius: 6px;
@@ -877,7 +904,7 @@
 }
 
 .equip-stat-card {
-    height: 60%;
+    height: var(--recommend-artwork-height);
     aspect-ratio: 225 / 456;
     box-sizing: border-box;
     border-radius: 6px;
@@ -900,11 +927,74 @@
 }
 
 .equip-img-covenant {
-    height: 60%;
+    height: var(--recommend-artwork-height);
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 6px;
     border: 1px solid #555;
+}
+
+.equip-recommendation-trigger {
+    display: grid;
+    grid-template-rows: var(--recommend-artwork-height) minmax(1.6em, auto);
+    min-width: 44px;
+    min-height: 44px;
+    align-self: start;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+.equip-recommendation-static {
+    display: grid;
+    grid-template-rows: var(--recommend-artwork-height) minmax(1.6em, auto);
+    align-self: start;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.recommend-right > .equip-slot > .equip-label {
+    grid-row: 1;
+    align-self: start;
+    justify-self: stretch;
+    text-align: center;
+}
+
+.recommend-right > .equip-slot > .equip-recommendation-trigger,
+.recommend-right > .equip-slot > .equip-recommendation-static {
+    grid-row: 2;
+}
+
+.recommend-right > .equip-slot > .sub-link {
+    grid-row: 3;
+    align-self: center;
+    margin-top: 0;
+}
+
+.equip-recommendation-trigger:hover .equip-name-label,
+.equip-recommendation-trigger:focus-visible .equip-name-label {
+    color: #ffc107;
+}
+
+.equip-recommendation-trigger:hover img,
+.equip-recommendation-trigger:focus-visible img,
+.equip-recommendation-trigger:hover .equip-stat-card,
+.equip-recommendation-trigger:focus-visible .equip-stat-card {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.2);
+}
+
+.equip-recommendation-trigger:focus-visible {
+    outline: 2px solid #ffc107;
+    outline-offset: 3px;
+    border-radius: 6px;
 }
 
 .equip-covenant-free {
@@ -938,8 +1028,16 @@
     display: none;
 }
 
+.wheel-pair .sub-link-spacer {
+    display: none;
+}
+
 /* 대체 텍스트 버튼 스타일 */
 .sub-link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
     font-size: 0.75em;
     color: #aaa;
     text-decoration: underline;
@@ -1200,6 +1298,10 @@
 }
 /* 메인 박스 내 이름 텍스트 스타일 */
 .equip-name-label {
+    display: flex;
+    min-height: 1.6em;
+    align-items: flex-start;
+    justify-content: center;
     font-size: 0.8em;
     color: #eee;
     margin-top: 4px;
@@ -1218,6 +1320,77 @@
     border-radius: 8px;
     border: 1px solid #444;
     min-width: 0;
+}
+
+button.sub-item-vertical {
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+button.sub-item-vertical:hover,
+button.sub-item-vertical:focus-visible {
+    border-color: #ffc107;
+}
+
+button.sub-item-vertical:focus-visible {
+    outline: 2px solid #ffc107;
+    outline-offset: 2px;
+}
+
+.wheel-stat-match-results {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid #484850;
+}
+
+.wheel-stat-match-results > h3 {
+    margin: 0 0 1rem;
+    color: #f5f5f5;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.wheel-stat-match-section + .wheel-stat-match-section {
+    margin-top: 1.25rem;
+}
+
+.wheel-stat-match-section > h4 {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0 0 0.75rem;
+    color: #ffc107;
+    font-size: 0.95rem;
+}
+
+.wheel-stat-match-section > h4 span {
+    color: #aeb0b6;
+    font-size: 0.8rem;
+    font-weight: normal;
+}
+
+.wheel-stat-match-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+    gap: 0.625rem;
+}
+
+.wheel-stat-match {
+    min-width: 0;
+    min-height: 44px;
+    padding: 0.625rem;
+}
+
+.wheel-stat-match-grade {
+    color: #aeb0b6;
+    font-size: 0.72rem;
+}
+
+@media (max-width: 480px) {
+    .wheel-stat-match-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 /* 모달 내 명륜 이미지 비율 */

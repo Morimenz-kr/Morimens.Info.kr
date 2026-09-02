@@ -1,0 +1,2070 @@
+{
+  "schemaVersion": 1,
+  "encounterId": "wave-5-alert-4",
+  "monsterId": 148007,
+  "name": "「혼을 거두는 자」",
+  "description": "피의 굶주린 자여. 사슬을 끊을 때, 그녀는 온 세상에 「복수」로 물들일 것이라는 소망을 전할 것이니.",
+  "stats": {
+    "hp": 18185348,
+    "attack": 3005,
+    "defense": 63117,
+    "source": {
+      "standard": {
+        "StandardHp": 30308911.67,
+        "StandardAtk": 3338.4,
+        "StandardDef": 631172.67,
+        "StandardTurn": 12
+      },
+      "hpFormula": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*0.6)",
+      "attackFormula": "ceil(StandardAtk*MonsterProportion*MonsterAtkPercent)",
+      "defenseFormula": "floor(StandardDef/10)"
+    }
+  },
+  "hpPhases": [
+    {
+      "phaseIndex": 1,
+      "maxHp": 18185348
+    },
+    {
+      "phaseIndex": 2,
+      "maxHp": 27278022
+    }
+  ],
+  "effectiveHp": 45463370,
+  "patterns": [
+    {
+      "kind": "opening",
+      "sourceField": "InitSkillList",
+      "skillIds": [
+        148362,
+        148361,
+        148362,
+        148365
+      ]
+    },
+    {
+      "kind": "cycle",
+      "cycleIndex": 1,
+      "sourceField": "CycleSkillList1",
+      "skillIds": [
+        148362,
+        148361,
+        148362,
+        148365
+      ]
+    },
+    {
+      "kind": "cycle",
+      "cycleIndex": 2,
+      "sourceField": "CycleSkillList2",
+      "skillIds": [
+        148362,
+        148360,
+        148362,
+        148365
+      ]
+    }
+  ],
+  "initialStateIds": [
+    148387,
+    148385,
+    148384,
+    148390,
+    60264,
+    148442
+  ],
+  "skills": {
+    "148359": {
+      "id": 148359,
+      "name": "",
+      "nameSource": "",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "type": "Intent_StrongBuff",
+      "target": "CmdCaster",
+      "para": 148362,
+      "expressions": [
+        "148362"
+      ],
+      "commandIds": [
+        128093
+      ],
+      "source": {
+        "table": "Skill",
+        "id": 148359
+      },
+      "args": [
+        {
+          "expression": "148362",
+          "raw": 148362,
+          "display": 148362,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        }
+      ],
+      "resolvedDescription": "",
+      "resolvedRichDescription": ""
+    },
+    "148360": {
+      "id": 148360,
+      "name": "사슬에 묶인 원한",
+      "nameSource": "Skill_148360_Name",
+      "descriptionTemplate": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 [Arg3] 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입힘.",
+      "descriptionSource": "Skill_148360_Desc",
+      "type": "Intent_Burst3",
+      "target": "FrontEnemy",
+      "para": "BattleAtkForce*0.8,1,6",
+      "expressions": [
+        "BattleAtkForce*0.8",
+        "1",
+        "6"
+      ],
+      "commandIds": [
+        148366
+      ],
+      "source": {
+        "table": "Skill",
+        "id": 148360
+      },
+      "args": [
+        {
+          "expression": "BattleAtkForce*0.8",
+          "raw": 2404,
+          "display": 2404,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "1",
+          "raw": 1,
+          "display": 1,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "6",
+          "raw": 6,
+          "display": 6,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        }
+      ],
+      "resolvedDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 6 스택 광열 획득. 턴 종료까지 자신이 입히는 피해에 100% 출혈 추가. 2,404 피해를 1회 입힘.",
+      "resolvedRichDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 6 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:2,404> 피해를 1회 입힘."
+    },
+    "148361": {
+      "id": 148361,
+      "name": "속박의 사슬",
+      "nameSource": "Skill_148361_Name",
+      "descriptionTemplate": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 [Arg3] 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입힘.",
+      "descriptionSource": "Skill_148361_Desc",
+      "type": "Intent_Burst",
+      "target": "FrontEnemy",
+      "para": "BattleAtkForce*0.6,1,4",
+      "expressions": [
+        "BattleAtkForce*0.6",
+        "1",
+        "4"
+      ],
+      "commandIds": [
+        148368
+      ],
+      "source": {
+        "table": "Skill",
+        "id": 148361
+      },
+      "args": [
+        {
+          "expression": "BattleAtkForce*0.6",
+          "raw": 1803,
+          "display": 1803,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "1",
+          "raw": 1,
+          "display": 1,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "4",
+          "raw": 4,
+          "display": 4,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        }
+      ],
+      "resolvedDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 4 스택 광열 획득. 턴 종료까지 자신이 입히는 피해에 100% 출혈 추가. 1,803 피해를 1회 입힘.",
+      "resolvedRichDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 4 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:1,803> 피해를 1회 입힘."
+    },
+    "148362": {
+      "id": 148362,
+      "name": "선혈의 사슬",
+      "nameSource": "Skill_148362_Name",
+      "descriptionTemplate": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고 [Arg3]% <BleedingIconKeywords:출혈> 추가, 현재 HP의 [Arg4]% 소모. 해당 의도로 전환 시 「증오」 [Arg5] 스택 보유 중이면 의도가 <Damage:[Damage:Arg6]> 피해를 [AttackTimes:Arg7]회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득.",
+      "descriptionSource": "Skill_148362_Desc",
+      "type": "Intent_AttackDebuff",
+      "target": "FrontEnemy",
+      "para": "BattleAtkForce*0.2,2,50,5,3,BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3,1",
+      "expressions": [
+        "BattleAtkForce*0.2",
+        "2",
+        "50",
+        "5",
+        "3",
+        "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+        "1"
+      ],
+      "commandIds": [
+        148373
+      ],
+      "source": {
+        "table": "Skill",
+        "id": 148362
+      },
+      "args": [
+        {
+          "expression": "BattleAtkForce*0.2",
+          "raw": 601,
+          "display": 601,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "2",
+          "raw": 2,
+          "display": 2,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "50",
+          "raw": 50,
+          "display": 50,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "5",
+          "raw": 5,
+          "display": 5,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "3",
+          "raw": 3,
+          "display": 3,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+          "raw": 3756.25,
+          "display": 3757,
+          "dynamic": true,
+          "dependencies": [
+            "FrontEnemy.GetStateLayer(2840)"
+          ],
+          "resolved": true
+        },
+        {
+          "expression": "1",
+          "raw": 1,
+          "display": 1,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        }
+      ],
+      "resolvedDescription": "601 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 3,757 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득.",
+      "resolvedRichDescription": "<Damage:601> 피해를 2회 입히고 50% <BleedingIconKeywords:출혈> 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 <Damage:3,757> 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
+    },
+    "148364": {
+      "id": 148364,
+      "name": "피에 굶주린 철구",
+      "nameSource": "Skill_148364_Name",
+      "descriptionTemplate": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고, 적의 <BleedingIconKeywords:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+      "descriptionSource": "Skill_148364_Desc",
+      "type": "Intent_HeavyAttack",
+      "target": "FrontEnemy",
+      "para": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3,1,(CmdCaster.max_hp-CmdCaster.hp)*0.3",
+      "expressions": [
+        "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+        "1",
+        "(CmdCaster.max_hp-CmdCaster.hp)*0.3"
+      ],
+      "commandIds": [
+        148371
+      ],
+      "source": {
+        "table": "Skill",
+        "id": 148364
+      },
+      "args": [
+        {
+          "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+          "raw": 3756.25,
+          "display": 3757,
+          "dynamic": true,
+          "dependencies": [
+            "FrontEnemy.GetStateLayer(2840)"
+          ],
+          "resolved": true
+        },
+        {
+          "expression": "1",
+          "raw": 1,
+          "display": 1,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "(CmdCaster.max_hp-CmdCaster.hp)*0.3",
+          "raw": 0,
+          "display": 0,
+          "dynamic": true,
+          "dependencies": [
+            "CmdCaster.hp"
+          ],
+          "resolved": true
+        }
+      ],
+      "resolvedDescription": "3,757 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+      "resolvedRichDescription": "<Damage:3,757> 피해를 1회 입히고, 적의 <BleedingIconKeywords:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복."
+    },
+    "148365": {
+      "id": 148365,
+      "name": "원한 발산",
+      "nameSource": "Skill_148365_Name",
+      "descriptionTemplate": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고, [Arg3] <PowerIconKeywords:힘> 획득. 자신의 HP가 [Arg4](50%) 미만이면 피해와 획득 <PowerIconKeywords:힘>이 2배.",
+      "descriptionSource": "Skill_148365_Desc",
+      "type": "Intent_AttackBuff",
+      "target": "FrontEnemy",
+      "para": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379)),1,BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379)),CmdCaster.max_hp*0.5",
+      "expressions": [
+        "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
+        "1",
+        "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
+        "CmdCaster.max_hp*0.5"
+      ],
+      "commandIds": [
+        148375
+      ],
+      "source": {
+        "table": "Skill",
+        "id": 148365
+      },
+      "args": [
+        {
+          "expression": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
+          "raw": 1202,
+          "display": 1202,
+          "dynamic": true,
+          "dependencies": [
+            "CmdCaster.GetStateLayer(148379)"
+          ],
+          "resolved": true
+        },
+        {
+          "expression": "1",
+          "raw": 1,
+          "display": 1,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        },
+        {
+          "expression": "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
+          "raw": 75.125,
+          "display": 76,
+          "dynamic": true,
+          "dependencies": [
+            "CmdCaster.GetStateLayer(148379)"
+          ],
+          "resolved": true
+        },
+        {
+          "expression": "CmdCaster.max_hp*0.5",
+          "raw": 9092674,
+          "display": 9092674,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        }
+      ],
+      "resolvedDescription": "1,202 피해를 1회 입히고, 76 힘 획득. 자신의 HP가 9,092,674(50%) 미만이면 피해와 획득 힘이 2배.",
+      "resolvedRichDescription": "<Damage:1,202> 피해를 1회 입히고, 76 <PowerIconKeywords:힘> 획득. 자신의 HP가 9,092,674(50%) 미만이면 피해와 획득 <PowerIconKeywords:힘>이 2배."
+    },
+    "148393": {
+      "id": 148393,
+      "name": "영혼 사냥 선언",
+      "nameSource": "Skill_148393_Name",
+      "descriptionTemplate": "턴 시작 시 [Arg1] 스택 <ResentChainsKeywords:증오의 사슬> 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역.",
+      "descriptionSource": "Skill_148393_Desc",
+      "type": "Intent_StrongBuff",
+      "target": "CmdCaster",
+      "para": 1,
+      "expressions": [
+        "1"
+      ],
+      "commandIds": [
+        148372
+      ],
+      "source": {
+        "table": "Skill",
+        "id": 148393
+      },
+      "args": [
+        {
+          "expression": "1",
+          "raw": 1,
+          "display": 1,
+          "dynamic": false,
+          "dependencies": [],
+          "resolved": true
+        }
+      ],
+      "resolvedDescription": "턴 시작 시 1 스택 증오의 사슬 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역.",
+      "resolvedRichDescription": "턴 시작 시 1 스택 <ResentChainsKeywords:증오의 사슬> 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역."
+    }
+  },
+  "phaseSkills": [
+    {
+      "phaseIndex": 1,
+      "maxHp": 18185348,
+      "skills": {
+        "148359": {
+          "id": 148359,
+          "name": "",
+          "nameSource": "",
+          "descriptionTemplate": "",
+          "descriptionSource": "",
+          "type": "Intent_StrongBuff",
+          "target": "CmdCaster",
+          "para": 148362,
+          "expressions": [
+            "148362"
+          ],
+          "commandIds": [
+            128093
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148359
+          },
+          "args": [
+            {
+              "expression": "148362",
+              "raw": 148362,
+              "display": 148362,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "",
+          "resolvedRichDescription": ""
+        },
+        "148360": {
+          "id": 148360,
+          "name": "사슬에 묶인 원한",
+          "nameSource": "Skill_148360_Name",
+          "descriptionTemplate": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 [Arg3] 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입힘.",
+          "descriptionSource": "Skill_148360_Desc",
+          "type": "Intent_Burst3",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*0.8,1,6",
+          "expressions": [
+            "BattleAtkForce*0.8",
+            "1",
+            "6"
+          ],
+          "commandIds": [
+            148366
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148360
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*0.8",
+              "raw": 2404,
+              "display": 2404,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "6",
+              "raw": 6,
+              "display": 6,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 6 스택 광열 획득. 턴 종료까지 자신이 입히는 피해에 100% 출혈 추가. 2,404 피해를 1회 입힘.",
+          "resolvedRichDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 6 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:2,404> 피해를 1회 입힘."
+        },
+        "148361": {
+          "id": 148361,
+          "name": "속박의 사슬",
+          "nameSource": "Skill_148361_Name",
+          "descriptionTemplate": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 [Arg3] 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입힘.",
+          "descriptionSource": "Skill_148361_Desc",
+          "type": "Intent_Burst",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*0.6,1,4",
+          "expressions": [
+            "BattleAtkForce*0.6",
+            "1",
+            "4"
+          ],
+          "commandIds": [
+            148368
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148361
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*0.6",
+              "raw": 1803,
+              "display": 1803,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "4",
+              "raw": 4,
+              "display": 4,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 4 스택 광열 획득. 턴 종료까지 자신이 입히는 피해에 100% 출혈 추가. 1,803 피해를 1회 입힘.",
+          "resolvedRichDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 4 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:1,803> 피해를 1회 입힘."
+        },
+        "148362": {
+          "id": 148362,
+          "name": "선혈의 사슬",
+          "nameSource": "Skill_148362_Name",
+          "descriptionTemplate": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고 [Arg3]% <BleedingIconKeywords:출혈> 추가, 현재 HP의 [Arg4]% 소모. 해당 의도로 전환 시 「증오」 [Arg5] 스택 보유 중이면 의도가 <Damage:[Damage:Arg6]> 피해를 [AttackTimes:Arg7]회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득.",
+          "descriptionSource": "Skill_148362_Desc",
+          "type": "Intent_AttackDebuff",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*0.2,2,50,5,3,BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3,1",
+          "expressions": [
+            "BattleAtkForce*0.2",
+            "2",
+            "50",
+            "5",
+            "3",
+            "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+            "1"
+          ],
+          "commandIds": [
+            148373
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148362
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*0.2",
+              "raw": 601,
+              "display": 601,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "2",
+              "raw": 2,
+              "display": 2,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "50",
+              "raw": 50,
+              "display": 50,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "5",
+              "raw": 5,
+              "display": 5,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "3",
+              "raw": 3,
+              "display": 3,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+              "raw": 3756.25,
+              "display": 3757,
+              "dynamic": true,
+              "dependencies": [
+                "FrontEnemy.GetStateLayer(2840)"
+              ],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "601 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 3,757 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득.",
+          "resolvedRichDescription": "<Damage:601> 피해를 2회 입히고 50% <BleedingIconKeywords:출혈> 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 <Damage:3,757> 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
+        },
+        "148364": {
+          "id": 148364,
+          "name": "피에 굶주린 철구",
+          "nameSource": "Skill_148364_Name",
+          "descriptionTemplate": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고, 적의 <BleedingIconKeywords:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+          "descriptionSource": "Skill_148364_Desc",
+          "type": "Intent_HeavyAttack",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3,1,(CmdCaster.max_hp-CmdCaster.hp)*0.3",
+          "expressions": [
+            "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+            "1",
+            "(CmdCaster.max_hp-CmdCaster.hp)*0.3"
+          ],
+          "commandIds": [
+            148371
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148364
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+              "raw": 3756.25,
+              "display": 3757,
+              "dynamic": true,
+              "dependencies": [
+                "FrontEnemy.GetStateLayer(2840)"
+              ],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "(CmdCaster.max_hp-CmdCaster.hp)*0.3",
+              "raw": 0,
+              "display": 0,
+              "dynamic": true,
+              "dependencies": [
+                "CmdCaster.hp"
+              ],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "3,757 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+          "resolvedRichDescription": "<Damage:3,757> 피해를 1회 입히고, 적의 <BleedingIconKeywords:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복."
+        },
+        "148365": {
+          "id": 148365,
+          "name": "원한 발산",
+          "nameSource": "Skill_148365_Name",
+          "descriptionTemplate": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고, [Arg3] <PowerIconKeywords:힘> 획득. 자신의 HP가 [Arg4](50%) 미만이면 피해와 획득 <PowerIconKeywords:힘>이 2배.",
+          "descriptionSource": "Skill_148365_Desc",
+          "type": "Intent_AttackBuff",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379)),1,BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379)),CmdCaster.max_hp*0.5",
+          "expressions": [
+            "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
+            "1",
+            "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
+            "CmdCaster.max_hp*0.5"
+          ],
+          "commandIds": [
+            148375
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148365
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
+              "raw": 1202,
+              "display": 1202,
+              "dynamic": true,
+              "dependencies": [
+                "CmdCaster.GetStateLayer(148379)"
+              ],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
+              "raw": 75.125,
+              "display": 76,
+              "dynamic": true,
+              "dependencies": [
+                "CmdCaster.GetStateLayer(148379)"
+              ],
+              "resolved": true
+            },
+            {
+              "expression": "CmdCaster.max_hp*0.5",
+              "raw": 9092674,
+              "display": 9092674,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "1,202 피해를 1회 입히고, 76 힘 획득. 자신의 HP가 9,092,674(50%) 미만이면 피해와 획득 힘이 2배.",
+          "resolvedRichDescription": "<Damage:1,202> 피해를 1회 입히고, 76 <PowerIconKeywords:힘> 획득. 자신의 HP가 9,092,674(50%) 미만이면 피해와 획득 <PowerIconKeywords:힘>이 2배."
+        },
+        "148393": {
+          "id": 148393,
+          "name": "영혼 사냥 선언",
+          "nameSource": "Skill_148393_Name",
+          "descriptionTemplate": "턴 시작 시 [Arg1] 스택 <ResentChainsKeywords:증오의 사슬> 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역.",
+          "descriptionSource": "Skill_148393_Desc",
+          "type": "Intent_StrongBuff",
+          "target": "CmdCaster",
+          "para": 1,
+          "expressions": [
+            "1"
+          ],
+          "commandIds": [
+            148372
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148393
+          },
+          "args": [
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "턴 시작 시 1 스택 증오의 사슬 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역.",
+          "resolvedRichDescription": "턴 시작 시 1 스택 <ResentChainsKeywords:증오의 사슬> 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역."
+        }
+      }
+    },
+    {
+      "phaseIndex": 2,
+      "maxHp": 27278022,
+      "skills": {
+        "148359": {
+          "id": 148359,
+          "name": "",
+          "nameSource": "",
+          "descriptionTemplate": "",
+          "descriptionSource": "",
+          "type": "Intent_StrongBuff",
+          "target": "CmdCaster",
+          "para": 148362,
+          "expressions": [
+            "148362"
+          ],
+          "commandIds": [
+            128093
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148359
+          },
+          "args": [
+            {
+              "expression": "148362",
+              "raw": 148362,
+              "display": 148362,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "",
+          "resolvedRichDescription": ""
+        },
+        "148360": {
+          "id": 148360,
+          "name": "사슬에 묶인 원한",
+          "nameSource": "Skill_148360_Name",
+          "descriptionTemplate": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 [Arg3] 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입힘.",
+          "descriptionSource": "Skill_148360_Desc",
+          "type": "Intent_Burst3",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*0.8,1,6",
+          "expressions": [
+            "BattleAtkForce*0.8",
+            "1",
+            "6"
+          ],
+          "commandIds": [
+            148366
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148360
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*0.8",
+              "raw": 2404,
+              "display": 2404,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "6",
+              "raw": 6,
+              "display": 6,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 6 스택 광열 획득. 턴 종료까지 자신이 입히는 피해에 100% 출혈 추가. 2,404 피해를 1회 입힘.",
+          "resolvedRichDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 6 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:2,404> 피해를 1회 입힘."
+        },
+        "148361": {
+          "id": 148361,
+          "name": "속박의 사슬",
+          "nameSource": "Skill_148361_Name",
+          "descriptionTemplate": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 [Arg3] 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입힘.",
+          "descriptionSource": "Skill_148361_Desc",
+          "type": "Intent_Burst",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*0.6,1,4",
+          "expressions": [
+            "BattleAtkForce*0.6",
+            "1",
+            "4"
+          ],
+          "commandIds": [
+            148368
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148361
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*0.6",
+              "raw": 1803,
+              "display": 1803,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "4",
+              "raw": 4,
+              "display": 4,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 4 스택 광열 획득. 턴 종료까지 자신이 입히는 피해에 100% 출혈 추가. 1,803 피해를 1회 입힘.",
+          "resolvedRichDescription": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 4 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:1,803> 피해를 1회 입힘."
+        },
+        "148362": {
+          "id": 148362,
+          "name": "선혈의 사슬",
+          "nameSource": "Skill_148362_Name",
+          "descriptionTemplate": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고 [Arg3]% <BleedingIconKeywords:출혈> 추가, 현재 HP의 [Arg4]% 소모. 해당 의도로 전환 시 「증오」 [Arg5] 스택 보유 중이면 의도가 <Damage:[Damage:Arg6]> 피해를 [AttackTimes:Arg7]회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득.",
+          "descriptionSource": "Skill_148362_Desc",
+          "type": "Intent_AttackDebuff",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*0.2,2,50,5,3,BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3,1",
+          "expressions": [
+            "BattleAtkForce*0.2",
+            "2",
+            "50",
+            "5",
+            "3",
+            "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+            "1"
+          ],
+          "commandIds": [
+            148373
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148362
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*0.2",
+              "raw": 601,
+              "display": 601,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "2",
+              "raw": 2,
+              "display": 2,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "50",
+              "raw": 50,
+              "display": 50,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "5",
+              "raw": 5,
+              "display": 5,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "3",
+              "raw": 3,
+              "display": 3,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+              "raw": 3756.25,
+              "display": 3757,
+              "dynamic": true,
+              "dependencies": [
+                "FrontEnemy.GetStateLayer(2840)"
+              ],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "601 피해를 2회 입히고 50% 출혈 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 3,757 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득.",
+          "resolvedRichDescription": "<Damage:601> 피해를 2회 입히고 50% <BleedingIconKeywords:출혈> 추가, 현재 HP의 5% 소모. 해당 의도로 전환 시 「증오」 3 스택 보유 중이면 의도가 <Damage:3,757> 피해를 1회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
+        },
+        "148364": {
+          "id": 148364,
+          "name": "피에 굶주린 철구",
+          "nameSource": "Skill_148364_Name",
+          "descriptionTemplate": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고, 적의 <BleedingIconKeywords:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+          "descriptionSource": "Skill_148364_Desc",
+          "type": "Intent_HeavyAttack",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3,1,(CmdCaster.max_hp-CmdCaster.hp)*0.3",
+          "expressions": [
+            "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+            "1",
+            "(CmdCaster.max_hp-CmdCaster.hp)*0.3"
+          ],
+          "commandIds": [
+            148371
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148364
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3",
+              "raw": 3756.25,
+              "display": 3757,
+              "dynamic": true,
+              "dependencies": [
+                "FrontEnemy.GetStateLayer(2840)"
+              ],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "(CmdCaster.max_hp-CmdCaster.hp)*0.3",
+              "raw": 0,
+              "display": 0,
+              "dynamic": true,
+              "dependencies": [
+                "CmdCaster.hp"
+              ],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "3,757 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+          "resolvedRichDescription": "<Damage:3,757> 피해를 1회 입히고, 적의 <BleedingIconKeywords:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복."
+        },
+        "148365": {
+          "id": 148365,
+          "name": "원한 발산",
+          "nameSource": "Skill_148365_Name",
+          "descriptionTemplate": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고, [Arg3] <PowerIconKeywords:힘> 획득. 자신의 HP가 [Arg4](50%) 미만이면 피해와 획득 <PowerIconKeywords:힘>이 2배.",
+          "descriptionSource": "Skill_148365_Desc",
+          "type": "Intent_AttackBuff",
+          "target": "FrontEnemy",
+          "para": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379)),1,BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379)),CmdCaster.max_hp*0.5",
+          "expressions": [
+            "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
+            "1",
+            "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
+            "CmdCaster.max_hp*0.5"
+          ],
+          "commandIds": [
+            148375
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148365
+          },
+          "args": [
+            {
+              "expression": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379))",
+              "raw": 1202,
+              "display": 1202,
+              "dynamic": true,
+              "dependencies": [
+                "CmdCaster.GetStateLayer(148379)"
+              ],
+              "resolved": true
+            },
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            },
+            {
+              "expression": "BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379))",
+              "raw": 75.125,
+              "display": 76,
+              "dynamic": true,
+              "dependencies": [
+                "CmdCaster.GetStateLayer(148379)"
+              ],
+              "resolved": true
+            },
+            {
+              "expression": "CmdCaster.max_hp*0.5",
+              "raw": 13639011,
+              "display": 13639011,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "1,202 피해를 1회 입히고, 76 힘 획득. 자신의 HP가 13,639,011(50%) 미만이면 피해와 획득 힘이 2배.",
+          "resolvedRichDescription": "<Damage:1,202> 피해를 1회 입히고, 76 <PowerIconKeywords:힘> 획득. 자신의 HP가 13,639,011(50%) 미만이면 피해와 획득 <PowerIconKeywords:힘>이 2배."
+        },
+        "148393": {
+          "id": 148393,
+          "name": "영혼 사냥 선언",
+          "nameSource": "Skill_148393_Name",
+          "descriptionTemplate": "턴 시작 시 [Arg1] 스택 <ResentChainsKeywords:증오의 사슬> 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역.",
+          "descriptionSource": "Skill_148393_Desc",
+          "type": "Intent_StrongBuff",
+          "target": "CmdCaster",
+          "para": 1,
+          "expressions": [
+            "1"
+          ],
+          "commandIds": [
+            148372
+          ],
+          "source": {
+            "table": "Skill",
+            "id": 148393
+          },
+          "args": [
+            {
+              "expression": "1",
+              "raw": 1,
+              "display": 1,
+              "dynamic": false,
+              "dependencies": [],
+              "resolved": true
+            }
+          ],
+          "resolvedDescription": "턴 시작 시 1 스택 증오의 사슬 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역.",
+          "resolvedRichDescription": "턴 시작 시 1 스택 <ResentChainsKeywords:증오의 사슬> 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역."
+        }
+      }
+    }
+  ],
+  "states": {
+    "2900": {
+      "id": 2900,
+      "name": "힘",
+      "nameSource": "State_2900_Name",
+      "descriptionTemplate": "이번 전투 내에서 주는 피해가 [Layer]pt 증가한다.",
+      "descriptionSource": "State_2900_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_021.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [],
+      "triggerCommands": [],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 2900
+      }
+    },
+    "3288": {
+      "id": 3288,
+      "name": "상태@빈 상태",
+      "nameSource": "State_3288_Name",
+      "descriptionTemplate": "상태@공 상태",
+      "descriptionSource": "State_3288_Desc",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "IconS_Buff_001.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [],
+      "triggerCommands": [],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 3288
+      }
+    },
+    "60264": {
+      "id": 60264,
+      "name": "<Rune_14_High: 용혈>",
+      "nameSource": "State_60264_Name",
+      "descriptionTemplate": "부여된 출혈 효과는 턴 종료 시 자동으로 50%만 제거된다.",
+      "descriptionSource": "State_60264_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_051.png",
+      "initialLayerExpression": "1",
+      "triggerEvents": [
+        "BSTStateOnAdd"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 60261
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 60264
+      }
+    },
+    "60265": {
+      "id": 60265,
+      "name": "<BleedingColour: 용혈>",
+      "nameSource": "State_60265_Name",
+      "descriptionTemplate": "출혈 효과는 턴 종료 시 자동으로 50%만 제거된다.",
+      "descriptionSource": "State_60265_Desc",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "IconS_Buff_051.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [],
+      "triggerCommands": [],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 60265
+      }
+    },
+    "124658": {
+      "id": 124658,
+      "name": "",
+      "nameSource": "",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "",
+      "initialLayerExpression": null,
+      "triggerEvents": [],
+      "triggerCommands": [],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 124658
+      }
+    },
+    "148020": {
+      "id": 148020,
+      "name": "은심 고정",
+      "nameSource": "State_148020_Name",
+      "descriptionTemplate": "모든 피해에 면역되며 HP를 잃을 수 없음. 각성 발동 후, 턴 종료 시 제거.",
+      "descriptionSource": "State_148020_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_058.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTAfterBeActiveDamage",
+        "BSTAfterAttackedByTentacle",
+        "BSTAfterFixedDamage",
+        "BSTAfterPassiveDamage"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 35860
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148020
+      }
+    },
+    "148021": {
+      "id": 148021,
+      "name": "상태@몬스터 공용 소생 각성 전 면역 해제 표식",
+      "nameSource": "State_148021_Name",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "IconS_Buff_016.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTAfterBoutEnd"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 148019
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148021
+      }
+    },
+    "148379": {
+      "id": 148379,
+      "name": "",
+      "nameSource": "",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "",
+      "initialLayerExpression": null,
+      "triggerEvents": [],
+      "triggerCommands": [],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148379
+      }
+    },
+    "148380": {
+      "id": 148380,
+      "name": "",
+      "nameSource": "",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTStateOnAdd"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 148378
+        }
+      ],
+      "judgements": [
+        {
+          "field": "Judgement1",
+          "expression": "StateOwner.GetStateLayer(148392)>=10"
+        }
+      ],
+      "source": {
+        "table": "State",
+        "id": 148380
+      }
+    },
+    "148381": {
+      "id": 148381,
+      "name": "사슬에 묶인 원한",
+      "nameSource": "State_148381_Name",
+      "descriptionTemplate": "턴 종료까지 자신이 가하는 피해에 100% <BleedingIconKeywords:출혈>을 추가합니다.",
+      "descriptionSource": "State_148381_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_016.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTAfterDoActiveDamage"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 126570
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148381
+      }
+    },
+    "148382": {
+      "id": 148382,
+      "name": "",
+      "nameSource": "",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTAfterDrawCards",
+        "BSTAfterUseCard"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd2",
+          "commandId": 124732
+        },
+        {
+          "field": "TriggerCmd1",
+          "commandId": 148367
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148382
+      }
+    },
+    "148383": {
+      "id": 148383,
+      "name": "「증오」",
+      "nameSource": "State_148383_Name",
+      "descriptionTemplate": "최대 3 스택. 「증오」를 3 스택 보유 중이라면, 다음에 의도가 「선혈의 사슬」로 전환될 때 의도를 「피에 굶주린 철구」로 전환하고 「증오」를 해제합니다.",
+      "descriptionSource": "State_148383_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_016.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [],
+      "triggerCommands": [],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148383
+      }
+    },
+    "148384": {
+      "id": 148384,
+      "name": "",
+      "nameSource": "",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "",
+      "initialLayerExpression": "1",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 148377
+        }
+      ],
+      "judgements": [
+        {
+          "field": "Judgement1",
+          "expression": "StateOwner.ID==148007"
+        }
+      ],
+      "source": {
+        "table": "State",
+        "id": 148384
+      }
+    },
+    "148385": {
+      "id": 148385,
+      "name": "불규칙한 형태",
+      "nameSource": "State_148385_Name",
+      "descriptionTemplate": "적이 명령 카드를 사용할 때마다 <MonsterB05EXFever:임시 열광> 2 스택을 획득합니다.",
+      "descriptionSource": "State_148385_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_016.png",
+      "initialLayerExpression": "1",
+      "triggerEvents": [
+        "BSTBattleBegin"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 126570
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148385
+      }
+    },
+    "148386": {
+      "id": 148386,
+      "name": "속박의 사슬",
+      "nameSource": "State_148386_Name",
+      "descriptionTemplate": "턴 종료까지 방어막을 획득할 수 없습니다.",
+      "descriptionSource": "State_148386_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_016.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [],
+      "triggerCommands": [],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148386
+      }
+    },
+    "148387": {
+      "id": 148387,
+      "name": "미각성",
+      "nameSource": "State_148387_Name",
+      "descriptionTemplate": "이 각성체는 아직 각성하지 않았음…쓰러지기 직전에 HP를 회복하고 1단계 <InvincibleUntilRoused:은심 고정>을 획득하며, 각성 발동 후, 턴 종료 시 <InvincibleUntilRoused:은심 고정>을 해제하고 진정한 형태로 전투를 시작함.",
+      "descriptionSource": "State_148387_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_010.png",
+      "initialLayerExpression": "1",
+      "triggerEvents": [
+        "BSTRoleBeforeDeath"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 148376
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148387
+      }
+    },
+    "148390": {
+      "id": 148390,
+      "name": "",
+      "nameSource": "",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "",
+      "initialLayerExpression": "1",
+      "triggerEvents": [
+        "BSTHpChanged"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 148370
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148390
+      }
+    },
+    "148391": {
+      "id": 148391,
+      "name": "속박의 사슬",
+      "nameSource": "State_148391_Name",
+      "descriptionTemplate": "턴 종료까지 자신이 가하는 피해에 100% <BleedingIconKeywords:출혈>을 추가합니다.",
+      "descriptionSource": "State_148391_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_016.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTAfterDoActiveDamage"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 126570
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148391
+      }
+    },
+    "148392": {
+      "id": 148392,
+      "name": "임시 열광",
+      "nameSource": "State_148392_Name",
+      "descriptionTemplate": "턴 시작 후 해제됩니다. 10 스택에 도달하면, 다음에 카드를 사용한 직후 즉시 행동하고, 광열을 제거하며 의도를 「선혈의 사슬」로 전환합니다.",
+      "descriptionSource": "State_148392_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_071.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTStateOnAdd"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 148369
+        }
+      ],
+      "judgements": [
+        {
+          "field": "Judgement1",
+          "expression": "Layer>=10"
+        }
+      ],
+      "source": {
+        "table": "State",
+        "id": 148392
+      }
+    },
+    "148394": {
+      "id": 148394,
+      "name": "영혼 사냥 선언",
+      "nameSource": "State_148394_Name",
+      "descriptionTemplate": "턴 시작 시 <ResentChainsKeywords:증오의 사슬> 1 스택을 획득합니다. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해와 HP 손실 효과에 면역됩니다.",
+      "descriptionSource": "State_148394_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_010.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTAfterBoutBegin"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 126570
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148394
+      }
+    },
+    "148395": {
+      "id": 148395,
+      "name": "영혼을 거두리-피에 굶주린 철구",
+      "nameSource": "State_148395_Name",
+      "descriptionTemplate": "모든 피해(관통 피해 포함)에 면역되며 HP를 잃을 수 없습니다. 적의 턴 종료 후 제거됩니다.",
+      "descriptionSource": "State_148395_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_058.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTAfterBeActiveDamage",
+        "BSTAfterAttackedByTentacle"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 35860
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148395
+      }
+    },
+    "148433": {
+      "id": 148433,
+      "name": "",
+      "nameSource": "",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTAfterBoutEnd"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 148432
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148433
+      }
+    },
+    "148442": {
+      "id": 148442,
+      "name": "",
+      "nameSource": "",
+      "descriptionTemplate": "",
+      "descriptionSource": "",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "",
+      "initialLayerExpression": "1",
+      "triggerEvents": [
+        "BSTBattleBegin"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 148441
+        }
+      ],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148442
+      }
+    },
+    "148520": {
+      "id": 148520,
+      "name": "사슬에 묶인 원한",
+      "nameSource": "State_148520_Name",
+      "descriptionTemplate": "턴 종료까지 방어막을 획득할 수 없습니다.",
+      "descriptionSource": "State_148520_Desc",
+      "visible": true,
+      "showType": "Normal",
+      "iconSource": "IconS_Buff_016.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [],
+      "triggerCommands": [],
+      "judgements": [],
+      "source": {
+        "table": "State",
+        "id": 148520
+      }
+    },
+    "149939": {
+      "id": 149939,
+      "name": "속박의 사슬",
+      "nameSource": "State_149939_Name",
+      "descriptionTemplate": "턴 종료까지 방어막을 획득할 수 없습니다.",
+      "descriptionSource": "State_149939_Desc",
+      "visible": false,
+      "showType": "Hide",
+      "iconSource": "IconS_Buff_016.png",
+      "initialLayerExpression": null,
+      "triggerEvents": [
+        "BSTAfterBlockChange"
+      ],
+      "triggerCommands": [
+        {
+          "field": "TriggerCmd1",
+          "commandId": 149938
+        }
+      ],
+      "judgements": [
+        {
+          "field": "Judgement1",
+          "expression": "StateOwner.block>0"
+        }
+      ],
+      "source": {
+        "table": "State",
+        "id": 149939
+      }
+    }
+  },
+  "transitions": [
+    {
+      "stateId": 148387,
+      "commandId": 148376,
+      "triggerEvents": [
+        "BSTRoleBeforeDeath"
+      ],
+      "judgement": "",
+      "rebirth": true,
+      "maxHpAddedMultiplier": 0.5,
+      "maxHpMultiplier": 1.5,
+      "healsToMax": true,
+      "targetSkillList": 2,
+      "forcedSkillIds": [
+        148393
+      ],
+      "addedStateIds": [
+        148020
+      ],
+      "source": {
+        "table": "Cmd",
+        "id": 148376
+      }
+    }
+  ],
+  "conditionalActions": [
+    {
+      "stateId": 148384,
+      "commandId": 148377,
+      "commandStep": 3,
+      "skillId": 148364,
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "Arg1==148362 and UpperTarget.GetStateLayer(148383)==4",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 3
+      }
+    }
+  ],
+  "conditionalStates": [
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 1,
+      "appliedStateId": 148383,
+      "target": "UpperTarget",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "Arg1==148362 and UpperTarget.GetStateLayer(148383)<4 and UpperTarget.GetStateLayer(148020)==0 and UpperTarget.GetStateLayer(148394)==0",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 1
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 2,
+      "appliedStateId": 148383,
+      "target": "UpperTarget",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "Arg1==148362 and UpperTarget.GetStateLayer(148383)<4 and UpperTarget.GetStateLayer(148394)>0",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 2
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 7,
+      "appliedStateId": 148392,
+      "target": "UpperTarget",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "Arg1==148361",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 7
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 8,
+      "appliedStateId": 148391,
+      "target": "UpperTarget",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "LastConditionRet==1",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 8
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 9,
+      "appliedStateId": 148386,
+      "target": "FrontEnemy",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "LastConditionRet==1",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 9
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 10,
+      "appliedStateId": 149939,
+      "target": "PlayerRole",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "LastConditionRet==1",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 10
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 11,
+      "appliedStateId": 148392,
+      "target": "UpperTarget",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "Arg1==148360",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 11
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 12,
+      "appliedStateId": 148381,
+      "target": "UpperTarget",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "LastConditionRet==1",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 12
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 13,
+      "appliedStateId": 148520,
+      "target": "FrontEnemy",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "LastConditionRet==1",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 13
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 14,
+      "appliedStateId": 149939,
+      "target": "PlayerRole",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "LastConditionRet==1",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 14
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 15,
+      "appliedStateId": 148395,
+      "target": "UpperTarget",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "Arg1==148364 and UpperTarget.GetStateLayer(148394)>0",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 15
+      }
+    },
+    {
+      "ownerStateId": 148384,
+      "commandId": 148377,
+      "commandStep": 16,
+      "appliedStateId": 148433,
+      "target": "FrontEnemy",
+      "triggerEvents": [
+        "BSTAfterIntentionChanged"
+      ],
+      "judgement": "StateOwner.ID==148007",
+      "condition": "LastConditionRet==1",
+      "source": {
+        "table": "Cmd",
+        "id": 148377,
+        "step": 16
+      }
+    },
+    {
+      "ownerStateId": 148390,
+      "commandId": 148370,
+      "commandStep": 1,
+      "appliedStateId": 148379,
+      "target": "UpperTarget",
+      "triggerEvents": [
+        "BSTHpChanged"
+      ],
+      "judgement": "",
+      "condition": "StateOwner.hp<=StateOwner.max_hp*0.5 and StateOwner.GetStateLayer(148379)==0",
+      "source": {
+        "table": "Cmd",
+        "id": 148370,
+        "step": 1
+      }
+    }
+  ],
+  "diagnostics": [],
+  "templateSource": {
+    "table": "MonsterConfig",
+    "id": 148007
+  }
+}

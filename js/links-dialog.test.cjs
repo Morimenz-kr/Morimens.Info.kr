@@ -37,6 +37,34 @@ test('은열쇠·비밀계약·명륜 도감은 공통 dialog 상세 UI를 사�
     assert.match(linksCss, /margin:\s*auto auto 0\.375rem/);
 });
 
+test('#78 추천 장비는 공통 상세 dialog를 열고 주옵 추천은 일치하는 명륜을 표시한다', () => {
+    assert.match(linksSource, /class="equip-recommendation-trigger" data-tooltip-kind="wheel"/);
+    assert.match(linksSource, /class="equip-recommendation-trigger" data-tooltip-kind="covenant"/);
+    assert.match(linksSource, /function findWheelsByRecommendedStat\(/);
+    assert.match(linksSource, /function renderWheelStatMatches\(/);
+    assert.match(linksSource, /조건에 맞는 명륜/);
+    assert.match(linksCss, /\.wheel-stat-match-grid/);
+    assert.match(linksCss, /--recommend-artwork-height:/);
+    assert.match(linksCss, /\.recommend-right\s*\{[^}]*grid-template-columns:\s*repeat\(2, max-content\)/s);
+    assert.match(linksCss, /\.wheel-pair\s*\{[^}]*grid-template-rows:\s*auto auto minmax\(44px, auto\)/s);
+    assert.match(linksCss, /\.equip-slot\s*\{[^}]*grid-template-rows:\s*auto auto minmax\(44px, auto\)/s);
+
+    const context = vm.createContext({ window: { wheelMap: {} } });
+    const filterStart = linksSource.indexOf('function normalizeDictionaryFilterValue(');
+    const filterEnd = linksSource.indexOf('function uniqueSortedValues(');
+    const matchStart = linksSource.indexOf('function findWheelsByRecommendedStat(');
+    const matchEnd = linksSource.indexOf('function renderCovenantFreeModal(');
+    vm.runInContext(`${linksSource.slice(filterStart, filterEnd)}\n${linksSource.slice(matchStart, matchEnd)}`, context);
+    context.window.wheelMap = Object.fromEntries(wheels.flatMap(wheel => [
+        [wheel.english_name, wheel],
+        [wheel.korean_name, wheel]
+    ]));
+    const matches = context.findWheelsByRecommendedStat('검은 인장 획득');
+    assert.ok(matches.length > 0);
+    assert.ok(matches.every(wheel => /검은 인장 드롭/.test(wheel.main_stat)));
+    assert.equal(new Set(matches.map(wheel => wheel.english_name)).size, matches.length);
+});
+
 test('시스템용 열쇠 지령 효과는 획득형 은열쇠 도감에서 제외한다', () => {
     assert.equal(silverKeys.some(item => item.clientItemId === 48014), false);
     assert.equal(silverKeys.some(item => item.clientItemId === 89964), false);

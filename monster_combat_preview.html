@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공용 몬스터 변환 결과</title>
+    <meta name="description" content="공용 몬스터 전투 데이터 변환기가 생성한 실제 결과를 확인합니다.">
+    <script src="config/config.js?v=design-system-20260901-1"></script>
+    <script>
+        CONFIG.VERSION = 'v1.3.69-monster-transformer-preview-20260901';
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/info_tools.css');
+        loadCSS('css/pages/monster-combat-preview.css');
+        loadCSS('css/responsive.css');
+    </script>
+</head>
+<body>
+<div class="bg-image"></div>
+<div class="background-overlay"></div>
+<main class="container info-page monster-preview-page">
+    <nav aria-label="탐색"><a href="story_boss_info.html" class="back-link">⬅ 산의 기생충 전투 정보</a></nav>
+    <section class="monster-preview-shell">
+        <header class="monster-preview-header">
+            <p>공용 자동 변환기 · 대표 표본</p>
+            <h1>변환 결과를 불러오는 중입니다.</h1>
+        </header>
+        <div id="monster-preview-content" aria-live="polite">
+            <p class="monster-preview-loading">TID 148007의 원본 참조를 읽고 있습니다.</p>
+        </div>
+    </section>
+</main>
+<script>loadJS('js/monster-combat-preview.js');</script>
+</body>
+</html>

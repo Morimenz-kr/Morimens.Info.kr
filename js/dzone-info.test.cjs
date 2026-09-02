@@ -15,6 +15,72 @@ const landingHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'u
 const dzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 
+test('이번 융재의 숨은 단계 상태는 모든 해당 몬스터에서 6턴 이후 응시로 해석한다', () => {
+    let matchedMonsters = 0;
+    for (const wave of dzoneData.waves) {
+        const staticMonsters = [...wave.monsters, ...(wave.summonDefinitions || [])];
+        for (const monster of staticMonsters) {
+            if (!(monster.states || []).some(state => state.id === 22074)) continue;
+            matchedMonsters += 1;
+            const action = (monster.conditionalActions || []).find(item => item.contextResolved && item.skillId === 4681);
+            const skill = (monster.skills || []).find(item => item.id === 4681);
+            assert.ok(action, `${wave.wave}파 ${monster.nameKo}의 응시 조건 누락`);
+            assert.equal(action.conditionText, '6턴부터 매 턴');
+            assert.equal(action.persistent, true);
+            assert.equal(action.sourceStageGroupId, wave.stageGroupId);
+            assert.equal((monster.conditionalActions || []).some(item => item.contextResolved && item.skillId === 4747), false);
+            assert.equal(skill.name, '응시');
+            assert.equal(skill.descriptionTemplate, '장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.');
+
+            for (const alert of wave.alerts) {
+                for (const stats of [...alert.monsters, ...(alert.summonedMonsters || [])].filter(item => item.tid === monster.tid)) {
+                    assert.equal(stats.resolvedSkills['4681'].description, skill.descriptionTemplate);
+                }
+            }
+        }
+    }
+    assert.equal(matchedMonsters, 33);
+});
+
+test('확정 턴 교체는 기본 반복과 합쳐 최종 행동 순서로 표시한다', () => {
+    assert.match(source, /function deterministicOverride/);
+    assert.match(source, /최종 행동 순서/);
+    assert.match(source, /`\$\{override\.firstTurn\}~`/);
+    assert.doesNotMatch(source, /\$\{override\.firstTurn\}턴부터 \$\{skillById/);
+    assert.doesNotMatch(css, /\.flow-phase--final-order \.action-step:last-child/);
+    assert.match(source, /action\.contextResolved && action\.persistent/);
+});
+
+test('다중 체력 행동 구간은 체력바 대신 페이즈로 표시한다', () => {
+    assert.match(source, /title: secondCycle \? '1페이즈'/);
+    assert.match(source, /title: '2페이즈'/);
+    assert.match(source, /2페이즈 전환/);
+    assert.doesNotMatch(source, /1번째 체력바(?: 반복)? 행동/);
+    assert.doesNotMatch(source, /2번째 체력바 행동/);
+});
+
+test('패턴 도중 끼어드는 후속 행동과 다중 의도 교체 조건을 분리해 표시한다', () => {
+    const boss = dzoneData.waves.find(wave => wave.wave === 5).monsters.find(monster => monster.tid === 148007);
+    const intervention = boss.patternInterventions.find(item => item.stateId === 148392);
+    const replacement = boss.conditionalActions.find(item => item.skillId === 148364);
+    assert.match(intervention.descriptionTemplate, /10 스택.*다음에 카드를 사용한 직후 즉시 행동/);
+    assert.deepEqual(intervention.sourceStateIds, [148385]);
+    assert.equal(replacement.sourceSkillId, 148362);
+    assert.doesNotMatch(source, /패턴 개입/);
+    assert.doesNotMatch(source, /기본 순환에 끼어듦/);
+    assert.match(source, /intervention\.sourceStateIds\?\.includes\(rule\.id\)/);
+    assert.match(source, /withoutEmbeddedReplacementEffect/);
+    assert.match(source, /renderFoldedReplacements/);
+    assert.match(source, /action-replacements/);
+    assert.match(source, /action-step action-step--replacement/);
+    assert.match(source, /조건부 의도/);
+    assert.doesNotMatch(source, /flow-step-spacer/);
+    assert.doesNotMatch(source, /aria-label="교체 의도">↳/);
+    assert.doesNotMatch(css, /\.pattern-interventions/);
+    assert.match(css, /\.action-replacements/);
+    assert.match(css, /\.action-step--replacement\s*\{[^}]*grid-template-columns:\s*2\.3rem/s);
+});
+
 async function relicDisplayContext() {
     const levels = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/research_depth_levels.json'), 'utf8'));
     const context = vm.createContext({
@@ -35,7 +101,8 @@ test('조건부 행동과 연결되어도 시작 상태와 스택·전체 효과
     const context = vm.createContext({
         data: dzoneData, number: new Intl.NumberFormat('ko-KR'),
         escapeHtml: String, gameText: String, politeText: String, dynamicMarkup: String,
-        renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id)
+        renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id),
+        isFoldedReplacementAction: () => false
     });
     vm.runInContext(source.slice(source.indexOf('    function renderConditionalActions('), source.indexOf('    function renderSummons(')), context);
     const rules = context.renderRules(monster, stats);
@@ -159,6 +226,47 @@ test('상태 의존 행동은 기본값과 스택당 증가량을 정확히 표�
     assert.doesNotMatch(source, /현재 상태에 따라 달라지는|조건에 따라 정해진 횟수/);
 });
 
+test('5파 보스 각성 효과명과 피에 굶주린 철구 설명을 정확히 표시한다', () => {
+    const wave5 = dzoneData.waves.find(wave => wave.wave === 5);
+    const reaper = wave5.monsters.find(monster => monster.tid === 148007);
+    const transition = reaper.phaseTransitions.find(item => item.phaseIndex === 2);
+
+    assert.deepEqual(
+        transition.addedStates.filter(state => state.visible).map(state => state.name),
+        ['은심 고정', '영혼 사냥 선언']
+    );
+    assert.equal(reaper.skills.find(skill => skill.id === 148364).name, '피에 굶주린 철구');
+    assert.deepEqual(transition.displayStateReplacements['148020'], {
+        id: 148395,
+        name: '영혼을 거두리-피에 굶주린 철구',
+        descriptionTemplate: '모든 피해(관통 피해 포함)에 면역되며 HP를 잃을 수 없습니다. 적의 턴 종료 후 제거됩니다.',
+        icon: 'images/keyword-icons/original/icons_buff_058.png',
+        visible: true,
+        richDescriptionTemplate: '<game-text:모든 피해(관통 피해 포함)에 면역되며 HP를 잃을 수 없습니다. 적의 턴 종료 후 제거됩니다.>'
+    });
+
+    const stats = wave5.alerts.find(alert => alert.difficulty === 'madness').monsters.find(monster => monster.tid === 148007);
+    const context = vm.createContext({
+        escapeHtml: String,
+        dynamicMarkup: String,
+        skillById: (monster, id) => monster.skills.find(skill => skill.id === id)
+    });
+    vm.runInContext(source.slice(source.indexOf('    function renderPhaseTransition('), source.indexOf('    function renderActionFlow(')), context);
+    const transitionHtml = context.renderPhaseTransition(reaper, transition, stats);
+    assert.match(transitionHtml, /영혼을 거두리-피에 굶주린 철구/);
+    assert.doesNotMatch(transitionHtml, /은심 고정/);
+
+    for (const alert of wave5.alerts) {
+        const resolved = alert.monsters.find(monster => monster.tid === 148007).resolvedSkills['148364'];
+        assert.match(resolved.description, /^기본 [\d,]+ 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가/);
+        assert.doesNotMatch(resolved.description, /\(대상의 출혈 3스택당 \+1\)/);
+        assert.doesNotMatch(resolved.richDescription, /\(대상의 출혈 3스택당 \+1\)/);
+    }
+    assert.match(source, /displayStateReplacements/);
+    assert.doesNotMatch(source, /conditional-applied-state/);
+    assert.match(css, /\.phase-transition-summary,\s*\.phase-transition > p,\s*\.phase-card p\s*\{[^}]*font-size:\s*0\.76rem/s);
+});
+
 test('위치 제약이 없다는 중복 문구를 화면에서 제거한다', () => {
     assert.match(source, /\(\?:어디든\|위치에\)/);
     assert.match(source, /\(\?:관계\|상관\)/);
@@ -188,7 +296,8 @@ test('연결 해제는 1 HP 생존 후 실행하는 조건부 행동이며 체�
     const context = vm.createContext({
         data: dzoneData, number: new Intl.NumberFormat('ko-KR'),
         escapeHtml: String, gameText: String, politeText: String, dynamicMarkup: String,
-        renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id)
+        renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id),
+        isFoldedReplacementAction: () => false
     });
     vm.runInContext(source.slice(source.indexOf('    function renderConditionalActions('), source.indexOf('    function renderSummons(')), context);
     assert.deepEqual(monster.phaseTransitions, []);
@@ -199,6 +308,7 @@ test('연결 해제는 1 HP 생존 후 실행하는 조건부 행동이며 체�
         const result = context.renderConditionalActions(monster, stats);
         assert.equal((result.match(/<article /g) || []).length, 1);
         assert.match(result, /<strong>연결 해제<\/strong>/);
+        assert.doesNotMatch(result, /<strong>응시<\/strong>/);
         assert.match(result, /잿더미 융식체」 3명과 「긴급 연락」 1개를 소환/);
         assert.doesNotMatch(result, /피해 완전 면역 1스택 보유/);
         assert.doesNotMatch(result, /「「연결자」」/);

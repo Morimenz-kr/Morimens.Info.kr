@@ -1,0 +1,1402 @@
+{
+  "fixtureVersion": 1,
+  "source": {
+    "description": "로컬 추출 데이터에서 TID 148007 참조 그래프만 축소한 회귀 테스트 표본",
+    "rawRootName": "res140-build51-dzone",
+    "monsterId": 148007
+  },
+  "tables": {
+    "monsters": {
+      "148007": {
+        "InitSkillList": {
+          "1": 148362,
+          "2": 148361,
+          "3": 148362,
+          "4": 148365
+        },
+        "BaseSortID": 596,
+        "ID": 148007,
+        "CnID": "怪物@唤醒体本源希洛",
+        "MiniIcon": "Portraits/Minihead/Portrait_Minihead_EnemyAwaker_B05EX_AF.png",
+        "MonsterName": "MonsterConfig_148007_MonsterName|「索魂者」",
+        "AnimationID": 148009,
+        "MonsterProportion": 1,
+        "Desc": "MonsterConfig_148007_Desc|嗜血之物啊，挣脱锁链之时，她将许下向举世「复仇」的心愿。",
+        "CycleSkillList2": {
+          "1": 148362,
+          "2": 148360,
+          "3": 148362,
+          "4": 148365
+        },
+        "MonsterDefPercent": 0,
+        "ExistState": {
+          "1": 148387,
+          "2": 148385,
+          "3": 148384,
+          "4": 148390,
+          "5": 60264,
+          "6": 148442
+        },
+        "BattleTag": "Boss",
+        "MonsterHpNum": 2,
+        "Scale": 1,
+        "MonsterClass": "Boss",
+        "Category": "AwakerMonster",
+        "MonsterHpPercent": 0.6,
+        "CycleSkillList1": {
+          "1": 148362,
+          "2": 148361,
+          "3": 148362,
+          "4": 148365
+        },
+        "MonsterTag": {
+          "1": 84277,
+          "2": 84297,
+          "3": 84303
+        },
+        "MonsterAtkPercent": 0.9,
+        "BodySize": "Big",
+        "StateLayers": "1,1,1,1,1,1"
+      }
+    },
+    "skills": {
+      "148359": {
+        "CmdList": 128093,
+        "Type": {
+          "1": "Intent_StrongBuff"
+        },
+        "BaseSortID": 2840,
+        "ID": 148359,
+        "CnID": "技能@怪物本源希洛追击后切换技能",
+        "Para": 148362,
+        "CmdTarget": "CmdCaster"
+      },
+      "148360": {
+        "SFX": {
+          "1": "Play_SFX_Awaker_B05EX_AF_ExSkill"
+        },
+        "Desc": "Skill_148360_Desc|切换到该意图时，破除敌方护盾并使其本回合无法获得护盾，立刻获得 [Arg3] 层<MonsterB05EXFever:狂热>。 直到回合结束，自身造成伤害附加 100%<BleedingIconKeywords:出血>。造成 <Damage:[Damage:Arg1]> 点伤害 [AttackTimes:Arg2] 次。",
+        "BaseSortID": 2835,
+        "ID": 148360,
+        "CnID": "技能@怪物本源希洛超限爆发",
+        "Name": "Skill_148360_Name|桎梏仇怨",
+        "VOC": {
+          "1": "Play_VOC_Awaker_B05EX_AF_ExSkill_1",
+          "2": "Play_VOC_Awaker_B05EX_AF_ExSkill_2"
+        },
+        "CmdList": 148366,
+        "Para": "BattleAtkForce*0.8,1,6",
+        "Perform": {
+          "1": "ExSkill"
+        },
+        "PerformType": {
+          "1": "Timeline"
+        },
+        "Type": {
+          "1": "Intent_Burst3"
+        },
+        "CmdTarget": "FrontEnemy"
+      },
+      "148361": {
+        "SFX": {
+          "1": "Play_SFX_Awaker_B05EX_AF_ExSkill"
+        },
+        "Desc": "Skill_148361_Desc|切换到该意图时，破除敌方护盾并使其本回合无法获得护盾，立刻获得 [Arg3] 层<MonsterB05EXFever:狂热>。 直到回合结束，自身造成伤害附加 100%<BleedingIconKeywords:出血>。造成 <Damage:[Damage:Arg1]> 点伤害 [AttackTimes:Arg2] 次。",
+        "BaseSortID": 2834,
+        "ID": 148361,
+        "CnID": "技能@怪物本源希洛狂气爆发",
+        "Name": "Skill_148361_Name|缚身锁链",
+        "VOC": {
+          "1": "Play_VOC_Awaker_B05EX_AF_ExSkill_1",
+          "2": "Play_VOC_Awaker_B05EX_AF_ExSkill_2"
+        },
+        "CmdList": 148368,
+        "Para": "BattleAtkForce*0.6,1,4",
+        "Perform": {
+          "1": "ExSkill"
+        },
+        "PerformType": {
+          "1": "Timeline"
+        },
+        "Type": {
+          "1": "Intent_Burst"
+        },
+        "CmdTarget": "FrontEnemy"
+      },
+      "148362": {
+        "SFX": {
+          "1": "Play_SFX_Awaker_B05EX_AF_Skill2"
+        },
+        "Desc": "Skill_148362_Desc|造成 <Damage:[Damage:Arg1]> 点伤害 [AttackTimes:Arg2] 次并附加 [Arg3]%<BleedingIconKeywords:出血>，失去 [Arg4]%当前生命。 切换到该意图时若拥有 [Arg5] 层「恨意」，意图替换为造成 <Damage:[Damage:Arg6]> 点伤害 [AttackTimes:Arg7] 次的「嗜血链球」，否则获得 1 层「恨意」。",
+        "BaseSortID": 2838,
+        "ID": 148362,
+        "CnID": "技能@怪物本源希洛鲜血链条",
+        "Name": "Skill_148362_Name|鲜血链条",
+        "VOC": {
+          "1": "Play_VOC_Awaker_B05EX_AF_Skill2_1",
+          "2": "Play_VOC_Awaker_B05EX_AF_Skill2_2"
+        },
+        "CmdList": 148373,
+        "Para": "BattleAtkForce*0.2,2,50,5,3,BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3,1",
+        "Perform": {
+          "1": "Skill2"
+        },
+        "PerformType": {
+          "1": "Timeline"
+        },
+        "Type": {
+          "1": "Intent_AttackDebuff"
+        },
+        "CmdTarget": "FrontEnemy"
+      },
+      "148364": {
+        "SFX": {
+          "1": "Play_SFX_Awaker_B05EX_AF_Special2"
+        },
+        "Desc": "Skill_148364_Desc|造成 <Damage:[Damage:Arg1]> 点伤害 [AttackTimes:Arg2] 次，敌方每有 3 层<BleedingIconKeywords:出血>伤害提高 1，回复 30% 已损失生命。",
+        "BaseSortID": 2839,
+        "ID": 148364,
+        "CnID": "技能@怪物本源希洛嗜血链球",
+        "Name": "Skill_148364_Name|嗜血链球",
+        "VOC": {
+          "1": "Play_VOC_Awaker_B05EX_AF_Special1_2"
+        },
+        "CmdList": 148371,
+        "Para": "BattleAtkForce*1.25+FrontEnemy.GetStateLayer(2840)/3,1,(CmdCaster.max_hp-CmdCaster.hp)*0.3",
+        "Perform": {
+          "1": "Special2"
+        },
+        "PerformType": {
+          "1": "Timeline"
+        },
+        "Type": {
+          "1": "Intent_HeavyAttack"
+        },
+        "CmdTarget": "FrontEnemy"
+      },
+      "148365": {
+        "SFX": {
+          "1": "Play_SFX_Awaker_B05EX_AF_Skill1"
+        },
+        "Desc": "Skill_148365_Desc|造成 <Damage:[Damage:Arg1]> 点伤害 [AttackTimes:Arg2] 次，获得 [Arg3] <PowerIconKeywords:力量>。若自身生命低于 [Arg4]（50%），伤害和获得 <PowerIconKeywords:力量> 翻倍。",
+        "BaseSortID": 2837,
+        "ID": 148365,
+        "CnID": "技能@怪物本源希洛恨意宣泄",
+        "Name": "Skill_148365_Name|恨意宣泄",
+        "VOC": {
+          "1": "Play_VOC_Awaker_B05EX_AF_Skill1_1",
+          "2": "Play_VOC_Awaker_B05EX_AF_Skill1_2"
+        },
+        "CmdList": 148375,
+        "Para": "BattleAtkForce*0.4*(1+CmdCaster.GetStateLayer(148379)),1,BattleAtkForce*0.025*(1+CmdCaster.GetStateLayer(148379)),CmdCaster.max_hp*0.5",
+        "Perform": {
+          "1": "Skill1"
+        },
+        "PerformType": {
+          "1": "Timeline"
+        },
+        "Type": {
+          "1": "Intent_AttackBuff"
+        },
+        "CmdTarget": "FrontEnemy"
+      },
+      "148393": {
+        "SFX": {
+          "1": "Play_SFX_Awaker_B05EX_AF_Exalt"
+        },
+        "Desc": "Skill_148393_Desc|回合开始时获得 [Arg1] 层<ResentChainsKeywords:怨恨锁链>。 意图切换至「嗜血链球」时，直到敌方回合结束后免疫一切伤害和生命损失效果。",
+        "BaseSortID": 2836,
+        "ID": 148393,
+        "CnID": "技能@怪物本源希洛觉醒",
+        "Name": "Skill_148393_Name|索魂者宣言",
+        "VOC": {
+          "1": "Play_VOC_Awaker_B05EX_AF_Exalt"
+        },
+        "CmdList": 148372,
+        "Para": 1,
+        "Perform": {
+          "1": "Exalt"
+        },
+        "PerformType": {
+          "1": "Timeline"
+        },
+        "Type": {
+          "1": "Intent_StrongBuff"
+        },
+        "CmdTarget": "CmdCaster"
+      }
+    },
+    "commands": {
+      "35860": {
+        "CnID": "指令@屏障特效",
+        "data_list": {
+          "1": {
+            "Type": "BEAddState",
+            "BaseSortID": 2617,
+            "VFX": {
+              "1": 14776
+            },
+            "Target": "UpperTarget",
+            "Para": 3288
+          }
+        },
+        "BaseSortID": 2617,
+        "ID": 35860
+      },
+      "60261": {
+        "CnID": "指令@造成溶血效果",
+        "data_list": {
+          "1": {
+            "Para": "60265,1",
+            "Type": "BEAddState",
+            "BaseSortID": 1980,
+            "Target": "UpperTarget"
+          }
+        },
+        "BaseSortID": 1980,
+        "ID": 60261
+      },
+      "124732": {
+        "CnID": "指令@通用手牌施加红色光效",
+        "data_list": {
+          "1": {
+            "Para": 124658,
+            "Type": "BEAddState",
+            "BaseSortID": 5737,
+            "Target": "HandDeck.GetCard(RANDOM,99)"
+          }
+        },
+        "BaseSortID": 5737,
+        "ID": 124732
+      },
+      "126570": {
+        "CnID": "指令@通用@添加状态",
+        "data_list": {
+          "1": {
+            "Para": "Arg1,Arg2,Arg3,Arg4,Arg5,Arg6,Arg7,Arg8,Arg9,Arg10",
+            "Type": "BEAddState",
+            "BaseSortID": 9,
+            "Target": "UpperTarget"
+          }
+        },
+        "BaseSortID": 9,
+        "ID": 126570
+      },
+      "128093": {
+        "CnID": "指令@通用追击后切换技能",
+        "data_list": {
+          "1": {
+            "Para": "Arg1,2",
+            "Type": "BEMonsterChangeSkill",
+            "BaseSortID": 5986,
+            "Target": "UpperTarget"
+          }
+        },
+        "BaseSortID": 5986,
+        "ID": 128093
+      },
+      "148019": {
+        "CnID": "指令@怪物通用复活觉醒前免疫清除",
+        "data_list": {
+          "1": {
+            "Type": "BERemoveState",
+            "BaseSortID": 6449,
+            "Para": 148020,
+            "Target": "UpperTarget",
+            "Cond": "Arg1==1"
+          },
+          "2": {
+            "Para": 148021,
+            "Type": "BERemoveState",
+            "Cond": "Arg1==1",
+            "Target": "UpperTarget"
+          }
+        },
+        "BaseSortID": 6449,
+        "ID": 148019
+      },
+      "148366": {
+        "CnID": "指令@怪物本源希洛超限爆发",
+        "data_list": {
+          "1": {
+            "Para": "Arg1,Arg2",
+            "Type": "BEActiveDamage",
+            "BaseSortID": 6451,
+            "Target": "UpperTarget"
+          },
+          "2": {
+            "Type": "BEMonsterBubble",
+            "Target": "CmdCaster",
+            "Para": "Monster_B05EX_bubble_03,8000"
+          }
+        },
+        "BaseSortID": 6451,
+        "ID": 148366
+      },
+      "148367": {
+        "CnID": "指令@怪物本源希洛狂热行动检查",
+        "data_list": {
+          "1": {
+            "Para": 148380,
+            "Type": "BEAddState",
+            "BaseSortID": 6462,
+            "Target": "UpperTarget"
+          },
+          "2": {
+            "Type": "BERemoveState",
+            "Target": "HandDeck.GetCard(RANDOM,99)",
+            "Para": 124658
+          },
+          "3": {
+            "Type": "BERemoveState",
+            "Target": "PlayerRole",
+            "Para": 148382
+          }
+        },
+        "BaseSortID": 6462,
+        "ID": 148367
+      },
+      "148368": {
+        "CnID": "指令@怪物本源希洛狂气爆发",
+        "data_list": {
+          "1": {
+            "Para": "Arg1,Arg2",
+            "Type": "BEActiveDamage",
+            "BaseSortID": 6450,
+            "Target": "UpperTarget"
+          },
+          "2": {
+            "Type": "BEMonsterBubble",
+            "Target": "CmdCaster",
+            "Para": "Monster_B05EX_bubble_01,8000"
+          }
+        },
+        "BaseSortID": 6450,
+        "ID": 148368
+      },
+      "148369": {
+        "CnID": "指令@怪物本源希洛狂热达到层数",
+        "data_list": {
+          "1": {
+            "Para": "148382,1",
+            "Type": "BEAddState",
+            "BaseSortID": 6461,
+            "Target": "UpperTarget"
+          },
+          "2": {
+            "Type": "BEExecuteCmd",
+            "Target": "UpperTarget",
+            "Para": 124732
+          }
+        },
+        "BaseSortID": 6461,
+        "ID": 148369
+      },
+      "148370": {
+        "CnID": "指令@怪物本源希洛半血监听",
+        "data_list": {
+          "1": {
+            "Type": "BEAddState",
+            "BaseSortID": 6458,
+            "Para": 148379,
+            "Target": "UpperTarget",
+            "Cond": "StateOwner.hp<=StateOwner.max_hp*0.5 and StateOwner.GetStateLayer(148379)==0"
+          },
+          "2": {
+            "Para": 148379,
+            "Type": "BERemoveState",
+            "Cond": "StateOwner.hp>StateOwner.max_hp*0.5 and StateOwner.GetStateLayer(148379)>0",
+            "Target": "UpperTarget"
+          }
+        },
+        "BaseSortID": 6458,
+        "ID": 148370
+      },
+      "148371": {
+        "CnID": "指令@怪物本源希洛嗜血链球",
+        "data_list": {
+          "1": {
+            "Para": "Arg1,Arg2",
+            "Type": "BEActiveDamage",
+            "BaseSortID": 6455,
+            "Target": "UpperTarget"
+          },
+          "2": {
+            "Type": "BEHeal",
+            "Target": "CmdCaster",
+            "Para": "Arg3"
+          },
+          "3": {
+            "Type": "BEMonsterBubble",
+            "Target": "CmdCaster",
+            "Para": "Monster_B05EX_bubble_02,8000"
+          }
+        },
+        "BaseSortID": 6455,
+        "ID": 148371
+      },
+      "148372": {
+        "CnID": "指令@怪物本源希洛灵知觉醒",
+        "data_list": {
+          "1": {
+            "Para": 148394,
+            "Type": "BEAddState",
+            "BaseSortID": 6452,
+            "Target": "UpperTarget"
+          },
+          "2": {
+            "Type": "BEAddState",
+            "Target": "UpperTarget",
+            "Para": 148021
+          },
+          "3": {
+            "Type": "BEShowTips",
+            "Target": "CmdCaster",
+            "Para": "Monster_B05EX_tips_03,8000"
+          }
+        },
+        "BaseSortID": 6452,
+        "ID": 148372
+      },
+      "148373": {
+        "CnID": "指令@怪物本源希洛鲜血链条",
+        "data_list": {
+          "1": {
+            "Para": "Arg1,Arg2,2840,Arg3/100,UseCastDmg,0,0",
+            "Type": "BEActiveDamage.State",
+            "BaseSortID": 6454,
+            "Target": "UpperTarget"
+          },
+          "2": {
+            "Type": "BEChangeAttr.hp",
+            "Target": "CmdCaster",
+            "Para": "CmdCaster.hp*Arg4/100*(-1)"
+          }
+        },
+        "BaseSortID": 6454,
+        "ID": 148373
+      },
+      "148375": {
+        "CnID": "指令@怪物本源希洛恨意宣泄",
+        "data_list": {
+          "1": {
+            "Para": "Arg1,Arg2",
+            "Type": "BEActiveDamage",
+            "BaseSortID": 6453,
+            "Target": "UpperTarget"
+          },
+          "2": {
+            "Type": "BEAddState",
+            "Target": "CmdCaster",
+            "Para": "2900,Arg3"
+          }
+        },
+        "BaseSortID": 6453,
+        "ID": 148375
+      },
+      "148376": {
+        "CnID": "指令@怪物本源希洛觉醒监听",
+        "data_list": {
+          "1": {
+            "Para": 1,
+            "Type": "BEPVERebirth",
+            "BaseSortID": 6456,
+            "Target": "UpperTarget"
+          },
+          "2": {
+            "Type": "BEChangeMaxHp",
+            "Target": "UpperTarget",
+            "Para": "CmdCaster.max_hp*0.5"
+          },
+          "3": {
+            "Type": "BEHeal",
+            "Target": "UpperTarget",
+            "Para": "CmdCaster.max_hp"
+          },
+          "4": {
+            "Type": "BEAddState",
+            "Target": "UpperTarget",
+            "Para": "148020,1"
+          },
+          "5": {
+            "Type": "BEMonsterChangeSkillList",
+            "Target": "UpperTarget",
+            "Para": 2
+          },
+          "6": {
+            "Type": "BEMonsterChangeSkill",
+            "Target": "UpperTarget",
+            "Para": "148393,1"
+          }
+        },
+        "BaseSortID": 6456,
+        "ID": 148376
+      },
+      "148377": {
+        "CnID": "指令@怪物本源希洛意图监听",
+        "data_list": {
+          "1": {
+            "Type": "BEAddState",
+            "BaseSortID": 6457,
+            "Para": "148383,1",
+            "Target": "UpperTarget",
+            "Cond": "Arg1==148362 and UpperTarget.GetStateLayer(148383)<4 and UpperTarget.GetStateLayer(148020)==0 and UpperTarget.GetStateLayer(148394)==0"
+          },
+          "2": {
+            "Para": "148383,1",
+            "Type": "BEAddState",
+            "Cond": "Arg1==148362 and UpperTarget.GetStateLayer(148383)<4 and UpperTarget.GetStateLayer(148394)>0",
+            "Target": "UpperTarget"
+          },
+          "3": {
+            "Para": "148364,0",
+            "Type": "BEMonsterChangeSkill",
+            "Cond": "Arg1==148362 and UpperTarget.GetStateLayer(148383)==4",
+            "Target": "UpperTarget"
+          },
+          "4": {
+            "Para": 148383,
+            "Type": "BERemoveState",
+            "Cond": "Arg1==148364 and UpperTarget.GetStateLayer(148383)==4",
+            "Target": "UpperTarget"
+          },
+          "5": {
+            "Para": "PlayerRole.block*(-1)",
+            "Type": "BEChangeAttr.block",
+            "Cond": "Arg1==148361 or Arg1==148360",
+            "Target": "FrontEnemy"
+          },
+          "6": {
+            "Para": "Monster_B05EX_tips_02,8000",
+            "Type": "BEShowTips",
+            "Cond": "LastConditionRet==1",
+            "Target": "CmdCaster"
+          },
+          "7": {
+            "Para": "148392,4",
+            "Type": "BEAddState",
+            "Cond": "Arg1==148361",
+            "Target": "UpperTarget"
+          },
+          "8": {
+            "Para": 148391,
+            "Type": "BEAddState",
+            "Cond": "LastConditionRet==1",
+            "Target": "UpperTarget"
+          },
+          "9": {
+            "Para": 148386,
+            "Type": "BEAddState",
+            "Cond": "LastConditionRet==1",
+            "Target": "FrontEnemy"
+          },
+          "10": {
+            "Para": 149939,
+            "Type": "BEAddState",
+            "Cond": "LastConditionRet==1",
+            "Target": "PlayerRole"
+          },
+          "11": {
+            "Para": "148392,6",
+            "Type": "BEAddState",
+            "Cond": "Arg1==148360",
+            "Target": "UpperTarget"
+          },
+          "12": {
+            "Para": 148381,
+            "Type": "BEAddState",
+            "Cond": "LastConditionRet==1",
+            "Target": "UpperTarget"
+          },
+          "13": {
+            "Para": 148520,
+            "Type": "BEAddState",
+            "Cond": "LastConditionRet==1",
+            "Target": "FrontEnemy"
+          },
+          "14": {
+            "Para": 149939,
+            "Type": "BEAddState",
+            "Cond": "LastConditionRet==1",
+            "Target": "PlayerRole"
+          },
+          "15": {
+            "Para": 148395,
+            "Type": "BEAddState",
+            "Cond": "Arg1==148364 and UpperTarget.GetStateLayer(148394)>0",
+            "Target": "UpperTarget"
+          },
+          "16": {
+            "Para": 148433,
+            "Type": "BEAddState",
+            "Cond": "LastConditionRet==1",
+            "Target": "FrontEnemy"
+          }
+        },
+        "BaseSortID": 6457,
+        "ID": 148377
+      },
+      "148378": {
+        "CnID": "指令@怪物本源希洛狂热行动",
+        "data_list": {
+          "1": {
+            "Type": "BEAddState",
+            "BaseSortID": 6463,
+            "DelayTime": 100,
+            "Target": "UpperTarget",
+            "Para": 3288
+          },
+          "2": {
+            "Type": "BEAttachPostAction",
+            "Target": "UpperTarget",
+            "Para": "UpperTarget.Intention,1,1,0"
+          },
+          "3": {
+            "Para": "148359,1,1,0",
+            "Type": "BEAttachPostAction",
+            "Cond": "CmdCaster.GetStateLayer(148394)>0 or CmdCaster.Intention~=148393",
+            "Target": "UpperTarget"
+          },
+          "4": {
+            "Type": "BERemoveState",
+            "Target": "UpperTarget",
+            "Para": 148392
+          },
+          "5": {
+            "Type": "BERemoveState",
+            "Target": "HandDeck.GetCard(RANDOM,99)",
+            "Para": 124658
+          },
+          "6": {
+            "Type": "BERemoveState",
+            "Target": "PlayerRole",
+            "Para": 148382
+          }
+        },
+        "BaseSortID": 6463,
+        "ID": 148378
+      },
+      "148432": {
+        "CnID": "指令@怪物本源希洛链球无敌清除",
+        "data_list": {
+          "1": {
+            "Para": 148395,
+            "Type": "BERemoveState",
+            "BaseSortID": 6464,
+            "Target": "GetMonsterByID(148007)"
+          },
+          "2": {
+            "Type": "BERemoveState",
+            "Target": "PlayerRole",
+            "Para": 148433
+          }
+        },
+        "BaseSortID": 6464,
+        "ID": 148432
+      },
+      "148441": {
+        "CnID": "指令@怪物本源希洛战斗开始",
+        "data_list": {
+          "1": {
+            "Para": "Monster_B05EX_tips_01,8000",
+            "Type": "BEShowTips",
+            "BaseSortID": 6465,
+            "Target": "CmdCaster"
+          }
+        },
+        "BaseSortID": 6465,
+        "ID": 148441
+      },
+      "149938": {
+        "CnID": "指令@怪物本源希洛禁盾玩家监听",
+        "data_list": {
+          "1": {
+            "Para": "PlayerRole.block*(-1)",
+            "Type": "BEChangeAttr.block",
+            "BaseSortID": 6459,
+            "Target": "UpperTarget"
+          }
+        },
+        "BaseSortID": 6459,
+        "ID": 149938
+      }
+    },
+    "states": {
+      "2900": {
+        "Statistic": "Disable",
+        "Desc": "State_2900_Desc|本场战斗内造成的伤害提高 [Layer] 点。",
+        "BaseSortID": 201,
+        "ID": 2900,
+        "CnID": "状态@通用力量",
+        "Name": "State_2900_Name|力量",
+        "IsBuff": "TRUE",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MergeStateDisplay": 97743,
+        "WeaponDesc": "State_2900_WeaponDesc|本场战斗内造成的伤害提高 [Layer] 点。",
+        "MaxLayer": 999999999,
+        "ExistProperty": {
+          "tentacle_dmg": "ChangedLayer*0.5",
+          "damage_plus": "ChangedLayer"
+        },
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "ShowType": "Normal",
+        "Icon": "IconS_Buff_021.png"
+      },
+      "3288": {
+        "Statistic": "Disable",
+        "Desc": "State_3288_Desc|状态@空状态",
+        "BaseSortID": 6,
+        "ID": 3288,
+        "CnID": "状态@空状态",
+        "Name": "State_3288_Name|状态@空状态",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MaxLayer": 1,
+        "WeaponDesc": "State_3288_WeaponDesc|状态@空状态",
+        "Icon": "IconS_Buff_001.png"
+      },
+      "60264": {
+        "BaseSortID": 1211,
+        "ID": 60264,
+        "CnID": "状态@通用溶血",
+        "IsBuff": "FALSE",
+        "Owner": "StateOwner",
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "Statistic": "Disable",
+        "Desc": "State_60264_Desc|造成的出血效果回合结束只会自动移除 50%。",
+        "Name": "State_60264_Name|<Rune_14_High: 溶血>",
+        "ShowType": "Normal",
+        "TriggerPriority": 99,
+        "Icon": "IconS_Buff_051.png",
+        "MaxLayer": 999999999,
+        "TriggerTarget1": "FrontEnemy",
+        "TriggerCmd1": 60261,
+        "TriggerPara1": 1,
+        "TriggerCond1": {
+          "1": "BSTStateOnAdd"
+        }
+      },
+      "60265": {
+        "Statistic": "Disable",
+        "Desc": "State_60265_Desc|出血效果回合结束只会自动移除 50%。",
+        "BaseSortID": 1210,
+        "ID": 60265,
+        "CnID": "状态@通用溶血触发",
+        "Name": "State_60265_Name|<BleedingColour: 溶血>",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MaxLayer": 999999999,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "Icon": "IconS_Buff_051.png"
+      },
+      "124658": {
+        "Statistic": "Disable",
+        "BaseSortID": 5369,
+        "ID": 124658,
+        "CnID": "状态@通用卡牌红色光效",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "CardVFX": "RedGlow",
+        "Owner": "StateOwner",
+        "MaxLayer": 1,
+        "ClearCond": {
+          "1": "BSTAfterBoutEnd",
+          "2": "BSTBeforeBattleEnd"
+        }
+      },
+      "148020": {
+        "BaseSortID": 545,
+        "ID": 148020,
+        "CnID": "状态@怪物通用复活觉醒前免疫",
+        "Owner": "StateOwner",
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "Statistic": "Disable",
+        "Desc": "State_148020_Desc|免疫一切伤害且无法失去生命。释放觉醒后，回合结束时移除。",
+        "Name": "State_148020_Name|银芯固化",
+        "ShowType": "Normal",
+        "TriggerPriority": 500,
+        "TriggerTarget1": "StateOwner",
+        "TriggerCmd1": 35860,
+        "MaxLayer": 1,
+        "Icon": "IconS_Buff_058.png",
+        "ExistProperty": {
+          "immue_state_weak": 1,
+          "immue_state_vulnerable": 1,
+          "immue_damage": 1,
+          "immue_change_hp": 1,
+          "immue_puncture_damage": 1,
+          "immue_state_frail": 1
+        },
+        "MaterialEffect": "EffectType_VajraBody",
+        "TriggerCond1": {
+          "1": "BSTAfterBeActiveDamage",
+          "2": "BSTAfterAttackedByTentacle",
+          "3": "BSTAfterFixedDamage",
+          "4": "BSTAfterPassiveDamage"
+        }
+      },
+      "148021": {
+        "Statistic": "Disable",
+        "BaseSortID": 6145,
+        "ID": 148021,
+        "CnID": "状态@怪物通用复活觉醒前免疫清除",
+        "Name": "State_148021_Name|状态@怪物通用复活觉醒前免疫清除标识",
+        "ShowType": "Hide",
+        "TriggerPriority": 500,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "Owner": "StateOwner",
+        "TriggerTarget1": "StateOwner",
+        "MaxLayer": 1,
+        "TriggerCmd1": 148019,
+        "Icon": "IconS_Buff_016.png",
+        "TriggerPara1": "Layer",
+        "TriggerCond1": {
+          "1": "BSTAfterBoutEnd"
+        }
+      },
+      "148379": {
+        "Statistic": "Disable",
+        "BaseSortID": 6154,
+        "ID": 148379,
+        "CnID": "状态@怪物本源希洛半血状态",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MaxLayer": 1,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        }
+      },
+      "148380": {
+        "Statistic": "Disable",
+        "BaseSortID": 6152,
+        "ID": 148380,
+        "CnID": "状态@怪物本源希洛狂热行动触发",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "TriggerTarget1": "StateOwner",
+        "MaxLayer": 1,
+        "TriggerCmd1": 148378,
+        "Judgement1": "StateOwner.GetStateLayer(148392)>=10",
+        "ClearCond": {
+          "1": "BSTAfterStateTrigger",
+          "2": "BSTBeforeBattleEnd"
+        },
+        "TriggerCond1": {
+          "1": "BSTStateOnAdd"
+        }
+      },
+      "148381": {
+        "BaseSortID": 6161,
+        "ID": 148381,
+        "CnID": "状态@怪物本源希洛造成伤害后施加出血超限",
+        "IsBuff": "TRUE",
+        "Owner": "StateOwner",
+        "ClearCond": {
+          "1": "BSTAfterBoutEnd",
+          "2": "BSTBeforeBattleEnd"
+        },
+        "Statistic": "Disable",
+        "Desc": "State_148381_Desc|直到回合结束，自身造成伤害附加 100%<BleedingIconKeywords:出血>。",
+        "Name": "State_148381_Name|桎梏仇怨",
+        "ShowType": "Normal",
+        "TriggerPriority": 99,
+        "Icon": "IconS_Buff_016.png",
+        "MaxLayer": 1,
+        "TriggerTarget1": "FrontEnemy",
+        "TriggerCmd1": 126570,
+        "TriggerPara1": "2840,TriggerValue",
+        "TriggerCond1": {
+          "1": "BSTAfterDoActiveDamage"
+        }
+      },
+      "148382": {
+        "Statistic": "Disable",
+        "BaseSortID": 6151,
+        "ID": 148382,
+        "CnID": "状态@怪物本源希洛狂热行动玩家监听",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "TriggerCmd2": 124732,
+        "Owner": "StateOwner",
+        "TriggerCond2": {
+          "1": "BSTAfterDrawCards"
+        },
+        "MaxLayer": 1,
+        "TriggerTarget1": "AllEnemy",
+        "TriggerCmd1": 148367,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd",
+          "2": "BSTAfterBoutEnd"
+        },
+        "TriggerCond1": {
+          "1": "BSTAfterUseCard"
+        }
+      },
+      "148383": {
+        "Statistic": "Disable",
+        "Desc": "State_148383_Desc|上限 3 层。若拥有 3 层「恨意」，下一次意图切换至「鲜血链条」时，将意图切换为「嗜血链球」并清除「恨意」。",
+        "BaseSortID": 6156,
+        "ID": 148383,
+        "CnID": "状态@怪物本源希洛鲜血链条计数",
+        "Name": "State_148383_Name|「恨意」",
+        "ShowType": "Normal",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MaxLayer": 4,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "Icon": "IconS_Buff_016.png"
+      },
+      "148384": {
+        "Statistic": "Disable",
+        "BaseSortID": 6155,
+        "ID": 148384,
+        "CnID": "状态@怪物本源希洛意图监听",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "Owner": "StateOwner",
+        "TriggerTarget1": "StateOwner",
+        "MaxLayer": 1,
+        "TriggerCmd1": 148377,
+        "Judgement1": "StateOwner.ID==148007",
+        "TriggerPara1": "TriggerValue2",
+        "TriggerCond1": {
+          "1": "BSTAfterIntentionChanged"
+        }
+      },
+      "148385": {
+        "Statistic": "Disable",
+        "Desc": "State_148385_Desc|每当敌方打出指令卡时获得 2 层<MonsterB05EXFever:临时狂热>。",
+        "BaseSortID": 6147,
+        "ID": 148385,
+        "CnID": "状态@怪物本源希洛不规则形态",
+        "Name": "State_148385_Name|不规则形态",
+        "ShowType": "Normal",
+        "TriggerPriority": 99,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "Owner": "StateOwner",
+        "TriggerTarget1": "PlayerRole",
+        "MaxLayer": 1,
+        "TriggerCmd1": 126570,
+        "Icon": "IconS_Buff_016.png",
+        "TriggerPara1": "148388,1",
+        "TriggerCond1": {
+          "1": "BSTBattleBegin"
+        }
+      },
+      "148386": {
+        "Statistic": "Disable",
+        "Desc": "State_148386_Desc|无法获得护盾，直到回合结束。",
+        "BaseSortID": 6157,
+        "ID": 148386,
+        "CnID": "状态@怪物本源希洛禁盾",
+        "Name": "State_148386_Name|缚身锁链",
+        "IsBuff": "FALSE",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MaxLayer": 999,
+        "ExistProperty": {
+          "gain_block_per": -100
+        },
+        "ClearCond": {
+          "1": "BSTAfterBoutEnd",
+          "2": "BSTBeforeBattleEnd"
+        },
+        "ShowType": "Normal",
+        "Icon": "IconS_Buff_016.png"
+      },
+      "148387": {
+        "Statistic": "Disable",
+        "Desc": "State_148387_Desc|这位唤醒体还未觉醒…即将被击倒时会回复生命并获得 1 层<InvincibleUntilRoused:银芯固化>，释放觉醒后，回合结束时清除<InvincibleUntilRoused:银芯固化>并以真正的形态开始战斗。",
+        "BaseSortID": 6162,
+        "ID": 148387,
+        "CnID": "状态@怪物本源希洛觉醒监听",
+        "Name": "State_148387_Name|尚未觉醒",
+        "IsBuff": "TRUE",
+        "TriggerPriority": 99,
+        "TriggerTarget1": "StateOwner",
+        "Owner": "StateOwner",
+        "TriggerCmd1": 148376,
+        "MaxLayer": 1,
+        "Icon": "IconS_Buff_010.png",
+        "ClearCond": {
+          "1": "BSTAfterStateTrigger",
+          "2": "BSTBeforeBattleEnd"
+        },
+        "ShowType": "Normal",
+        "TriggerCond1": {
+          "1": "BSTRoleBeforeDeath"
+        }
+      },
+      "148390": {
+        "Statistic": "Disable",
+        "BaseSortID": 6153,
+        "ID": 148390,
+        "CnID": "状态@怪物本源希洛半血监听",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MaxLayer": 1,
+        "TriggerTarget1": "StateOwner",
+        "TriggerCmd1": 148370,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "TriggerCond1": {
+          "1": "BSTHpChanged"
+        }
+      },
+      "148391": {
+        "BaseSortID": 6160,
+        "ID": 148391,
+        "CnID": "状态@怪物本源希洛造成伤害后施加出血",
+        "IsBuff": "TRUE",
+        "Owner": "StateOwner",
+        "ClearCond": {
+          "1": "BSTAfterBoutEnd",
+          "2": "BSTBeforeBattleEnd"
+        },
+        "Statistic": "Disable",
+        "Desc": "State_148391_Desc|直到回合结束，自身造成伤害附加 100%<BleedingIconKeywords:出血>。",
+        "Name": "State_148391_Name|缚身锁链",
+        "ShowType": "Normal",
+        "TriggerPriority": 99,
+        "Icon": "IconS_Buff_016.png",
+        "MaxLayer": 1,
+        "TriggerTarget1": "FrontEnemy",
+        "TriggerCmd1": 126570,
+        "TriggerPara1": "2840,TriggerValue",
+        "TriggerCond1": {
+          "1": "BSTAfterDoActiveDamage"
+        }
+      },
+      "148392": {
+        "Statistic": "Disable",
+        "Desc": "State_148392_Desc|回合开始后清除。达到 10 层后，下次打出卡牌后立刻行动，移除狂热并将意图切换为「鲜血链条」。",
+        "BaseSortID": 6149,
+        "ID": 148392,
+        "CnID": "状态@怪物本源希洛临时狂热",
+        "Name": "State_148392_Name|临时狂热",
+        "ShowType": "Normal",
+        "TriggerPriority": 99,
+        "TriggerTarget1": "PlayerRole",
+        "Owner": "StateOwner",
+        "TriggerCmd1": 148369,
+        "MaxLayer": 10,
+        "Judgement1": "Layer>=10",
+        "Icon": "IconS_Buff_071.png",
+        "ClearCond": {
+          "1": "BSTAfterBoutBegin",
+          "2": "BSTBeforeBattleEnd"
+        },
+        "TriggerCond1": {
+          "1": "BSTStateOnAdd"
+        }
+      },
+      "148394": {
+        "Statistic": "Disable",
+        "Desc": "State_148394_Desc|回合开始时获得 1 层<ResentChainsKeywords: 怨恨锁链>。 意图切换至「嗜血链球」时，直到敌方回合结束后免疫一切伤害和生命损失效果。",
+        "BaseSortID": 6163,
+        "ID": 148394,
+        "CnID": "状态@怪物本源希洛觉醒状态",
+        "Name": "State_148394_Name|索魂者宣言",
+        "ShowType": "Normal",
+        "TriggerPriority": 99,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "Owner": "StateOwner",
+        "TriggerTarget1": "StateOwner",
+        "MaxLayer": 1,
+        "TriggerCmd1": 126570,
+        "Icon": "IconS_Buff_010.png",
+        "TriggerPara1": "60898,1",
+        "TriggerCond1": {
+          "1": "BSTAfterBoutBegin"
+        }
+      },
+      "148395": {
+        "BaseSortID": 6164,
+        "ID": 148395,
+        "CnID": "状态@怪物本源希洛链球无敌",
+        "Owner": "StateOwner",
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "Statistic": "Disable",
+        "Desc": "State_148395_Desc|免疫一切伤害(包括穿刺伤害)且无法失去生命，敌方回合结束后移除。",
+        "Name": "State_148395_Name|索魂者宣言-嗜血链球",
+        "ShowType": "Normal",
+        "TriggerPriority": 99,
+        "TriggerTarget1": "StateOwner",
+        "TriggerCmd1": 35860,
+        "MaxLayer": 1,
+        "Icon": "IconS_Buff_058.png",
+        "ExistProperty": {
+          "immue_tentacle_damage": 1,
+          "immue_passive_damage": 1,
+          "immue_damage": 1,
+          "immue_change_hp": 1,
+          "immue_puncture_damage": 1
+        },
+        "MaterialEffect": "EffectType_VajraBody",
+        "TriggerCond1": {
+          "1": "BSTAfterBeActiveDamage",
+          "2": "BSTAfterAttackedByTentacle"
+        }
+      },
+      "148433": {
+        "Statistic": "Disable",
+        "BaseSortID": 6165,
+        "ID": 148433,
+        "CnID": "状态@怪物本源希洛链球无敌清除",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MaxLayer": 1,
+        "TriggerTarget1": "StateOwner",
+        "TriggerCmd1": 148432,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "TriggerCond1": {
+          "1": "BSTAfterBoutEnd"
+        }
+      },
+      "148442": {
+        "Statistic": "Disable",
+        "BaseSortID": 6166,
+        "ID": 148442,
+        "CnID": "状态@怪物本源希洛提示语",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MaxLayer": 2,
+        "TriggerTarget1": "StateOwner",
+        "TriggerCmd1": 148441,
+        "ClearCond": {
+          "1": "BSTBeforeBattleEnd"
+        },
+        "TriggerCond1": {
+          "1": "BSTBattleBegin"
+        }
+      },
+      "148520": {
+        "Statistic": "Disable",
+        "Desc": "State_148520_Desc|无法获得护盾，直到回合结束。",
+        "BaseSortID": 6159,
+        "ID": 148520,
+        "CnID": "状态@怪物本源希洛禁盾超限",
+        "Name": "State_148520_Name|桎梏仇怨",
+        "IsBuff": "FALSE",
+        "TriggerPriority": 99,
+        "Owner": "StateOwner",
+        "MaxLayer": 999,
+        "ExistProperty": {
+          "gain_block_per": -100
+        },
+        "ClearCond": {
+          "1": "BSTAfterBoutEnd",
+          "2": "BSTBeforeBattleEnd"
+        },
+        "ShowType": "Normal",
+        "Icon": "IconS_Buff_016.png"
+      },
+      "149939": {
+        "BaseSortID": 6158,
+        "ID": 149939,
+        "CnID": "状态@怪物本源希洛禁盾玩家监听",
+        "IsBuff": "FALSE",
+        "Owner": "StateOwner",
+        "ClearCond": {
+          "1": "BSTAfterBoutEnd",
+          "2": "BSTBeforeBattleEnd"
+        },
+        "Statistic": "Disable",
+        "Desc": "State_149939_Desc|无法获得护盾，直到回合结束。",
+        "Name": "State_149939_Name|缚身锁链",
+        "ShowType": "Hide",
+        "TriggerPriority": 99,
+        "TriggerTarget1": "PlayerRole",
+        "TriggerCmd1": 149938,
+        "MaxLayer": 999,
+        "Judgement1": "StateOwner.block>0",
+        "Icon": "IconS_Buff_016.png",
+        "ExistProperty": {
+          "gain_block_per": -100
+        },
+        "TriggerCond1": {
+          "1": "BSTAfterBlockChange"
+        }
+      }
+    },
+    "textMonster": {
+      "MonsterConfig_148007_Desc": {
+        "Text": "피의 굶주린 자여. 사슬을 끊을 때, 그녀는 온 세상에 「복수」로 물들일 것이라는 소망을 전할 것이니."
+      },
+      "MonsterConfig_148007_MonsterName": {
+        "Text": "「혼을 거두는 자」"
+      }
+    },
+    "textSkill": {
+      "Skill_148360_Desc": {
+        "Text": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 [Arg3] 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입힘."
+      },
+      "Skill_148360_Name": {
+        "Text": "사슬에 묶인 원한"
+      },
+      "Skill_148361_Desc": {
+        "Text": "해당 의도로 전환 시, 적의 방어막을 파괴하고 이번 턴 방어막 획득 불가 상태로 만들며, 즉시 [Arg3] 스택 <MonsterB05EXFever:광열> 획득. 턴 종료까지 자신이 입히는 피해에 100% <BleedingIconKeywords:출혈> 추가. <Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입힘."
+      },
+      "Skill_148361_Name": {
+        "Text": "속박의 사슬"
+      },
+      "Skill_148362_Desc": {
+        "Text": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고 [Arg3]% <BleedingIconKeywords:출혈> 추가, 현재 HP의 [Arg4]% 소모. 해당 의도로 전환 시 「증오」 [Arg5] 스택 보유 중이면 의도가 <Damage:[Damage:Arg6]> 피해를 [AttackTimes:Arg7]회 입히는 「피에 굶주린 철구」로 교체되고, 그렇지 않으면 「증오」 1 스택 획득."
+      },
+      "Skill_148362_Name": {
+        "Text": "선혈의 사슬"
+      },
+      "Skill_148364_Desc": {
+        "Text": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고, 적의 <BleedingIconKeywords:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복."
+      },
+      "Skill_148364_Name": {
+        "Text": "피에 굶주린 철구"
+      },
+      "Skill_148365_Desc": {
+        "Text": "<Damage:[Damage:Arg1]> 피해를 [AttackTimes:Arg2]회 입히고, [Arg3] <PowerIconKeywords:힘> 획득. 자신의 HP가 [Arg4](50%) 미만이면 피해와 획득 <PowerIconKeywords:힘>이 2배."
+      },
+      "Skill_148365_Name": {
+        "Text": "원한 발산"
+      },
+      "Skill_148393_Desc": {
+        "Text": "턴 시작 시 [Arg1] 스택 <ResentChainsKeywords:증오의 사슬> 획득. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해 및 HP 손실 효과에 면역."
+      },
+      "Skill_148393_Name": {
+        "Text": "영혼 사냥 선언"
+      }
+    },
+    "textState": {
+      "State_148020_Desc": {
+        "Text": "모든 피해에 면역되며 HP를 잃을 수 없음. 각성 발동 후, 턴 종료 시 제거."
+      },
+      "State_148020_Name": {
+        "Text": "은심 고정"
+      },
+      "State_148021_Name": {
+        "Text": "상태@몬스터 공용 소생 각성 전 면역 해제 표식"
+      },
+      "State_148381_Desc": {
+        "Text": "턴 종료까지 자신이 가하는 피해에 100% <BleedingIconKeywords:출혈>을 추가합니다."
+      },
+      "State_148381_Name": {
+        "Text": "사슬에 묶인 원한"
+      },
+      "State_148383_Desc": {
+        "Text": "최대 3 스택. 「증오」를 3 스택 보유 중이라면, 다음에 의도가 「선혈의 사슬」로 전환될 때 의도를 「피에 굶주린 철구」로 전환하고 「증오」를 해제합니다."
+      },
+      "State_148383_Name": {
+        "Text": "「증오」"
+      },
+      "State_148385_Desc": {
+        "Text": "적이 명령 카드를 사용할 때마다 <MonsterB05EXFever:임시 열광> 2 스택을 획득합니다."
+      },
+      "State_148385_Name": {
+        "Text": "불규칙한 형태"
+      },
+      "State_148386_Desc": {
+        "Text": "턴 종료까지 방어막을 획득할 수 없습니다."
+      },
+      "State_148386_Name": {
+        "Text": "속박의 사슬"
+      },
+      "State_148387_Desc": {
+        "Text": "이 각성체는 아직 각성하지 않았음…쓰러지기 직전에 HP를 회복하고 1단계 <InvincibleUntilRoused:은심 고정>을 획득하며, 각성 발동 후, 턴 종료 시 <InvincibleUntilRoused:은심 고정>을 해제하고 진정한 형태로 전투를 시작함."
+      },
+      "State_148387_Name": {
+        "Text": "미각성"
+      },
+      "State_148391_Desc": {
+        "Text": "턴 종료까지 자신이 가하는 피해에 100% <BleedingIconKeywords:출혈>을 추가합니다."
+      },
+      "State_148391_Name": {
+        "Text": "속박의 사슬"
+      },
+      "State_148392_Desc": {
+        "Text": "턴 시작 후 해제됩니다. 10 스택에 도달하면, 다음에 카드를 사용한 직후 즉시 행동하고, 광열을 제거하며 의도를 「선혈의 사슬」로 전환합니다."
+      },
+      "State_148392_Name": {
+        "Text": "임시 열광"
+      },
+      "State_148394_Desc": {
+        "Text": "턴 시작 시 <ResentChainsKeywords:증오의 사슬> 1 스택을 획득합니다. 의도가 「피에 굶주린 철구」로 전환될 때, 적의 턴 종료까지 모든 피해와 HP 손실 효과에 면역됩니다."
+      },
+      "State_148394_Name": {
+        "Text": "영혼 사냥 선언"
+      },
+      "State_148395_Desc": {
+        "Text": "모든 피해(관통 피해 포함)에 면역되며 HP를 잃을 수 없습니다. 적의 턴 종료 후 제거됩니다."
+      },
+      "State_148395_Name": {
+        "Text": "영혼을 거두리-피에 굶주린 철구"
+      },
+      "State_148520_Desc": {
+        "Text": "턴 종료까지 방어막을 획득할 수 없습니다."
+      },
+      "State_148520_Name": {
+        "Text": "사슬에 묶인 원한"
+      },
+      "State_149939_Desc": {
+        "Text": "턴 종료까지 방어막을 획득할 수 없습니다."
+      },
+      "State_149939_Name": {
+        "Text": "속박의 사슬"
+      },
+      "State_2900_Desc": {
+        "Text": "이번 전투 내에서 주는 피해가 [Layer]pt 증가한다."
+      },
+      "State_2900_Name": {
+        "Text": "힘"
+      },
+      "State_3288_Desc": {
+        "Text": "상태@공 상태"
+      },
+      "State_3288_Name": {
+        "Text": "상태@빈 상태"
+      },
+      "State_60264_Desc": {
+        "Text": "부여된 출혈 효과는 턴 종료 시 자동으로 50%만 제거된다."
+      },
+      "State_60264_Name": {
+        "Text": "<Rune_14_High: 용혈>"
+      },
+      "State_60265_Desc": {
+        "Text": "출혈 효과는 턴 종료 시 자동으로 50%만 제거된다."
+      },
+      "State_60265_Name": {
+        "Text": "<BleedingColour: 용혈>"
+      }
+    }
+  }
+}

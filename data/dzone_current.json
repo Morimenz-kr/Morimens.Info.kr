@@ -187,7 +187,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83389
+            }
+          ],
           "skills": [
             {
               "id": 44697,
@@ -231,6 +247,18 @@
                 "1",
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -293,7 +321,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83389
+            }
+          ],
           "skills": [
             {
               "id": 4450,
@@ -340,6 +384,18 @@
                 "BattleAtkForce*0.6",
                 "2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -402,7 +458,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83389
+            }
+          ],
           "skills": [
             {
               "id": 3950,
@@ -464,6 +536,18 @@
                 "BattleAtkForce*0.8",
                 "2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -533,7 +617,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83389
+            }
+          ],
           "skills": [
             {
               "id": 4131,
@@ -565,6 +665,18 @@
                 "BattleDefForce*1.5",
                 "1"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -627,7 +739,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83389
+            }
+          ],
           "skills": [
             {
               "id": 3986,
@@ -689,6 +817,18 @@
                 "BattleAtkForce*1.5",
                 "1"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -750,7 +890,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83389
+            }
+          ],
           "skills": [
             {
               "id": 44693,
@@ -795,6 +951,18 @@
               "expressions": [
                 "BattleAtkForce*0.3"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -867,7 +1035,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83389
+            }
+          ],
           "skills": [
             {
               "id": 4038,
@@ -914,6 +1098,18 @@
                 "BattleDefForce*0.5",
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -975,7 +1171,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83389
+            }
+          ],
           "skills": [
             {
               "id": 44695,
@@ -1021,6 +1233,18 @@
                 "BattleAtkForce*1.5",
                 "1"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -1381,6 +1605,11 @@
               "effectiveHp": 1860,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44697": {
                   "args": [],
                   "description": "1턴간 실명을 부여한다.",
@@ -1515,6 +1744,11 @@
                   ],
                   "description": "77pt의 피해를 1회 입히고, 「상처」 1장을 덱에 섞어 넣는다.",
                   "richDescription": "<game-text:77pt의 피해를 1회 입히고, <kw_e03c99cc2beb6bb9:「상처」> 1장을 덱에 섞어 넣는다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 },
                 "4732": {
                   "args": [
@@ -1664,6 +1898,11 @@
                   ],
                   "description": "44pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:44pt의 피해를 2회 입힌다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -1753,6 +1992,11 @@
                   ],
                   "description": "실드를 117pt 획득하고, 「기절」 1장을 덱에 섞어 넣는다.",
                   "richDescription": "<game-text:실드를 117pt 획득하고, <kw_64b276afee6a6b47:「기절」> 1장을 덱에 섞어 넣는다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -1892,6 +2136,11 @@
                   ],
                   "description": "41pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:41pt의 피해를 2회 입힌다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -1935,6 +2184,11 @@
               "effectiveHp": 2180,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44691": {
                   "args": [
                     {
@@ -2090,6 +2344,11 @@
                   ],
                   "description": "모든 아군이 실드를 39pt 획득하고, 자신은 힘을 7pt 획득한다.",
                   "richDescription": "<game-text:모든 아군이 실드를 39pt 획득하고, 자신은 <kw_e8aa10dc660ce09a:힘>을 7pt 획득한다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -2143,6 +2402,11 @@
               "effectiveHp": 1454,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44694": {
                   "args": [
                     {
@@ -2838,6 +3102,11 @@
               "effectiveHp": 24738,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44697": {
                   "args": [],
                   "description": "1턴간 실명을 부여한다.",
@@ -2972,6 +3241,11 @@
                   ],
                   "description": "375pt의 피해를 1회 입히고, 「상처」 1장을 덱에 섞어 넣는다.",
                   "richDescription": "<game-text:375pt의 피해를 1회 입히고, <kw_e03c99cc2beb6bb9:「상처」> 1장을 덱에 섞어 넣는다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 },
                 "4732": {
                   "args": [
@@ -3121,6 +3395,11 @@
                   ],
                   "description": "210pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:210pt의 피해를 2회 입힌다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -3210,6 +3489,11 @@
                   ],
                   "description": "실드를 1,562pt 획득하고, 「기절」 1장을 덱에 섞어 넣는다.",
                   "richDescription": "<game-text:실드를 1,562pt 획득하고, <kw_64b276afee6a6b47:「기절」> 1장을 덱에 섞어 넣는다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -3349,6 +3633,11 @@
                   ],
                   "description": "200pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:200pt의 피해를 2회 입힌다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -3392,6 +3681,11 @@
               "effectiveHp": 28995,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44691": {
                   "args": [
                     {
@@ -3547,6 +3841,11 @@
                   ],
                   "description": "모든 아군이 실드를 521pt 획득하고, 자신은 힘을 32pt 획득한다.",
                   "richDescription": "<game-text:모든 아군이 실드를 521pt 획득하고, 자신은 <kw_8618bc1764a13f8f:힘>을 32pt 획득한다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -3600,6 +3899,11 @@
               "effectiveHp": 19334,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44694": {
                   "args": [
                     {
@@ -4295,6 +4599,11 @@
               "effectiveHp": 145094,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44697": {
                   "args": [],
                   "description": "1턴간 실명을 부여한다.",
@@ -4429,6 +4738,11 @@
                   ],
                   "description": "812pt의 피해를 1회 입히고, 「상처」 1장을 덱에 섞어 넣는다.",
                   "richDescription": "<game-text:812pt의 피해를 1회 입히고, <kw_e03c99cc2beb6bb9:「상처」> 1장을 덱에 섞어 넣는다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 },
                 "4732": {
                   "args": [
@@ -4578,6 +4892,11 @@
                   ],
                   "description": "455pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:455pt의 피해를 2회 입힌다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -4667,6 +4986,11 @@
                   ],
                   "description": "실드를 9,164pt 획득하고, 「기절」 1장을 덱에 섞어 넣는다.",
                   "richDescription": "<game-text:실드를 9,164pt 획득하고, <kw_64b276afee6a6b47:「기절」> 1장을 덱에 섞어 넣는다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -4806,6 +5130,11 @@
                   ],
                   "description": "433pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:433pt의 피해를 2회 입힌다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -4849,6 +5178,11 @@
               "effectiveHp": 170065,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44691": {
                   "args": [
                     {
@@ -5004,6 +5338,11 @@
                   ],
                   "description": "모든 아군이 실드를 3,055pt 획득하고, 자신은 힘을 68pt 획득한다.",
                   "richDescription": "<game-text:모든 아군이 실드를 3,055pt 획득하고, 자신은 <kw_908b8720f7179d58:힘>을 68pt 획득한다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -5057,6 +5396,11 @@
               "effectiveHp": 113403,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44694": {
                   "args": [
                     {
@@ -5752,6 +6096,11 @@
               "effectiveHp": 437775,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44697": {
                   "args": [],
                   "description": "1턴간 실명을 부여한다.",
@@ -5886,6 +6235,11 @@
                   ],
                   "description": "1,078pt의 피해를 1회 입히고, 「상처」 1장을 덱에 섞어 넣는다.",
                   "richDescription": "<game-text:1,078pt의 피해를 1회 입히고, <kw_e03c99cc2beb6bb9:「상처」> 1장을 덱에 섞어 넣는다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 },
                 "4732": {
                   "args": [
@@ -6035,6 +6389,11 @@
                   ],
                   "description": "604pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:604pt의 피해를 2회 입힌다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -6124,6 +6483,11 @@
                   ],
                   "description": "실드를 13,821pt 획득하고, 「기절」 1장을 덱에 섞어 넣는다.",
                   "richDescription": "<game-text:실드를 13,821pt 획득하고, <kw_64b276afee6a6b47:「기절」> 1장을 덱에 섞어 넣는다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -6263,6 +6627,11 @@
                   ],
                   "description": "576pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:576pt의 피해를 2회 입힌다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -6306,6 +6675,11 @@
               "effectiveHp": 530172,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44691": {
                   "args": [
                     {
@@ -6461,6 +6835,11 @@
                   ],
                   "description": "모든 아군이 실드를 4,607pt 획득하고, 자신은 힘을 90pt 획득한다.",
                   "richDescription": "<game-text:모든 아군이 실드를 4,607pt 획득하고, 자신은 <kw_51a37bf4c44baca9:힘>을 90pt 획득한다.>"
+                },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
                 }
               },
               "resolvedStates": [
@@ -6514,6 +6893,11 @@
               "effectiveHp": 335242,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "44694": {
                   "args": [
                     {
@@ -7365,7 +7749,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "skills": [
             {
               "id": 4182,
@@ -7414,6 +7814,18 @@
                 "1",
                 "1"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -7536,7 +7948,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "skills": [
             {
               "id": 149079,
@@ -7585,6 +8013,18 @@
               "expressions": [
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -7655,7 +8095,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "skills": [
             {
               "id": 45704,
@@ -7685,6 +8141,18 @@
               "expressions": [
                 "BattleAtkForce*0.05"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -7755,7 +8223,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "skills": [
             {
               "id": 45692,
@@ -7785,6 +8269,18 @@
                 "BattleAtkForce*0.4",
                 "2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -7859,7 +8355,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "skills": [
             {
               "id": 65549,
@@ -7920,6 +8432,18 @@
                 "2",
                 "2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -8023,7 +8547,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "skills": [
             {
               "id": 149129,
@@ -8090,6 +8630,18 @@
                 "1",
                 "BattleAtkForce*0.035"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -8286,6 +8838,21 @@
               ],
               "commandCondition": "CmdCaster.GetStateLayer(74024)==1 and CmdCaster.GetStateLayer(66314)==1",
               "conditionText": " 1스택 보유 · 피해 완전 면역 1스택 보유"
+            },
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
             }
           ],
           "skills": [
@@ -8365,6 +8932,18 @@
                 "CmdCaster.max_hp*0.3",
                 "BattleAtkForce*0.3"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -9086,6 +9665,11 @@
                   "description": "50pt의 피해를 1회 입히고, 중독 25스택을 부여한다.",
                   "richDescription": "<game-text:50pt의 피해를 1회 입히고, <kw_49cf598612a046c3:중독> 25스택을 부여한다.>"
                 },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "4792": {
                   "args": [
                     {
@@ -9191,6 +9775,11 @@
               "effectiveHp": 1066,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -9379,6 +9968,11 @@
               "effectiveHp": 1251,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -9458,6 +10052,11 @@
               "effectiveHp": 1124,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -9537,6 +10136,11 @@
               "effectiveHp": 10514,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "65546": {
                   "args": [
                     {
@@ -9669,6 +10273,11 @@
               "effectiveHp": 15849,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149129": {
                   "args": [
                     {
@@ -9982,6 +10591,11 @@
               "effectiveHp": 12401,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72107": {
                   "args": [
                     {
@@ -10989,6 +11603,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -11174,6 +11793,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -11352,6 +11976,11 @@
                 -7
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -11499,6 +12128,11 @@
                 11
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -11646,6 +12280,11 @@
                 -7
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -11793,6 +12432,11 @@
                 11
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -14107,6 +14751,11 @@
               ],
               "effectiveHp": 1861,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -14253,6 +14902,11 @@
               ],
               "effectiveHp": 3721,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72115": {
                   "args": [
                     {
@@ -14409,6 +15063,11 @@
               ],
               "effectiveHp": 1861,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -14555,6 +15214,11 @@
               ],
               "effectiveHp": 1861,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -14761,6 +15425,11 @@
                   "description": "222pt의 피해를 1회 입히고, 중독 111스택을 부여한다.",
                   "richDescription": "<game-text:222pt의 피해를 1회 입히고, <kw_49cf598612a046c3:중독> 111스택을 부여한다.>"
                 },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "4792": {
                   "args": [
                     {
@@ -14866,6 +15535,11 @@
               "effectiveHp": 14060,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -15054,6 +15728,11 @@
               "effectiveHp": 16503,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -15133,6 +15812,11 @@
               "effectiveHp": 14829,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -15212,6 +15896,11 @@
               "effectiveHp": 101396,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "65546": {
                   "args": [
                     {
@@ -15344,6 +16033,11 @@
               "effectiveHp": 152854,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149129": {
                   "args": [
                     {
@@ -15657,6 +16351,11 @@
               "effectiveHp": 119598,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72107": {
                   "args": [
                     {
@@ -16664,6 +17363,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -16849,6 +17553,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -17027,6 +17736,11 @@
                 -7
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -17174,6 +17888,11 @@
                 11
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -17321,6 +18040,11 @@
                 -7
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -17468,6 +18192,11 @@
                 11
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -19782,6 +20511,11 @@
               ],
               "effectiveHp": 17940,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -19928,6 +20662,11 @@
               ],
               "effectiveHp": 35880,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72115": {
                   "args": [
                     {
@@ -20084,6 +20823,11 @@
               ],
               "effectiveHp": 17940,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -20230,6 +20974,11 @@
               ],
               "effectiveHp": 17940,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -20436,6 +21185,11 @@
                   "description": "410pt의 피해를 1회 입히고, 중독 205스택을 부여한다.",
                   "richDescription": "<game-text:410pt의 피해를 1회 입히고, <kw_49cf598612a046c3:중독> 205스택을 부여한다.>"
                 },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "4792": {
                   "args": [
                     {
@@ -20541,6 +21295,11 @@
               "effectiveHp": 60887,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -20729,6 +21488,11 @@
               "effectiveHp": 71470,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -20808,6 +21572,11 @@
               "effectiveHp": 64222,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -20887,6 +21656,11 @@
               "effectiveHp": 444089,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "65546": {
                   "args": [
                     {
@@ -21019,6 +21793,11 @@
               "effectiveHp": 669461,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149129": {
                   "args": [
                     {
@@ -21332,6 +22111,11 @@
               "effectiveHp": 523809,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72107": {
                   "args": [
                     {
@@ -22339,6 +23123,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -22524,6 +23313,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -22702,6 +23496,11 @@
                 -7
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -22849,6 +23648,11 @@
                 11
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -22996,6 +23800,11 @@
                 -7
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -23143,6 +23952,11 @@
                 11
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -25457,6 +26271,11 @@
               ],
               "effectiveHp": 78572,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -25603,6 +26422,11 @@
               ],
               "effectiveHp": 157143,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72115": {
                   "args": [
                     {
@@ -25759,6 +26583,11 @@
               ],
               "effectiveHp": 78572,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -25905,6 +26734,11 @@
               ],
               "effectiveHp": 78572,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -26111,6 +26945,11 @@
                   "description": "550pt의 피해를 1회 입히고, 중독 275스택을 부여한다.",
                   "richDescription": "<game-text:550pt의 피해를 1회 입히고, <kw_49cf598612a046c3:중독> 275스택을 부여한다.>"
                 },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "4792": {
                   "args": [
                     {
@@ -26216,6 +27055,11 @@
               "effectiveHp": 197612,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -26404,6 +27248,11 @@
               "effectiveHp": 240523,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -26483,6 +27332,11 @@
               "effectiveHp": 216998,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -26562,6 +27416,11 @@
               "effectiveHp": 1470519,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "65546": {
                   "args": [
                     {
@@ -26694,6 +27553,11 @@
               "effectiveHp": 2171831,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149129": {
                   "args": [
                     {
@@ -27007,6 +27871,11 @@
               "effectiveHp": 1746106,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72107": {
                   "args": [
                     {
@@ -28014,6 +28883,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -28199,6 +29073,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -28377,6 +29256,11 @@
                 -7
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -28524,6 +29408,11 @@
                 11
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -28671,6 +29560,11 @@
                 -7
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -28818,6 +29712,11 @@
                 11
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -31132,6 +32031,11 @@
               ],
               "effectiveHp": 261916,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -31278,6 +32182,11 @@
               ],
               "effectiveHp": 523832,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72115": {
                   "args": [
                     {
@@ -31434,6 +32343,11 @@
               ],
               "effectiveHp": 261916,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -31580,6 +32494,11 @@
               ],
               "effectiveHp": 261916,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
@@ -31772,7 +32691,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "phaseTransitions": [],
           "skills": [
             {
@@ -31822,6 +32757,18 @@
               "expressions": [
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ]
         },
@@ -31899,7 +32846,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "phaseTransitions": [],
           "skills": [
             {
@@ -31948,6 +32911,18 @@
               "expressions": [
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ]
         },
@@ -32016,7 +32991,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "phaseTransitions": [],
           "skills": [
             {
@@ -32074,6 +33065,18 @@
               "targetLabel": "자신",
               "descriptionTemplate": "「암살자」 상태와 장벽 2스택을 획득한다.",
               "para": null,
+              "expressions": []
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
               "expressions": []
             }
           ]
@@ -32143,7 +33146,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "phaseTransitions": [],
           "skills": [
             {
@@ -32202,6 +33221,18 @@
                 "BattleAtkForce*1.1",
                 "1"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ]
         },
@@ -32903,7 +33934,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83391
+            }
+          ],
           "phaseTransitions": [],
           "skills": [
             {
@@ -32943,6 +33990,18 @@
               "targetLabel": "아군",
               "descriptionTemplate": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
               "para": null,
+              "expressions": []
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
               "expressions": []
             }
           ],
@@ -33349,6 +34408,11 @@
                 1
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "73475": {
                   "args": [],
                   "description": "「광분」 1장을 덱에 섞어 넣는다.",
@@ -33422,6 +34486,11 @@
                 3
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "73475": {
                   "args": [],
                   "description": "「광분」 1장을 덱에 섞어 넣는다.",
@@ -33657,6 +34726,11 @@
                 1
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "73475": {
                   "args": [],
                   "description": "「광분」 1장을 덱에 섞어 넣는다.",
@@ -33730,6 +34804,11 @@
                 3
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "73475": {
                   "args": [],
                   "description": "「광분」 1장을 덱에 섞어 넣는다.",
@@ -33965,6 +35044,11 @@
                 1
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "73475": {
                   "args": [],
                   "description": "「광분」 1장을 덱에 섞어 넣는다.",
@@ -34038,6 +35122,11 @@
                 3
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "73475": {
                   "args": [],
                   "description": "「광분」 1장을 덱에 섞어 넣는다.",
@@ -34273,6 +35362,11 @@
                 1
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "73475": {
                   "args": [],
                   "description": "「광분」 1장을 덱에 섞어 넣는다.",
@@ -34346,6 +35440,11 @@
                 3
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "73475": {
                   "args": [],
                   "description": "「광분」 1장을 덱에 섞어 넣는다.",
@@ -34422,7 +35521,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83390
+            }
+          ],
           "phaseTransitions": [],
           "skills": [
             {
@@ -34450,6 +35565,18 @@
               "expressions": [
                 "BattleAtkForce*0.45"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ]
         }
@@ -36363,6 +37490,11 @@
                 5
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "94685": {
                   "args": [
                     {
@@ -36520,6 +37652,11 @@
                 9
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "94685": {
                   "args": [
                     {
@@ -37765,6 +38902,11 @@
                 5
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "94685": {
                   "args": [
                     {
@@ -37922,6 +39064,11 @@
                 9
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "94685": {
                   "args": [
                     {
@@ -39167,6 +40314,11 @@
                 5
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "94685": {
                   "args": [
                     {
@@ -39324,6 +40476,11 @@
                 9
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "94685": {
                   "args": [
                     {
@@ -40569,6 +41726,11 @@
                 5
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "94685": {
                   "args": [
                     {
@@ -40726,6 +41888,11 @@
                 9
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "94685": {
                   "args": [
                     {
@@ -40933,6 +42100,21 @@
               "targetTid": 94702,
               "sourceMonsterTid": 94942,
               "sourceMonsterName": "순교자"
+            },
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83393
             }
           ],
           "phaseTransitions": [],
@@ -41006,6 +42188,18 @@
                 "BattleAtkForce*0.5",
                 "CmdCaster.hp*2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ]
         }
@@ -41242,7 +42436,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "skills": [
             {
               "id": 45704,
@@ -41272,6 +42482,18 @@
               "expressions": [
                 "BattleAtkForce*0.05"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -41384,7 +42606,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "skills": [
             {
               "id": 149078,
@@ -41432,6 +42670,18 @@
               "expressions": [
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -41502,7 +42752,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "skills": [
             {
               "id": 45692,
@@ -41532,6 +42798,18 @@
                 "BattleAtkForce*0.4",
                 "2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -41624,7 +42902,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "skills": [
             {
               "id": 149078,
@@ -41672,6 +42966,18 @@
               "expressions": [
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -41765,7 +43071,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "skills": [
             {
               "id": 149080,
@@ -41814,6 +43136,18 @@
                 "1",
                 "1"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -41877,7 +43211,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "skills": [
             {
               "id": 3986,
@@ -41940,6 +43290,18 @@
                 "BattleAtkForce*1.5",
                 "1"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -42062,7 +43424,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "skills": [
             {
               "id": 149079,
@@ -42111,6 +43489,18 @@
               "expressions": [
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -42215,7 +43605,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "skills": [
             {
               "id": 149210,
@@ -42281,6 +43687,18 @@
                 "1",
                 "10"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -42370,7 +43788,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "skills": [
             {
               "id": 65550,
@@ -42417,6 +43851,18 @@
                 "BattleAtkForce*0.15",
                 "math.min(10,4+math.max(HandDeck.CardCount,PlayerRole.GetStateLayer(20692)))"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ],
           "phaseTransitions": []
@@ -42718,7 +44164,8 @@
                 "BSTAfterIntentionChanged"
               ],
               "commandCondition": "Arg1==148362 and UpperTarget.GetStateLayer(148383)==4",
-              "conditionText": "「선혈의 사슬」 의도로 전환할 때 · 「증오」 3스택 보유"
+              "conditionText": "「선혈의 사슬」 의도로 전환할 때 · 「증오」 3스택 보유",
+              "sourceSkillId": 148362
             }
           ],
           "skills": [
@@ -42862,7 +44309,46 @@
                   "richDescriptionTemplate": null
                 }
               ],
+              "displayStateReplacements": {
+                "148020": {
+                  "id": 148395,
+                  "name": "영혼을 거두리-피에 굶주린 철구",
+                  "descriptionTemplate": "모든 피해(관통 피해 포함)에 면역되며 HP를 잃을 수 없습니다. 적의 턴 종료 후 제거됩니다.",
+                  "icon": "images/keyword-icons/original/icons_buff_058.png",
+                  "visible": true,
+                  "richDescriptionTemplate": "<game-text:모든 피해(관통 피해 포함)에 면역되며 HP를 잃을 수 없습니다. 적의 턴 종료 후 제거됩니다.>"
+                }
+              },
               "createdCards": []
+            }
+          ],
+          "patternInterventions": [
+            {
+              "stateId": 148392,
+              "name": "임시 열광",
+              "descriptionTemplate": "턴 시작 후 해제됩니다. 10 스택에 도달하면, 다음에 카드를 사용한 직후 즉시 행동하고, 광열을 제거하며 의도를 「선혈의 사슬」로 전환합니다.",
+              "iconSource": "IconS_Buff_071.png",
+              "triggerEvents": [
+                "BSTStateOnAdd"
+              ],
+              "actionTypes": [
+                "BEAttachPostAction"
+              ],
+              "sourceStateIds": [
+                148385
+              ],
+              "source": {
+                "table": "State",
+                "id": 148392
+              },
+              "sourceStates": [
+                {
+                  "id": 148385,
+                  "name": "불규칙한 형태",
+                  "descriptionTemplate": "적이 명령 카드를 사용할 때마다 <MonsterB05EXFever:임시 열광> 2 스택을 획득합니다.",
+                  "iconSource": "IconS_Buff_016.png"
+                }
+              ]
             }
           ]
         }
@@ -42932,6 +44418,11 @@
               "effectiveHp": 4861,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -43012,6 +44503,11 @@
               "effectiveHp": 4142,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -43194,6 +44690,11 @@
               "effectiveHp": 4368,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -43274,6 +44775,11 @@
               "effectiveHp": 8519,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -43439,6 +44945,11 @@
               "effectiveHp": 10334,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -43671,6 +45182,11 @@
                   "description": "145pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:145pt의 피해를 2회 입힌다.>"
                 },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "22218": {
                   "args": [
                     {
@@ -43747,6 +45263,11 @@
               "effectiveHp": 4142,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -43936,6 +45457,11 @@
               "effectiveHp": 98711,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149153": {
                   "args": [
                     {
@@ -44193,6 +45719,11 @@
               "effectiveHp": 76315,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "65545": {
                   "args": [
                     {
@@ -44758,8 +46289,8 @@
                       }
                     }
                   ],
-                  "description": "기본 767(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
-                  "richDescription": "<game-text:기본 767(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
+                  "description": "기본 767 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+                  "richDescription": "<game-text:기본 767 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
                 },
                 "148365": {
                   "args": [
@@ -45050,8 +46581,8 @@
                         }
                       }
                     ],
-                    "description": "기본 767(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
-                    "richDescription": "<game-text:기본 767(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
+                    "description": "기본 767 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+                    "richDescription": "<game-text:기본 767 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
                   },
                   "148365": {
                     "args": [
@@ -45141,6 +46672,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -45319,6 +46855,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -45504,6 +47045,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -45714,6 +47260,11 @@
               "effectiveHp": 51099,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -45794,6 +47345,11 @@
               "effectiveHp": 43532,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -45976,6 +47532,11 @@
               "effectiveHp": 45916,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -46056,6 +47617,11 @@
               "effectiveHp": 89552,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -46221,6 +47787,11 @@
               "effectiveHp": 108623,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -46453,6 +48024,11 @@
                   "description": "400pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:400pt의 피해를 2회 입힌다.>"
                 },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "22218": {
                   "args": [
                     {
@@ -46529,6 +48105,11 @@
               "effectiveHp": 43532,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -46718,6 +48299,11 @@
               "effectiveHp": 929967,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149153": {
                   "args": [
                     {
@@ -46975,6 +48561,11 @@
               "effectiveHp": 718974,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "65545": {
                   "args": [
                     {
@@ -47540,8 +49131,8 @@
                       }
                     }
                   ],
-                  "description": "기본 2,209(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
-                  "richDescription": "<game-text:기본 2,209(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
+                  "description": "기본 2,209 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+                  "richDescription": "<game-text:기본 2,209 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
                 },
                 "148365": {
                   "args": [
@@ -47832,8 +49423,8 @@
                         }
                       }
                     ],
-                    "description": "기본 2,209(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
-                    "richDescription": "<game-text:기본 2,209(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
+                    "description": "기본 2,209 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+                    "richDescription": "<game-text:기본 2,209 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
                   },
                   "148365": {
                     "args": [
@@ -47923,6 +49514,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -48101,6 +49697,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -48286,6 +49887,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -48496,6 +50102,11 @@
               "effectiveHp": 132710,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -48576,6 +50187,11 @@
               "effectiveHp": 110224,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -48758,6 +50374,11 @@
               "effectiveHp": 119589,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -48838,6 +50459,11 @@
               "effectiveHp": 226746,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -49003,6 +50629,11 @@
               "effectiveHp": 275035,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -49235,6 +50866,11 @@
                   "description": "523pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:523pt의 피해를 2회 입힌다.>"
                 },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "22218": {
                   "args": [
                     {
@@ -49311,6 +50947,11 @@
               "effectiveHp": 110224,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -49500,6 +51141,11 @@
               "effectiveHp": 2356693,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149153": {
                   "args": [
                     {
@@ -49757,6 +51403,11 @@
               "effectiveHp": 1852326,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "65545": {
                   "args": [
                     {
@@ -50322,8 +51973,8 @@
                       }
                     }
                   ],
-                  "description": "기본 2,815(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
-                  "richDescription": "<game-text:기본 2,815(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
+                  "description": "기본 2,815 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+                  "richDescription": "<game-text:기본 2,815 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
                 },
                 "148365": {
                   "args": [
@@ -50614,8 +52265,8 @@
                         }
                       }
                     ],
-                    "description": "기본 2,815(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
-                    "richDescription": "<game-text:기본 2,815(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
+                    "description": "기본 2,815 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+                    "richDescription": "<game-text:기본 2,815 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
                   },
                   "148365": {
                     "args": [
@@ -50705,6 +52356,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -50883,6 +52539,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -51068,6 +52729,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -51278,6 +52944,11 @@
               "effectiveHp": 435993,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -51358,6 +53029,11 @@
               "effectiveHp": 354418,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -51540,6 +53216,11 @@
               "effectiveHp": 393801,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "45692": {
                   "args": [
                     {
@@ -51620,6 +53301,11 @@
               "effectiveHp": 729088,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -51785,6 +53471,11 @@
               "effectiveHp": 884357,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -52017,6 +53708,11 @@
                   "description": "698pt의 피해를 2회 입힌다.",
                   "richDescription": "<game-text:698pt의 피해를 2회 입힌다.>"
                 },
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "22218": {
                   "args": [
                     {
@@ -52093,6 +53789,11 @@
               "effectiveHp": 354418,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -52282,6 +53983,11 @@
               "effectiveHp": 7543450,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149153": {
                   "args": [
                     {
@@ -52539,6 +54245,11 @@
               "effectiveHp": 6013139,
               "phaseRuleResolved": true,
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "65545": {
                   "args": [
                     {
@@ -53104,8 +54815,8 @@
                       }
                     }
                   ],
-                  "description": "기본 3,757(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
-                  "richDescription": "<game-text:기본 3,757(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
+                  "description": "기본 3,757 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+                  "richDescription": "<game-text:기본 3,757 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
                 },
                 "148365": {
                   "args": [
@@ -53396,8 +55107,8 @@
                         }
                       }
                     ],
-                    "description": "기본 3,757(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
-                    "richDescription": "<game-text:기본 3,757(대상의 출혈 3스택당 +1) 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
+                    "description": "기본 3,757 피해를 1회 입히고, 적의 출혈 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.",
+                    "richDescription": "<game-text:기본 3,757 피해를 1회 입히고, 적의 <kw_66ba67da7a48b0ed:출혈> 3 스택마다 피해 1 증가, 손실된 HP의 30% 회복.>"
                   },
                   "148365": {
                     "args": [
@@ -53487,6 +55198,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -53665,6 +55381,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149079": {
                   "args": [
                     {
@@ -53850,6 +55571,11 @@
                 "CmdCaster.MonsterPos"
               ],
               "resolvedSkills": {
+                "4681": {
+                  "args": [],
+                  "description": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+                  "richDescription": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다."
+                },
                 "149077": {
                   "args": [
                     {
@@ -54072,7 +55798,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "phaseTransitions": [],
           "skills": [
             {
@@ -54121,6 +55863,18 @@
               "expressions": [
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ]
         },
@@ -54199,7 +55953,23 @@
               "visible": false
             }
           ],
-          "conditionalActions": [],
+          "conditionalActions": [
+            {
+              "stateId": 22073,
+              "commandId": 22071,
+              "skillId": 4681,
+              "judgement": "StateOwner.GetStateLayer(22073)>=5",
+              "triggerEvents": [
+                "BSTBeforeBoutEnd"
+              ],
+              "commandCondition": "",
+              "conditionText": "6턴부터 매 턴",
+              "firstTurn": 6,
+              "persistent": true,
+              "contextResolved": true,
+              "sourceStageGroupId": 83392
+            }
+          ],
           "phaseTransitions": [],
           "skills": [
             {
@@ -54249,6 +56019,18 @@
               "expressions": [
                 "BattleAtkForce*0.2"
               ]
+            },
+            {
+              "id": 4681,
+              "name": "응시",
+              "hasOfficialName": true,
+              "type": "Intent_StrongDebuff",
+              "typeLabel": "강력 약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "장기전이 밀경의 주목을 끌었다… 증상 카드 1장을 영구적으로 덱에 넣는다.",
+              "para": "",
+              "expressions": []
             }
           ]
         }

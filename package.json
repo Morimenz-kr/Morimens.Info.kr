@@ -7,7 +7,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "test": "node --test js/*.test.cjs tools/cron-auto-recovery.test.cjs tools/firebase-data-core.test.cjs tools/prepare-pages-artifact.test.cjs tools/workflow-config.test.cjs workers/*.test.cjs",
+    "test": "node --test js/*.test.cjs tools/cron-auto-recovery.test.cjs tools/firebase-data-core.test.cjs tools/monster-combat-transformer.test.cjs tools/prepare-pages-artifact.test.cjs tools/workflow-config.test.cjs workers/*.test.cjs",
     "data:validate": "node tools/validate-character.mjs --all && node tools/firebase-data.mjs validate --source data",
     "data:import": "node tools/firebase-data.mjs import --source data",
     "data:export": "node tools/firebase-data.mjs export --out .generated/data",

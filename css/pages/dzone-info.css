@@ -687,6 +687,12 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
 }
 .action-copy .dynamic { color: #e6b961; font-weight: 700; }
 
+.action-replacements {
+    margin-top: 0.8rem;
+}
+
+.action-step--replacement { grid-template-columns: 2.3rem minmax(0, 1fr); }
+
 .flow-loop {
     margin-top: 0.5rem;
     color: #d5b468;
@@ -749,6 +755,7 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
 }
 
 .phase-transition-summary,
+.phase-transition > p,
 .phase-card p {
     margin: 0;
     color: #d2c4c6;
@@ -799,6 +806,24 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
     padding-top: 0.8rem;
     border-top: 1px solid #3b3d44;
 }
+
+.condition-chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.45rem;
+}
+
+.condition-chain span {
+    padding: 0.35rem 0.5rem;
+    border: 1px solid #65474a;
+    border-radius: 0.4rem;
+    color: #e8b9bc;
+    font-size: 0.72rem;
+}
+
+.condition-chain b { color: #ff9fa5; font-size: 0.75rem; }
 
 .conditional-action {
     display: grid;

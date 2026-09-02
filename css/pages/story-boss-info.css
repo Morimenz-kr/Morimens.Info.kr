@@ -1,0 +1,353 @@
+.story-boss-shell {
+    max-width: 58rem;
+    margin-inline: auto;
+}
+
+.story-boss-hero {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--dzone-border);
+}
+
+.story-boss-eyebrow {
+    margin: 0 0 0.35rem;
+    color: var(--dzone-gold);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.story-boss-content {
+    padding-top: 1rem;
+}
+
+.story-boss-content .monster-list {
+    padding: 0;
+}
+
+.story-boss-content .monster-card {
+    overflow: hidden;
+}
+
+.story-boss-content .monster-heading {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    border-bottom: 1px solid #3b3d44;
+}
+
+.story-boss-portrait {
+    display: block;
+    width: 3.5rem;
+    height: 3.5rem;
+    flex: none;
+    object-fit: cover;
+}
+
+.story-boss-content .monster-heading-copy {
+    display: grid;
+    min-width: 0;
+    gap: 0.25rem;
+}
+
+.story-boss-content .monster-heading-copy h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.2;
+}
+
+.story-boss-meta {
+    display: flex;
+    min-width: 0;
+    flex-wrap: nowrap;
+    gap: 0.35rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.story-boss-meta::-webkit-scrollbar { display: none; }
+
+.story-boss-meta > * {
+    flex: none;
+    white-space: nowrap;
+}
+
+.story-boss-description {
+    margin: 0.85rem var(--monster-content-inset);
+    color: #bfc2c9;
+    font-size: 0.8rem;
+    line-height: 1.65;
+}
+
+.story-boss-content .monster-badge,
+.story-boss-content .hp-count-badge,
+.story-boss-content .flow-badge,
+.story-boss-content .phase-transition > header > span {
+    display: inline-flex;
+    min-height: 1.6rem;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    text-align: center;
+}
+
+.story-boss-difficulty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin: 0 var(--monster-content-inset) 0.75rem;
+}
+
+.story-boss-difficulty h3 {
+    margin: 0;
+    color: #f1f1f2;
+    font-size: 0.88rem;
+}
+
+.story-boss-difficulty p {
+    margin: 0.22rem 0 0;
+    color: #969ba4;
+    font-size: 0.68rem;
+}
+
+.story-boss-difficulty-options {
+    display: inline-flex;
+    flex: none;
+    gap: 0.35rem;
+}
+
+.story-boss-difficulty-button {
+    min-width: 3.4rem;
+    min-height: 2rem;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.story-boss-difficulty-button[aria-pressed="true"] {
+    border-color: #c49d4f;
+    background: rgba(232, 197, 113, 0.12);
+    color: #f0cf81;
+}
+
+.story-boss-difficulty-button:focus-visible {
+    outline: 2px solid var(--dzone-gold);
+    outline-offset: 2px;
+}
+
+.story-boss-content .monster-overview {
+    margin-inline: var(--monster-content-inset);
+}
+
+.story-boss-hp-note {
+    margin: 0.7rem 0 0;
+    color: #999da6;
+    font-size: 0.68rem;
+    line-height: 1.55;
+}
+
+.story-boss-initial-effects {
+    margin: 1rem var(--monster-content-inset) 0;
+    padding-top: 1rem;
+    border-top: 1px solid #3b3d44;
+}
+
+.story-boss-content .combat-flow {
+    margin-top: 0;
+}
+
+.story-boss-content .phase-transition {
+    margin-block: 0.2rem;
+    padding: 0.25rem 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+}
+
+.story-boss-break {
+    display: inline-block;
+    margin-top: 0.2rem;
+    color: #d6b9b1;
+}
+
+.story-boss-break b {
+    color: #f0a998;
+    font-weight: 800;
+}
+
+.story-boss-transition-lead {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.7rem;
+}
+
+.story-boss-transition-lead img {
+    width: 4.5rem;
+    height: 4.5rem;
+    border: 1px solid #6b514a;
+    border-radius: 0.55rem;
+    object-fit: cover;
+    background: #202126;
+}
+
+.story-boss-transition-trigger,
+.story-boss-flat-trigger {
+    margin: 0 0 0.25rem;
+    color: #d4aa72;
+    font-size: 0.7rem;
+    line-height: 1.45;
+}
+
+.story-boss-transition-trigger b,
+.story-boss-flat-trigger b {
+    color: #efc68e;
+}
+
+.story-boss-transition-rules {
+    margin: 0.45rem 0 0;
+}
+
+.story-boss-flat-section,
+.story-boss-conditional-actions {
+    margin: 1rem var(--monster-content-inset) 0;
+    padding-top: 1rem;
+    border-top: 1px solid #3b3d44;
+}
+
+.story-boss-flat-section > h3 {
+    margin: 0;
+    color: #f1f1f2;
+    font-size: 0.88rem;
+}
+
+.story-boss-flat-section > .monster-rules {
+    margin: 0.55rem 0 0;
+}
+
+.story-boss-flat-section .monster-rule-icon,
+.story-boss-conditional-actions .monster-rule-icon {
+    color: #c89558;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.story-boss-flat-section .story-boss-flat-trigger + p {
+    margin-top: 0.15rem;
+}
+
+.story-boss-conditional-actions {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.story-boss-conditional-actions .conditional-action {
+    padding-inline: 0;
+}
+
+.story-boss-flat-section--support .monster-rule-icon {
+    color: #87aebf;
+}
+
+.story-boss-support-note {
+    color: #c8ac87;
+}
+
+.story-boss-support-groups {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 0.7rem;
+}
+
+.story-boss-support-group {
+    padding-left: 0.7rem;
+    border-left: 2px solid #4d626d;
+}
+
+.story-boss-support-group h4 {
+    margin: 0;
+    color: #dbe7eb;
+    font-size: 0.76rem;
+}
+
+.story-boss-support-group > p {
+    margin: 0.25rem 0 0;
+}
+
+.story-boss-support-variants {
+    color: #aebbc1;
+}
+
+.story-boss-support-variants b {
+    color: #d0dadd;
+}
+
+.story-boss-support-group ul {
+    display: grid;
+    gap: 0.42rem;
+    margin: 0.42rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.story-boss-support-group li {
+    display: grid;
+    grid-template-columns: minmax(8.5rem, 0.38fr) minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: baseline;
+}
+
+.story-boss-support-group li strong {
+    color: #eceef0;
+    font-size: 0.71rem;
+}
+
+.story-boss-support-group li span {
+    color: #b9bdc4;
+    font-size: 0.7rem;
+    line-height: 1.55;
+}
+
+.story-boss-source {
+    margin: 1rem var(--monster-content-inset) 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid #3b3d44;
+    color: #878b94;
+    font-size: 0.68rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+    .story-boss-support-group li {
+        grid-template-columns: 1fr;
+        gap: 0.08rem;
+    }
+    .story-boss-portrait {
+        width: 3rem;
+        height: 3rem;
+    }
+
+    .story-boss-content .monster-heading-copy h2 {
+        font-size: 0.92rem;
+        line-height: 1.1;
+    }
+
+    .story-boss-content .story-boss-meta > * {
+        min-height: 1.35rem;
+        padding-block: 0.16rem;
+        font-size: 0.6rem;
+    }
+
+    .story-boss-transition-lead {
+        grid-template-columns: 3.75rem minmax(0, 1fr);
+    }
+
+    .story-boss-transition-lead img {
+        width: 3.75rem;
+        height: 3.75rem;
+    }
+
+    .story-boss-difficulty {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
