@@ -1055,10 +1055,11 @@
                 const localStageUsage = overview?.stages?.find(stage => stage.stageTid === stageId);
                 const usage = stageUsage || (localStageUsage ? {
                     ...localStageUsage,
-                    since: overview.since,
+                    since: localStageUsage.usageSince ?? overview.since,
+                    recordCount: localStageUsage.usageRecordCount ?? localStageUsage.recordCount,
                     awakeners: Array.isArray(localStageUsage.awakeners) ? localStageUsage.awakeners : [],
                     parties: Array.isArray(localStageUsage.parties) ? localStageUsage.parties : [],
-                    fetchedAt: overview.fetchedAt
+                    fetchedAt: localStageUsage.usageFetchedAt ?? overview.fetchedAt
                 } : {
                     stageTid: stageId,
                     since: overview.since,
