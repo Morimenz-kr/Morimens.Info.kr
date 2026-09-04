@@ -804,15 +804,15 @@
         const scopeLabel = difficultySet.size === 2 && difficultySet.has('nightmare') && difficultySet.has('madness')
             ? '5개 파 · 악몽·광기'
             : '5개 파 · 4개 난이도';
-        const cells = stage => [
-            stage.constraints?.noOverlimit,
-            stage.constraints?.noFinalLaw,
-            stage.constraints?.noEmergencySpirit,
-            stage.constraints?.combinations?.noFinalLawOnly,
-            stage.constraints?.combinations?.noEmergencySpiritOnly,
-            stage.constraints?.combinations?.noFinalLawAndNoEmergencySpirit,
-            stage.constraints?.combinations?.noOverlimitAndNoFinalLaw,
-            stage.constraints?.combinations?.none
+        const metrics = [
+            { label: '초한 없음', fullLabel: '초한 각성체 없음', value: stage => stage.constraints?.noOverlimit },
+            { label: '최종 없음', fullLabel: '최종 법칙 없음', value: stage => stage.constraints?.noFinalLaw },
+            { label: '영지체 0', fullLabel: '응급 영지체 미사용', value: stage => stage.constraints?.noEmergencySpirit },
+            { label: '최종만', fullLabel: '최종 법칙만 없음', value: stage => stage.constraints?.combinations?.noFinalLawOnly },
+            { label: '영지체만', fullLabel: '응급 영지체만 미사용', value: stage => stage.constraints?.combinations?.noEmergencySpiritOnly },
+            { label: '최종+영지체', fullLabel: '최종 법칙·응급 영지체 없음', value: stage => stage.constraints?.combinations?.noFinalLawAndNoEmergencySpirit },
+            { label: '초한+최종', fullLabel: '초한·최종 법칙 없음', value: stage => stage.constraints?.combinations?.noOverlimitAndNoFinalLaw },
+            { label: '전부 없음', fullLabel: '전부 없음', value: stage => stage.constraints?.combinations?.none }
         ];
         return `
             <div class="usage-constraint-note">
@@ -823,14 +823,11 @@
                 <table class="usage-constraint-table">
                     <thead>
                         <tr><th rowspan="2" scope="col">스테이지</th><th colspan="3" scope="colgroup">조건을 포함한 전체</th><th colspan="5" scope="colgroup">조건이 정확히 일치</th></tr>
-                        <tr>
-                            <th scope="col" aria-label="초한 각성체 없음">초한 없음</th><th scope="col" aria-label="최종 법칙 없음">최종 없음</th><th scope="col" aria-label="응급 영지체 미사용">영지체 0</th>
-                            <th scope="col" aria-label="최종 법칙만 없음">최종만</th><th scope="col" aria-label="응급 영지체만 미사용">영지체만</th><th scope="col" aria-label="최종 법칙·응급 영지체 없음">최종+영지체</th><th scope="col" aria-label="초한·최종 법칙 없음">초한+최종</th><th scope="col">전부 없음</th>
-                        </tr>
+                        <tr>${metrics.map(metric => `<th scope="col" aria-label="${metric.fullLabel}">${metric.label}</th>`).join('')}</tr>
                     </thead>
                     <tbody>${stages.map(stage => `<tr>
                         <th scope="row"><strong>${stage.wave}파 ${escapeHtml(difficultyLabels[stage.difficulty] || stage.difficulty)}</strong><small>전체 ${number.format(stage.recordCount)}건</small></th>
-                        ${cells(stage).map(stat => `<td>${usageConstraintResult(stat)}</td>`).join('')}
+                        ${metrics.map(metric => `<td>${usageConstraintResult(metric.value(stage))}</td>`).join('')}
                     </tr>`).join('')}</tbody>
                 </table>
             </div>
