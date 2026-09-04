@@ -919,14 +919,14 @@
             ? '5개 파 · 악몽·광기'
             : '5개 파 · 4개 난이도';
         const metrics = [
-            { label: '초한 없음', fullLabel: '초한 각성체 없음', value: stage => stage.constraints?.noOverlimit },
-            { label: '최종 없음', fullLabel: '최종 법칙 없음', value: stage => stage.constraints?.noFinalLaw },
-            { label: '영지체 0', fullLabel: '응급 영지체 미사용', value: stage => stage.constraints?.noEmergencySpirit },
-            { label: '최종만', fullLabel: '최종 법칙만 없음', value: stage => stage.constraints?.combinations?.noFinalLawOnly },
-            { label: '영지체만', fullLabel: '응급 영지체만 미사용', value: stage => stage.constraints?.combinations?.noEmergencySpiritOnly },
-            { label: '최종+영지체', fullLabel: '최종 법칙·응급 영지체 없음', value: stage => stage.constraints?.combinations?.noFinalLawAndNoEmergencySpirit },
-            { label: '초한+최종', fullLabel: '초한·최종 법칙 없음', value: stage => stage.constraints?.combinations?.noOverlimitAndNoFinalLaw },
-            { label: '전부 없음', fullLabel: '전부 없음', value: stage => stage.constraints?.combinations?.none }
+            { label: ['초한 X'], fullLabel: '초한 각성체 없음 포함', value: stage => stage.constraints?.noOverlimit },
+            { label: ['최종 X'], fullLabel: '최종 법칙 없음 포함', value: stage => stage.constraints?.noFinalLaw },
+            { label: ['영지체 X'], fullLabel: '응급 영지체 미사용 포함', value: stage => stage.constraints?.noEmergencySpirit },
+            { label: ['초한 O', '최종 X', '영지체 O'], fullLabel: '초한 각성체 있음, 최종 법칙 없음, 응급 영지체 사용', value: stage => stage.constraints?.combinations?.noFinalLawOnly },
+            { label: ['초한 O', '최종 O', '영지체 X'], fullLabel: '초한 각성체 있음, 최종 법칙 있음, 응급 영지체 미사용', value: stage => stage.constraints?.combinations?.noEmergencySpiritOnly },
+            { label: ['초한 O', '최종 X', '영지체 X'], fullLabel: '초한 각성체 있음, 최종 법칙 없음, 응급 영지체 미사용', value: stage => stage.constraints?.combinations?.noFinalLawAndNoEmergencySpirit },
+            { label: ['초한 X', '최종 X', '영지체 O'], fullLabel: '초한 각성체 없음, 최종 법칙 없음, 응급 영지체 사용', value: stage => stage.constraints?.combinations?.noOverlimitAndNoFinalLaw },
+            { label: ['초한 X', '최종 X', '영지체 X'], fullLabel: '초한 각성체 없음, 최종 법칙 없음, 응급 영지체 미사용', value: stage => stage.constraints?.combinations?.none }
         ];
         return `
             <div class="usage-constraint-note">
@@ -937,7 +937,7 @@
                 <table class="usage-constraint-table">
                     <thead>
                         <tr><th rowspan="2" scope="col">스테이지</th><th colspan="3" scope="colgroup">조건을 포함한 전체</th><th colspan="5" scope="colgroup">조건이 정확히 일치</th></tr>
-                        <tr>${metrics.map(metric => `<th scope="col" aria-label="${metric.fullLabel}">${metric.label}</th>`).join('')}</tr>
+                        <tr>${metrics.map(metric => `<th scope="col" aria-label="${metric.fullLabel}"><span class="usage-constraint-state">${metric.label.map(label => `<span>${label}</span>`).join('')}</span></th>`).join('')}</tr>
                     </thead>
                     <tbody>${stages.map(stage => `<tr>
                         <th scope="row"><strong>${stage.wave}파 ${escapeHtml(difficultyLabels[stage.difficulty] || stage.difficulty)}</strong><small>전체 ${number.format(stage.recordCount)}건</small></th>
@@ -945,7 +945,7 @@
                     </tr>`).join('')}</tbody>
                 </table>
             </div>
-            <p class="usage-constraint-legend"><strong>최종</strong> 최종 법칙 +15 미개방 · <strong>영지체 0</strong> 응급 영지체 사용 횟수 0회</p>`;
+            <p class="usage-constraint-legend"><strong>O</strong> 보유 또는 사용 · <strong>X</strong> 없음 또는 미사용 · <strong>최종</strong> 최종 법칙 +15 개방 여부</p>`;
     }
 
     function loadDzoneUsageOverview(usageApiBase, force) {
