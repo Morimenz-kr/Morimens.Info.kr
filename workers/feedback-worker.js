@@ -25,6 +25,9 @@ const ARCA_PENDING_KEY_PREFIX = 'arca:pending:';
 const ARCA_FEED_STATE_KEY_PREFIX = 'arca:feed:';
 const CRON_WATCHDOG_STATE_KEY = 'cron:watchdog-state:v1';
 const CRON_STATUS_KEY = 'cron:status:v1';
+const DZONE_USAGE_KEY_PREFIX = 'dzone:usage:stage:';
+const DZONE_USAGE_MAX_AWAKENERS = 200;
+const DZONE_USAGE_MAX_PARTIES = 100;
 const DEFAULT_CRON_STALE_MS = 30 * 60 * 1000;
 const DEFAULT_CRON_TASK_TIMEOUT_MS = 75 * 1000;
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
@@ -210,6 +213,21 @@ export default {
             const url = new URL(request.url);
             const origin = request.headers.get('Origin') || '';
             const corsHeaders = getCorsHeaders(origin, env);
+            const dzoneStageId = parseDzoneUsageStageId(url.pathname);
+
+            if (dzoneStageId !== null) {
+                const dzoneCorsHeaders = getPublicDzoneCorsHeaders();
+                if (request.method === 'OPTIONS') {
+                    return new Response(null, { status: 204, headers: dzoneCorsHeaders });
+                }
+                if (request.method === 'GET') {
+                    return await handleGetDzoneUsage(dzoneStageId, env, dzoneCorsHeaders);
+                }
+                if (request.method === 'POST') {
+                    return await handlePutDzoneUsage(request, dzoneStageId, env, dzoneCorsHeaders);
+                }
+                return jsonResponse({ error: 'Method not allowed' }, 405, dzoneCorsHeaders);
+            }
 
             if (request.method === 'OPTIONS') {
                 return new Response(null, { status: 204, headers: corsHeaders });
@@ -4092,6 +4110,115 @@ async function updateGitHubRef(env, branch, sha, force) {
     }
 
     return response.json();
+}
+
+function parseDzoneUsageStageId(pathname) {
+    const match = String(pathname || '').match(/^\/api\/dzone\/stage\/(\d+)\/usage$/);
+    if (!match) return null;
+    const stageId = Number(match[1]);
+    return Number.isSafeInteger(stageId) && stageId > 0 ? stageId : null;
+}
+
+function getPublicDzoneCorsHeaders() {
+    return {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+        'Cache-Control': 'no-store'
+    };
+}
+
+function dzoneUsageKey(stageId) {
+    return `${DZONE_USAGE_KEY_PREFIX}${stageId}`;
+}
+
+function normalizeDzoneUsageCount(value, label, maximum = Number.MAX_SAFE_INTEGER) {
+    const count = Number(value);
+    if (!Number.isSafeInteger(count) || count < 0 || count > maximum) {
+        throw new Error(`${label} must be a non-negative safe integer`);
+    }
+    return count;
+}
+
+function normalizeDzoneUsageAwakener(value, recordCount) {
+    const tid = normalizeDzoneUsageCount(value?.tid, 'awakener.tid');
+    if (tid <= 0) throw new Error('awakener.tid must be positive');
+    const count = normalizeDzoneUsageCount(value?.count, 'awakener.count', recordCount);
+    const name = String(value?.name || '').trim().slice(0, 80);
+    const image = String(value?.image_thumb || '').trim();
+    const imageThumb = /^(?:images\/|https:\/\/)/.test(image) ? image.slice(0, 500) : '';
+    return {
+        tid,
+        name: name || `각성체 ${tid}`,
+        image_thumb: imageThumb,
+        count,
+        rate: recordCount > 0 ? count / recordCount : 0
+    };
+}
+
+function normalizeDzoneUsagePayload(body, stageId, now = Date.now()) {
+    const input = body?.data || body;
+    if (!input || Number(input.stageTid) !== stageId) throw new Error('stageTid does not match request path');
+    const since = normalizeDzoneUsageCount(input.since, 'since');
+    const recordCount = normalizeDzoneUsageCount(input.recordCount, 'recordCount');
+    const awakeners = Array.isArray(input.awakeners) ? input.awakeners : [];
+    const parties = Array.isArray(input.parties) ? input.parties : [];
+    if (awakeners.length > DZONE_USAGE_MAX_AWAKENERS) throw new Error('too many awakeners');
+    if (parties.length > DZONE_USAGE_MAX_PARTIES) throw new Error('too many parties');
+
+    const normalizedAwakeners = awakeners.map(item => normalizeDzoneUsageAwakener(item, recordCount));
+    const normalizedParties = parties.map(item => {
+        const count = normalizeDzoneUsageCount(item?.count, 'party.count', recordCount);
+        const members = Array.isArray(item?.awakeners) ? item.awakeners : [];
+        if (members.length < 1 || members.length > 4) throw new Error('party.awakeners must contain 1 to 4 members');
+        return {
+            awakeners: members.map(member => normalizeDzoneUsageAwakener({ ...member, count }, recordCount)),
+            count,
+            rate: recordCount > 0 ? count / recordCount : 0
+        };
+    });
+
+    return {
+        data: {
+            stageTid: stageId,
+            since,
+            recordCount,
+            awakeners: normalizedAwakeners,
+            parties: normalizedParties
+        },
+        fetchedAt: Math.floor(now / 1000)
+    };
+}
+
+async function handleGetDzoneUsage(stageId, env, corsHeaders) {
+    if (!env.RESOURCE_LINK_STATE) {
+        return jsonResponse({ error: 'Usage storage is unavailable' }, 503, corsHeaders);
+    }
+    const payload = await env.RESOURCE_LINK_STATE.get(dzoneUsageKey(stageId), 'json');
+    if (!payload?.data || payload.data.stageTid !== stageId) {
+        return jsonResponse({ error: 'Usage data not found' }, 404, corsHeaders);
+    }
+    return jsonResponse(payload, 200, corsHeaders);
+}
+
+async function handlePutDzoneUsage(request, stageId, env, corsHeaders) {
+    const expectedToken = String(env.DZONE_INGEST_TOKEN || '');
+    const suppliedToken = String(request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!expectedToken || !suppliedToken || suppliedToken !== expectedToken) {
+        return jsonResponse({ error: 'Unauthorized' }, 401, corsHeaders);
+    }
+    if (!env.RESOURCE_LINK_STATE) {
+        return jsonResponse({ error: 'Usage storage is unavailable' }, 503, corsHeaders);
+    }
+    const body = await request.json().catch(() => null);
+    if (!body) return jsonResponse({ error: 'Invalid JSON' }, 400, corsHeaders);
+    try {
+        const payload = normalizeDzoneUsagePayload(body, stageId);
+        await env.RESOURCE_LINK_STATE.put(dzoneUsageKey(stageId), JSON.stringify(payload));
+        return jsonResponse({ ok: true, stageTid: stageId, fetchedAt: payload.fetchedAt }, 200, corsHeaders);
+    } catch (error) {
+        return jsonResponse({ error: error.message || 'Invalid usage payload' }, 400, corsHeaders);
+    }
 }
 
 async function getGitHubFile(env, path, ref) {

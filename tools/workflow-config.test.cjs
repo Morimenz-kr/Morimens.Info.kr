@@ -16,6 +16,10 @@ const CRON_WATCHDOG_WORKFLOW = fs.readFileSync(
   path.join(ROOT, '.github', 'workflows', 'cron-watchdog.yml'),
   'utf8'
 );
+const WORKER_DEPLOY_WORKFLOW = fs.readFileSync(
+  path.join(ROOT, '.github', 'workflows', 'worker-deploy.yml'),
+  'utf8'
+);
 const FIREBASE_DATA_TOOL = fs.readFileSync(
   path.join(ROOT, 'tools', 'firebase-data.mjs'),
   'utf8'
@@ -63,6 +67,17 @@ test('Worker 변경은 PR 검증 워크플로를 반드시 실행한다', () => 
   assert.match(VALIDATION_WORKFLOW, /- 'workers\/\*\*'/);
   assert.match(VALIDATION_WORKFLOW, /- 'wrangler\.jsonc'/);
   assert.match(VALIDATION_WORKFLOW, /run:\s*npm test/);
+});
+
+test('main의 Worker 변경은 기존 Cloudflare 자격 증명과 별도 수집 토큰으로 자동 배포한다', () => {
+  assert.match(WORKER_DEPLOY_WORKFLOW, /branches:\s*\n\s*- main/);
+  assert.match(WORKER_DEPLOY_WORKFLOW, /CLOUDFLARE_API_TOKEN:\s*\$\{\{ secrets\.CLOUDFLARE_API_TOKEN \}\}/);
+  assert.match(WORKER_DEPLOY_WORKFLOW, /CLOUDFLARE_ACCOUNT_ID:\s*\$\{\{ vars\.CLOUDFLARE_ACCOUNT_ID \}\}/);
+  assert.match(WORKER_DEPLOY_WORKFLOW, /DZONE_INGEST_TOKEN:\s*\$\{\{ secrets\.DZONE_INGEST_TOKEN \}\}/);
+  assert.match(WORKER_DEPLOY_WORKFLOW, /wrangler@4\.129\.0 secret put DZONE_INGEST_TOKEN/);
+  assert.match(WORKER_DEPLOY_WORKFLOW, /wrangler@4\.129\.0 deploy/);
+  assert.match(WORKER_DEPLOY_WORKFLOW, /node --test workers\/feedback-worker\.test\.cjs/);
+  assert.match(WORKER_DEPLOY_WORKFLOW, /cancel-in-progress:\s*false/);
 });
 
 test('Cron watchdog는 main Worker만 단계적으로 자동 복구한다', () => {

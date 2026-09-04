@@ -59,7 +59,9 @@ function loadWorkerInternals() {
             runScheduledMaintenance,
             handleGiftCodeMonitor,
             flushPendingGiftCodeNotifications,
-            handleCronWatchdog
+            handleCronWatchdog,
+            parseDzoneUsageStageId,
+            normalizeDzoneUsagePayload
         };
     `)();
 }
@@ -110,7 +112,9 @@ const {
     runScheduledMaintenance,
     handleGiftCodeMonitor,
     flushPendingGiftCodeNotifications,
-    handleCronWatchdog
+    handleCronWatchdog,
+    parseDzoneUsageStageId,
+    normalizeDzoneUsagePayload
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 
@@ -210,6 +214,60 @@ function createResourceProposalBinding() {
         }
     };
 }
+
+test('융재금구 편성 통계 경로는 양의 정수 stage ID만 허용한다', () => {
+    assert.equal(parseDzoneUsageStageId('/api/dzone/stage/82810/usage'), 82810);
+    assert.equal(parseDzoneUsageStageId('/api/dzone/stage/0/usage'), null);
+    assert.equal(parseDzoneUsageStageId('/api/dzone/stage/not-a-number/usage'), null);
+});
+
+test('융재금구 편성 통계는 서버가 건수 기준 비율을 다시 계산한다', () => {
+    const payload = normalizeDzoneUsagePayload({
+        stageTid: 82810,
+        since: 1_700_000_000,
+        recordCount: 20,
+        awakeners: [{ tid: 101, name: '테스트', image_thumb: 'images/test.webp', count: 5, rate: 1 }],
+        parties: [{ count: 4, rate: 1, awakeners: [{ tid: 101, name: '테스트' }] }]
+    }, 82810, 1_800_000_000_000);
+    assert.equal(payload.data.awakeners[0].rate, 0.25);
+    assert.equal(payload.data.parties[0].rate, 0.2);
+    assert.equal(payload.fetchedAt, 1_800_000_000);
+});
+
+test('융재금구 편성 통계 API는 인증된 집계만 저장하고 공개 조회한다', async () => {
+    const kv = createJsonKv();
+    const env = { RESOURCE_LINK_STATE: kv, DZONE_INGEST_TOKEN: 'private-token' };
+    const url = 'https://worker.test/api/dzone/stage/82810/usage';
+    const unauthorized = await worker.fetch(new Request(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}'
+    }), env, {});
+    assert.equal(unauthorized.status, 401);
+
+    const stored = await worker.fetch(new Request(url, {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer private-token', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            stageTid: 82810,
+            since: 1_700_000_000,
+            recordCount: 10,
+            awakeners: [{ tid: 101, name: '테스트', count: 4 }],
+            parties: [{ count: 3, awakeners: [{ tid: 101, name: '테스트' }] }]
+        })
+    }), env, {});
+    assert.equal(stored.status, 200);
+
+    const response = await worker.fetch(new Request(url, {
+        headers: { Origin: 'https://morimenz-kr.github.io' }
+    }), env, {});
+    const payload = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get('Access-Control-Allow-Origin'), '*');
+    assert.equal(payload.data.stageTid, 82810);
+    assert.equal(payload.data.awakeners[0].rate, 0.4);
+    assert.equal(payload.data.parties[0].rate, 0.3);
+});
 
 test('Gift Code 감시는 명시적으로 활성화할 때만 실행된다', () => {
     assert.equal(isGiftCodeMonitorEnabled({}), false);
