@@ -938,6 +938,15 @@
             request = fetch(usageUrl, {
                 cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
             }).then(async response => {
+                if (response.status === 404) {
+                    return {
+                        stageTid: stageId,
+                        recordCount: 0,
+                        awakeners: [],
+                        parties: [],
+                        empty: true
+                    };
+                }
                 if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('unavailable');
                 const payload = await response.json();
                 if (!payload?.data || payload.data.stageTid !== stageId || !Number.isInteger(payload.data.since) || !Number.isInteger(payload.fetchedAt)) throw new Error('invalid');
@@ -952,11 +961,17 @@
             const usage = await request;
             if (!section.isConnected || Number(section.dataset.stageUsage) !== stageId) return;
             section.dataset.usage = JSON.stringify(usage);
-            section.querySelector('[data-usage-period]').textContent = `${dateTime.format(usage.since * 1000)} KST 이후 공개 클리어 기록`;
             section.querySelector('[data-usage-sample]').textContent = `표본 ${number.format(usage.recordCount)}건 · 공개 기록 기준`;
             const updated = section.querySelector('[data-usage-updated]');
-            updated.dateTime = new Date(usage.fetchedAt * 1000).toISOString();
-            updated.textContent = `최근 집계 ${dateTime.format(usage.fetchedAt * 1000)}`;
+            if (usage.empty) {
+                section.querySelector('[data-usage-period]').textContent = '아직 전송된 실전 통계가 없습니다.';
+                updated.removeAttribute('datetime');
+                updated.textContent = '통계 수신 대기 중';
+            } else {
+                section.querySelector('[data-usage-period]').textContent = `${dateTime.format(usage.since * 1000)} KST 이후 공개 클리어 기록`;
+                updated.dateTime = new Date(usage.fetchedAt * 1000).toISOString();
+                updated.textContent = `최근 집계 ${dateTime.format(usage.fetchedAt * 1000)}`;
+            }
             section.querySelector('[data-usage-body]').innerHTML = renderStageUsage(usage);
             section.onclick = event => {
                 const button = event.target.closest('[data-usage-view]');

@@ -652,6 +652,9 @@ test('선택한 스테이지의 공개 기록을 채용률과 편성 조합으�
     assert.match(source, /STAGE_USAGE_REFRESH_START = Date\.parse\('2026-09-01T21:00:00\+09:00'\)/);
     assert.match(source, /STAGE_USAGE_REFRESH_INTERVAL = 30 \* 1000/);
     assert.match(source, /CONFIG\.DZONE_USAGE_ENDPOINT_URL/);
+    assert.match(source, /response\.status === 404/);
+    assert.match(source, /아직 전송된 실전 통계가 없습니다\./);
+    assert.match(source, /통계 수신 대기 중/);
     assert.match(source, /await loadStageUsage\(stageId, true\)/);
     assert.match(css, /\.stage-usage-tabs button\s*\{[^}]*min-height:\s*44px/);
     assert.match(css, /@media \(max-width: 480px\)[\s\S]*\.usage-party-members\s*\{[^}]*repeat\(2/);
