@@ -2,6 +2,18 @@
 
 기존 `dzone_info.html` UI는 변경하지 않는다. 비공개 추출기는 정제·집계한 결과만 Cloudflare Worker로 보내고, 공개 사이트는 Worker의 조회 API를 30초마다 확인한다.
 
+## 로컬 전용으로 바로 쓰기
+
+Cloudflare 설정 없이도 동작한다. 비공개 추출 저장소에서 집계가 끝나면 이 프로젝트의 아래 경로로 결과 JSON 한 파일만 복사한다.
+
+```text
+private-tools/output/dzone-usage-overview.json
+```
+
+`private-tools/`는 Git에서 제외되어 있으므로 원본 기록과 로컬 산출물이 GitHub Pages에 배포되지 않는다. `localhost` 또는 `127.0.0.1`에서 `dzone_info.html`을 열면 이 파일을 공개 API보다 먼저 읽는다. 파일이 없거나 형식이 잘못됐을 때만 Worker API를 시도한다.
+
+파일 형식은 아래의 `GET /api/dzone/usage` 응답과 동일하다. 최상위에 `data`와 `fetchedAt`을 두고, `data.stages`에는 반드시 20개 구간을 모두 넣는다. 로컬 정적 서버가 프로젝트 루트를 서비스하고 있어야 한다.
+
 ## 공개 저장소에서 완료된 범위
 
 - `GET /api/dzone/stage/{stageTid}/usage`: 최신 집계 조회

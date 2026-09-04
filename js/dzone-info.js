@@ -835,14 +835,26 @@
 
     function loadDzoneUsageOverview(usageApiBase, force) {
         if (!force && dzoneUsageOverviewCache?.expiresAt > Date.now()) return dzoneUsageOverviewCache.request;
-        const request = fetch(`${usageApiBase}/api/dzone/usage`, {
-            cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
-        }).then(async response => {
-            if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('unavailable');
-            const payload = await response.json();
-            if (!payload?.data || !Array.isArray(payload.data.stages) || !Number.isInteger(payload.fetchedAt)) throw new Error('invalid');
-            return { ...payload.data, fetchedAt: payload.fetchedAt };
-        }).catch(error => {
+        const localHostnames = new Set(['localhost', '127.0.0.1', '[::1]']);
+        const urls = localHostnames.has(window.location.hostname)
+            ? ['/private-tools/output/dzone-usage-overview.json', `${usageApiBase}/api/dzone/usage`]
+            : [`${usageApiBase}/api/dzone/usage`];
+        const request = (async () => {
+            for (const url of urls) {
+                try {
+                    const response = await fetch(url, {
+                        cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
+                    });
+                    if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) continue;
+                    const payload = await response.json();
+                    if (!payload?.data || payload.data.stages?.length !== 20 || !Number.isInteger(payload.fetchedAt)) continue;
+                    return { ...payload.data, fetchedAt: payload.fetchedAt };
+                } catch {
+                    // 로컬 산출물이 아직 없으면 공개 API로 이어서 시도합니다.
+                }
+            }
+            throw new Error('unavailable');
+        })().catch(error => {
             dzoneUsageOverviewCache = null;
             throw error;
         });
