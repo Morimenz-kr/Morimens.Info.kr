@@ -467,6 +467,8 @@ test('융재금구 페이지는 공통 뒤로가기와 신고 버튼을 제공�
     assert.match(html, /class="floating-report-btn"/);
     assert.match(html, /loadJS\('js\/feedback\.js'\)/);
     assert.match(css, /\.dzone-page-shell \.back-link\s*\{[\s\S]*?min-height:\s*44px/);
+    assert.match(css, /body\.dzone-page:not\(\.landing-page\) > \.floating-report-btn\s*\{[^}]*top:\s*auto/);
+    assert.match(css, /body\.dzone-page:not\(\.landing-page\) > \.floating-report-btn\s*\{[^}]*bottom:\s*max\(20px, env\(safe-area-inset-bottom\)\)/);
 });
 
 test('행동과 부가 정보는 상성 각성체의 안쪽 기준선에 맞춘다', () => {
@@ -682,6 +684,9 @@ test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능
     assert.doesNotMatch(source, /overview\.stages\.slice/);
     assert.match(source, /\/api\/dzone\/usage/);
     assert.match(source, /\/private-tools\/output\/dzone-usage-overview\.json/);
+    assert.match(source, /overview\?\.stages\?\.find\(stage => stage\.stageTid === stageId\)/);
+    assert.match(source, /Array\.isArray\(localStageUsage\.awakeners\)/);
+    assert.match(source, /Array\.isArray\(localStageUsage\.parties\)/);
     assert.match(source, /stages\?\.length === 10/);
     assert.match(source, /\['nightmare', 'madness'\]\.includes/);
     assert.match(source, /stages\?\.length !== 20/);

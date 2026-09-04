@@ -1052,14 +1052,21 @@
             const overviewRequest = loadDzoneUsageOverview(usageApiBase, force).catch(() => null);
             request = Promise.all([stageRequest, overviewRequest]).then(([stageUsage, overview]) => {
                 if (!stageUsage && !overview) throw new Error('unavailable');
-                const usage = stageUsage || {
+                const localStageUsage = overview?.stages?.find(stage => stage.stageTid === stageId);
+                const usage = stageUsage || (localStageUsage ? {
+                    ...localStageUsage,
+                    since: overview.since,
+                    awakeners: Array.isArray(localStageUsage.awakeners) ? localStageUsage.awakeners : [],
+                    parties: Array.isArray(localStageUsage.parties) ? localStageUsage.parties : [],
+                    fetchedAt: overview.fetchedAt
+                } : {
                     stageTid: stageId,
                     since: overview.since,
                     recordCount: 0,
                     awakeners: [],
                     parties: [],
                     fetchedAt: overview.fetchedAt
-                };
+                });
                 return { ...usage, overview };
             }).catch(error => {
                 stageUsageCache.delete(stageId);
