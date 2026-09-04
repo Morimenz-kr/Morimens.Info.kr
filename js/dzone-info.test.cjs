@@ -673,12 +673,16 @@ test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능
     assert.match(source, /초한·최종 법칙 없음/);
     assert.match(source, /전부 없음/);
     assert.match(source, /“초한만 없음”은 성립하지 않습니다/);
-    assert.match(source, /전체 \$\{number\.format\(overview\.recordCount\)\}건 · 5개 파 · 4개 난이도/);
+    assert.match(source, /전체 \$\{number\.format\(overview\.recordCount\)\}건 · \$\{scopeLabel\}/);
+    assert.match(source, /difficultySet\.has\('nightmare'\) && difficultySet\.has\('madness'\)/);
+    assert.match(source, /\? '5개 파 · 악몽·광기'/);
     assert.match(source, /stages\.map\(stage =>/);
     assert.doesNotMatch(source, /overview\.stages\.slice/);
     assert.match(source, /\/api\/dzone\/usage/);
     assert.match(source, /\/private-tools\/output\/dzone-usage-overview\.json/);
-    assert.match(source, /payload\.data\.stages\?\.length !== 20/);
+    assert.match(source, /stages\?\.length === 10/);
+    assert.match(source, /\['nightmare', 'madness'\]\.includes/);
+    assert.match(source, /stages\?\.length !== 20/);
     assert.match(css, /\.usage-constraint-table-wrap\s*\{[^}]*overflow-x:\s*auto/);
     assert.match(css, /\.usage-constraint-result strong\s*\{[^}]*white-space:\s*nowrap/);
     assert.doesNotMatch(css, /usage-constraint[^{]*\{[^}]*(?:text-overflow:\s*ellipsis|overflow:\s*hidden)/);

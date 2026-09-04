@@ -914,6 +914,10 @@
             return '<p class="stage-usage-message">제한 조건별 기록은 비공개 추출기 연결 후 집계됩니다.</p>';
         }
         const difficultyLabels = { normal: '일반', hard: '어려움', nightmare: '악몽', madness: '광기' };
+        const difficultySet = new Set(stages.map(stage => stage.difficulty));
+        const scopeLabel = difficultySet.size === 2 && difficultySet.has('nightmare') && difficultySet.has('madness')
+            ? '5개 파 · 악몽·광기'
+            : '5개 파 · 4개 난이도';
         const cells = stage => [
             stage.constraints?.noOverlimit,
             stage.constraints?.noFinalLaw,
@@ -926,7 +930,7 @@
         ];
         return `
             <div class="usage-constraint-note">
-                <strong>전체 ${number.format(overview.recordCount)}건 · 5개 파 · 4개 난이도</strong>
+                <strong>전체 ${number.format(overview.recordCount)}건 · ${scopeLabel}</strong>
                 <span>초한이 없으면 최종 법칙도 열릴 수 없으므로 “초한만 없음”은 성립하지 않습니다.</span>
             </div>
             <div class="usage-constraint-table-wrap" tabindex="0" role="region" aria-label="모든 파와 난이도의 제한 조건별 클리어 기록">
@@ -961,7 +965,11 @@
                     });
                     if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) continue;
                     const payload = await response.json();
-                    if (!payload?.data || payload.data.stages?.length !== 20 || !Number.isInteger(payload.fetchedAt)) continue;
+                    const stages = payload?.data?.stages;
+                    const isLocalNightmareMadness = url.startsWith('/private-tools/')
+                        && stages?.length === 10
+                        && stages.every(stage => ['nightmare', 'madness'].includes(stage?.difficulty));
+                    if (!payload?.data || (!isLocalNightmareMadness && stages?.length !== 20) || !Number.isInteger(payload.fetchedAt)) continue;
                     return { ...payload.data, fetchedAt: payload.fetchedAt };
                 } catch {
                     // 로컬 산출물이 아직 없으면 공개 API로 이어서 시도합니다.
