@@ -61,7 +61,10 @@ function loadWorkerInternals() {
             flushPendingGiftCodeNotifications,
             handleCronWatchdog,
             parseDzoneUsageStageId,
-            normalizeDzoneUsagePayload
+            normalizeDzoneUsagePayload,
+            normalizeDzoneConstraintBuckets,
+            buildDzoneConstraintStats,
+            normalizeDzoneUsageOverview
         };
     `)();
 }
@@ -114,7 +117,10 @@ const {
     flushPendingGiftCodeNotifications,
     handleCronWatchdog,
     parseDzoneUsageStageId,
-    normalizeDzoneUsagePayload
+    normalizeDzoneUsagePayload,
+    normalizeDzoneConstraintBuckets,
+    buildDzoneConstraintStats,
+    normalizeDzoneUsageOverview
 } = loadWorkerInternals();
 const listUrl = 'https://arca.live/b/forgettingeve?category=%EC%A0%95%EB%B3%B4';
 
@@ -234,6 +240,96 @@ test('융재금구 편성 통계는 서버가 건수 기준 비율을 다시 계
     assert.equal(payload.fetchedAt, 1_800_000_000);
 });
 
+test('융재금구 제한 조건은 초한과 최종 법칙의 종속 관계를 검증한다', () => {
+    assert.throws(() => normalizeDzoneConstraintBuckets([{
+        hasOverlimit: false,
+        hasFinalLaw: true,
+        usedEmergencySpirit: false,
+        count: 1
+    }], 1), /hasFinalLaw requires hasOverlimit/);
+    assert.throws(() => normalizeDzoneConstraintBuckets([{
+        hasOverlimit: true,
+        hasFinalLaw: true,
+        usedEmergencySpirit: false,
+        count: 1
+    }], 2), /must equal recordCount/);
+});
+
+test('융재금구 제한 조건은 전체 조건과 정확히 일치하는 조합을 함께 집계한다', () => {
+    const buckets = normalizeDzoneConstraintBuckets([
+        { hasOverlimit: true, hasFinalLaw: true, usedEmergencySpirit: true, count: 30 },
+        { hasOverlimit: true, hasFinalLaw: false, usedEmergencySpirit: true, count: 20 },
+        { hasOverlimit: true, hasFinalLaw: true, usedEmergencySpirit: false, count: 15 },
+        { hasOverlimit: true, hasFinalLaw: false, usedEmergencySpirit: false, count: 10 },
+        { hasOverlimit: false, hasFinalLaw: false, usedEmergencySpirit: true, count: 15 },
+        { hasOverlimit: false, hasFinalLaw: false, usedEmergencySpirit: false, count: 10 }
+    ], 100);
+    const stats = buildDzoneConstraintStats(buckets, 100);
+    assert.deepEqual(stats.noOverlimit, { count: 25, rate: 0.25 });
+    assert.deepEqual(stats.noFinalLaw, { count: 55, rate: 0.55 });
+    assert.deepEqual(stats.noEmergencySpirit, { count: 35, rate: 0.35 });
+    assert.deepEqual(stats.combinations.noFinalLawOnly, { count: 20, rate: 0.2 });
+    assert.deepEqual(stats.combinations.noEmergencySpiritOnly, { count: 15, rate: 0.15 });
+    assert.deepEqual(stats.combinations.noFinalLawAndNoEmergencySpirit, { count: 10, rate: 0.1 });
+    assert.deepEqual(stats.combinations.noOverlimitAndNoFinalLaw, { count: 15, rate: 0.15 });
+    assert.deepEqual(stats.combinations.none, { count: 10, rate: 0.1 });
+});
+
+function createDzoneUsageOverviewInput() {
+    const difficulties = ['normal', 'hard', 'nightmare', 'madness'];
+    return {
+        period: 68,
+        since: 1_700_000_000,
+        stages: Array.from({ length: 5 }, (_, index) => index + 1).flatMap(wave => difficulties.map((difficulty, difficultyIndex) => ({
+            wave,
+            difficulty,
+            stageTid: 80_000 + wave * 10 + difficultyIndex,
+            recordCount: 1_000_000 + wave * 10 + difficultyIndex,
+            constraintBuckets: [{
+                hasOverlimit: false,
+                hasFinalLaw: false,
+                usedEmergencySpirit: false,
+                count: 1_000_000 + wave * 10 + difficultyIndex
+            }]
+        })))
+    };
+}
+
+test('융재금구 전체 집계는 5개 파와 4개 난이도를 빠짐없이 보존한다', () => {
+    const payload = normalizeDzoneUsageOverview(createDzoneUsageOverviewInput(), 1_800_000_000_000);
+    assert.equal(payload.data.stages.length, 20);
+    assert.equal(payload.data.stages[0].wave, 1);
+    assert.equal(payload.data.stages[0].difficulty, 'normal');
+    assert.equal(payload.data.stages[19].wave, 5);
+    assert.equal(payload.data.stages[19].difficulty, 'madness');
+    assert.equal(payload.data.stages[0].recordCount, 1_000_010);
+    assert.equal(payload.data.stages[0].constraints.combinations.none.count, 1_000_010);
+    assert.equal(payload.data.recordCount, payload.data.stages.reduce((sum, stage) => sum + stage.recordCount, 0));
+});
+
+test('융재금구 전체 집계는 일부 파·난이도만 온 불완전한 전송을 거부한다', () => {
+    const input = createDzoneUsageOverviewInput();
+    input.stages.pop();
+    assert.throws(() => normalizeDzoneUsageOverview(input), /all 20 wave and difficulty stages/);
+});
+
+test('융재금구 전체 집계 API는 인증된 20개 스테이지를 한 번에 저장하고 공개 조회한다', async () => {
+    const kv = createJsonKv();
+    const env = { RESOURCE_LINK_STATE: kv, DZONE_INGEST_TOKEN: 'private-token' };
+    const url = 'https://worker.test/api/dzone/usage';
+    const stored = await worker.fetch(new Request(url, {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer private-token', 'Content-Type': 'application/json' },
+        body: JSON.stringify(createDzoneUsageOverviewInput())
+    }), env, {});
+    assert.equal(stored.status, 200);
+    const response = await worker.fetch(new Request(url), env, {});
+    const payload = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(payload.data.stages.length, 20);
+    assert.equal(payload.data.stages[0].recordCount, 1_000_010);
+});
+
 test('융재금구 편성 통계 API는 인증된 집계만 저장하고 공개 조회한다', async () => {
     const kv = createJsonKv();
     const env = { RESOURCE_LINK_STATE: kv, DZONE_INGEST_TOKEN: 'private-token' };
@@ -253,7 +349,10 @@ test('융재금구 편성 통계 API는 인증된 집계만 저장하고 공개 
             since: 1_700_000_000,
             recordCount: 10,
             awakeners: [{ tid: 101, name: '테스트', count: 4 }],
-            parties: [{ count: 3, awakeners: [{ tid: 101, name: '테스트' }] }]
+            parties: [{ count: 3, awakeners: [{ tid: 101, name: '테스트' }] }],
+            constraintBuckets: [
+                { hasOverlimit: false, hasFinalLaw: false, usedEmergencySpirit: false, count: 10 }
+            ]
         })
     }), env, {});
     assert.equal(stored.status, 200);
@@ -267,6 +366,8 @@ test('융재금구 편성 통계 API는 인증된 집계만 저장하고 공개 
     assert.equal(payload.data.stageTid, 82810);
     assert.equal(payload.data.awakeners[0].rate, 0.4);
     assert.equal(payload.data.parties[0].rate, 0.3);
+    assert.equal(payload.data.constraints.noOverlimit.count, 10);
+    assert.equal(payload.data.constraints.combinations.none.count, 10);
 });
 
 test('Gift Code 감시는 명시적으로 활성화할 때만 실행된다', () => {
