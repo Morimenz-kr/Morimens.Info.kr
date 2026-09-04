@@ -67,7 +67,7 @@ Content-Type: application/json
 }
 ```
 
-`since`는 집계 시작 Unix 초다. `fetchedAt`과 모든 `rate`는 Worker가 저장 시 생성한다. 추출기는 새 전투 기록을 반영한 집계가 달라졌을 때만 스테이지별 POST를 보내면 된다.
+`since`는 집계 시작 Unix 초다. `fetchedAt`과 모든 `rate`는 Worker가 저장 시 생성한다. 추출기는 새 전투 기록을 반영한 집계가 달라졌을 때만 스테이지별 POST를 보내면 된다. 고정된 1분 예약 실행은 필요하지 않으며, 새 기록 이벤트를 처리해 집계 결과가 바뀐 직후 전송하는 방식을 권장한다.
 
 ## 배포 후 확인
 

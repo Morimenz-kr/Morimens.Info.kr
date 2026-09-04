@@ -1031,6 +1031,26 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
     .usage-awakener--compact .usage-awakener-fallback { width: 28px; height: 28px; }
 }
 
+@media (max-width: 368px) {
+    .usage-party-list > li {
+        grid-template-columns: 1.2rem minmax(0, 1fr);
+        align-items: center;
+    }
+    .usage-party-list .usage-rank { grid-row: 1 / span 2; }
+    .usage-party-list .usage-result {
+        grid-column: 2;
+        display: flex;
+        align-items: baseline;
+        justify-content: flex-end;
+        gap: 0.4rem;
+        min-width: 0;
+    }
+    .usage-awakener--compact > span:last-child {
+        overflow-wrap: normal;
+        word-break: keep-all;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { scroll-behavior: auto !important; }
     .collapse-indicator { transition: none; }

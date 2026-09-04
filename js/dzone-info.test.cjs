@@ -655,4 +655,6 @@ test('선택한 스테이지의 공개 기록을 채용률과 편성 조합으�
     assert.match(source, /await loadStageUsage\(stageId, true\)/);
     assert.match(css, /\.stage-usage-tabs button\s*\{[^}]*min-height:\s*44px/);
     assert.match(css, /@media \(max-width: 480px\)[\s\S]*\.usage-party-members\s*\{[^}]*repeat\(2/);
+    assert.match(css, /@media \(max-width: 368px\)[\s\S]*\.usage-party-list > li\s*\{[^}]*grid-template-columns:\s*1\.2rem minmax\(0, 1fr\)/);
+    assert.match(css, /\.usage-awakener--compact > span:last-child\s*\{[^}]*word-break:\s*keep-all/);
 });
