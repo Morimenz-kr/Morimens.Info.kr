@@ -184,6 +184,10 @@
         '증상: 흥분': '증상 카드 | 흥분\n\n드로우한 턴의 종료 시 남은 산출력이 2 이상이면 다음 턴 시작 시 카드를 2장 추가로 드로우합니다.'
     });
     const number = new Intl.NumberFormat('ko-KR');
+    const dateTime = new Intl.DateTimeFormat('ko-KR', {
+        month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false,
+        timeZone: 'Asia/Seoul'
+    });
     let data = null;
     let tooltips = {};
     let selectedWave = 1;
@@ -191,6 +195,11 @@
     let researchLevel = 81;
     let selectedMechanic = '';
     let mechanicCursor = -1;
+    let stageUsageView = 'awakeners';
+    const stageUsageCache = new Map();
+    const STAGE_USAGE_REFRESH_START = Date.parse('2026-09-01T21:00:00+09:00');
+    const STAGE_USAGE_REFRESH_INTERVAL = 30 * 1000;
+    let stageUsageTimer = null;
 
     const escapeHtml = value => String(value ?? '')
         .replaceAll('&', '&amp;')
@@ -198,6 +207,11 @@
         .replaceAll('>', '&gt;')
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#039;');
+
+    const safeImage = value => {
+        const path = String(value ?? '').replaceAll('\\', '/');
+        return path.startsWith('images/') && !path.includes('..') && !/[<>"']/.test(path) ? path : '';
+    };
 
     const gameText = value => String(value ?? '')
         .replace(/<[^:>]+:([^>]+)>/g, '$1')
@@ -735,6 +749,129 @@
             </details>`;
     }
 
+    function renderStageUsageShell(difficulty) {
+        if (!Number.isInteger(difficulty?.stageId)) return '';
+        return `
+            <section class="stage-usage" data-stage-usage="${difficulty.stageId}" aria-labelledby="stage-usage-title">
+                <header class="stage-usage-header">
+                    <div>
+                        <h3 id="stage-usage-title">실전 편성 통계</h3>
+                        <p data-usage-period>이 스테이지에 등록된 공개 클리어 기록을 집계합니다.</p>
+                    </div>
+                    <span class="stage-usage-sample">
+                        <strong data-usage-sample>불러오는 중</strong>
+                        <time data-usage-updated></time>
+                    </span>
+                </header>
+                <div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
+                    <button type="button" data-usage-view="awakeners" aria-pressed="${stageUsageView === 'awakeners'}">각성체 채용률</button>
+                    <button type="button" data-usage-view="parties" aria-pressed="${stageUsageView === 'parties'}">자주 쓰인 편성</button>
+                </div>
+                <div class="stage-usage-body" data-usage-body aria-live="polite">
+                    <p class="stage-usage-message">공개 기록을 집계하고 있습니다.</p>
+                </div>
+            </section>`;
+    }
+
+    function usagePercent(value) {
+        const rate = Math.max(0, Math.min(1, Number(value) || 0));
+        return `${(rate * 100).toLocaleString('ko-KR', { maximumFractionDigits: 1 })}%`;
+    }
+
+    function usageAwakener(awakener, compact = false) {
+        const name = awakener?.name || `각성체 ${awakener?.tid ?? ''}`;
+        const image = safeImage(awakener?.image_thumb);
+        return `<span class="usage-awakener${compact ? ' usage-awakener--compact' : ''}">
+            ${image ? `<img src="${escapeHtml(image)}" alt="" width="40" height="40" loading="lazy" decoding="async">` : '<span class="usage-awakener-fallback" aria-hidden="true"></span>'}
+            <span>${escapeHtml(name)}</span>
+        </span>`;
+    }
+
+    function renderStageUsage(data) {
+        if (stageUsageView === 'parties') {
+            const parties = Array.isArray(data.parties) ? data.parties.slice(0, 10) : [];
+            if (!parties.length) return '<p class="stage-usage-message">집계할 공개 편성 기록이 없습니다.</p>';
+            return `<ol class="usage-party-list">${parties.map((party, index) => `
+                <li>
+                    <span class="usage-rank">${index + 1}</span>
+                    <span class="usage-party-members">${(party.awakeners || []).map(item => usageAwakener(item, true)).join('')}</span>
+                    <span class="usage-result"><strong>${usagePercent(party.rate)}</strong><small>${number.format(party.count)}회</small></span>
+                </li>`).join('')}</ol>`;
+        }
+        const awakeners = Array.isArray(data.awakeners) ? data.awakeners.slice(0, 12) : [];
+        if (!awakeners.length) return '<p class="stage-usage-message">집계할 공개 클리어 기록이 없습니다.</p>';
+        return `<ol class="usage-awakener-list">${awakeners.map((awakener, index) => {
+            const percent = usagePercent(awakener.rate);
+            return `<li>
+                <span class="usage-rank">${index + 1}</span>
+                ${usageAwakener(awakener)}
+                <progress max="1" value="${Math.max(0, Math.min(1, Number(awakener.rate) || 0))}" aria-label="${escapeHtml(awakener.name || `각성체 ${awakener.tid}`)} 채용률 ${percent}"></progress>
+                <span class="usage-result"><strong>${percent}</strong><small>${number.format(awakener.count)}회</small></span>
+            </li>`;
+        }).join('')}</ol>`;
+    }
+
+    async function loadStageUsage(stageId, force = false) {
+        const section = document.querySelector(`[data-stage-usage="${stageId}"]`);
+        if (!section) return;
+        const cached = stageUsageCache.get(stageId);
+        let request = !force && cached?.expiresAt > Date.now() ? cached.request : null;
+        if (!request) {
+            const usageApiBase = String(
+                typeof CONFIG !== 'undefined' ? CONFIG.DZONE_USAGE_ENDPOINT_URL || '' : ''
+            ).replace(/\/+$/, '');
+            const usageUrl = `${usageApiBase}/api/dzone/stage/${stageId}/usage`;
+            request = fetch(usageUrl, {
+                cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
+            }).then(async response => {
+                if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('unavailable');
+                const payload = await response.json();
+                if (!payload?.data || payload.data.stageTid !== stageId || !Number.isInteger(payload.data.since) || !Number.isInteger(payload.fetchedAt)) throw new Error('invalid');
+                return { ...payload.data, fetchedAt: payload.fetchedAt };
+            }).catch(error => {
+                stageUsageCache.delete(stageId);
+                throw error;
+            });
+            stageUsageCache.set(stageId, { request, expiresAt: Date.now() + STAGE_USAGE_REFRESH_INTERVAL });
+        }
+        try {
+            const usage = await request;
+            if (!section.isConnected || Number(section.dataset.stageUsage) !== stageId) return;
+            section.dataset.usage = JSON.stringify(usage);
+            section.querySelector('[data-usage-period]').textContent = `${dateTime.format(usage.since * 1000)} KST 이후 공개 클리어 기록`;
+            section.querySelector('[data-usage-sample]').textContent = `표본 ${number.format(usage.recordCount)}건 · 공개 기록 기준`;
+            const updated = section.querySelector('[data-usage-updated]');
+            updated.dateTime = new Date(usage.fetchedAt * 1000).toISOString();
+            updated.textContent = `최근 집계 ${dateTime.format(usage.fetchedAt * 1000)}`;
+            section.querySelector('[data-usage-body]').innerHTML = renderStageUsage(usage);
+            section.onclick = event => {
+                const button = event.target.closest('[data-usage-view]');
+                if (!button) return;
+                stageUsageView = button.dataset.usageView;
+                section.querySelectorAll('[data-usage-view]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+                section.querySelector('[data-usage-body]').innerHTML = renderStageUsage(usage);
+            };
+        } catch {
+            if (!section.isConnected) return;
+            section.querySelector('[data-usage-sample]').textContent = '조회 불가';
+            section.querySelector('[data-usage-updated]').textContent = '';
+            section.querySelector('[data-usage-body]').innerHTML = '<p class="stage-usage-message">현재 실전 통계 조회 서비스에 연결할 수 없습니다.</p>';
+        }
+    }
+
+    function scheduleStageUsageRefresh(now = Date.now()) {
+        clearTimeout(stageUsageTimer);
+        const delay = now < STAGE_USAGE_REFRESH_START
+            ? STAGE_USAGE_REFRESH_START - now
+            : STAGE_USAGE_REFRESH_INTERVAL - ((now - STAGE_USAGE_REFRESH_START) % STAGE_USAGE_REFRESH_INTERVAL);
+        stageUsageTimer = setTimeout(async () => {
+            const selected = data?.waves.find(wave => wave.wave === selectedWave);
+            const stageId = selected?.alerts.find(item => item.alert === selectedAlert)?.stageId;
+            if (stageId) await loadStageUsage(stageId, true);
+            scheduleStageUsageRefresh();
+        }, Math.min(delay, 2 ** 31 - 1));
+    }
+
     function renderWave(wave) {
         const difficulty = wave.alerts.find(item => item.alert === selectedAlert);
         const difficultyLabel = difficulty?.difficultyLabel || `경보 ${selectedAlert}급`;
@@ -754,6 +891,7 @@
                     <div class="wave-heading"><h2 class="wave-title"><span>${wave.wave}파</span></h2>${mechanicBadges.length ? `<ul class="wave-mechanics" aria-label="주요 기믹">${mechanicBadges.map(label => `<li>${escapeHtml(label)}</li>`).join('')}</ul>` : ''}</div>
                     <div class="wave-meta">${escapeHtml(difficultyLabel)}</div>
                 </header>
+                ${renderStageUsageShell(difficulty)}
                 ${renderRelics(wave)}
                 <div class="encounter-grid">${encounters}</div>
             </section>`;
@@ -769,7 +907,8 @@
         if (!selected.alerts.some(item => item.alert === selectedAlert)) {
             selectedAlert = selected.alerts.at(-1)?.alert ?? selected.alerts[0]?.alert ?? selectedAlert;
         }
-        const difficultyLabel = selected.alerts.find(item => item.alert === selectedAlert)?.difficultyLabel || `경보 ${selectedAlert}급`;
+        const difficulty = selected.alerts.find(item => item.alert === selectedAlert);
+        const difficultyLabel = difficulty?.difficultyLabel || `경보 ${selectedAlert}급`;
         const content = document.getElementById('dzone-content');
         content.dataset.season = String(data.period);
         content.innerHTML = renderWave(selected);
@@ -779,6 +918,7 @@
         history.replaceState(null, '', `#wave-${selectedWave}-alert-${selectedAlert}`);
         window.CharacterEffects?.setupTooltips(content);
         renderMechanicNavigation();
+        if (difficulty?.stageId) void loadStageUsage(difficulty.stageId);
     }
 
     function buildControls() {
@@ -910,6 +1050,7 @@
             document.getElementById('dzone-summary').textContent = '현재 진행 중인 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.';
             buildControls();
             render();
+            scheduleStageUsageRefresh();
             window.addEventListener('focus', refreshSeason);
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden) refreshSeason();

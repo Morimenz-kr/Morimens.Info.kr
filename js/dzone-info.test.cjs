@@ -526,3 +526,23 @@ test('현재 융재의 상태 기믹은 전체 각성체 데이터에서 확인�
     assert.match(source, /149069: \['봉인', '허약'\]/);
     assert.match(source, /existing\.note = \[\.\.\.new Set/);
 });
+
+test('선택한 스테이지의 공개 기록을 채용률과 편성 조합으로 전환해 보여준다', () => {
+    assert.match(source, /\/api\/dzone\/stage\/\$\{stageId\}\/usage/);
+    assert.match(source, /실전 편성 통계/);
+    assert.match(source, /각성체 채용률/);
+    assert.match(source, /자주 쓰인 편성/);
+    assert.match(source, /표본 \$\{number\.format\(usage\.recordCount\)\}건 · 공개 기록 기준/);
+    assert.match(source, /최근 집계 \$\{dateTime\.format\(usage\.fetchedAt \* 1000\)\}/);
+    assert.match(source, /\$\{dateTime\.format\(usage\.since \* 1000\)\} KST 이후 공개 클리어 기록/);
+    assert.match(source, /timeZone: 'Asia\/Seoul'/);
+    assert.match(source, /updated\.dateTime = new Date\(usage\.fetchedAt \* 1000\)\.toISOString\(\)/);
+    assert.match(source, /<progress max="1"/);
+    assert.match(source, /stageUsageCache = new Map\(\)/);
+    assert.match(source, /STAGE_USAGE_REFRESH_START = Date\.parse\('2026-09-01T21:00:00\+09:00'\)/);
+    assert.match(source, /STAGE_USAGE_REFRESH_INTERVAL = 30 \* 1000/);
+    assert.match(source, /CONFIG\.DZONE_USAGE_ENDPOINT_URL/);
+    assert.match(source, /await loadStageUsage\(stageId, true\)/);
+    assert.match(css, /\.stage-usage-tabs button\s*\{[^}]*min-height:\s*44px/);
+    assert.match(css, /@media \(max-width: 480px\)[\s\S]*\.usage-party-members\s*\{[^}]*repeat\(2/);
+});

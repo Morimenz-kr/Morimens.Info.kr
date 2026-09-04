@@ -2,12 +2,15 @@
 const CONFIG = {
     // 1. 패치노트와 맞출 버전 (배포 시 이 부분을 수정)
     VERSION: "v1.3.32",
-    ASSET_REVISION: "design-system-20260831-10",
+    ASSET_REVISION: "dzone-live-usage-20260904-1",
     LAST_UPDATED: "2026-08-11",
 
     // 2. 피드백 접수용 Cloudflare Worker URL
     // 예: https://morimens-feedback.<your-subdomain>.workers.dev
     FEEDBACK_ENDPOINT_URL: 'https://carriepigeon.khj613401.workers.dev',
+
+    // 공개 융재금구 편성 통계 API. UI는 유지하고 데이터 출처만 Worker로 분리합니다.
+    DZONE_USAGE_ENDPOINT_URL: 'https://carriepigeon.khj613401.workers.dev',
 
     // Google Analytics 4 측정 ID (웹 페이지에 공개되는 식별자)
     GA_MEASUREMENT_ID: 'G-8WVRT702E7'
