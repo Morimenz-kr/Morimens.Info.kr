@@ -677,6 +677,8 @@ test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능
     assert.match(source, /stages\.map\(stage =>/);
     assert.doesNotMatch(source, /overview\.stages\.slice/);
     assert.match(source, /\/api\/dzone\/usage/);
+    assert.match(source, /\/private-tools\/output\/dzone-usage-overview\.json/);
+    assert.match(source, /payload\.data\.stages\?\.length !== 20/);
     assert.match(css, /\.usage-constraint-table-wrap\s*\{[^}]*overflow-x:\s*auto/);
     assert.match(css, /\.usage-constraint-result strong\s*\{[^}]*white-space:\s*nowrap/);
     assert.doesNotMatch(css, /usage-constraint[^{]*\{[^}]*(?:text-overflow:\s*ellipsis|overflow:\s*hidden)/);
