@@ -570,6 +570,8 @@ test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능
     assert.match(source, /\/api\/dzone\/usage/);
     assert.match(source, /\/private-tools\/output\/dzone-usage-overview\.json/);
     assert.match(source, /overview\?\.stages\?\.find\(stage => stage\.stageTid === stageId\)/);
+    assert.match(source, /localStageUsage\.usageRecordCount \?\? localStageUsage\.recordCount/);
+    assert.match(source, /localStageUsage\.usageFetchedAt \?\? overview\.fetchedAt/);
     assert.match(source, /Array\.isArray\(localStageUsage\.awakeners\)/);
     assert.match(source, /Array\.isArray\(localStageUsage\.parties\)/);
     assert.match(source, /stages\?\.length === 10/);
