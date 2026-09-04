@@ -26,8 +26,10 @@ const ARCA_FEED_STATE_KEY_PREFIX = 'arca:feed:';
 const CRON_WATCHDOG_STATE_KEY = 'cron:watchdog-state:v1';
 const CRON_STATUS_KEY = 'cron:status:v1';
 const DZONE_USAGE_KEY_PREFIX = 'dzone:usage:stage:';
+const DZONE_USAGE_OVERVIEW_KEY = 'dzone:usage:overview';
 const DZONE_USAGE_MAX_AWAKENERS = 200;
 const DZONE_USAGE_MAX_PARTIES = 100;
+const DZONE_USAGE_MAX_CONSTRAINT_BUCKETS = 6;
 const DEFAULT_CRON_STALE_MS = 30 * 60 * 1000;
 const DEFAULT_CRON_TASK_TIMEOUT_MS = 75 * 1000;
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
@@ -214,6 +216,20 @@ export default {
             const origin = request.headers.get('Origin') || '';
             const corsHeaders = getCorsHeaders(origin, env);
             const dzoneStageId = parseDzoneUsageStageId(url.pathname);
+
+            if (url.pathname === '/api/dzone/usage') {
+                const dzoneCorsHeaders = getPublicDzoneCorsHeaders();
+                if (request.method === 'OPTIONS') {
+                    return new Response(null, { status: 204, headers: dzoneCorsHeaders });
+                }
+                if (request.method === 'GET') {
+                    return await handleGetDzoneUsageOverview(env, dzoneCorsHeaders);
+                }
+                if (request.method === 'POST') {
+                    return await handlePutDzoneUsageOverview(request, env, dzoneCorsHeaders);
+                }
+                return jsonResponse({ error: 'Method not allowed' }, 405, dzoneCorsHeaders);
+            }
 
             if (dzoneStageId !== null) {
                 const dzoneCorsHeaders = getPublicDzoneCorsHeaders();
@@ -4156,6 +4172,101 @@ function normalizeDzoneUsageAwakener(value, recordCount) {
     };
 }
 
+function dzoneUsageStat(count, recordCount) {
+    return {
+        count,
+        rate: recordCount > 0 ? count / recordCount : 0
+    };
+}
+
+function normalizeDzoneConstraintBuckets(value, recordCount) {
+    if (value === undefined) return null;
+    if (!Array.isArray(value) || value.length > DZONE_USAGE_MAX_CONSTRAINT_BUCKETS) {
+        throw new Error('constraintBuckets must contain at most 6 buckets');
+    }
+    const seen = new Set();
+    const buckets = value.map(bucket => {
+        const hasOverlimit = bucket?.hasOverlimit;
+        const hasFinalLaw = bucket?.hasFinalLaw;
+        const usedEmergencySpirit = bucket?.usedEmergencySpirit;
+        if (![hasOverlimit, hasFinalLaw, usedEmergencySpirit].every(item => typeof item === 'boolean')) {
+            throw new Error('constraint bucket flags must be boolean');
+        }
+        if (hasFinalLaw && !hasOverlimit) {
+            throw new Error('hasFinalLaw requires hasOverlimit');
+        }
+        const key = `${Number(hasOverlimit)}${Number(hasFinalLaw)}${Number(usedEmergencySpirit)}`;
+        if (seen.has(key)) throw new Error('constraint bucket flags must be unique');
+        seen.add(key);
+        return {
+            hasOverlimit,
+            hasFinalLaw,
+            usedEmergencySpirit,
+            count: normalizeDzoneUsageCount(bucket?.count, 'constraint bucket count', recordCount)
+        };
+    });
+    const total = buckets.reduce((sum, bucket) => sum + bucket.count, 0);
+    if (total !== recordCount) throw new Error('constraint bucket counts must equal recordCount');
+    return buckets;
+}
+
+function buildDzoneConstraintStats(buckets, recordCount) {
+    if (!buckets) return null;
+    const sum = predicate => buckets.reduce((total, bucket) => total + (predicate(bucket) ? bucket.count : 0), 0);
+    return {
+        noOverlimit: dzoneUsageStat(sum(bucket => !bucket.hasOverlimit), recordCount),
+        noFinalLaw: dzoneUsageStat(sum(bucket => !bucket.hasFinalLaw), recordCount),
+        noEmergencySpirit: dzoneUsageStat(sum(bucket => !bucket.usedEmergencySpirit), recordCount),
+        combinations: {
+            noFinalLawOnly: dzoneUsageStat(sum(bucket => bucket.hasOverlimit && !bucket.hasFinalLaw && bucket.usedEmergencySpirit), recordCount),
+            noEmergencySpiritOnly: dzoneUsageStat(sum(bucket => bucket.hasFinalLaw && !bucket.usedEmergencySpirit), recordCount),
+            noFinalLawAndNoEmergencySpirit: dzoneUsageStat(sum(bucket => bucket.hasOverlimit && !bucket.hasFinalLaw && !bucket.usedEmergencySpirit), recordCount),
+            noOverlimitAndNoFinalLaw: dzoneUsageStat(sum(bucket => !bucket.hasOverlimit && bucket.usedEmergencySpirit), recordCount),
+            none: dzoneUsageStat(sum(bucket => !bucket.hasOverlimit && !bucket.usedEmergencySpirit), recordCount)
+        }
+    };
+}
+
+function normalizeDzoneUsageOverview(body, now = Date.now()) {
+    const input = body?.data || body;
+    const period = normalizeDzoneUsageCount(input?.period, 'period');
+    if (period <= 0) throw new Error('period must be positive');
+    const since = normalizeDzoneUsageCount(input?.since, 'since');
+    const stages = Array.isArray(input?.stages) ? input.stages : [];
+    if (stages.length !== 20) throw new Error('overview must contain all 20 wave and difficulty stages');
+    const difficulties = ['normal', 'hard', 'nightmare', 'madness'];
+    const seenPairs = new Set();
+    const seenStageIds = new Set();
+    const normalizedStages = stages.map(stage => {
+        const wave = normalizeDzoneUsageCount(stage?.wave, 'stage.wave', 5);
+        if (wave < 1) throw new Error('stage.wave must be between 1 and 5');
+        const difficulty = String(stage?.difficulty || '');
+        if (!difficulties.includes(difficulty)) throw new Error('invalid stage.difficulty');
+        const pair = `${wave}:${difficulty}`;
+        if (seenPairs.has(pair)) throw new Error('wave and difficulty pairs must be unique');
+        seenPairs.add(pair);
+        const stageTid = normalizeDzoneUsageCount(stage?.stageTid, 'stage.stageTid');
+        if (stageTid <= 0 || seenStageIds.has(stageTid)) throw new Error('stageTid must be positive and unique');
+        seenStageIds.add(stageTid);
+        const recordCount = normalizeDzoneUsageCount(stage?.recordCount, 'stage.recordCount');
+        const buckets = normalizeDzoneConstraintBuckets(stage?.constraintBuckets, recordCount);
+        if (!buckets) throw new Error('every stage requires constraintBuckets');
+        return {
+            wave,
+            difficulty,
+            stageTid,
+            recordCount,
+            constraints: buildDzoneConstraintStats(buckets, recordCount)
+        };
+    }).sort((left, right) => left.wave - right.wave || difficulties.indexOf(left.difficulty) - difficulties.indexOf(right.difficulty));
+    const recordCount = normalizedStages.reduce((total, stage) => total + stage.recordCount, 0);
+    if (!Number.isSafeInteger(recordCount)) throw new Error('overview recordCount exceeds safe integer range');
+    return {
+        data: { period, since, recordCount, stages: normalizedStages },
+        fetchedAt: Math.floor(now / 1000)
+    };
+}
+
 function normalizeDzoneUsagePayload(body, stageId, now = Date.now()) {
     const input = body?.data || body;
     if (!input || Number(input.stageTid) !== stageId) throw new Error('stageTid does not match request path');
@@ -4165,6 +4276,7 @@ function normalizeDzoneUsagePayload(body, stageId, now = Date.now()) {
     const parties = Array.isArray(input.parties) ? input.parties : [];
     if (awakeners.length > DZONE_USAGE_MAX_AWAKENERS) throw new Error('too many awakeners');
     if (parties.length > DZONE_USAGE_MAX_PARTIES) throw new Error('too many parties');
+    const constraintBuckets = normalizeDzoneConstraintBuckets(input.constraintBuckets, recordCount);
 
     const normalizedAwakeners = awakeners.map(item => normalizeDzoneUsageAwakener(item, recordCount));
     const normalizedParties = parties.map(item => {
@@ -4184,7 +4296,8 @@ function normalizeDzoneUsagePayload(body, stageId, now = Date.now()) {
             since,
             recordCount,
             awakeners: normalizedAwakeners,
-            parties: normalizedParties
+            parties: normalizedParties,
+            constraints: buildDzoneConstraintStats(constraintBuckets, recordCount)
         },
         fetchedAt: Math.floor(now / 1000)
     };
@@ -4218,6 +4331,37 @@ async function handlePutDzoneUsage(request, stageId, env, corsHeaders) {
         return jsonResponse({ ok: true, stageTid: stageId, fetchedAt: payload.fetchedAt }, 200, corsHeaders);
     } catch (error) {
         return jsonResponse({ error: error.message || 'Invalid usage payload' }, 400, corsHeaders);
+    }
+}
+
+async function handleGetDzoneUsageOverview(env, corsHeaders) {
+    if (!env.RESOURCE_LINK_STATE) {
+        return jsonResponse({ error: 'Usage storage is unavailable' }, 503, corsHeaders);
+    }
+    const payload = await env.RESOURCE_LINK_STATE.get(DZONE_USAGE_OVERVIEW_KEY, 'json');
+    if (!payload?.data || !Array.isArray(payload.data.stages)) {
+        return jsonResponse({ error: 'Usage overview not found' }, 404, corsHeaders);
+    }
+    return jsonResponse(payload, 200, corsHeaders);
+}
+
+async function handlePutDzoneUsageOverview(request, env, corsHeaders) {
+    const expectedToken = String(env.DZONE_INGEST_TOKEN || '');
+    const suppliedToken = String(request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+    if (!expectedToken || !suppliedToken || suppliedToken !== expectedToken) {
+        return jsonResponse({ error: 'Unauthorized' }, 401, corsHeaders);
+    }
+    if (!env.RESOURCE_LINK_STATE) {
+        return jsonResponse({ error: 'Usage storage is unavailable' }, 503, corsHeaders);
+    }
+    const body = await request.json().catch(() => null);
+    if (!body) return jsonResponse({ error: 'Invalid JSON' }, 400, corsHeaders);
+    try {
+        const payload = normalizeDzoneUsageOverview(body);
+        await env.RESOURCE_LINK_STATE.put(DZONE_USAGE_OVERVIEW_KEY, JSON.stringify(payload));
+        return jsonResponse({ ok: true, period: payload.data.period, recordCount: payload.data.recordCount, fetchedAt: payload.fetchedAt }, 200, corsHeaders);
+    } catch (error) {
+        return jsonResponse({ error: error.message || 'Invalid usage overview' }, 400, corsHeaders);
     }
 }
 

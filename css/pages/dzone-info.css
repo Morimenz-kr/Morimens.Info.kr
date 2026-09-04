@@ -322,6 +322,47 @@
 .usage-awakener--compact img,
 .usage-awakener--compact .usage-awakener-fallback { width: 32px; height: 32px; }
 
+.usage-constraint-result { display: grid; flex: 0 0 auto; justify-items: end; gap: 0.1rem; font-variant-numeric: tabular-nums; }
+.usage-constraint-result strong { color: #f2cb70; font-size: 0.9rem; white-space: nowrap; }
+.usage-constraint-result small { color: #b4b6bc; font-size: 0.68rem; }
+.usage-constraint-note { display: grid; gap: 0.2rem; margin-top: 0.75rem; color: var(--dzone-muted); font-size: 0.68rem; line-height: 1.5; }
+.usage-constraint-note strong { color: #e6e6e9; font-size: 0.78rem; }
+.usage-constraint-table-wrap {
+    max-width: 100%;
+    margin-top: 0.65rem;
+    overflow-x: auto;
+    border: 1px solid #41434a;
+    border-radius: var(--radius-sm);
+    scrollbar-width: thin;
+}
+.usage-constraint-table-wrap:focus-visible { outline: 3px solid rgba(244, 189, 80, 0.45); outline-offset: 2px; }
+.usage-constraint-table { width: 100%; min-width: 70rem; border-collapse: collapse; color: #dedee2; font-size: 0.7rem; }
+.usage-constraint-table th,
+.usage-constraint-table td { padding: 0.48rem 0.55rem; border-right: 1px solid #3c3e45; border-bottom: 1px solid #3c3e45; text-align: right; vertical-align: middle; }
+.usage-constraint-table th:last-child,
+.usage-constraint-table td:last-child { border-right: 0; }
+.usage-constraint-table tbody tr:last-child > * { border-bottom: 0; }
+.usage-constraint-table thead th { background: #25272d; color: #c7c8cc; font-weight: 750; text-align: center; white-space: normal; }
+.usage-constraint-table thead tr:first-child th { color: #e2c36f; font-size: 0.67rem; }
+.usage-constraint-table tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    min-width: 7.6rem;
+    background: #282a30;
+    text-align: left;
+}
+.usage-constraint-table tbody th strong,
+.usage-constraint-table tbody th small { display: block; white-space: nowrap; }
+.usage-constraint-table tbody th strong { color: #ededf0; font-size: 0.72rem; }
+.usage-constraint-table tbody th small { margin-top: 0.14rem; color: var(--dzone-muted); font-size: 0.64rem; }
+.usage-constraint-table td { min-width: 6.8rem; background: #2c2e34; }
+.usage-constraint-table td .usage-constraint-result { justify-items: end; }
+.usage-constraint-table td .usage-constraint-result strong,
+.usage-constraint-table td .usage-constraint-result small { white-space: nowrap; }
+.usage-constraint-legend { margin: 0.55rem 0 0; color: var(--dzone-muted); font-size: 0.66rem; line-height: 1.5; }
+.usage-constraint-legend strong { color: #d7d7da; }
+
 .relic-list {
     display: flex;
     flex-wrap: wrap;
@@ -1029,6 +1070,9 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
     .usage-awakener--compact { grid-template-columns: 28px minmax(0, 1fr); }
     .usage-awakener--compact img,
     .usage-awakener--compact .usage-awakener-fallback { width: 28px; height: 28px; }
+    .stage-usage-tabs { overflow-x: auto; }
+    .stage-usage-tabs button { flex: 0 0 auto; white-space: nowrap; }
+    .usage-constraint-table { min-width: 66rem; }
 }
 
 @media (max-width: 368px) {

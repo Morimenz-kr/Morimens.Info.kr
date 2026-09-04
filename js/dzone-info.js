@@ -195,8 +195,9 @@
     let researchLevel = 81;
     let selectedMechanic = '';
     let mechanicCursor = -1;
-    let stageUsageView = 'awakeners';
+    let stageUsageView = 'constraints';
     const stageUsageCache = new Map();
+    let dzoneUsageOverviewCache = null;
     const STAGE_USAGE_REFRESH_START = Date.parse('2026-09-01T21:00:00+09:00');
     const STAGE_USAGE_REFRESH_INTERVAL = 30 * 1000;
     let stageUsageTimer = null;
@@ -878,6 +879,7 @@
                     </span>
                 </header>
                 <div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
+                    <button type="button" data-usage-view="constraints" aria-pressed="${stageUsageView === 'constraints'}">제한 클리어</button>
                     <button type="button" data-usage-view="awakeners" aria-pressed="${stageUsageView === 'awakeners'}">각성체 채용률</button>
                     <button type="button" data-usage-view="parties" aria-pressed="${stageUsageView === 'parties'}">자주 쓰인 편성</button>
                 </div>
@@ -901,7 +903,85 @@
         </span>`;
     }
 
+    function usageConstraintResult(stat) {
+        return `<span class="usage-constraint-result"><strong>${number.format(stat?.count || 0)}건</strong><small>${usagePercent(stat?.rate)}</small></span>`;
+    }
+
+    function renderStageConstraints(data) {
+        const overview = data?.overview;
+        const stages = Array.isArray(overview?.stages) ? overview.stages : [];
+        if (!stages.length) {
+            return '<p class="stage-usage-message">제한 조건별 기록은 비공개 추출기 연결 후 집계됩니다.</p>';
+        }
+        const difficultyLabels = { normal: '일반', hard: '어려움', nightmare: '악몽', madness: '광기' };
+        const cells = stage => [
+            stage.constraints?.noOverlimit,
+            stage.constraints?.noFinalLaw,
+            stage.constraints?.noEmergencySpirit,
+            stage.constraints?.combinations?.noFinalLawOnly,
+            stage.constraints?.combinations?.noEmergencySpiritOnly,
+            stage.constraints?.combinations?.noFinalLawAndNoEmergencySpirit,
+            stage.constraints?.combinations?.noOverlimitAndNoFinalLaw,
+            stage.constraints?.combinations?.none
+        ];
+        return `
+            <div class="usage-constraint-note">
+                <strong>전체 ${number.format(overview.recordCount)}건 · 5개 파 · 4개 난이도</strong>
+                <span>초한이 없으면 최종 법칙도 열릴 수 없으므로 “초한만 없음”은 성립하지 않습니다.</span>
+            </div>
+            <div class="usage-constraint-table-wrap" tabindex="0" role="region" aria-label="모든 파와 난이도의 제한 조건별 클리어 기록">
+                <table class="usage-constraint-table">
+                    <thead>
+                        <tr><th rowspan="2" scope="col">스테이지</th><th colspan="3" scope="colgroup">조건을 포함한 전체</th><th colspan="5" scope="colgroup">조건이 정확히 일치</th></tr>
+                        <tr>
+                            <th scope="col" aria-label="초한 각성체 없음">초한 없음</th><th scope="col" aria-label="최종 법칙 없음">최종 없음</th><th scope="col" aria-label="응급 영지체 미사용">영지체 0</th>
+                            <th scope="col" aria-label="최종 법칙만 없음">최종만</th><th scope="col" aria-label="응급 영지체만 미사용">영지체만</th><th scope="col" aria-label="최종 법칙·응급 영지체 없음">최종+영지체</th><th scope="col" aria-label="초한·최종 법칙 없음">초한+최종</th><th scope="col">전부 없음</th>
+                        </tr>
+                    </thead>
+                    <tbody>${stages.map(stage => `<tr>
+                        <th scope="row"><strong>${stage.wave}파 ${escapeHtml(difficultyLabels[stage.difficulty] || stage.difficulty)}</strong><small>전체 ${number.format(stage.recordCount)}건</small></th>
+                        ${cells(stage).map(stat => `<td>${usageConstraintResult(stat)}</td>`).join('')}
+                    </tr>`).join('')}</tbody>
+                </table>
+            </div>
+            <p class="usage-constraint-legend"><strong>최종</strong> 최종 법칙 +15 미개방 · <strong>영지체 0</strong> 응급 영지체 사용 횟수 0회</p>`;
+    }
+
+    function loadDzoneUsageOverview(usageApiBase, force) {
+        if (!force && dzoneUsageOverviewCache?.expiresAt > Date.now()) return dzoneUsageOverviewCache.request;
+        const request = fetch(`${usageApiBase}/api/dzone/usage`, {
+            cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
+        }).then(async response => {
+            if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('unavailable');
+            const payload = await response.json();
+            if (!payload?.data || !Array.isArray(payload.data.stages) || !Number.isInteger(payload.fetchedAt)) throw new Error('invalid');
+            return { ...payload.data, fetchedAt: payload.fetchedAt };
+        }).catch(error => {
+            dzoneUsageOverviewCache = null;
+            throw error;
+        });
+        dzoneUsageOverviewCache = { request, expiresAt: Date.now() + STAGE_USAGE_REFRESH_INTERVAL };
+        return request;
+    }
+
+    function updateStageUsageMeta(section, usage) {
+        const metadata = stageUsageView === 'constraints' && usage.overview ? usage.overview : usage;
+        const updated = section.querySelector('[data-usage-updated]');
+        if (metadata.empty) {
+            section.querySelector('[data-usage-period]').textContent = '아직 전송된 실전 통계가 없습니다.';
+            section.querySelector('[data-usage-sample]').textContent = '표본 0건 · 공개 기록 기준';
+            updated.removeAttribute('datetime');
+            updated.textContent = '통계 수신 대기 중';
+            return;
+        }
+        section.querySelector('[data-usage-period]').textContent = `${dateTime.format(metadata.since * 1000)} KST 이후 공개 클리어 기록`;
+        section.querySelector('[data-usage-sample]').textContent = `표본 ${number.format(metadata.recordCount)}건 · 공개 기록 기준`;
+        updated.dateTime = new Date(metadata.fetchedAt * 1000).toISOString();
+        updated.textContent = `최근 집계 ${dateTime.format(metadata.fetchedAt * 1000)}`;
+    }
+
     function renderStageUsage(data) {
+        if (stageUsageView === 'constraints') return renderStageConstraints(data);
         if (stageUsageView === 'parties') {
             const parties = Array.isArray(data.parties) ? data.parties.slice(0, 10) : [];
             if (!parties.length) return '<p class="stage-usage-message">집계할 공개 편성 기록이 없습니다.</p>';
@@ -935,7 +1015,7 @@
                 typeof CONFIG !== 'undefined' ? CONFIG.DZONE_USAGE_ENDPOINT_URL || '' : ''
             ).replace(/\/+$/, '');
             const usageUrl = `${usageApiBase}/api/dzone/stage/${stageId}/usage`;
-            request = fetch(usageUrl, {
+            const stageRequest = fetch(usageUrl, {
                 cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
             }).then(async response => {
                 if (response.status === 404) {
@@ -951,6 +1031,19 @@
                 const payload = await response.json();
                 if (!payload?.data || payload.data.stageTid !== stageId || !Number.isInteger(payload.data.since) || !Number.isInteger(payload.fetchedAt)) throw new Error('invalid');
                 return { ...payload.data, fetchedAt: payload.fetchedAt };
+            }).catch(() => null);
+            const overviewRequest = loadDzoneUsageOverview(usageApiBase, force).catch(() => null);
+            request = Promise.all([stageRequest, overviewRequest]).then(([stageUsage, overview]) => {
+                if (!stageUsage && !overview) throw new Error('unavailable');
+                const usage = stageUsage || {
+                    stageTid: stageId,
+                    since: overview.since,
+                    recordCount: 0,
+                    awakeners: [],
+                    parties: [],
+                    fetchedAt: overview.fetchedAt
+                };
+                return { ...usage, overview };
             }).catch(error => {
                 stageUsageCache.delete(stageId);
                 throw error;
@@ -961,23 +1054,14 @@
             const usage = await request;
             if (!section.isConnected || Number(section.dataset.stageUsage) !== stageId) return;
             section.dataset.usage = JSON.stringify(usage);
-            section.querySelector('[data-usage-sample]').textContent = `표본 ${number.format(usage.recordCount)}건 · 공개 기록 기준`;
-            const updated = section.querySelector('[data-usage-updated]');
-            if (usage.empty) {
-                section.querySelector('[data-usage-period]').textContent = '아직 전송된 실전 통계가 없습니다.';
-                updated.removeAttribute('datetime');
-                updated.textContent = '통계 수신 대기 중';
-            } else {
-                section.querySelector('[data-usage-period]').textContent = `${dateTime.format(usage.since * 1000)} KST 이후 공개 클리어 기록`;
-                updated.dateTime = new Date(usage.fetchedAt * 1000).toISOString();
-                updated.textContent = `최근 집계 ${dateTime.format(usage.fetchedAt * 1000)}`;
-            }
+            updateStageUsageMeta(section, usage);
             section.querySelector('[data-usage-body]').innerHTML = renderStageUsage(usage);
             section.onclick = event => {
                 const button = event.target.closest('[data-usage-view]');
                 if (!button) return;
                 stageUsageView = button.dataset.usageView;
                 section.querySelectorAll('[data-usage-view]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+                updateStageUsageMeta(section, usage);
                 section.querySelector('[data-usage-body]').innerHTML = renderStageUsage(usage);
             };
         } catch {

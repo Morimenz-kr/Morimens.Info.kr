@@ -642,11 +642,11 @@ test('선택한 스테이지의 공개 기록을 채용률과 편성 조합으�
     assert.match(source, /실전 편성 통계/);
     assert.match(source, /각성체 채용률/);
     assert.match(source, /자주 쓰인 편성/);
-    assert.match(source, /표본 \$\{number\.format\(usage\.recordCount\)\}건 · 공개 기록 기준/);
-    assert.match(source, /최근 집계 \$\{dateTime\.format\(usage\.fetchedAt \* 1000\)\}/);
-    assert.match(source, /\$\{dateTime\.format\(usage\.since \* 1000\)\} KST 이후 공개 클리어 기록/);
+    assert.match(source, /표본 \$\{number\.format\(metadata\.recordCount\)\}건 · 공개 기록 기준/);
+    assert.match(source, /최근 집계 \$\{dateTime\.format\(metadata\.fetchedAt \* 1000\)\}/);
+    assert.match(source, /\$\{dateTime\.format\(metadata\.since \* 1000\)\} KST 이후 공개 클리어 기록/);
     assert.match(source, /timeZone: 'Asia\/Seoul'/);
-    assert.match(source, /updated\.dateTime = new Date\(usage\.fetchedAt \* 1000\)\.toISOString\(\)/);
+    assert.match(source, /updated\.dateTime = new Date\(metadata\.fetchedAt \* 1000\)\.toISOString\(\)/);
     assert.match(source, /<progress max="1"/);
     assert.match(source, /stageUsageCache = new Map\(\)/);
     assert.match(source, /STAGE_USAGE_REFRESH_START = Date\.parse\('2026-09-01T21:00:00\+09:00'\)/);
@@ -660,4 +660,24 @@ test('선택한 스테이지의 공개 기록을 채용률과 편성 조합으�
     assert.match(css, /@media \(max-width: 480px\)[\s\S]*\.usage-party-members\s*\{[^}]*repeat\(2/);
     assert.match(css, /@media \(max-width: 368px\)[\s\S]*\.usage-party-list > li\s*\{[^}]*grid-template-columns:\s*1\.2rem minmax\(0, 1fr\)/);
     assert.match(css, /\.usage-awakener--compact > span:last-child\s*\{[^}]*word-break:\s*keep-all/);
+});
+
+test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능한 조합을 한눈에 보여준다', () => {
+    assert.match(source, /stageUsageView = 'constraints'/);
+    assert.match(source, />제한 클리어<\/button>/);
+    assert.match(source, /초한 각성체 없음/);
+    assert.match(source, /최종 법칙 없음/);
+    assert.match(source, /응급 영지체 미사용/);
+    assert.match(source, /최종 법칙만 없음/);
+    assert.match(source, /응급 영지체만 미사용/);
+    assert.match(source, /초한·최종 법칙 없음/);
+    assert.match(source, /전부 없음/);
+    assert.match(source, /“초한만 없음”은 성립하지 않습니다/);
+    assert.match(source, /전체 \$\{number\.format\(overview\.recordCount\)\}건 · 5개 파 · 4개 난이도/);
+    assert.match(source, /stages\.map\(stage =>/);
+    assert.doesNotMatch(source, /overview\.stages\.slice/);
+    assert.match(source, /\/api\/dzone\/usage/);
+    assert.match(css, /\.usage-constraint-table-wrap\s*\{[^}]*overflow-x:\s*auto/);
+    assert.match(css, /\.usage-constraint-result strong\s*\{[^}]*white-space:\s*nowrap/);
+    assert.doesNotMatch(css, /usage-constraint[^{]*\{[^}]*(?:text-overflow:\s*ellipsis|overflow:\s*hidden)/);
 });
