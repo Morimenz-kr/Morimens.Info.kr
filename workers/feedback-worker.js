@@ -4232,9 +4232,12 @@ function normalizeDzoneUsageOverview(body, now = Date.now()) {
     const period = normalizeDzoneUsageCount(input?.period, 'period');
     if (period <= 0) throw new Error('period must be positive');
     const since = normalizeDzoneUsageCount(input?.since, 'since');
-    const stages = Array.isArray(input?.stages) ? input.stages : [];
-    if (stages.length !== 20) throw new Error('overview must contain all 20 wave and difficulty stages');
     const difficulties = ['normal', 'hard', 'nightmare', 'madness'];
+    const stages = Array.isArray(input?.stages) ? input.stages : [];
+    const scopeDifficulties = stages.length === 10 ? ['nightmare', 'madness'] : difficulties;
+    if (![10, 20].includes(stages.length)) {
+        throw new Error('overview must contain all 10 nightmare/madness stages or all 20 stages');
+    }
     const seenPairs = new Set();
     const seenStageIds = new Set();
     const normalizedStages = stages.map(stage => {
@@ -4259,6 +4262,11 @@ function normalizeDzoneUsageOverview(body, now = Date.now()) {
             constraints: buildDzoneConstraintStats(buckets, recordCount)
         };
     }).sort((left, right) => left.wave - right.wave || difficulties.indexOf(left.difficulty) - difficulties.indexOf(right.difficulty));
+    const expectedPairs = Array.from({ length: 5 }, (_, index) => index + 1)
+        .flatMap(wave => scopeDifficulties.map(difficulty => `${wave}:${difficulty}`));
+    if (expectedPairs.some(pair => !seenPairs.has(pair))) {
+        throw new Error('overview does not match its required wave and difficulty scope');
+    }
     const recordCount = normalizedStages.reduce((total, stage) => total + stage.recordCount, 0);
     if (!Number.isSafeInteger(recordCount)) throw new Error('overview recordCount exceeds safe integer range');
     return {
