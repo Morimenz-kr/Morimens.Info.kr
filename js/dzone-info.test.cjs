@@ -357,8 +357,7 @@ test('융재금구 페이지는 공통 뒤로가기와 신고 버튼을 제공�
     assert.match(html, /class="floating-report-btn"/);
     assert.match(html, /loadJS\('js\/feedback\.js'\)/);
     assert.match(css, /\.dzone-page-shell \.back-link\s*\{[\s\S]*?min-height:\s*44px/);
-    assert.match(css, /body\.dzone-page:not\(\.landing-page\) > \.floating-report-btn\s*\{[^}]*top:\s*auto/);
-    assert.match(css, /body\.dzone-page:not\(\.landing-page\) > \.floating-report-btn\s*\{[^}]*bottom:\s*max\(20px, env\(safe-area-inset-bottom\)\)/);
+    assert.doesNotMatch(css, /body\.dzone-page:not\(\.landing-page\) > \.floating-report-btn/);
 });
 
 test('행동과 부가 정보는 상성 각성체의 안쪽 기준선에 맞춘다', () => {

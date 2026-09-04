@@ -365,22 +365,6 @@
 .usage-constraint-legend { margin: 0.55rem 0 0; color: var(--dzone-muted); font-size: 0.66rem; line-height: 1.5; }
 .usage-constraint-legend strong { color: #d7d7da; }
 
-body.dzone-page:not(.landing-page) > .floating-report-btn {
-    top: auto;
-    right: max(20px, env(safe-area-inset-right));
-    bottom: max(20px, env(safe-area-inset-bottom));
-    transform: none;
-}
-body.dzone-page:not(.landing-page) > .floating-report-btn:hover { transform: translateY(-2px); }
-body.dzone-page:not(.landing-page) > .floating-report-btn:active { transform: none; }
-
-@media (max-width: 480px) {
-    body.dzone-page:not(.landing-page) > .floating-report-btn {
-        right: max(12px, env(safe-area-inset-right));
-        bottom: max(12px, env(safe-area-inset-bottom));
-    }
-}
-
 .relic-list {
     display: flex;
     flex-wrap: wrap;
