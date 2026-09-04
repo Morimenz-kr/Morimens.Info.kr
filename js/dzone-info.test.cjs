@@ -550,13 +550,15 @@ test('선택한 스테이지의 공개 기록을 채용률과 편성 조합으�
 test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능한 조합을 한눈에 보여준다', () => {
     assert.match(source, /stageUsageView = 'constraints'/);
     assert.match(source, />제한 클리어<\/button>/);
-    assert.match(source, /초한 각성체 없음/);
-    assert.match(source, /최종 법칙 없음/);
-    assert.match(source, /응급 영지체 미사용/);
-    assert.match(source, /최종 법칙만 없음/);
-    assert.match(source, /응급 영지체만 미사용/);
-    assert.match(source, /초한·최종 법칙 없음/);
-    assert.match(source, /전부 없음/);
+    assert.match(source, /label: \['초한 X'\]/);
+    assert.match(source, /label: \['최종 X'\]/);
+    assert.match(source, /label: \['영지체 X'\]/);
+    assert.match(source, /label: \['초한 O', '최종 X', '영지체 O'\]/);
+    assert.match(source, /label: \['초한 O', '최종 O', '영지체 X'\]/);
+    assert.match(source, /label: \['초한 O', '최종 X', '영지체 X'\]/);
+    assert.match(source, /label: \['초한 X', '최종 X', '영지체 O'\]/);
+    assert.match(source, /label: \['초한 X', '최종 X', '영지체 X'\]/);
+    assert.match(source, /<strong>X<\/strong> 없음 또는 미사용/);
     assert.match(source, /“초한만 없음”은 성립하지 않습니다/);
     assert.match(source, /전체 \$\{number\.format\(overview\.recordCount\)\}건 · \$\{scopeLabel\}/);
     assert.match(source, /difficultySet\.has\('nightmare'\) && difficultySet\.has\('madness'\)/);
@@ -571,6 +573,8 @@ test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능
     assert.match(css, /\.usage-constraint-table-wrap\s*\{[^}]*overflow-x:\s*auto/);
     assert.match(css, /\.usage-constraint-table\s*\{[^}]*min-width:\s*48rem/);
     assert.match(css, /\.usage-constraint-table\s*\{[^}]*table-layout:\s*fixed/);
+    assert.match(css, /\.usage-constraint-state\s*\{[^}]*display:\s*grid/);
+    assert.match(css, /\.usage-constraint-state > span\s*\{[^}]*white-space:\s*nowrap/);
     assert.doesNotMatch(css, /\.usage-constraint-table td\s*\{[^}]*min-width/);
     assert.match(css, /\.usage-constraint-result strong\s*\{[^}]*white-space:\s*nowrap/);
     assert.doesNotMatch(css, /usage-constraint[^{]*\{[^}]*(?:text-overflow:\s*ellipsis|overflow:\s*hidden)/);

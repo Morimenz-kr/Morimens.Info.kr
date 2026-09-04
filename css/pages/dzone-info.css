@@ -345,6 +345,8 @@
 .usage-constraint-table thead th { background: #25272d; color: #c7c8cc; font-weight: 750; text-align: center; white-space: normal; }
 .usage-constraint-table thead tr:first-child th { color: #e2c36f; font-size: 0.67rem; }
 .usage-constraint-table thead th:first-child { width: 7rem; }
+.usage-constraint-state { display: grid; gap: 0.08rem; line-height: 1.25; }
+.usage-constraint-state > span { white-space: nowrap; }
 .usage-constraint-table tbody th {
     position: sticky;
     left: 0;
