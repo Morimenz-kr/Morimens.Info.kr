@@ -28,6 +28,8 @@ ui-debug.log
 !/tools/validate-character.mjs
 !/tools/workflow-config.test.cjs
 !/tools/validate-dzone-content.mjs
+!/tools/publish-dzone-usage.mjs
+!/tools/publish-dzone-usage.test.cjs
 !/tools/fixtures/
 !/tools/fixtures/monster-combat-148007.json
 /js/dimension-descriptions.test.cjs

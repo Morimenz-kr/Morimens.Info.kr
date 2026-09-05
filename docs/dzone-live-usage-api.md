@@ -51,6 +51,15 @@ $env:DZONE_INGEST_TOKEN = $token
 
 ## 추출기가 보낼 요청
 
+로컬 집계 파일의 검증과 전송은 다음 명령으로 수행한다. 추출기는 집계 파일을 원자적으로 저장한 뒤 전송 명령을 실행해야 한다. 파일 저장만으로는 운영 API가 갱신되지 않는다.
+
+```powershell
+node tools/publish-dzone-usage.mjs --dry-run
+node tools/publish-dzone-usage.mjs
+```
+
+전송에는 실행 환경의 `DZONE_INGEST_TOKEN`이 필요하다. GitHub Actions secret은 로컬 추출기에 자동 전달되지 않는다. 이 도구는 공개 집계 필드만 선별하고, 편성·채용률 표본과 제한 클리어 표본을 각각 보존한다. 스테이지별 전송이 모두 성공했을 때만 전체 제한 집계를 마지막에 전송한다. 브라우저 전달은 현재 30초 폴링이며 SSE/WebSocket 이벤트 연결은 구현되어 있지 않다.
+
 ```http
 POST https://carriepigeon.khj613401.workers.dev/api/dzone/stage/82810/usage
 Authorization: Bearer <DZONE_INGEST_TOKEN>
@@ -166,3 +175,13 @@ https://morimenz-kr.github.io/Morimens.Info.kr/dzone_info.html
 ```
 
 첫 URL은 `data.stageTid`, `data.recordCount`, `data.awakeners`, `data.parties`, `fetchedAt`을 반환해야 한다. 사이트는 최대 약 30초 안에 기존 실전 편성 통계 영역을 갱신한다.
+
+## 이 컴퓨터의 자동 수집 운영
+
+Windows 작업 스케줄러의 `Morimens DZone Sync`가 로그인 시와 30분 간격으로 로컬 `private-tools/run-dzone-sync.ps1`을 실행한다. 컴퓨터와 Steam 로그인이 유지되어야 하며, 게임 실행 중에는 중복 로그인을 막기 위해 건너뛴다. 다음 주기에 다시 확인한다.
+
+`private-tools/sync-dzone.py`는 기존 비공개 독립 클라이언트를 재사용한다. 최초에는 악몽·광기 10개 스테이지의 모든 페이지와 상세를 조회한다. 이후에는 전투 ID 해시 체크포인트로 중복을 제거하고 신규 기록만 처리하며, 하루 한 번 전체 목록을 대조한다. 파티·채용률·제한 조건은 동일한 기록으로 집계한다. 미완료 결과는 공개하지 않으며 마지막 정상 집계를 유지한다.
+
+현재 컴퓨터의 `private-tools/publish-live-kv.mjs`는 기존 Cloudflare OAuth 로그인으로 게시한다. Worker의 실제 POST 처리기를 로컬 검증에 사용한 뒤, 검증된 공개 필드만 KV에 저장한다. 기존 ingest secret을 교체하지 않는다. 인증이 만료되면 작업은 실패 상태를 기록하며 다시 로그인이 필요하다.
+
+상태는 `private-tools/output/dzone-sync-status.json`, 로그는 `private-tools/output/dzone-sync.log`에서 확인한다. 원본 식별자와 로컬 체크포인트는 공개 저장소와 배포 아티팩트에 포함하지 않는다. 시즌이나 게임 DLL·통신 스키마가 바뀌면 자동 게시를 중단하고 재검증한다.

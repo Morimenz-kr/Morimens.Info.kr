@@ -700,3 +700,27 @@ test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능
     assert.match(css, /\.usage-constraint-result strong\s*\{[^}]*white-space:\s*nowrap/);
     assert.doesNotMatch(css, /usage-constraint[^{]*\{[^}]*(?:text-overflow:\s*ellipsis|overflow:\s*hidden)/);
 });
+
+test('운영 API에서도 악몽·광기 10개 집계를 읽고 누락·중복 범위는 거부한다', async () => {
+    const stages = Array.from({ length: 5 }, (_, index) => ['nightmare', 'madness'].map((difficulty, offset) => ({
+        wave: index + 1, difficulty, stageTid: 100 + index * 2 + offset
+    }))).flat();
+    let payload = { data: { stages }, fetchedAt: 1788529507 };
+    const urls = [];
+    const context = vm.createContext({
+        window: { location: { hostname: 'morimens.info' } },
+        dzoneUsageOverviewCache: null, STAGE_USAGE_REFRESH_INTERVAL: 30000,
+        fetch: async url => {
+            urls.push(url);
+            return { ok: true, headers: { get: () => 'application/json' }, json: async () => payload };
+        }
+    });
+    vm.runInContext(source.slice(source.indexOf('    function loadDzoneUsageOverview('), source.indexOf('    function updateStageUsageMeta(')), context);
+    assert.equal((await context.loadDzoneUsageOverview('https://worker.test', true)).stages.length, 10);
+    assert.deepEqual(urls, ['https://worker.test/api/dzone/usage']);
+    payload = { ...payload, data: { stages: [...stages.slice(0, 9), stages[0]] } };
+    await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+    payload = { ...payload, data: { stages: stages.map(stage => ({ ...stage, stageTid: 100 })) } };
+    await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+});
+
