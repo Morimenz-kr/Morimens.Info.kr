@@ -679,6 +679,21 @@ test('실전 통계는 채용률과 편성만 표시하고 전체 집계의 스�
     assert.match(source, /stages\?\.length !== 20/);
 });
 
+test('실전 통계의 각성체 링크는 사이트 ID를 사용하고 미등록 개체는 링크하지 않는다', () => {
+    const context = vm.createContext({
+        usageCharacterManifest: JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_manifest.json'), 'utf8')),
+        safeImage: value => value || '',
+        escapeHtml: value => String(value)
+    });
+    vm.runInContext(source.slice(source.indexOf('    function usageAwakener('), source.indexOf('    function loadDzoneUsageOverview(')), context);
+    const moss = context.usageAwakener({ tid: 130901, name: '모스', image_thumb: 'images/mosk-thumb.png' });
+    assert.match(moss, /href="links.html\?category=character&amp;id=vortice"/);
+    const variant = context.usageAwakener({ name: '탄망·머피' }, true);
+    assert.match(variant, /id=Murphy_Fauxborn/);
+    assert.match(variant, /usage-awakener--compact/);
+    assert.doesNotMatch(context.usageAwakener({ tid: 999999, name: '미등록 각성체' }), /<a\b|href=/);
+});
+
 test('운영 API에서도 악몽·광기 10개 집계를 읽고 누락·중복 범위는 거부한다', async () => {
     const stages = Array.from({ length: 5 }, (_, index) => ['nightmare', 'madness'].map((difficulty, offset) => ({
         wave: index + 1, difficulty, stageTid: 100 + index * 2 + offset

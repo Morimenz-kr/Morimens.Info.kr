@@ -196,6 +196,7 @@
     let selectedMechanic = '';
     let mechanicCursor = -1;
     let stageUsageView = 'awakeners';
+    let usageCharacterManifest = [];
     const stageUsageCache = new Map();
     let dzoneUsageOverviewCache = null;
     const STAGE_USAGE_REFRESH_START = Date.parse('2026-09-01T21:00:00+09:00');
@@ -896,10 +897,15 @@
     function usageAwakener(awakener, compact = false) {
         const name = awakener?.name || `각성체 ${awakener?.tid ?? ''}`;
         const image = safeImage(awakener?.image_thumb);
-        return `<span class="usage-awakener${compact ? ' usage-awakener--compact' : ''}">
+        const normalizeName = value => String(value || '').replace(/\s+/g, '');
+        const character = usageCharacterManifest.find(item => image && item.image_thumb?.toLowerCase() === image.toLowerCase())
+            || usageCharacterManifest.find(item => normalizeName(item.name) === normalizeName(name));
+        const tag = character ? 'a' : 'span';
+        const href = character ? ` href="links.html?category=character&amp;id=${encodeURIComponent(character.id)}"` : '';
+        return `<${tag}${href} class="usage-awakener${compact ? ' usage-awakener--compact' : ''}">
             ${image ? `<img src="${escapeHtml(image)}" alt="" width="40" height="40" loading="lazy" decoding="async">` : '<span class="usage-awakener-fallback" aria-hidden="true"></span>'}
             <span>${escapeHtml(name)}</span>
-        </span>`;
+        </${tag}>`;
     }
 
     function loadDzoneUsageOverview(usageApiBase, force) {
@@ -1221,12 +1227,14 @@
 
     async function initialize() {
         try {
-            const [seasonData, tooltipResponse] = await Promise.all([
+            const [seasonData, tooltipResponse, , characterManifest] = await Promise.all([
                 window.DzoneSeason.loadCurrent(),
                 fetch(`data/db_tooltips.json?t=${Date.now()}`).catch(() => null),
-                window.ResearchDepth.load()
+                window.ResearchDepth.load(),
+                fetch('data/character_manifest.json').then(response => response.ok ? response.json() : []).catch(() => [])
             ]);
             data = seasonData;
+            usageCharacterManifest = Array.isArray(characterManifest) ? characterManifest : [];
             const rawTooltips = tooltipResponse?.ok ? await tooltipResponse.json() : {};
             tooltips = Object.fromEntries(Object.entries(rawTooltips).map(([keyword, description]) => [
                 keyword,
