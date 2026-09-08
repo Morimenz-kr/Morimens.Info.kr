@@ -195,7 +195,7 @@
     let researchLevel = 81;
     let selectedMechanic = '';
     let mechanicCursor = -1;
-    let stageUsageView = 'constraints';
+    let stageUsageView = 'awakeners';
     const stageUsageCache = new Map();
     let dzoneUsageOverviewCache = null;
     const STAGE_USAGE_REFRESH_START = Date.parse('2026-09-01T21:00:00+09:00');
@@ -879,7 +879,6 @@
                     </span>
                 </header>
                 <div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
-                    <button type="button" data-usage-view="constraints" aria-pressed="${stageUsageView === 'constraints'}">제한 클리어</button>
                     <button type="button" data-usage-view="awakeners" aria-pressed="${stageUsageView === 'awakeners'}">각성체 채용률</button>
                     <button type="button" data-usage-view="parties" aria-pressed="${stageUsageView === 'parties'}">자주 쓰인 편성</button>
                 </div>
@@ -901,51 +900,6 @@
             ${image ? `<img src="${escapeHtml(image)}" alt="" width="40" height="40" loading="lazy" decoding="async">` : '<span class="usage-awakener-fallback" aria-hidden="true"></span>'}
             <span>${escapeHtml(name)}</span>
         </span>`;
-    }
-
-    function usageConstraintResult(stat) {
-        return `<span class="usage-constraint-result"><strong>${number.format(stat?.count || 0)}건</strong><small>${usagePercent(stat?.rate)}</small></span>`;
-    }
-
-    function renderStageConstraints(data) {
-        const overview = data?.overview;
-        const stages = Array.isArray(overview?.stages) ? overview.stages : [];
-        if (!stages.length) {
-            return '<p class="stage-usage-message">제한 조건별 기록은 비공개 추출기 연결 후 집계됩니다.</p>';
-        }
-        const difficultyLabels = { normal: '일반', hard: '어려움', nightmare: '악몽', madness: '광기' };
-        const difficultySet = new Set(stages.map(stage => stage.difficulty));
-        const scopeLabel = difficultySet.size === 2 && difficultySet.has('nightmare') && difficultySet.has('madness')
-            ? '5개 파 · 악몽·광기'
-            : '5개 파 · 4개 난이도';
-        const metrics = [
-            { label: ['초한 X'], fullLabel: '초한 각성체 없음 포함', value: stage => stage.constraints?.noOverlimit },
-            { label: ['최종 X'], fullLabel: '최종 법칙 없음 포함', value: stage => stage.constraints?.noFinalLaw },
-            { label: ['영지체 X'], fullLabel: '응급 영지체 미사용 포함', value: stage => stage.constraints?.noEmergencySpirit },
-            { label: ['초한 O', '최종 X', '영지체 O'], fullLabel: '초한 각성체 있음, 최종 법칙 없음, 응급 영지체 사용', value: stage => stage.constraints?.combinations?.noFinalLawOnly },
-            { label: ['초한 O', '최종 O', '영지체 X'], fullLabel: '초한 각성체 있음, 최종 법칙 있음, 응급 영지체 미사용', value: stage => stage.constraints?.combinations?.noEmergencySpiritOnly },
-            { label: ['초한 O', '최종 X', '영지체 X'], fullLabel: '초한 각성체 있음, 최종 법칙 없음, 응급 영지체 미사용', value: stage => stage.constraints?.combinations?.noFinalLawAndNoEmergencySpirit },
-            { label: ['초한 X', '최종 X', '영지체 O'], fullLabel: '초한 각성체 없음, 최종 법칙 없음, 응급 영지체 사용', value: stage => stage.constraints?.combinations?.noOverlimitAndNoFinalLaw },
-            { label: ['초한 X', '최종 X', '영지체 X'], fullLabel: '초한 각성체 없음, 최종 법칙 없음, 응급 영지체 미사용', value: stage => stage.constraints?.combinations?.none }
-        ];
-        return `
-            <div class="usage-constraint-note">
-                <strong>전체 ${number.format(overview.recordCount)}건 · ${scopeLabel}</strong>
-                <span>초한이 없으면 최종 법칙도 열릴 수 없으므로 “초한만 없음”은 성립하지 않습니다.</span>
-            </div>
-            <div class="usage-constraint-table-wrap" tabindex="0" role="region" aria-label="모든 파와 난이도의 제한 조건별 클리어 기록">
-                <table class="usage-constraint-table">
-                    <thead>
-                        <tr><th rowspan="2" scope="col">스테이지</th><th colspan="3" scope="colgroup">조건을 포함한 전체</th><th colspan="5" scope="colgroup">조건이 정확히 일치</th></tr>
-                        <tr>${metrics.map(metric => `<th scope="col" aria-label="${metric.fullLabel}"><span class="usage-constraint-state">${metric.label.map(label => `<span>${label}</span>`).join('')}</span></th>`).join('')}</tr>
-                    </thead>
-                    <tbody>${stages.map(stage => `<tr>
-                        <th scope="row"><strong>${stage.wave}파 ${escapeHtml(difficultyLabels[stage.difficulty] || stage.difficulty)}</strong><small>전체 ${number.format(stage.recordCount)}건</small></th>
-                        ${metrics.map(metric => `<td>${usageConstraintResult(metric.value(stage))}</td>`).join('')}
-                    </tr>`).join('')}</tbody>
-                </table>
-            </div>
-            <p class="usage-constraint-legend"><strong>O</strong> 보유 또는 사용 · <strong>X</strong> 없음 또는 미사용 · <strong>최종</strong> 최종 법칙 +15 개방 여부</p>`;
     }
 
     function loadDzoneUsageOverview(usageApiBase, force) {
@@ -986,7 +940,7 @@
     }
 
     function updateStageUsageMeta(section, usage) {
-        const metadata = stageUsageView === 'constraints' && usage.overview ? usage.overview : usage;
+        const metadata = usage;
         const updated = section.querySelector('[data-usage-updated]');
         if (metadata.empty) {
             section.querySelector('[data-usage-period]').textContent = '아직 전송된 실전 통계가 없습니다.';
@@ -1002,7 +956,6 @@
     }
 
     function renderStageUsage(data) {
-        if (stageUsageView === 'constraints') return renderStageConstraints(data);
         if (stageUsageView === 'parties') {
             const parties = Array.isArray(data.parties) ? data.parties.slice(0, 10) : [];
             if (!parties.length) return '<p class="stage-usage-message">집계할 공개 편성 기록이 없습니다.</p>';

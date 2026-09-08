@@ -78,7 +78,7 @@ test('패턴 도중 끼어드는 후속 행동과 다중 의도 교체 조건을
     assert.doesNotMatch(source, /aria-label="교체 의도">↳/);
     assert.doesNotMatch(css, /\.pattern-interventions/);
     assert.match(css, /\.action-replacements/);
-    assert.match(css, /\.action-step--replacement\s*\{[^}]*grid-template-columns:\s*2\.3rem/s);
+    assert.match(css, /\.action-step--replacement\s+\.action-marker\s*\{[^}]*flex-basis:\s*2\.3rem/s);
 });
 
 async function relicDisplayContext() {
@@ -663,24 +663,10 @@ test('선택한 스테이지의 공개 기록을 채용률과 편성 조합으�
     assert.match(css, /\.usage-awakener--compact > span:last-child\s*\{[^}]*word-break:\s*keep-all/);
 });
 
-test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능한 조합을 한눈에 보여준다', () => {
-    assert.match(source, /stageUsageView = 'constraints'/);
-    assert.match(source, />제한 클리어<\/button>/);
-    assert.match(source, /label: \['초한 X'\]/);
-    assert.match(source, /label: \['최종 X'\]/);
-    assert.match(source, /label: \['영지체 X'\]/);
-    assert.match(source, /label: \['초한 O', '최종 X', '영지체 O'\]/);
-    assert.match(source, /label: \['초한 O', '최종 O', '영지체 X'\]/);
-    assert.match(source, /label: \['초한 O', '최종 X', '영지체 X'\]/);
-    assert.match(source, /label: \['초한 X', '최종 X', '영지체 O'\]/);
-    assert.match(source, /label: \['초한 X', '최종 X', '영지체 X'\]/);
-    assert.match(source, /<strong>X<\/strong> 없음 또는 미사용/);
-    assert.match(source, /“초한만 없음”은 성립하지 않습니다/);
-    assert.match(source, /전체 \$\{number\.format\(overview\.recordCount\)\}건 · \$\{scopeLabel\}/);
-    assert.match(source, /difficultySet\.has\('nightmare'\) && difficultySet\.has\('madness'\)/);
-    assert.match(source, /\? '5개 파 · 악몽·광기'/);
-    assert.match(source, /stages\.map\(stage =>/);
-    assert.doesNotMatch(source, /overview\.stages\.slice/);
+test('실전 통계는 채용률과 편성만 표시하고 전체 집계의 스테이지 대체 데이터를 유지한다', () => {
+    assert.match(source, /stageUsageView = 'awakeners'/);
+    assert.doesNotMatch(source, /data-usage-view="constraints"|renderStageConstraints|usage-constraint-table/);
+    assert.doesNotMatch(css, /usage-constraint/);
     assert.match(source, /\/api\/dzone\/usage/);
     assert.match(source, /\/private-tools\/output\/dzone-usage-overview\.json/);
     assert.match(source, /overview\?\.stages\?\.find\(stage => stage\.stageTid === stageId\)/);
@@ -691,14 +677,6 @@ test('난이도별 클리어 기록은 성장·영지체 제한과 성립 가능
     assert.match(source, /stages\?\.length === 10/);
     assert.match(source, /\['nightmare', 'madness'\]\.includes/);
     assert.match(source, /stages\?\.length !== 20/);
-    assert.match(css, /\.usage-constraint-table-wrap\s*\{[^}]*overflow-x:\s*auto/);
-    assert.match(css, /\.usage-constraint-table\s*\{[^}]*min-width:\s*48rem/);
-    assert.match(css, /\.usage-constraint-table\s*\{[^}]*table-layout:\s*fixed/);
-    assert.match(css, /\.usage-constraint-state\s*\{[^}]*display:\s*grid/);
-    assert.match(css, /\.usage-constraint-state > span\s*\{[^}]*white-space:\s*nowrap/);
-    assert.doesNotMatch(css, /\.usage-constraint-table td\s*\{[^}]*min-width/);
-    assert.match(css, /\.usage-constraint-result strong\s*\{[^}]*white-space:\s*nowrap/);
-    assert.doesNotMatch(css, /usage-constraint[^{]*\{[^}]*(?:text-overflow:\s*ellipsis|overflow:\s*hidden)/);
 });
 
 test('운영 API에서도 악몽·광기 10개 집계를 읽고 누락·중복 범위는 거부한다', async () => {
