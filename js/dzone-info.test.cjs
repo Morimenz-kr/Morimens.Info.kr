@@ -1,4 +1,5 @@
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
@@ -13,7 +14,30 @@ const infoToolsCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 
 const rerunHtml = fs.readFileSync(path.join(__dirname, '..', 'rerun_schedule.html'), 'utf8');
 const landingHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const dzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
+const dzoneMaps = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
+
+test('68기 어려움·악몽은 69기부터 적용될 신규 능력치 표를 사용하지 않는다', () => {
+    assert.equal(dzoneData.period, 68);
+    const difficultyStandards = dzoneData.waves.map(wave => ({
+        wave: wave.wave,
+        alerts: wave.alerts
+            .filter(alert => ['hard', 'nightmare'].includes(alert.difficulty))
+            .map(alert => ({ difficulty: alert.difficulty, standardRows: alert.standardRows }))
+    }));
+    const checksum = crypto.createHash('sha256')
+        .update(JSON.stringify(difficultyStandards))
+        .digest('hex');
+    assert.equal(checksum, '22c8156ccd6963a00f35735f970a2dd632b08b4bc1103dbdcce1c700c82443ac');
+
+    const wave5HardBoss = dzoneData.waves[4].alerts
+        .find(alert => alert.difficulty === 'hard').standardRows
+        .find(row => row.BattleTag === 'Boss');
+    assert.deepEqual(
+        [wave5HardBoss.StandardHp, wave5HardBoss.StandardAtk, wave5HardBoss.StandardDef],
+        [3864277.08, 1962.82, 309142.17]
+    );
+});
 
 test('이번 융재의 숨은 단계 상태는 모든 해당 몬스터에서 6턴 이후 응시로 해석한다', () => {
     let matchedMonsters = 0;
@@ -677,6 +701,60 @@ test('실전 통계는 채용률과 편성만 표시하고 전체 집계의 스�
     assert.match(source, /stages\?\.length === 10/);
     assert.match(source, /\['nightmare', 'madness'\]\.includes/);
     assert.match(source, /stages\?\.length !== 20/);
+});
+
+test('현재 융재 지도는 패치 노드의 전투 ID를 정확한 전투 구성에 연결한다', () => {
+    assert.equal(dzoneMaps.period, dzoneData.period);
+    assert.deepEqual(dzoneMaps.waves.map(wave => wave.wave), dzoneData.waves.map(wave => wave.wave));
+    for (const map of dzoneMaps.waves) {
+        const wave = dzoneData.waves.find(item => item.wave === map.wave);
+        const battleIds = new Set(wave.encounters.map(encounter => encounter.battleId));
+        for (const node of map.nodes.filter(node => node.battleId)) {
+            assert.ok(battleIds.has(node.battleId), `${map.wave}파 노드 ${node.nodeId}의 전투 ${node.battleId} 누락`);
+            assert.equal(node.kind, 'combat');
+        }
+    }
+    assert.deepEqual(dzoneMaps.waves.map(wave => wave.nodes.length), [13, 27, 2, 7, 31]);
+    const wave5Route = dzoneMaps.waves.find(wave => wave.wave === 5).nodes
+        .filter(node => node.row === 5 && node.column >= 8)
+        .sort((left, right) => right.column - left.column);
+    assert.deepEqual(
+        wave5Route.map(node => node.label),
+        ['시작', '전투', '불안정한 바닥', '일반 노드', '녹슨 열쇠']
+    );
+    assert.equal(wave5Route[2].icon, null);
+    assert.equal(wave5Route[2].texture, 'unstable-floor');
+    assert.equal(wave5Route[3].icon, null);
+    assert.equal(wave5Route[4].icon, 'rusted-key');
+    const poison = dzoneMaps.waves.flatMap(wave => wave.nodes).find(node => node.texture === 'poison-floor');
+    assert.ok(poison);
+    assert.equal(poison.icon, null);
+});
+
+test('노드 지도는 전투 버튼만 상세 카드에 연결하고 실전 통계와 맨 위로 이동을 제공한다', () => {
+    assert.match(source, /function renderMap\(wave\)/);
+    assert.match(source, /const visualLabel = node\.texture \? '' :/);
+    assert.match(source, /const visibleNodes = !hasStart && combatNodes\.length === 1 \? combatNodes : layout\.nodes/);
+    assert.match(source, /<details class="dzone-map"[^>]* open>/);
+    assert.match(source, /\$\{wave\.wave\}파 지도<\/h3>/);
+    assert.doesNotMatch(source, /개 노드 · 전투 \$\{combatCount\}곳/);
+    assert.match(source, /data-map-battle=/);
+    assert.match(source, /data-battle-id=/);
+    assert.match(source, /encounter\.open = true/);
+    assert.match(html, /id="dzone-back-to-top"/);
+    assert.match(source, /window\.scrollTo/);
+    assert.match(source, /<details class="stage-usage"[^>]* open>/);
+    assert.match(source, /<summary class="stage-usage-header">/);
+    assert.match(css, /\.dzone-map-node-surface[\s\S]*transform:\s*scaleY\(0\.64\)/);
+    assert.match(css, /tile-poison-floor\.webp/);
+    assert.match(css, /tile-unstable-floor\.webp/);
+    assert.match(css, /\.dzone-map\s*\{[\s\S]*?background:\s*var\(--dzone-panel\)/);
+    assert.match(css, /\.dzone-map:not\(\[open\]\) \.dzone-map-toggle\s*\{[^}]*rotate\(-45deg\)/);
+    assert.match(css, /\.dzone-map-viewport\s*\{[\s\S]*?background:[^;]*#191a20/);
+    assert.match(css, /\.dzone-map-node--boss \.dzone-map-node-content::before[\s\S]*radial-gradient[\s\S]*rgba\(126, 39, 29/);
+    assert.match(css, /\.dzone-map-node--boss \.dzone-map-node-content img[\s\S]*brightness\(0\.82\)[\s\S]*saturate\(0\.24\)/);
+    assert.match(css, /\.dzone-map-viewport[\s\S]*overflow:\s*auto hidden/);
+    assert.match(css, /\.dzone-back-to-top[\s\S]*position:\s*fixed/);
 });
 
 test('실전 통계의 각성체 링크는 사이트 ID를 사용하고 미등록 개체는 링크하지 않는다', () => {

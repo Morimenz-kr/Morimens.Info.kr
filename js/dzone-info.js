@@ -189,6 +189,7 @@
         timeZone: 'Asia/Seoul'
     });
     let data = null;
+    let mapData = null;
     let tooltips = {};
     let selectedWave = 1;
     let selectedAlert = 4;
@@ -857,7 +858,7 @@
         const typeLabel = TYPE_LABELS[encounter.battleType] || encounter.battleType;
         const encounterLabel = typeCount > 1 ? `${typeLabel} 전투 구성 ${typeIndex}` : `${typeLabel} 전투`;
         return `
-            <details class="encounter-card site-disclosure" open>
+            <details class="encounter-card site-disclosure" id="battle-${encounter.battleId}" data-battle-id="${encounter.battleId}" open>
                 <summary class="encounter-header">
                     <h3>${escapeHtml(encounterLabel)}</h3>
                 </summary>
@@ -868,25 +869,95 @@
     function renderStageUsageShell(difficulty) {
         if (!Number.isInteger(difficulty?.stageId)) return '';
         return `
-            <section class="stage-usage" data-stage-usage="${difficulty.stageId}" aria-labelledby="stage-usage-title">
-                <header class="stage-usage-header">
+            <details class="stage-usage" data-stage-usage="${difficulty.stageId}" open>
+                <summary class="stage-usage-header">
                     <div>
-                        <h3 id="stage-usage-title">실전 편성 통계</h3>
+                        <h3>실전 편성 통계</h3>
                         <p data-usage-period>이 스테이지에 등록된 공개 클리어 기록을 집계합니다.</p>
                     </div>
                     <span class="stage-usage-sample">
                         <strong data-usage-sample>불러오는 중</strong>
                         <time data-usage-updated></time>
                     </span>
-                </header>
-                <div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
-                    <button type="button" data-usage-view="awakeners" aria-pressed="${stageUsageView === 'awakeners'}">각성체 채용률</button>
-                    <button type="button" data-usage-view="parties" aria-pressed="${stageUsageView === 'parties'}">자주 쓰인 편성</button>
+                    <span class="stage-usage-toggle" aria-hidden="true"></span>
+                </summary>
+                <div class="stage-usage-content">
+                    <div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
+                        <button type="button" data-usage-view="awakeners" aria-pressed="${stageUsageView === 'awakeners'}">각성체 채용률</button>
+                        <button type="button" data-usage-view="parties" aria-pressed="${stageUsageView === 'parties'}">자주 쓰인 편성</button>
+                    </div>
+                    <div class="stage-usage-body" data-usage-body aria-live="polite">
+                        <p class="stage-usage-message">공개 기록을 집계하고 있습니다.</p>
+                    </div>
                 </div>
-                <div class="stage-usage-body" data-usage-body aria-live="polite">
-                    <p class="stage-usage-message">공개 기록을 집계하고 있습니다.</p>
-                </div>
-            </section>`;
+            </details>`;
+    }
+
+    function renderMap(wave) {
+        const layout = mapData?.waves?.find(item => item.wave === wave.wave);
+        if (!layout?.nodes?.length) return '';
+        const hasStart = layout.nodes.some(node => node.kind === 'start');
+        const combatNodes = layout.nodes.filter(node => node.kind === 'combat');
+        const visibleNodes = !hasStart && combatNodes.length === 1 ? combatNodes : layout.nodes;
+        const minRow = Math.min(...visibleNodes.map(node => node.row));
+        const minColumn = Math.min(...visibleNodes.map(node => node.column + (node.row % 2 === 0 ? 0.5 : 0)));
+        const positioned = visibleNodes.map((node, index) => ({
+            ...node,
+            index,
+            x: node.column + (node.row % 2 === 0 ? 0.5 : 0) - minColumn,
+            y: node.row - minRow
+        }));
+        const maxX = Math.max(...positioned.map(node => node.x));
+        const maxY = Math.max(...positioned.map(node => node.y));
+        const boardWidth = Math.ceil(maxX * 103 + 108);
+        const boardHeight = Math.ceil(maxY * 60 + 81);
+        const nodes = positioned.map(node => {
+            const style = `--map-x:${node.x};--map-y:${node.y}`;
+            const icon = node.icon ? `images/dzone/map/node-${encodeURIComponent(node.icon)}.webp` : '';
+            const textureClass = node.texture ? ` dzone-map-node--texture-${escapeHtml(node.texture)}` : '';
+            const ariaNodeLabel = node.label.endsWith('노드') ? node.label : `${node.label} 노드`;
+            const visualLabel = node.texture ? '' : `<span>${escapeHtml(node.label)}</span>`;
+            const content = `<span class="dzone-map-node-surface" aria-hidden="true"></span>
+                <span class="dzone-map-node-content${icon ? '' : ' dzone-map-node-content--label-only'}" aria-hidden="true">
+                    ${icon ? `<img src="${icon}" alt="" width="54" height="54" decoding="async">` : ''}
+                    ${visualLabel}
+                </span>`;
+            if (node.battleId) {
+                return `<li class="dzone-map-node dzone-map-node--${escapeHtml(node.kind)}${node.icon === 'boss' ? ' dzone-map-node--boss' : ''}${textureClass}" style="${style}">
+                    <button type="button" data-map-battle="${node.battleId}" aria-label="${escapeHtml(ariaNodeLabel)}, 전투 정보 보기" aria-pressed="false">${content}</button>
+                </li>`;
+            }
+            return `<li class="dzone-map-node dzone-map-node--${escapeHtml(node.kind)}${textureClass}" style="${style}" aria-label="${escapeHtml(ariaNodeLabel)}">${content}</li>`;
+        }).join('');
+        return `<details class="dzone-map" aria-labelledby="dzone-map-title-${wave.wave}" open>
+            <summary class="dzone-map-header">
+                <div><h3 id="dzone-map-title-${wave.wave}">${wave.wave}파 지도</h3><p>전투 노드를 선택하면 해당 전투 정보로 이동합니다.</p></div>
+                <span class="dzone-map-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="dzone-map-viewport" tabindex="0" aria-label="${wave.wave}파 노드 지도. 지도가 넓으면 좌우로 이동할 수 있습니다.">
+                <ol class="dzone-map-board" style="--map-width:${boardWidth}px;--map-height:${boardHeight}px">${nodes}</ol>
+            </div>
+        </details>`;
+    }
+
+    function activateMap() {
+        const viewport = document.querySelector('.dzone-map-viewport');
+        const start = document.querySelector('.dzone-map-node--start');
+        if (viewport && start) viewport.scrollLeft = Math.max(0, start.offsetLeft - viewport.clientWidth / 2 + start.clientWidth / 2);
+        document.querySelector('.dzone-map')?.addEventListener('click', event => {
+            const button = event.target.closest('[data-map-battle]');
+            if (!button) return;
+            const battleId = Number(button.dataset.mapBattle);
+            const encounter = document.querySelector(`[data-battle-id="${battleId}"]`);
+            if (!encounter) return;
+            document.querySelectorAll('[data-map-battle]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+            encounter.open = true;
+            encounter.scrollIntoView({
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+                block: 'start'
+            });
+            encounter.querySelector('summary')?.focus({ preventScroll: true });
+        });
     }
 
     function usagePercent(value) {
@@ -1092,6 +1163,7 @@
                     <div class="wave-heading"><h2 class="wave-title"><span>${wave.wave}파</span></h2>${mechanicBadges.length ? `<ul class="wave-mechanics" aria-label="주요 기믹">${mechanicBadges.map(label => `<li>${escapeHtml(label)}</li>`).join('')}</ul>` : ''}</div>
                     <div class="wave-meta">${escapeHtml(difficultyLabel)}</div>
                 </header>
+                ${renderMap(wave)}
                 ${renderStageUsageShell(difficulty)}
                 ${renderRelics(wave)}
                 <div class="encounter-grid">${encounters}</div>
@@ -1118,6 +1190,7 @@
         document.querySelectorAll('[data-alert]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.alert) === selectedAlert)));
         history.replaceState(null, '', `#wave-${selectedWave}-alert-${selectedAlert}`);
         window.CharacterEffects?.setupTooltips(content);
+        activateMap();
         renderMechanicNavigation();
         if (difficulty?.stageId) void loadStageUsage(difficulty.stageId);
     }
@@ -1200,7 +1273,13 @@
         delete content.dataset.season;
         content.innerHTML = '<div class="dzone-loading">현재 시즌 데이터를 불러오는 중입니다.</div>';
         try {
-            data = await window.DzoneSeason.loadCurrent();
+            const [seasonData, maps] = await Promise.all([
+                window.DzoneSeason.loadCurrent(),
+                fetch(`data/dzone_maps.json?t=${Date.now()}`, { cache: 'no-store' })
+                    .then(response => response.ok ? response.json() : null).catch(() => null)
+            ]);
+            data = seasonData;
+            mapData = maps?.period === data.period ? maps : null;
             configureGeneratedTooltips();
             selectedMechanic = '';
             mechanicCursor = 0;
@@ -1227,13 +1306,16 @@
 
     async function initialize() {
         try {
-            const [seasonData, tooltipResponse, , characterManifest] = await Promise.all([
+            const [seasonData, tooltipResponse, , characterManifest, maps] = await Promise.all([
                 window.DzoneSeason.loadCurrent(),
                 fetch(`data/db_tooltips.json?t=${Date.now()}`).catch(() => null),
                 window.ResearchDepth.load(),
-                fetch('data/character_manifest.json').then(response => response.ok ? response.json() : []).catch(() => [])
+                fetch('data/character_manifest.json').then(response => response.ok ? response.json() : []).catch(() => []),
+                fetch(`data/dzone_maps.json?t=${Date.now()}`, { cache: 'no-store' })
+                    .then(response => response.ok ? response.json() : null).catch(() => null)
             ]);
             data = seasonData;
+            mapData = maps?.period === data.period ? maps : null;
             usageCharacterManifest = Array.isArray(characterManifest) ? characterManifest : [];
             const rawTooltips = tooltipResponse?.ok ? await tooltipResponse.json() : {};
             tooltips = Object.fromEntries(Object.entries(rawTooltips).map(([keyword, description]) => [
@@ -1253,6 +1335,14 @@
             document.getElementById('dzone-summary').textContent = '현재 진행 중인 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.';
             buildControls();
             render();
+            const backToTop = document.getElementById('dzone-back-to-top');
+            const updateBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 480);
+            backToTop.addEventListener('click', () => window.scrollTo({
+                top: 0,
+                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
+            }));
+            window.addEventListener('scroll', updateBackToTop, { passive: true });
+            updateBackToTop();
             scheduleStageUsageRefresh();
             window.addEventListener('focus', refreshSeason);
             document.addEventListener('visibilitychange', () => {

@@ -30,6 +30,7 @@ ui-debug.log
 !/tools/validate-dzone-content.mjs
 !/tools/publish-dzone-usage.mjs
 !/tools/publish-dzone-usage.test.cjs
+!/tools/build-dzone-map-data.mjs
 !/tools/fixtures/
 !/tools/fixtures/monster-combat-148007.json
 /js/dimension-descriptions.test.cjs
