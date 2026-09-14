@@ -1,6 +1,6 @@
 {
   "period": 69,
-  "generatedAt": "2026-09-14T01:14:17.223Z",
+  "generatedAt": "2026-09-14T01:21:12.592Z",
   "waves": [
     {
       "wave": 1,
@@ -139,6 +139,14 @@
         },
         {
           "row": 6,
+          "column": 5,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 6,
           "column": 6,
           "nodeId": 86735,
           "kind": "combat",
@@ -235,6 +243,14 @@
         },
         {
           "row": 3,
+          "column": 7,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 3,
           "column": 8,
           "nodeId": 12985,
           "kind": "obstacle",
@@ -257,6 +273,14 @@
           "label": "불안정한 바닥",
           "icon": null,
           "texture": "unstable-floor"
+        },
+        {
+          "row": 3,
+          "column": 11,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
         },
         {
           "row": 3,
@@ -351,6 +375,22 @@
           "kind": "event",
           "label": "이벤트",
           "icon": "event"
+        },
+        {
+          "row": 5,
+          "column": 10,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 6,
+          "column": 1,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
         },
         {
           "row": 6,
@@ -628,6 +668,14 @@
           "nodeId": 11741,
           "kind": "start",
           "label": "시작",
+          "icon": null
+        },
+        {
+          "row": 4,
+          "column": 10,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
           "icon": null
         },
         {

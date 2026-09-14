@@ -49,14 +49,52 @@ function presentation(node) {
   return base;
 }
 
-// Map 84969 omits this traversable cell from Config.Map even though it is
-// rendered as a plain node in-game. The adjacent cells and captured 5-wave
-// route place it between the unstable floor and the rusted key.
-const MAP_NODE_SUPPLEMENTS = Object.freeze({
-  84969: [
-    { row: 5, column: 9, nodeId: null, kind: 'normal', label: '일반 노드', icon: null }
-  ]
-});
+function hexPosition(row, column) {
+  return { x: column + (row % 2 === 0 ? 0.5 : 0), y: row };
+}
+
+function isAdjacent(left, right) {
+  const a = hexPosition(left.row, left.column);
+  const b = hexPosition(right.row, right.column);
+  return (a.y === b.y && Math.abs(a.x - b.x) === 1)
+    || (Math.abs(a.y - b.y) === 1 && Math.abs(a.x - b.x) === 0.5);
+}
+
+// Config.Map omits traversable plain tiles that only bridge two nodes in a
+// straight line. Restore those absent midpoint cells without treating the
+// surrounding wall placeholder (MapNode 11666) as a playable node.
+function missingNormalNodes(map, nodes) {
+  const present = new Set();
+  let maxColumn = 0;
+  for (const [rowKey, row] of Object.entries(map.data_list || {})) {
+    for (const axis of Object.keys(row)) {
+      if (!/Xaxis\d+$/.test(axis)) continue;
+      const column = Number(axis.match(/\d+$/)[0]);
+      present.add(`${Number(rowKey)},${column}`);
+      maxColumn = Math.max(maxColumn, column);
+    }
+  }
+  const rows = Object.keys(map.data_list || {}).map(Number);
+  const supplements = [];
+  for (const row of rows) {
+    for (let column = 1; column <= maxColumn; column += 1) {
+      if (present.has(`${row},${column}`)) continue;
+      const candidate = { row, column };
+      const neighbors = nodes.filter(node => isAdjacent(candidate, node));
+      const center = hexPosition(row, column);
+      const bridgesStraightLine = neighbors.some((left, index) => neighbors.slice(index + 1).some(right => {
+        const a = hexPosition(left.row, left.column);
+        const b = hexPosition(right.row, right.column);
+        return Math.abs((a.x - center.x) + (b.x - center.x)) < 0.01
+          && (a.y - center.y) + (b.y - center.y) === 0;
+      }));
+      if (bridgesStraightLine) {
+        supplements.push({ row, column, nodeId: null, kind: 'normal', label: '일반 노드', icon: null });
+      }
+    }
+  }
+  return supplements;
+}
 
 const result = {
   period: season.period,
@@ -90,7 +128,7 @@ const result = {
         });
       }
     }
-    nodes.push(...(MAP_NODE_SUPPLEMENTS[wave.mapId] || []));
+    nodes.push(...missingNormalNodes(map, nodes));
     nodes.sort((left, right) => left.row - right.row || left.column - right.column);
     return { wave: wave.wave, mapId: wave.mapId, nodes };
   })
