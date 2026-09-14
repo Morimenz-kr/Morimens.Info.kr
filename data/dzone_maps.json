@@ -1,6 +1,6 @@
 {
   "period": 69,
-  "generatedAt": "2026-09-14T01:21:12.592Z",
+  "generatedAt": "2026-09-14T01:27:00.500Z",
   "waves": [
     {
       "wave": 1,
@@ -31,6 +31,14 @@
           "icon": "passage-in"
         },
         {
+          "row": 2,
+          "column": 9,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
           "row": 3,
           "column": 3,
           "nodeId": 12059,
@@ -57,6 +65,22 @@
         },
         {
           "row": 4,
+          "column": 2,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 4,
+          "column": 3,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 4,
           "column": 4,
           "nodeId": 85736,
           "kind": "combat",
@@ -79,6 +103,14 @@
           "kind": "event",
           "label": "이벤트",
           "icon": "event"
+        },
+        {
+          "row": 4,
+          "column": 9,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
         },
         {
           "row": 5,
@@ -153,6 +185,14 @@
           "label": "전투",
           "icon": "combat",
           "battleId": 87257
+        },
+        {
+          "row": 6,
+          "column": 7,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
         },
         {
           "row": 7,
@@ -712,6 +752,14 @@
           "kind": "obstacle",
           "label": "녹슨 문",
           "icon": "locked-door"
+        },
+        {
+          "row": 5,
+          "column": 11,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
         },
         {
           "row": 6,

@@ -719,10 +719,16 @@ test('현재 융재 지도는 패치 노드의 전투 ID를 정확한 전투 구
             assert.equal(node.kind, 'combat');
         }
     }
-    assert.deepEqual(dzoneMaps.waves.map(wave => wave.nodes.length), [21, 33, 2, 7, 28]);
+    assert.deepEqual(dzoneMaps.waves.map(wave => wave.nodes.length), [26, 33, 2, 7, 29]);
     assert.deepEqual(
         dzoneMaps.waves.map(wave => wave.nodes.filter(node => node.kind === 'normal').map(node => [node.row, node.column])),
-        [[[6, 5]], [[3, 7], [3, 11], [5, 10], [6, 1]], [], [], [[4, 10]]]
+        [
+            [[2, 9], [4, 2], [4, 3], [4, 9], [6, 5], [6, 7]],
+            [[3, 7], [3, 11], [5, 10], [6, 1]],
+            [],
+            [],
+            [[4, 10], [5, 11]]
+        ]
     );
     const unstable = dzoneMaps.waves.flatMap(wave => wave.nodes).find(node => node.texture === 'unstable-floor');
     assert.ok(unstable);

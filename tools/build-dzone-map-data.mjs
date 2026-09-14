@@ -49,21 +49,11 @@ function presentation(node) {
   return base;
 }
 
-function hexPosition(row, column) {
-  return { x: column + (row % 2 === 0 ? 0.5 : 0), y: row };
-}
-
-function isAdjacent(left, right) {
-  const a = hexPosition(left.row, left.column);
-  const b = hexPosition(right.row, right.column);
-  return (a.y === b.y && Math.abs(a.x - b.x) === 1)
-    || (Math.abs(a.y - b.y) === 1 && Math.abs(a.x - b.x) === 0.5);
-}
-
-// Config.Map omits traversable plain tiles that only bridge two nodes in a
-// straight line. Restore those absent midpoint cells without treating the
-// surrounding wall placeholder (MapNode 11666) as a playable node.
-function missingNormalNodes(map, nodes) {
+// Config.Map represents walls explicitly with MapNode 11666 and omits plain,
+// traversable tiles from each otherwise rectangular row. Restore every omitted
+// coordinate as a normal node so branches and the route from the start are not
+// disconnected in the rendered map.
+function missingNormalNodes(map) {
   const present = new Set();
   let maxColumn = 0;
   for (const [rowKey, row] of Object.entries(map.data_list || {})) {
@@ -79,18 +69,7 @@ function missingNormalNodes(map, nodes) {
   for (const row of rows) {
     for (let column = 1; column <= maxColumn; column += 1) {
       if (present.has(`${row},${column}`)) continue;
-      const candidate = { row, column };
-      const neighbors = nodes.filter(node => isAdjacent(candidate, node));
-      const center = hexPosition(row, column);
-      const bridgesStraightLine = neighbors.some((left, index) => neighbors.slice(index + 1).some(right => {
-        const a = hexPosition(left.row, left.column);
-        const b = hexPosition(right.row, right.column);
-        return Math.abs((a.x - center.x) + (b.x - center.x)) < 0.01
-          && (a.y - center.y) + (b.y - center.y) === 0;
-      }));
-      if (bridgesStraightLine) {
-        supplements.push({ row, column, nodeId: null, kind: 'normal', label: '일반 노드', icon: null });
-      }
+      supplements.push({ row, column, nodeId: null, kind: 'normal', label: '일반 노드', icon: null });
     }
   }
   return supplements;
@@ -128,7 +107,7 @@ const result = {
         });
       }
     }
-    nodes.push(...missingNormalNodes(map, nodes));
+    nodes.push(...missingNormalNodes(map));
     nodes.sort((left, right) => left.row - right.row || left.column - right.column);
     return { wave: wave.wave, mapId: wave.mapId, nodes };
   })
