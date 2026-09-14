@@ -13,7 +13,8 @@ const linksCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'lin
 const infoToolsCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'info_tools.css'), 'utf8');
 const rerunHtml = fs.readFileSync(path.join(__dirname, '..', 'rerun_schedule.html'), 'utf8');
 const landingHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
-const dzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
+const currentDzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
+const dzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season68.json'), 'utf8'));
 const dzoneMaps = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 
@@ -521,10 +522,14 @@ test('융재금구와 복각 일정은 은열쇠 정보와 같은 어두운 외�
     assert.match(infoToolsCss, /\.info-shell--dark\s*\{[\s\S]*?background:\s*#1e1e24/);
 });
 
-test('융재금구 전투 정보는 도서관과 진행 중인 팁에서 모두 접근할 수 있다', () => {
+test('융재금구 전투 정보는 메인의 이번 융재 항목에서 접근한다', () => {
+    const liveSection = landingHtml.match(/<section class="menu-section menu-section-live"([\s\S]*?)<\/section>/)?.[0] || '';
     const librarySection = landingHtml.match(/<section class="menu-section menu-section-library"([\s\S]*?)<\/section>/)?.[0] || '';
-    assert.match(librarySection, /href="dzone_info\.html"/);
-    assert.match(librarySection, /융재금구 전투 정보/);
+    assert.match(liveSection, /이번 시즌 정보/);
+    assert.match(liveSection, /href="dzone_info\.html"/);
+    assert.match(liveSection, /이번 융재는\?/);
+    assert.doesNotMatch(librarySection, /href="dzone_info\.html"/);
+    assert.doesNotMatch(librarySection, /융재금구 전투 정보/);
     assert.match(linksSource, /href="dzone_info\.html" class="dzone-info-banner"/);
 });
 
@@ -704,28 +709,20 @@ test('실전 통계는 채용률과 편성만 표시하고 전체 집계의 스�
 });
 
 test('현재 융재 지도는 패치 노드의 전투 ID를 정확한 전투 구성에 연결한다', () => {
-    assert.equal(dzoneMaps.period, dzoneData.period);
-    assert.deepEqual(dzoneMaps.waves.map(wave => wave.wave), dzoneData.waves.map(wave => wave.wave));
+    assert.equal(dzoneMaps.period, currentDzoneData.period);
+    assert.deepEqual(dzoneMaps.waves.map(wave => wave.wave), currentDzoneData.waves.map(wave => wave.wave));
     for (const map of dzoneMaps.waves) {
-        const wave = dzoneData.waves.find(item => item.wave === map.wave);
+        const wave = currentDzoneData.waves.find(item => item.wave === map.wave);
         const battleIds = new Set(wave.encounters.map(encounter => encounter.battleId));
         for (const node of map.nodes.filter(node => node.battleId)) {
             assert.ok(battleIds.has(node.battleId), `${map.wave}파 노드 ${node.nodeId}의 전투 ${node.battleId} 누락`);
             assert.equal(node.kind, 'combat');
         }
     }
-    assert.deepEqual(dzoneMaps.waves.map(wave => wave.nodes.length), [13, 27, 2, 7, 31]);
-    const wave5Route = dzoneMaps.waves.find(wave => wave.wave === 5).nodes
-        .filter(node => node.row === 5 && node.column >= 8)
-        .sort((left, right) => right.column - left.column);
-    assert.deepEqual(
-        wave5Route.map(node => node.label),
-        ['시작', '전투', '불안정한 바닥', '일반 노드', '녹슨 열쇠']
-    );
-    assert.equal(wave5Route[2].icon, null);
-    assert.equal(wave5Route[2].texture, 'unstable-floor');
-    assert.equal(wave5Route[3].icon, null);
-    assert.equal(wave5Route[4].icon, 'rusted-key');
+    assert.deepEqual(dzoneMaps.waves.map(wave => wave.nodes.length), [20, 29, 2, 7, 27]);
+    const unstable = dzoneMaps.waves.flatMap(wave => wave.nodes).find(node => node.texture === 'unstable-floor');
+    assert.ok(unstable);
+    assert.equal(unstable.icon, null);
     const poison = dzoneMaps.waves.flatMap(wave => wave.nodes).find(node => node.texture === 'poison-floor');
     assert.ok(poison);
     assert.equal(poison.icon, null);
