@@ -909,8 +909,8 @@
         }));
         const maxX = Math.max(...positioned.map(node => node.x));
         const maxY = Math.max(...positioned.map(node => node.y));
-        const boardWidth = Math.ceil(maxX * 103 + 108);
-        const boardHeight = Math.ceil(maxY * 60 + 81);
+        const boardWidth = Math.ceil(maxX * 99.36 + 108);
+        const boardHeight = Math.ceil(maxY * 60.48 + 81);
         const nodes = positioned.map(node => {
             const style = `--map-x:${node.x};--map-y:${node.y}`;
             const icon = node.icon ? `images/dzone/map/node-${encodeURIComponent(node.icon)}.webp` : '';

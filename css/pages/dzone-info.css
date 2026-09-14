@@ -302,8 +302,8 @@
 }
 .dzone-map-node {
     position: absolute;
-    left: calc((100% - var(--map-width)) / 2 + var(--map-x) * 103px);
-    top: calc(var(--map-y) * 60px);
+    left: calc((100% - var(--map-width)) / 2 + var(--map-x) * 99.36px);
+    top: calc(var(--map-y) * 60.48px);
     width: 108px;
     height: 81px;
     color: #eff6f3;
