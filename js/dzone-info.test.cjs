@@ -738,6 +738,19 @@ test('현재 융재 지도는 패치 노드의 전투 ID를 정확한 전투 구
     assert.equal(poison.icon, null);
 });
 
+test('카드 버린 직후 방어막 기록값을 내부 상태명 없이 설명한다', () => {
+    const descriptions = currentDzoneData.waves.flatMap(wave => wave.alerts).flatMap(alert => (
+        alert.monsters.flatMap(monster => [
+            ...Object.values(monster.resolvedSkills || {}),
+            ...Object.values(monster.phaseResolvedSkills || {}).flatMap(skills => Object.values(skills || {}))
+        ])
+    )).map(skill => skill.richDescription || skill.description || '');
+    const matching = descriptions.filter(description => description.includes('카드를 버린 직후 또는 공격 시점의 방어막'));
+    assert.equal(matching.length, 8);
+    assert.ok(matching.every(description => description.includes('중 높은 수치의 25%만큼 피해가 증가합니다.')));
+    assert.doesNotMatch(descriptions.join('\n'), /실드값 스택 수|max\(플레이어 방어막/);
+});
+
 test('노드 지도는 전투 버튼만 상세 카드에 연결하고 실전 통계와 맨 위로 이동을 제공한다', () => {
     assert.match(source, /function renderMap\(wave\)/);
     assert.match(source, /const visualLabel = node\.texture \? '' :/);
