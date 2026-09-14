@@ -641,7 +641,7 @@
         if (!rules.length && !interventions.length) return '';
         const remainingInterventions = new Set(interventions);
         const rows = rules.flatMap(rule => {
-            const related = interventions.filter(intervention =>
+            const related = interventions.filter(intervention => remainingInterventions.has(intervention) &&
                 intervention.sourceStateIds?.includes(rule.id));
             related.forEach(intervention => remainingInterventions.delete(intervention));
             return [rule, ...related.map(intervention => ({

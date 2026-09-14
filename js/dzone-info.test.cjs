@@ -564,6 +564,24 @@ test('융재금구 전투 정보는 메인의 이번 융재 항목에서 접근�
     assert.match(linksSource, /href="dzone_info\.html" class="dzone-info-banner"/);
 });
 
+test('성자·백야의 임시 열광은 여러 상태에 연결되어도 한 번만 표시한다', () => {
+    const wave = currentDzoneData.waves.find(w => w.wave === 5);
+    const monster = wave.monsters.find(m => m.tid === 147935);
+    const stats = wave.alerts.at(-1).monsters.find(m => m.tid === 147935);
+    const intervention = monster.patternInterventions.find(item => item.stateId === 147974);
+    assert.deepEqual(intervention.sourceStateIds, [147975, 147969]);
+
+    const context = vm.createContext({
+        data: currentDzoneData, number: new Intl.NumberFormat('ko-KR'),
+        escapeHtml: String, gameText: String, politeText: String, dynamicMarkup: String,
+        renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id),
+        isFoldedReplacementAction: () => false
+    });
+    vm.runInContext(source.slice(source.indexOf('    function renderConditionalActions('), source.indexOf('    function renderSummons(')), context);
+    const rules = context.renderRules(monster, stats);
+    assert.equal((rules.match(/<strong>임시 열광<\/strong>/g) || []).length, 1);
+});
+
 test('문맥상 일반어인 희생·기절·보유는 툴팁에서 제외한다', () => {
     assert.match(source, /자신을 희생하여/);
     assert.match(source, /「기절」/);
