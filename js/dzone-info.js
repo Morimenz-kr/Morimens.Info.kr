@@ -191,6 +191,7 @@
     let data = null;
     let mapData = null;
     let tooltips = {};
+    let selectedPeriod = window.DzoneSeason.selectSeason().period;
     let selectedWave = 1;
     let selectedAlert = 4;
     let researchLevel = 81;
@@ -1171,8 +1172,8 @@
     }
 
     function render() {
-        if (data?.period !== window.DzoneSeason.selectSeason().period) {
-            void refreshSeason();
+        if (data?.period !== selectedPeriod) {
+            void loadSeason(selectedPeriod);
             return;
         }
         const selected = data.waves.find(wave => wave.wave === selectedWave) || data.waves[0];
@@ -1185,10 +1186,11 @@
         const content = document.getElementById('dzone-content');
         content.dataset.season = String(data.period);
         content.innerHTML = renderWave(selected);
-        document.getElementById('selection-status').textContent = `${selectedWave}파, ${difficultyLabel} 난이도 선택됨`;
+        document.getElementById('selection-status').textContent = `${data.period}기, ${selectedWave}파, ${difficultyLabel} 난이도 선택됨`;
+        document.querySelectorAll('[data-season]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.season) === data.period)));
         document.querySelectorAll('[data-wave]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.wave) === selectedWave)));
         document.querySelectorAll('[data-alert]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.alert) === selectedAlert)));
-        history.replaceState(null, '', `#wave-${selectedWave}-alert-${selectedAlert}`);
+        history.replaceState(null, '', `#season-${data.period}-wave-${selectedWave}-alert-${selectedAlert}`);
         window.CharacterEffects?.setupTooltips(content);
         activateMap();
         renderMechanicNavigation();
@@ -1196,6 +1198,17 @@
     }
 
     function buildControls() {
+        const seasonSelector = document.getElementById('season-selector');
+        seasonSelector.innerHTML = window.DzoneSeason.availableSeasons()
+            .sort((left, right) => right.period - left.period)
+            .map(season => `<option value="${season.period}">${season.period}기${season.current ? ' (현재)' : ''}</option>`)
+            .join('');
+        seasonSelector.value = String(data.period);
+        seasonSelector.onchange = () => {
+            const period = Number(seasonSelector.value);
+            if (period !== data.period) void loadSeason(period);
+        };
+
         const researchInput = document.getElementById('dzone-research-level');
         researchInput.value = researchLevel;
         researchInput.oninput = () => {
@@ -1254,6 +1267,17 @@
     let seasonTimer = null;
     let refreshingSeason = false;
 
+    function updateSeasonCopy() {
+        const isCurrent = data.period === window.DzoneSeason.CURRENT_SEASON;
+        const title = isCurrent ? '진행 중인 융재금구 정보' : `${data.period}기 융재금구 정보`;
+        document.title = title;
+        document.getElementById('dzone-title').textContent = title;
+        document.getElementById('dzone-summary').textContent = isCurrent
+            ? '현재 진행 중인 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.'
+            : `바로 이전 ${data.period}기 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.`;
+        document.getElementById('mechanic-nav-label').textContent = isCurrent ? '이번 융재 기믹' : `${data.period}기 융재 기믹`;
+    }
+
     function scheduleSeasonRefresh() {
         clearTimeout(seasonTimer);
         const delay = window.DzoneSeason.nextCheckDelay();
@@ -1262,37 +1286,49 @@
 
     async function refreshSeason() {
         if (refreshingSeason) return;
-        if (data?.period === window.DzoneSeason.selectSeason().period) {
+        if (selectedPeriod !== window.DzoneSeason.CURRENT_SEASON) {
             scheduleSeasonRefresh();
             return;
         }
+        if (data?.period === window.DzoneSeason.CURRENT_SEASON) {
+            scheduleSeasonRefresh();
+            return;
+        }
+        await loadSeason(window.DzoneSeason.CURRENT_SEASON);
+    }
+
+    async function loadSeason(period) {
+        if (refreshingSeason) return;
+        const selected = window.DzoneSeason.selectSeason(period);
         refreshingSeason = true;
         const content = document.getElementById('dzone-content');
         const toolbar = document.querySelector('.dzone-toolbar');
         toolbar.inert = true;
         delete content.dataset.season;
-        content.innerHTML = '<div class="dzone-loading">현재 시즌 데이터를 불러오는 중입니다.</div>';
+        content.innerHTML = `<div class="dzone-loading">${selected.period}기 융재 데이터를 불러오는 중입니다.</div>`;
         try {
             const [seasonData, maps] = await Promise.all([
-                window.DzoneSeason.loadCurrent(),
-                fetch(`data/dzone_maps.json?t=${Date.now()}`, { cache: 'no-store' })
+                window.DzoneSeason.load(selected.period),
+                fetch(`${selected.mapPath}?t=${Date.now()}`, { cache: 'no-store' })
                     .then(response => response.ok ? response.json() : null).catch(() => null)
             ]);
             data = seasonData;
+            selectedPeriod = data.period;
             mapData = maps?.period === data.period ? maps : null;
+            stageUsageCache.clear();
+            dzoneUsageOverviewCache = null;
             configureGeneratedTooltips();
             selectedMechanic = '';
             mechanicCursor = 0;
+            updateSeasonCopy();
             buildControls();
             render();
-            toolbar.inert = false;
             scheduleSeasonRefresh();
         } catch (error) {
             console.error('융재금구 시즌 전환 실패:', error);
-            content.innerHTML = '<div class="dzone-error">현재 시즌 정보를 불러오지 못했습니다. 잠시 후 다시 시도합니다.</div>';
-            clearTimeout(seasonTimer);
-            seasonTimer = setTimeout(refreshSeason, 60000);
+            content.innerHTML = `<div class="dzone-error">${selected.period}기 융재 정보를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>`;
         } finally {
+            toolbar.inert = false;
             refreshingSeason = false;
         }
     }
@@ -1306,15 +1342,23 @@
 
     async function initialize() {
         try {
+            const hashSelection = location.hash.match(/^(?:#season-(\d+)-)?wave-(\d+)(?:-alert-(\d+))?$/);
+            if (hashSelection) {
+                if (hashSelection[1]) selectedPeriod = window.DzoneSeason.selectSeason(Number(hashSelection[1])).period;
+                selectedWave = Number(hashSelection[2]);
+                if (hashSelection[3]) selectedAlert = Number(hashSelection[3]);
+            }
+            const selected = window.DzoneSeason.selectSeason(selectedPeriod);
             const [seasonData, tooltipResponse, , characterManifest, maps] = await Promise.all([
-                window.DzoneSeason.loadCurrent(),
+                window.DzoneSeason.load(selectedPeriod),
                 fetch(`data/db_tooltips.json?t=${Date.now()}`).catch(() => null),
                 window.ResearchDepth.load(),
                 fetch('data/character_manifest.json').then(response => response.ok ? response.json() : []).catch(() => []),
-                fetch(`data/dzone_maps.json?t=${Date.now()}`, { cache: 'no-store' })
+                fetch(`${selected.mapPath}?t=${Date.now()}`, { cache: 'no-store' })
                     .then(response => response.ok ? response.json() : null).catch(() => null)
             ]);
             data = seasonData;
+            selectedPeriod = data.period;
             mapData = maps?.period === data.period ? maps : null;
             usageCharacterManifest = Array.isArray(characterManifest) ? characterManifest : [];
             const rawTooltips = tooltipResponse?.ok ? await tooltipResponse.json() : {};
@@ -1325,14 +1369,7 @@
             Object.assign(tooltips, DZONE_CARD_TOOLTIPS);
             configureGeneratedTooltips();
             researchLevel = window.ResearchDepth.selectedLevel();
-            const hashSelection = location.hash.match(/^#wave-(\d+)(?:-alert-(\d+))?$/);
-            if (hashSelection) {
-                selectedWave = Number(hashSelection[1]);
-                if (hashSelection[2]) selectedAlert = Number(hashSelection[2]);
-            }
-            document.title = '진행 중인 융재금구 정보';
-            document.getElementById('dzone-title').textContent = '진행 중인 융재금구 정보';
-            document.getElementById('dzone-summary').textContent = '현재 진행 중인 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.';
+            updateSeasonCopy();
             buildControls();
             render();
             const backToTop = document.getElementById('dzone-back-to-top');

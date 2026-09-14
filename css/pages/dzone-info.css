@@ -69,6 +69,41 @@
     font-size: 1rem;
 }
 
+.dzone-season-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.65rem 1rem;
+    padding: 0 0 0.85rem;
+    border-bottom: 1px solid var(--dzone-border);
+}
+
+.dzone-season-panel label {
+    color: #f4f4f5;
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.season-selector {
+    min-width: min(100%, 11rem);
+    min-height: 44px;
+    max-width: 16rem;
+    padding: 0.55rem 2.4rem 0.55rem 0.8rem;
+    border: 1px solid var(--color-border-light);
+    border-radius: 0.65rem;
+    background: rgba(15, 15, 18, 0.42);
+    color: #f4f4f5;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.season-selector:hover { background-color: rgba(255, 255, 255, 0.06); }
+.season-selector:focus-visible {
+    outline: 3px solid rgba(244, 189, 80, 0.45);
+    outline-offset: 2px;
+}
+
 .dzone-toolbar-heading p {
     margin: 0.3rem 0 0;
     color: var(--dzone-muted);

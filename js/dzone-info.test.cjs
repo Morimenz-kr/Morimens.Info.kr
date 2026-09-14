@@ -8,6 +8,7 @@ const vm = require('node:vm');
 const source = fs.readFileSync(path.join(__dirname, 'dzone-info.js'), 'utf8');
 const html = fs.readFileSync(path.join(__dirname, '..', 'dzone_info.html'), 'utf8');
 const css = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'dzone-info.css'), 'utf8');
+const componentsCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'components.css'), 'utf8');
 const linksSource = fs.readFileSync(path.join(__dirname, 'links.js'), 'utf8');
 const linksCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'links.css'), 'utf8');
 const infoToolsCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'info_tools.css'), 'utf8');
@@ -16,7 +17,37 @@ const landingHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'u
 const currentDzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
 const dzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season68.json'), 'utf8'));
 const dzoneMaps = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps.json'), 'utf8'));
+const dzoneMaps68 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season68.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
+
+test('전투 선택 위의 드롭다운에서 시즌 수와 무관하게 융재를 전환한다', () => {
+    assert.ok(html.indexOf('id="season-selector"') < html.indexOf('id="filter-heading"'));
+    assert.match(html, /<label id="season-heading" for="season-selector">시즌 선택<\/label>/);
+    assert.match(html, /<select id="season-selector"/);
+    assert.match(html, /aria-label="시즌 선택"/);
+    assert.match(source, /window\.DzoneSeason\.availableSeasons\(\)/);
+    assert.match(source, /\.sort\(\(left, right\) => right\.period - left\.period\)/);
+    assert.match(source, /<option value="\$\{season\.period\}">\$\{season\.period\}기/);
+    assert.match(source, /window\.DzoneSeason\.load\(selected\.period\)/);
+    assert.match(source, /fetch\(`\$\{selected\.mapPath\}\?t=\$\{Date\.now\(\)\}`/);
+    assert.match(source, /#season-\$\{data\.period\}-wave-\$\{selectedWave\}-alert-\$\{selectedAlert\}/);
+    assert.doesNotMatch(source, /data\?\.period !== window\.DzoneSeason\.CURRENT_SEASON/);
+    assert.match(css, /\.dzone-season-panel\s*\{[\s\S]*flex-wrap:\s*wrap/);
+    assert.match(css, /\.season-selector\s*\{[\s\S]*min-height:\s*44px/);
+    assert.doesNotMatch(css, /\.season-button/);
+});
+
+test('68기에도 해당 시즌 지도와 실전 편성 통계를 표시한다', () => {
+    assert.equal(dzoneMaps68.period, 68);
+    assert.equal(dzoneMaps68.waves.length, dzoneData.waves.length);
+    assert.match(source, /function renderStageUsageShell\(difficulty\)\s*\{\s*if \(!Number\.isInteger\(difficulty\?\.stageId\)\) return '';/);
+    assert.doesNotMatch(source, /CURRENT_SEASON\) return ''/);
+});
+
+test('공통 드롭다운은 펼친 목록에서도 어두운 배경과 밝은 글자를 유지한다', () => {
+    assert.match(componentsCss, /select\s*\{[\s\S]*color-scheme:\s*dark/);
+    assert.match(componentsCss, /select option\s*\{[\s\S]*background-color:\s*var\(--color-bg-elevated\)[\s\S]*color:\s*#eee/);
+});
 
 test('68기 어려움·악몽은 69기부터 적용될 신규 능력치 표를 사용하지 않는다', () => {
     assert.equal(dzoneData.period, 68);
