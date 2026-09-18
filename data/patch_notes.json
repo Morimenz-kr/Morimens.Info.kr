@@ -1,5 +1,12 @@
 [
   {
+    "version": "v1.3.34",
+    "date": "2026-09-18",
+    "changes": [
+      "교환 코드 추가 (XPAH-HBTQ-DLVC, 은심 200개)"
+    ]
+  },
+  {
     "version": "v1.3.33",
     "date": "2026-09-10",
     "changes": [
