@@ -15,8 +15,9 @@ test('실제 운영 JSON을 Firestore 문서로 분해하고 의미 손실 없�
   const restored = core.restoreDatasets(bundle);
   const rebuilt = core.createReleaseBundle(restored);
 
-  assert.equal(bundle.documents.filter(document => document.data.kind === 'character').length, 60);
-  assert.equal(bundle.documentCount, 69);
+  const characterCount = source['character_manifest.json'].length;
+  assert.equal(bundle.documents.filter(document => document.data.kind === 'character').length, characterCount);
+  assert.equal(bundle.documentCount, characterCount + 9);
   for (const fileName of core.OPERATING_DATASETS) {
     assert.deepEqual(restored[fileName], source[fileName], fileName);
   }
