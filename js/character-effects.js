@@ -66,6 +66,8 @@
 
     keywordIcons['봉헌'] = ['caraboo-apple.png', '#c4cad2'];
     keywordIcons['과식'] = ['caraboo-apple.png', '#c4cad2'];
+    keywordIcons['암류'] = ['undercurrent.png', '#c8cbc4'];
+    keywordIcons['자신의 죄'] = ['own-sin.png', '#e6e4dc'];
 
     keywordIcons['공허'] = ['void.png', '#ac9a76'];
     keywordIcons['보존'] = ['../original/icons_buff_016.png', '#c79374'];

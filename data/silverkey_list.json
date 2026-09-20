@@ -1332,5 +1332,13 @@
         "PlayerGrowth*0.104*chaostype2_ks_def_per,20*chaostype2_ks_def_per"
       ]
     }
+  },
+  {
+    "korean_name": "끝없이 쓰여지는 새 장",
+    "english_name": "key_GOgier",
+    "description": "방어막을 66pt 획득하고, 힘을 16pt 획득한다. 서약·오지에가 파티에 편성될 경우, 서약·오지에는 광기 20pt와 「암류」 1스택을 획득한다.",
+    "image_path": "images/key_GOgier.png",
+    "tags": ["서약·오지에", "방어막 획득", "힘 획득", "광기 획득", "암류"],
+    "owner_character_ids": ["GOgier"]
   }
 ]

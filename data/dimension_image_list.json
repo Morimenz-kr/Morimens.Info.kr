@@ -1215,13 +1215,13 @@
     "linkedToSiteCharacter": true
   },
   {
-    "characterId": null,
-    "characterName": "서약을 저버린·오지에",
+    "characterId": "GOgier",
+    "characterName": "서약·오지에",
     "clientAwakenerId": 94451,
     "clientRelicId": 148525,
-    "name": "차원 영상·부서의 맹세·오지에",
-    "effect": "턴 시작 시 부서의 맹세·오지에가 15 포인트의 광기를 획득하고, 「암류」는 더 이상 드로우 수를 감소시키지 않습니다.",
-    "rawEffect": "턴 시작 시 부서의 맹세·오지에가 [Arg1] 포인트의 광기를 획득하고, 「암류」는 더 이상 드로우 수를 감소시키지 않습니다.",
+    "name": "차원 영상·서약·오지에",
+    "effect": "턴 시작 시 서약·오지에가 15 포인트의 광기를 획득하고, 「암류」는 더 이상 드로우 수를 감소시키지 않습니다.",
+    "rawEffect": "턴 시작 시 서약·오지에가 [Arg1] 포인트의 광기를 획득하고, 「암류」는 더 이상 드로우 수를 감소시키지 않습니다.",
     "parameters": {
       "1": 15
     },
@@ -1233,7 +1233,7 @@
       "vitalIndirect": false,
       "formulas": []
     },
-    "linkedToSiteCharacter": false
+    "linkedToSiteCharacter": true
   },
   {
     "characterId": "doresain",

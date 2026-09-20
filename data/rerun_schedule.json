@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-22",
+  "updated_at": "2026-09-21",
   "source": "https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488",
   "verified_periods": {
     "ryker": {
@@ -864,6 +864,39 @@
       "end_time": "10:00",
       "timezone": "Asia/Seoul",
       "kind": "rerun"
+    },
+    {
+      "id": "castor",
+      "name": "카스토르",
+      "start_date": "2026-10-05",
+      "start_time": "10:00",
+      "end_date": "2026-11-02",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "rerun",
+      "source_note": "2026-09-21 2.6.1 업데이트 미리보기 이미지"
+    },
+    {
+      "id": "miryam",
+      "name": "미리암",
+      "start_date": "2026-10-05",
+      "start_time": "10:00",
+      "end_date": "2026-11-02",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "rerun",
+      "source_note": "2026-09-21 2.6.1 업데이트 미리보기 이미지"
+    },
+    {
+      "id": "xu",
+      "name": "서",
+      "start_date": "2026-10-05",
+      "start_time": "10:00",
+      "end_date": "2026-11-02",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "rerun",
+      "source_note": "2026-09-21 2.6.1 업데이트 미리보기 이미지"
     }
   ]
 }

@@ -14,7 +14,10 @@
     const DEFAULT_NEXT_PICKUPS = [
         { id: 'kathigu-ra', name: '카티구라', start_date: '2026-09-07', start_time: '10:00', end_date: '2026-10-05', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' },
         { id: 'dafoodil', name: '다포딜', start_date: '2026-09-07', start_time: '10:00', end_date: '2026-10-05', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' },
-        { id: 'Murphy_Fauxborn', name: '탄망 · 머피', start_date: '2026-09-07', start_time: '10:00', end_date: '2026-10-05', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' }
+        { id: 'Murphy_Fauxborn', name: '탄망 · 머피', start_date: '2026-09-07', start_time: '10:00', end_date: '2026-10-05', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' },
+        { id: 'castor', name: '카스토르', start_date: '2026-10-05', start_time: '10:00', end_date: '2026-11-02', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' },
+        { id: 'miryam', name: '미리암', start_date: '2026-10-05', start_time: '10:00', end_date: '2026-11-02', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' },
+        { id: 'xu', name: '서', start_date: '2026-10-05', start_time: '10:00', end_date: '2026-11-02', end_time: '10:00', timezone: 'Asia/Seoul', kind: 'rerun' }
     ];
 
     const currentBox = document.getElementById('current-schedules');
