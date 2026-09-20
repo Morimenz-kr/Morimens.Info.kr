@@ -178,7 +178,7 @@ https://morimenz-kr.github.io/Morimens.Info.kr/dzone_info.html
 
 ## 이 컴퓨터의 자동 수집 운영
 
-Windows 작업 스케줄러의 `Morimens DZone Sync`가 로그인 시와 30분 간격으로 로컬 `private-tools/run-dzone-sync.ps1`을 실행한다. 컴퓨터와 Steam 로그인이 유지되어야 하며, 게임 실행 중에는 중복 로그인을 막기 위해 건너뛴다. 다음 주기에 다시 확인한다.
+Windows 작업 스케줄러의 `Morimens DZone Sync`가 매일 자정(한국 시간)에 한 번만 로컬 `private-tools/run-dzone-sync.ps1`을 실행한다. 로그인 시 실행하거나 30분 간격으로 반복하지 않는다. 컴퓨터가 자정에 꺼져 있으면 작업 스케줄러의 `StartWhenAvailable` 설정에 따라 다시 켜진 뒤 한 번 실행될 수 있다. 컴퓨터와 Steam 로그인이 유지되어야 하며, 게임 실행 중에는 중복 로그인을 막기 위해 해당 실행을 건너뛴다.
 
 `private-tools/sync-dzone.py`는 기존 비공개 독립 클라이언트를 재사용한다. 최초에는 악몽·광기 10개 스테이지의 모든 페이지와 상세를 조회한다. 이후에는 전투 ID 해시 체크포인트로 중복을 제거하고 신규 기록만 처리하며, 하루 한 번 전체 목록을 대조한다. 파티·채용률·제한 조건은 동일한 기록으로 집계한다. 미완료 결과는 공개하지 않으며 마지막 정상 집계를 유지한다.
 
