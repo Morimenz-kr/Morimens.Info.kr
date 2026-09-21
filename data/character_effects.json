@@ -24729,8 +24729,8 @@
       "characterName": "서약·오지에",
       "effect": "턴 시작 시 서약·오지에가 15 포인트의 광기를 획득하고, 「암류」는 더 이상 드로우 수를 감소시키지 않습니다.",
       "clientRelicId": 148525,
-      "clientAwakenerId": 94451,
-      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C04EX.png"
+      "clientAwakenerId": 148578,
+      "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C03EX.png"
     }
   }
 }

@@ -1217,7 +1217,7 @@
   {
     "characterId": "GOgier",
     "characterName": "서약·오지에",
-    "clientAwakenerId": 94451,
+    "clientAwakenerId": 148578,
     "clientRelicId": 148525,
     "name": "차원 영상·서약·오지에",
     "effect": "턴 시작 시 서약·오지에가 15 포인트의 광기를 획득하고, 「암류」는 더 이상 드로우 수를 감소시키지 않습니다.",
@@ -1225,7 +1225,7 @@
     "parameters": {
       "1": 15
     },
-    "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C04EX.png",
+    "sourceIcon": "Icon/Relic/Icon_Creation_Unique_C03EX.png",
     "chapter": "StageChapterStarsCameRight",
     "researchDependencies": {
       "material": false,

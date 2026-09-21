@@ -340,7 +340,7 @@
     "optimized_for": ["서약·오지에"],
     "owner_character_ids": ["GOgier"],
     "main_stat": "크리티컬률 14.4%",
-    "description": "장착자가 「광기 폭발」로 생성하는 기본 방어막과 고정 힘이 15/20/25/30% 증가한다. 장착자의 「방어」가 생성하는 기본 방어막이 20/30/40/50% 증가한다. 장착자가 「방어」를 사용한 후 장착자 공격력의 2/3/4/5%에 해당하는 힘을 획득한다.",
+    "description": "파티 유일: 장착자의 「광기 폭발」로 생성되는 기본 방어막과 고정 힘이 15/20/25/30% 증가한다. 장착자의 「방어」로 생성되는 기본 방어막이 20/30/40/50% 증가한다. 장착자가 「방어」를 사용한 후 장착자 공격력의 2/3/4/5%만큼의 힘을 획득한다.",
     "image_path": "images/wheel_GOgier_ssr.png"
   },
   {
@@ -1149,12 +1149,12 @@
   },
   {
     "grade": "SR",
-    "korean_name": "그림자처럼 따라붙는 과거",
+    "korean_name": "지난날은 그림자처럼 따라온다",
     "english_name": "wheel_GOgier_sr",
     "optimized_for": ["서약·오지에"],
     "owner_character_ids": ["GOgier"],
     "main_stat": "크리티컬률 7.2%",
-    "description": "장착자가 「광기 폭발」로 생성하는 기본 방어막과 고정 힘이 9/11/13/15% 증가한다.",
+    "description": "파티 유일: 장착자의 「광기 폭발」로 생성되는 기본 방어막과 고정 힘이 9/11/13/15% 증가한다.",
     "image_path": "images/wheel_GOgier_sr.png"
   },
   {
