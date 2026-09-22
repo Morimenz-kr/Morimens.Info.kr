@@ -66,8 +66,9 @@
 
     keywordIcons['봉헌'] = ['caraboo-apple.png', '#c4cad2'];
     keywordIcons['과식'] = ['caraboo-apple.png', '#c4cad2'];
-    keywordIcons['암류'] = ['undercurrent.png', '#c8cbc4'];
-    keywordIcons['자신의 죄'] = ['own-sin.png', '#e6e4dc'];
+    // Game source: WordsEffectConfig KuangNu / ShuZui.
+    keywordIcons['암류'] = ['../inline/battle_card_buff_080.png', '#bb646d'];
+    keywordIcons['자신의 죄'] = ['../inline/battle_card_buff_090.png', '#76aac8'];
 
     keywordIcons['공허'] = ['void.png', '#ac9a76'];
     keywordIcons['보존'] = ['../original/icons_buff_016.png', '#c79374'];

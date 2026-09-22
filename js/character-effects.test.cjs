@@ -36,6 +36,20 @@ test('산 차원영상의 보존과 예비1은 실제 카드 상태 설명에 �
     assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/original/icons_buff_016.png')));
 });
 
+test('서약 오지에의 암류와 자신의 죄는 인게임 아이콘과 키워드 색을 사용한다', () => {
+    const html = characterEffects.renderRichText('암류 1스택과 자신의 죄 1스택을 획득한다.', {
+        암류: '암류 설명',
+        '자신의 죄': '자신의 죄 설명'
+    });
+
+    assert.match(html, /data-keyword="암류"[^>]*--keyword-color:#bb646d/);
+    assert.match(html, /battle_card_buff_080\.png/);
+    assert.match(html, /data-keyword="자신의 죄"[^>]*--keyword-color:#76aac8/);
+    assert.match(html, /battle_card_buff_090\.png/);
+    assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/inline/battle_card_buff_080.png')));
+    assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/inline/battle_card_buff_090.png')));
+});
+
 test('카드별 3돌 뱃지는 선행 돌파 뱃지도 함께 활성화한다', () => {
     const result = characterEffects.renderBreakthroughBadges({
         breakthroughs: [{ stage: 1 }, { stage: 3 }]
