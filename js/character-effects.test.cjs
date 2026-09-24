@@ -43,11 +43,11 @@ test('서약 오지에의 암류와 자신의 죄는 인게임 아이콘과 키�
     });
 
     assert.match(html, /data-keyword="암류"[^>]*--keyword-color:#bb646d/);
-    assert.match(html, /battle_card_buff_080\.png/);
+    assert.match(html, /icons_buff_080\.png/);
     assert.match(html, /data-keyword="자신의 죄"[^>]*--keyword-color:#76aac8/);
-    assert.match(html, /battle_card_buff_090\.png/);
-    assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/inline/battle_card_buff_080.png')));
-    assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/inline/battle_card_buff_090.png')));
+    assert.match(html, /icons_buff_090\.png/);
+    assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/original/icons_buff_080.png')));
+    assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/original/icons_buff_090.png')));
 });
 
 test('서약 오지에는 9월 24일 상향과 차원영상의 상태 상한을 표시한다', () => {
@@ -61,6 +61,9 @@ test('서약 오지에는 9월 24일 상향과 차원영상의 상태 상한을 
     assert.match(finalLaw.effect, /400% 힘 보너스/);
     assert.match(soulTraining.effect, /힘 감소 효과 및 획득하는 힘 배율이 100% 증가/);
     assert.match(vowOgier.dimensionalImage.effect, /암류.*자신의 죄.*상한이 5로 증가/);
+    assert.deepEqual(vowOgier.skills.find(skill => skill.name === '타격').breakthroughs.map(item => item.stage), [2]);
+    assert.match(vowOgier.skills.find(skill => skill.name === '타격').breakthroughs[0].effect, /죄로 물든 창끝.*1장을 드로우/);
+    assert.deepEqual(vowOgier.skills.find(skill => skill.name === '시들지 않는 기사의 마음').breakthroughs.map(item => item.stage), [1, 3]);
 });
 
 test('카드별 3돌 뱃지는 선행 돌파 뱃지도 함께 활성화한다', () => {
