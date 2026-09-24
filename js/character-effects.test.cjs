@@ -37,9 +37,10 @@ test('산 차원영상의 보존과 예비1은 실제 카드 상태 설명에 �
 });
 
 test('서약 오지에의 암류와 자신의 죄는 인게임 아이콘과 키워드 색을 사용한다', () => {
+    const tooltips = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_tooltips.json'), 'utf8'));
     const html = characterEffects.renderRichText('암류 1스택과 자신의 죄 1스택을 획득한다.', {
-        암류: '암류 설명',
-        '자신의 죄': '자신의 죄 설명'
+        암류: tooltips.암류,
+        '자신의 죄': tooltips['자신의 죄']
     });
 
     assert.match(html, /data-keyword="암류"[^>]*--keyword-color:#bb646d/);
@@ -51,6 +52,8 @@ test('서약 오지에의 암류와 자신의 죄는 인게임 아이콘과 키�
     const ownSinIcon = fs.readFileSync(path.join(__dirname, '..', 'images/keyword-icons/original/battle_card_buff_094.png'));
     assert.notDeepEqual(undertowIcon, fs.readFileSync(path.join(__dirname, '..', 'images/keyword-icons/reference/intoxication.png')));
     assert.notDeepEqual(ownSinIcon, fs.readFileSync(path.join(__dirname, '..', 'images/keyword-icons/reference/group-hunt.png')));
+    assert.equal(tooltips.암류, '1중첩당 서약·오지에의 명령 카드 최종 피해가 33% 증가하고, 턴 시작 시 드로우 수가 1장 감소한다. 상한 3중첩이며, 전투 종료 시 제거되지 않는다.');
+    assert.doesNotMatch(tooltips.암류, /3돌파|차원 영상|50%|5중첩/);
 });
 
 test('공허 상태와 허무 카드 속성은 코드 의미와 인게임 아이콘을 구분한다', () => {
