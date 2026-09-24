@@ -5,10 +5,10 @@ const path = require('node:path');
 const season = require('./dzone-season.js');
 const response = period => ({ ok: true, json: async () => ({ period, waves: [] }) });
 
-test('현재 융재금구는 70기 데이터를 선택한다', () => {
-    assert.equal(season.CURRENT_SEASON, 70);
+test('현재 융재금구는 69기 데이터를 선택한다', () => {
+    assert.equal(season.CURRENT_SEASON, 69);
     assert.deepEqual(season.selectSeason(), {
-        period: 70,
+        period: 69,
         path: 'data/dzone_current.json',
         mapPath: 'data/dzone_maps.json'
     });
@@ -17,53 +17,52 @@ test('현재 융재금구는 70기 데이터를 선택한다', () => {
 
 test('현재 및 바로 이전 융재금구 데이터를 선택한다', () => {
     assert.deepEqual(season.availableSeasons(), [
-        { period: 69, path: 'data/dzone_season69.json', mapPath: 'data/dzone_maps_season69.json', current: false },
-        { period: 70, path: 'data/dzone_current.json', mapPath: 'data/dzone_maps.json', current: true }
+        { period: 68, path: 'data/dzone_season68.json', mapPath: 'data/dzone_maps_season68.json', current: false },
+        { period: 69, path: 'data/dzone_current.json', mapPath: 'data/dzone_maps.json', current: true }
     ]);
-    assert.deepEqual(season.selectSeason(69), {
-        period: 69,
-        path: 'data/dzone_season69.json',
-        mapPath: 'data/dzone_maps_season69.json'
+    assert.deepEqual(season.selectSeason(68), {
+        period: 68,
+        path: 'data/dzone_season68.json',
+        mapPath: 'data/dzone_maps_season68.json'
     });
     assert.deepEqual(season.selectSeason(999), {
-        period: 70,
+        period: 69,
         path: 'data/dzone_current.json',
         mapPath: 'data/dzone_maps.json'
     });
 });
 
-test('70기 파일을 캐시 없이 요청한다', async () => {
+test('69기 파일을 캐시 없이 요청한다', async () => {
     const requests = [];
     const data = await season.loadCurrent(async (url, options) => {
         requests.push({ url, options });
-        return response(70);
+        return response(69);
     }, () => 12345);
-    assert.equal(data.period, 70);
+    assert.equal(data.period, 69);
     assert.equal(requests.length, 1);
     assert.equal(requests[0].url, 'data/dzone_current.json?t=12345');
     assert.equal(requests[0].options.cache, 'no-store');
 });
 
-test('69기 보관 파일을 캐시 없이 요청한다', async () => {
+test('68기 보관 파일을 캐시 없이 요청한다', async () => {
     const requests = [];
-    const data = await season.load(69, async (url, options) => {
+    const data = await season.load(68, async (url, options) => {
         requests.push({ url, options });
-        return response(69);
+        return response(68);
     }, () => 12345);
-    assert.equal(data.period, 69);
-    assert.deepEqual(requests, [{ url: 'data/dzone_season69.json?t=12345', options: { cache: 'no-store' } }]);
+    assert.equal(data.period, 68);
+    assert.deepEqual(requests, [{ url: 'data/dzone_season68.json?t=12345', options: { cache: 'no-store' } }]);
 });
 
 test('로드 실패나 시즌 불일치 때 다른 시즌으로 대체하지 않는다', async () => {
     await assert.rejects(season.loadCurrent(async () => ({ ok: false, status: 404 })), /404/);
-    await assert.rejects(season.loadCurrent(async () => response(69)), /Unexpected/);
+    await assert.rejects(season.loadCurrent(async () => response(68)), /Unexpected/);
 });
 
-test('70기 데이터와 이미지는 배포 가능한 공개 경로에 존재한다', () => {
+test('69기 데이터와 이미지는 배포 가능한 공개 경로에 존재한다', () => {
     const selected = season.selectSeason();
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', selected.path), 'utf8'));
-    assert.equal(data.period, 70);
-    assert.equal(data.difficultyCount, 7);
+    assert.equal(data.period, 69);
     assert.equal(data.waves.length, 5);
     const visit = value => {
         if (typeof value === 'string' && value.startsWith('images/')) {

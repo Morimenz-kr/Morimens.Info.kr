@@ -1,43 +1,292 @@
 {
-  "period": 70,
-  "generatedAt": "2026-09-24T01:56:56.726Z",
+  "period": 69,
+  "generatedAt": "2026-09-14T01:27:00.500Z",
   "waves": [
     {
       "wave": 1,
-      "mapId": 84789,
+      "mapId": 84737,
       "nodes": [
         {
           "row": 2,
-          "column": 5,
-          "nodeId": 12719,
+          "column": 2,
+          "nodeId": 12863,
+          "kind": "passage",
+          "label": "비밀 통로 출구",
+          "icon": "passage-out"
+        },
+        {
+          "row": 2,
+          "column": 3,
+          "nodeId": 76253,
+          "kind": "reward",
+          "label": "재의 유적",
+          "icon": "ash-ruins"
+        },
+        {
+          "row": 2,
+          "column": 8,
+          "nodeId": 11527,
+          "kind": "passage",
+          "label": "비밀 통로 입구",
+          "icon": "passage-in"
+        },
+        {
+          "row": 2,
+          "column": 9,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 3,
+          "column": 3,
+          "nodeId": 12059,
           "kind": "event",
           "label": "이벤트",
           "icon": "event"
         },
         {
-          "row": 2,
-          "column": 6,
-          "nodeId": 85224,
-          "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 88534
+          "row": 3,
+          "column": 5,
+          "nodeId": 12693,
+          "kind": "mechanism",
+          "label": "녹슨 열쇠",
+          "icon": "rusted-key"
         },
         {
           "row": 3,
-          "column": 5,
-          "nodeId": 85145,
+          "column": 9,
+          "nodeId": 86776,
           "kind": "combat",
           "label": "전투",
           "icon": "combat",
-          "battleId": 87600
+          "battleId": 87569
+        },
+        {
+          "row": 4,
+          "column": 2,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 4,
+          "column": 3,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 4,
+          "column": 4,
+          "nodeId": 85736,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 88307
+        },
+        {
+          "row": 4,
+          "column": 6,
+          "nodeId": 74185,
+          "kind": "reward",
+          "label": "빛바랜 유골",
+          "icon": "bones"
+        },
+        {
+          "row": 4,
+          "column": 8,
+          "nodeId": 12353,
+          "kind": "event",
+          "label": "이벤트",
+          "icon": "event"
+        },
+        {
+          "row": 4,
+          "column": 9,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 5,
+          "column": 3,
+          "nodeId": 12220,
+          "kind": "obstacle",
+          "label": "환상",
+          "icon": "illusion"
+        },
+        {
+          "row": 5,
+          "column": 5,
+          "nodeId": 11863,
+          "kind": "utility",
+          "label": "조명등",
+          "icon": "lamp"
+        },
+        {
+          "row": 5,
+          "column": 6,
+          "nodeId": 11437,
+          "kind": "passage",
+          "label": "터널",
+          "icon": "tunnel"
+        },
+        {
+          "row": 5,
+          "column": 9,
+          "nodeId": 11953,
+          "kind": "passage",
+          "label": "터널",
+          "icon": "tunnel"
+        },
+        {
+          "row": 6,
+          "column": 2,
+          "nodeId": 12220,
+          "kind": "obstacle",
+          "label": "환상",
+          "icon": "illusion"
+        },
+        {
+          "row": 6,
+          "column": 3,
+          "nodeId": 86479,
+          "kind": "combat",
+          "label": "최종전",
+          "icon": "boss",
+          "battleId": 87407
+        },
+        {
+          "row": 6,
+          "column": 4,
+          "nodeId": 12985,
+          "kind": "obstacle",
+          "label": "녹슨 문",
+          "icon": "locked-door"
+        },
+        {
+          "row": 6,
+          "column": 5,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 6,
+          "column": 6,
+          "nodeId": 86735,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 87257
+        },
+        {
+          "row": 6,
+          "column": 7,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 7,
+          "column": 3,
+          "nodeId": 76253,
+          "kind": "reward",
+          "label": "재의 유적",
+          "icon": "ash-ruins"
+        },
+        {
+          "row": 7,
+          "column": 4,
+          "nodeId": 12053,
+          "kind": "event",
+          "label": "이벤트",
+          "icon": "event"
+        },
+        {
+          "row": 7,
+          "column": 8,
+          "nodeId": 11741,
+          "kind": "start",
+          "label": "시작",
+          "icon": null
+        }
+      ]
+    },
+    {
+      "wave": 2,
+      "mapId": 84540,
+      "nodes": [
+        {
+          "row": 1,
+          "column": 8,
+          "nodeId": 11890,
+          "kind": "event",
+          "label": "이벤트",
+          "icon": "event"
+        },
+        {
+          "row": 1,
+          "column": 12,
+          "nodeId": 11437,
+          "kind": "passage",
+          "label": "터널",
+          "icon": "tunnel"
+        },
+        {
+          "row": 2,
+          "column": 6,
+          "nodeId": 76253,
+          "kind": "reward",
+          "label": "재의 유적",
+          "icon": "ash-ruins"
+        },
+        {
+          "row": 2,
+          "column": 7,
+          "nodeId": 85531,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 87149
+        },
+        {
+          "row": 2,
+          "column": 9,
+          "nodeId": 12220,
+          "kind": "obstacle",
+          "label": "환상",
+          "icon": "illusion"
+        },
+        {
+          "row": 2,
+          "column": 10,
+          "nodeId": 12220,
+          "kind": "obstacle",
+          "label": "환상",
+          "icon": "illusion"
+        },
+        {
+          "row": 2,
+          "column": 11,
+          "nodeId": 12985,
+          "kind": "obstacle",
+          "label": "녹슨 문",
+          "icon": "locked-door"
         },
         {
           "row": 3,
           "column": 7,
-          "nodeId": 11741,
-          "kind": "start",
-          "label": "시작",
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
           "icon": null
         },
         {
@@ -57,140 +306,8 @@
           "icon": "bones"
         },
         {
-          "row": 4,
-          "column": 5,
-          "nodeId": 12355,
-          "kind": "event",
-          "label": "이벤트",
-          "icon": "event"
-        },
-        {
-          "row": 4,
-          "column": 6,
-          "nodeId": 12925,
-          "kind": "terrain",
-          "label": "독가스 바닥",
-          "icon": null,
-          "texture": "poison-floor"
-        },
-        {
-          "row": 4,
-          "column": 8,
-          "nodeId": 86796,
-          "kind": "combat",
-          "label": "최종전",
-          "icon": "boss",
-          "battleId": 88034
-        },
-        {
-          "row": 5,
-          "column": 7,
-          "nodeId": 76253,
-          "kind": "reward",
-          "label": "재의 유적",
-          "icon": "ash-ruins"
-        },
-        {
-          "row": 5,
-          "column": 8,
-          "nodeId": 86004,
-          "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 87045
-        },
-        {
-          "row": 5,
-          "column": 9,
-          "nodeId": 12693,
-          "kind": "mechanism",
-          "label": "녹슨 열쇠",
-          "icon": "rusted-key"
-        }
-      ]
-    },
-    {
-      "wave": 2,
-      "mapId": 84550,
-      "nodes": [
-        {
-          "row": 1,
-          "column": 9,
-          "nodeId": 11741,
-          "kind": "start",
-          "label": "시작",
-          "icon": null
-        },
-        {
-          "row": 1,
+          "row": 3,
           "column": 10,
-          "nodeId": 11863,
-          "kind": "utility",
-          "label": "조명등",
-          "icon": "lamp"
-        },
-        {
-          "row": 2,
-          "column": 5,
-          "nodeId": 76253,
-          "kind": "reward",
-          "label": "재의 유적",
-          "icon": "ash-ruins"
-        },
-        {
-          "row": 2,
-          "column": 6,
-          "nodeId": 86678,
-          "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 87022
-        },
-        {
-          "row": 2,
-          "column": 8,
-          "nodeId": null,
-          "kind": "normal",
-          "label": "일반 노드",
-          "icon": null
-        },
-        {
-          "row": 2,
-          "column": 9,
-          "nodeId": 12220,
-          "kind": "obstacle",
-          "label": "환상",
-          "icon": "illusion"
-        },
-        {
-          "row": 3,
-          "column": 5,
-          "nodeId": 85631,
-          "kind": "combat",
-          "label": "엘리트",
-          "icon": "elite",
-          "battleId": 86854
-        },
-        {
-          "row": 3,
-          "column": 7,
-          "nodeId": 36882,
-          "kind": "event",
-          "label": "이벤트",
-          "icon": "event"
-        },
-        {
-          "row": 3,
-          "column": 8,
-          "nodeId": 86258,
-          "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 87811
-        },
-        {
-          "row": 3,
-          "column": 9,
           "nodeId": 12655,
           "kind": "terrain",
           "label": "불안정한 바닥",
@@ -199,7 +316,32 @@
         },
         {
           "row": 3,
-          "column": 10,
+          "column": 11,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 3,
+          "column": 12,
+          "nodeId": 86467,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 86938
+        },
+        {
+          "row": 3,
+          "column": 13,
+          "nodeId": 11741,
+          "kind": "start",
+          "label": "시작",
+          "icon": null
+        },
+        {
+          "row": 4,
+          "column": 1,
           "nodeId": 74185,
           "kind": "reward",
           "label": "빛바랜 유골",
@@ -207,71 +349,59 @@
         },
         {
           "row": 4,
-          "column": 4,
-          "nodeId": 11527,
-          "kind": "passage",
-          "label": "비밀 통로 입구",
-          "icon": "passage-in"
-        },
-        {
-          "row": 4,
-          "column": 10,
-          "nodeId": 12985,
-          "kind": "obstacle",
-          "label": "녹슨 문",
-          "icon": "locked-door"
-        },
-        {
-          "row": 5,
-          "column": 8,
-          "nodeId": 85869,
+          "column": 2,
+          "nodeId": 85994,
           "kind": "combat",
           "label": "최종전",
           "icon": "boss",
-          "battleId": 87306
+          "battleId": 87146
         },
         {
-          "row": 5,
-          "column": 10,
-          "nodeId": 12693,
-          "kind": "mechanism",
-          "label": "녹슨 열쇠",
-          "icon": "rusted-key"
-        },
-        {
-          "row": 5,
-          "column": 11,
-          "nodeId": 11953,
-          "kind": "passage",
-          "label": "터널",
-          "icon": "tunnel"
-        },
-        {
-          "row": 6,
-          "column": 4,
-          "nodeId": 76253,
-          "kind": "reward",
-          "label": "재의 유적",
-          "icon": "ash-ruins"
-        },
-        {
-          "row": 6,
-          "column": 5,
-          "nodeId": 74185,
-          "kind": "reward",
-          "label": "빛바랜 유골",
-          "icon": "bones"
-        },
-        {
-          "row": 6,
+          "row": 4,
           "column": 6,
-          "nodeId": 12220,
-          "kind": "obstacle",
-          "label": "환상",
-          "icon": "illusion"
+          "nodeId": 12655,
+          "kind": "terrain",
+          "label": "불안정한 바닥",
+          "icon": null,
+          "texture": "unstable-floor"
         },
         {
-          "row": 6,
+          "row": 4,
+          "column": 8,
+          "nodeId": 12655,
+          "kind": "terrain",
+          "label": "불안정한 바닥",
+          "icon": null,
+          "texture": "unstable-floor"
+        },
+        {
+          "row": 4,
+          "column": 9,
+          "nodeId": 12655,
+          "kind": "terrain",
+          "label": "불안정한 바닥",
+          "icon": null,
+          "texture": "unstable-floor"
+        },
+        {
+          "row": 4,
+          "column": 10,
+          "nodeId": 11863,
+          "kind": "utility",
+          "label": "조명등",
+          "icon": "lamp"
+        },
+        {
+          "row": 5,
+          "column": 2,
+          "nodeId": 86682,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 88196
+        },
+        {
+          "row": 5,
           "column": 7,
           "nodeId": 12863,
           "kind": "passage",
@@ -279,8 +409,40 @@
           "icon": "passage-out"
         },
         {
+          "row": 5,
+          "column": 9,
+          "nodeId": 11409,
+          "kind": "event",
+          "label": "이벤트",
+          "icon": "event"
+        },
+        {
+          "row": 5,
+          "column": 10,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
           "row": 6,
-          "column": 8,
+          "column": 1,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 6,
+          "column": 2,
+          "nodeId": 76253,
+          "kind": "reward",
+          "label": "재의 유적",
+          "icon": "ash-ruins"
+        },
+        {
+          "row": 6,
+          "column": 7,
           "nodeId": 12925,
           "kind": "terrain",
           "label": "독가스 바닥",
@@ -290,75 +452,67 @@
         {
           "row": 6,
           "column": 9,
-          "nodeId": 12220,
-          "kind": "obstacle",
-          "label": "환상",
-          "icon": "illusion"
-        },
-        {
-          "row": 7,
-          "column": 6,
-          "nodeId": 86132,
+          "nodeId": 86063,
           "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 87562
+          "label": "엘리트",
+          "icon": "elite",
+          "battleId": 87266
         },
         {
-          "row": 7,
-          "column": 8,
-          "nodeId": 11863,
-          "kind": "utility",
-          "label": "조명등",
-          "icon": "lamp"
-        },
-        {
-          "row": 7,
-          "column": 9,
-          "nodeId": 86725,
-          "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 87865
-        },
-        {
-          "row": 7,
+          "row": 6,
           "column": 10,
+          "nodeId": 85379,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 87002
+        },
+        {
+          "row": 6,
+          "column": 11,
           "nodeId": 76253,
           "kind": "reward",
           "label": "재의 유적",
           "icon": "ash-ruins"
         },
         {
-          "row": 8,
-          "column": 5,
-          "nodeId": 36881,
-          "kind": "event",
-          "label": "이벤트",
-          "icon": "event"
-        },
-        {
-          "row": 8,
-          "column": 6,
-          "nodeId": 11437,
+          "row": 7,
+          "column": 1,
+          "nodeId": 11953,
           "kind": "passage",
           "label": "터널",
           "icon": "tunnel"
+        },
+        {
+          "row": 7,
+          "column": 8,
+          "nodeId": 11527,
+          "kind": "passage",
+          "label": "비밀 통로 입구",
+          "icon": "passage-in"
+        },
+        {
+          "row": 7,
+          "column": 9,
+          "nodeId": 12693,
+          "kind": "mechanism",
+          "label": "녹슨 열쇠",
+          "icon": "rusted-key"
         }
       ]
     },
     {
       "wave": 3,
-      "mapId": 84803,
+      "mapId": 84624,
       "nodes": [
         {
           "row": 3,
           "column": 3,
-          "nodeId": 85643,
+          "nodeId": 86626,
           "kind": "combat",
           "label": "최종전",
           "icon": "boss",
-          "battleId": 87426
+          "battleId": 88073
         },
         {
           "row": 4,
@@ -372,7 +526,7 @@
     },
     {
       "wave": 4,
-      "mapId": 84806,
+      "mapId": 84719,
       "nodes": [
         {
           "row": 4,
@@ -385,11 +539,11 @@
         {
           "row": 4,
           "column": 2,
-          "nodeId": 85238,
+          "nodeId": 85545,
           "kind": "combat",
           "label": "엘리트",
           "icon": "elite",
-          "battleId": 87588
+          "battleId": 87292
         },
         {
           "row": 4,
@@ -402,11 +556,11 @@
         {
           "row": 4,
           "column": 4,
-          "nodeId": 86519,
+          "nodeId": 86789,
           "kind": "combat",
           "label": "엘리트",
           "icon": "elite",
-          "battleId": 87895
+          "battleId": 88500
         },
         {
           "row": 4,
@@ -427,63 +581,88 @@
         {
           "row": 4,
           "column": 7,
-          "nodeId": 86562,
+          "nodeId": 86245,
           "kind": "combat",
           "label": "최종전",
           "icon": "boss",
-          "battleId": 88438
+          "battleId": 88047
         }
       ]
     },
     {
       "wave": 5,
-      "mapId": 84966,
+      "mapId": 84560,
       "nodes": [
         {
           "row": 1,
-          "column": 4,
-          "nodeId": 11527,
+          "column": 11,
+          "nodeId": 11437,
           "kind": "passage",
-          "label": "비밀 통로 입구",
-          "icon": "passage-in"
+          "label": "터널",
+          "icon": "tunnel"
         },
         {
-          "row": 1,
+          "row": 2,
+          "column": 6,
+          "nodeId": 12070,
+          "kind": "reward",
+          "label": "검은 인장",
+          "icon": "black-seal"
+        },
+        {
+          "row": 2,
+          "column": 7,
+          "nodeId": 85963,
+          "kind": "combat",
+          "label": "엘리트",
+          "icon": "elite",
+          "battleId": 88027
+        },
+        {
+          "row": 2,
+          "column": 8,
+          "nodeId": 74185,
+          "kind": "reward",
+          "label": "빛바랜 유골",
+          "icon": "bones"
+        },
+        {
+          "row": 2,
+          "column": 11,
+          "nodeId": 76253,
+          "kind": "reward",
+          "label": "재의 유적",
+          "icon": "ash-ruins"
+        },
+        {
+          "row": 3,
           "column": 5,
-          "nodeId": 11453,
-          "kind": "event",
-          "label": "이벤트",
-          "icon": "event"
+          "nodeId": 74185,
+          "kind": "reward",
+          "label": "빛바랜 유골",
+          "icon": "bones"
         },
         {
-          "row": 1,
+          "row": 3,
           "column": 6,
-          "nodeId": 86555,
-          "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 88009
+          "nodeId": 12925,
+          "kind": "terrain",
+          "label": "독가스 바닥",
+          "icon": null,
+          "texture": "poison-floor"
         },
         {
-          "row": 2,
-          "column": 2,
-          "nodeId": 12033,
-          "kind": "event",
-          "label": "이벤트",
-          "icon": "event"
+          "row": 3,
+          "column": 7,
+          "nodeId": 12655,
+          "kind": "terrain",
+          "label": "불안정한 바닥",
+          "icon": null,
+          "texture": "unstable-floor"
         },
         {
-          "row": 2,
-          "column": 3,
-          "nodeId": 85222,
-          "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 88028
-        },
-        {
-          "row": 2,
-          "column": 6,
+          "row": 3,
+          "column": 9,
           "nodeId": 12985,
           "kind": "obstacle",
           "label": "녹슨 문",
@@ -491,15 +670,41 @@
         },
         {
           "row": 3,
-          "column": 4,
-          "nodeId": 76253,
-          "kind": "reward",
-          "label": "재의 유적",
-          "icon": "ash-ruins"
+          "column": 12,
+          "nodeId": 12925,
+          "kind": "terrain",
+          "label": "독가스 바닥",
+          "icon": null,
+          "texture": "poison-floor"
         },
         {
-          "row": 3,
-          "column": 7,
+          "row": 4,
+          "column": 3,
+          "nodeId": 11527,
+          "kind": "passage",
+          "label": "비밀 통로 입구",
+          "icon": "passage-in"
+        },
+        {
+          "row": 4,
+          "column": 5,
+          "nodeId": 86293,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 88177
+        },
+        {
+          "row": 4,
+          "column": 6,
+          "nodeId": 11458,
+          "kind": "event",
+          "label": "이벤트",
+          "icon": "event"
+        },
+        {
+          "row": 4,
+          "column": 9,
           "nodeId": 11741,
           "kind": "start",
           "label": "시작",
@@ -507,6 +712,57 @@
         },
         {
           "row": 4,
+          "column": 10,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 4,
+          "column": 11,
+          "nodeId": 86651,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 87490
+        },
+        {
+          "row": 5,
+          "column": 4,
+          "nodeId": 85626,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 86852
+        },
+        {
+          "row": 5,
+          "column": 5,
+          "nodeId": 12655,
+          "kind": "terrain",
+          "label": "불안정한 바닥",
+          "icon": null,
+          "texture": "unstable-floor"
+        },
+        {
+          "row": 5,
+          "column": 9,
+          "nodeId": 12985,
+          "kind": "obstacle",
+          "label": "녹슨 문",
+          "icon": "locked-door"
+        },
+        {
+          "row": 5,
+          "column": 11,
+          "nodeId": null,
+          "kind": "normal",
+          "label": "일반 노드",
+          "icon": null
+        },
+        {
+          "row": 6,
           "column": 3,
           "nodeId": 74185,
           "kind": "reward",
@@ -514,91 +770,32 @@
           "icon": "bones"
         },
         {
-          "row": 4,
+          "row": 6,
           "column": 4,
-          "nodeId": 86010,
-          "kind": "combat",
-          "label": "최종전",
-          "icon": "boss",
-          "battleId": 86877
-        },
-        {
-          "row": 4,
-          "column": 7,
-          "nodeId": 86035,
-          "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 88396
-        },
-        {
-          "row": 5,
-          "column": 5,
-          "nodeId": 12070,
-          "kind": "reward",
-          "label": "검은 인장",
-          "icon": "black-seal"
-        },
-        {
-          "row": 5,
-          "column": 8,
-          "nodeId": 11437,
-          "kind": "passage",
-          "label": "터널",
-          "icon": "tunnel"
+          "nodeId": 12220,
+          "kind": "obstacle",
+          "label": "환상",
+          "icon": "illusion"
         },
         {
           "row": 6,
           "column": 5,
-          "nodeId": 85062,
-          "kind": "combat",
-          "label": "전투",
-          "icon": "combat",
-          "battleId": 87452
-        },
-        {
-          "row": 6,
-          "column": 8,
-          "nodeId": 74185,
-          "kind": "reward",
-          "label": "빛바랜 유골",
-          "icon": "bones"
-        },
-        {
-          "row": 6,
-          "column": 9,
-          "nodeId": 12863,
-          "kind": "passage",
-          "label": "비밀 통로 출구",
-          "icon": "passage-out"
-        },
-        {
-          "row": 7,
-          "column": 6,
-          "nodeId": 11953,
-          "kind": "passage",
-          "label": "터널",
-          "icon": "tunnel"
-        },
-        {
-          "row": 7,
-          "column": 7,
           "nodeId": 76253,
           "kind": "reward",
           "label": "재의 유적",
           "icon": "ash-ruins"
         },
         {
-          "row": 7,
-          "column": 8,
-          "nodeId": 86610,
+          "row": 6,
+          "column": 6,
+          "nodeId": 86246,
           "kind": "combat",
-          "label": "엘리트",
-          "icon": "elite",
-          "battleId": 88260
+          "label": "최종전",
+          "icon": "boss",
+          "battleId": 87029
         },
         {
-          "row": 8,
+          "row": 6,
           "column": 8,
           "nodeId": 12693,
           "kind": "mechanism",
@@ -606,12 +803,37 @@
           "icon": "rusted-key"
         },
         {
-          "row": 8,
+          "row": 7,
+          "column": 5,
+          "nodeId": 12863,
+          "kind": "passage",
+          "label": "비밀 통로 출구",
+          "icon": "passage-out"
+        },
+        {
+          "row": 7,
           "column": 9,
-          "nodeId": 76253,
-          "kind": "reward",
-          "label": "재의 유적",
-          "icon": "ash-ruins"
+          "nodeId": 11925,
+          "kind": "event",
+          "label": "이벤트",
+          "icon": "event"
+        },
+        {
+          "row": 7,
+          "column": 10,
+          "nodeId": 86326,
+          "kind": "combat",
+          "label": "전투",
+          "icon": "combat",
+          "battleId": 88229
+        },
+        {
+          "row": 7,
+          "column": 11,
+          "nodeId": 11437,
+          "kind": "passage",
+          "label": "터널",
+          "icon": "tunnel"
         }
       ]
     }
