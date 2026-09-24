@@ -16,6 +16,7 @@ const rerunHtml = fs.readFileSync(path.join(__dirname, '..', 'rerun_schedule.htm
 const landingHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const currentDzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
 const dzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season68.json'), 'utf8'));
+const dzoneData69 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season69.json'), 'utf8'));
 const dzoneMaps = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps.json'), 'utf8'));
 const dzoneMaps68 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season68.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
@@ -565,14 +566,14 @@ test('융재금구 전투 정보는 메인의 이번 융재 항목에서 접근�
 });
 
 test('성자·백야의 임시 열광은 여러 상태에 연결되어도 한 번만 표시한다', () => {
-    const wave = currentDzoneData.waves.find(w => w.wave === 5);
+    const wave = dzoneData69.waves.find(w => w.wave === 5);
     const monster = wave.monsters.find(m => m.tid === 147935);
     const stats = wave.alerts.at(-1).monsters.find(m => m.tid === 147935);
     const intervention = monster.patternInterventions.find(item => item.stateId === 147974);
     assert.deepEqual(intervention.sourceStateIds, [147975, 147969]);
 
     const context = vm.createContext({
-        data: currentDzoneData, number: new Intl.NumberFormat('ko-KR'),
+        data: dzoneData69, number: new Intl.NumberFormat('ko-KR'),
         escapeHtml: String, gameText: String, politeText: String, dynamicMarkup: String,
         renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id),
         isFoldedReplacementAction: () => false
@@ -768,15 +769,15 @@ test('현재 융재 지도는 패치 노드의 전투 ID를 정확한 전투 구
             assert.equal(node.kind, 'combat');
         }
     }
-    assert.deepEqual(dzoneMaps.waves.map(wave => wave.nodes.length), [26, 33, 2, 7, 29]);
+    assert.deepEqual(dzoneMaps.waves.map(wave => wave.nodes.length), [12, 28, 2, 7, 21]);
     assert.deepEqual(
         dzoneMaps.waves.map(wave => wave.nodes.filter(node => node.kind === 'normal').map(node => [node.row, node.column])),
         [
-            [[2, 9], [4, 2], [4, 3], [4, 9], [6, 5], [6, 7]],
-            [[3, 7], [3, 11], [5, 10], [6, 1]],
+            [],
+            [[2, 8]],
             [],
             [],
-            [[4, 10], [5, 11]]
+            []
         ]
     );
     const unstable = dzoneMaps.waves.flatMap(wave => wave.nodes).find(node => node.texture === 'unstable-floor');
@@ -788,7 +789,7 @@ test('현재 융재 지도는 패치 노드의 전투 ID를 정확한 전투 구
 });
 
 test('카드 버린 직후 방어막 기록값을 내부 상태명 없이 설명한다', () => {
-    const descriptions = currentDzoneData.waves.flatMap(wave => wave.alerts).flatMap(alert => (
+    const descriptions = dzoneData69.waves.flatMap(wave => wave.alerts).flatMap(alert => (
         alert.monsters.flatMap(monster => [
             ...Object.values(monster.resolvedSkills || {}),
             ...Object.values(monster.phaseResolvedSkills || {}).flatMap(skills => Object.values(skills || {}))
