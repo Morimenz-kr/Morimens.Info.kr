@@ -298,7 +298,7 @@
 
 ![공허](../images/keyword-icons/inline/battle_card_buff_027.png)
 
-- 본문 표기: 공허 / 허무
+- 본문 표기: 공허
 - 색상: `yellowword (#b6ad65)`
 - 아이콘: `Battle_Card_Buff_027` · 설명 연결: 상태 50333 · 본문 관측: 12회
 
@@ -2918,7 +2918,7 @@
 
 ![허무](../images/keyword-icons/inline/battle_card_buff_016.png)
 
-- 본문 표기: 허무 / 공허
+- 본문 표기: 허무
 - 색상: `orangeword (#c48662)`
 - 아이콘: `Battle_Card_Buff_016` · 설명 연결: 상태 20039 · 본문 관측: 35회
 

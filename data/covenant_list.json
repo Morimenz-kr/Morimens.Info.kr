@@ -93,7 +93,7 @@
     "korean_name" : "뒤틀린 쌍둥이 · 흑",
     "english_name" : "covenant_twins_black",
     "set_effect_3" : "크리티컬 확률 +4.8%",
-    "set_effect_6" : "홀수 턴이 시작된 후, 공허와 소모가 부여된 장비자의 타격을 손패에 추가합니다.",
+    "set_effect_6" : "홀수 턴이 시작된 후, 허무와 소모가 부여된 장비자의 타격을 손패에 추가합니다.",
     "image_path" : "images/covenant_twins_black.png",
     "tags" : ["타격 추가"],
     "source" : "막간 훈련 : 혼란의 마을"
@@ -102,7 +102,7 @@
     "korean_name" : "뒤틀린 쌍둥이 · 백",
     "english_name" : "covenant_twins_white",
     "set_effect_3" : "죽음 저항 +16.8%",
-    "set_effect_6" : "짝수 턴이 시작된 후, 공허와 소모가 부여된 장비자의 방어를 손패에 추가합니다. ",
+    "set_effect_6" : "짝수 턴이 시작된 후, 허무와 소모가 부여된 장비자의 방어를 손패에 추가합니다. ",
     "image_path" : "images/covenant_twins_white.png",
     "tags" : ["방어 추가"],
     "source" : "막간 훈련 : 광기의 박물관"

@@ -73,10 +73,10 @@
 | 순수 혈육 | - | - | 연결 없음 | - | - |
 | 번식 · 혈육 | - | - | 연결 없음 | - | - |
 | 폭염 | special.png | `MonsterExFlameKeywords`<br>`BurningColor`<br>`BaoyanKeywords` | 직접 연결 | IconS_Buff_057.png | 98068, 98140 |
-| 공허 | void.png | `NothingnessIconKeywords`<br>`EmptinessKeywords`<br>`PVPEmptinessKeywords`<br>`PVPVoidKeywords`<br>`PVPVoidKeyColour`<br>`PVPEmptinessColour`<br>`EnergyColour` | 직접 연결 | IconS_Buff_029.png | 3815, 47842 |
+| 공허 | ../inline/battle_card_buff_027.png | `NothingnessIconKeywords`<br>`EmptinessKeywords`<br>`PVPEmptinessKeywords`<br>`PVPVoidKeywords`<br>`PVPVoidKeyColour`<br>`PVPEmptinessColour`<br>`EnergyColour` | 직접 연결 | IconS_Buff_029.png | 3815, 47842 |
 | 발견 | special.png | `FaxianKeywords`<br>`PVPDiscoveryKeyWords`<br>`CardKeyWord` | 연결 없음 | - | - |
 | 둔화 | special.png | `SlowIconKeywords`<br>`PVPSlowKeywords` | 동명 버프 아이콘 | IconS_Buff_024.png<br>VFX [object Object] | 19555 |
-| 허무 | special.png | `CardTip`<br>`NothingnessIconKeywords`<br>`EmptinessKeywords` | 연결 없음 | - | - |
+| 허무 | ../inline/battle_card_buff_016.png | `CardTip`<br>`NothingnessIconKeywords`<br>`EmptinessKeywords` | 연결 없음 | - | - |
 | 초거리 | special.png | `WormholeKeywords` | 연결 없음 | - | - |
 | 폐기 | - | `DestructionKeywords` | 연결 없음 | - | - |
 | 준비 | special.png | `PrepareKeypvewords`<br>`PrepareKeypvewords1`<br>`PrepareKeywords` | 연결 없음 | - | - |

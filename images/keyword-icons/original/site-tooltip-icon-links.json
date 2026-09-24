@@ -3223,7 +3223,7 @@
     },
     {
       "keyword": "공허",
-      "currentSiteImage": "void.png",
+      "currentSiteImage": "../inline/battle_card_buff_027.png",
       "classification": "direct-icon",
       "tags": [
         "NothingnessIconKeywords",
@@ -3606,7 +3606,7 @@
     },
     {
       "keyword": "허무",
-      "currentSiteImage": "special.png",
+      "currentSiteImage": "../inline/battle_card_buff_016.png",
       "classification": "none",
       "tags": [
         "CardTip",

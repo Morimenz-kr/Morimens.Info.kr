@@ -53,6 +53,40 @@ test('서약 오지에의 암류와 자신의 죄는 인게임 아이콘과 키�
     assert.notDeepEqual(ownSinIcon, fs.readFileSync(path.join(__dirname, '..', 'images/keyword-icons/reference/group-hunt.png')));
 });
 
+test('공허 상태와 허무 카드 속성은 코드 의미와 인게임 아이콘을 구분한다', () => {
+    const tooltips = { 공허: '공허 설명', 허무: '허무 설명', 소모: '소모 설명' };
+    const html = characterEffects.renderRichText('공허 1스택을 얻고 소모와 허무가 부여된 카드를 얻는다.', tooltips);
+
+    assert.match(html, /data-keyword="공허"[^>]*--keyword-color:#b6ad65/);
+    assert.match(html, /battle_card_buff_027\.png/);
+    assert.match(html, /data-keyword="허무"[^>]*--keyword-color:#c48662/);
+    assert.match(html, /battle_card_buff_016\.png/);
+
+    const correctedCharacterEffects = [
+        effectsData.aurita.enlighten[2].effect,
+        effectsData.uvhash.enlighten[3].effect,
+        effectsData.thais.skills[5].effect,
+        effectsData.saya.skills[5].effect,
+        effectsData.lotan.skills[5].breakthroughs[0].effect,
+        effectsData.lotan.enlighten[2].effect,
+        effectsData.lotan.dimensionalImage.effect,
+        effectsData.ramona_timeworn.skills[5].effect
+    ].join('\n');
+    assert.doesNotMatch(correctedCharacterEffects, /공허/);
+    assert.match(effectsData.pickman.skills[3].effect, /자신의 공허 상태를 해제/);
+
+    const covenants = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'covenant_list.json'), 'utf8'));
+    const twins = covenants.filter(row => ['뒤틀린 쌍둥이 · 흑', '뒤틀린 쌍둥이 · 백'].includes(row.korean_name));
+    assert.equal(twins.length, 2);
+    assert.equal(twins.every(row => /허무와 소모/.test(row.set_effect_6)), true);
+
+    const relics = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'relic_catalog.json'), 'utf8'));
+    const targetRelicIds = new Set([13798, 13808, 13865, 13864, 20165, 13768, 20166]);
+    const targetRelics = relics.relics.flatMap(relic => relic.variants).filter(variant => targetRelicIds.has(variant.id));
+    assert.equal(targetRelics.length, targetRelicIds.size);
+    assert.doesNotMatch(targetRelics.flatMap(variant => [variant.description, variant.battleDescription]).join('\n'), /공허|마음이 허한 사람/);
+});
+
 test('서약 오지에는 9월 24일 상향과 차원영상의 상태 상한을 표시한다', () => {
     const vowOgier = effectsData.GOgier;
     const remembrance = vowOgier.enlighten.find(item => item.name === '희미한 빛을 위한 명심');
@@ -933,7 +967,7 @@ test('확정된 로탄 1~3돌은 타격 판정과 힘 및 혼돈의 짐승을 �
     assert.equal(wave.levels[0].힘, '5%');
     assert.match(wave.effect, /^'타격'으로 간주된다/);
     assert.match(beast.effect, /피해를 2회 입힌다/);
-    assert.match(beast.effect, /소모와 공허가 부여된 '타격' 2장/);
+    assert.match(beast.effect, /소모와 허무가 부여된 '타격' 2장/);
 });
 
 test('확정된 오지에 1~3돌과 기본 카드명·비용을 인게임 전문대로 반영한다', () => {
@@ -1102,8 +1136,8 @@ test('비용과 일반 동사로 쓰인 소모는 툴팁에서 제외한다', ()
 });
 
 test('카드 속성으로 쓰인 소모만 툴팁으로 표시한다', () => {
-    characterEffects.configureTooltips({ 소모: '설명', 유지: '설명', 공허: '설명' });
-    const result = characterEffects.renderRichText('소모, 유지. 소모가 부여된 카드와 소모와 공허가 부여된 카드를 얻는다.');
+    characterEffects.configureTooltips({ 소모: '설명', 유지: '설명', 허무: '설명' });
+    const result = characterEffects.renderRichText('소모, 유지. 소모가 부여된 카드와 소모와 허무가 부여된 카드를 얻는다.');
 
     assert.equal((result.match(/data-keyword="소모"/g) || []).length, 3);
 });
@@ -1331,8 +1365,8 @@ test('남은 전용 키워드 아이콘과 공유 관계를 적용한다', () =>
     assert.match(result, /data-keyword="음엔트로피"[^>]*style="--keyword-color:#ffffff"/);
     assert.match(result, /strength-down\.png/);
     assert.match(result, /weave-fate\.png/);
-    assert.match(result, /data-keyword="공허"[^>]*>.*void\.png/);
-    assert.match(result, /data-keyword="허무"[^>]*>.*special\.png/);
+    assert.match(result, /data-keyword="공허"[^>]*>.*battle_card_buff_027\.png/);
+    assert.match(result, /data-keyword="허무"[^>]*>.*battle_card_buff_016\.png/);
     assert.equal((result.match(/group-hunt\.png/g) || []).length, 2);
 });
 

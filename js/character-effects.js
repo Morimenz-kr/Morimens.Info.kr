@@ -58,7 +58,7 @@
     [
         '소모', '보유', '예비', '유지', '발견', '준비', '관통 피해', '촉수 피해', '영지 각성',
         '여파', '포식', '과식', '봉헌', '축복', '선물', '대가', '배아 융합', '초차원 공간',
-        '명계', '공명', '인지 착란', '제의', '의식', '초거리', '허무', '워프', '은유',
+        '명계', '공명', '인지 착란', '제의', '의식', '초거리', '워프', '은유',
         '피의 맹세', '연결 해제'
     ].forEach(keyword => {
         keywordIcons[keyword] = ['special.png', '#c79374'];
@@ -71,7 +71,8 @@
     keywordIcons['암류'] = ['../original/battle_card_buff_093.png', '#bb646d'];
     keywordIcons['자신의 죄'] = ['../original/battle_card_buff_094.png', '#76aac8'];
 
-    keywordIcons['공허'] = ['void.png', '#ac9a76'];
+    keywordIcons['허무'] = ['../inline/battle_card_buff_016.png', '#c48662'];
+    keywordIcons['공허'] = ['../inline/battle_card_buff_027.png', '#b6ad65'];
     keywordIcons['보존'] = ['../original/icons_buff_016.png', '#c79374'];
 
     function escapeHtml(value) {
@@ -125,7 +126,7 @@
 
         function isPlainUsage(keyword, precedingText, followingText) {
             if (keyword === '소모') {
-                const isCardKeyword = /^\s*(?:$|[,.]|가\s*부여된|와\s*공허(?:가|\s+가)?\s*부여된)/.test(followingText);
+                const isCardKeyword = /^\s*(?:$|[,.]|가\s*부여된|와\s*허무(?:가|\s+가)?\s*부여된)/.test(followingText);
                 if (!isCardKeyword || followingText.startsWith('할 때마다')) return true;
                 if (/(?:행동력|산출력|광기|은열쇠)\s*$/.test(precedingText)) return true;
             }

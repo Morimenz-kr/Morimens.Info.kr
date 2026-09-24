@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : keyword;
         const isPlainUsage = (keyword, precedingText, followingText) => {
             if (keyword === '소모') {
-                const isCardKeyword = /^\s*(?:$|[,.]|가\s*부여된|와\s*공허(?:가|\s+가)?\s*부여된)/.test(followingText);
+                const isCardKeyword = /^\s*(?:$|[,.]|가\s*부여된|와\s*허무(?:가|\s+가)?\s*부여된)/.test(followingText);
                 return !isCardKeyword || followingText.startsWith('할 때마다') ||
                     /(?:행동력|산출력|광기|은열쇠)\s*$/.test(precedingText);
             }
