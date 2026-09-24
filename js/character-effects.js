@@ -66,9 +66,10 @@
 
     keywordIcons['봉헌'] = ['caraboo-apple.png', '#c4cad2'];
     keywordIcons['과식'] = ['caraboo-apple.png', '#c4cad2'];
-    // Game source: State 149789 / 149791 icon assets.
-    keywordIcons['암류'] = ['../original/icons_buff_080.png', '#bb646d'];
-    keywordIcons['자신의 죄'] = ['../original/icons_buff_090.png', '#76aac8'];
+    // Current client (res153): State 149789 / 149930 -> Battle_Card_Buff_093,
+    // State 149791 -> Battle_Card_Buff_094.
+    keywordIcons['암류'] = ['../original/battle_card_buff_093.png', '#bb646d'];
+    keywordIcons['자신의 죄'] = ['../original/battle_card_buff_094.png', '#76aac8'];
 
     keywordIcons['공허'] = ['void.png', '#ac9a76'];
     keywordIcons['보존'] = ['../original/icons_buff_016.png', '#c79374'];

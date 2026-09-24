@@ -43,11 +43,14 @@ test('서약 오지에의 암류와 자신의 죄는 인게임 아이콘과 키�
     });
 
     assert.match(html, /data-keyword="암류"[^>]*--keyword-color:#bb646d/);
-    assert.match(html, /icons_buff_080\.png/);
+    assert.match(html, /battle_card_buff_093\.png/);
     assert.match(html, /data-keyword="자신의 죄"[^>]*--keyword-color:#76aac8/);
-    assert.match(html, /icons_buff_090\.png/);
-    assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/original/icons_buff_080.png')));
-    assert.ok(fs.existsSync(path.join(__dirname, '..', 'images/keyword-icons/original/icons_buff_090.png')));
+    assert.match(html, /battle_card_buff_094\.png/);
+
+    const undertowIcon = fs.readFileSync(path.join(__dirname, '..', 'images/keyword-icons/original/battle_card_buff_093.png'));
+    const ownSinIcon = fs.readFileSync(path.join(__dirname, '..', 'images/keyword-icons/original/battle_card_buff_094.png'));
+    assert.notDeepEqual(undertowIcon, fs.readFileSync(path.join(__dirname, '..', 'images/keyword-icons/reference/intoxication.png')));
+    assert.notDeepEqual(ownSinIcon, fs.readFileSync(path.join(__dirname, '..', 'images/keyword-icons/reference/group-hunt.png')));
 });
 
 test('서약 오지에는 9월 24일 상향과 차원영상의 상태 상한을 표시한다', () => {

@@ -2,7 +2,7 @@
 const CONFIG = {
     // 1. 패치노트와 맞출 버전 (배포 시 이 부분을 수정)
     VERSION: "v1.3.37",
-    ASSET_REVISION: "vow-ogier-20260924-2",
+    ASSET_REVISION: "vow-ogier-20260924-3",
     LAST_UPDATED: "2026-08-11",
 
     // 2. 피드백 접수용 Cloudflare Worker URL
