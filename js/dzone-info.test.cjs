@@ -753,8 +753,9 @@ test('실전 통계는 채용률과 편성만 표시하고 전체 집계의 스�
     assert.match(source, /Array\.isArray\(localStageUsage\.awakeners\)/);
     assert.match(source, /Array\.isArray\(localStageUsage\.parties\)/);
     assert.match(source, /stages\?\.length === 10/);
-    assert.match(source, /\['nightmare', 'madness'\]\.includes/);
-    assert.match(source, /stages\?\.length !== 20/);
+    assert.match(source, /const highDifficulties = \['nightmare', 'madness'\]/);
+    assert.match(source, /const gradeDifficulties = \['1', '2', '3', '4', '5', '6', '7'\]/);
+    assert.match(source, /stages\?\.length === 35/);
 });
 
 test('현재 융재 지도는 패치 노드의 전투 ID를 정확한 전투 구성에 연결한다', () => {
@@ -841,7 +842,7 @@ test('실전 통계의 각성체 링크는 사이트 ID를 사용하고 미등�
     assert.doesNotMatch(context.usageAwakener({ tid: 999999, name: '미등록 각성체' }), /<a\b|href=/);
 });
 
-test('운영 API에서도 악몽·광기 10개 집계를 읽고 누락·중복 범위는 거부한다', async () => {
+test('운영 API에서 기존 범위와 1~7급 35개 집계를 읽고 누락·중복 범위는 거부한다', async () => {
     const stages = Array.from({ length: 5 }, (_, index) => ['nightmare', 'madness'].map((difficulty, offset) => ({
         wave: index + 1, difficulty, stageTid: 100 + index * 2 + offset
     }))).flat();
@@ -861,6 +862,14 @@ test('운영 API에서도 악몽·광기 10개 집계를 읽고 누락·중복 �
     payload = { ...payload, data: { stages: [...stages.slice(0, 9), stages[0]] } };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
     payload = { ...payload, data: { stages: stages.map(stage => ({ ...stage, stageTid: 100 })) } };
+    await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+
+    const gradeStages = Array.from({ length: 5 }, (_, index) => ['1', '2', '3', '4', '5', '6', '7'].map((difficulty, offset) => ({
+        wave: index + 1, difficulty, stageTid: 1_000 + index * 7 + offset
+    }))).flat();
+    payload = { data: { stages: gradeStages }, fetchedAt: 1_788_529_507 };
+    assert.equal((await context.loadDzoneUsageOverview('https://worker.test', true)).stages.length, 35);
+    payload = { ...payload, data: { stages: gradeStages.slice(0, 34) } };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
 });
 

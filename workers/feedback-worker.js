@@ -30,6 +30,9 @@ const DZONE_USAGE_OVERVIEW_KEY = 'dzone:usage:overview';
 const DZONE_USAGE_MAX_AWAKENERS = 200;
 const DZONE_USAGE_MAX_PARTIES = 100;
 const DZONE_USAGE_MAX_CONSTRAINT_BUCKETS = 6;
+const DZONE_USAGE_LEGACY_DIFFICULTIES = ['normal', 'hard', 'nightmare', 'madness'];
+const DZONE_USAGE_HIGH_DIFFICULTIES = ['nightmare', 'madness'];
+const DZONE_USAGE_GRADE_DIFFICULTIES = ['1', '2', '3', '4', '5', '6', '7'];
 const DEFAULT_CRON_STALE_MS = 30 * 60 * 1000;
 const DEFAULT_CRON_TASK_TIMEOUT_MS = 75 * 1000;
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
@@ -4232,11 +4235,17 @@ function normalizeDzoneUsageOverview(body, now = Date.now()) {
     const period = normalizeDzoneUsageCount(input?.period, 'period');
     if (period <= 0) throw new Error('period must be positive');
     const since = normalizeDzoneUsageCount(input?.since, 'since');
-    const difficulties = ['normal', 'hard', 'nightmare', 'madness'];
     const stages = Array.isArray(input?.stages) ? input.stages : [];
-    const scopeDifficulties = stages.length === 10 ? ['nightmare', 'madness'] : difficulties;
-    if (![10, 20].includes(stages.length)) {
-        throw new Error('overview must contain all 10 nightmare/madness stages or all 20 stages');
+    const rawDifficulties = stages.map(stage => String(stage?.difficulty || ''));
+    const scopeDifficulties = stages.length === 10 && rawDifficulties.every(value => DZONE_USAGE_HIGH_DIFFICULTIES.includes(value))
+        ? DZONE_USAGE_HIGH_DIFFICULTIES
+        : stages.length === 20 && rawDifficulties.every(value => DZONE_USAGE_LEGACY_DIFFICULTIES.includes(value))
+            ? DZONE_USAGE_LEGACY_DIFFICULTIES
+            : stages.length === 35 && rawDifficulties.every(value => DZONE_USAGE_GRADE_DIFFICULTIES.includes(value))
+                ? DZONE_USAGE_GRADE_DIFFICULTIES
+                : null;
+    if (!scopeDifficulties) {
+        throw new Error('overview must contain all 10 nightmare/madness stages, all 20 legacy stages, or all 35 grade stages');
     }
     const seenPairs = new Set();
     const seenStageIds = new Set();
@@ -4244,7 +4253,7 @@ function normalizeDzoneUsageOverview(body, now = Date.now()) {
         const wave = normalizeDzoneUsageCount(stage?.wave, 'stage.wave', 5);
         if (wave < 1) throw new Error('stage.wave must be between 1 and 5');
         const difficulty = String(stage?.difficulty || '');
-        if (!difficulties.includes(difficulty)) throw new Error('invalid stage.difficulty');
+        if (!scopeDifficulties.includes(difficulty)) throw new Error('invalid stage.difficulty');
         const pair = `${wave}:${difficulty}`;
         if (seenPairs.has(pair)) throw new Error('wave and difficulty pairs must be unique');
         seenPairs.add(pair);
@@ -4261,7 +4270,7 @@ function normalizeDzoneUsageOverview(body, now = Date.now()) {
             recordCount,
             constraints: buildDzoneConstraintStats(buckets, recordCount)
         };
-    }).sort((left, right) => left.wave - right.wave || difficulties.indexOf(left.difficulty) - difficulties.indexOf(right.difficulty));
+    }).sort((left, right) => left.wave - right.wave || scopeDifficulties.indexOf(left.difficulty) - scopeDifficulties.indexOf(right.difficulty));
     const expectedPairs = Array.from({ length: 5 }, (_, index) => index + 1)
         .flatMap(wave => scopeDifficulties.map(difficulty => `${wave}:${difficulty}`));
     if (expectedPairs.some(pair => !seenPairs.has(pair))) {

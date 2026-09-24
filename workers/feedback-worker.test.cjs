@@ -315,6 +315,26 @@ function createNightmareMadnessOverviewInput() {
     };
 }
 
+function createSevenGradeOverviewInput() {
+    const difficulties = ['1', '2', '3', '4', '5', '6', '7'];
+    return {
+        period: 70,
+        since: 1_790_000_000,
+        stages: Array.from({ length: 5 }, (_, index) => index + 1).flatMap(wave => difficulties.map((difficulty, difficultyIndex) => ({
+            wave,
+            difficulty,
+            stageTid: 150_000 + wave * 10 + difficultyIndex,
+            recordCount: wave * 100 + difficultyIndex,
+            constraintBuckets: [{
+                hasOverlimit: true,
+                hasFinalLaw: true,
+                usedEmergencySpirit: true,
+                count: wave * 100 + difficultyIndex
+            }]
+        })))
+    };
+}
+
 test('융재금구 전체 집계는 5개 파와 4개 난이도를 빠짐없이 보존한다', () => {
     const payload = normalizeDzoneUsageOverview(createDzoneUsageOverviewInput(), 1_800_000_000_000);
     assert.equal(payload.data.stages.length, 20);
@@ -335,16 +355,24 @@ test('융재금구 전체 집계는 현재 운영 범위인 악몽·광기 10개
     assert.equal(payload.data.recordCount, payload.data.stages.reduce((sum, stage) => sum + stage.recordCount, 0));
 });
 
+test('융재금구 70기 전체 집계는 5개 파와 1~7급 35개 스테이지를 보존한다', () => {
+    const payload = normalizeDzoneUsageOverview(createSevenGradeOverviewInput(), 1_800_000_000_000);
+    assert.equal(payload.data.stages.length, 35);
+    assert.deepEqual(payload.data.stages.slice(0, 7).map(stage => stage.difficulty), ['1', '2', '3', '4', '5', '6', '7']);
+    assert.equal(payload.data.stages[34].wave, 5);
+    assert.equal(payload.data.stages[34].difficulty, '7');
+});
+
 test('융재금구 10개 집계는 악몽·광기가 아닌 혼합 범위를 거부한다', () => {
     const input = createNightmareMadnessOverviewInput();
     input.stages[0].difficulty = 'hard';
-    assert.throws(() => normalizeDzoneUsageOverview(input), /required wave and difficulty scope/);
+    assert.throws(() => normalizeDzoneUsageOverview(input), /all 10 nightmare\/madness stages, all 20 legacy stages, or all 35 grade stages/);
 });
 
 test('융재금구 전체 집계는 일부 파·난이도만 온 불완전한 전송을 거부한다', () => {
     const input = createDzoneUsageOverviewInput();
     input.stages.pop();
-    assert.throws(() => normalizeDzoneUsageOverview(input), /all 10 nightmare\/madness stages or all 20 stages/);
+    assert.throws(() => normalizeDzoneUsageOverview(input), /all 10 nightmare\/madness stages, all 20 legacy stages, or all 35 grade stages/);
 });
 
 test('융재금구 전체 집계 API는 인증된 20개 스테이지를 한 번에 저장하고 공개 조회한다', async () => {

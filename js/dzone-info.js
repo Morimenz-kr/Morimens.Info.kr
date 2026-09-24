@@ -995,12 +995,20 @@
                     if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) continue;
                     const payload = await response.json();
                     const stages = payload?.data?.stages;
-                    const isNightmareMadness = stages?.length === 10
-                        && stages.every(stage => ['nightmare', 'madness'].includes(stage?.difficulty));
-                    if (!payload?.data || (!isNightmareMadness && stages?.length !== 20) || !Number.isInteger(payload.fetchedAt)) continue;
+                    const legacyDifficulties = ['normal', 'hard', 'nightmare', 'madness'];
+                    const highDifficulties = ['nightmare', 'madness'];
+                    const gradeDifficulties = ['1', '2', '3', '4', '5', '6', '7'];
+                    const rawDifficulties = stages?.map(stage => String(stage?.difficulty ?? '')) || [];
+                    const difficulties = stages?.length === 10 && rawDifficulties.every(value => highDifficulties.includes(value))
+                        ? highDifficulties
+                        : stages?.length === 20 && rawDifficulties.every(value => legacyDifficulties.includes(value))
+                            ? legacyDifficulties
+                            : stages?.length === 35 && rawDifficulties.every(value => gradeDifficulties.includes(value))
+                                ? gradeDifficulties
+                                : null;
+                    if (!payload?.data || !difficulties || !Number.isInteger(payload.fetchedAt)) continue;
                     const pairs = new Set(stages.map(stage => `${stage.wave}:${stage.difficulty}`));
                     const stageIds = new Set(stages.map(stage => stage.stageTid));
-                    const difficulties = isNightmareMadness ? ['nightmare', 'madness'] : ['normal', 'hard', 'nightmare', 'madness'];
                     if (stageIds.size !== stages.length || stages.some(stage => !Number.isInteger(stage.stageTid) || stage.stageTid <= 0)
                         || !Array.from({ length: 5 }, (_, index) => index + 1).every(wave => difficulties.every(difficulty => pairs.has(`${wave}:${difficulty}`)))) continue;
                     return { ...payload.data, fetchedAt: payload.fetchedAt };
