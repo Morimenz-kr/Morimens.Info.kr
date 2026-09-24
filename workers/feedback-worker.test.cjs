@@ -392,6 +392,21 @@ test('융재금구 전체 집계 API는 인증된 20개 스테이지를 한 번�
     assert.equal(payload.data.stages[0].recordCount, 1_000_010);
 });
 
+test('융재금구 70기 미리보기 API는 저장소 상태와 무관하게 실제 35개 스테이지를 공개한다', async () => {
+    const response = await worker.fetch(new Request('https://worker.test/api/dzone/usage?period=70'), {}, {});
+    const payload = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(payload.data.period, 70);
+    assert.equal(payload.data.preview, true);
+    assert.equal(payload.data.source, 'dzone_season70.json');
+    assert.equal(payload.data.recordCount, 0);
+    assert.equal(payload.data.stages.length, 35);
+    assert.deepEqual([...new Set(payload.data.stages.map(stage => stage.difficulty))], ['1', '2', '3', '4', '5', '6', '7']);
+    assert.equal(new Set(payload.data.stages.map(stage => stage.stageTid)).size, 35);
+    assert.equal(payload.data.stages[0].stageTid, 82753);
+    assert.equal(payload.data.stages[34].stageTid, 153179);
+});
+
 test('융재금구 편성 통계 API는 인증된 집계만 저장하고 공개 조회한다', async () => {
     const kv = createJsonKv();
     const env = { RESOURCE_LINK_STATE: kv, DZONE_INGEST_TOKEN: 'private-token' };

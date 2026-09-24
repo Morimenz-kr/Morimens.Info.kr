@@ -19,6 +19,7 @@ private-tools/output/dzone-usage-overview.json
 - `GET /api/dzone/stage/{stageTid}/usage`: 최신 집계 조회
 - `POST /api/dzone/stage/{stageTid}/usage`: Bearer 토큰으로 인증한 집계 저장
 - `GET /api/dzone/usage`: 현재 집계 범위의 제한 클리어 집계 조회
+- `GET /api/dzone/usage?period=70`: 70기 1~7급 35개 스테이지 미리보기 조회. 실제 클리어 표본이 생기기 전까지 집계값은 0이다.
 - `POST /api/dzone/usage`: 기존 기수의 10개·20개 범위 또는 70기 이후 1~7급 35개 스테이지의 제한 클리어 집계를 한 번에 저장
 - 기존 `RESOURCE_LINK_STATE` KV를 `dzone:usage:stage:{stageTid}` 접두사로 분리해 재사용
 - 건수와 비율의 불일치를 막기 위해 Worker에서 `rate = count / recordCount` 재계산

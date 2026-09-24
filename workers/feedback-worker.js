@@ -33,6 +33,13 @@ const DZONE_USAGE_MAX_CONSTRAINT_BUCKETS = 6;
 const DZONE_USAGE_LEGACY_DIFFICULTIES = ['normal', 'hard', 'nightmare', 'madness'];
 const DZONE_USAGE_HIGH_DIFFICULTIES = ['nightmare', 'madness'];
 const DZONE_USAGE_GRADE_DIFFICULTIES = ['1', '2', '3', '4', '5', '6', '7'];
+const DZONE_SEASON_70_STAGE_IDS = [
+    [82753, 82474, 82582, 82231, 82349, 153177, 153180],
+    [82755, 82475, 82581, 82229, 82351, 153178, 153176],
+    [82754, 82476, 82580, 82230, 82350, 153185, 153182],
+    [82757, 82477, 82584, 82232, 82348, 153181, 153184],
+    [82756, 82478, 82583, 82233, 82347, 153183, 153179]
+];
 const DEFAULT_CRON_STALE_MS = 30 * 60 * 1000;
 const DEFAULT_CRON_TASK_TIMEOUT_MS = 75 * 1000;
 const GIFT_CODE_SEEN_KEY_PREFIX = 'gift-code:seen:';
@@ -226,6 +233,9 @@ export default {
                     return new Response(null, { status: 204, headers: dzoneCorsHeaders });
                 }
                 if (request.method === 'GET') {
+                    if (url.searchParams.get('period') === '70') {
+                        return jsonResponse(buildDzoneSeason70Preview(), 200, dzoneCorsHeaders);
+                    }
                     return await handleGetDzoneUsageOverview(env, dzoneCorsHeaders);
                 }
                 if (request.method === 'POST') {
@@ -4360,6 +4370,28 @@ async function handleGetDzoneUsageOverview(env, corsHeaders) {
         return jsonResponse({ error: 'Usage overview not found' }, 404, corsHeaders);
     }
     return jsonResponse(payload, 200, corsHeaders);
+}
+
+function buildDzoneSeason70Preview() {
+    const payload = normalizeDzoneUsageOverview({
+        period: 70,
+        since: 0,
+        stages: DZONE_SEASON_70_STAGE_IDS.flatMap((stageIds, waveIndex) => stageIds.map((stageTid, difficultyIndex) => ({
+            wave: waveIndex + 1,
+            difficulty: String(difficultyIndex + 1),
+            stageTid,
+            recordCount: 0,
+            constraintBuckets: [{
+                hasOverlimit: false,
+                hasFinalLaw: false,
+                usedEmergencySpirit: false,
+                count: 0
+            }]
+        })))
+    }, 1_790_214_897_000);
+    payload.data.preview = true;
+    payload.data.source = 'dzone_season70.json';
+    return payload;
 }
 
 async function handlePutDzoneUsageOverview(request, env, corsHeaders) {
