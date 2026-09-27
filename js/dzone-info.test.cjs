@@ -646,11 +646,16 @@ test('다중 체력 몬스터는 체력바 개수와 정확한 수치를 보여�
     assert.doesNotMatch(source, /부활 후 \$\{index \+ 1\}번째 체력바/);
 });
 
-test('전투 선택 UI는 중복되는 표시 문구와 시각적 그룹 라벨을 숨긴다', () => {
+test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으로 표시한다', () => {
     assert.match(html, /<h2 id="filter-heading">전투 선택<\/h2>/);
     assert.doesNotMatch(html, /보고 싶은 전투 선택|표시하고 있습니다/);
-    assert.match(html, /<legend class="dzone-visually-hidden">금지구역 선택<\/legend>/);
-    assert.match(html, /<legend class="dzone-visually-hidden">난이도 선택<\/legend>/);
+    assert.match(html, /id="zone-filter-label" class="dzone-filter-label">금지구역<\/span>/);
+    assert.match(html, /id="grade-filter-label" class="dzone-filter-label">급수<\/span>/);
+    assert.match(html, /id="wave-selector"[^>]*aria-labelledby="zone-filter-label"/);
+    assert.match(html, /id="alert-selector"[^>]*aria-labelledby="grade-filter-label"/);
+    assert.match(css, /\.wave-selector\s*\{[^}]*display:\s*flex;/);
+    assert.match(source, /waveSelector\.classList\.toggle\('is-compact', compactGrades\)/);
+    assert.match(source, /aria-label="\$\{escapeHtml\(zoneLabel\(wave\.wave\)\)\}"/);
     assert.match(html, /id="selection-status" class="dzone-visually-hidden"/);
 });
 

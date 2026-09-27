@@ -1234,7 +1234,11 @@
             render();
         };
         const waveSelector = document.getElementById('wave-selector');
-        waveSelector.innerHTML = data.waves.map(wave => `<button type="button" class="wave-button" data-wave="${wave.wave}" aria-pressed="${wave.wave === selectedWave}">${zoneLabel(wave.wave)}</button>`).join('');
+        const compactGrades = data.period >= 70;
+        document.getElementById('zone-filter-label').textContent = compactGrades ? '금지구역' : '파';
+        document.getElementById('grade-filter-label').textContent = compactGrades ? '급수' : '난이도';
+        waveSelector.classList.toggle('is-compact', compactGrades);
+        waveSelector.innerHTML = data.waves.map(wave => `<button type="button" class="wave-button" data-wave="${wave.wave}" aria-label="${escapeHtml(zoneLabel(wave.wave))}" aria-pressed="${wave.wave === selectedWave}">${compactGrades ? wave.wave : zoneLabel(wave.wave)}</button>`).join('');
         waveSelector.onclick = event => {
             const button = event.target.closest('[data-wave]');
             if (!button) return;
@@ -1244,7 +1248,8 @@
 
         const alertSelector = document.getElementById('alert-selector');
         const difficulties = data.waves[0]?.alerts || [];
-        alertSelector.innerHTML = difficulties.map(item => `<button type="button" class="alert-button" data-alert="${item.alert}" aria-pressed="${item.alert === selectedAlert}">${escapeHtml(selectedDifficultyLabel(item))}</button>`).join('');
+        alertSelector.classList.toggle('is-compact', compactGrades);
+        alertSelector.innerHTML = difficulties.map(item => `<button type="button" class="alert-button" data-alert="${item.alert}" aria-label="${escapeHtml(selectedDifficultyLabel(item))}" aria-pressed="${item.alert === selectedAlert}">${escapeHtml(compactGrades ? String(item.alert) : selectedDifficultyLabel(item))}</button>`).join('');
         alertSelector.onclick = event => {
             const button = event.target.closest('[data-alert]');
             if (!button) return;

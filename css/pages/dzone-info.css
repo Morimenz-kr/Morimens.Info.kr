@@ -113,20 +113,21 @@
 
 .dzone-filter-grid {
     display: grid;
-    gap: 0.75rem;
+    gap: 0.55rem;
 }
 
 .dzone-filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem 0.75rem;
     min-width: 0;
-    margin: 0;
-    padding: 0;
-    border: 0;
 }
 
-.dzone-filter-group legend {
-    margin-bottom: 0.4rem;
+.dzone-filter-label {
+    flex: 0 0 4.5rem;
     color: #d9dade;
-    font-size: 0.78rem;
+    font-size: 0.82rem;
     font-weight: 800;
 }
 
@@ -170,22 +171,33 @@
 
 .alert-selector,
 .wave-selector {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 0.4rem;
-    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    min-width: 0;
 }
 
 .alert-button,
 .wave-button {
+    box-sizing: border-box;
     min-height: 44px;
+    min-width: 3rem;
+    padding: 0.45rem 0.8rem;
     border: 1px solid var(--color-border-light);
     border-radius: var(--radius-md);
     background: var(--color-bg-elevated);
     color: var(--color-text-secondary);
     font: inherit;
     font-weight: 700;
+    white-space: nowrap;
     cursor: pointer;
+}
+
+.alert-selector.is-compact .alert-button,
+.wave-selector.is-compact .wave-button {
+    width: 2.75rem;
+    min-width: 2.75rem;
+    padding-inline: 0;
 }
 
 .alert-button:hover,
@@ -1254,11 +1266,14 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
 .dzone-back-to-top:focus-visible { outline: 3px solid rgba(244, 189, 80, 0.55); outline-offset: 3px; }
 
 @media (min-width: 720px) {
-    .dzone-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .hp-breakdown dl { grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); }
 }
 
 @media (max-width: 480px) {
+    .dzone-filter-group { display: grid; gap: 0.4rem; }
+    .dzone-filter-label { flex-basis: auto; }
+    .alert-button,
+    .wave-button { padding-inline: 0.65rem; }
     .dzone-page-shell { padding-inline: 0.65rem; }
     .dzone-hero { border-radius: 0.8rem; }
     .relic-card { grid-template-columns: minmax(0, 1fr); }
