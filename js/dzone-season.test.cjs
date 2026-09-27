@@ -5,10 +5,10 @@ const path = require('node:path');
 const season = require('./dzone-season.js');
 const response = period => ({ ok: true, json: async () => ({ period, waves: [] }) });
 
-test('현재 융재금구는 69기 데이터를 선택한다', () => {
-    assert.equal(season.CURRENT_SEASON, 69);
+test('현재 융재금구는 70기 데이터를 선택한다', () => {
+    assert.equal(season.CURRENT_SEASON, 70);
     assert.deepEqual(season.selectSeason(), {
-        period: 69,
+        period: 70,
         path: 'data/dzone_current.json',
         mapPath: 'data/dzone_maps.json'
     });
@@ -18,7 +18,8 @@ test('현재 융재금구는 69기 데이터를 선택한다', () => {
 test('현재 및 바로 이전 융재금구 데이터를 선택한다', () => {
     assert.deepEqual(season.availableSeasons(), [
         { period: 68, path: 'data/dzone_season68.json', mapPath: 'data/dzone_maps_season68.json', current: false },
-        { period: 69, path: 'data/dzone_current.json', mapPath: 'data/dzone_maps.json', current: true }
+        { period: 69, path: 'data/dzone_season69.json', mapPath: 'data/dzone_maps_season69.json', current: false },
+        { period: 70, path: 'data/dzone_current.json', mapPath: 'data/dzone_maps.json', current: true }
     ]);
     assert.deepEqual(season.selectSeason(68), {
         period: 68,
@@ -26,19 +27,19 @@ test('현재 및 바로 이전 융재금구 데이터를 선택한다', () => {
         mapPath: 'data/dzone_maps_season68.json'
     });
     assert.deepEqual(season.selectSeason(999), {
-        period: 69,
+        period: 70,
         path: 'data/dzone_current.json',
         mapPath: 'data/dzone_maps.json'
     });
 });
 
-test('69기 파일을 캐시 없이 요청한다', async () => {
+test('70기 파일을 캐시 없이 요청한다', async () => {
     const requests = [];
     const data = await season.loadCurrent(async (url, options) => {
         requests.push({ url, options });
-        return response(69);
+        return response(70);
     }, () => 12345);
-    assert.equal(data.period, 69);
+    assert.equal(data.period, 70);
     assert.equal(requests.length, 1);
     assert.equal(requests[0].url, 'data/dzone_current.json?t=12345');
     assert.equal(requests[0].options.cache, 'no-store');
@@ -59,10 +60,10 @@ test('로드 실패나 시즌 불일치 때 다른 시즌으로 대체하지 않
     await assert.rejects(season.loadCurrent(async () => response(68)), /Unexpected/);
 });
 
-test('69기 데이터와 이미지는 배포 가능한 공개 경로에 존재한다', () => {
+test('70기 데이터와 이미지는 배포 가능한 공개 경로에 존재한다', () => {
     const selected = season.selectSeason();
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', selected.path), 'utf8'));
-    assert.equal(data.period, 69);
+    assert.equal(data.period, 70);
     assert.equal(data.waves.length, 5);
     const visit = value => {
         if (typeof value === 'string' && value.startsWith('images/')) {

@@ -932,10 +932,10 @@
         }).join('');
         return `<details class="dzone-map" aria-labelledby="dzone-map-title-${wave.wave}" open>
             <summary class="dzone-map-header">
-                <div><h3 id="dzone-map-title-${wave.wave}">${wave.wave}파 지도</h3><p>전투 노드를 선택하면 해당 전투 정보로 이동합니다.</p></div>
+                <div><h3 id="dzone-map-title-${wave.wave}">${zoneLabel(wave.wave)} 지도</h3><p>전투 노드를 선택하면 해당 전투 정보로 이동합니다.</p></div>
                 <span class="dzone-map-toggle" aria-hidden="true"></span>
             </summary>
-            <div class="dzone-map-viewport" tabindex="0" aria-label="${wave.wave}파 노드 지도. 지도가 넓으면 좌우로 이동할 수 있습니다.">
+            <div class="dzone-map-viewport" tabindex="0" aria-label="${zoneLabel(wave.wave)} 노드 지도. 지도가 넓으면 좌우로 이동할 수 있습니다.">
                 <ol class="dzone-map-board" style="--map-width:${boardWidth}px;--map-height:${boardHeight}px">${nodes}</ol>
             </div>
         </details>`;
@@ -1153,9 +1153,18 @@
         }, Math.min(delay, 2 ** 31 - 1));
     }
 
+    function zoneLabel(wave) {
+        return data?.period >= 70 ? `제${wave}금지구역` : `${wave}파`;
+    }
+
+    function selectedDifficultyLabel(difficulty) {
+        if (data?.period >= 70) return `${difficulty?.alert ?? selectedAlert}급`;
+        return difficulty?.difficultyLabel || `경보 ${difficulty?.alert ?? selectedAlert}급`;
+    }
+
     function renderWave(wave) {
         const difficulty = wave.alerts.find(item => item.alert === selectedAlert);
-        const difficultyLabel = difficulty?.difficultyLabel || `경보 ${selectedAlert}급`;
+        const difficultyLabel = selectedDifficultyLabel(difficulty);
         const sortedEncounters = [...wave.encounters]
             .sort((left, right) => (TYPE_ORDER[left.battleType] ?? 99) - (TYPE_ORDER[right.battleType] ?? 99));
         const typeCounts = sortedEncounters.reduce((counts, encounter) => counts.set(encounter.battleType, (counts.get(encounter.battleType) || 0) + 1), new Map());
@@ -1169,7 +1178,7 @@
         return `
             <section class="wave-section" id="wave-${wave.wave}">
                 <header class="wave-header">
-                    <div class="wave-heading"><h2 class="wave-title"><span>${wave.wave}파</span></h2>${mechanicBadges.length ? `<ul class="wave-mechanics" aria-label="주요 기믹">${mechanicBadges.map(label => `<li>${escapeHtml(label)}</li>`).join('')}</ul>` : ''}</div>
+                    <div class="wave-heading"><h2 class="wave-title"><span>${zoneLabel(wave.wave)}</span></h2>${mechanicBadges.length ? `<ul class="wave-mechanics" aria-label="주요 기믹">${mechanicBadges.map(label => `<li>${escapeHtml(label)}</li>`).join('')}</ul>` : ''}</div>
                     <div class="wave-meta">${escapeHtml(difficultyLabel)}</div>
                 </header>
                 ${renderMap(wave)}
@@ -1190,11 +1199,11 @@
             selectedAlert = selected.alerts.at(-1)?.alert ?? selected.alerts[0]?.alert ?? selectedAlert;
         }
         const difficulty = selected.alerts.find(item => item.alert === selectedAlert);
-        const difficultyLabel = difficulty?.difficultyLabel || `경보 ${selectedAlert}급`;
+        const difficultyLabel = selectedDifficultyLabel(difficulty);
         const content = document.getElementById('dzone-content');
         content.dataset.season = String(data.period);
         content.innerHTML = renderWave(selected);
-        document.getElementById('selection-status').textContent = `${data.period}기, ${selectedWave}파, ${difficultyLabel} 난이도 선택됨`;
+        document.getElementById('selection-status').textContent = `${data.period}기, ${zoneLabel(selectedWave)}, ${difficultyLabel} 난이도 선택됨`;
         document.querySelectorAll('[data-season]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.season) === data.period)));
         document.querySelectorAll('[data-wave]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.wave) === selectedWave)));
         document.querySelectorAll('[data-alert]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.alert) === selectedAlert)));
@@ -1225,7 +1234,7 @@
             render();
         };
         const waveSelector = document.getElementById('wave-selector');
-        waveSelector.innerHTML = data.waves.map(wave => `<button type="button" class="wave-button" data-wave="${wave.wave}" aria-pressed="${wave.wave === selectedWave}">${wave.wave}파</button>`).join('');
+        waveSelector.innerHTML = data.waves.map(wave => `<button type="button" class="wave-button" data-wave="${wave.wave}" aria-pressed="${wave.wave === selectedWave}">${zoneLabel(wave.wave)}</button>`).join('');
         waveSelector.onclick = event => {
             const button = event.target.closest('[data-wave]');
             if (!button) return;
@@ -1235,7 +1244,7 @@
 
         const alertSelector = document.getElementById('alert-selector');
         const difficulties = data.waves[0]?.alerts || [];
-        alertSelector.innerHTML = difficulties.map(item => `<button type="button" class="alert-button" data-alert="${item.alert}" aria-pressed="${item.alert === selectedAlert}">${escapeHtml(item.difficultyLabel || `${item.alert}급`)}</button>`).join('');
+        alertSelector.innerHTML = difficulties.map(item => `<button type="button" class="alert-button" data-alert="${item.alert}" aria-pressed="${item.alert === selectedAlert}">${escapeHtml(selectedDifficultyLabel(item))}</button>`).join('');
         alertSelector.onclick = event => {
             const button = event.target.closest('[data-alert]');
             if (!button) return;
