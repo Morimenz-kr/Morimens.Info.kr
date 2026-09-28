@@ -1197,19 +1197,9 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
 }
 
 .conditional-action-copy { min-width: 0; }
-.conditional-action-copy header { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; }
 .conditional-action-copy strong { color: #ffd5d7; font-size: 0.84rem; }
-.conditional-action-copy header span {
-    padding: 0.14rem 0.4rem;
-    border-radius: 999px;
-    background: rgba(222, 100, 107, 0.18);
-    color: #ffafb3;
-    font-size: 0.63rem;
-    font-weight: 800;
-}
 .conditional-action-copy p { margin: 0.3rem 0 0; color: #c5c0c3; font-size: 0.77rem; line-height: 1.55; overflow-wrap: anywhere; }
 .conditional-action-copy .conditional-trigger { color: #e8b9bc; }
-.conditional-action-copy .conditional-trigger b { color: #ffced1; }
 .conditional-action-copy .dynamic { color: #e6b961; font-weight: 700; }
 
 .monster-rules {

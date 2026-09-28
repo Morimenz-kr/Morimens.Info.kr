@@ -22,14 +22,14 @@ const dzoneMaps69 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data'
 const dzoneMaps68 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season68.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 
-test('현재 D-Zone 용어와 패턴 변경 제목을 공식 표기로 표시한다', () => {
+test('현재 D-Zone 용어와 조건부 패턴 전환 제목을 표시한다', () => {
     const serialized = JSON.stringify(currentDzoneData);
     assert.match(serialized, /명령카드/);
     assert.match(serialized, /고정 중독/);
     assert.match(serialized, /고정 반격/);
     assert.doesNotMatch(serialized, /커맨드 카드|잠금 중독|잠금 반격/);
-    assert.match(source, /패턴\(의도\) 변경 조건/);
-    assert.doesNotMatch(source, /의도 교체 규칙/);
+    assert.match(source, /조건부 패턴 전환/);
+    assert.doesNotMatch(source, /의도 교체 규칙|패턴\(의도\) 변경 조건/);
 });
 
 test('5금지구역 문의 열쇠는 4익과 6익 의도 및 7개 위험등급 수치를 모두 제공한다', () => {
@@ -124,7 +124,7 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
     const rendered = context.renderConditionalActions(monster, stats);
     assert.equal((rendered.match(/<article /g) || []).length, 1);
     assert.doesNotMatch(rendered, /자ｸ극kQ 반응|전이에 성공하면|실패하면 712의 데미지/);
-    assert.match(rendered, /<span>발동 조건<\/span>/);
+    assert.doesNotMatch(rendered, /발동 조건|<b>발동:<\/b>/);
 
     const transition = monster.phaseTransitions.find(item => item.phaseIndex === 2);
     const transitionContext = vm.createContext({
@@ -139,9 +139,10 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
     assert.doesNotMatch(transitionHtml, /2%\(|포인트의|방어막를/);
 });
 
-test('조건 개수와 관계없이 조건부 행동 배지는 발동 조건으로 통일한다', () => {
-    assert.match(source, /<span>발동 조건<\/span>/);
-    assert.match(source, /condition-chain" aria-label="발동 조건"/);
+test('조건부 패턴 전환은 중복 발동 배지 없이 전환 조건만 표시한다', () => {
+    assert.match(source, /condition-chain" aria-label="전환 조건"/);
+    assert.match(source, /<h5 class="section-label">조건부 패턴 전환<\/h5>/);
+    assert.doesNotMatch(source, /<span>발동 조건<\/span>|<b>발동:<\/b>|패턴\(의도\) 변경 조건/);
     assert.doesNotMatch(source, /<span>\$\{conditionParts\.length > 1 \? '모든 조건 충족' : '조건부'\}<\/span>/);
 });
 
@@ -795,7 +796,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.93-state-tooltips-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.94-conditional-transitions-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));

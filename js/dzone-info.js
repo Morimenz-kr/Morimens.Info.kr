@@ -638,18 +638,18 @@
             const trigger = stateName ? `${stateLabel} 보유 중 · ${condition}` : condition;
             const conditionParts = condition.split(/\s*·\s*/).filter(Boolean);
             const conditionMarkup = conditionParts.length > 1
-                ? `<div class="condition-chain" aria-label="발동 조건">${conditionParts.map(part => `<span>${dynamicMarkup(data.keywordGlossary ? `<game-text:${part}>` : part)}</span>`).join('<b aria-hidden="true">+</b>')}</div>`
-                : `<p class="conditional-trigger"><b>발동:</b> ${dynamicMarkup(data.keywordGlossary ? `<game-text:${trigger}>` : trigger)}</p>`;
+                ? `<div class="condition-chain" aria-label="전환 조건">${conditionParts.map(part => `<span>${dynamicMarkup(data.keywordGlossary ? `<game-text:${part}>` : part)}</span>`).join('<b aria-hidden="true">+</b>')}</div>`
+                : `<p class="conditional-trigger">${dynamicMarkup(data.keywordGlossary ? `<game-text:${trigger}>` : trigger)}</p>`;
             return `<article class="conditional-action">
                 ${renderIntentIcon(skill)}
                 <div class="conditional-action-copy">
-                    <header><strong>${escapeHtml(action.displayName || replacementName || skill?.name || '조건부 행동')}</strong><span>발동 조건</span></header>
+                    <header><strong>${escapeHtml(action.displayName || replacementName || skill?.name || '조건부 행동')}</strong></header>
                     ${conditionMarkup}
                     <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
                 </div>
             </article>`;
         }).join('');
-        return `<section class="conditional-actions" aria-label="패턴(의도) 변경 조건"><h5 class="section-label">패턴(의도) 변경 조건</h5>${cards}</section>`;
+        return `<section class="conditional-actions" aria-label="조건부 패턴 전환"><h5 class="section-label">조건부 패턴 전환</h5>${cards}</section>`;
     }
 
     function renderRules(monster, stats) {
