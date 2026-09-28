@@ -10,6 +10,9 @@
         6: { src: 'images/dzone/grades/ui_story_confuse_6.png', width: 84, height: 82 },
         7: { src: 'images/dzone/grades/ui_story_confuse_7.png', width: 84, height: 66 }
     });
+    const CONFUSE_GRADE_BY_SEASON = Object.freeze({
+        70: Object.freeze({ 7: 4 })
+    });
     const MONSTER_TAGS = Object.freeze({
         84277: { label: '지배자' },
         84280: { label: '조각가 협회', counters: [{ id: '24', name: '「24」', image: 'images/24-thumb.png', effect: "｢24｣가 입히는 기본 피해가 20 ~ 50% 증가하며, '조각가 협회' 적에게 입히는 최종 피해가 20 ~ 70% 증가한다." }] },
@@ -1170,6 +1173,8 @@
         const stageName = String(difficulty?.stageNameKo || '');
         const confuse = stageName.match(/@([1-7])(?:\D|$)/);
         if (confuse) return { type: 'sprite', value: Number(confuse[1]) };
+        const verifiedSprite = CONFUSE_GRADE_BY_SEASON[data?.period]?.[difficulty?.alert];
+        if (verifiedSprite) return { type: 'sprite', value: verifiedSprite };
         const text = stageName.match(/위험 등급\s+(.+)$/)?.[1]?.trim();
         return text ? { type: 'text', value: text } : null;
     }

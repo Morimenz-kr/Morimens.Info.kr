@@ -675,6 +675,7 @@ test('70기 급수는 인게임 위험 등급과 특수 문양을 숫자 급수�
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
     }
     assert.match(source, /function gameGrade\(difficulty\)/);
+    assert.match(source, /70: Object\.freeze\(\{ 7: 4 \}\)/);
     assert.match(source, /위험 등급\\s\+\(\.\+\)\$/);
     assert.match(source, /stageName\.match\(\/@\(\[1-7\]\)/);
     assert.match(source, /function renderDifficultyBadge\(difficulty\)/);
