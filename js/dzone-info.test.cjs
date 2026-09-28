@@ -32,7 +32,7 @@ test('현재 D-Zone 용어와 패턴 변경 제목을 공식 표기로 표시한
     assert.doesNotMatch(source, /의도 교체 규칙/);
 });
 
-test('3파 원문 의도명은 한 카드에서 보존하고 허기·굶주림은 같은 상태로 연결한다', () => {
+test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기·굶주림은 같은 상태로 연결한다', () => {
     const wave = currentDzoneData.waves.find(item => item.wave === 3);
     const monster = wave.monsters.find(item => item.tid === 140713);
     const success = monster.conditionalActions.find(action => action.skillId === 140765);
@@ -41,7 +41,7 @@ test('3파 원문 의도명은 한 카드에서 보존하고 허기·굶주림�
     assert.equal(success.judgement, failure.judgement);
     assert.match(success.conditionText, /허약 또는 취약 보유/);
     assert.match(failure.conditionText, /허약·취약 없음/);
-    assert.match(source, /skillId:\s*140767/);
+    assert.match(source, /action\.commandId === 140768 && \[140765, 140766\]\.includes\(action\.skillId\)/);
 
     for (const alert of wave.alerts) {
         const stats = alert.monsters.find(item => item.tid === 140713);
@@ -69,11 +69,9 @@ test('3파 원문 의도명은 한 카드에서 보존하고 허기·굶주림�
     });
     vm.runInContext(source.slice(source.indexOf('    function renderConditionalActions('), source.indexOf('    function renderRules(')), context);
     const rendered = context.renderConditionalActions(monster, stats);
-    assert.equal((rendered.match(/<article /g) || []).length, 2);
-    assert.equal((rendered.match(/<strong>자ｸ극kQ 반응<\/strong>/g) || []).length, 1);
-    assert.match(rendered, /전이에 성공하면 손실된 HP의 10%를 회복/);
-    assert.match(rendered, /실패하면 712의 데미지/);
-    assert.doesNotMatch(rendered, /전이 (?:성공|실패)<\/strong>/);
+    assert.equal((rendered.match(/<article /g) || []).length, 1);
+    assert.doesNotMatch(rendered, /자ｸ극kQ 반응|전이에 성공하면|실패하면 712의 데미지/);
+    assert.match(rendered, /<span>발동 조건<\/span>/);
 
     const transition = monster.phaseTransitions.find(item => item.phaseIndex === 2);
     const transitionContext = vm.createContext({
@@ -86,6 +84,12 @@ test('3파 원문 의도명은 한 카드에서 보존하고 허기·굶주림�
     assert.match(transitionHtml, /<kw_[a-f0-9]{16}:허기> 1층/);
     assert.match(transitionHtml, /막히지 않은 데미지를 가할 때 소환 시의 최대 HP 2%만큼 방어막/);
     assert.doesNotMatch(transitionHtml, /2%\(|포인트의|방어막를/);
+});
+
+test('조건 개수와 관계없이 조건부 행동 배지는 발동 조건으로 통일한다', () => {
+    assert.match(source, /<span>발동 조건<\/span>/);
+    assert.match(source, /condition-chain" aria-label="발동 조건"/);
+    assert.doesNotMatch(source, /<span>\$\{conditionParts\.length > 1 \? '모든 조건 충족' : '조건부'\}<\/span>/);
 });
 
 test('70기 7급 공식 스테이지명에 미해결 텍스트 키가 남지 않는다', () => {
@@ -736,7 +740,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.89-dzone-hunger-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.90-dzone-condition-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));

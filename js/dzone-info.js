@@ -617,24 +617,10 @@
         const actions = candidates.filter(action => !(action.triggerEvents?.includes('BSTAfterIntentionChanged')
             && String(action.judgement).replace(/\s/g, '') === `TriggerValue2~=${action.skillId}`
             && candidates.some(other => other !== action && other.skillId === action.skillId
-                && other.triggerEvents?.includes('BSTRoleBeforeDeath'))));
+                && other.triggerEvents?.includes('BSTRoleBeforeDeath')))
+            && !(action.commandId === 140768 && [140765, 140766].includes(action.skillId)));
         if (!actions.length) return '';
-        const hasReactionSuccess = actions.some(action => action.commandId === 140768 && action.skillId === 140765);
-        const hasReactionFailure = actions.some(action => action.commandId === 140768 && action.skillId === 140766);
-        let reactionDisplayed = false;
-        const displayedActions = actions.flatMap(action => {
-            const isReactionBranch = action.commandId === 140768 && [140765, 140766].includes(action.skillId);
-            if (!isReactionBranch || !hasReactionSuccess || !hasReactionFailure) return [action];
-            if (reactionDisplayed) return [];
-            reactionDisplayed = true;
-            const reactionName = skillById(monster, 140767)?.name || '자ｸ극kQ 반응';
-            return [{
-                ...action,
-                skillId: 140767,
-                conditionText: `의도가 변경된 직후 · 「${reactionName}」 의도로 전환할 때`
-            }];
-        });
-        const cards = displayedActions.map(action => {
+        const cards = actions.map(action => {
             const skill = skillById(monster, action.skillId);
             const resolved = stats.resolvedSkills?.[String(action.skillId)];
             const resolvedState = stats.resolvedStates?.find(state => state.id === action.stateId);
@@ -652,12 +638,12 @@
             const trigger = stateName ? `${stateLabel} 보유 중 · ${condition}` : condition;
             const conditionParts = condition.split(/\s*·\s*/).filter(Boolean);
             const conditionMarkup = conditionParts.length > 1
-                ? `<div class="condition-chain" aria-label="모든 조건 충족">${conditionParts.map(part => `<span>${dynamicMarkup(data.keywordGlossary ? `<game-text:${part}>` : part)}</span>`).join('<b aria-hidden="true">+</b>')}</div>`
+                ? `<div class="condition-chain" aria-label="발동 조건">${conditionParts.map(part => `<span>${dynamicMarkup(data.keywordGlossary ? `<game-text:${part}>` : part)}</span>`).join('<b aria-hidden="true">+</b>')}</div>`
                 : `<p class="conditional-trigger"><b>발동:</b> ${dynamicMarkup(data.keywordGlossary ? `<game-text:${trigger}>` : trigger)}</p>`;
             return `<article class="conditional-action">
                 ${renderIntentIcon(skill)}
                 <div class="conditional-action-copy">
-                    <header><strong>${escapeHtml(action.displayName || replacementName || skill?.name || '조건부 행동')}</strong><span>${conditionParts.length > 1 ? '모든 조건 충족' : '조건부'}</span></header>
+                    <header><strong>${escapeHtml(action.displayName || replacementName || skill?.name || '조건부 행동')}</strong><span>발동 조건</span></header>
                     ${conditionMarkup}
                     <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
                 </div>
