@@ -127,7 +127,7 @@
 .dzone-filter-label {
     flex: 0 0 4.5rem;
     color: #d9dade;
-    font-size: 0.82rem;
+    font-size: 0.84rem;
     font-weight: 800;
 }
 
@@ -219,8 +219,8 @@
 
 .dzone-grade-mark--text {
     color: #f2dca5;
-    font-size: 0.9rem;
-    line-height: 1;
+    font-size: 1rem;
+    line-height: normal;
 }
 
 .dzone-grade-mark--sprite {
@@ -262,7 +262,7 @@
 
 .dzone-mechanic-nav-label {
     color: #d9dade;
-    font-size: 0.78rem;
+    font-size: 0.84rem;
     font-weight: 800;
 }
 
