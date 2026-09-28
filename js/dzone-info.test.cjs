@@ -670,6 +670,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.83-dzone-grade-icons-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
