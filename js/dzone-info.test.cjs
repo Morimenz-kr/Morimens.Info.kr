@@ -22,6 +22,16 @@ const dzoneMaps69 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data'
 const dzoneMaps68 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season68.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 
+test('현재 D-Zone 용어와 패턴 변경 제목을 공식 표기로 표시한다', () => {
+    const serialized = JSON.stringify(currentDzoneData);
+    assert.match(serialized, /명령카드/);
+    assert.match(serialized, /고정 중독/);
+    assert.match(serialized, /고정 반격/);
+    assert.doesNotMatch(serialized, /커맨드 카드|잠금 중독|잠금 반격/);
+    assert.match(source, /패턴\(의도\) 변경 조건/);
+    assert.doesNotMatch(source, /의도 교체 규칙/);
+});
+
 test('70기 7급 공식 스테이지명에 미해결 텍스트 키가 남지 않는다', () => {
     assert.equal(currentDzoneData.period, 70);
     assert.equal(currentDzoneData.waves.length, 5);
@@ -670,7 +680,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.86-dzone-grade-alignment-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.87-dzone-terms-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));

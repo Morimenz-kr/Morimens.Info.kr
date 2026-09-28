@@ -640,7 +640,7 @@
                 </div>
             </article>`;
         }).join('');
-        return `<section class="conditional-actions" aria-label="의도 교체 규칙"><h5 class="section-label">의도 교체 규칙</h5>${cards}</section>`;
+        return `<section class="conditional-actions" aria-label="패턴(의도) 변경 조건"><h5 class="section-label">패턴(의도) 변경 조건</h5>${cards}</section>`;
     }
 
     function renderRules(monster, stats) {
