@@ -210,7 +210,6 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
     min-width: 0;
 }
 
@@ -234,11 +233,6 @@
 
 .alert-button[aria-pressed="true"] .dzone-grade-mark--text {
     color: #4b3108;
-}
-
-.dzone-grade-number {
-    flex: 0 0 auto;
-    font-size: 0.78rem;
 }
 
 .alert-button:hover,
@@ -1316,7 +1310,6 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
     .alert-button,
     .wave-button { padding-inline: 0.65rem; }
     .alert-selector.is-compact .alert-button { min-width: 3.35rem; padding-inline: 0.4rem; }
-    .dzone-grade-badge { gap: 0.25rem; }
     .dzone-grade-mark--sprite { height: 1.1rem; max-width: min(5.5rem, 42vw); }
     .dzone-page-shell { padding-inline: 0.65rem; }
     .dzone-hero { border-radius: 0.8rem; }

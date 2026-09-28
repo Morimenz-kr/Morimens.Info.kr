@@ -1192,18 +1192,16 @@
 
     function selectedDifficultyLabel(difficulty) {
         if (data?.period >= 70) {
-            const numeric = `${difficulty?.alert ?? selectedAlert}급`;
             const grade = gameGrade(difficulty);
-            if (!grade) return numeric;
-            return grade.type === 'text' ? `${numeric} (위험 등급 ${grade.value})` : `${numeric} (인게임 특수 등급 문양)`;
+            if (!grade) return '위험 등급';
+            return grade.type === 'text' ? `위험 등급 ${grade.value}` : '인게임 특수 등급 문양';
         }
         return difficulty?.difficultyLabel || `경보 ${difficulty?.alert ?? selectedAlert}급`;
     }
 
     function renderDifficultyBadge(difficulty) {
-        const numeric = `${difficulty?.alert ?? selectedAlert}급`;
         if (data?.period < 70) return escapeHtml(selectedDifficultyLabel(difficulty));
-        return `<span class="dzone-grade-badge">${renderGameGrade(difficulty)}<span class="dzone-grade-number">${escapeHtml(numeric)}</span></span>`;
+        return `<span class="dzone-grade-badge">${renderGameGrade(difficulty)}</span>`;
     }
 
     function renderWave(wave) {

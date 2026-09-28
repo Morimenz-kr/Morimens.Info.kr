@@ -669,7 +669,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
     assert.match(html, /id="selection-status" class="dzone-visually-hidden"/);
 });
 
-test('70기 급수는 인게임 위험 등급과 특수 문양을 숫자 급수에 병기한다', () => {
+test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
@@ -681,6 +681,7 @@ test('70기 급수는 인게임 위험 등급과 특수 문양을 숫자 급수�
     assert.match(source, /function renderDifficultyBadge\(difficulty\)/);
     assert.match(source, /dzone-grade-mark--sprite/);
     assert.match(source, /인게임 특수 등급 문양/);
+    assert.doesNotMatch(source, /class="dzone-grade-number"/);
     assert.match(css, /\.dzone-grade-badge\s*\{[^}]*display:\s*inline-flex/);
     assert.match(css, /\.dzone-grade-mark--sprite\s*\{[^}]*max-width:\s*min\(7rem, 30vw\)/);
 });
