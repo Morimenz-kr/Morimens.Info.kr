@@ -64,7 +64,7 @@
         const parameters = new Map((relic.parameters || []).map(parameter => [parameter.index, parameter]));
         const notes = new Set();
         const description = String(relic.battleDescription || relic.description || '효과 설명이 없습니다.')
-            .replace(/\[(?:[A-Za-z]+:)?Arg\s?(\d+)\]/g, (match, index) => {
+            .replace(/\[\s*(?:[A-Za-z]+\s*:\s*)?Arg\s*(\d+)\s*\]/g, (match, index) => {
                 const parameter = parameters.get(Number(index));
                 if (!parameter) return '';
                 const display = parameterDisplay(parameter, depth);

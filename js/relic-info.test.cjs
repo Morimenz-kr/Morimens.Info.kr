@@ -2,8 +2,29 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
+const relicSource = fs.readFileSync(path.join(root, 'js/relic-info.js'), 'utf8');
+const relicCatalog = JSON.parse(fs.readFileSync(path.join(root, 'data/relic_catalog.json'), 'utf8'));
+
+async function createRelicDescriptionContext() {
+    const levels = JSON.parse(fs.readFileSync(path.join(root, 'data/research_depth_levels.json'), 'utf8'));
+    const context = vm.createContext({
+        window: {},
+        localStorage: { getItem: () => null, setItem: () => {} },
+        fetch: async () => ({ ok: true, json: async () => levels }),
+        number: new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 2 }),
+        Intl,
+        Math,
+        Number
+    });
+    vm.runInContext(fs.readFileSync(path.join(root, 'js/research-depth.js'), 'utf8'), context);
+    await context.window.ResearchDepth.load();
+    vm.runInContext(relicSource.slice(relicSource.indexOf('    function percent('), relicSource.indexOf('    function filterTier(')), context);
+    context.depth = context.window.ResearchDepth.depthAt(81);
+    return context;
+}
 
 test('유물 목록은 아이콘과 이름만 노출하고 상세 정보는 dialog에 표시한다', () => {
     const html = fs.readFileSync(path.join(root, 'relic_info.html'), 'utf8');
@@ -64,4 +85,21 @@ test('전투 중 가변 수치는 기본값과 변동 원인을 함께 표시한
     assert.match(source, /전투 중 중독 증가 효과에 따라 함께 증가합니다/);
     assert.match(source, /팀 피해 증폭 0%, 이번 전투 은열쇠 사용 0회 기준/);
     assert.match(source, /GetStagePower/);
+});
+
+test('모든 유물 변형의 효과 수치는 Heal 표식을 포함해 미해결 Arg 없이 표시한다', async () => {
+    const context = await createRelicDescriptionContext();
+    for (const relic of relicCatalog.relics) {
+        for (const variant of relic.variants) {
+            context.variant = variant;
+            const description = vm.runInContext('resolvedDescription(variant, depth)', context);
+            assert.doesNotMatch(description, /(?:StateArg|DescArg|Arg)\s*\d+/i, `${relic.name} / ${variant.name}`);
+        }
+    }
+
+    for (const id of [70738, 70727, 98381, 98415]) {
+        const variant = relicCatalog.relics.flatMap(relic => relic.variants).find(item => item.id === id);
+        context.variant = variant;
+        assert.doesNotMatch(vm.runInContext('resolvedDescription(variant, depth)', context), /Heal\s*:/);
+    }
 });
