@@ -611,7 +611,22 @@
             && candidates.some(other => other !== action && other.skillId === action.skillId
                 && other.triggerEvents?.includes('BSTRoleBeforeDeath'))));
         if (!actions.length) return '';
-        const cards = actions.map(action => {
+        const hasReactionSuccess = actions.some(action => action.commandId === 140768 && action.skillId === 140765);
+        const hasReactionFailure = actions.some(action => action.commandId === 140768 && action.skillId === 140766);
+        let reactionDisplayed = false;
+        const displayedActions = actions.flatMap(action => {
+            const isReactionBranch = action.commandId === 140768 && [140765, 140766].includes(action.skillId);
+            if (!isReactionBranch || !hasReactionSuccess || !hasReactionFailure) return [action];
+            if (reactionDisplayed) return [];
+            reactionDisplayed = true;
+            return [{
+                ...action,
+                skillId: 140767,
+                displayName: '자극 반응',
+                conditionText: '의도가 변경된 직후 · 「자극 반응」 의도로 전환할 때'
+            }];
+        });
+        const cards = displayedActions.map(action => {
             const skill = skillById(monster, action.skillId);
             const resolved = stats.resolvedSkills?.[String(action.skillId)];
             const resolvedState = stats.resolvedStates?.find(state => state.id === action.stateId);
@@ -634,7 +649,7 @@
             return `<article class="conditional-action">
                 ${renderIntentIcon(skill)}
                 <div class="conditional-action-copy">
-                    <header><strong>${escapeHtml(replacementName || skill?.name || '조건부 행동')}</strong><span>${conditionParts.length > 1 ? '모든 조건 충족' : '조건부'}</span></header>
+                    <header><strong>${escapeHtml(action.displayName || replacementName || skill?.name || '조건부 행동')}</strong><span>${conditionParts.length > 1 ? '모든 조건 충족' : '조건부'}</span></header>
                     ${conditionMarkup}
                     <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
                 </div>

@@ -32,6 +32,47 @@ test('현재 D-Zone 용어와 패턴 변경 제목을 공식 표기로 표시한
     assert.doesNotMatch(source, /의도 교체 규칙/);
 });
 
+test('3파 자극 반응은 한 카드에서 전이 성공·실패 결과를 설명하고 수치를 오해 없이 표시한다', () => {
+    const wave = currentDzoneData.waves.find(item => item.wave === 3);
+    const monster = wave.monsters.find(item => item.tid === 140713);
+    const success = monster.conditionalActions.find(action => action.skillId === 140765);
+    const failure = monster.conditionalActions.find(action => action.skillId === 140766);
+    assert.equal(success.commandId, failure.commandId);
+    assert.equal(success.judgement, failure.judgement);
+    assert.match(success.conditionText, /허약 또는 취약 보유/);
+    assert.match(failure.conditionText, /허약·취약 없음/);
+    assert.match(source, /skillId:\s*140767/);
+
+    for (const alert of wave.alerts) {
+        const stats = alert.monsters.find(item => item.tid === 140713);
+        assert.match(stats.resolvedSkills['140765'].description, /손실된 HP의 10%를 회복.*굶주림 1층/);
+        assert.doesNotMatch(stats.resolvedSkills['140765'].description, /\(0\)|데미지/);
+        assert.match(stats.resolvedSkills['140766'].description, /^[\d,]+의 데미지.*굶주림 2층/);
+    }
+
+    const hunger = Object.values(currentDzoneData.keywordGlossary).filter(item => item.source.id === 140727);
+    assert.ok(hunger.length > 0);
+    for (const item of hunger) {
+        assert.match(item.description, /굶주림이 5층.*굶주림을 소모.*강공격.*[\d,]+의 힘/);
+        assert.doesNotMatch(item.description, /허기이|허기을|\d+\.\d+의 힘/);
+    }
+
+    const stats = wave.alerts.find(alert => alert.alert === 4).monsters.find(item => item.tid === 140713);
+    const context = vm.createContext({
+        data: currentDzoneData, number: new Intl.NumberFormat('ko-KR'),
+        escapeHtml: String, gameText: String, politeText: String, dynamicMarkup: String,
+        renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id),
+        isFoldedReplacementAction: () => false
+    });
+    vm.runInContext(source.slice(source.indexOf('    function renderConditionalActions('), source.indexOf('    function renderRules(')), context);
+    const rendered = context.renderConditionalActions(monster, stats);
+    assert.equal((rendered.match(/<article /g) || []).length, 2);
+    assert.equal((rendered.match(/<strong>자극 반응<\/strong>/g) || []).length, 1);
+    assert.match(rendered, /전이에 성공하면 손실된 HP의 10%를 회복/);
+    assert.match(rendered, /실패하면 712의 데미지/);
+    assert.doesNotMatch(rendered, /자극 반응 · 전이 (?:성공|실패)/);
+});
+
 test('70기 7급 공식 스테이지명에 미해결 텍스트 키가 남지 않는다', () => {
     assert.equal(currentDzoneData.period, 70);
     assert.equal(currentDzoneData.waves.length, 5);
@@ -680,7 +721,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.87-dzone-terms-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.88-dzone-reaction-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
