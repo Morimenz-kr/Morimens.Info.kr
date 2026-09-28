@@ -10424,7 +10424,7 @@
         {
           "alert": 7,
           "stageId": 153180,
-          "stageNameKo": "제1금지구역·@4",
+          "stageNameKo": "제1금지구역",
           "stageMonsterDataId": 153324,
           "standardRows": [
             {
@@ -25665,7 +25665,7 @@
         {
           "alert": 7,
           "stageId": 153176,
-          "stageNameKo": "제2금지구역·@4",
+          "stageNameKo": "제2금지구역",
           "stageMonsterDataId": 153325,
           "standardRows": [
             {
@@ -30689,7 +30689,7 @@
         {
           "alert": 7,
           "stageId": 153182,
-          "stageNameKo": "제3금지구역·@4",
+          "stageNameKo": "제3금지구역",
           "stageMonsterDataId": 153348,
           "standardRows": [
             {
@@ -44449,7 +44449,7 @@
         {
           "alert": 7,
           "stageId": 153184,
-          "stageNameKo": "제4금지구역·@4",
+          "stageNameKo": "제4금지구역",
           "stageMonsterDataId": 153319,
           "standardRows": [
             {
@@ -63420,7 +63420,7 @@
         {
           "alert": 7,
           "stageId": 153179,
-          "stageNameKo": "제5금지구역·@4",
+          "stageNameKo": "제5금지구역",
           "stageMonsterDataId": 153368,
           "standardRows": [
             {
