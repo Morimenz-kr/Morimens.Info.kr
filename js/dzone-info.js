@@ -508,10 +508,18 @@
         if (transition.rebirth) effects.push('쓰러지면 부활');
         if (transition.maxHpMultiplier) effects.push(`최대 HP ${transition.maxHpMultiplier}배로 증가`);
         if (transition.healsToMax) effects.push('증가한 최대 HP까지 회복');
+        const stateKeywordMarkup = (state, markup) => {
+            if (state.id !== 140728 || /<kw_[a-f0-9]{16}:허기>/.test(markup || '')) return markup;
+            const expectedForce = Math.ceil(Number(stats?.attack || 0) * 0.05);
+            const entry = Object.entries(data.keywordGlossary || {}).find(([, item]) =>
+                item.source?.type === 'State' && item.source.id === 140727 && item.name === '허기'
+                && (!expectedForce || item.description.includes(`${number.format(expectedForce)}의 힘`)));
+            return entry ? String(markup).replace('허기', `<${entry[0]}:허기>`) : markup;
+        };
         const stateItems = (transition.addedStates || [])
             .map(state => transition.displayStateReplacements?.[String(state.id)] || state)
             .filter(state => state.visible && (state.name || state.descriptionTemplate))
-            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(state.richDescriptionTemplate || state.descriptionTemplate)}` : ''}</span></li>`)
+            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(stateKeywordMarkup(state, state.richDescriptionTemplate || state.descriptionTemplate))}` : ''}</span></li>`)
             .join('');
         const cards = (transition.createdCards || []).map(card => `
             <article class="phase-card">
@@ -619,11 +627,11 @@
             if (!isReactionBranch || !hasReactionSuccess || !hasReactionFailure) return [action];
             if (reactionDisplayed) return [];
             reactionDisplayed = true;
+            const reactionName = skillById(monster, 140767)?.name || '자ｸ극kQ 반응';
             return [{
                 ...action,
                 skillId: 140767,
-                displayName: '자극 반응',
-                conditionText: '의도가 변경된 직후 · 「자극 반응」 의도로 전환할 때'
+                conditionText: `의도가 변경된 직후 · 「${reactionName}」 의도로 전환할 때`
             }];
         });
         const cards = displayedActions.map(action => {
