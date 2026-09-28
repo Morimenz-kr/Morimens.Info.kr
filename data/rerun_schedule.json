@@ -832,6 +832,16 @@
       "start_date": "2026-08-24",
       "end_date": "2026-09-21",
       "kind": "release"
+    },
+    {
+      "id": "GOgier",
+      "name": "서약·오지에",
+      "start_date": "2026-09-21",
+      "start_time": "10:00",
+      "end_date": "2026-10-19",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "release"
     }
   ],
   "next_pickups": [
