@@ -14,6 +14,17 @@ test('generated rendering escapes labels and restricts image paths', () => {
     assert.match(output, /&lt;script&gt;/);
     assert.doesNotMatch(output, /<img|style=/);
 });
+test('generated state references render verified original and state-card icons inline', () => {
+    const original = render(`<game-text:<${key}:임시 봉인>>`, {
+        [key]: { icon: 'images/keyword-icons/original/icons_buff_073.png' }
+    });
+    const stateCard = render(`<game-text:<${key}:상처>>`, {
+        [key]: { icon: 'images/dzone/cards/portrait_card_state_skull.png' }
+    });
+    assert.match(original, /class="tooltip-trigger keyword-iconized"/);
+    assert.match(original, /src="images\/keyword-icons\/original\/icons_buff_073\.png"/);
+    assert.match(stateCard, /src="images\/dzone\/cards\/portrait_card_state_skull\.png"/);
+});
 test('missing reference is an error, never a fallback to a same-named keyword', () => {
     assert.throws(() => render(`<game-text:<${key}:죽음 저항>>`, {}), /Missing generated tooltip/);
 });

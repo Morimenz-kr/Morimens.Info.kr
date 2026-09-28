@@ -510,15 +510,52 @@
         let tooltipPinned = false;
 
         function showTooltip(trigger, pinned = false) {
-            const description = tooltipDictionary[trigger.dataset.keyword];
-            if (!description) return;
+            const tooltip = tooltipDictionary[trigger.dataset.keyword];
+            if (!tooltip) return;
 
             tooltipPinned = pinned;
             tooltipBox.replaceChildren();
+            const description = typeof tooltip === 'object' ? tooltip.description : tooltip;
             const lines = String(description).split('\n');
             const hasListItems = lines.some(line => /^\s*-\s+/.test(line));
 
-            if (hasListItems) {
+            if (typeof tooltip === 'object' && tooltip.name && tooltip.category) {
+                const heading = document.createElement('div');
+                heading.className = 'character-effect-tooltip-heading';
+                if (tooltip.icon) {
+                    const icon = document.createElement('img');
+                    icon.className = 'character-effect-tooltip-icon';
+                    icon.src = tooltip.icon;
+                    icon.alt = '';
+                    icon.setAttribute('aria-hidden', 'true');
+                    heading.appendChild(icon);
+                }
+                const identity = document.createElement('div');
+                identity.className = 'character-effect-tooltip-identity';
+                const category = document.createElement('span');
+                category.className = 'character-effect-tooltip-category';
+                category.textContent = tooltip.category;
+                const title = document.createElement('strong');
+                title.className = 'character-effect-tooltip-title';
+                title.textContent = tooltip.name;
+                identity.append(category, title);
+                heading.appendChild(identity);
+                if (tooltip.cost !== undefined && tooltip.cost !== null && String(tooltip.cost).trim()) {
+                    const cost = document.createElement('span');
+                    cost.className = 'character-effect-tooltip-cost';
+                    cost.textContent = `산출력 ${tooltip.cost}`;
+                    heading.appendChild(cost);
+                }
+                tooltipBox.appendChild(heading);
+
+                const body = String(description).split(/\n{2,}/).slice(1).join('\n\n').trim();
+                if (body) {
+                    const bodyElement = document.createElement('p');
+                    bodyElement.className = 'character-effect-tooltip-body';
+                    bodyElement.textContent = body;
+                    tooltipBox.appendChild(bodyElement);
+                }
+            } else if (hasListItems) {
                 const list = document.createElement('ul');
                 list.className = 'character-effect-tooltip-list';
                 let parentItem = null;

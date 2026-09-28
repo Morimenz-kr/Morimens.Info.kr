@@ -811,6 +811,30 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
 .monster-stat dd { margin: 0.18rem 0 0; color: #f2f2f3; font-size: 0.93rem; font-weight: 800; overflow-wrap: anywhere; }
 .monster-stat--hp dd { color: #ff9b9f; }
 
+.summon-scaling-note {
+    display: flex;
+    width: fit-content;
+    max-width: 100%;
+    margin: -0.2rem var(--monster-content-inset) 0;
+    padding: 0.38rem 0.58rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.24rem 0.5rem;
+    border: 1px solid rgba(119, 166, 181, 0.28);
+    border-radius: 0.5rem;
+    background: rgba(73, 112, 124, 0.1);
+    color: #c6cbd0;
+    font-size: 0.74rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.summon-scaling-note strong {
+    color: #9fc7d3;
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+}
+
 .monster-heading-tags {
     display: inline-flex;
     flex-wrap: wrap;
@@ -1200,6 +1224,7 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
 .conditional-action-copy strong { color: #ffd5d7; font-size: 0.84rem; }
 .conditional-action-copy p { margin: 0.3rem 0 0; color: #c5c0c3; font-size: 0.77rem; line-height: 1.55; overflow-wrap: anywhere; }
 .conditional-action-copy .conditional-trigger { color: #e8b9bc; }
+.conditional-action-copy .conditional-transition-outcome { color: #e7d4a3; font-weight: 700; }
 .conditional-action-copy .dynamic { color: #e6b961; font-weight: 700; }
 
 .monster-rules {

@@ -174,12 +174,19 @@
         { label: '동결', terms: ['동결', '빙결'] },
         { label: '인지착란', terms: ['인지착란'] }
     ]);
+    const STATE_CARD_ICON = 'images/dzone/cards/portrait_card_state_skull.png';
+    const stateCardTooltip = (name, description) => Object.freeze({
+        name,
+        category: '상태 카드',
+        icon: STATE_CARD_ICON,
+        description
+    });
     const DZONE_CARD_TOOLTIPS = Object.freeze({
-        '「상처」': '상태 카드 | 상처\n\n사용 시 순수 피해를 받고 카드 1장을 드로우합니다.',
-        '「비틀거림」': '상태 카드 | 비틀거림\n\n산출력 2를 소모해 사용할 수 있으며, 별도의 사용 효과는 없습니다.',
-        '「질식」': '상태 카드 | 질식\n\n산출력 1을 소모합니다. 턴 종료 시 손에 남아 있으면 중독을 획득합니다.',
-        '「다이얼 폭탄」': '상태 카드 | 다이얼 폭탄\n\n손에 있는 동안 이 카드와 산출력 소모가 같은 카드를 사용하면 최대 HP의 8%만큼 순수 피해를 받고, 다른 소모값의 다이얼 폭탄으로 변합니다. 사용 후 산출력 소모와 같은 수만큼 카드를 드로우합니다.',
-        '「다이얼식 폭탄」': '상태 카드 | 다이얼 폭탄\n\n손에 있는 동안 이 카드와 산출력 소모가 같은 카드를 사용하면 최대 HP의 8%만큼 순수 피해를 받고, 다른 소모값의 다이얼 폭탄으로 변합니다. 사용 후 산출력 소모와 같은 수만큼 카드를 드로우합니다.',
+        '「상처」': stateCardTooltip('상처', '사용 시 순수 피해를 받고 카드 1장을 드로우합니다.'),
+        '「비틀거림」': stateCardTooltip('비틀거림', '산출력 2를 소모해 사용할 수 있으며, 별도의 사용 효과는 없습니다.'),
+        '「질식」': stateCardTooltip('질식', '산출력 1을 소모합니다. 턴 종료 시 손에 남아 있으면 중독을 획득합니다.'),
+        '「다이얼 폭탄」': stateCardTooltip('다이얼 폭탄', '손에 있는 동안 이 카드와 산출력 소모가 같은 카드를 사용하면 최대 HP의 8%만큼 순수 피해를 받고, 다른 소모값의 다이얼 폭탄으로 변합니다. 사용 후 산출력 소모와 같은 수만큼 카드를 드로우합니다.'),
+        '「다이얼식 폭탄」': stateCardTooltip('다이얼 폭탄', '손에 있는 동안 이 카드와 산출력 소모가 같은 카드를 사용하면 최대 HP의 8%만큼 순수 피해를 받고, 다른 소모값의 다이얼 폭탄으로 변합니다. 사용 후 산출력 소모와 같은 수만큼 카드를 드로우합니다.'),
         '증상: 쇠약': '증상 카드 | 쇠약\n\n턴 종료 시 손에 있으면 자신에게 허약을 1턴간 부여합니다. 사용하면 모든 적에게 허약을 1턴간 부여합니다.',
         '증상: 낙담': '증상 카드 | 낙담\n\n최대 HP의 10%만큼 실드를 획득합니다. 드로우하면 모든 각성체가 광기 3을 잃습니다.',
         '증상: 의심': '증상 카드 | 의심\n\n드로우한 턴에 카드를 3장 이하로 사용하면 다음 턴 시작 시 산출력 2를 추가로 획득합니다.',
@@ -510,10 +517,8 @@
         if (transition.healsToMax) effects.push('증가한 최대 HP까지 회복');
         const stateKeywordMarkup = (state, markup) => {
             if (state.id !== 140728 || /<kw_[a-f0-9]{16}:허기>/.test(markup || '')) return markup;
-            const expectedForce = Math.ceil(Number(stats?.attack || 0) * 0.05);
             const entry = Object.entries(data.keywordGlossary || {}).find(([, item]) =>
-                item.source?.type === 'State' && item.source.id === 140727 && item.name === '허기'
-                && (!expectedForce || item.description.includes(`${number.format(expectedForce)}의 힘`)));
+                item.source?.type === 'State' && item.source.id === 140727 && item.name === '허기');
             return entry ? String(markup).replace('허기', `<${entry[0]}:허기>`) : markup;
         };
         const stateItems = (transition.addedStates || [])
@@ -640,11 +645,39 @@
             const conditionMarkup = conditionParts.length > 1
                 ? `<div class="condition-chain" aria-label="전환 조건">${conditionParts.map(part => `<span>${dynamicMarkup(data.keywordGlossary ? `<game-text:${part}>` : part)}</span>`).join('<b aria-hidden="true">+</b>')}</div>`
                 : `<p class="conditional-trigger">${dynamicMarkup(data.keywordGlossary ? `<game-text:${trigger}>` : trigger)}</p>`;
+            const resolveEffectValue = expression => {
+                const source = String(expression || '').replace(/\s+/g, '');
+                if (/^\d+(?:\.\d+)?$/.test(source)) return Math.ceil(Number(source));
+                const attack = source.match(/^(?:UpperTarget|CmdCaster|StateOwner)\.atk\*(\d*\.?\d+)$/);
+                if (attack && Number.isFinite(Number(stats?.attack))) {
+                    return Math.ceil(Number(stats.attack) * Number(attack[1]));
+                }
+                return null;
+            };
+            const transitionEffects = action.transitionEffects || [];
+            const outcomeParts = [
+                ...transitionEffects.filter(effect => effect.type === 'removeState')
+                    .map(effect => `${effect.stateName || '상태'} 전부 소모`),
+                ...transitionEffects.filter(effect => effect.type === 'addState').map(effect => {
+                    const value = resolveEffectValue(effect.valueExpression);
+                    return `${effect.stateName || '상태'}${value === null ? '' : ` ${number.format(value)}`} 획득`;
+                }),
+                ...(transitionEffects.length && skill?.name ? [`다음 의도 「${skill.name}」`] : [])
+            ];
+            const hungerForce = action.commandId === 140824
+                ? resolveEffectValue(transitionEffects.find(effect => effect.type === 'addState' && effect.stateId === 2900)?.valueExpression)
+                : null;
+            const outcomeMarkup = action.commandId === 140824 && hungerForce !== null
+                ? `<p class="conditional-transition-outcome">허기를 전부 소모해 힘을 ${number.format(hungerForce)} 획득하고, 의도를 약탈로 전환합니다.</p>`
+                : (outcomeParts.length
+                    ? `<p class="conditional-transition-outcome">${outcomeParts.map(escapeHtml).join(' · ')}</p>`
+                    : '');
             return `<article class="conditional-action">
                 ${renderIntentIcon(skill)}
                 <div class="conditional-action-copy">
                     <header><strong>${escapeHtml(action.displayName || replacementName || skill?.name || '조건부 행동')}</strong></header>
                     ${conditionMarkup}
+                    ${outcomeMarkup}
                     <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
                 </div>
             </article>`;
@@ -781,6 +814,27 @@
         return `<section class="hp-breakdown" aria-label="HP ${phaseCount}줄"><header><h5>HP <span>${phaseCount}줄</span></h5></header><div class="hp-phase-map" aria-hidden="true">${phaseMap}</div><dl>${bars}<div class="hp-stage hp-stage--total"><dt>실질 총 HP</dt><dd>${number.format(stats.effectiveHp)}</dd></div></dl></section>`;
     }
 
+    function renderSummonScaling(stats) {
+        const perTurnIncrease = progression => {
+            if (!progression?.first || !progression?.second) return null;
+            const first = Number(progression.first.raw);
+            const second = Number(progression.second.raw);
+            if (Number.isFinite(first) && Number.isFinite(second)) {
+                return Math.ceil(Number((second - first).toFixed(8)));
+            }
+            return progression.second.display - progression.first.display;
+        };
+        const changes = [
+            ['HP', stats.hpProgression],
+            ['공격력', stats.attackProgression],
+            ['방어력', stats.defenseProgression]
+        ].map(([label, progression]) => [label, perTurnIncrease(progression)])
+            .filter(([, increase]) => Number.isFinite(increase))
+            .map(([label, increase]) => `${label} +${number.format(increase)}`);
+        if (!changes.length) return '';
+        return `<p class="summon-scaling-note"><strong>소환 턴 보정</strong><span>소환 시점이 1턴 늦어질 때마다 ${escapeHtml(changes.join(' · '))}</span></p>`;
+    }
+
     function monsterTagDefinitions(monster) {
         return [...new Map((monster.monsterTags || [])
             .map(tagId => MONSTER_TAGS[tagId])
@@ -854,6 +908,7 @@
                 <div class="monster-body">
                     <div class="monster-overview">
                 ${renderHp(stats, monster)}
+                        ${renderSummonScaling(stats)}
                         ${renderMonsterAffinity(monster)}
                     </div>
                     ${renderRules(monster, stats)}
@@ -1406,7 +1461,16 @@
 
     function configureGeneratedTooltips() {
         for (const [key, entry] of Object.entries(data.keywordGlossary || {})) {
-            tooltips[key] = entry.description.split('\n').map(line => politeText(line)).join('\n');
+            const description = entry.description.split('\n').map(line => politeText(line)).join('\n');
+            const heading = description.split(/\n{2,}/)[0] || '';
+            const category = heading.split('|')[0]?.trim() || '상태 효과';
+            const cost = heading.match(/산출력\s+(\d+(?:·\d+)*)/)?.[1];
+            tooltips[key] = {
+                ...entry,
+                category,
+                ...(cost !== undefined ? { cost } : {}),
+                description
+            };
         }
         window.CharacterEffects?.configureTooltips(tooltips);
     }

@@ -13,7 +13,7 @@
             const item = glossary?.[match[1]];
             const label = escapeHtml(match[2]);
             if (!item) throw new Error(`Missing generated tooltip ${match[1]}`);
-            const icon = /^images\/keyword-icons\/inline\/[a-z0-9_]+\.png$/.test(item.icon || '')
+            const icon = /^(?:images\/keyword-icons\/(?:inline|original)\/[a-z0-9_]+\.png|images\/dzone\/cards\/[a-z0-9_-]+\.png)$/.test(item.icon || '')
                 ? `<img class="keyword-icon" src="${escapeHtml(item.icon)}" alt="" aria-hidden="true">` : '';
             const color = /^#[a-f0-9]{6}$/i.test(item.color || '') ? ` style="color:${item.color}"` : '';
             output += `<strong class="tooltip-trigger${icon ? ' keyword-iconized' : ''}" data-keyword="${match[1]}" tabindex="0"${color}>${icon}<span>${label}</span></strong>`;

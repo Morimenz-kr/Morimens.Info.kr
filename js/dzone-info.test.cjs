@@ -10,6 +10,8 @@ const html = fs.readFileSync(path.join(__dirname, '..', 'dzone_info.html'), 'utf
 const css = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'dzone-info.css'), 'utf8');
 const componentsCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'components.css'), 'utf8');
 const linksSource = fs.readFileSync(path.join(__dirname, 'links.js'), 'utf8');
+const characterEffectsSource = fs.readFileSync(path.join(__dirname, 'character-effects.js'), 'utf8');
+const characterEffectsCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'character-effects.css'), 'utf8');
 const linksCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'links.css'), 'utf8');
 const infoToolsCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'info_tools.css'), 'utf8');
 const rerunHtml = fs.readFileSync(path.join(__dirname, '..', 'rerun_schedule.html'), 'utf8');
@@ -82,7 +84,69 @@ test('5금지구역 상태 툴팁은 실제 명령이 부여하는 State에만 �
     assert.equal(sourceFor(fragmentSeal, '임시 봉인'), 81341);
     assert.equal(sourceFor(bossEntry, '보강'), 60083);
     assert.equal(sourceFor(bossEntry, '원한의 사슬'), 60898);
+    const temporarySeal = Object.values(currentDzoneData.keywordGlossary).find(item => item.source?.id === 81341);
+    const temporaryReinforce = Object.values(currentDzoneData.keywordGlossary).find(item => item.source?.id === 60083);
+    assert.equal(temporarySeal.color, '#af6bb0');
+    assert.match(temporaryReinforce.description, /이번 턴 동안, 스택당 받는 피해가 1% 감소합니다/);
+    assert.doesNotMatch(temporaryReinforce.description, /70%|70 %/);
     assert.deepEqual(currentDzoneData.contentAudit.diagnostics, []);
+});
+
+test('힘 툴팁은 상태 의미만 설명하고 시작 스택은 정수로 표시한다', () => {
+    const forceEntries = Object.values(currentDzoneData.keywordGlossary)
+        .filter(entry => entry.source?.id === 2900);
+    assert.ok(forceEntries.length > 0);
+    for (const entry of forceEntries) {
+        assert.equal(entry.description, '상태 효과 | 힘\n\n이번 전투 내에서 주는 피해가 증가합니다.');
+        assert.doesNotMatch(entry.description, /\d+(?:\.\d+)?(?:pt|스택)/);
+    }
+
+    for (const wave of currentDzoneData.waves) {
+        for (const alert of wave.alerts) {
+            for (const monster of [...alert.monsters, ...(alert.summonedMonsters || [])]) {
+                for (const state of monster.entryStates || []) {
+                    const display = state.initialLayer?.value?.display;
+                    if (display !== undefined) assert.ok(Number.isInteger(display));
+                }
+            }
+        }
+    }
+
+    const boss = currentDzoneData.waves.find(wave => wave.wave === 5)
+        .alerts[0].monsters.find(monster => monster.tid === 125901);
+    assert.equal(boss.entryStates.find(state => state.id === 125929).initialLayer.value.display, 14021);
+});
+
+test('같은 원본 상태는 문맥과 관계없이 같은 색상을 사용하고 스탯 수치를 툴팁에 넣지 않는다', () => {
+    const bySource = new Map();
+    for (const entry of Object.values(currentDzoneData.keywordGlossary)) {
+        if (entry.source?.type !== 'State') continue;
+        const source = entry.source.id;
+        if (!bySource.has(source)) bySource.set(source, []);
+        bySource.get(source).push(entry);
+    }
+    for (const [source, entries] of bySource) {
+        const colors = new Set(entries.map(entry => entry.color || null));
+        assert.equal(colors.size, 1, `State ${source}의 색상이 문맥에 따라 달라짐`);
+    }
+
+    const expectedColors = new Map([
+        [22334, '#c48662'],
+        [3330, '#af6bb0'],
+        [2840, '#bb646d'],
+        [149773, '#c48662'],
+        [81341, '#af6bb0']
+    ]);
+    for (const [source, color] of expectedColors) {
+        for (const entry of bySource.get(source) || []) assert.equal(entry.color, color);
+    }
+
+    const hunger = bySource.get(140727) || [];
+    assert.ok(hunger.length > 0);
+    for (const entry of hunger) {
+        assert.match(entry.description, /힘을 획득/);
+        assert.doesNotMatch(entry.description, /(?:9|18|32|51|72|89|107)의 힘/);
+    }
 });
 
 test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기·굶주림은 같은 상태로 연결한다', () => {
@@ -90,10 +154,15 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
     const monster = wave.monsters.find(item => item.tid === 140713);
     const success = monster.conditionalActions.find(action => action.skillId === 140765);
     const failure = monster.conditionalActions.find(action => action.skillId === 140766);
+    const hungerTransition = monster.conditionalActions.find(action => action.commandId === 140824);
     assert.equal(success.commandId, failure.commandId);
     assert.equal(success.judgement, failure.judgement);
     assert.match(success.conditionText, /허약 또는 취약 보유/);
     assert.match(failure.conditionText, /허약·취약 없음/);
+    assert.deepEqual(hungerTransition.transitionEffects, [
+        { type: 'addState', stateId: 2900, stateName: '힘', valueExpression: 'UpperTarget.atk*0.05', target: 'UpperTarget' },
+        { type: 'removeState', stateId: 140727, stateName: '허기', target: 'UpperTarget' }
+    ]);
     assert.match(source, /action\.commandId === 140768 && \[140765, 140766\]\.includes\(action\.skillId\)/);
 
     for (const alert of wave.alerts) {
@@ -108,8 +177,8 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
     const hunger = Object.values(currentDzoneData.keywordGlossary).filter(item => item.source.id === 140727);
     assert.ok(hunger.length > 0);
     for (const item of hunger) {
-        if (item.name === '허기') assert.match(item.description, /허기가 5층.*허기를 소모.*강공격.*[\d,]+의 힘/);
-        if (item.name === '굶주림') assert.match(item.description, /굶주림이 5층.*굶주림을 소모.*강공격.*[\d,]+의 힘/);
+        if (item.name === '허기') assert.match(item.description, /허기가 5층.*허기를 소모.*힘을 획득.*「약ﾃ탈ｨ」/);
+        if (item.name === '굶주림') assert.match(item.description, /굶주림이 5층.*굶주림을 소모.*힘을 획득.*「약ﾃ탈ｨ」/);
         assert.doesNotMatch(item.description, /허기이|허기을|\d+\.\d+의 힘/);
     }
 
@@ -123,6 +192,8 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
     vm.runInContext(source.slice(source.indexOf('    function renderConditionalActions('), source.indexOf('    function renderRules(')), context);
     const rendered = context.renderConditionalActions(monster, stats);
     assert.equal((rendered.match(/<article /g) || []).length, 1);
+    assert.match(rendered, /허기 5스택 보유하면 발동/);
+    assert.match(rendered, /허기를 전부 소모해 힘을 51 획득하고, 의도를 약탈로 전환합니다/);
     assert.doesNotMatch(rendered, /자ｸ극kQ 반응|전이에 성공하면|실패하면 712의 데미지/);
     assert.doesNotMatch(rendered, /발동 조건|<b>발동:<\/b>/);
 
@@ -555,13 +626,13 @@ test('연결 해제로 소환되는 긴급 연락의 이미지·행동·패시�
     assert.equal((rendered.match(/<article>긴급 연락<\/article>/g) || []).length, 1);
 });
 
-test('턴 의존 소환체 HP는 난이도별 숫자로 표시하고 같은 암살자 상태를 모두 연결한다', () => {
+test('턴 의존 소환체 HP는 위험 등급별 1턴 기준값으로 표시하고 같은 암살자 상태를 모두 연결한다', () => {
     const dynamicSummons = currentDzoneData.waves.flatMap(wave => wave.alerts.flatMap(alert =>
         (alert.summonedMonsters || []).filter(monster => /BattleStats\.BoutCount/.test(monster.rule?.hpExpression || ''))
     ));
     assert.ok(dynamicSummons.length > 0);
     for (const summon of dynamicSummons) {
-        assert.match(summon.hpDisplay, /^1턴 기준 [\d,]+ · 이후 턴마다 [\d,]+ 증가$/);
+        assert.match(summon.hpDisplay, /^[\d,]+$/);
         assert.doesNotMatch(summon.hpDisplay, /소환자의 최대 HP|×|%/);
     }
 
@@ -574,7 +645,22 @@ test('턴 의존 소환체 HP는 난이도별 숫자로 표시하고 같은 암�
     for (const skill of assassinSkills) assert.match(skill.richDescription, /<kw_[a-f0-9]{16}:「암살자」>/);
 
     const finalSummon = wave.alerts.at(-1).summonedMonsters.find(monster => monster.parentTid === 72145 && monster.hpDisplay);
-    assert.equal(finalSummon.hpDisplay, '1턴 기준 263,712 · 이후 턴마다 43,952 증가');
+    assert.equal(finalSummon.hpDisplay, '263,712');
+});
+
+test('소환 턴에 따라 초기 능력치가 달라지는 소환체는 현재 위험 등급의 턴당 증가량을 안내한다', () => {
+    const context = vm.createContext({ escapeHtml: String, number: new Intl.NumberFormat('ko-KR') });
+    vm.runInContext(source.slice(source.indexOf('    function renderSummonScaling('), source.indexOf('    function monsterTagDefinitions(')), context);
+    const markup = context.renderSummonScaling({
+        hpProgression: { first: { display: 100 }, second: { display: 120 } },
+        attackProgression: { first: { display: 35 }, second: { display: 37 } },
+        defenseProgression: { first: { display: 56 }, second: { display: 59 } }
+    });
+    assert.match(markup, /소환 턴 보정/);
+    assert.match(markup, /소환 시점이 1턴 늦어질 때마다 HP \+20 · 공격력 \+2 · 방어력 \+3/);
+    assert.doesNotMatch(markup, /소환자의|×|%|늦게 소환/);
+    assert.equal(context.renderSummonScaling({}), '');
+    assert.match(css, /\.summon-scaling-note\s*\{[^}]*max-width:\s*100%[^}]*flex-wrap:\s*wrap/s);
 });
 
 test('동일 소환체는 수량으로 묶되 다른 패턴·능력치·소환 경로는 합치지 않는다', () => {
@@ -781,10 +867,10 @@ test('카드류와 다중 체력·부활은 기믹 뱃지에서 제외하고 본
     assert.doesNotMatch(mechanicBlock, /증상 카드|상처|비틀거림|질식|다이얼 폭탄|다중 체력|부활/);
     assert.doesNotMatch(source, /mechanics\.push\('다중 체력'\)|mechanics\.push\('부활'\)/);
     assert.match(source, /const DZONE_CARD_TOOLTIPS/);
-    assert.match(source, /'「상처」': '상태 카드 \| 상처/);
-    assert.match(source, /'「비틀거림」': '상태 카드 \| 비틀거림/);
-    assert.match(source, /'「질식」': '상태 카드 \| 질식/);
-    assert.match(source, /'「다이얼 폭탄」': '상태 카드 \| 다이얼 폭탄/);
+    assert.match(source, /'「상처」': stateCardTooltip\('상처'/);
+    assert.match(source, /'「비틀거림」': stateCardTooltip\('비틀거림'/);
+    assert.match(source, /'「질식」': stateCardTooltip\('질식'/);
+    assert.match(source, /'「다이얼 폭탄」': stateCardTooltip\('다이얼 폭탄'/);
     assert.match(source, /'증상: 쇠약': '증상 카드 \| 쇠약/);
     const frost = Object.values(dzoneData.keywordGlossary).find(entry => entry.source.id === 149773);
     assert.match(frost.description, /능동 피해.*둔화.*5회/);
@@ -793,6 +879,80 @@ test('카드류와 다중 체력·부활은 기믹 뱃지에서 제외하고 본
     assert.match(bone.description, /최대 HP가 스택 수만큼 감소/);
     assert.match(source, /Object\.assign\(tooltips, DZONE_CARD_TOOLTIPS\)/);
     assert.match(css, /\.action-copy p \.tooltip-trigger[\s\S]*display:\s*inline-flex/);
+});
+
+test('상처 상태와 생성 카드는 서로 다른 원본과 구조화된 툴팁으로 표시한다', () => {
+    const woundEntries = Object.entries(currentDzoneData.keywordGlossary)
+        .filter(([, entry]) => [22334, 4374].includes(entry.source?.id));
+    const stateEntries = woundEntries.filter(([, entry]) => entry.source.id === 22334);
+    const cardEntry = woundEntries.find(([, entry]) => entry.source.id === 4374);
+
+    assert.ok(stateEntries.length >= 1);
+    assert.ok(cardEntry);
+    assert.equal(stateEntries[0][1].name, '트라우마');
+    assert.match(stateEntries[0][1].description, /^약화 효과 \| 트라우마/);
+    assert.match(cardEntry[1].description, /^상태 카드 \| 상처 · 산출력 0/);
+    assert.equal(cardEntry[1].icon, 'images/dzone/cards/portrait_card_state_skull.png');
+    assert.match(cardEntry[1].description, /이 전투에 설정된 기준 전투력의 3%에 해당하는 순수 피해\(소수점 버림\)/);
+    assert.doesNotMatch(cardEntry[1].description, /작은 상처|스테이지 기준 힘/);
+
+    const woundSkill = currentDzoneData.waves[4].alerts[6].monsters
+        .find(monster => monster.tid === 22337).resolvedSkills['22333'];
+    const links = [...woundSkill.richDescription.matchAll(/<(kw_[a-f0-9]{16}):상처>/g)]
+        .map(match => currentDzoneData.keywordGlossary[match[1]].source.id);
+    assert.deepEqual(links, [22334, 22334, 4374]);
+    assert.match(source, /tooltips\[key\]\s*=\s*\{[\s\S]*category,[\s\S]*description/);
+    assert.match(characterEffectsSource, /character-effect-tooltip-heading/);
+    assert.match(characterEffectsCss, /\.character-effect-tooltip-cost/);
+});
+
+test('다이얼 폭탄은 세 Card_State 원본과 공용 상태 카드 스프라이트를 표시한다', () => {
+    const dialEntry = Object.values(currentDzoneData.keywordGlossary)
+        .find(entry => entry.source?.relatedIds?.join(',') === '73484,73485,73486');
+    assert.ok(dialEntry);
+    assert.match(dialEntry.description, /^상태 카드 \| 다이얼 폭탄 · 산출력 1·2·3/);
+    assert.match(source, /산출력\\s\+\(\\d\+\(\?:·\\d\+\)\*\)/);
+    assert.match(source, /\{ cost \}/);
+    assert.equal(dialEntry.icon, 'images/dzone/cards/portrait_card_state_skull.png');
+    assert.ok(fs.existsSync(path.join(__dirname, '..', dialEntry.icon)));
+    assert.match(source, /const STATE_CARD_ICON = 'images\/dzone\/cards\/portrait_card_state_skull\.png'/);
+
+    const dialSkills = currentDzoneData.waves[4].alerts
+        .flatMap(alert => alert.summonedMonsters || [])
+        .filter(monster => monster.tid === 72150)
+        .flatMap(monster => [monster.resolvedSkills['72119'], monster.resolvedSkills['72125']]);
+    assert.equal(dialSkills.length, 14);
+    for (const skill of dialSkills) assert.match(skill.richDescription, /<kw_[a-f0-9]{16}:다이얼 폭탄>/);
+});
+
+test('카드에 부여하는 변이와 둔화는 실제 Cmd의 State에 연결한다', () => {
+    const cases = [
+        { skillId: 60027, label: '변이', stateId: 49149, category: '카드 상태', expectedCount: 21 },
+        { skillId: 22218, label: '둔화', stateId: 3330, category: '카드 상태', expectedCount: 7 }
+    ];
+
+    for (const item of cases) {
+        const resolved = currentDzoneData.waves.flatMap(wave => wave.alerts)
+            .flatMap(alert => alert.monsters)
+            .map(monster => monster.resolvedSkills?.[String(item.skillId)])
+            .filter(Boolean);
+        assert.equal(resolved.length, item.expectedCount);
+        for (const skill of resolved) {
+            const key = skill.richDescription.match(new RegExp(`<((?:kw_)[a-f0-9]{16}):${item.label}>`))?.[1];
+            const entry = currentDzoneData.keywordGlossary[key];
+            assert.equal(entry?.source?.id, item.stateId);
+            assert.match(entry.description, new RegExp(`^${item.category} \\| ${item.label}`));
+        }
+    }
+
+    const mutation = Object.values(currentDzoneData.keywordGlossary).find(entry => entry.source?.id === 49149);
+    assert.match(mutation.description, /스택당 카드의 산출력 소모가 1 감소/);
+    assert.match(mutation.description, /무작위 변이 카드 1장을 손에 넣고, 해당 상태를 제거합니다/);
+    assert.match(mutation.description, /전투 종료 후에도 유지됩니다/);
+
+    const slow = Object.values(currentDzoneData.keywordGlossary).find(entry => entry.source?.id === 3330);
+    assert.match(slow.description, /카드의 행동력 소모가 1pt 증가/);
+    assert.match(slow.description, /카드를 사용한 후 이 부정 효과는 제거/);
 });
 
 test('다중 체력 몬스터는 체력바 개수와 정확한 수치를 보여준다', () => {
@@ -818,7 +978,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.95-summon-values-tooltips-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.106-hunger-transition-copy-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));

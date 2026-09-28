@@ -314,18 +314,18 @@
 .character-effect-tooltip-box {
     position: fixed;
     z-index: 10010;
-    width: min(520px, calc(100vw - 20px));
+    width: min(400px, calc(100vw - 20px));
     max-height: calc(100dvh - 32px);
     box-sizing: border-box;
-    padding: 12px 14px;
+    padding: 14px 16px;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
     color: #d7d7dc;
-    background: #252529;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 8px;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    background: #232328;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.34);
     font-size: 0.86rem;
     line-height: 1.55;
     overflow-wrap: anywhere;
@@ -334,6 +334,58 @@
     opacity: 0;
     transform: translateX(-50%);
     transition: opacity 0.1s ease;
+}
+
+.character-effect-tooltip-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.character-effect-tooltip-icon {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    object-fit: contain;
+}
+
+.character-effect-tooltip-identity {
+    display: grid;
+    min-width: 0;
+    gap: 1px;
+}
+
+.character-effect-tooltip-category {
+    color: #aaaab3;
+    font-size: 0.7rem;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.character-effect-tooltip-title {
+    color: #f2f2f4;
+    font-size: 0.96rem;
+    line-height: 1.35;
+}
+
+.character-effect-tooltip-cost {
+    margin-left: auto;
+    padding: 3px 7px;
+    flex: 0 0 auto;
+    color: #efdcaa;
+    background: rgba(239, 220, 170, 0.08);
+    border: 1px solid rgba(239, 220, 170, 0.22);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.character-effect-tooltip-body {
+    margin-top: 11px !important;
+    padding-top: 10px;
+    color: #d2d2d8;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .character-effect-tooltip-box p {
