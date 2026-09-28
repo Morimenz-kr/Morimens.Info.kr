@@ -25,6 +25,35 @@
         return level;
     }
 
+    function bindLevelInput(input, onLevelChange) {
+        let currentLevel = selectedLevel();
+        input.value = String(currentLevel);
+
+        const applyLevel = value => {
+            const nextLevel = selectLevel(value);
+            if (nextLevel !== currentLevel) {
+                currentLevel = nextLevel;
+                onLevelChange?.(currentLevel);
+            }
+            return currentLevel;
+        };
+
+        input.oninput = () => {
+            if (input.value === '') return;
+            applyLevel(input.value);
+        };
+
+        input.onchange = () => {
+            if (input.value === '') {
+                input.value = String(currentLevel);
+                return;
+            }
+            input.value = String(applyLevel(input.value));
+        };
+
+        return currentLevel;
+    }
+
     function depthAt(value) {
         const level = clampLevel(value);
         const row = levels.find(item => item.level === level) || levels[0];
@@ -57,5 +86,5 @@
         return `생체 ${number.format(depth.biological)} · 물상 ${number.format(depth.material)} · 영식 ${number.format(depth.spirit)}`;
     }
 
-    window.ResearchDepth = { load, selectedLevel, selectLevel, depthAt, evaluate, formatDepth };
+    window.ResearchDepth = { load, selectedLevel, selectLevel, bindLevelInput, depthAt, evaluate, formatDepth };
 })();

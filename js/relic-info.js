@@ -210,12 +210,9 @@
             relics = (await catalogResponse.json()).relics || [];
             renderTierFilters();
             if (tooltipResponse?.ok) window.CharacterEffects?.configureTooltips(await tooltipResponse.json());
-            researchLevel = window.ResearchDepth.selectedLevel();
             const levelInput = document.getElementById('relic-research-level');
-            levelInput.value = researchLevel;
-            levelInput.addEventListener('input', () => {
-                researchLevel = window.ResearchDepth.selectLevel(levelInput.value);
-                levelInput.value = researchLevel;
+            researchLevel = window.ResearchDepth.bindLevelInput(levelInput, level => {
+                researchLevel = level;
                 render();
             });
             document.getElementById('relic-search').addEventListener('input', render);

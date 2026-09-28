@@ -1278,12 +1278,10 @@
         };
 
         const researchInput = document.getElementById('dzone-research-level');
-        researchInput.value = researchLevel;
-        researchInput.oninput = () => {
-            researchLevel = window.ResearchDepth.selectLevel(researchInput.value);
-            researchInput.value = researchLevel;
+        researchLevel = window.ResearchDepth.bindLevelInput(researchInput, level => {
+            researchLevel = level;
             render();
-        };
+        });
         const waveSelector = document.getElementById('wave-selector');
         const compactGrades = data.period >= 70;
         document.getElementById('zone-filter-label').textContent = compactGrades ? '금지구역' : '파';

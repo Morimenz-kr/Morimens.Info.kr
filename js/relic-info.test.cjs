@@ -42,8 +42,11 @@ test('유물은 편과 분류 필터를 조합해 볼 수 있다', () => {
 test('금기 학식 등급 입력은 간결하게 표시하고 연구 깊이 요약은 노출하지 않는다', () => {
     const html = fs.readFileSync(path.join(root, 'relic_info.html'), 'utf8');
     const css = fs.readFileSync(path.join(root, 'css/pages/relic-info.css'), 'utf8');
+    const source = fs.readFileSync(path.join(root, 'js/relic-info.js'), 'utf8');
     assert.doesNotMatch(html, /relic-depth-summary/);
     assert.match(css, /\.research-level-control\s*\{\s*width:\s*min\(100%,\s*9rem\)/);
+    assert.match(source, /ResearchDepth\.bindLevelInput\(levelInput/);
+    assert.doesNotMatch(source, /levelInput\.value\s*=\s*researchLevel/);
 });
 
 test('유물 검색·계산과 수록 편·분류 필터는 반응형 그룹으로 구분한다', () => {

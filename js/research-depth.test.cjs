@@ -25,3 +25,44 @@ test('연구 깊이 계산기가 루비 브로치 수치를 실제 식으로 계
     }), 20);
     assert.equal(context.window.ResearchDepth.evaluate('math.ceil(50*SpiritResearchDepthMultiplier)', depth), 183);
 });
+
+test('금기 학식 등급 입력은 편집 중 빈 값을 허용하고 입력 완료 시에만 범위를 보정한다', () => {
+    const storage = new Map();
+    const context = {
+        window: {},
+        localStorage: { getItem: key => storage.get(key) || null, setItem: (key, value) => storage.set(key, value) },
+        Intl,
+        Math,
+        Number
+    };
+    vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'research-depth.js'), 'utf8'), context);
+
+    const input = { value: '' };
+    const applied = [];
+    const initialLevel = context.window.ResearchDepth.bindLevelInput(input, level => applied.push(level));
+    assert.equal(initialLevel, 81);
+    assert.equal(input.value, '81');
+
+    input.value = '';
+    input.oninput();
+    assert.equal(input.value, '');
+    assert.deepEqual(applied, []);
+
+    input.value = '4';
+    input.oninput();
+    input.value += '0';
+    input.oninput();
+    assert.equal(input.value, '40');
+    assert.deepEqual(applied, [4, 40]);
+
+    input.value = '140';
+    input.oninput();
+    assert.equal(input.value, '140');
+    assert.equal(applied.at(-1), 100);
+    input.onchange();
+    assert.equal(input.value, '100');
+
+    input.value = '';
+    input.onchange();
+    assert.equal(input.value, '100');
+});

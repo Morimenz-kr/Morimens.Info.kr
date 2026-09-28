@@ -551,6 +551,8 @@ test('각성 후 HP 비례 수치는 증가한 최대 HP를 사용한다', () =>
 
 test('융재금구는 금기 학식 등급만 받고 정확한 연구 깊이는 노출하지 않는다', () => {
     assert.match(html, /id="dzone-research-level"/);
+    assert.match(source, /ResearchDepth\.bindLevelInput\(researchInput/);
+    assert.doesNotMatch(source, /researchInput\.value\s*=\s*researchLevel/);
     assert.doesNotMatch(html, /dzone-depth-summary/);
     assert.doesNotMatch(source, /formatDepth\(/);
     assert.doesNotMatch(source, /연구 깊이에 따라 결정되는 수치/);
@@ -740,7 +742,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.90-dzone-condition-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.91-research-input-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
