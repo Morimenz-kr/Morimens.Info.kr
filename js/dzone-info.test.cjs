@@ -670,7 +670,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.85-dzone-grade-type-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.86-dzone-grade-alignment-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
@@ -685,7 +685,8 @@ test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문
     assert.doesNotMatch(source, /class="dzone-grade-number"/);
     assert.match(css, /\.dzone-grade-badge\s*\{[^}]*display:\s*inline-flex/);
     assert.match(css, /\.dzone-grade-mark--sprite\s*\{[^}]*max-width:\s*min\(7rem, 30vw\)/);
-    assert.match(css, /\.dzone-grade-mark--text\s*\{[^}]*font-size:\s*1rem;[^}]*line-height:\s*normal;/s);
+    assert.match(css, /\.dzone-grade-mark--text\s*\{[^}]*color:\s*#fff;[^}]*font-size:\s*1rem;[^}]*line-height:\s*normal;/s);
+    assert.match(css, /\.dzone-grade-mark--sprite\s*\{[^}]*transform:\s*translateY\(0\.08em\);/s);
     assert.match(css, /\.dzone-filter-label\s*\{[^}]*font-size:\s*0\.84rem;/s);
     assert.match(css, /\.dzone-mechanic-nav-label\s*\{[^}]*font-size:\s*0\.84rem;/s);
     assert.match(css, /\.alert-button\[aria-pressed="true"\]\s*\{[^}]*background:\s*var\(--color-bg-elevated\)[^}]*outline:\s*1px solid var\(--dzone-gold\)[^}]*outline-offset:\s*0/s);

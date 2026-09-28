@@ -218,7 +218,7 @@
 }
 
 .dzone-grade-mark--text {
-    color: #f2dca5;
+    color: #fff;
     font-size: 1rem;
     line-height: normal;
 }
@@ -229,6 +229,7 @@
     height: 1.3rem;
     max-width: min(7rem, 30vw);
     object-fit: contain;
+    transform: translateY(0.08em);
 }
 
 .alert-button:hover,
