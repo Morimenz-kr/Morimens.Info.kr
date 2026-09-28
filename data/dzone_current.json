@@ -14094,7 +14094,7 @@
                     }
                   ],
                   "description": "43pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 힘 8pt를 잃는다.",
-                  "richDescription": "<game-text:43pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_392642226522d058:힘> 8pt를 잃는다.>"
+                  "richDescription": "<game-text:43pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_4536c793c00ddffc:힘> 8pt를 잃는다.>"
                 },
                 "128052": {
                   "args": [
@@ -14230,7 +14230,7 @@
                     }
                   ],
                   "description": "전열 아군과 위치를 교환하고, 115pt의 피해를 1회 입히며, 임시 열광 4스택을 획득한다.",
-                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 115pt의 피해를 1회 입히며, <kw_d9696e65d8c3da53:임시 열광> 4스택을 획득한다.>"
+                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 115pt의 피해를 1회 입히며, <kw_c7920df64eba2432:임시 열광> 4스택을 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -15421,7 +15421,7 @@
                 "skillId": 128052,
                 "cmdId": 131648
               },
-              "hpDisplay": "소환자의 최대 HP × (12% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 3,499 · 이후 턴마다 270 증가",
               "hpFormula": "CmdCaster.max_hp*(0.12+0.01*BattleStats.BoutCount)",
               "phases": [
                 {
@@ -15585,7 +15585,7 @@
                   },
                   "stateArgs": [],
                   "descArgs": [],
-                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_3d930fd075e8b038:군집 효과>」를 1단계 감소시킨다. 예비>"
+                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_bbf91374a7b80224:군집 효과>」를 1단계 감소시킨다.>"
                 }
               ],
               "entryStates": []
@@ -16108,7 +16108,7 @@
                     }
                   ],
                   "description": "83pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 힘 14pt를 잃는다.",
-                  "richDescription": "<game-text:83pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_392642226522d058:힘> 14pt를 잃는다.>"
+                  "richDescription": "<game-text:83pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_4536c793c00ddffc:힘> 14pt를 잃는다.>"
                 },
                 "128052": {
                   "args": [
@@ -16244,7 +16244,7 @@
                     }
                   ],
                   "description": "전열 아군과 위치를 교환하고, 221pt의 피해를 1회 입히며, 임시 열광 4스택을 획득한다.",
-                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 221pt의 피해를 1회 입히며, <kw_d9696e65d8c3da53:임시 열광> 4스택을 획득한다.>"
+                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 221pt의 피해를 1회 입히며, <kw_c7920df64eba2432:임시 열광> 4스택을 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -17435,7 +17435,7 @@
                 "skillId": 128052,
                 "cmdId": 131648
               },
-              "hpDisplay": "소환자의 최대 HP × (12% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 9,619 · 이후 턴마다 740 증가",
               "hpFormula": "CmdCaster.max_hp*(0.12+0.01*BattleStats.BoutCount)",
               "phases": [
                 {
@@ -17599,7 +17599,7 @@
                   },
                   "stateArgs": [],
                   "descArgs": [],
-                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_3d930fd075e8b038:군집 효과>」를 1단계 감소시킨다. 예비>"
+                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_bbf91374a7b80224:군집 효과>」를 1단계 감소시킨다.>"
                 }
               ],
               "entryStates": []
@@ -18122,7 +18122,7 @@
                     }
                   ],
                   "description": "145pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 힘 25pt를 잃는다.",
-                  "richDescription": "<game-text:145pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_392642226522d058:힘> 25pt를 잃는다.>"
+                  "richDescription": "<game-text:145pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_4536c793c00ddffc:힘> 25pt를 잃는다.>"
                 },
                 "128052": {
                   "args": [
@@ -18258,7 +18258,7 @@
                     }
                   ],
                   "description": "전열 아군과 위치를 교환하고, 387pt의 피해를 1회 입히며, 임시 열광 4스택을 획득한다.",
-                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 387pt의 피해를 1회 입히며, <kw_d9696e65d8c3da53:임시 열광> 4스택을 획득한다.>"
+                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 387pt의 피해를 1회 입히며, <kw_c7920df64eba2432:임시 열광> 4스택을 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -19449,7 +19449,7 @@
                 "skillId": 128052,
                 "cmdId": 131648
               },
-              "hpDisplay": "소환자의 최대 HP × (12% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 23,081 · 이후 턴마다 1,776 증가",
               "hpFormula": "CmdCaster.max_hp*(0.12+0.01*BattleStats.BoutCount)",
               "phases": [
                 {
@@ -19613,7 +19613,7 @@
                   },
                   "stateArgs": [],
                   "descArgs": [],
-                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_3d930fd075e8b038:군집 효과>」를 1단계 감소시킨다. 예비>"
+                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_bbf91374a7b80224:군집 효과>」를 1단계 감소시킨다.>"
                 }
               ],
               "entryStates": []
@@ -20136,7 +20136,7 @@
                     }
                   ],
                   "description": "236pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 힘 40pt를 잃는다.",
-                  "richDescription": "<game-text:236pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_392642226522d058:힘> 40pt를 잃는다.>"
+                  "richDescription": "<game-text:236pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_4536c793c00ddffc:힘> 40pt를 잃는다.>"
                 },
                 "128052": {
                   "args": [
@@ -20272,7 +20272,7 @@
                     }
                   ],
                   "description": "전열 아군과 위치를 교환하고, 628pt의 피해를 1회 입히며, 임시 열광 4스택을 획득한다.",
-                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 628pt의 피해를 1회 입히며, <kw_d9696e65d8c3da53:임시 열광> 4스택을 획득한다.>"
+                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 628pt의 피해를 1회 입히며, <kw_c7920df64eba2432:임시 열광> 4스택을 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -21463,7 +21463,7 @@
                 "skillId": 128052,
                 "cmdId": 131648
               },
-              "hpDisplay": "소환자의 최대 HP × (12% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 58,316 · 이후 턴마다 4,486 증가",
               "hpFormula": "CmdCaster.max_hp*(0.12+0.01*BattleStats.BoutCount)",
               "phases": [
                 {
@@ -21627,7 +21627,7 @@
                   },
                   "stateArgs": [],
                   "descArgs": [],
-                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_3d930fd075e8b038:군집 효과>」를 1단계 감소시킨다. 예비>"
+                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_bbf91374a7b80224:군집 효과>」를 1단계 감소시킨다.>"
                 }
               ],
               "entryStates": []
@@ -22150,7 +22150,7 @@
                     }
                   ],
                   "description": "342pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 힘 57pt를 잃는다.",
-                  "richDescription": "<game-text:342pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_392642226522d058:힘> 57pt를 잃는다.>"
+                  "richDescription": "<game-text:342pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_4536c793c00ddffc:힘> 57pt를 잃는다.>"
                 },
                 "128052": {
                   "args": [
@@ -22286,7 +22286,7 @@
                     }
                   ],
                   "description": "전열 아군과 위치를 교환하고, 912pt의 피해를 1회 입히며, 임시 열광 4스택을 획득한다.",
-                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 912pt의 피해를 1회 입히며, <kw_d9696e65d8c3da53:임시 열광> 4스택을 획득한다.>"
+                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 912pt의 피해를 1회 입히며, <kw_c7920df64eba2432:임시 열광> 4스택을 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -23477,7 +23477,7 @@
                 "skillId": 128052,
                 "cmdId": 131648
               },
-              "hpDisplay": "소환자의 최대 HP × (12% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 142,387 · 이후 턴마다 10,953 증가",
               "hpFormula": "CmdCaster.max_hp*(0.12+0.01*BattleStats.BoutCount)",
               "phases": [
                 {
@@ -23641,7 +23641,7 @@
                   },
                   "stateArgs": [],
                   "descArgs": [],
-                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_3d930fd075e8b038:군집 효과>」를 1단계 감소시킨다. 예비>"
+                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_bbf91374a7b80224:군집 효과>」를 1단계 감소시킨다.>"
                 }
               ],
               "entryStates": []
@@ -24164,7 +24164,7 @@
                     }
                   ],
                   "description": "432pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 힘 72pt를 잃는다.",
-                  "richDescription": "<game-text:432pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_392642226522d058:힘> 72pt를 잃는다.>"
+                  "richDescription": "<game-text:432pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_4536c793c00ddffc:힘> 72pt를 잃는다.>"
                 },
                 "128052": {
                   "args": [
@@ -24300,7 +24300,7 @@
                     }
                   ],
                   "description": "전열 아군과 위치를 교환하고, 1,152pt의 피해를 1회 입히며, 임시 열광 4스택을 획득한다.",
-                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 1,152pt의 피해를 1회 입히며, <kw_d9696e65d8c3da53:임시 열광> 4스택을 획득한다.>"
+                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 1,152pt의 피해를 1회 입히며, <kw_c7920df64eba2432:임시 열광> 4스택을 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -25491,7 +25491,7 @@
                 "skillId": 128052,
                 "cmdId": 131648
               },
-              "hpDisplay": "소환자의 최대 HP × (12% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 336,803 · 이후 턴마다 25,908 증가",
               "hpFormula": "CmdCaster.max_hp*(0.12+0.01*BattleStats.BoutCount)",
               "phases": [
                 {
@@ -25655,7 +25655,7 @@
                   },
                   "stateArgs": [],
                   "descArgs": [],
-                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_3d930fd075e8b038:군집 효과>」를 1단계 감소시킨다. 예비>"
+                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_bbf91374a7b80224:군집 효과>」를 1단계 감소시킨다.>"
                 }
               ],
               "entryStates": []
@@ -26178,7 +26178,7 @@
                     }
                   ],
                   "description": "520pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 힘 87pt를 잃는다.",
-                  "richDescription": "<game-text:520pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_392642226522d058:힘> 87pt를 잃는다.>"
+                  "richDescription": "<game-text:520pt의 피해를 3회 입히고, 방어되지 않은 피해를 1회 입힐 때마다 대상이 <kw_4536c793c00ddffc:힘> 87pt를 잃는다.>"
                 },
                 "128052": {
                   "args": [
@@ -26314,7 +26314,7 @@
                     }
                   ],
                   "description": "전열 아군과 위치를 교환하고, 1,386pt의 피해를 1회 입히며, 임시 열광 4스택을 획득한다.",
-                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 1,386pt의 피해를 1회 입히며, <kw_d9696e65d8c3da53:임시 열광> 4스택을 획득한다.>"
+                  "richDescription": "<game-text:전열 아군과 위치를 교환하고, 1,386pt의 피해를 1회 입히며, <kw_c7920df64eba2432:임시 열광> 4스택을 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -27505,7 +27505,7 @@
                 "skillId": 128052,
                 "cmdId": 131648
               },
-              "hpDisplay": "소환자의 최대 HP × (12% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 781,099 · 이후 턴마다 60,085 증가",
               "hpFormula": "CmdCaster.max_hp*(0.12+0.01*BattleStats.BoutCount)",
               "phases": [
                 {
@@ -27669,7 +27669,7 @@
                   },
                   "stateArgs": [],
                   "descArgs": [],
-                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_3d930fd075e8b038:군집 효과>」를 1단계 감소시킨다. 예비>"
+                  "richDescription": "<game-text:사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「<kw_bbf91374a7b80224:군집 효과>」를 1단계 감소시킨다.>"
                 }
               ],
               "entryStates": []
@@ -49572,7 +49572,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -49612,7 +49612,7 @@
                     }
                   ],
                   "description": "85pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:85pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:85pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -50112,7 +50112,7 @@
                 "skillId": 72124,
                 "cmdId": 73504
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 1,318 · 이후 턴마다 220 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -50127,7 +50127,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -50161,7 +50161,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -50246,7 +50246,7 @@
                 "skillId": 72120,
                 "cmdId": 73513
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 1,318 · 이후 턴마다 220 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -50261,7 +50261,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -50295,7 +50295,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -50397,7 +50397,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -50416,7 +50417,8 @@
                       }
                     }
                   ],
-                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:20pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -50435,7 +50437,8 @@
                       }
                     }
                   ],
-                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:37pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -50454,7 +50457,8 @@
                       }
                     }
                   ],
-                  "description": "10pt의 피해를 2회 입힌다."
+                  "description": "10pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:10pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -50472,7 +50476,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -50553,15 +50558,18 @@
                       }
                     }
                   ],
-                  "description": "93pt의 피해를 1회 입힌다."
+                  "description": "93pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:93pt의 피해를 1회 입힌다.>"
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
                 }
               },
               "resolvedStates": [
@@ -50594,7 +50602,8 @@
                       }
                     }
                   ],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 2의 <kw_3eb23e4ff37c6c10:힘>과 330의 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -50690,7 +50699,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -50709,7 +50719,8 @@
                       }
                     }
                   ],
-                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:20pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -50728,7 +50739,8 @@
                       }
                     }
                   ],
-                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:37pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -50747,7 +50759,8 @@
                       }
                     }
                   ],
-                  "description": "10pt의 피해를 2회 입힌다."
+                  "description": "10pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:10pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -50765,7 +50778,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -50831,7 +50845,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -50850,7 +50865,8 @@
                       }
                     }
                   ],
-                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:20pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -50869,7 +50885,8 @@
                       }
                     }
                   ],
-                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:37pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -50888,7 +50905,8 @@
                       }
                     }
                   ],
-                  "description": "10pt의 피해를 2회 입힌다."
+                  "description": "10pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:10pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -50906,7 +50924,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -52258,7 +52277,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -52298,7 +52317,7 @@
                     }
                   ],
                   "description": "171pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:171pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:171pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -52798,7 +52817,7 @@
                 "skillId": 72124,
                 "cmdId": 73504
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 3,552 · 이후 턴마다 592 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -52813,7 +52832,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -52847,7 +52866,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -52932,7 +52951,7 @@
                 "skillId": 72120,
                 "cmdId": 73513
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 3,552 · 이후 턴마다 592 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -52947,7 +52966,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -52981,7 +53000,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -53083,7 +53102,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -53102,7 +53122,8 @@
                       }
                     }
                   ],
-                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:36pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -53121,7 +53142,8 @@
                       }
                     }
                   ],
-                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:65pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -53140,7 +53162,8 @@
                       }
                     }
                   ],
-                  "description": "18pt의 피해를 2회 입힌다."
+                  "description": "18pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:18pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -53158,7 +53181,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -53239,15 +53263,18 @@
                       }
                     }
                   ],
-                  "description": "164pt의 피해를 1회 입힌다."
+                  "description": "164pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:164pt의 피해를 1회 입힌다.>"
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
                 }
               },
               "resolvedStates": [
@@ -53280,7 +53307,8 @@
                       }
                     }
                   ],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 3의 <kw_83560ae9fd66ae1d:힘>과 888의 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -53376,7 +53404,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -53395,7 +53424,8 @@
                       }
                     }
                   ],
-                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:36pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -53414,7 +53444,8 @@
                       }
                     }
                   ],
-                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:65pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -53433,7 +53464,8 @@
                       }
                     }
                   ],
-                  "description": "18pt의 피해를 2회 입힌다."
+                  "description": "18pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:18pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -53451,7 +53483,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -53517,7 +53550,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -53536,7 +53570,8 @@
                       }
                     }
                   ],
-                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:36pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -53555,7 +53590,8 @@
                       }
                     }
                   ],
-                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:65pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -53574,7 +53610,8 @@
                       }
                     }
                   ],
-                  "description": "18pt의 피해를 2회 입힌다."
+                  "description": "18pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:18pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -53592,7 +53629,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -54944,7 +54982,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -54984,7 +55022,7 @@
                     }
                   ],
                   "description": "291pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:291pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:291pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -55484,7 +55522,7 @@
                 "skillId": 72124,
                 "cmdId": 73504
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 8,851 · 이후 턴마다 1,476 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -55499,7 +55537,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -55533,7 +55571,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -55618,7 +55656,7 @@
                 "skillId": 72120,
                 "cmdId": 73513
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 8,851 · 이후 턴마다 1,476 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -55633,7 +55671,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -55667,7 +55705,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -55769,7 +55807,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -55788,7 +55827,8 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:60pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -55807,7 +55847,8 @@
                       }
                     }
                   ],
-                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:111pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -55826,7 +55867,8 @@
                       }
                     }
                   ],
-                  "description": "30pt의 피해를 2회 입힌다."
+                  "description": "30pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:30pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -55844,7 +55886,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -55925,15 +55968,18 @@
                       }
                     }
                   ],
-                  "description": "280pt의 피해를 1회 입힌다."
+                  "description": "280pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:280pt의 피해를 1회 입힌다.>"
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
                 }
               },
               "resolvedStates": [
@@ -55966,7 +56012,8 @@
                       }
                     }
                   ],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 5의 <kw_800291f265be51a4:힘>과 2,213의 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -56062,7 +56109,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -56081,7 +56129,8 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:60pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -56100,7 +56149,8 @@
                       }
                     }
                   ],
-                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:111pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -56119,7 +56169,8 @@
                       }
                     }
                   ],
-                  "description": "30pt의 피해를 2회 입힌다."
+                  "description": "30pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:30pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -56137,7 +56188,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -56203,7 +56255,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -56222,7 +56275,8 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:60pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -56241,7 +56295,8 @@
                       }
                     }
                   ],
-                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:111pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -56260,7 +56315,8 @@
                       }
                     }
                   ],
-                  "description": "30pt의 피해를 2회 입힌다."
+                  "description": "30pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:30pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -56278,7 +56334,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -57630,7 +57687,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -57670,7 +57727,7 @@
                     }
                   ],
                   "description": "436pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:436pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:436pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -58170,7 +58227,7 @@
                 "skillId": 72124,
                 "cmdId": 73504
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 20,315 · 이후 턴마다 3,386 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -58185,7 +58242,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -58219,7 +58276,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -58304,7 +58361,7 @@
                 "skillId": 72120,
                 "cmdId": 73513
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 20,315 · 이후 턴마다 3,386 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -58319,7 +58376,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -58353,7 +58410,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -58455,7 +58512,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -58474,7 +58532,8 @@
                       }
                     }
                   ],
-                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:92pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -58493,7 +58552,8 @@
                       }
                     }
                   ],
-                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:168pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -58512,7 +58572,8 @@
                       }
                     }
                   ],
-                  "description": "46pt의 피해를 2회 입힌다."
+                  "description": "46pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:46pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -58530,7 +58591,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -58611,15 +58673,18 @@
                       }
                     }
                   ],
-                  "description": "426pt의 피해를 1회 입힌다."
+                  "description": "426pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:426pt의 피해를 1회 입힌다.>"
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
                 }
               },
               "resolvedStates": [
@@ -58652,7 +58717,8 @@
                       }
                     }
                   ],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 8의 <kw_0eb04c090b14bbd4:힘>과 5,079의 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -58748,7 +58814,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -58767,7 +58834,8 @@
                       }
                     }
                   ],
-                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:92pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -58786,7 +58854,8 @@
                       }
                     }
                   ],
-                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:168pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -58805,7 +58874,8 @@
                       }
                     }
                   ],
-                  "description": "46pt의 피해를 2회 입힌다."
+                  "description": "46pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:46pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -58823,7 +58893,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -58889,7 +58960,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -58908,7 +58980,8 @@
                       }
                     }
                   ],
-                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:92pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -58927,7 +59000,8 @@
                       }
                     }
                   ],
-                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:168pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -58946,7 +59020,8 @@
                       }
                     }
                   ],
-                  "description": "46pt의 피해를 2회 입힌다."
+                  "description": "46pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:46pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -58964,7 +59039,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -60316,7 +60392,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -60356,7 +60432,7 @@
                     }
                   ],
                   "description": "569pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:569pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:569pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -60856,7 +60932,7 @@
                 "skillId": 72124,
                 "cmdId": 73504
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 48,743 · 이후 턴마다 8,124 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -60871,7 +60947,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -60905,7 +60981,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -60990,7 +61066,7 @@
                 "skillId": 72120,
                 "cmdId": 73513
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 48,743 · 이후 턴마다 8,124 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -61005,7 +61081,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -61039,7 +61115,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -61141,7 +61217,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -61160,7 +61237,8 @@
                       }
                     }
                   ],
-                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:120pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -61179,7 +61257,8 @@
                       }
                     }
                   ],
-                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:221pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -61198,7 +61277,8 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 2회 입힌다."
+                  "description": "60pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:60pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -61216,7 +61296,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -61297,15 +61378,18 @@
                       }
                     }
                   ],
-                  "description": "560pt의 피해를 1회 입힌다."
+                  "description": "560pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:560pt의 피해를 1회 입힌다.>"
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
                 }
               },
               "resolvedStates": [
@@ -61338,7 +61422,8 @@
                       }
                     }
                   ],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 10의 <kw_e76b17c6e98fa2c6:힘>과 12,186의 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -61434,7 +61519,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -61453,7 +61539,8 @@
                       }
                     }
                   ],
-                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:120pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -61472,7 +61559,8 @@
                       }
                     }
                   ],
-                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:221pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -61491,7 +61579,8 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 2회 입힌다."
+                  "description": "60pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:60pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -61509,7 +61598,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -61575,7 +61665,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -61594,7 +61685,8 @@
                       }
                     }
                   ],
-                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:120pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -61613,7 +61705,8 @@
                       }
                     }
                   ],
-                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:221pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -61632,7 +61725,8 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 2회 입힌다."
+                  "description": "60pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:60pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -61650,7 +61744,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -63002,7 +63097,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -63042,7 +63137,7 @@
                     }
                   ],
                   "description": "686pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:686pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:686pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -63542,7 +63637,7 @@
                 "skillId": 72124,
                 "cmdId": 73504
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 114,995 · 이후 턴마다 19,166 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -63557,7 +63652,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -63591,7 +63686,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -63676,7 +63771,7 @@
                 "skillId": 72120,
                 "cmdId": 73513
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 114,995 · 이후 턴마다 19,166 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -63691,7 +63786,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -63725,7 +63820,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -63827,7 +63922,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -63846,7 +63942,8 @@
                       }
                     }
                   ],
-                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:145pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -63865,7 +63962,8 @@
                       }
                     }
                   ],
-                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:266pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -63884,7 +63982,8 @@
                       }
                     }
                   ],
-                  "description": "73pt의 피해를 2회 입힌다."
+                  "description": "73pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:73pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -63902,7 +64001,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -63983,15 +64083,18 @@
                       }
                     }
                   ],
-                  "description": "675pt의 피해를 1회 입힌다."
+                  "description": "675pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:675pt의 피해를 1회 입힌다.>"
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
                 }
               },
               "resolvedStates": [
@@ -64024,7 +64127,8 @@
                       }
                     }
                   ],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 13의 <kw_17b3bbbf8bb9004a:힘>과 28,749의 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -64120,7 +64224,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -64139,7 +64244,8 @@
                       }
                     }
                   ],
-                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:145pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -64158,7 +64264,8 @@
                       }
                     }
                   ],
-                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:266pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -64177,7 +64284,8 @@
                       }
                     }
                   ],
-                  "description": "73pt의 피해를 2회 입힌다."
+                  "description": "73pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:73pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -64195,7 +64303,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -64261,7 +64370,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -64280,7 +64390,8 @@
                       }
                     }
                   ],
-                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:145pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -64299,7 +64410,8 @@
                       }
                     }
                   ],
-                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:266pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -64318,7 +64430,8 @@
                       }
                     }
                   ],
-                  "description": "73pt의 피해를 2회 입힌다."
+                  "description": "73pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:73pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -64336,7 +64449,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -65688,7 +65802,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -65728,7 +65842,7 @@
                     }
                   ],
                   "description": "823pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:823pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:823pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -66228,7 +66342,7 @@
                 "skillId": 72124,
                 "cmdId": 73504
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 263,712 · 이후 턴마다 43,952 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -66243,7 +66357,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -66277,7 +66391,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -66362,7 +66476,7 @@
                 "skillId": 72120,
                 "cmdId": 73513
               },
-              "hpDisplay": "소환자의 최대 HP × (5% + 소환 턴 × 1%)",
+              "hpDisplay": "1턴 기준 263,712 · 이후 턴마다 43,952 증가",
               "hpFormula": "CmdCaster.max_hp*(0.05+BattleStats.BoutCount*0.01)",
               "phases": [
                 {
@@ -66377,7 +66491,7 @@
                 "72108": {
                   "args": [],
                   "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -66411,7 +66525,7 @@
                     }
                   ],
                   "description": "공격력의 110%pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "richDescription": "<game-text:공격력의 110%pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -66513,7 +66627,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -66532,7 +66647,8 @@
                       }
                     }
                   ],
-                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:174pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -66551,7 +66667,8 @@
                       }
                     }
                   ],
-                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:319pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -66570,7 +66687,8 @@
                       }
                     }
                   ],
-                  "description": "87pt의 피해를 2회 입힌다."
+                  "description": "87pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:87pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -66588,7 +66706,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -66669,15 +66788,18 @@
                       }
                     }
                   ],
-                  "description": "811pt의 피해를 1회 입힌다."
+                  "description": "811pt의 피해를 1회 입힌다.",
+                  "richDescription": "<game-text:811pt의 피해를 1회 입힌다.>"
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
+                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
                 }
               },
               "resolvedStates": [
@@ -66710,7 +66832,8 @@
                       }
                     }
                   ],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 15의 <kw_2c4b4d0fc95410e5:힘>과 65,928의 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -66806,7 +66929,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -66825,7 +66949,8 @@
                       }
                     }
                   ],
-                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:174pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -66844,7 +66969,8 @@
                       }
                     }
                   ],
-                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:319pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -66863,7 +66989,8 @@
                       }
                     }
                   ],
-                  "description": "87pt의 피해를 2회 입힌다."
+                  "description": "87pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:87pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -66881,7 +67008,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -66947,7 +67075,8 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
+                  "richDescription": "<game-text:<kw_ae3812979ee6e4f9:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
                 },
                 "72116": {
                   "args": [
@@ -66966,7 +67095,8 @@
                       }
                     }
                   ],
-                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
+                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
+                  "richDescription": "<game-text:174pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
                 },
                 "72117": {
                   "args": [
@@ -66985,7 +67115,8 @@
                       }
                     }
                   ],
-                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
+                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
+                  "richDescription": "<game-text:319pt의 피해를 1회 입히고, <kw_ae3812979ee6e4f9:「암살자」> 상태를 획득한다.>"
                 },
                 "72123": {
                   "args": [
@@ -67004,7 +67135,8 @@
                       }
                     }
                   ],
-                  "description": "87pt의 피해를 2회 입힌다."
+                  "description": "87pt의 피해를 2회 입힌다.",
+                  "richDescription": "<game-text:87pt의 피해를 2회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -67022,7 +67154,8 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": []
+                  "descArgs": [],
+                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
                 },
                 {
                   "id": 22074,
@@ -67783,16 +67916,6 @@
         "id": 131637
       }
     },
-    "kw_392642226522d058": {
-      "name": "힘",
-      "description": "상태 | 힘\n\n이번 전투 내에서 주는 능동 피해가 스택 수pt 감소한다.",
-      "source": {
-        "type": "State",
-        "id": 2619
-      },
-      "icon": "images/keyword-icons/inline/battle_card_buff_037.png",
-      "color": "#af6bb0"
-    },
     "kw_191eb80213313dae": {
       "name": "허약",
       "description": "상태 | 허약\n\n능동 및 촉수 피해 감소 25%, 턴 종료 시 1스택 제거.",
@@ -67809,15 +67932,6 @@
       "source": {
         "type": "State",
         "id": 128248
-      },
-      "icon": "images/keyword-icons/inline/battle_card_buff_071.png"
-    },
-    "kw_d9696e65d8c3da53": {
-      "name": "임시 열광",
-      "description": "상태 | 임시 열광\n\n턴 시작 시 초기화된다. 10스택에 도달하면, 다음에 카드를 사용한 후 즉시 행동하여 열광을 제거하고, 의도를 손상을 부여하며 암중 파괴를 무작위로 부여하는 「붕괴의 실」로 전환한다.",
-      "source": {
-        "type": "State",
-        "id": 128245
       },
       "icon": "images/keyword-icons/inline/battle_card_buff_071.png"
     },
@@ -68726,6 +68840,94 @@
       },
       "icon": "images/keyword-icons/inline/battle_card_buff_073.png",
       "color": "#af6bb0"
+    },
+    "kw_bbf91374a7b80224": {
+      "name": "군집 효과",
+      "description": "상태 | 군집 효과\n\n사망 후 즉시 무작위 「심연옥 거미 떼」 또는 「냉거미 떼」를 소환하여 해당 대상의 「군집 효과」를 1단계 감소시킨다.",
+      "source": {
+        "type": "State",
+        "id": 131637
+      },
+      "icon": "images/keyword-icons/original/icons_buff_061.png"
+    },
+    "kw_ae3812979ee6e4f9": {
+      "name": "「암살자」",
+      "description": "상태 | 「암살자」\n\n주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.",
+      "source": {
+        "type": "State",
+        "id": 73518
+      },
+      "icon": "images/keyword-icons/original/icons_buff_016.png"
+    },
+    "kw_3eb23e4ff37c6c10": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 1.65pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
+    "kw_83560ae9fd66ae1d": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 2.925pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
+    "kw_800291f265be51a4": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 5pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
+    "kw_0eb04c090b14bbd4": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 7.6pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
+    "kw_e76b17c6e98fa2c6": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 10pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
+    "kw_17b3bbbf8bb9004a": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 12.05pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
+    },
+    "kw_2c4b4d0fc95410e5": {
+      "name": "힘",
+      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 14.475pt 증가한다.",
+      "source": {
+        "type": "State",
+        "id": 2900
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
+      "color": "#71aa86"
     }
   },
   "contentAudit": {
@@ -68735,7 +68937,7 @@
       "resVersion": 140,
       "buildVersion": 51
     },
-    "glossaryCount": 132,
+    "glossaryCount": 139,
     "diagnostics": [],
     "warnings": [
       {

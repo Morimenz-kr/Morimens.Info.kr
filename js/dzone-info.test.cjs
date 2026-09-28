@@ -555,6 +555,28 @@ test('연결 해제로 소환되는 긴급 연락의 이미지·행동·패시�
     assert.equal((rendered.match(/<article>긴급 연락<\/article>/g) || []).length, 1);
 });
 
+test('턴 의존 소환체 HP는 난이도별 숫자로 표시하고 같은 암살자 상태를 모두 연결한다', () => {
+    const dynamicSummons = currentDzoneData.waves.flatMap(wave => wave.alerts.flatMap(alert =>
+        (alert.summonedMonsters || []).filter(monster => /BattleStats\.BoutCount/.test(monster.rule?.hpExpression || ''))
+    ));
+    assert.ok(dynamicSummons.length > 0);
+    for (const summon of dynamicSummons) {
+        assert.match(summon.hpDisplay, /^1턴 기준 [\d,]+ · 이후 턴마다 [\d,]+ 증가$/);
+        assert.doesNotMatch(summon.hpDisplay, /소환자의 최대 HP|×|%/);
+    }
+
+    const wave = currentDzoneData.waves.find(item => item.wave === 5);
+    const assassinSkills = wave.alerts.flatMap(alert => (alert.summonedMonsters || [])
+        .filter(monster => monster.parentTid === 72145)
+        .flatMap(monster => Object.values(monster.resolvedSkills || {})))
+        .filter(skill => String(skill.description || '').includes('암살자'));
+    assert.ok(assassinSkills.length > 0);
+    for (const skill of assassinSkills) assert.match(skill.richDescription, /<kw_[a-f0-9]{16}:「암살자」>/);
+
+    const finalSummon = wave.alerts.at(-1).summonedMonsters.find(monster => monster.parentTid === 72145 && monster.hpDisplay);
+    assert.equal(finalSummon.hpDisplay, '1턴 기준 263,712 · 이후 턴마다 43,952 증가');
+});
+
 test('동일 소환체는 수량으로 묶되 다른 패턴·능력치·소환 경로는 합치지 않는다', () => {
     const wave = dzoneData.waves.find(w => w.wave === 2);
     const cards = [];
@@ -796,7 +818,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.94-conditional-transitions-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.95-summon-values-tooltips-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
