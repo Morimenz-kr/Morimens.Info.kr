@@ -32,6 +32,59 @@ test('현재 D-Zone 용어와 패턴 변경 제목을 공식 표기로 표시한
     assert.doesNotMatch(source, /의도 교체 규칙/);
 });
 
+test('5금지구역 문의 열쇠는 4익과 6익 의도 및 7개 위험등급 수치를 모두 제공한다', () => {
+    const wave = currentDzoneData.waves.find(item => item.wave === 5);
+    const boss = wave.monsters.find(item => item.tid === 125901);
+    assert.ok(boss);
+    assert.deepEqual(
+        boss.skills.filter(skill => [125906, 125909, 125904].includes(skill.id)).map(skill => [skill.id, skill.name]),
+        [
+            [125906, '두 날개의 맥동'],
+            [125909, '네 날개의 성장'],
+            [125904, '여섯 날개의 해방']
+        ]
+    );
+    assert.deepEqual(
+        boss.conditionalActions.filter(action => [125909, 125904].includes(action.skillId)).map(action => action.conditionText),
+        [
+            '현재 의도가 「두 날개의 맥동」일 때 · 명령카드 4장을 사용한 후',
+            '현재 의도가 「네 날개의 성장」일 때 · 명령카드 4장을 사용한 후'
+        ]
+    );
+    assert.equal(wave.alerts.length, 7);
+    for (const alert of wave.alerts) {
+        const stats = alert.monsters.find(item => item.tid === 125901);
+        assert.match(stats.resolvedSkills['125906'].description, /명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다/);
+        assert.doesNotMatch(stats.resolvedSkills['125906'].description, /기본 4장|손상 및 허약 2스택을 부여하는/);
+        assert.match(stats.resolvedSkills['125909'].description, /^[\d,]+pt의 피해를 4회.*의도를 「여섯 날개의 해방」으로 변경한다/);
+        assert.doesNotMatch(stats.resolvedSkills['125909'].description, /여섯 날개의 만개|손상, 허약 및 취약 2스택을 부여하는/);
+        assert.match(stats.resolvedSkills['125904'].description, /손상, 허약 및 취약/);
+        assert.doesNotMatch(JSON.stringify(stats.resolvedSkills), /(?:Arg\d+|기본 0장)/);
+    }
+});
+
+test('5금지구역 상태 툴팁은 실제 명령이 부여하는 State에만 연결한다', () => {
+    const wave = currentDzoneData.waves.find(item => item.wave === 5);
+    const firstStats = tid => wave.alerts.flatMap(alert => alert.monsters).find(monster => monster.tid === tid);
+    const beastSeal = firstStats(14099).resolvedSkills['4773'].richDescription;
+    const fragmentSeal = firstStats(14093).resolvedSkills['4726'].richDescription;
+    const bossEntry = firstStats(125901).entryStates.find(state => state.id === 125929).richDescription;
+
+    assert.match(beastSeal, /<kw_[a-f0-9]{16}:임시 봉인> 1스택/);
+    assert.match(fragmentSeal, /<kw_[a-f0-9]{16}:임시 봉인> 1스택/);
+    assert.match(bossEntry, /임시 <kw_[a-f0-9]{16}:보강> 70스택/);
+    assert.match(bossEntry, /<kw_[a-f0-9]{16}:원한의 사슬> 1스택/);
+
+    const sourceFor = (text, label) => {
+        const key = text.match(new RegExp(`<((?:kw_)[a-f0-9]{16}):${label}>`))?.[1];
+        return currentDzoneData.keywordGlossary[key]?.source?.id;
+    };
+    assert.equal(sourceFor(fragmentSeal, '임시 봉인'), 81341);
+    assert.equal(sourceFor(bossEntry, '보강'), 60083);
+    assert.equal(sourceFor(bossEntry, '원한의 사슬'), 60898);
+    assert.deepEqual(currentDzoneData.contentAudit.diagnostics, []);
+});
+
 test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기·굶주림은 같은 상태로 연결한다', () => {
     const wave = currentDzoneData.waves.find(item => item.wave === 3);
     const monster = wave.monsters.find(item => item.tid === 140713);
@@ -742,7 +795,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.91-research-input-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.93-state-tooltips-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));

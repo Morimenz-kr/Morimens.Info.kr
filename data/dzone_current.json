@@ -46823,7 +46823,7 @@
               "typeLabel": "공격·방어",
               "target": "FrontEnemy",
               "targetLabel": "전방 각성체",
-              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 입히고, [Block:Arg3]pt의 실드를 획득한다.",
+              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 입히고, [Block:Arg3]의 실드를 획득한다.",
               "para": "BattleAtkForce*1,1,BattleDefForce*2",
               "expressions": [
                 "BattleAtkForce*1",
@@ -46912,7 +46912,7 @@
               "typeLabel": "공격·방어",
               "target": "FrontEnemy",
               "targetLabel": "전방 각성체",
-              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 입히고, [Block:Arg3]pt의 실드를 획득한다.",
+              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 입히고, [Block:Arg3]의 실드를 획득한다.",
               "para": "BattleAtkForce*1,1,BattleDefForce*1",
               "expressions": [
                 "BattleAtkForce*1",
@@ -47378,7 +47378,7 @@
               "typeLabel": "공격·약화",
               "target": "PlayerRole",
               "targetLabel": "아군",
-              "descriptionTemplate": "[Damage:Arg1] 점 피해를 [AttackTimes:Arg2]회 입히고, [Arg3]층 손상을 부여합니다. 명령카드 [Arg4]장을 사용한 후, 의도가 [Damage:Arg5] 점 피해를 [AttackTimes:Arg6]회 입히고, [Arg7]층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
+              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 입히고, 손상 [Arg3]스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
               "para": "BattleAtkForce*0.4,2,2,CmdCaster.GetStateLayer(125933),BattleAtkForce*0.3,4,2",
               "expressions": [
                 "BattleAtkForce*0.4",
@@ -47388,7 +47388,12 @@
                 "BattleAtkForce*0.3",
                 "4",
                 "2"
-              ]
+              ],
+              "intentionTransition": {
+                "cardCount": 4,
+                "targetSkillId": 125909,
+                "targetName": "네 날개의 성장"
+              }
             },
             {
               "id": 125903,
@@ -47420,6 +47425,47 @@
               "expressions": [
                 "50",
                 "1"
+              ]
+            },
+            {
+              "id": 125909,
+              "name": "네 날개의 성장",
+              "hasOfficialName": true,
+              "type": "Intent_AttackDebuff",
+              "typeLabel": "공격·약화",
+              "target": "PlayerRole",
+              "targetLabel": "아군",
+              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 입히고, 손상 및 허약 [Arg3]스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+              "para": "BattleAtkForce*0.3,4,2,CmdCaster.GetStateLayer(125927),BattleAtkForce*0.3,6,2",
+              "expressions": [
+                "BattleAtkForce*0.3",
+                "4",
+                "2",
+                "CmdCaster.GetStateLayer(125927)",
+                "BattleAtkForce*0.3",
+                "6",
+                "2"
+              ],
+              "intentionTransition": {
+                "cardCount": 4,
+                "targetSkillId": 125904,
+                "targetName": "여섯 날개의 해방"
+              }
+            },
+            {
+              "id": 125904,
+              "name": "여섯 날개의 해방",
+              "hasOfficialName": true,
+              "type": "Intent_AttackDebuff",
+              "typeLabel": "공격·약화",
+              "target": "PlayerRole",
+              "targetLabel": "아군",
+              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 주고, 손상, 허약 및 취약을 [Arg3]스택 부여한다.",
+              "para": "BattleAtkForce*0.3,6,2",
+              "expressions": [
+                "BattleAtkForce*0.3",
+                "6",
+                "2"
               ]
             }
           ],
@@ -47515,6 +47561,30 @@
               ],
               "commandCondition": "",
               "conditionText": "치명적인 피해를 받아 쓰러지기 직전"
+            },
+            {
+              "stateId": 125926,
+              "commandId": 125922,
+              "skillId": 125909,
+              "judgement": "(CurCard.CardTypeMatch(Card_Strike)==1 or CurCard.CardTypeMatch(Card_Defend)==1 or CurCard.CardTypeMatch(Card_Skill)==1 or CurCard.CardTypeMatch(Card_Extend)==1) and (GetMonsterByID(125901).Intention==125906 or GetMonsterByID(125901).Intention==125909)",
+              "triggerEvents": [
+                "BSTAfterUseCard"
+              ],
+              "commandCondition": "GetMonsterByID(125901).Intention==125906 and GetMonsterByID(125901).GetStateLayer(125933)==0",
+              "conditionText": "현재 의도가 「두 날개의 맥동」일 때 · 명령카드 4장을 사용한 후",
+              "targetTid": 125901
+            },
+            {
+              "stateId": 125926,
+              "commandId": 125922,
+              "skillId": 125904,
+              "judgement": "(CurCard.CardTypeMatch(Card_Strike)==1 or CurCard.CardTypeMatch(Card_Defend)==1 or CurCard.CardTypeMatch(Card_Skill)==1 or CurCard.CardTypeMatch(Card_Extend)==1) and (GetMonsterByID(125901).Intention==125906 or GetMonsterByID(125901).Intention==125909)",
+              "triggerEvents": [
+                "BSTAfterUseCard"
+              ],
+              "commandCondition": "GetMonsterByID(125901).Intention==125909 and GetMonsterByID(125901).GetStateLayer(125927)==0",
+              "conditionText": "현재 의도가 「네 날개의 성장」일 때 · 명령카드 4장을 사용한 후",
+              "targetTid": 125901
             }
           ],
           "phaseTransitions": [
@@ -47543,10 +47613,10 @@
                 {
                   "id": 125934,
                   "name": "은열쇠의 문",
-                  "descriptionTemplate": "행동력을 소모할 때, 획득하는 은열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
+                  "descriptionTemplate": "행동력을 소모할 때 획득하는 은열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                   "icon": "images/keyword-icons/original/icons_buff_010.png",
                   "visible": true,
-                  "richDescriptionTemplate": "<game-text:행동력을 소모할 때, 획득하는 은열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                  "richDescriptionTemplate": "<game-text:행동력을 소모할 때 획득하는 은열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
                 },
                 {
                   "id": 125964,
@@ -48420,7 +48490,7 @@
                 "4773": {
                   "args": [],
                   "description": "무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.",
-                  "richDescription": "<game-text:무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.>"
+                  "richDescription": "<game-text:무작위 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여한다. 이 효과를 2회 반복한다.>"
                 },
                 "4841": {
                   "args": [
@@ -48446,8 +48516,8 @@
                       }
                     }
                   ],
-                  "description": "200pt의 피해를 1회 입히고, 608pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:200pt의 피해를 1회 입히고, 608pt의 실드를 획득한다.>"
+                  "description": "200pt의 피해를 1회 입히고, 608의 실드를 획득한다.",
+                  "richDescription": "<game-text:200pt의 피해를 1회 입히고, 608의 실드를 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -48525,8 +48595,8 @@
                       }
                     }
                   ],
-                  "description": "78pt의 피해를 1회 입히고, 137pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:78pt의 피해를 1회 입히고, 137pt의 실드를 획득한다.>"
+                  "description": "78pt의 피해를 1회 입히고, 137의 실드를 획득한다.",
+                  "richDescription": "<game-text:78pt의 피해를 1회 입히고, 137의 실드를 획득한다.>"
                 },
                 "4726": {
                   "args": [
@@ -48553,7 +48623,7 @@
                     }
                   ],
                   "description": "광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 47pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 47pt의 피해를 1회 입힌다.>"
+                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여하고, 47pt의 피해를 1회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -48998,6 +49068,33 @@
                   "description": "실드를 3,909pt 및 힘 12pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                   "richDescription": "<game-text:실드를 3,909pt 및 <kw_0592bc5e737c4770:힘> 12pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                 },
+                "125904": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 112.2,
+                        "display": 113
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "113pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                  "richDescription": "<game-text:113pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                },
                 "125906": {
                   "args": [
                     {
@@ -49051,8 +49148,8 @@
                       }
                     }
                   ],
-                  "description": "150 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 113 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                  "richDescription": "<game-text:150 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 113 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                  "description": "150pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                  "richDescription": "<game-text:150pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                 },
                 "125907": {
                   "args": [
@@ -49093,6 +49190,62 @@
                   ],
                   "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                   "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                },
+                "125909": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 112.2,
+                        "display": 113
+                      }
+                    },
+                    {
+                      "expression": "4",
+                      "value": {
+                        "raw": 4,
+                        "display": 4
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.GetStateLayer(125927)",
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 112.2,
+                        "display": 113
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "113pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                  "richDescription": "<game-text:113pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                 }
               },
               "resolvedStates": [
@@ -49198,6 +49351,33 @@
                     "description": "실드를 3,909pt 및 힘 12pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                     "richDescription": "<game-text:실드를 3,909pt 및 <kw_0592bc5e737c4770:힘> 12pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                   },
+                  "125904": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 112.2,
+                          "display": 113
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "113pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                    "richDescription": "<game-text:113pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                  },
                   "125906": {
                     "args": [
                       {
@@ -49251,8 +49431,8 @@
                         }
                       }
                     ],
-                    "description": "150 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 113 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                    "richDescription": "<game-text:150 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 113 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                    "description": "150pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                    "richDescription": "<game-text:150pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                   },
                   "125907": {
                     "args": [
@@ -49293,6 +49473,62 @@
                     ],
                     "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                     "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                  },
+                  "125909": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 112.2,
+                          "display": 113
+                        }
+                      },
+                      {
+                        "expression": "4",
+                        "value": {
+                          "raw": 4,
+                          "display": 4
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "CmdCaster.GetStateLayer(125927)",
+                        "value": {
+                          "raw": 4,
+                          "display": 4,
+                          "dynamic": true
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 112.2,
+                          "display": 113
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "113pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                    "richDescription": "<game-text:113pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                   }
                 }
               },
@@ -49302,7 +49538,7 @@
                   "name": "존재하지 않는 존재",
                   "visible": true,
                   "description": "단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.",
-                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.>",
+                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 <kw_f656926894e23425:보강> 70스택과 <kw_10ca2d08666a35ab:원한의 사슬> 1스택을 획득한다.>",
                   "icon": "images/keyword-icons/original/icons_buff_016.png",
                   "initialLayer": {
                     "value": {
@@ -50161,8 +50397,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -50181,8 +50416,7 @@
                       }
                     }
                   ],
-                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:20pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -50201,8 +50435,7 @@
                       }
                     }
                   ],
-                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:37pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -50221,8 +50454,7 @@
                       }
                     }
                   ],
-                  "description": "10pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:10pt의 피해를 2회 입힌다.>"
+                  "description": "10pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -50240,8 +50472,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -50322,18 +50553,15 @@
                       }
                     }
                   ],
-                  "description": "93pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:93pt의 피해를 1회 입힌다.>"
+                  "description": "93pt의 피해를 1회 입힌다."
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
                 }
               },
               "resolvedStates": [
@@ -50366,8 +50594,7 @@
                       }
                     }
                   ],
-                  "descArgs": [],
-                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 2의 <kw_3eb23e4ff37c6c10:힘>과 330의 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -50463,8 +50690,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -50483,8 +50709,7 @@
                       }
                     }
                   ],
-                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:20pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -50503,8 +50728,7 @@
                       }
                     }
                   ],
-                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:37pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -50523,8 +50747,7 @@
                       }
                     }
                   ],
-                  "description": "10pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:10pt의 피해를 2회 입힌다.>"
+                  "description": "10pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -50542,8 +50765,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -50609,8 +50831,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -50629,8 +50850,7 @@
                       }
                     }
                   ],
-                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:20pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "20pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -50649,8 +50869,7 @@
                       }
                     }
                   ],
-                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:37pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "37pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -50669,8 +50888,7 @@
                       }
                     }
                   ],
-                  "description": "10pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:10pt의 피해를 2회 입힌다.>"
+                  "description": "10pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -50688,8 +50906,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -50959,7 +51176,7 @@
                 "4773": {
                   "args": [],
                   "description": "무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.",
-                  "richDescription": "<game-text:무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.>"
+                  "richDescription": "<game-text:무작위 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여한다. 이 효과를 2회 반복한다.>"
                 },
                 "4841": {
                   "args": [
@@ -50985,8 +51202,8 @@
                       }
                     }
                   ],
-                  "description": "377pt의 피해를 1회 입히고, 1,806pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:377pt의 피해를 1회 입히고, 1,806pt의 실드를 획득한다.>"
+                  "description": "377pt의 피해를 1회 입히고, 1,806의 실드를 획득한다.",
+                  "richDescription": "<game-text:377pt의 피해를 1회 입히고, 1,806의 실드를 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -51064,8 +51281,8 @@
                       }
                     }
                   ],
-                  "description": "158pt의 피해를 1회 입히고, 496pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:158pt의 피해를 1회 입히고, 496pt의 실드를 획득한다.>"
+                  "description": "158pt의 피해를 1회 입히고, 496의 실드를 획득한다.",
+                  "richDescription": "<game-text:158pt의 피해를 1회 입히고, 496의 실드를 획득한다.>"
                 },
                 "4726": {
                   "args": [
@@ -51092,7 +51309,7 @@
                     }
                   ],
                   "description": "광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 95pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 95pt의 피해를 1회 입힌다.>"
+                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여하고, 95pt의 피해를 1회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -51537,6 +51754,33 @@
                   "description": "실드를 10,968pt 및 힘 21pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                   "richDescription": "<game-text:실드를 10,968pt 및 <kw_7ebbfc12e30a54cf:힘> 21pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                 },
+                "125904": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 205.79999999999998,
+                        "display": 206
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "206pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                  "richDescription": "<game-text:206pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                },
                 "125906": {
                   "args": [
                     {
@@ -51590,8 +51834,8 @@
                       }
                     }
                   ],
-                  "description": "275 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 206 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                  "richDescription": "<game-text:275 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 206 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                  "description": "275pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                  "richDescription": "<game-text:275pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                 },
                 "125907": {
                   "args": [
@@ -51632,6 +51876,62 @@
                   ],
                   "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                   "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                },
+                "125909": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 205.79999999999998,
+                        "display": 206
+                      }
+                    },
+                    {
+                      "expression": "4",
+                      "value": {
+                        "raw": 4,
+                        "display": 4
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.GetStateLayer(125927)",
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 205.79999999999998,
+                        "display": 206
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "206pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                  "richDescription": "<game-text:206pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                 }
               },
               "resolvedStates": [
@@ -51737,6 +52037,33 @@
                     "description": "실드를 10,968pt 및 힘 21pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                     "richDescription": "<game-text:실드를 10,968pt 및 <kw_7ebbfc12e30a54cf:힘> 21pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                   },
+                  "125904": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 205.79999999999998,
+                          "display": 206
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "206pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                    "richDescription": "<game-text:206pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                  },
                   "125906": {
                     "args": [
                       {
@@ -51790,8 +52117,8 @@
                         }
                       }
                     ],
-                    "description": "275 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 206 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                    "richDescription": "<game-text:275 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 206 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                    "description": "275pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                    "richDescription": "<game-text:275pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                   },
                   "125907": {
                     "args": [
@@ -51832,6 +52159,62 @@
                     ],
                     "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                     "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                  },
+                  "125909": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 205.79999999999998,
+                          "display": 206
+                        }
+                      },
+                      {
+                        "expression": "4",
+                        "value": {
+                          "raw": 4,
+                          "display": 4
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "CmdCaster.GetStateLayer(125927)",
+                        "value": {
+                          "raw": 4,
+                          "display": 4,
+                          "dynamic": true
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 205.79999999999998,
+                          "display": 206
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "206pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                    "richDescription": "<game-text:206pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                   }
                 }
               },
@@ -51841,7 +52224,7 @@
                   "name": "존재하지 않는 존재",
                   "visible": true,
                   "description": "단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.",
-                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.>",
+                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 <kw_f656926894e23425:보강> 70스택과 <kw_10ca2d08666a35ab:원한의 사슬> 1스택을 획득한다.>",
                   "icon": "images/keyword-icons/original/icons_buff_016.png",
                   "initialLayer": {
                     "value": {
@@ -52700,8 +53083,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -52720,8 +53102,7 @@
                       }
                     }
                   ],
-                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:36pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -52740,8 +53121,7 @@
                       }
                     }
                   ],
-                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:65pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -52760,8 +53140,7 @@
                       }
                     }
                   ],
-                  "description": "18pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:18pt의 피해를 2회 입힌다.>"
+                  "description": "18pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -52779,8 +53158,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -52861,18 +53239,15 @@
                       }
                     }
                   ],
-                  "description": "164pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:164pt의 피해를 1회 입힌다.>"
+                  "description": "164pt의 피해를 1회 입힌다."
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
                 }
               },
               "resolvedStates": [
@@ -52905,8 +53280,7 @@
                       }
                     }
                   ],
-                  "descArgs": [],
-                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 3의 <kw_83560ae9fd66ae1d:힘>과 888의 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -53002,8 +53376,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -53022,8 +53395,7 @@
                       }
                     }
                   ],
-                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:36pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -53042,8 +53414,7 @@
                       }
                     }
                   ],
-                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:65pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -53062,8 +53433,7 @@
                       }
                     }
                   ],
-                  "description": "18pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:18pt의 피해를 2회 입힌다.>"
+                  "description": "18pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -53081,8 +53451,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -53148,8 +53517,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -53168,8 +53536,7 @@
                       }
                     }
                   ],
-                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:36pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "36pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -53188,8 +53555,7 @@
                       }
                     }
                   ],
-                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:65pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "65pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -53208,8 +53574,7 @@
                       }
                     }
                   ],
-                  "description": "18pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:18pt의 피해를 2회 입힌다.>"
+                  "description": "18pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -53227,8 +53592,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -53498,7 +53862,7 @@
                 "4773": {
                   "args": [],
                   "description": "무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.",
-                  "richDescription": "<game-text:무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.>"
+                  "richDescription": "<game-text:무작위 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여한다. 이 효과를 2회 반복한다.>"
                 },
                 "4841": {
                   "args": [
@@ -53524,8 +53888,8 @@
                       }
                     }
                   ],
-                  "description": "640pt의 피해를 1회 입히고, 4,508pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:640pt의 피해를 1회 입히고, 4,508pt의 실드를 획득한다.>"
+                  "description": "640pt의 피해를 1회 입히고, 4,508의 실드를 획득한다.",
+                  "richDescription": "<game-text:640pt의 피해를 1회 입히고, 4,508의 실드를 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -53603,8 +53967,8 @@
                       }
                     }
                   ],
-                  "description": "270pt의 피해를 1회 입히고, 1,270pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:270pt의 피해를 1회 입히고, 1,270pt의 실드를 획득한다.>"
+                  "description": "270pt의 피해를 1회 입히고, 1,270의 실드를 획득한다.",
+                  "richDescription": "<game-text:270pt의 피해를 1회 입히고, 1,270의 실드를 획득한다.>"
                 },
                 "4726": {
                   "args": [
@@ -53631,7 +53995,7 @@
                     }
                   ],
                   "description": "광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 162pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 162pt의 피해를 1회 입힌다.>"
+                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여하고, 162pt의 피해를 1회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -54076,6 +54440,33 @@
                   "description": "실드를 27,747pt 및 힘 36pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                   "richDescription": "<game-text:실드를 27,747pt 및 <kw_3aeeb2949451452f:힘> 36pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                 },
+                "125904": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 357,
+                        "display": 357
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "357pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                  "richDescription": "<game-text:357pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                },
                 "125906": {
                   "args": [
                     {
@@ -54129,8 +54520,8 @@
                       }
                     }
                   ],
-                  "description": "476 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 357 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                  "richDescription": "<game-text:476 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 357 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                  "description": "476pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                  "richDescription": "<game-text:476pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                 },
                 "125907": {
                   "args": [
@@ -54171,6 +54562,62 @@
                   ],
                   "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                   "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                },
+                "125909": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 357,
+                        "display": 357
+                      }
+                    },
+                    {
+                      "expression": "4",
+                      "value": {
+                        "raw": 4,
+                        "display": 4
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.GetStateLayer(125927)",
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 357,
+                        "display": 357
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "357pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                  "richDescription": "<game-text:357pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                 }
               },
               "resolvedStates": [
@@ -54276,6 +54723,33 @@
                     "description": "실드를 27,747pt 및 힘 36pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                     "richDescription": "<game-text:실드를 27,747pt 및 <kw_3aeeb2949451452f:힘> 36pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                   },
+                  "125904": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 357,
+                          "display": 357
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "357pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                    "richDescription": "<game-text:357pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                  },
                   "125906": {
                     "args": [
                       {
@@ -54329,8 +54803,8 @@
                         }
                       }
                     ],
-                    "description": "476 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 357 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                    "richDescription": "<game-text:476 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 357 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                    "description": "476pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                    "richDescription": "<game-text:476pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                   },
                   "125907": {
                     "args": [
@@ -54371,6 +54845,62 @@
                     ],
                     "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                     "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                  },
+                  "125909": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 357,
+                          "display": 357
+                        }
+                      },
+                      {
+                        "expression": "4",
+                        "value": {
+                          "raw": 4,
+                          "display": 4
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "CmdCaster.GetStateLayer(125927)",
+                        "value": {
+                          "raw": 4,
+                          "display": 4,
+                          "dynamic": true
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 357,
+                          "display": 357
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "357pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                    "richDescription": "<game-text:357pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                   }
                 }
               },
@@ -54380,7 +54910,7 @@
                   "name": "존재하지 않는 존재",
                   "visible": true,
                   "description": "단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.",
-                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.>",
+                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 <kw_f656926894e23425:보강> 70스택과 <kw_10ca2d08666a35ab:원한의 사슬> 1스택을 획득한다.>",
                   "icon": "images/keyword-icons/original/icons_buff_016.png",
                   "initialLayer": {
                     "value": {
@@ -55239,8 +55769,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -55259,8 +55788,7 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:60pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -55279,8 +55807,7 @@
                       }
                     }
                   ],
-                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:111pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -55299,8 +55826,7 @@
                       }
                     }
                   ],
-                  "description": "30pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:30pt의 피해를 2회 입힌다.>"
+                  "description": "30pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -55318,8 +55844,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -55400,18 +55925,15 @@
                       }
                     }
                   ],
-                  "description": "280pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:280pt의 피해를 1회 입힌다.>"
+                  "description": "280pt의 피해를 1회 입힌다."
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
                 }
               },
               "resolvedStates": [
@@ -55444,8 +55966,7 @@
                       }
                     }
                   ],
-                  "descArgs": [],
-                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 5의 <kw_800291f265be51a4:힘>과 2,213의 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -55541,8 +56062,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -55561,8 +56081,7 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:60pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -55581,8 +56100,7 @@
                       }
                     }
                   ],
-                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:111pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -55601,8 +56119,7 @@
                       }
                     }
                   ],
-                  "description": "30pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:30pt의 피해를 2회 입힌다.>"
+                  "description": "30pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -55620,8 +56137,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -55687,8 +56203,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -55707,8 +56222,7 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:60pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "60pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -55727,8 +56241,7 @@
                       }
                     }
                   ],
-                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:111pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "111pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -55747,8 +56260,7 @@
                       }
                     }
                   ],
-                  "description": "30pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:30pt의 피해를 2회 입힌다.>"
+                  "description": "30pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -55766,8 +56278,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -56037,7 +56548,7 @@
                 "4773": {
                   "args": [],
                   "description": "무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.",
-                  "richDescription": "<game-text:무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.>"
+                  "richDescription": "<game-text:무작위 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여한다. 이 효과를 2회 반복한다.>"
                 },
                 "4841": {
                   "args": [
@@ -56063,8 +56574,8 @@
                       }
                     }
                   ],
-                  "description": "967pt의 피해를 1회 입히고, 10,312pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:967pt의 피해를 1회 입히고, 10,312pt의 실드를 획득한다.>"
+                  "description": "967pt의 피해를 1회 입히고, 10,312의 실드를 획득한다.",
+                  "richDescription": "<game-text:967pt의 피해를 1회 입히고, 10,312의 실드를 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -56142,8 +56653,8 @@
                       }
                     }
                   ],
-                  "description": "404pt의 피해를 1회 입히고, 3,016pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:404pt의 피해를 1회 입히고, 3,016pt의 실드를 획득한다.>"
+                  "description": "404pt의 피해를 1회 입히고, 3,016의 실드를 획득한다.",
+                  "richDescription": "<game-text:404pt의 피해를 1회 입히고, 3,016의 실드를 획득한다.>"
                 },
                 "4726": {
                   "args": [
@@ -56170,7 +56681,7 @@
                     }
                   ],
                   "description": "광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 243pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 243pt의 피해를 1회 입힌다.>"
+                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여하고, 243pt의 피해를 1회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -56615,6 +57126,33 @@
                   "description": "실드를 65,448pt 및 힘 56pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                   "richDescription": "<game-text:실드를 65,448pt 및 <kw_d828b87929cbf444:힘> 56pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                 },
+                "125904": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 551.6999999999999,
+                        "display": 552
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "552pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                  "richDescription": "<game-text:552pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                },
                 "125906": {
                   "args": [
                     {
@@ -56668,8 +57206,8 @@
                       }
                     }
                   ],
-                  "description": "736 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 552 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                  "richDescription": "<game-text:736 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 552 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                  "description": "736pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                  "richDescription": "<game-text:736pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                 },
                 "125907": {
                   "args": [
@@ -56710,6 +57248,62 @@
                   ],
                   "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                   "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                },
+                "125909": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 551.6999999999999,
+                        "display": 552
+                      }
+                    },
+                    {
+                      "expression": "4",
+                      "value": {
+                        "raw": 4,
+                        "display": 4
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.GetStateLayer(125927)",
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 551.6999999999999,
+                        "display": 552
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "552pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                  "richDescription": "<game-text:552pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                 }
               },
               "resolvedStates": [
@@ -56815,6 +57409,33 @@
                     "description": "실드를 65,448pt 및 힘 56pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                     "richDescription": "<game-text:실드를 65,448pt 및 <kw_d828b87929cbf444:힘> 56pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                   },
+                  "125904": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 551.6999999999999,
+                          "display": 552
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "552pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                    "richDescription": "<game-text:552pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                  },
                   "125906": {
                     "args": [
                       {
@@ -56868,8 +57489,8 @@
                         }
                       }
                     ],
-                    "description": "736 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 552 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                    "richDescription": "<game-text:736 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 552 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                    "description": "736pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                    "richDescription": "<game-text:736pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                   },
                   "125907": {
                     "args": [
@@ -56910,6 +57531,62 @@
                     ],
                     "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                     "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                  },
+                  "125909": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 551.6999999999999,
+                          "display": 552
+                        }
+                      },
+                      {
+                        "expression": "4",
+                        "value": {
+                          "raw": 4,
+                          "display": 4
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "CmdCaster.GetStateLayer(125927)",
+                        "value": {
+                          "raw": 4,
+                          "display": 4,
+                          "dynamic": true
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 551.6999999999999,
+                          "display": 552
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "552pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                    "richDescription": "<game-text:552pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                   }
                 }
               },
@@ -56919,7 +57596,7 @@
                   "name": "존재하지 않는 존재",
                   "visible": true,
                   "description": "단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.",
-                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.>",
+                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 <kw_f656926894e23425:보강> 70스택과 <kw_10ca2d08666a35ab:원한의 사슬> 1스택을 획득한다.>",
                   "icon": "images/keyword-icons/original/icons_buff_016.png",
                   "initialLayer": {
                     "value": {
@@ -57778,8 +58455,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -57798,8 +58474,7 @@
                       }
                     }
                   ],
-                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:92pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -57818,8 +58493,7 @@
                       }
                     }
                   ],
-                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:168pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -57838,8 +58512,7 @@
                       }
                     }
                   ],
-                  "description": "46pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:46pt의 피해를 2회 입힌다.>"
+                  "description": "46pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -57857,8 +58530,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -57939,18 +58611,15 @@
                       }
                     }
                   ],
-                  "description": "426pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:426pt의 피해를 1회 입힌다.>"
+                  "description": "426pt의 피해를 1회 입힌다."
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
                 }
               },
               "resolvedStates": [
@@ -57983,8 +58652,7 @@
                       }
                     }
                   ],
-                  "descArgs": [],
-                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 8의 <kw_0eb04c090b14bbd4:힘>과 5,079의 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -58080,8 +58748,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -58100,8 +58767,7 @@
                       }
                     }
                   ],
-                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:92pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -58120,8 +58786,7 @@
                       }
                     }
                   ],
-                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:168pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -58140,8 +58805,7 @@
                       }
                     }
                   ],
-                  "description": "46pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:46pt의 피해를 2회 입힌다.>"
+                  "description": "46pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -58159,8 +58823,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -58226,8 +58889,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -58246,8 +58908,7 @@
                       }
                     }
                   ],
-                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:92pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "92pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -58266,8 +58927,7 @@
                       }
                     }
                   ],
-                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:168pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "168pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -58286,8 +58946,7 @@
                       }
                     }
                   ],
-                  "description": "46pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:46pt의 피해를 2회 입힌다.>"
+                  "description": "46pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -58305,8 +58964,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -58576,7 +59234,7 @@
                 "4773": {
                   "args": [],
                   "description": "무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.",
-                  "richDescription": "<game-text:무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.>"
+                  "richDescription": "<game-text:무작위 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여한다. 이 효과를 2회 반복한다.>"
                 },
                 "4841": {
                   "args": [
@@ -58602,8 +59260,8 @@
                       }
                     }
                   ],
-                  "description": "1,267pt의 피해를 1회 입히고, 24,754pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:1,267pt의 피해를 1회 입히고, 24,754pt의 실드를 획득한다.>"
+                  "description": "1,267pt의 피해를 1회 입히고, 24,754의 실드를 획득한다.",
+                  "richDescription": "<game-text:1,267pt의 피해를 1회 입히고, 24,754의 실드를 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -58681,8 +59339,8 @@
                       }
                     }
                   ],
-                  "description": "528pt의 피해를 1회 입히고, 7,231pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:528pt의 피해를 1회 입히고, 7,231pt의 실드를 획득한다.>"
+                  "description": "528pt의 피해를 1회 입히고, 7,231의 실드를 획득한다.",
+                  "richDescription": "<game-text:528pt의 피해를 1회 입히고, 7,231의 실드를 획득한다.>"
                 },
                 "4726": {
                   "args": [
@@ -58709,7 +59367,7 @@
                     }
                   ],
                   "description": "광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 317pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 317pt의 피해를 1회 입힌다.>"
+                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여하고, 317pt의 피해를 1회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -59154,6 +59812,33 @@
                   "description": "실드를 152,265pt 및 힘 71pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                   "richDescription": "<game-text:실드를 152,265pt 및 <kw_036d5c11b802509c:힘> 71pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                 },
+                "125904": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 706.1999999999999,
+                        "display": 707
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "707pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                  "richDescription": "<game-text:707pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                },
                 "125906": {
                   "args": [
                     {
@@ -59207,8 +59892,8 @@
                       }
                     }
                   ],
-                  "description": "942 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 707 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                  "richDescription": "<game-text:942 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 707 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                  "description": "942pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                  "richDescription": "<game-text:942pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                 },
                 "125907": {
                   "args": [
@@ -59249,6 +59934,62 @@
                   ],
                   "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                   "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                },
+                "125909": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 706.1999999999999,
+                        "display": 707
+                      }
+                    },
+                    {
+                      "expression": "4",
+                      "value": {
+                        "raw": 4,
+                        "display": 4
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.GetStateLayer(125927)",
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 706.1999999999999,
+                        "display": 707
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "707pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                  "richDescription": "<game-text:707pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                 }
               },
               "resolvedStates": [
@@ -59354,6 +60095,33 @@
                     "description": "실드를 152,265pt 및 힘 71pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                     "richDescription": "<game-text:실드를 152,265pt 및 <kw_036d5c11b802509c:힘> 71pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                   },
+                  "125904": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 706.1999999999999,
+                          "display": 707
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "707pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                    "richDescription": "<game-text:707pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                  },
                   "125906": {
                     "args": [
                       {
@@ -59407,8 +60175,8 @@
                         }
                       }
                     ],
-                    "description": "942 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 707 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                    "richDescription": "<game-text:942 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 707 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                    "description": "942pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                    "richDescription": "<game-text:942pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                   },
                   "125907": {
                     "args": [
@@ -59449,6 +60217,62 @@
                     ],
                     "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                     "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                  },
+                  "125909": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 706.1999999999999,
+                          "display": 707
+                        }
+                      },
+                      {
+                        "expression": "4",
+                        "value": {
+                          "raw": 4,
+                          "display": 4
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "CmdCaster.GetStateLayer(125927)",
+                        "value": {
+                          "raw": 4,
+                          "display": 4,
+                          "dynamic": true
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 706.1999999999999,
+                          "display": 707
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "707pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                    "richDescription": "<game-text:707pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                   }
                 }
               },
@@ -59458,7 +60282,7 @@
                   "name": "존재하지 않는 존재",
                   "visible": true,
                   "description": "단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.",
-                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.>",
+                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 <kw_f656926894e23425:보강> 70스택과 <kw_10ca2d08666a35ab:원한의 사슬> 1스택을 획득한다.>",
                   "icon": "images/keyword-icons/original/icons_buff_016.png",
                   "initialLayer": {
                     "value": {
@@ -60317,8 +61141,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -60337,8 +61160,7 @@
                       }
                     }
                   ],
-                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:120pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -60357,8 +61179,7 @@
                       }
                     }
                   ],
-                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:221pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -60377,8 +61198,7 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:60pt의 피해를 2회 입힌다.>"
+                  "description": "60pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -60396,8 +61216,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -60478,18 +61297,15 @@
                       }
                     }
                   ],
-                  "description": "560pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:560pt의 피해를 1회 입힌다.>"
+                  "description": "560pt의 피해를 1회 입힌다."
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
                 }
               },
               "resolvedStates": [
@@ -60522,8 +61338,7 @@
                       }
                     }
                   ],
-                  "descArgs": [],
-                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 10의 <kw_e76b17c6e98fa2c6:힘>과 12,186의 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -60619,8 +61434,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -60639,8 +61453,7 @@
                       }
                     }
                   ],
-                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:120pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -60659,8 +61472,7 @@
                       }
                     }
                   ],
-                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:221pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -60679,8 +61491,7 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:60pt의 피해를 2회 입힌다.>"
+                  "description": "60pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -60698,8 +61509,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -60765,8 +61575,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -60785,8 +61594,7 @@
                       }
                     }
                   ],
-                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:120pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "120pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -60805,8 +61613,7 @@
                       }
                     }
                   ],
-                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:221pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "221pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -60825,8 +61632,7 @@
                       }
                     }
                   ],
-                  "description": "60pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:60pt의 피해를 2회 입힌다.>"
+                  "description": "60pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -60844,8 +61650,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -61115,7 +61920,7 @@
                 "4773": {
                   "args": [],
                   "description": "무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.",
-                  "richDescription": "<game-text:무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.>"
+                  "richDescription": "<game-text:무작위 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여한다. 이 효과를 2회 반복한다.>"
                 },
                 "4841": {
                   "args": [
@@ -61141,8 +61946,8 @@
                       }
                     }
                   ],
-                  "description": "1,525pt의 피해를 1회 입히고, 28,990pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:1,525pt의 피해를 1회 입히고, 28,990pt의 실드를 획득한다.>"
+                  "description": "1,525pt의 피해를 1회 입히고, 28,990의 실드를 획득한다.",
+                  "richDescription": "<game-text:1,525pt의 피해를 1회 입히고, 28,990의 실드를 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -61220,8 +62025,8 @@
                       }
                     }
                   ],
-                  "description": "636pt의 피해를 1회 입히고, 8,453pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:636pt의 피해를 1회 입히고, 8,453pt의 실드를 획득한다.>"
+                  "description": "636pt의 피해를 1회 입히고, 8,453의 실드를 획득한다.",
+                  "richDescription": "<game-text:636pt의 피해를 1회 입히고, 8,453의 실드를 획득한다.>"
                 },
                 "4726": {
                   "args": [
@@ -61248,7 +62053,7 @@
                     }
                   ],
                   "description": "광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 382pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 382pt의 피해를 1회 입힌다.>"
+                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여하고, 382pt의 피해를 1회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -61693,6 +62498,33 @@
                   "description": "실드를 178,698pt 및 힘 86pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                   "richDescription": "<game-text:실드를 178,698pt 및 <kw_1fb58fbfff3f6475:힘> 86pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                 },
+                "125904": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 850.1999999999999,
+                        "display": 851
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "851pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                  "richDescription": "<game-text:851pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                },
                 "125906": {
                   "args": [
                     {
@@ -61746,8 +62578,8 @@
                       }
                     }
                   ],
-                  "description": "1,134 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 851 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                  "richDescription": "<game-text:1,134 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 851 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                  "description": "1,134pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                  "richDescription": "<game-text:1,134pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                 },
                 "125907": {
                   "args": [
@@ -61788,6 +62620,62 @@
                   ],
                   "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                   "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                },
+                "125909": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 850.1999999999999,
+                        "display": 851
+                      }
+                    },
+                    {
+                      "expression": "4",
+                      "value": {
+                        "raw": 4,
+                        "display": 4
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.GetStateLayer(125927)",
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 850.1999999999999,
+                        "display": 851
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "851pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                  "richDescription": "<game-text:851pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                 }
               },
               "resolvedStates": [
@@ -61893,6 +62781,33 @@
                     "description": "실드를 178,698pt 및 힘 86pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                     "richDescription": "<game-text:실드를 178,698pt 및 <kw_1fb58fbfff3f6475:힘> 86pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                   },
+                  "125904": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 850.1999999999999,
+                          "display": 851
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "851pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                    "richDescription": "<game-text:851pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                  },
                   "125906": {
                     "args": [
                       {
@@ -61946,8 +62861,8 @@
                         }
                       }
                     ],
-                    "description": "1,134 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 851 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                    "richDescription": "<game-text:1,134 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 851 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                    "description": "1,134pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                    "richDescription": "<game-text:1,134pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                   },
                   "125907": {
                     "args": [
@@ -61988,6 +62903,62 @@
                     ],
                     "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                     "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                  },
+                  "125909": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 850.1999999999999,
+                          "display": 851
+                        }
+                      },
+                      {
+                        "expression": "4",
+                        "value": {
+                          "raw": 4,
+                          "display": 4
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "CmdCaster.GetStateLayer(125927)",
+                        "value": {
+                          "raw": 4,
+                          "display": 4,
+                          "dynamic": true
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 850.1999999999999,
+                          "display": 851
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "851pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                    "richDescription": "<game-text:851pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                   }
                 }
               },
@@ -61997,7 +62968,7 @@
                   "name": "존재하지 않는 존재",
                   "visible": true,
                   "description": "단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.",
-                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.>",
+                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 <kw_f656926894e23425:보강> 70스택과 <kw_10ca2d08666a35ab:원한의 사슬> 1스택을 획득한다.>",
                   "icon": "images/keyword-icons/original/icons_buff_016.png",
                   "initialLayer": {
                     "value": {
@@ -62856,8 +63827,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -62876,8 +63846,7 @@
                       }
                     }
                   ],
-                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:145pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -62896,8 +63865,7 @@
                       }
                     }
                   ],
-                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:266pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -62916,8 +63884,7 @@
                       }
                     }
                   ],
-                  "description": "73pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:73pt의 피해를 2회 입힌다.>"
+                  "description": "73pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -62935,8 +63902,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -63017,18 +63983,15 @@
                       }
                     }
                   ],
-                  "description": "675pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:675pt의 피해를 1회 입힌다.>"
+                  "description": "675pt의 피해를 1회 입힌다."
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
                 }
               },
               "resolvedStates": [
@@ -63061,8 +64024,7 @@
                       }
                     }
                   ],
-                  "descArgs": [],
-                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 13의 <kw_17b3bbbf8bb9004a:힘>과 28,749의 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -63158,8 +64120,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -63178,8 +64139,7 @@
                       }
                     }
                   ],
-                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:145pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -63198,8 +64158,7 @@
                       }
                     }
                   ],
-                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:266pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -63218,8 +64177,7 @@
                       }
                     }
                   ],
-                  "description": "73pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:73pt의 피해를 2회 입힌다.>"
+                  "description": "73pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -63237,8 +64195,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -63304,8 +64261,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -63324,8 +64280,7 @@
                       }
                     }
                   ],
-                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:145pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "145pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -63344,8 +64299,7 @@
                       }
                     }
                   ],
-                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:266pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "266pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -63364,8 +64318,7 @@
                       }
                     }
                   ],
-                  "description": "73pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:73pt의 피해를 2회 입힌다.>"
+                  "description": "73pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -63383,8 +64336,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -63654,7 +64606,7 @@
                 "4773": {
                   "args": [],
                   "description": "무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.",
-                  "richDescription": "<game-text:무작위 각성체에게 임시 봉인 1스택을 부여한다. 이 효과를 2회 반복한다.>"
+                  "richDescription": "<game-text:무작위 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여한다. 이 효과를 2회 반복한다.>"
                 },
                 "4841": {
                   "args": [
@@ -63680,8 +64632,8 @@
                       }
                     }
                   ],
-                  "description": "1,831pt의 피해를 1회 입히고, 33,424pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:1,831pt의 피해를 1회 입히고, 33,424pt의 실드를 획득한다.>"
+                  "description": "1,831pt의 피해를 1회 입히고, 33,424의 실드를 획득한다.",
+                  "richDescription": "<game-text:1,831pt의 피해를 1회 입히고, 33,424의 실드를 획득한다.>"
                 }
               },
               "resolvedStates": [
@@ -63759,8 +64711,8 @@
                       }
                     }
                   ],
-                  "description": "763pt의 피해를 1회 입히고, 9,762pt의 실드를 획득한다.",
-                  "richDescription": "<game-text:763pt의 피해를 1회 입히고, 9,762pt의 실드를 획득한다.>"
+                  "description": "763pt의 피해를 1회 입히고, 9,762의 실드를 획득한다.",
+                  "richDescription": "<game-text:763pt의 피해를 1회 입히고, 9,762의 실드를 획득한다.>"
                 },
                 "4726": {
                   "args": [
@@ -63787,7 +64739,7 @@
                     }
                   ],
                   "description": "광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 458pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 임시 봉인 1스택을 부여하고, 458pt의 피해를 1회 입힌다.>"
+                  "richDescription": "<game-text:광기가 가장 높은 각성체에게 <kw_4286df8cc6d2f2d8:임시 봉인> 1스택을 부여하고, 458pt의 피해를 1회 입힌다.>"
                 }
               },
               "resolvedStates": [
@@ -64232,6 +65184,33 @@
                   "description": "실드를 205,524pt 및 힘 103pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                   "richDescription": "<game-text:실드를 205,524pt 및 <kw_354b70217b881998:힘> 103pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                 },
+                "125904": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 1020.3,
+                        "display": 1021
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "1,021pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                  "richDescription": "<game-text:1,021pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                },
                 "125906": {
                   "args": [
                     {
@@ -64285,8 +65264,8 @@
                       }
                     }
                   ],
-                  "description": "1,361 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 1,021 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                  "richDescription": "<game-text:1,361 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 1,021 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                  "description": "1,361pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                  "richDescription": "<game-text:1,361pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                 },
                 "125907": {
                   "args": [
@@ -64327,6 +65306,62 @@
                   ],
                   "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                   "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                },
+                "125909": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 1020.3,
+                        "display": 1021
+                      }
+                    },
+                    {
+                      "expression": "4",
+                      "value": {
+                        "raw": 4,
+                        "display": 4
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "CmdCaster.GetStateLayer(125927)",
+                      "value": {
+                        "raw": 4,
+                        "display": 4,
+                        "dynamic": true
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 1020.3,
+                        "display": 1021
+                      }
+                    },
+                    {
+                      "expression": "6",
+                      "value": {
+                        "raw": 6,
+                        "display": 6
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "1,021pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                  "richDescription": "<game-text:1,021pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                 }
               },
               "resolvedStates": [
@@ -64432,6 +65467,33 @@
                     "description": "실드를 205,524pt 및 힘 103pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 소모한다.",
                     "richDescription": "<game-text:실드를 205,524pt 및 <kw_354b70217b881998:힘> 103pt를 획득한다. 덱과 버린 카드 더미에서 명령 카드 5장을 발견하고, 그중 3장을 선택하여 <kw_a32989acde4a2f70:소모>한다.>"
                   },
+                  "125904": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 1020.3,
+                          "display": 1021
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "1,021pt의 피해를 6회 주고, 손상, 허약 및 취약을 2스택 부여한다.",
+                    "richDescription": "<game-text:1,021pt의 피해를 6회 주고, <kw_bc57df5a1020caeb:손상>, <kw_e1272449952bd42e:허약> 및 <kw_36af684cbf1dcb9e:취약>을 2스택 부여한다.>"
+                  },
                   "125906": {
                     "args": [
                       {
@@ -64485,8 +65547,8 @@
                         }
                       }
                     ],
-                    "description": "1,361 점 피해를 2회 입히고, 2층 손상을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 1,021 점 피해를 4회 입히고, 2층 손상과 허약을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.",
-                    "richDescription": "<game-text:1,361 점 피해를 2회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>을 부여합니다. 명령카드 기본 4장을 사용한 후, 의도가 1,021 점 피해를 4회 입히고, 2층 <kw_34cbf8bc00a952ac: 손상>과 <kw_191eb80213313dae:허약>을 부여하는 「네 개의 날개가 자라나다」로 변화합니다.>"
+                    "description": "1,361pt의 피해를 2회 입히고, 손상 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.",
+                    "richDescription": "<game-text:1,361pt의 피해를 2회 입히고, <kw_bc57df5a1020caeb:손상> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「네 날개의 성장」으로 변경한다.>"
                   },
                   "125907": {
                     "args": [
@@ -64527,6 +65589,62 @@
                     ],
                     "description": "적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「진·윤회 역설」 1장을 손에 넣는다.",
                     "richDescription": "<game-text:적이 행동력을 소모할 때, 획득하는 열쇠 에너지가 50% 감소한다. 타비가 방어되지 않은 피해를 입힌 후, 「<kw_2ad396b54c725392:진·윤회 역설>」 1장을 손에 넣는다.>"
+                  },
+                  "125909": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 1020.3,
+                          "display": 1021
+                        }
+                      },
+                      {
+                        "expression": "4",
+                        "value": {
+                          "raw": 4,
+                          "display": 4
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "CmdCaster.GetStateLayer(125927)",
+                        "value": {
+                          "raw": 4,
+                          "display": 4,
+                          "dynamic": true
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 1020.3,
+                          "display": 1021
+                        }
+                      },
+                      {
+                        "expression": "6",
+                        "value": {
+                          "raw": 6,
+                          "display": 6
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "1,021pt의 피해를 4회 입히고, 손상 및 허약 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.",
+                    "richDescription": "<game-text:1,021pt의 피해를 4회 입히고, <kw_bc57df5a1020caeb:손상> 및 <kw_e1272449952bd42e:허약> 2스택을 부여한다. 명령 카드를 4장 사용한 후, 의도를 「여섯 날개의 해방」으로 변경한다.>"
                   }
                 }
               },
@@ -64536,7 +65654,7 @@
                   "name": "존재하지 않는 존재",
                   "visible": true,
                   "description": "단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.",
-                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 보강 70스택과 원한의 사슬 1스택을 획득한다.>",
+                  "richDescription": "<game-text:단일 턴 내에 스택 수의 피해를 받은 후, 임시 <kw_f656926894e23425:보강> 70스택과 <kw_10ca2d08666a35ab:원한의 사슬> 1스택을 획득한다.>",
                   "icon": "images/keyword-icons/original/icons_buff_016.png",
                   "initialLayer": {
                     "value": {
@@ -65395,8 +66513,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -65415,8 +66532,7 @@
                       }
                     }
                   ],
-                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:174pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -65435,8 +66551,7 @@
                       }
                     }
                   ],
-                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:319pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -65455,8 +66570,7 @@
                       }
                     }
                   ],
-                  "description": "87pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:87pt의 피해를 2회 입힌다.>"
+                  "description": "87pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -65474,8 +66588,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -65556,18 +66669,15 @@
                       }
                     }
                   ],
-                  "description": "811pt의 피해를 1회 입힌다.",
-                  "richDescription": "<game-text:811pt의 피해를 1회 입힌다.>"
+                  "description": "811pt의 피해를 1회 입힌다."
                 },
                 "72119": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_bc57df5a1020caeb:손상>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 손상을 부여한다."
                 },
                 "72125": {
                   "args": [],
-                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다.",
-                  "richDescription": "<game-text:「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 <kw_e1272449952bd42e:허약>을 부여한다.>"
+                  "description": "「다이얼 폭탄」 1장을 덱에 섞어 넣고, 2턴간 허약을 부여한다."
                 }
               },
               "resolvedStates": [
@@ -65600,8 +66710,7 @@
                       }
                     }
                   ],
-                  "descArgs": [],
-                  "richDescription": "<game-text:비명령 카드를 1장 사용할 때마다, 15의 <kw_2c4b4d0fc95410e5:힘>과 65,928의 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -65697,8 +66806,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -65717,8 +66825,7 @@
                       }
                     }
                   ],
-                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:174pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -65737,8 +66844,7 @@
                       }
                     }
                   ],
-                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:319pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -65757,8 +66863,7 @@
                       }
                     }
                   ],
-                  "description": "87pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:87pt의 피해를 2회 입힌다.>"
+                  "description": "87pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -65776,8 +66881,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -65843,8 +66947,7 @@
               "resolvedSkills": {
                 "72108": {
                   "args": [],
-                  "description": "「암살자」 상태와 장벽 2스택을 획득한다.",
-                  "richDescription": "<game-text:<kw_c00cfce445cb8678:「암살자」> 상태와 <kw_2a96ed7c6c5a96e2:장벽> 2스택을 획득한다.>"
+                  "description": "「암살자」 상태와 장벽 2스택을 획득한다."
                 },
                 "72116": {
                   "args": [
@@ -65863,8 +66966,7 @@
                       }
                     }
                   ],
-                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다.",
-                  "richDescription": "<game-text:174pt의 피해를 1회 입히고, 1턴간 <kw_2e54e20dbe3a145a:실명>을 부여한다.>"
+                  "description": "174pt의 피해를 1회 입히고, 1턴간 실명을 부여한다."
                 },
                 "72117": {
                   "args": [
@@ -65883,8 +66985,7 @@
                       }
                     }
                   ],
-                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다.",
-                  "richDescription": "<game-text:319pt의 피해를 1회 입히고, <kw_c00cfce445cb8678:「암살자」> 상태를 획득한다.>"
+                  "description": "319pt의 피해를 1회 입히고, 「암살자」 상태를 획득한다."
                 },
                 "72123": {
                   "args": [
@@ -65903,8 +67004,7 @@
                       }
                     }
                   ],
-                  "description": "87pt의 피해를 2회 입힌다.",
-                  "richDescription": "<game-text:87pt의 피해를 2회 입힌다.>"
+                  "description": "87pt의 피해를 2회 입힌다."
                 }
               },
               "resolvedStates": [
@@ -65922,8 +67022,7 @@
                     }
                   },
                   "stateArgs": [],
-                  "descArgs": [],
-                  "richDescription": "<game-text:주는 피해가 100% 증가하며, HP를 잃은 후 해당 상태는 해제되지만, 최대 HP의 50%만큼 실드를 획득한다.>"
+                  "descArgs": []
                 },
                 {
                   "id": 22074,
@@ -67329,16 +68428,6 @@
       "icon": "images/keyword-icons/inline/battle_card_buff_016.png",
       "color": "#c48662"
     },
-    "kw_34cbf8bc00a952ac": {
-      "name": " 손상",
-      "description": "상태 |  손상\n\n획득하는 모든 실드가 기본 25% 감소한다.",
-      "source": {
-        "type": "State",
-        "id": 2564
-      },
-      "icon": "images/keyword-icons/inline/battle_card_buff_015.png",
-      "color": "#af6bb0"
-    },
     "kw_d3f2d2c3b36b8b34": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 7.48pt 증가한다.",
@@ -67362,16 +68451,6 @@
     "kw_e90fb7d082982bbe": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 29.6pt 증가한다.",
-      "source": {
-        "type": "State",
-        "id": 2900
-      },
-      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
-      "color": "#71aa86"
-    },
-    "kw_3eb23e4ff37c6c10": {
-      "name": "힘",
-      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 1.65pt 증가한다.",
       "source": {
         "type": "State",
         "id": 2900
@@ -67419,16 +68498,6 @@
       "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
       "color": "#71aa86"
     },
-    "kw_83560ae9fd66ae1d": {
-      "name": "힘",
-      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 2.925pt 증가한다.",
-      "source": {
-        "type": "State",
-        "id": 2900
-      },
-      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
-      "color": "#71aa86"
-    },
     "kw_95139a140473c98a": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 64.6pt 증가한다.",
@@ -67462,16 +68531,6 @@
     "kw_3f00e9f722909738": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 101.6pt 증가한다.",
-      "source": {
-        "type": "State",
-        "id": 2900
-      },
-      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
-      "color": "#71aa86"
-    },
-    "kw_800291f265be51a4": {
-      "name": "힘",
-      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 5pt 증가한다.",
       "source": {
         "type": "State",
         "id": 2900
@@ -67519,16 +68578,6 @@
       "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
       "color": "#71aa86"
     },
-    "kw_0eb04c090b14bbd4": {
-      "name": "힘",
-      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 7.6pt 증가한다.",
-      "source": {
-        "type": "State",
-        "id": 2900
-      },
-      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
-      "color": "#71aa86"
-    },
     "kw_af581ebeb8ad87e9": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 126.8pt 증가한다.",
@@ -67562,16 +68611,6 @@
     "kw_e365b16cdd2b4cd1": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 199pt 증가한다.",
-      "source": {
-        "type": "State",
-        "id": 2900
-      },
-      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
-      "color": "#71aa86"
-    },
-    "kw_e76b17c6e98fa2c6": {
-      "name": "힘",
-      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 10pt 증가한다.",
       "source": {
         "type": "State",
         "id": 2900
@@ -67619,16 +68658,6 @@
       "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
       "color": "#71aa86"
     },
-    "kw_17b3bbbf8bb9004a": {
-      "name": "힘",
-      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 12.05pt 증가한다.",
-      "source": {
-        "type": "State",
-        "id": 2900
-      },
-      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
-      "color": "#71aa86"
-    },
     "kw_83bf226205232a59": {
       "name": "힘",
       "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 183pt 증가한다.",
@@ -67669,15 +68698,34 @@
       "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
       "color": "#71aa86"
     },
-    "kw_2c4b4d0fc95410e5": {
-      "name": "힘",
-      "description": "상태 | 힘\n\n이번 전투 내에서 주는 피해가 14.475pt 증가한다.",
+    "kw_4286df8cc6d2f2d8": {
+      "name": "임시 봉인",
+      "description": "상태 | 임시 봉인\n\n이 각성체의 광기 폭발은 봉인되어 사용할 수 없으며, 1턴 후 봉인이 해제된다.",
       "source": {
         "type": "State",
-        "id": 2900
+        "id": 81341
       },
-      "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
-      "color": "#71aa86"
+      "icon": "images/keyword-icons/original/icons_buff_073.png"
+    },
+    "kw_f656926894e23425": {
+      "name": "보강",
+      "description": "상태 | 보강\n\n이번 턴 받는 피해가 70 % 감소.",
+      "source": {
+        "type": "State",
+        "id": 60083
+      },
+      "icon": "images/keyword-icons/original/icons_buff_046.png",
+      "color": "#76aac8"
+    },
+    "kw_10ca2d08666a35ab": {
+      "name": "원한의 사슬",
+      "description": "상태 | 원한의 사슬\n\n능동 피해 및 촉수 피해를 받을 때, 공격 각성체의 광기 폭발과 모든 카드를 1턴 봉인하고, 증오의 사슬 1층을 제거합니다.",
+      "source": {
+        "type": "State",
+        "id": 60898
+      },
+      "icon": "images/keyword-icons/inline/battle_card_buff_073.png",
+      "color": "#af6bb0"
     }
   },
   "contentAudit": {
@@ -67687,7 +68735,7 @@
       "resVersion": 140,
       "buildVersion": 51
     },
-    "glossaryCount": 137,
+    "glossaryCount": 132,
     "diagnostics": [],
     "warnings": [
       {
@@ -67709,7 +68757,8 @@
       "Skill:140766",
       "Skill:140767",
       "State:140727",
-      "State:141468"
+      "State:141468",
+      "Skill:125904"
     ]
   }
 }
