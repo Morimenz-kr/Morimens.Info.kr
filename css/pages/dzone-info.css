@@ -231,10 +231,6 @@
     object-fit: contain;
 }
 
-.alert-button[aria-pressed="true"] .dzone-grade-mark--text {
-    color: #4b3108;
-}
-
 .alert-button:hover,
 .wave-button:hover { border-color: var(--dzone-gold); color: #fff; }
 
@@ -244,11 +240,18 @@
     outline-offset: 2px;
 }
 
-.alert-button[aria-pressed="true"],
 .wave-button[aria-pressed="true"] {
     border-color: var(--dzone-gold);
     background: var(--dzone-gold);
     color: #211b10;
+}
+
+.alert-button[aria-pressed="true"] {
+    border-color: var(--dzone-gold);
+    background: var(--color-bg-elevated);
+    color: #fff;
+    outline: 2px solid var(--dzone-gold);
+    outline-offset: 1px;
 }
 
 .dzone-mechanic-nav {

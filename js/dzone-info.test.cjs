@@ -684,6 +684,7 @@ test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문
     assert.doesNotMatch(source, /class="dzone-grade-number"/);
     assert.match(css, /\.dzone-grade-badge\s*\{[^}]*display:\s*inline-flex/);
     assert.match(css, /\.dzone-grade-mark--sprite\s*\{[^}]*max-width:\s*min\(7rem, 30vw\)/);
+    assert.match(css, /\.alert-button\[aria-pressed="true"\]\s*\{[^}]*background:\s*var\(--color-bg-elevated\)[^}]*outline:\s*2px solid var\(--dzone-gold\)/s);
 });
 
 test('몬스터 분류는 이름 옆에, 상성 각성체는 HP 아래 상세 카드로 보여준다', () => {
