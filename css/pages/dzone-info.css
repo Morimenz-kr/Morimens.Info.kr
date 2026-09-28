@@ -200,6 +200,47 @@
     padding-inline: 0;
 }
 
+.alert-selector.is-compact .alert-button {
+    width: auto;
+    min-width: 3.6rem;
+    padding-inline: 0.5rem;
+}
+
+.dzone-grade-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
+.dzone-grade-mark {
+    flex: 0 1 auto;
+}
+
+.dzone-grade-mark--text {
+    color: #f2dca5;
+    font-size: 0.9rem;
+    line-height: 1;
+}
+
+.dzone-grade-mark--sprite {
+    display: block;
+    width: auto;
+    height: 1.3rem;
+    max-width: min(7rem, 30vw);
+    object-fit: contain;
+}
+
+.alert-button[aria-pressed="true"] .dzone-grade-mark--text {
+    color: #4b3108;
+}
+
+.dzone-grade-number {
+    flex: 0 0 auto;
+    font-size: 0.78rem;
+}
+
 .alert-button:hover,
 .wave-button:hover { border-color: var(--dzone-gold); color: #fff; }
 
@@ -1274,6 +1315,9 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
     .dzone-filter-label { flex-basis: auto; }
     .alert-button,
     .wave-button { padding-inline: 0.65rem; }
+    .alert-selector.is-compact .alert-button { min-width: 3.35rem; padding-inline: 0.4rem; }
+    .dzone-grade-badge { gap: 0.25rem; }
+    .dzone-grade-mark--sprite { height: 1.1rem; max-width: min(5.5rem, 42vw); }
     .dzone-page-shell { padding-inline: 0.65rem; }
     .dzone-hero { border-radius: 0.8rem; }
     .relic-card { grid-template-columns: minmax(0, 1fr); }

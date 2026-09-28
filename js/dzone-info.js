@@ -1,6 +1,15 @@
 (() => {
     const TYPE_LABELS = Object.freeze({ Common: '일반', Elite: '엘리트', Boss: '보스' });
     const TYPE_ORDER = Object.freeze({ Common: 0, Elite: 1, Boss: 2 });
+    const CONFUSE_SPRITES = Object.freeze({
+        1: { src: 'images/dzone/grades/ui_story_confuse_1.png', width: 138, height: 82 },
+        2: { src: 'images/dzone/grades/ui_story_confuse_2.png', width: 188, height: 82 },
+        3: { src: 'images/dzone/grades/ui_story_confuse_3.png', width: 320, height: 86 },
+        4: { src: 'images/dzone/grades/ui_story_confuse_4.png', width: 374, height: 86 },
+        5: { src: 'images/dzone/grades/ui_story_confuse_5.png', width: 120, height: 62 },
+        6: { src: 'images/dzone/grades/ui_story_confuse_6.png', width: 84, height: 82 },
+        7: { src: 'images/dzone/grades/ui_story_confuse_7.png', width: 84, height: 66 }
+    });
     const MONSTER_TAGS = Object.freeze({
         84277: { label: '지배자' },
         84280: { label: '조각가 협회', counters: [{ id: '24', name: '「24」', image: 'images/24-thumb.png', effect: "｢24｣가 입히는 기본 피해가 20 ~ 50% 증가하며, '조각가 협회' 적에게 입히는 최종 피해가 20 ~ 70% 증가한다." }] },
@@ -1157,9 +1166,39 @@
         return data?.period >= 70 ? `제${wave}금지구역` : `${wave}파`;
     }
 
+    function gameGrade(difficulty) {
+        const stageName = String(difficulty?.stageNameKo || '');
+        const confuse = stageName.match(/@([1-7])(?:\D|$)/);
+        if (confuse) return { type: 'sprite', value: Number(confuse[1]) };
+        const text = stageName.match(/위험 등급\s+(.+)$/)?.[1]?.trim();
+        return text ? { type: 'text', value: text } : null;
+    }
+
+    function renderGameGrade(difficulty) {
+        const grade = gameGrade(difficulty);
+        if (!grade) return '';
+        if (grade.type === 'text') {
+            return `<span class="dzone-grade-mark dzone-grade-mark--text" aria-hidden="true">${escapeHtml(grade.value)}</span>`;
+        }
+        const sprite = CONFUSE_SPRITES[grade.value];
+        if (!sprite) return '';
+        return `<img class="dzone-grade-mark dzone-grade-mark--sprite" src="${sprite.src}" width="${sprite.width}" height="${sprite.height}" alt="" aria-hidden="true">`;
+    }
+
     function selectedDifficultyLabel(difficulty) {
-        if (data?.period >= 70) return `${difficulty?.alert ?? selectedAlert}급`;
+        if (data?.period >= 70) {
+            const numeric = `${difficulty?.alert ?? selectedAlert}급`;
+            const grade = gameGrade(difficulty);
+            if (!grade) return numeric;
+            return grade.type === 'text' ? `${numeric} (위험 등급 ${grade.value})` : `${numeric} (인게임 특수 등급 문양)`;
+        }
         return difficulty?.difficultyLabel || `경보 ${difficulty?.alert ?? selectedAlert}급`;
+    }
+
+    function renderDifficultyBadge(difficulty) {
+        const numeric = `${difficulty?.alert ?? selectedAlert}급`;
+        if (data?.period < 70) return escapeHtml(selectedDifficultyLabel(difficulty));
+        return `<span class="dzone-grade-badge">${renderGameGrade(difficulty)}<span class="dzone-grade-number">${escapeHtml(numeric)}</span></span>`;
     }
 
     function renderWave(wave) {
@@ -1179,7 +1218,7 @@
             <section class="wave-section" id="wave-${wave.wave}">
                 <header class="wave-header">
                     <div class="wave-heading"><h2 class="wave-title"><span>${zoneLabel(wave.wave)}</span></h2>${mechanicBadges.length ? `<ul class="wave-mechanics" aria-label="주요 기믹">${mechanicBadges.map(label => `<li>${escapeHtml(label)}</li>`).join('')}</ul>` : ''}</div>
-                    <div class="wave-meta">${escapeHtml(difficultyLabel)}</div>
+                    <div class="wave-meta" aria-label="${escapeHtml(difficultyLabel)}">${renderDifficultyBadge(difficulty)}</div>
                 </header>
                 ${renderMap(wave)}
                 ${renderStageUsageShell(difficulty)}
@@ -1249,7 +1288,7 @@
         const alertSelector = document.getElementById('alert-selector');
         const difficulties = data.waves[0]?.alerts || [];
         alertSelector.classList.toggle('is-compact', compactGrades);
-        alertSelector.innerHTML = difficulties.map(item => `<button type="button" class="alert-button" data-alert="${item.alert}" aria-label="${escapeHtml(selectedDifficultyLabel(item))}" aria-pressed="${item.alert === selectedAlert}">${escapeHtml(compactGrades ? String(item.alert) : selectedDifficultyLabel(item))}</button>`).join('');
+        alertSelector.innerHTML = difficulties.map(item => `<button type="button" class="alert-button" data-alert="${item.alert}" aria-label="${escapeHtml(selectedDifficultyLabel(item))}" aria-pressed="${item.alert === selectedAlert}">${compactGrades ? renderDifficultyBadge(item) : escapeHtml(selectedDifficultyLabel(item))}</button>`).join('');
         alertSelector.onclick = event => {
             const button = event.target.closest('[data-alert]');
             if (!button) return;
