@@ -45,6 +45,18 @@ test('동일 효과의 번역 차이를 병기하고 상태 수량은 스택으�
     assert.match(source, /replace\(\/\(\\d\[\\d,\]\*\(\?:\\\.\\d\+\)\?\)\\s\*층\/g, '\$1스택'\)/);
 });
 
+test('탈피자의 중첩 명령으로 부여되는 옛날 잔재를 실제 State 툴팁에 연결한다', () => {
+    const wave = currentDzoneData.waves.find(item => item.wave === 1);
+    const stats = wave.alerts.find(item => item.alert === 6).monsters.find(item => item.tid === 79941);
+    const inheritance = stats.resolvedStates.find(item => item.id === 80777);
+    assert.match(inheritance.richDescription, /<kw_[a-f0-9]{16}:옛날 잔재>/);
+    const key = inheritance.richDescription.match(/<(kw_[a-f0-9]{16}):옛날 잔재>/)[1];
+    const tooltip = currentDzoneData.keywordGlossary[key];
+    assert.equal(tooltip.source.id, 80575);
+    assert.match(tooltip.description, /제거량의 300%만큼 HP를 잃는다/);
+    assert.equal(tooltip.icon, 'images/keyword-icons/original/icons_buff_025.png');
+});
+
 test('5금지구역 문의 열쇠는 4익과 6익 의도 및 7개 위험등급 수치를 모두 제공한다', () => {
     const wave = currentDzoneData.waves.find(item => item.wave === 5);
     const boss = wave.monsters.find(item => item.tid === 125901);
@@ -991,7 +1003,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.107-state-aliases-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.108-old-remnant-tooltip-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
