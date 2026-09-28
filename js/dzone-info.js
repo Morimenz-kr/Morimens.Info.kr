@@ -246,6 +246,7 @@
             .replace(/\s*[（(]\s*(?:어디든|위치에)\s*(?:관계|상관)\s*없이\s*[)）]/g, '')
             .replace(/\b(\d+)\s*번\b/g, '$1번')
             .replace(/\b(\d+)\s*턴\b/g, '$1턴')
+            .replace(/(\d[\d,]*(?:\.\d+)?)\s*층/g, '$1스택')
             .replace(/발생시킨다(?=[.!?]|\s|$)/g, '발생시킵니다')
             .replace(/입힌다(?=[.!?]|\s|$)/g, '입힙니다')
             .replace(/얻는다(?=[.!?]|\s|$)/g, '얻습니다')
@@ -668,7 +669,7 @@
                 ? resolveEffectValue(transitionEffects.find(effect => effect.type === 'addState' && effect.stateId === 2900)?.valueExpression)
                 : null;
             const outcomeMarkup = action.commandId === 140824 && hungerForce !== null
-                ? `<p class="conditional-transition-outcome">허기를 전부 소모해 힘을 ${number.format(hungerForce)} 획득하고, 의도를 약탈로 전환합니다.</p>`
+                ? `<p class="conditional-transition-outcome">허기를 전부 소모해 힘을 ${number.format(hungerForce)} 획득하고, 의도를 약ﾃ탈ｨ로 전환합니다.</p>`
                 : (outcomeParts.length
                     ? `<p class="conditional-transition-outcome">${outcomeParts.map(escapeHtml).join(' · ')}</p>`
                     : '');

@@ -34,6 +34,17 @@ test('현재 D-Zone 용어와 조건부 패턴 전환 제목을 표시한다', (
     assert.doesNotMatch(source, /의도 교체 규칙|패턴\(의도\) 변경 조건/);
 });
 
+test('동일 효과의 번역 차이를 병기하고 상태 수량은 스택으로 표시한다', () => {
+    const glossaryNames = new Set(Object.values(currentDzoneData.keywordGlossary).map(item => item.name));
+    assert.ok(glossaryNames.has('허기(굶주림)'));
+    assert.ok(glossaryNames.has('광란(발광)'));
+    assert.ok(glossaryNames.has('인지 부조화(채묵)'));
+    const serialized = JSON.stringify(currentDzoneData);
+    assert.doesNotMatch(serialized, /<(kw_[a-f0-9]{16}):(허기|굶주림|광란|발광|인지 부조화|채묵)>/);
+    assert.doesNotMatch(serialized, /층/);
+    assert.match(source, /replace\(\/\(\\d\[\\d,\]\*\(\?:\\\.\\d\+\)\?\)\\s\*층\/g, '\$1스택'\)/);
+});
+
 test('5금지구역 문의 열쇠는 4익과 6익 의도 및 7개 위험등급 수치를 모두 제공한다', () => {
     const wave = currentDzoneData.waves.find(item => item.wave === 5);
     const boss = wave.monsters.find(item => item.tid === 125901);
@@ -167,25 +178,26 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
 
     for (const alert of wave.alerts) {
         const stats = alert.monsters.find(item => item.tid === 140713);
-        assert.match(stats.resolvedSkills['140765'].description, /손실된 HP의 10%를 회복.*굶주림 1층/);
+        assert.match(stats.resolvedSkills['140765'].description, /손실된 HP의 10%를 회복.*허기\(굶주림\) 1스택/);
         assert.doesNotMatch(stats.resolvedSkills['140765'].description, /\(0\)|데미지/);
-        assert.match(stats.resolvedSkills['140766'].description, /^[\d,]+의 데미지.*굶주림 2층/);
-        assert.match(stats.resolvedSkills['140716'].richDescription, /<kw_[a-f0-9]{16}:허기> 1층/);
+        assert.match(stats.resolvedSkills['140766'].description, /^[\d,]+의 데미지.*허기\(굶주림\) 2스택/);
+        assert.match(stats.resolvedSkills['140716'].richDescription, /<kw_[a-f0-9]{16}:허기\(굶주림\)> 1스택/);
         assert.match(stats.resolvedSkills['140716'].description, /소환 시의 최대 HP 2%만큼 방어막/);
     }
 
     const hunger = Object.values(currentDzoneData.keywordGlossary).filter(item => item.source.id === 140727);
     assert.ok(hunger.length > 0);
     for (const item of hunger) {
-        if (item.name === '허기') assert.match(item.description, /허기가 5층.*허기를 소모.*힘을 획득.*「약ﾃ탈ｨ」/);
-        if (item.name === '굶주림') assert.match(item.description, /굶주림이 5층.*굶주림을 소모.*힘을 획득.*「약ﾃ탈ｨ」/);
+        assert.equal(item.name, '허기(굶주림)');
+        assert.match(item.description, /허기가 5스택.*허기를 소모.*힘을 획득.*「약ﾃ탈ｨ」/);
         assert.doesNotMatch(item.description, /허기이|허기을|\d+\.\d+의 힘/);
     }
 
     const stats = wave.alerts.find(alert => alert.alert === 4).monsters.find(item => item.tid === 140713);
     const context = vm.createContext({
         data: currentDzoneData, number: new Intl.NumberFormat('ko-KR'),
-        escapeHtml: String, gameText: String, politeText: String, dynamicMarkup: String,
+        escapeHtml: String, gameText: String, politeText: String,
+        dynamicMarkup: value => String(value).replace(/(\d[\d,]*(?:\.\d+)?)\s*층/g, '$1스택'),
         renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id),
         isFoldedReplacementAction: () => false
     });
@@ -193,7 +205,7 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
     const rendered = context.renderConditionalActions(monster, stats);
     assert.equal((rendered.match(/<article /g) || []).length, 1);
     assert.match(rendered, /허기 5스택 보유하면 발동/);
-    assert.match(rendered, /허기를 전부 소모해 힘을 51 획득하고, 의도를 약탈로 전환합니다/);
+    assert.match(rendered, /허기를 전부 소모해 힘을 51 획득하고, 의도를 약ﾃ탈ｨ로 전환합니다/);
     assert.doesNotMatch(rendered, /자ｸ극kQ 반응|전이에 성공하면|실패하면 712의 데미지/);
     assert.doesNotMatch(rendered, /발동 조건|<b>발동:<\/b>/);
 
@@ -205,7 +217,7 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
     });
     vm.runInContext(source.slice(source.indexOf('    function renderPhaseTransition('), source.indexOf('    function renderActionFlow(')), transitionContext);
     const transitionHtml = transitionContext.renderPhaseTransition(monster, transition, stats);
-    assert.match(transitionHtml, /<kw_[a-f0-9]{16}:허기> 1층/);
+    assert.match(transitionHtml, /<kw_[a-f0-9]{16}:허기\(굶주림\)> 1스택/);
     assert.match(transitionHtml, /막히지 않은 데미지를 가할 때 소환 시의 최대 HP 2%만큼 방어막/);
     assert.doesNotMatch(transitionHtml, /2%\(|포인트의|방어막를/);
 });
@@ -363,7 +375,8 @@ test('조건부 행동과 연결되어도 시작 상태와 스택·전체 효과
     const stats = wave.alerts.at(-1).monsters.find(m => m.tid === 149115);
     const context = vm.createContext({
         data: dzoneData, number: new Intl.NumberFormat('ko-KR'),
-        escapeHtml: String, gameText: String, politeText: String, dynamicMarkup: String,
+        escapeHtml: String, gameText: String, politeText: String,
+        dynamicMarkup: value => String(value).replace(/(\d[\d,]*(?:\.\d+)?)\s*층/g, '$1스택'),
         renderIntentIcon: () => '', skillById: (m, id) => m.skills.find(s => s.id === id),
         isFoldedReplacementAction: () => false
     });
@@ -371,15 +384,15 @@ test('조건부 행동과 연결되어도 시작 상태와 스택·전체 효과
     const rules = context.renderRules(monster, stats);
     assert.equal((rules.match(/<article>/g) || []).length, 4);
     assert.match(rules, /눈보라 속으로 잠기다<\/strong><span[^>]+>시작 2스택/);
-    assert.match(rules, /75층/);
-    assert.match(rules, /1층을 제거/);
+    assert.match(rules, /75스택/);
+    assert.match(rules, /1스택을 제거/);
     assert.match(rules, /서리 방패<\/strong>/);
     assert.match(rules, /매 턴 최대 5회/);
     const action = context.renderConditionalActions(monster, stats);
     assert.match(action, /눈보라 속으로 잠기다」 보유 중/);
     assert.match(action, /방어막이 모두 파괴되었을 때/);
     assert.match(action, /설해/);
-    assert.doesNotMatch(action, /75층/);
+    assert.doesNotMatch(action, /75스택/);
 });
 
 test('안전 출구+ 반격은 선택 등급에 맞는 올림 수치만 표시한다', async () => {
@@ -978,7 +991,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.106-hunger-transition-copy-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.107-state-aliases-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
