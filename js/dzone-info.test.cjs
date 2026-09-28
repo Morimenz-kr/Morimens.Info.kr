@@ -660,7 +660,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
     assert.match(html, /<h2 id="filter-heading">전투 선택<\/h2>/);
     assert.doesNotMatch(html, /보고 싶은 전투 선택|표시하고 있습니다/);
     assert.match(html, /id="zone-filter-label" class="dzone-filter-label">금지구역<\/span>/);
-    assert.match(html, /id="grade-filter-label" class="dzone-filter-label">급수<\/span>/);
+    assert.match(html, /id="grade-filter-label" class="dzone-filter-label">위험등급<\/span>/);
     assert.match(html, /id="wave-selector"[^>]*aria-labelledby="zone-filter-label"/);
     assert.match(html, /id="alert-selector"[^>]*aria-labelledby="grade-filter-label"/);
     assert.match(css, /\.wave-selector\s*\{[^}]*display:\s*flex;/);
@@ -670,7 +670,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.83-dzone-grade-icons-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.84-dzone-grade-filter-20260928'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
@@ -685,7 +685,7 @@ test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문
     assert.doesNotMatch(source, /class="dzone-grade-number"/);
     assert.match(css, /\.dzone-grade-badge\s*\{[^}]*display:\s*inline-flex/);
     assert.match(css, /\.dzone-grade-mark--sprite\s*\{[^}]*max-width:\s*min\(7rem, 30vw\)/);
-    assert.match(css, /\.alert-button\[aria-pressed="true"\]\s*\{[^}]*background:\s*var\(--color-bg-elevated\)[^}]*outline:\s*2px solid var\(--dzone-gold\)/s);
+    assert.match(css, /\.alert-button\[aria-pressed="true"\]\s*\{[^}]*background:\s*var\(--color-bg-elevated\)[^}]*outline:\s*1px solid var\(--dzone-gold\)[^}]*outline-offset:\s*0/s);
 });
 
 test('몬스터 분류는 이름 옆에, 상성 각성체는 HP 아래 상세 카드로 보여준다', () => {

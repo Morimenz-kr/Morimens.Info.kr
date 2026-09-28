@@ -250,8 +250,8 @@
     border-color: var(--dzone-gold);
     background: var(--color-bg-elevated);
     color: #fff;
-    outline: 2px solid var(--dzone-gold);
-    outline-offset: 1px;
+    outline: 1px solid var(--dzone-gold);
+    outline-offset: 0;
 }
 
 .dzone-mechanic-nav {

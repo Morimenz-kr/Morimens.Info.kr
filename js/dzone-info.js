@@ -1278,7 +1278,7 @@
         const waveSelector = document.getElementById('wave-selector');
         const compactGrades = data.period >= 70;
         document.getElementById('zone-filter-label').textContent = compactGrades ? '금지구역' : '파';
-        document.getElementById('grade-filter-label').textContent = compactGrades ? '급수' : '난이도';
+        document.getElementById('grade-filter-label').textContent = compactGrades ? '위험등급' : '난이도';
         waveSelector.classList.toggle('is-compact', compactGrades);
         waveSelector.innerHTML = data.waves.map(wave => `<button type="button" class="wave-button" data-wave="${wave.wave}" aria-label="${escapeHtml(zoneLabel(wave.wave))}" aria-pressed="${wave.wave === selectedWave}">${compactGrades ? wave.wave : zoneLabel(wave.wave)}</button>`).join('');
         waveSelector.onclick = event => {
