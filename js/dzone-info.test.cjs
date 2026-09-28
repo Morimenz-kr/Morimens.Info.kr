@@ -22,6 +22,16 @@ const dzoneMaps69 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data'
 const dzoneMaps68 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season68.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 
+test('70기 7급 공식 스테이지명에 미해결 텍스트 키가 남지 않는다', () => {
+    assert.equal(currentDzoneData.period, 70);
+    assert.equal(currentDzoneData.waves.length, 5);
+    for (const wave of currentDzoneData.waves) {
+        assert.equal(wave.alerts.length, 7);
+        assert.equal(wave.alerts[6].stageNameKo, `제${wave.wave}금지구역`);
+        for (const alert of wave.alerts) assert.doesNotMatch(alert.stageNameKo, /@\d+/);
+    }
+});
+
 test('전투 선택 위의 드롭다운에서 시즌 수와 무관하게 융재를 전환한다', () => {
     assert.ok(html.indexOf('id="season-selector"') < html.indexOf('id="filter-heading"'));
     assert.match(html, /<label id="season-heading" for="season-selector">시즌 선택<\/label>/);
