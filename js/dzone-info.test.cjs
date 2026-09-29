@@ -24,6 +24,14 @@ const dzoneMaps69 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data'
 const dzoneMaps68 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season68.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 
+test('제4금지구역 보스는 실제 전투 미니 초상화를 사용한다', () => {
+    const portrait = fs.readFileSync(path.join(__dirname, '..', 'images', 'dzone', 'monster', 'Portrait_Minihead_EnemyAwaker_B11_AF.webp'));
+    const checksum = crypto.createHash('sha256').update(portrait).digest('hex');
+    assert.equal(checksum, '4fb5bc07d73a148a9d4d682caa9f45a6ca0edcd27ef722191409b12f37eac9ea');
+    assert.match(source, /portraitSource\.startsWith\('images\/'\)/);
+    assert.match(source, /portraitSource\}\?v=\$\{encodeURIComponent\(portraitVersion\)\}/);
+});
+
 test('현재 D-Zone 용어와 조건부 패턴 전환 제목을 표시한다', () => {
     const serialized = JSON.stringify(currentDzoneData);
     assert.match(serialized, /명령카드/);
@@ -1003,7 +1011,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.108-old-remnant-tooltip-20260928'/);
+    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.109-wave4-boss-portrait-20260929'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));

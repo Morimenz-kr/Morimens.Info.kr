@@ -897,8 +897,12 @@
             : '';
         const portraitSource = [monster.webImage, monster.portrait, monster.icon, monster.image]
             .find(source => /^(?:images\/|https?:\/\/)/.test(String(source || ''))) || '';
+        const portraitVersion = typeof CONFIG !== 'undefined' ? CONFIG.VERSION : '';
+        const portraitUrl = portraitSource && portraitVersion && portraitSource.startsWith('images/')
+            ? `${portraitSource}?v=${encodeURIComponent(portraitVersion)}`
+            : portraitSource;
         const portrait = portraitSource
-            ? `<img class="monster-portrait" src="${escapeHtml(portraitSource)}" alt="" width="48" height="48" loading="lazy" decoding="async">`
+            ? `<img class="monster-portrait" src="${escapeHtml(portraitUrl)}" alt="" width="48" height="48" loading="lazy" decoding="async">`
             : '';
         return `
             <details class="monster-card site-disclosure ${escapeHtml(extraClass)}" data-monster-id="${monster.tid}" open>
