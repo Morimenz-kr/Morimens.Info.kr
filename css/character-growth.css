@@ -1,0 +1,26 @@
+.character-effects-switch { display: flex; flex-wrap: wrap; }
+.character-effects-switch button { min-height: 44px; flex: 1 1 auto; }
+#tab-level-growth { container-type: inline-size; }
+#tab-level-growth h4 { margin: 1.5rem 0 .75rem; }
+#tab-level-growth h5 { margin: 1rem 0 .5rem; }
+.level-growth-controls { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,10rem),1fr)); gap: 1rem; margin: 1rem 0; }
+.level-growth-controls label { display: grid; gap: .5rem; min-width: 0; }
+.level-growth-controls input, .level-growth-controls select { width: 100%; min-width: 0; box-sizing: border-box; min-height: 44px; padding: .5rem; font: inherit; color: var(--color-text-primary); background: var(--color-bg-input); border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); }
+#tab-level-growth :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+.growth-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.growth-table th, .growth-table td { padding: .65rem .3rem; text-align: right; border-bottom: 1px solid var(--color-border); overflow-wrap: anywhere; }
+.growth-table th:first-child { text-align: left; }
+.growth-note { font-size: .9rem; line-height: 1.6; color: var(--color-text-muted); }
+.growth-resource-list { list-style: none; padding: 0; background: var(--color-bg-elevated); border-radius: var(--radius-sm); }
+.growth-resource-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; padding: .65rem .8rem; border-bottom: 1px solid var(--color-border); }
+.growth-resource-list li:last-child { border-bottom: 0; }
+#tab-level-growth summary { cursor: pointer; padding: .7rem 0; min-height: 24px; }
+#growth-error { color: var(--color-danger); line-height: 1.6; }
+@container (max-width: 26rem) {
+    .growth-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+    .growth-table tbody, .growth-table tr { display: block; }
+    .growth-table tr { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); border-bottom: 1px solid var(--color-border); padding: .5rem 0; }
+    .growth-table th:first-child { grid-column: 1 / -1; }
+    .growth-table th, .growth-table td { border: 0; text-align: left; white-space: nowrap; }
+    .growth-table td::before { content: attr(data-label); display: block; color: var(--color-text-muted); font-size: .8rem; margin-bottom: .3rem; }
+}
