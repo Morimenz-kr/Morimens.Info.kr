@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+  <title>스토리 전투 정보 | 미사그 대학 한국 캠퍼스</title>
+  <meta name="description" content="망각편과 성신편의 노말·하드 스테이지별 적 편성, 보스 HP와 페이즈별 초상 및 행동을 확인합니다.">
+  <script src="config/config.js"></script>
+  <script>loadCSS('css/common.css');loadCSS('css/components.css');loadCSS('css/character-effects.css');loadCSS('css/pages/info_tools.css');loadCSS('css/pages/dzone-info.css');loadCSS('css/responsive.css');</script>
+  <link rel="stylesheet" href="css/pages/story-info.css?v=ux19">
+</head>
+<body>
+<div class="bg-image"></div><div class="background-overlay"></div>
+<main class="container info-page dzone-page-shell story-page">
+  <nav aria-label="탐색"><a href="index.html" class="back-link">⬅ 뒤로가기</a></nav>
+  <section class="info-shell info-shell--dark dzone-shell">
+    <header class="info-header"><h1>스토리 전투 정보</h1><p>망각편 1~9장 · 성신편 1~6장 · 노말 / 하드</p></header>
+    <form class="story-controls" aria-label="스토리 선택" onsubmit="return false">
+      <label>편<select id="story-arc" name="arc"></select></label>
+      <label>난이도<select id="story-difficulty" name="difficulty"><option>노말</option><option>하드</option></select></label>
+      <label class="story-chapter-control">장<select id="story-chapter" name="chapter"></select></label>
+      <label class="story-stage-control">스테이지<select id="story-stage" name="stage"></select></label>
+    </form>
+    <p id="story-status" role="status">스토리 목록을 불러오는 중입니다.</p>
+    <div id="story-content" aria-busy="true"></div>
+  </section>
+</main>
+<script src="js/character-effects.js?v=ux19"></script>
+<script src="js/dzone-richtext.js"></script>
+<script src="js/monster-type-catalog.js"></script>
+<script src="js/story-info.js?v=ux19"></script>
+</body>
+</html>

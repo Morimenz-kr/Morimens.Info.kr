@@ -9,6 +9,7 @@ const ROOT_FILES = Object.freeze([
   'covenant_simulator.html',
   'detail.html',
   'dzone_info.html',
+  'story_info.html',
   'index.html',
   'inventory_checker.html',
   'links.html',
@@ -110,7 +111,15 @@ export async function preparePagesArtifact(options = {}) {
     }, null, 2)}\n`, 'utf8');
 
     await fs.rm(outputDirectory, { recursive: true, force: true });
-    await fs.rename(tempDirectory, outputDirectory);
+    try {
+      await fs.rename(tempDirectory, outputDirectory);
+    } catch (error) {
+      if (process.platform !== 'win32' || error.code !== 'EPERM') throw error;
+      // OneDrive can reject directory renames even when copying the validated
+      // artifact succeeds. Both paths have already passed assertGeneratedPath.
+      await fs.cp(tempDirectory, outputDirectory, { recursive: true });
+      await fs.rm(tempDirectory, { recursive: true, force: true });
+    }
     return { dataSource, outputDirectory, ...releaseSummary(outputBundle) };
   } catch (error) {
     await fs.rm(tempDirectory, { recursive: true, force: true });

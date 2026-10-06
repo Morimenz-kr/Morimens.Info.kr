@@ -651,6 +651,16 @@
                 hideTooltip();
             }
         });
+        container.addEventListener('keydown', event => {
+            const trigger = event.target.closest('.tooltip-trigger');
+            if (trigger && container.contains(trigger) && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                showTooltip(trigger, true);
+            }
+        });
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape') hideTooltip(true);
+        });
         container.addEventListener('click', event => {
             const trigger = event.target.closest('.tooltip-trigger');
             if (trigger && container.contains(trigger)) {

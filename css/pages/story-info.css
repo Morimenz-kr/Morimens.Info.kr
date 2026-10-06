@@ -1,0 +1,49 @@
+/* Battle cards reuse the components in dzone-info.css. */
+.story-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.65rem; margin:1rem 0; padding:1rem; background:var(--dzone-combat-panel); border:1px solid var(--dzone-border); border-radius:.65rem; }
+.story-chapter-control,.story-stage-control { grid-column:1 / -1; }
+.story-controls label { display:grid; gap:.5rem; font-weight:600; min-width:0; }
+.story-controls select { width:100%; min-width:0; min-height:2.75rem; color:var(--color-text,#eee); background:var(--dzone-panel); border:1px solid var(--dzone-border); border-radius:.5rem; padding:.6rem; font:inherit; }
+.story-controls select:focus-visible,.story-page summary:focus-visible { outline:2px solid var(--color-accent,#ffc107); outline-offset:3px; }
+#story-content { overflow-wrap:anywhere; }
+.story-stage-heading { margin:1.5rem 0; }
+.story-stage-rules { margin:1.25rem 0; }
+.story-rule-group > h3 { font-size:1rem; color:#f1f1f2; }
+.story-rule-group + .story-rule-group { margin-top:1rem; }
+.story-rule-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,23rem),1fr)); gap:.85rem; align-items:start; }
+.story-rule-card { min-width:0; border:1px solid var(--dzone-border); border-radius:.8rem; background:var(--dzone-combat-panel); }
+.story-rule-card > header { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; padding:.85rem; border-bottom:1px solid var(--dzone-border); background:var(--dzone-combat-header); border-radius:.8rem .8rem 0 0; }
+.story-rule-card h4 { margin:0; color:#ebe2c8; font-size:.95rem; }
+.story-rule-card > div { padding:.85rem; }
+.story-rule-card p { margin:0 0 .85rem; white-space:pre-line; color:#bfc2c9; font-size:.8rem; line-height:1.65; }
+.story-rule-card p:last-child { margin-bottom:0; }
+.story-unique-rules { margin-bottom:1rem; }
+.story-unique-rules h5 { margin:0; font-size:.84rem; color:#f1f1f2; }
+.story-common-rule-link { font-size:.78rem; margin:.75rem var(--monster-content-inset); }
+.story-common-rule-link a { display:inline-flex; align-items:center; min-height:2.75rem; color:#e8c571; }
+.story-encounter { margin:1rem 0; }
+.story-statistics { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,7rem),1fr)); gap:.45rem; margin:0; }
+.story-phase + .story-phase { padding-top:.7rem; border-top:1px solid var(--dzone-border); }
+.story-phase > header { flex-wrap:wrap; }
+.story-rule { margin:.75rem 0; line-height:1.55; font-size:.78rem; color:#bfc2c9; }
+.story-error { padding:1rem; border:1px solid #e48484; }
+.story-error button { min-height:2.75rem; padding:.5rem 1rem; font:inherit; }
+
+.story-rule-group { border:1px solid var(--dzone-border); border-radius:.65rem; overflow:hidden; }
+.story-rule-group > summary { min-height:2.75rem; padding:.75rem 1rem; cursor:pointer; }
+.story-rule-group > summary strong { font-size:.9rem; }
+.story-rule-group > summary span { display:block; margin-top:.35rem; color:#bfc2c9; font-size:.8rem; line-height:1.5; }
+.story-rule-group > .story-rule-grid { padding:.85rem; }
+.story-rule-group > summary:focus-visible { outline:2px solid #e8c571; outline-offset:-3px; }
+.story-unique-rules > .section-label { margin-bottom:.6rem; }
+
+.story-entry-effects { display:grid; align-items:start; gap:1rem; margin-bottom:1.25rem; }
+.story-entry-effects .monster-rules { align-content:start; margin:0; }
+.story-entry-effects .section-label { margin:0 0 .6rem; color:var(--color-text-primary); }
+.story-entry-effects article + article { border-top:1px solid var(--dzone-border); padding-top:.75rem; margin-top:.75rem; }
+.story-entry-effects .rule-copy p { white-space:pre-line; }
+.story-hp-detail { font-size:.875rem; line-height:1.6; margin:.6rem 0 0; }
+@media (min-width:720px) {
+  .story-controls { grid-template-columns:minmax(0,.8fr) minmax(0,.65fr) minmax(0,1.2fr) minmax(0,1.8fr); }
+  .story-chapter-control,.story-stage-control { grid-column:auto; }
+  .story-entry-effects:has(.story-player-effects) { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
