@@ -18,13 +18,14 @@ window.CharacterGrowthUI = { mount(root, id) {
             }));
             const entry = growth.characters[id];
             if (!entry) throw new Error('이 각성체의 성장 정보가 없습니다.');
+            const skillChoices=(skill,side,label)=>`<fieldset class="growth-skill-choice"><legend>${label}</legend><div class="growth-step-buttons">${Array.from({length:skill.maxLevel},(_,i)=>`<label><input type="radio" class="growth-skill-${side}" name="${skill.slot}-${side}" value="${i+1}" ${i===0?'checked':''} aria-label="${skill.name} ${label} Lv.${i+1}"><span>${i+1}</span></label>`).join('')}</div></fieldset>`;
             panel.innerHTML = `<h4>레벨별 능력치</h4>
-                <div class="level-growth-controls"><label>현재 레벨<input id="growth-from" type="number" min="1" max="${entry.maxLevel}" value="1"></label><label>목표 레벨<input id="growth-to" type="number" min="1" max="${entry.maxLevel}" value="60"></label></div>
+                <div class="level-growth-controls growth-levels">${[['from','현재 레벨',1],['to','목표 레벨',60]].map(([key,label,value])=>`<div class="growth-level-control"><div class="growth-level-heading"><label for="growth-${key}">${label}</label><input id="growth-${key}" type="number" min="1" max="${entry.maxLevel}" value="${value}"></div><input id="growth-${key}-slider" type="range" min="1" max="${entry.maxLevel}" value="${value}" aria-label="${label} 슬라이더"><div class="growth-range-ends" aria-hidden="true"><span>1</span><span>${entry.maxLevel}</span></div></div>`).join('')}</div>
                 <p class="growth-note">장비·재능·잠재력 보너스를 제외한 기본 체력·공격·방어입니다.</p>
                 <div id="growth-stats"></div>
                 <h4>스킬 강화</h4>
                 <button type="button" id="growth-skills-max" class="growth-action">전체 목표 Lv.6</button>
-                <details class="growth-skills"><summary>스킬별 현재·목표 레벨</summary>${entry.skillUpgrades.map(skill=>`<div class="growth-skill-row" data-skill-slot="${skill.slot}"><strong>${skill.name}</strong><label>현재<select class="growth-skill-from" aria-label="${skill.name} 현재 스킬 레벨">${Array.from({length:skill.maxLevel},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')}</select></label><label>목표<select class="growth-skill-to" aria-label="${skill.name} 목표 스킬 레벨">${Array.from({length:skill.maxLevel},(_,i)=>`<option value="${i+1}">${i+1}</option>`).join('')}</select></label></div>`).join('')}</details>
+                <details class="growth-skills"><summary>스킬별 현재·목표 레벨</summary>${entry.skillUpgrades.map(skill=>`<div class="growth-skill-row" data-skill-slot="${skill.slot}"><div class="growth-skill-name">${skill.name}</div>${skillChoices(skill,'from','현재')}${skillChoices(skill,'to','목표')}</div>`).join('')}</details>
                 <p id="growth-skills-summary" class="growth-note"></p>
                 <h4>필요 재화</h4>
                 <details class="growth-settings"><summary>현재 승급·상한 설정</summary><div class="level-growth-controls">
@@ -46,7 +47,8 @@ window.CharacterGrowthUI = { mount(root, id) {
                     field('rank').value=current.needRank;field('limit').value=current.needLimit;field('potency').value=current.needPotency;
                     const plan=CharacterGrowthData.quoteGrowthPlan(growth,id,to,{rank:current.needRank,limit:current.needLimit,potency:current.needPotency});
                     const {needRank,needLimit,needPotency,ascension,expansion,potencyResources}=plan;
-                    const selections=[...panel.querySelectorAll('[data-skill-slot]')].map(row=>({slot:row.dataset.skillSlot,fromLevel:Number(row.querySelector('.growth-skill-from').value),toLevel:Number(row.querySelector('.growth-skill-to').value)}));
+                    const selections=[...panel.querySelectorAll('[data-skill-slot]')].map(row=>({slot:row.dataset.skillSlot,fromLevel:Number(row.querySelector('.growth-skill-from:checked').value),toLevel:Number(row.querySelector('.growth-skill-to:checked').value)}));
+                    panel.querySelectorAll('[data-skill-slot]').forEach(row=>row.querySelectorAll('.growth-skill-to').forEach(input=>input.disabled=Number(input.value)<Number(row.querySelector('.growth-skill-from:checked').value)));
                     const skills=CharacterGrowthData.quoteSkillUpgrades(growth,id,selections);
                     const selectedSkills=selections.filter(row=>row.toLevel>row.fromLevel);
                     field('skills-summary').textContent=selectedSkills.length?`${selectedSkills.length}개 스킬 강화 비용을 합산합니다.`:'스킬 강화 없음 · 목표 레벨을 선택하면 비용에 합산됩니다.';
@@ -64,11 +66,24 @@ window.CharacterGrowthUI = { mount(root, id) {
                 }
             }
             panel.addEventListener('input',event=>{
-                if(event.target.matches('.growth-skill-from')){
-                    const target=event.target.closest('[data-skill-slot]').querySelector('.growth-skill-to');
-                    if(Number(target.value)<Number(event.target.value))target.value=event.target.value;
+                let changedCurrent=false;
+                for(const key of ['from','to']){
+                    if(event.target===field(key+'-slider'))field(key).value=event.target.value;
+                    if(event.target===field(key)&&event.target.validity.valid)field(key+'-slider').value=event.target.value;
                 }
-                if(event.target===field('from')) {
+                if([field('from'),field('from-slider'),field('to'),field('to-slider')].includes(event.target)&&field('from').validity.valid&&field('to').validity.valid){
+                    if(Number(field('from').value)>Number(field('to').value)){
+                        const source=event.target===field('from')||event.target===field('from-slider')?'from':'to';
+                        const other=source==='from'?'to':'from';
+                        field(other).value=field(source).value;field(other+'-slider').value=field(source).value;changedCurrent=other==='from';
+                    }
+                }
+                if(event.target.matches('.growth-skill-from')){
+                    const row=event.target.closest('[data-skill-slot]');
+                    const target=row.querySelector('.growth-skill-to:checked');
+                    if(Number(target.value)<Number(event.target.value))row.querySelector(`.growth-skill-to[value="${event.target.value}"]`).checked=true;
+                }
+                if(event.target===field('from')||event.target===field('from-slider')||changedCurrent) {
                     const level = Number(field('from').value);
                     if(Number.isInteger(level) && level>=1 && level<=entry.maxLevel){
                         field('rank').value=String(Math.min(entry.ascensions.length,Math.ceil(Math.min(level,60)/10)-1));
@@ -78,7 +93,7 @@ window.CharacterGrowthUI = { mount(root, id) {
                 }
                 render();
             });
-            field('skills-max').addEventListener('click',()=>{panel.querySelectorAll('.growth-skill-to').forEach(select=>select.value='6');render();});
+            field('skills-max').addEventListener('click',()=>{panel.querySelectorAll('.growth-skill-to[value="6"]').forEach(input=>input.checked=true);render();});
             render();
         } catch (error) {
             panel.textContent = `${error.message} `;
