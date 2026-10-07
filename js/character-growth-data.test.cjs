@@ -17,7 +17,7 @@ test('등록 캐릭터 전원의 모든 레벨과 재화 참조가 완전하다'
             assert.equal(row.level, i + 1);
             for (const field of ['physique', 'attack', 'defense']) assert.ok(Number.isInteger(row[field]) && row[field] > 0);
         });
-        for (const step of [...entry.ascensions, ...entry.limitIncreases,...entry.potencySteps,...entry.skillUpgrades.flatMap(skill=>skill.steps)]) for (const cost of step.resources) {
+        for (const step of [...entry.ascensions, ...entry.limitIncreases,...entry.potencySteps,...entry.skillUpgrades.flatMap(skill=>skill.steps),...entry.talentUpgrades.flatMap(talent=>talent.steps)]) for (const cost of step.resources) {
             assert.ok(resources.items[cost.itemId]?.name);
             assert.ok(Number.isInteger(cost.quantity) && cost.quantity > 0);
         }
@@ -48,9 +48,9 @@ test('스킬별 슬롯 비용과 전체 합계는 광기 폭발 비용을 별도
     assert.equal(all.find(cost=>cost.itemId===10108).quantity,1215900);
     assert.throws(()=>api.quoteSkillUpgrades(growth,'pandia',[{slot:'Slot_Strike',fromLevel:6,toLevel:7}]),RangeError);
 });
-test('재화 99종의 아이콘은 실제 공개 이미지 파일과 연결된다',()=>{
+test('재화 101종의 아이콘은 실제 공개 이미지 파일과 연결된다',()=>{
     const fs=require('node:fs'),path=require('node:path');
-    assert.equal(Object.keys(resources.items).length,99);
+    assert.equal(Object.keys(resources.items).length,101);
     for(const item of Object.values(resources.items))assert.ok(fs.existsSync(path.join(__dirname,'..',item.icon)),item.name);
 });
 test('판디아 성장식의 올림과 60·90레벨 경계를 보존한다', () => {
@@ -81,4 +81,12 @@ test('승급 비용은 출발 단계의 원본 비용이며 레벨업과 분리�
     assert.deepEqual(api.quoteAscension(growth,'pandia',0,5),[{itemId:9793,quantity:27},{itemId:9799,quantity:39},{itemId:9940,quantity:9},{itemId:10108,quantity:228600}]);
     assert.deepEqual(api.quoteLimitIncrease(growth,'pandia',0,1),[{itemId:9799,quantity:36},{itemId:10108,quantity:194400},{itemId:25218,quantity:1}]);
     assert.throws(()=>api.quoteAscension(growth,'pandia',0,6),RangeError);
+});
+
+test('광기의 징조와 영혼 단련은 다음 단계의 재료를 누적한다',()=>{
+    assert.deepEqual(api.quoteTalentUpgrades(growth,'pandia',[{type:1,fromLevel:0,toLevel:1}]),[{itemId:9762,quantity:22},{itemId:10108,quantity:108000}]);
+    assert.deepEqual(api.quoteTalentUpgrades(growth,'pandia',[{type:2,fromLevel:0,toLevel:2}]),[{itemId:74093,quantity:9}]);
+    assert.deepEqual(api.quoteTalentUpgrades(growth,'pandia',[{type:1,fromLevel:12,toLevel:12}]),[]);
+    assert.throws(()=>api.quoteTalentUpgrades(growth,'pandia',[{type:2,fromLevel:10,toLevel:11}]),RangeError);
+    for(const entry of Object.values(growth.characters))assert.deepEqual(entry.talentUpgrades.map(t=>t.maxLevel),[12,10]);
 });

@@ -11,24 +11,21 @@ window.CharacterGrowthUI = { mount(root, id) {
         started = true;
         try {
             const [growth, resources] = await Promise.all(['character_growth','growth_resources'].map(async name => {
-                const response = await fetch(`data/${name}.json?v=growth-20261007-6`);
+                const response = await fetch(`data/${name}.json?v=growth-20261007-8`);
                 if (!response.ok) throw new Error('성장 데이터 요청 실패');
                 return response.json();
             }));
             const entry = growth.characters[id];
             if (!entry) throw new Error('이 각성체의 성장 정보가 없습니다.');
-            const skillChoices=(skill,side,label)=>`<fieldset class="growth-skill-choice"><legend>${label}</legend><div class="growth-step-buttons">${Array.from({length:skill.maxLevel},(_,i)=>`<label><input type="radio" class="growth-skill-${side}" name="${skill.slot}-${side}" value="${i+1}" ${i===0?'checked':''} aria-label="${skill.name} ${label} Lv.${i+1}"><span>${i+1}</span></label>`).join('')}</div></fieldset>`;
-            panel.innerHTML = `<h4>레벨별 능력치</h4>
+            const choices=(item,side,label,min=1)=>`<label class="growth-compact-choice">${label}<select class="growth-${side}" aria-label="${item.name} ${label}">${Array.from({length:item.maxLevel-min+1},(_,i)=>`<option value="${i+min}">${i+min}</option>`).join('')}</select></label>`;
+            const types={Slot_Strike:'타격',Slot_Defend:'방어',Slot_Skill1:'스킬',Slot_Skill2:'스킬',Slot_Awake:'영지각성',Slot_Super:'광기 폭발'};
+            panel.innerHTML = `<section class="growth-section growth-total"><h4>전체 필요 재화</h4><p id="growth-error" role="alert"></p><div id="growth-cost" aria-live="polite"></div></section><section class="growth-section"><h4>경험치</h4>
                 <div class="level-growth-controls growth-levels">${[['from','현재 레벨',1],['to','목표 레벨',60]].map(([key,label,value])=>`<div class="growth-level-control"><div class="growth-level-heading"><label for="growth-${key}">${label}</label><input id="growth-${key}" type="number" min="1" max="${entry.maxLevel}" value="${value}"></div><input id="growth-${key}-slider" type="range" min="1" max="${entry.maxLevel}" value="${value}" aria-label="${label} 슬라이더"><div class="growth-range-ends" aria-hidden="true"><span>1</span><span>${entry.maxLevel}</span></div></div>`).join('')}</div>
-                <p class="growth-note">장비·재능·잠재력 보너스를 제외한 기본 체력·공격·방어입니다.</p>
-                <div id="growth-stats"></div>
-                <h4>스킬 강화</h4>
-                <button type="button" id="growth-skills-max" class="growth-action">전체 목표 Lv.6</button>
-                <section class="growth-skills" aria-label="스킬별 현재·목표 레벨">${entry.skillUpgrades.map(skill=>`<div class="growth-skill-row" data-skill-slot="${skill.slot}"><div class="growth-skill-name">${skill.name}</div>${skillChoices(skill,'from','현재')}${skillChoices(skill,'to','목표')}</div>`).join('')}</section>
-                <p id="growth-skills-summary" class="growth-note"></p>
-                <h4>필요 재화</h4>
-                <p id="growth-error" role="alert"></p><div id="growth-cost" aria-live="polite"></div>
-                <p class="growth-note">현재 레벨에 필요한 최소 승급·상한 해금까지 완료한 기준입니다. 현재 경험치 0, 비용 감소 미적용이며 목표 레벨의 추가 해금과 선택한 스킬 강화 비용을 포함합니다.</p>`;
+                <div id="growth-stats"></div></section>
+                <section class="growth-section"><div class="growth-section-heading"><h4>스킬</h4><button type="button" id="growth-skills-max" class="growth-action">전체 목표 Lv.6</button></div>
+                <div class="growth-skills">${entry.skillUpgrades.map(skill=>`<div class="growth-skill-row" data-skill-slot="${skill.slot}"><div class="growth-skill-name">${types[skill.slot]===skill.name?'':`<span class="growth-skill-type">${types[skill.slot]}</span>`}${skill.name}</div>${choices(skill,'skill-from','현재')}${choices(skill,'skill-to','목표')}</div>`).join('')}</div></section>
+                ${entry.talentUpgrades.map(talent=>`<section class="growth-section"><h4>${talent.name}</h4><div class="growth-talent-row" data-talent-type="${talent.type}">${choices(talent,'talent-from','현재',0)}${choices(talent,'talent-to','목표',0)}</div></section>`).join('')}
+                `;
             const field = name => panel.querySelector('#growth-'+name);
             function render() {
                 const from = Number(field('from').value), to = Number(field('to').value);
@@ -39,18 +36,17 @@ window.CharacterGrowthUI = { mount(root, id) {
                     const current=CharacterGrowthData.quoteGrowthPlan(growth,id,from);
                     const plan=CharacterGrowthData.quoteGrowthPlan(growth,id,to,{rank:current.needRank,limit:current.needLimit,potency:current.needPotency});
                     const {needRank,needLimit,needPotency,ascension,expansion,potencyResources}=plan;
-                    const selections=[...panel.querySelectorAll('[data-skill-slot]')].map(row=>({slot:row.dataset.skillSlot,fromLevel:Number(row.querySelector('.growth-skill-from:checked').value),toLevel:Number(row.querySelector('.growth-skill-to:checked').value)}));
-                    panel.querySelectorAll('[data-skill-slot]').forEach(row=>row.querySelectorAll('.growth-skill-to').forEach(input=>input.disabled=Number(input.value)<Number(row.querySelector('.growth-skill-from:checked').value)));
+                    const selections=[...panel.querySelectorAll('[data-skill-slot]')].map(row=>({slot:row.dataset.skillSlot,fromLevel:Number(row.querySelector('.growth-skill-from').value),toLevel:Number(row.querySelector('.growth-skill-to').value)}));
                     const skills=CharacterGrowthData.quoteSkillUpgrades(growth,id,selections);
-                    const selectedSkills=selections.filter(row=>row.toLevel>row.fromLevel);
-                    field('skills-summary').textContent=selectedSkills.length?`${selectedSkills.length}개 스킬 강화 비용을 합산합니다.`:'스킬 강화 없음 · 목표 레벨을 선택하면 비용에 합산됩니다.';
+                    const talentSelections=[...panel.querySelectorAll('[data-talent-type]')].map(row=>({type:Number(row.dataset.talentType),fromLevel:Number(row.querySelector('.growth-talent-from').value),toLevel:Number(row.querySelector('.growth-talent-to').value)}));
+                    const talents=CharacterGrowthData.quoteTalentUpgrades(growth,id,talentSelections);
                     const rows = costs => costs.length ? `<ul class="growth-resource-list">${costs.map(cost=>`<li><span class="growth-resource-name"><img src="${resources.items[cost.itemId].icon}" alt="" width="40" height="40">${resources.items[cost.itemId].name}</span><strong>${number(cost.quantity)}</strong></li>`).join('')}</ul>` : '<p class="growth-note">추가 재화 없음</p>';
                     let remaining = quote.billableExperience;
                     const bottles = [...resources.experienceItems].sort((a,b)=>b.experience-a.experience).map(item=>{const quantity=Math.floor(remaining/item.experience);remaining-=quantity*item.experience;return {itemId:item.itemId,quantity};}).filter(item=>item.quantity);
-                    const all = [...bottles,quote.currency,...ascension,...expansion,...potencyResources,...skills].filter(cost=>cost.quantity);
+                    const all = [...bottles,quote.currency,...ascension,...expansion,...potencyResources,...skills,...talents].filter(cost=>cost.quantity);
                     const totals = new Map();all.forEach(cost=>totals.set(cost.itemId,(totals.get(cost.itemId)||0)+cost.quantity));
                     field('error').textContent = '';
-                    field('cost').innerHTML = `<p>필요 경험치 <strong>${number(quote.experience)}</strong></p><h5>전체 필요 재화</h5>${rows(CharacterGrowthData.sortResources(resources,[...totals].map(([itemId,quantity])=>({itemId,quantity}))))}<p class="growth-note">비약은 남는 경험치를 최소화한 조합 예시입니다. 보유한 다른 등급의 비약으로 대체할 수 있습니다.</p>`;
+                    field('cost').innerHTML = rows(CharacterGrowthData.sortResources(resources,[...totals].map(([itemId,quantity])=>({itemId,quantity}))));
                 } catch (error) {
                     field('error').textContent = error.message;
                     field('cost').innerHTML = '';
@@ -68,14 +64,17 @@ window.CharacterGrowthUI = { mount(root, id) {
                         field(other).value=field(source).value;field(other+'-slider').value=field(source).value;
                     }
                 }
-                if(event.target.matches('.growth-skill-from')){
-                    const row=event.target.closest('[data-skill-slot]');
-                    const target=row.querySelector('.growth-skill-to:checked');
-                    if(Number(target.value)<Number(event.target.value))row.querySelector(`.growth-skill-to[value="${event.target.value}"]`).checked=true;
+                if(event.target.matches('.growth-skill-from,.growth-skill-to,.growth-talent-from,.growth-talent-to')){
+                    const kind=event.target.classList.contains('growth-skill-from')||event.target.classList.contains('growth-skill-to')?'skill':'talent';
+                    const row=event.target.closest('[data-skill-slot],[data-talent-type]');
+                    const current=row.querySelector(`.growth-${kind}-from`),target=row.querySelector(`.growth-${kind}-to`);
+                    if(Number(current.value)>Number(target.value)){
+                        if(event.target===current)target.value=current.value;else current.value=target.value;
+                    }
                 }
                 render();
             });
-            field('skills-max').addEventListener('click',()=>{panel.querySelectorAll('.growth-skill-to[value="6"]').forEach(input=>input.checked=true);render();});
+            field('skills-max').addEventListener('click',()=>{panel.querySelectorAll('.growth-skill-to').forEach(input=>input.value='6');render();});
             render();
         } catch (error) {
             panel.textContent = `${error.message} `;

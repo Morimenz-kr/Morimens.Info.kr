@@ -82,5 +82,13 @@
     function sortResources(resources,costs) {
         return [...costs].sort((a,b)=>resources.items[a.itemId].groupOrder-resources.items[b.itemId].groupOrder||resources.items[b.itemId].sortOrder-resources.items[a.itemId].sortOrder||a.itemId-b.itemId);
     }
-    return { statsAtLevel, quoteLevelUp, quoteAscension, quoteLimitIncrease, quoteGrowthPlan, quoteSkillUpgrades, sortResources };
+    function quoteTalentUpgrades(data,id,selections) {
+        const entry=character(data,id);
+        return sumResources(selections.map(({type,fromLevel,toLevel})=>{
+            const talent=entry.talentUpgrades.find(row=>row.type===type);
+            if(!talent||![fromLevel,toLevel].every(value=>Number.isInteger(value)&&value>=0&&value<=talent.maxLevel)||toLevel<fromLevel)throw new RangeError('특성 단계를 확인하세요');
+            return {resources:sumResources(talent.steps.slice(fromLevel,toLevel))};
+        }));
+    }
+    return { statsAtLevel, quoteLevelUp, quoteAscension, quoteLimitIncrease, quoteGrowthPlan, quoteSkillUpgrades, quoteTalentUpgrades, sortResources };
 });

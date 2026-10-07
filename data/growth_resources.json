@@ -13,7 +13,8 @@
       "Item": "36f058c52cd2f77ee62e5df893a4a9911b04559f1a993b7d18b5d0e7e313ed64",
       "Constant": "6fc7eb9340328a6feb4a619529a7d7d5415bdec916ba2124c2bc8ac71bdfeec1",
       "AwakerSkillUpgrade": "c26989fb691d4d9e8e056cc159af6af00d79952000365a7fc0ddc4a1dfcdda6f",
-      "Skill": "a73180ccedbf8407a4e00f59b72a81af535a2649c97df165d412504da9dba0e4"
+      "Skill": "a73180ccedbf8407a4e00f59b72a81af535a2649c97df165d412504da9dba0e4",
+      "AwakerTalent": "4ad98ff159f53194a83843f82b4664f56a6293351caf49ceadf8cfaff16217b1"
     }
   },
   "items": {
@@ -680,6 +681,22 @@
       "sortOrder": 108,
       "quality": "Orange",
       "groupOrder": 108
+    },
+    "74093": {
+      "id": 74093,
+      "name": "분열된 꿈",
+      "icon": "images/growth/items/74093.png",
+      "sortOrder": 111,
+      "quality": "Purple",
+      "groupOrder": 111
+    },
+    "74143": {
+      "id": 74143,
+      "name": "별들의 잔영",
+      "icon": "images/growth/items/74143.png",
+      "sortOrder": 112,
+      "quality": "Orange",
+      "groupOrder": 111
     },
     "77865": {
       "id": 77865,
