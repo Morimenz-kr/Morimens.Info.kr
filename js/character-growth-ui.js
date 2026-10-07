@@ -6,7 +6,6 @@ window.CharacterGrowthUI = { mount(root, id) {
     const panel = document.createElement('div');panel.id='tab-level-growth';panel.className='character-effect-panel';panel.dataset.effectContent='level-growth';panel.setAttribute('role','tabpanel');panel.setAttribute('aria-labelledby',tab.id);panel.textContent='육성 정보를 불러오는 중입니다.';root.append(panel);
     let started = false;
     const number = value => value.toLocaleString('ko-KR');
-    const options = (count, selected, label) => Array.from({length:count+1},(_,i)=>`<option value="${i}" ${i===selected?'selected':''}>${label(i)}</option>`).join('');
     async function load() {
         if (started) return;
         started = true;
@@ -25,16 +24,11 @@ window.CharacterGrowthUI = { mount(root, id) {
                 <div id="growth-stats"></div>
                 <h4>스킬 강화</h4>
                 <button type="button" id="growth-skills-max" class="growth-action">전체 목표 Lv.6</button>
-                <details class="growth-skills"><summary>스킬별 현재·목표 레벨</summary>${entry.skillUpgrades.map(skill=>`<div class="growth-skill-row" data-skill-slot="${skill.slot}"><div class="growth-skill-name">${skill.name}</div>${skillChoices(skill,'from','현재')}${skillChoices(skill,'to','목표')}</div>`).join('')}</details>
+                <section class="growth-skills" aria-label="스킬별 현재·목표 레벨">${entry.skillUpgrades.map(skill=>`<div class="growth-skill-row" data-skill-slot="${skill.slot}"><div class="growth-skill-name">${skill.name}</div>${skillChoices(skill,'from','현재')}${skillChoices(skill,'to','목표')}</div>`).join('')}</section>
                 <p id="growth-skills-summary" class="growth-note"></p>
                 <h4>필요 재화</h4>
-                <details class="growth-settings"><summary>현재 승급·상한 설정</summary><div class="level-growth-controls">
-                <label>현재 승급<select id="growth-rank">${options(entry.ascensions.length,0,i=>`${i}단계 · 상한 ${i===0?10:entry.ascensions[i-1].toMaxLevel}`)}</select></label>
-                <label>현재 상한 확장<select id="growth-limit">${options(entry.limitIncreases.length,0,i=>i===0?'미확장':`${i}단계 · +${entry.limitIncreases[i-1].additionalMaxLevel}레벨`)}</select></label>
-                <label>현재 잠재력<select id="growth-potency">${options(entry.potencySteps.length,0,i=>i===0?'미해금':`${i}단계 · 상한 +${entry.potencySteps.slice(0,i).reduce((n,r)=>n+r.additionalMaxLevel,0)}레벨`)}</select></label>
-                </div></details>
                 <p id="growth-error" role="alert"></p><div id="growth-cost" aria-live="polite"></div>
-                <p class="growth-note">현재 경험치 0, 비용 감소 미적용 기준입니다. 목표 레벨에 필요한 잠재력의 선행 해금과 선택한 스킬 강화 비용을 포함합니다.</p>`;
+                <p class="growth-note">현재 레벨에 필요한 최소 승급·상한 해금까지 완료한 기준입니다. 현재 경험치 0, 비용 감소 미적용이며 목표 레벨의 추가 해금과 선택한 스킬 강화 비용을 포함합니다.</p>`;
             const field = name => panel.querySelector('#growth-'+name);
             function render() {
                 const from = Number(field('from').value), to = Number(field('to').value);
@@ -42,9 +36,7 @@ window.CharacterGrowthUI = { mount(root, id) {
                     const quote = CharacterGrowthData.quoteLevelUp(growth, resources, id, from, to);
                     const a = CharacterGrowthData.statsAtLevel(growth,id,from), b = CharacterGrowthData.statsAtLevel(growth,id,to);
                     field('stats').innerHTML = `<table class="growth-table"><thead><tr><th scope="col">능력치</th><th scope="col">Lv.${from}</th><th scope="col">Lv.${to}</th><th scope="col">증가</th></tr></thead><tbody>${[['체력','physique'],['공격','attack'],['방어','defense']].map(([label,key])=>`<tr><th scope="row">${label}</th><td data-label="Lv.${from}">${number(a[key])}</td><td data-label="Lv.${to}">${number(b[key])}</td><td data-label="증가">+${number(b[key]-a[key])}</td></tr>`).join('')}</tbody></table>`;
-                    const rank = Number(field('rank').value), limit = Number(field('limit').value), potency = Number(field('potency').value);
-                    const current=CharacterGrowthData.quoteGrowthPlan(growth,id,from,{rank,limit,potency});
-                    field('rank').value=current.needRank;field('limit').value=current.needLimit;field('potency').value=current.needPotency;
+                    const current=CharacterGrowthData.quoteGrowthPlan(growth,id,from);
                     const plan=CharacterGrowthData.quoteGrowthPlan(growth,id,to,{rank:current.needRank,limit:current.needLimit,potency:current.needPotency});
                     const {needRank,needLimit,needPotency,ascension,expansion,potencyResources}=plan;
                     const selections=[...panel.querySelectorAll('[data-skill-slot]')].map(row=>({slot:row.dataset.skillSlot,fromLevel:Number(row.querySelector('.growth-skill-from:checked').value),toLevel:Number(row.querySelector('.growth-skill-to:checked').value)}));
@@ -61,12 +53,10 @@ window.CharacterGrowthUI = { mount(root, id) {
                     field('cost').innerHTML = `<p>필요 경험치 <strong>${number(quote.experience)}</strong></p><h5>전체 필요 재화</h5>${rows(CharacterGrowthData.sortResources(resources,[...totals].map(([itemId,quantity])=>({itemId,quantity}))))}<p class="growth-note">비약은 남는 경험치를 최소화한 조합 예시입니다. 보유한 다른 등급의 비약으로 대체할 수 있습니다.</p>`;
                 } catch (error) {
                     field('error').textContent = error.message;
-                    panel.querySelector('.growth-settings').open = true;
                     field('cost').innerHTML = '';
                 }
             }
             panel.addEventListener('input',event=>{
-                let changedCurrent=false;
                 for(const key of ['from','to']){
                     if(event.target===field(key+'-slider'))field(key).value=event.target.value;
                     if(event.target===field(key)&&event.target.validity.valid)field(key+'-slider').value=event.target.value;
@@ -75,21 +65,13 @@ window.CharacterGrowthUI = { mount(root, id) {
                     if(Number(field('from').value)>Number(field('to').value)){
                         const source=event.target===field('from')||event.target===field('from-slider')?'from':'to';
                         const other=source==='from'?'to':'from';
-                        field(other).value=field(source).value;field(other+'-slider').value=field(source).value;changedCurrent=other==='from';
+                        field(other).value=field(source).value;field(other+'-slider').value=field(source).value;
                     }
                 }
                 if(event.target.matches('.growth-skill-from')){
                     const row=event.target.closest('[data-skill-slot]');
                     const target=row.querySelector('.growth-skill-to:checked');
                     if(Number(target.value)<Number(event.target.value))row.querySelector(`.growth-skill-to[value="${event.target.value}"]`).checked=true;
-                }
-                if(event.target===field('from')||event.target===field('from-slider')||changedCurrent) {
-                    const level = Number(field('from').value);
-                    if(Number.isInteger(level) && level>=1 && level<=entry.maxLevel){
-                        field('rank').value=String(Math.min(entry.ascensions.length,Math.ceil(Math.min(level,60)/10)-1));
-                        const bonus=entry.potencySteps.slice(0,Number(field('potency').value)).reduce((n,r)=>n+r.additionalMaxLevel,0);
-                        field('limit').value=String(Math.min(entry.limitIncreases.length,Math.ceil(Math.max(0,level-60-bonus)/2)));
-                    }
                 }
                 render();
             });
