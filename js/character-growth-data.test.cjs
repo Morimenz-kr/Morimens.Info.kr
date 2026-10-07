@@ -4,9 +4,9 @@ const api = require('./character-growth-data.js');
 const growth = require('../data/character_growth.json');
 const resources = require('../data/growth_resources.json');
 const manifest = require('../data/character_manifest.json');
-test('원본 아이템 정렬 순서로 재료 계열 내 하위부터 상위까지 표시한다',()=>{
-    assert.deepEqual(api.sortResources(resources,[9799,9940,9793].map(itemId=>({itemId,quantity:1}))).map(row=>row.itemId),[9940,9793,9799]);
-    assert.deepEqual(api.sortResources(resources,[9769,9825,9621].map(itemId=>({itemId,quantity:1}))).map(row=>row.itemId),[9825,9621,9769]);
+test('재료 계열은 유지하면서 같은 계열 안에서는 상위부터 표시한다',()=>{
+    assert.deepEqual(api.sortResources(resources,[9799,9940,9793].map(itemId=>({itemId,quantity:1}))).map(row=>row.itemId),[9799,9793,9940]);
+    assert.deepEqual(api.sortResources(resources,[9769,9825,9621].map(itemId=>({itemId,quantity:1}))).map(row=>row.itemId),[9769,9621,9825]);
 });
 
 test('등록 캐릭터 전원의 모든 레벨과 재화 참조가 완전하다', () => {

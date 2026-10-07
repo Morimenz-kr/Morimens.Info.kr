@@ -80,7 +80,7 @@
         }));
     }
     function sortResources(resources,costs) {
-        return [...costs].sort((a,b)=>resources.items[a.itemId].sortOrder-resources.items[b.itemId].sortOrder||a.itemId-b.itemId);
+        return [...costs].sort((a,b)=>resources.items[a.itemId].groupOrder-resources.items[b.itemId].groupOrder||resources.items[b.itemId].sortOrder-resources.items[a.itemId].sortOrder||a.itemId-b.itemId);
     }
     return { statsAtLevel, quoteLevelUp, quoteAscension, quoteLimitIncrease, quoteGrowthPlan, quoteSkillUpgrades, sortResources };
 });
