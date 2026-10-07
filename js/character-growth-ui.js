@@ -11,7 +11,7 @@ window.CharacterGrowthUI = { mount(root, id) {
         started = true;
         try {
             const [growth, resources] = await Promise.all(['character_growth','growth_resources'].map(async name => {
-                const response = await fetch(`data/${name}.json?v=growth-20261007-8`);
+                const response = await fetch(`data/${name}.json?v=growth-20261007-12`);
                 if (!response.ok) throw new Error('성장 데이터 요청 실패');
                 return response.json();
             }));

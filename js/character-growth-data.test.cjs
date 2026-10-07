@@ -48,9 +48,9 @@ test('스킬별 슬롯 비용과 전체 합계는 광기 폭발 비용을 별도
     assert.equal(all.find(cost=>cost.itemId===10108).quantity,1215900);
     assert.throws(()=>api.quoteSkillUpgrades(growth,'pandia',[{slot:'Slot_Strike',fromLevel:6,toLevel:7}]),RangeError);
 });
-test('재화 101종의 아이콘은 실제 공개 이미지 파일과 연결된다',()=>{
+test('재화 102종의 아이콘은 실제 공개 이미지 파일과 연결된다',()=>{
     const fs=require('node:fs'),path=require('node:path');
-    assert.equal(Object.keys(resources.items).length,101);
+    assert.equal(Object.keys(resources.items).length,102);
     for(const item of Object.values(resources.items))assert.ok(fs.existsSync(path.join(__dirname,'..',item.icon)),item.name);
 });
 test('판디아 성장식의 올림과 60·90레벨 경계를 보존한다', () => {
@@ -88,5 +88,12 @@ test('광기의 징조와 영혼 단련은 다음 단계의 재료를 누적한�
     assert.deepEqual(api.quoteTalentUpgrades(growth,'pandia',[{type:2,fromLevel:0,toLevel:2}]),[{itemId:74093,quantity:9}]);
     assert.deepEqual(api.quoteTalentUpgrades(growth,'pandia',[{type:1,fromLevel:12,toLevel:12}]),[]);
     assert.throws(()=>api.quoteTalentUpgrades(growth,'pandia',[{type:2,fromLevel:10,toLevel:11}]),RangeError);
-    for(const entry of Object.values(growth.characters))assert.deepEqual(entry.talentUpgrades.map(t=>t.maxLevel),[12,10]);
+    for(const entry of Object.values(growth.characters))assert.deepEqual(entry.talentUpgrades.filter(t=>t.type!==3).map(t=>t.maxLevel),[12,10]);
+});
+
+test('내재영격은 기본 활성화 대상을 제외하고 5단계 비용을 합산한다',()=>{
+    assert.equal(Object.values(growth.characters).filter(c=>c.talentUpgrades.some(t=>t.type===3)).length,28);
+    assert.ok(!growth.characters.GOgier.talentUpgrades.some(t=>t.type===3));
+    assert.deepEqual(api.quoteTalentUpgrades(growth,'celeste',[{type:3,fromLevel:0,toLevel:5}]),[{itemId:9719,quantity:300}]);
+    assert.deepEqual(api.quoteTalentUpgrades(growth,'celeste',[{type:3,fromLevel:2,toLevel:5}]),[{itemId:9719,quantity:240}]);
 });

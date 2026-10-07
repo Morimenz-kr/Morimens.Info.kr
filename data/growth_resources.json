@@ -138,6 +138,14 @@
       "quality": "Orange",
       "groupOrder": 330
     },
+    "9719": {
+      "id": 9719,
+      "name": "무구의 은핵",
+      "icon": "images/growth/items/9719.png",
+      "sortOrder": 29,
+      "quality": "Orange",
+      "groupOrder": 29
+    },
     "9726": {
       "id": 9726,
       "name": "부서진 광석",

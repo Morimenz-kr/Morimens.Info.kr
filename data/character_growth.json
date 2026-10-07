@@ -3957,6 +3957,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139507,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -5924,6 +5982,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139528,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -17754,6 +17870,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139508,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -21692,6 +21866,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139510,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -27609,6 +27841,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139509,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -31535,6 +31825,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139574,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -33502,6 +33850,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139567,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -41390,6 +41796,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139532,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -43357,6 +43821,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139575,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -45332,6 +45854,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139518,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -47299,6 +47879,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139530,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -53212,6 +53850,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139506,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -61100,6 +61796,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139521,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -68984,6 +69738,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139540,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -70955,6 +71767,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139527,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -72922,6 +73792,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139512,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -78835,6 +79763,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139555,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -86723,6 +87709,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139568,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -90665,6 +91709,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139566,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -92636,6 +93738,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139564,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -94603,6 +95763,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139562,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -100520,6 +101738,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139546,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -104462,6 +105738,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139560,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -108400,6 +109734,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139572,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -114301,6 +115693,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139552,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -116252,6 +117702,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139545,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
@@ -118211,6 +119719,64 @@
               ]
             }
           ]
+        },
+        {
+          "type": 3,
+          "talentId": 139556,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -120162,6 +121728,64 @@
                 {
                   "itemId": 74093,
                   "quantity": 45
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 3,
+          "talentId": 139563,
+          "name": "내재 영격",
+          "maxLevel": 5,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 60
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 80
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9719,
+                  "quantity": 100
                 }
               ]
             }
