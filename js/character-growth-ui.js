@@ -12,7 +12,7 @@ window.CharacterGrowthUI = { mount(root, id) {
         started = true;
         try {
             const [growth, resources] = await Promise.all(['character_growth','growth_resources'].map(async name => {
-                const response = await fetch(`data/${name}.json?v=growth-20261007-3`);
+                const response = await fetch(`data/${name}.json?v=growth-20261007-5`);
                 if (!response.ok) throw new Error('성장 데이터 요청 실패');
                 return response.json();
             }));
@@ -58,7 +58,7 @@ window.CharacterGrowthUI = { mount(root, id) {
                     const all = [...bottles,quote.currency,...ascension,...expansion,...potencyResources,...skills].filter(cost=>cost.quantity);
                     const totals = new Map();all.forEach(cost=>totals.set(cost.itemId,(totals.get(cost.itemId)||0)+cost.quantity));
                     field('error').textContent = '';
-                    field('cost').innerHTML = `<p>필요 경험치 <strong>${number(quote.experience)}</strong></p><h5>전체 필요 재화</h5>${rows([...totals].map(([itemId,quantity])=>({itemId,quantity})))}<p class="growth-note">비약은 남는 경험치를 최소화한 조합 예시입니다. 보유한 다른 등급의 비약으로 대체할 수 있습니다.</p><details><summary>비용 상세</summary><h5>레벨업</h5>${rows([...bottles,quote.currency].filter(cost=>cost.quantity))}<h5>승급 ${current.needRank} → ${needRank}단계</h5>${rows(ascension)}<h5>상한 확장 ${current.needLimit} → ${needLimit}단계</h5>${rows(expansion)}<h5>잠재력 ${current.needPotency} → ${needPotency}단계</h5>${rows(potencyResources)}<h5>스킬 강화</h5>${rows(skills)}</details>`;
+                    field('cost').innerHTML = `<p>필요 경험치 <strong>${number(quote.experience)}</strong></p><h5>전체 필요 재화</h5>${rows(CharacterGrowthData.sortResources(resources,[...totals].map(([itemId,quantity])=>({itemId,quantity}))))}<p class="growth-note">비약은 남는 경험치를 최소화한 조합 예시입니다. 보유한 다른 등급의 비약으로 대체할 수 있습니다.</p>`;
                 } catch (error) {
                     field('error').textContent = error.message;
                     panel.querySelector('.growth-settings').open = true;

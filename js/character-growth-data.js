@@ -79,5 +79,8 @@
             return {resources:sumResources(skill.steps.filter(row=>row.fromLevel>=fromLevel&&row.toLevel<=toLevel))};
         }));
     }
-    return { statsAtLevel, quoteLevelUp, quoteAscension, quoteLimitIncrease, quoteGrowthPlan, quoteSkillUpgrades };
+    function sortResources(resources,costs) {
+        return [...costs].sort((a,b)=>resources.items[a.itemId].sortOrder-resources.items[b.itemId].sortOrder||a.itemId-b.itemId);
+    }
+    return { statsAtLevel, quoteLevelUp, quoteAscension, quoteLimitIncrease, quoteGrowthPlan, quoteSkillUpgrades, sortResources };
 });

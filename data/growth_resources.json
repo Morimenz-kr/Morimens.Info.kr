@@ -20,497 +20,695 @@
     "9538": {
       "id": 9538,
       "name": "파편 · 파로스",
-      "icon": "images/growth/items/9538.png"
+      "icon": "images/growth/items/9538.png",
+      "sortOrder": 308,
+      "quality": "Orange"
     },
     "9540": {
       "id": 9540,
       "name": "파편 · 리즈",
-      "icon": "images/growth/items/9540.png"
+      "icon": "images/growth/items/9540.png",
+      "sortOrder": 339,
+      "quality": "Orange"
     },
     "9543": {
       "id": 9543,
       "name": "현자의 돌",
-      "icon": "images/growth/items/9543.png"
+      "icon": "images/growth/items/9543.png",
+      "sortOrder": 72,
+      "quality": "Orange"
     },
     "9549": {
       "id": 9549,
       "name": "마른 번데기",
-      "icon": "images/growth/items/9549.png"
+      "icon": "images/growth/items/9549.png",
+      "sortOrder": 55,
+      "quality": "Green"
     },
     "9557": {
       "id": 9557,
       "name": "파편 · 아그리파",
-      "icon": "images/growth/items/9557.png"
+      "icon": "images/growth/items/9557.png",
+      "sortOrder": 323,
+      "quality": "Orange"
     },
     "9595": {
       "id": 9595,
       "name": "파편 · 틴커트",
-      "icon": "images/growth/items/9595.png"
+      "icon": "images/growth/items/9595.png",
+      "sortOrder": 340,
+      "quality": "Orange"
     },
     "9601": {
       "id": 9601,
       "name": "원생 번데기",
-      "icon": "images/growth/items/9601.png"
+      "icon": "images/growth/items/9601.png",
+      "sortOrder": 56,
+      "quality": "Blue"
     },
     "9614": {
       "id": 9614,
       "name": "파편 · 완다",
-      "icon": "images/growth/items/9614.png"
+      "icon": "images/growth/items/9614.png",
+      "sortOrder": 345,
+      "quality": "Orange"
     },
     "9621": {
       "id": 9621,
       "name": "빛나는 결정 나비",
-      "icon": "images/growth/items/9621.png"
+      "icon": "images/growth/items/9621.png",
+      "sortOrder": 50,
+      "quality": "Blue"
     },
     "9647": {
       "id": 9647,
       "name": "파편 · 윙클",
-      "icon": "images/growth/items/9647.png"
+      "icon": "images/growth/items/9647.png",
+      "sortOrder": 341,
+      "quality": "Orange"
     },
     "9671": {
       "id": 9671,
       "name": "포자 중합체",
-      "icon": "images/growth/items/9671.png"
+      "icon": "images/growth/items/9671.png",
+      "sortOrder": 57,
+      "quality": "Purple"
     },
     "9673": {
       "id": 9673,
       "name": "파편 · 판디아",
-      "icon": "images/growth/items/9673.png"
+      "icon": "images/growth/items/9673.png",
+      "sortOrder": 294,
+      "quality": "Orange"
     },
     "9686": {
       "id": 9686,
       "name": "파편 · 카이커스",
-      "icon": "images/growth/items/9686.png"
+      "icon": "images/growth/items/9686.png",
+      "sortOrder": 309,
+      "quality": "Orange"
     },
     "9712": {
       "id": 9712,
       "name": "파편 · 레아",
-      "icon": "images/growth/items/9712.png"
+      "icon": "images/growth/items/9712.png",
+      "sortOrder": 325,
+      "quality": "Orange"
     },
     "9713": {
       "id": 9713,
       "name": "파편 · 타이스",
-      "icon": "images/growth/items/9713.png"
+      "icon": "images/growth/items/9713.png",
+      "sortOrder": 330,
+      "quality": "Orange"
     },
     "9726": {
       "id": 9726,
       "name": "부서진 광석",
-      "icon": "images/growth/items/9726.png"
+      "icon": "images/growth/items/9726.png",
+      "sortOrder": 58,
+      "quality": "Green"
     },
     "9727": {
       "id": 9727,
       "name": "파편 · 오를라",
-      "icon": "images/growth/items/9727.png"
+      "icon": "images/growth/items/9727.png",
+      "sortOrder": 346,
+      "quality": "Orange"
     },
     "9732": {
       "id": 9732,
       "name": "파편 · 셀레스트",
-      "icon": "images/growth/items/9732.png"
+      "icon": "images/growth/items/9732.png",
+      "sortOrder": 312,
+      "quality": "Orange"
     },
     "9740": {
       "id": 9740,
       "name": "감정 복사본",
-      "icon": "images/growth/items/9740.png"
+      "icon": "images/growth/items/9740.png",
+      "sortOrder": 41,
+      "quality": "Blue"
     },
     "9750": {
       "id": 9750,
       "name": "파편 · 에리카",
-      "icon": "images/growth/items/9750.png"
+      "icon": "images/growth/items/9750.png",
+      "sortOrder": 338,
+      "quality": "Orange"
     },
     "9755": {
       "id": 9755,
       "name": "기억 복사본",
-      "icon": "images/growth/items/9755.png"
+      "icon": "images/growth/items/9755.png",
+      "sortOrder": 40,
+      "quality": "Green"
     },
     "9756": {
       "id": 9756,
       "name": "유카탄의 별",
-      "icon": "images/growth/items/9756.png"
+      "icon": "images/growth/items/9756.png",
+      "sortOrder": 60,
+      "quality": "Purple"
     },
     "9758": {
       "id": 9758,
       "name": "연마된 이성",
-      "icon": "images/growth/items/9758.png"
+      "icon": "images/growth/items/9758.png",
+      "sortOrder": 38,
+      "quality": "Blue"
     },
     "9762": {
       "id": 9762,
       "name": "영지 비약Ⅲ",
-      "icon": "images/growth/items/9762.png"
+      "icon": "images/growth/items/9762.png",
+      "sortOrder": 36,
+      "quality": "Purple"
     },
     "9765": {
       "id": 9765,
       "name": "파편 · 릴리",
-      "icon": "images/growth/items/9765.png"
+      "icon": "images/growth/items/9765.png",
+      "sortOrder": 295,
+      "quality": "Orange"
     },
     "9766": {
       "id": 9766,
       "name": "파편 · 히로",
-      "icon": "images/growth/items/9766.png"
+      "icon": "images/growth/items/9766.png",
+      "sortOrder": 322,
+      "quality": "Orange"
     },
     "9768": {
       "id": 9768,
       "name": "영지 템플릿",
-      "icon": "images/growth/items/9768.png"
+      "icon": "images/growth/items/9768.png",
+      "sortOrder": 45,
+      "quality": "Purple"
     },
     "9769": {
       "id": 9769,
       "name": "혼돈의 결정 나비",
-      "icon": "images/growth/items/9769.png"
+      "icon": "images/growth/items/9769.png",
+      "sortOrder": 51,
+      "quality": "Purple"
     },
     "9771": {
       "id": 9771,
       "name": "낮은줄기 바다백합",
-      "icon": "images/growth/items/9771.png"
+      "icon": "images/growth/items/9771.png",
+      "sortOrder": 52,
+      "quality": "Green"
     },
     "9776": {
       "id": 9776,
       "name": "행운의 사탕",
-      "icon": "images/growth/items/9776.png"
+      "icon": "images/growth/items/9776.png",
+      "sortOrder": 61,
+      "quality": "Purple"
     },
     "9777": {
       "id": 9777,
       "name": "파편 · 살바도르",
-      "icon": "images/growth/items/9777.png"
+      "icon": "images/growth/items/9777.png",
+      "sortOrder": 329,
+      "quality": "Orange"
     },
     "9778": {
       "id": 9778,
       "name": "칠흑의 족쇄",
-      "icon": "images/growth/items/9778.png"
+      "icon": "images/growth/items/9778.png",
+      "sortOrder": 63,
+      "quality": "Purple"
     },
     "9779": {
       "id": 9779,
       "name": "밀랍상 점토",
-      "icon": "images/growth/items/9779.png"
+      "icon": "images/growth/items/9779.png",
+      "sortOrder": 62,
+      "quality": "Purple"
     },
     "9780": {
       "id": 9780,
       "name": "성심의 경건함",
-      "icon": "images/growth/items/9780.png"
+      "icon": "images/growth/items/9780.png",
+      "sortOrder": 65,
+      "quality": "Purple"
     },
     "9781": {
       "id": 9781,
       "name": "차원 결정",
-      "icon": "images/growth/items/9781.png"
+      "icon": "images/growth/items/9781.png",
+      "sortOrder": 64,
+      "quality": "Purple"
     },
     "9782": {
       "id": 9782,
       "name": "지모수의 유해",
-      "icon": "images/growth/items/9782.png"
+      "icon": "images/growth/items/9782.png",
+      "sortOrder": 67,
+      "quality": "Purple"
     },
     "9783": {
       "id": 9783,
       "name": "성태의 면류관",
-      "icon": "images/growth/items/9783.png"
+      "icon": "images/growth/items/9783.png",
+      "sortOrder": 66,
+      "quality": "Purple"
     },
     "9785": {
       "id": 9785,
       "name": "꿈결의 고리",
-      "icon": "images/growth/items/9785.png"
+      "icon": "images/growth/items/9785.png",
+      "sortOrder": 68,
+      "quality": "Purple"
     },
     "9793": {
       "id": 9793,
       "name": "순백의 서류",
-      "icon": "images/growth/items/9793.png"
+      "icon": "images/growth/items/9793.png",
+      "sortOrder": 47,
+      "quality": "Blue"
     },
     "9794": {
       "id": 9794,
       "name": "파편·라모나",
-      "icon": "images/growth/items/9794.png"
+      "icon": "images/growth/items/9794.png",
+      "sortOrder": 288,
+      "quality": "Purple"
     },
     "9799": {
       "id": 9799,
       "name": "순백의 비편",
-      "icon": "images/growth/items/9799.png"
+      "icon": "images/growth/items/9799.png",
+      "sortOrder": 48,
+      "quality": "Purple"
     },
     "9801": {
       "id": 9801,
       "name": "파편 · 오레타",
-      "icon": "images/growth/items/9801.png"
+      "icon": "images/growth/items/9801.png",
+      "sortOrder": 313,
+      "quality": "Orange"
     },
     "9812": {
       "id": 9812,
       "name": "유인타 백합",
-      "icon": "images/growth/items/9812.png"
+      "icon": "images/growth/items/9812.png",
+      "sortOrder": 54,
+      "quality": "Purple"
     },
     "9814": {
       "id": 9814,
       "name": "파편 · 다포딜",
-      "icon": "images/growth/items/9814.png"
+      "icon": "images/growth/items/9814.png",
+      "sortOrder": 344,
+      "quality": "Orange"
     },
     "9825": {
       "id": 9825,
       "name": "희미한 결정 나비",
-      "icon": "images/growth/items/9825.png"
+      "icon": "images/growth/items/9825.png",
+      "sortOrder": 49,
+      "quality": "Green"
     },
     "9826": {
       "id": 9826,
       "name": "파편 · 라이커",
-      "icon": "images/growth/items/9826.png"
+      "icon": "images/growth/items/9826.png",
+      "sortOrder": 299,
+      "quality": "Orange"
     },
     "9834": {
       "id": 9834,
       "name": "영지 비약Ⅱ",
-      "icon": "images/growth/items/9834.png"
+      "icon": "images/growth/items/9834.png",
+      "sortOrder": 35,
+      "quality": "Blue"
     },
     "9847": {
       "id": 9847,
       "name": "파편 · 아이기스",
-      "icon": "images/growth/items/9847.png"
+      "icon": "images/growth/items/9847.png",
+      "sortOrder": 327,
+      "quality": "Orange"
     },
     "9863": {
       "id": 9863,
       "name": "파편 · 유우하시",
-      "icon": "images/growth/items/9863.png"
+      "icon": "images/growth/items/9863.png",
+      "sortOrder": 324,
+      "quality": "Orange"
     },
     "9878": {
       "id": 9878,
       "name": "파편 · 소렐",
-      "icon": "images/growth/items/9878.png"
+      "icon": "images/growth/items/9878.png",
+      "sortOrder": 328,
+      "quality": "Orange"
     },
     "9880": {
       "id": 9880,
       "name": "파편 · 산",
-      "icon": "images/growth/items/9880.png"
+      "icon": "images/growth/items/9880.png",
+      "sortOrder": 311,
+      "quality": "Orange"
     },
     "9901": {
       "id": 9901,
       "name": "파편 · 노틸라",
-      "icon": "images/growth/items/9901.png"
+      "icon": "images/growth/items/9901.png",
+      "sortOrder": 292,
+      "quality": "Orange"
     },
     "9902": {
       "id": 9902,
       "name": "파편 · 오지에",
-      "icon": "images/growth/items/9902.png"
+      "icon": "images/growth/items/9902.png",
+      "sortOrder": 290,
+      "quality": "Purple"
     },
     "9904": {
       "id": 9904,
       "name": "정신 템플릿",
-      "icon": "images/growth/items/9904.png"
+      "icon": "images/growth/items/9904.png",
+      "sortOrder": 44,
+      "quality": "Blue"
     },
     "9921": {
       "id": 9921,
       "name": "파편 · 돌",
-      "icon": "images/growth/items/9921.png"
+      "icon": "images/growth/items/9921.png",
+      "sortOrder": 289,
+      "quality": "Purple"
     },
     "9925": {
       "id": 9925,
       "name": "의식 복사본",
-      "icon": "images/growth/items/9925.png"
+      "icon": "images/growth/items/9925.png",
+      "sortOrder": 42,
+      "quality": "Purple"
     },
     "9938": {
       "id": 9938,
       "name": "파편 · 골리아",
-      "icon": "images/growth/items/9938.png"
+      "icon": "images/growth/items/9938.png",
+      "sortOrder": 310,
+      "quality": "Orange"
     },
     "9940": {
       "id": 9940,
       "name": "순백의 조각",
-      "icon": "images/growth/items/9940.png"
+      "icon": "images/growth/items/9940.png",
+      "sortOrder": 46,
+      "quality": "Green"
     },
     "9954": {
       "id": 9954,
       "name": "파편 · 카렌",
-      "icon": "images/growth/items/9954.png"
+      "icon": "images/growth/items/9954.png",
+      "sortOrder": 297,
+      "quality": "Orange"
     },
     "9958": {
       "id": 9958,
       "name": "파편 · 젠킨",
-      "icon": "images/growth/items/9958.png"
+      "icon": "images/growth/items/9958.png",
+      "sortOrder": 342,
+      "quality": "Orange"
     },
     "9967": {
       "id": 9967,
       "name": "파편 · 파인트",
-      "icon": "images/growth/items/9967.png"
+      "icon": "images/growth/items/9967.png",
+      "sortOrder": 326,
+      "quality": "Orange"
     },
     "9971": {
       "id": 9971,
       "name": "연마된 영혼",
-      "icon": "images/growth/items/9971.png"
+      "icon": "images/growth/items/9971.png",
+      "sortOrder": 39,
+      "quality": "Purple"
     },
     "9981": {
       "id": 9981,
       "name": "파편 · 탄망·머피",
-      "icon": "images/growth/items/9981.png"
+      "icon": "images/growth/items/9981.png",
+      "sortOrder": 318,
+      "quality": "UR"
     },
     "10013": {
       "id": 10013,
       "name": "유성의 파편",
-      "icon": "images/growth/items/10013.png"
+      "icon": "images/growth/items/10013.png",
+      "sortOrder": 59,
+      "quality": "Blue"
     },
     "10024": {
       "id": 10024,
       "name": "파편 · 로탄",
-      "icon": "images/growth/items/10024.png"
+      "icon": "images/growth/items/10024.png",
+      "sortOrder": 291,
+      "quality": "Purple"
     },
     "10030": {
       "id": 10030,
       "name": "연마된 본능",
-      "icon": "images/growth/items/10030.png"
+      "icon": "images/growth/items/10030.png",
+      "sortOrder": 37,
+      "quality": "Green"
     },
     "10034": {
       "id": 10034,
       "name": "파편 · 툴루",
-      "icon": "images/growth/items/10034.png"
+      "icon": "images/growth/items/10034.png",
+      "sortOrder": 314,
+      "quality": "Orange"
     },
     "10038": {
       "id": 10038,
       "name": "파편 · 님피아",
-      "icon": "images/growth/items/10038.png"
+      "icon": "images/growth/items/10038.png",
+      "sortOrder": 293,
+      "quality": "Orange"
     },
     "10039": {
       "id": 10039,
       "name": "파편 · 미리암",
-      "icon": "images/growth/items/10039.png"
+      "icon": "images/growth/items/10039.png",
+      "sortOrder": 316,
+      "quality": "Orange"
     },
     "10044": {
       "id": 10044,
       "name": "인식 템플릿",
-      "icon": "images/growth/items/10044.png"
+      "icon": "images/growth/items/10044.png",
+      "sortOrder": 43,
+      "quality": "Green"
     },
     "10047": {
       "id": 10047,
       "name": "파편 · 머피",
-      "icon": "images/growth/items/10047.png"
+      "icon": "images/growth/items/10047.png",
+      "sortOrder": 315,
+      "quality": "Orange"
     },
     "10063": {
       "id": 10063,
       "name": "파편 · 엘바",
-      "icon": "images/growth/items/10063.png"
+      "icon": "images/growth/items/10063.png",
+      "sortOrder": 296,
+      "quality": "Orange"
     },
     "10064": {
       "id": 10064,
       "name": "영지 비약Ⅰ",
-      "icon": "images/growth/items/10064.png"
+      "icon": "images/growth/items/10064.png",
+      "sortOrder": 34,
+      "quality": "Green"
     },
     "10088": {
       "id": 10088,
       "name": "파편 · 카시아",
-      "icon": "images/growth/items/10088.png"
+      "icon": "images/growth/items/10088.png",
+      "sortOrder": 343,
+      "quality": "Orange"
     },
     "10108": {
       "id": 10108,
       "name": "장미 금권",
-      "icon": "images/growth/items/10108.png"
+      "icon": "images/growth/items/10108.png",
+      "sortOrder": 4,
+      "quality": "Blue"
     },
     "10114": {
       "id": 10114,
       "name": "파편 · 「24」",
-      "icon": "images/growth/items/10114.png"
+      "icon": "images/growth/items/10114.png",
+      "sortOrder": 298,
+      "quality": "Orange"
     },
     "10117": {
       "id": 10117,
       "name": "높은줄기 바다백합",
-      "icon": "images/growth/items/10117.png"
+      "icon": "images/growth/items/10117.png",
+      "sortOrder": 53,
+      "quality": "Blue"
     },
     "25218": {
       "id": 25218,
       "name": "원초 영핵",
-      "icon": "images/growth/items/25218.png"
+      "icon": "images/growth/items/25218.png",
+      "sortOrder": 106,
+      "quality": "Orange"
     },
     "54108": {
       "id": 54108,
       "name": "파편 · 타비",
-      "icon": "images/growth/items/54108.png"
+      "icon": "images/growth/items/54108.png",
+      "sortOrder": 301,
+      "quality": "Orange"
     },
     "54109": {
       "id": 54109,
       "name": "파편 · 혈쇄·히로",
-      "icon": "images/growth/items/54109.png"
+      "icon": "images/growth/items/54109.png",
+      "sortOrder": 331,
+      "quality": "UR"
     },
     "54110": {
       "id": 54110,
       "name": "파편 · 하멜른",
-      "icon": "images/growth/items/54110.png"
+      "icon": "images/growth/items/54110.png",
+      "sortOrder": 300,
+      "quality": "Orange"
     },
     "54112": {
       "id": 54112,
       "name": "파편 · 융해·돌",
-      "icon": "images/growth/items/54112.png"
+      "icon": "images/growth/items/54112.png",
+      "sortOrder": 302,
+      "quality": "UR"
     },
     "69985": {
       "id": 69985,
       "name": "원초 영핵 정수",
-      "icon": "images/growth/items/69985.png"
+      "icon": "images/growth/items/69985.png",
+      "sortOrder": 108,
+      "quality": "Orange"
     },
     "77865": {
       "id": 77865,
       "name": "파편 · 픽맨",
-      "icon": "images/growth/items/77865.png"
+      "icon": "images/growth/items/77865.png",
+      "sortOrder": 333,
+      "quality": "Orange"
     },
     "77870": {
       "id": 77870,
       "name": "파편 · 코퍼산트",
-      "icon": "images/growth/items/77870.png"
+      "icon": "images/growth/items/77870.png",
+      "sortOrder": 317,
+      "quality": "Orange"
     },
     "77872": {
       "id": 77872,
       "name": "파편 · 카라부",
-      "icon": "images/growth/items/77872.png"
+      "icon": "images/growth/items/77872.png",
+      "sortOrder": 336,
+      "quality": "Orange"
     },
     "77885": {
       "id": 77885,
       "name": "파편 · 카티구라",
-      "icon": "images/growth/items/77885.png"
+      "icon": "images/growth/items/77885.png",
+      "sortOrder": 303,
+      "quality": "Orange"
     },
     "77887": {
       "id": 77887,
       "name": "파편 · 카스토르",
-      "icon": "images/growth/items/77887.png"
+      "icon": "images/growth/items/77887.png",
+      "sortOrder": 348,
+      "quality": "Orange"
     },
     "77890": {
       "id": 77890,
       "name": "파편 · 클레멘타인",
-      "icon": "images/growth/items/77890.png"
+      "icon": "images/growth/items/77890.png",
+      "sortOrder": 347,
+      "quality": "Orange"
     },
     "77894": {
       "id": 77894,
       "name": "파편 · 아라크네",
-      "icon": "images/growth/items/77894.png"
+      "icon": "images/growth/items/77894.png",
+      "sortOrder": 350,
+      "quality": "Orange"
     },
     "77897": {
       "id": 77897,
       "name": "파편 · 폴룩스",
-      "icon": "images/growth/items/77897.png"
+      "icon": "images/growth/items/77897.png",
+      "sortOrder": 349,
+      "quality": "Orange"
     },
     "94441": {
       "id": 94441,
       "name": "파편 · 무셰트",
-      "icon": "images/growth/items/94441.png"
+      "icon": "images/growth/items/94441.png",
+      "sortOrder": 304,
+      "quality": "Orange"
     },
     "95690": {
       "id": 95690,
       "name": "파편 · 도어세인",
-      "icon": "images/growth/items/95690.png"
+      "icon": "images/growth/items/95690.png",
+      "sortOrder": 332,
+      "quality": "Orange"
     },
     "125187": {
       "id": 125187,
       "name": "파편 · 서",
-      "icon": "images/growth/items/125187.png"
+      "icon": "images/growth/items/125187.png",
+      "sortOrder": 334,
+      "quality": "Orange"
     },
     "130224": {
       "id": 130224,
       "name": "파편 · 사야",
-      "icon": "images/growth/items/130224.png"
+      "icon": "images/growth/items/130224.png",
+      "sortOrder": 335,
+      "quality": "Orange"
     },
     "130765": {
       "id": 130765,
       "name": "잔편·모스크",
-      "icon": "images/growth/items/130765.png"
+      "icon": "images/growth/items/130765.png",
+      "sortOrder": 319,
+      "quality": "Orange"
     },
     "141229": {
       "id": 141229,
       "name": "파편 · 폰토스",
-      "icon": "images/growth/items/141229.png"
+      "icon": "images/growth/items/141229.png",
+      "sortOrder": 320,
+      "quality": "Orange"
     },
     "145290": {
       "id": 145290,
       "name": "파편 · 침식·로탄",
-      "icon": "images/growth/items/145290.png"
+      "icon": "images/growth/items/145290.png",
+      "sortOrder": 305,
+      "quality": "UR"
     },
     "148664": {
       "id": 148664,
       "name": "파편 · 서약·오지에",
-      "icon": "images/growth/items/148664.png"
+      "icon": "images/growth/items/148664.png",
+      "sortOrder": 306,
+      "quality": "UR"
     }
   },
   "experienceItems": [
