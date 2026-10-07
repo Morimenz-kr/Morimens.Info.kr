@@ -243,7 +243,8 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
 });
 
 test('조건부 패턴 전환은 중복 발동 배지 없이 전환 조건만 표시한다', () => {
-    assert.match(source, /condition-chain" aria-label="전환 조건"/);
+    assert.match(source, /class="conditional-trigger"/);
+    assert.doesNotMatch(source, /condition-chain" aria-label="전환 조건"/);
     assert.match(source, /<h5 class="section-label">조건부 패턴 전환<\/h5>/);
     assert.doesNotMatch(source, /<span>발동 조건<\/span>|<b>발동:<\/b>|패턴\(의도\) 변경 조건/);
     assert.doesNotMatch(source, /<span>\$\{conditionParts\.length > 1 \? '모든 조건 충족' : '조건부'\}<\/span>/);
@@ -1011,7 +1012,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'v1\.3\.109-wave4-boss-portrait-20260929'/);
+    assert.match(html, /CONFIG\.VERSION = 'conditional-20261007-v1\.3\.109-wave4-boss-portrait-20260929'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
@@ -1266,3 +1267,12 @@ test('운영 API에서 기존 범위와 1~7급 35개 집계를 읽고 누락·�
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
 });
 
+
+test('쪼기 전환은 실제 흰색 의도 분기 하나와 보강 50만 표시한다',()=>{
+ const monster=currentDzoneData.waves.flatMap(w=>w.monsters).find(m=>m.tid===131884);
+ const actions=monster.conditionalActions.filter(a=>a.commandId===128064);
+ assert.equal(actions.length,1);assert.equal(actions[0].skillId,128475);
+ assert.deepEqual(actions[0].transitionEffects.map(e=>[e.stateId,e.valueExpression]),[[60083,'50']]);
+ assert.match(actions[0].conditionText,/한 번에 스택 수 이상의 피해/);
+ assert.doesNotMatch(JSON.stringify(actions),/발동 표식|상태@/);
+});

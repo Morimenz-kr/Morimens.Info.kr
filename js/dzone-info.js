@@ -557,6 +557,7 @@
                 </div>
                 <div class="action-copy">
                     <strong>${escapeHtml(skill?.name || '교체 의도')}</strong>
+                    ${skill?.targetLabel ? `<p class="conditional-target">공격 대상: ${escapeHtml(skill.targetLabel)}</p>` : ''}
                     <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
                 </div>
             </li>`;
@@ -643,9 +644,17 @@
             const stateLabel = /^「.*」$/.test(stateName) ? stateName : `「${stateName}」`;
             const trigger = stateName ? `${stateLabel} 보유 중 · ${condition}` : condition;
             const conditionParts = condition.split(/\s*·\s*/).filter(Boolean);
-            const conditionMarkup = conditionParts.length > 1
-                ? `<div class="condition-chain" aria-label="전환 조건">${conditionParts.map(part => `<span>${dynamicMarkup(data.keywordGlossary ? `<game-text:${part}>` : part)}</span>`).join('<b aria-hidden="true">+</b>')}</div>`
-                : `<p class="conditional-trigger">${dynamicMarkup(data.keywordGlossary ? `<game-text:${trigger}>` : trigger)}</p>`;
+            const stateKeyword = (stateId, label) => {
+                const links=Object.entries(data.keywordGlossary||{}).filter(([,entry])=>entry.source?.type==='State'&&entry.source.id===Number(stateId));
+                return links.length===1?`<${links[0][0]}:${label}>`:label;
+            };
+            let readableTrigger=trigger.replace(/\s*·\s*/g, ', ');
+            for(const match of String(action.commandCondition||'').matchAll(/GetStateLayer\((\d+)\)/g)){
+                const links=Object.entries(data.keywordGlossary||{}).filter(([,entry])=>entry.source?.type==='State'&&entry.source.id===Number(match[1]));
+                if(links.length===1){const label=links[0][1].name;readableTrigger=readableTrigger.split(`「${label}」`).join(stateKeyword(match[1],label));}
+            }
+            const conditionMarkup = `<p class="conditional-trigger">${dynamicMarkup(data.keywordGlossary ? `<game-text:${readableTrigger}>` : readableTrigger)}</p>`;
+
             const resolveEffectValue = expression => {
                 const source = String(expression || '').replace(/\s+/g, '');
                 if (/^\d+(?:\.\d+)?$/.test(source)) return Math.ceil(Number(source));
@@ -658,10 +667,10 @@
             const transitionEffects = action.transitionEffects || [];
             const outcomeParts = [
                 ...transitionEffects.filter(effect => effect.type === 'removeState')
-                    .map(effect => `${effect.stateName || '상태'} 전부 소모`),
+                    .map(effect => `${stateKeyword(effect.stateId,effect.stateName || '상태')} 전부 소모`),
                 ...transitionEffects.filter(effect => effect.type === 'addState').map(effect => {
                     const value = resolveEffectValue(effect.valueExpression);
-                    return `${effect.stateName || '상태'}${value === null ? '' : ` ${number.format(value)}`} 획득`;
+                    return `${stateKeyword(effect.stateId,effect.stateName || '상태')}${value === null ? '' : ` ${number.format(value)}`} 획득`;
                 }),
                 ...(transitionEffects.length && skill?.name ? [`다음 의도 「${skill.name}」`] : [])
             ];
@@ -671,7 +680,7 @@
             const outcomeMarkup = action.commandId === 140824 && hungerForce !== null
                 ? `<p class="conditional-transition-outcome">허기를 전부 소모해 힘을 ${number.format(hungerForce)} 획득하고, 의도를 약ﾃ탈ｨ로 전환합니다.</p>`
                 : (outcomeParts.length
-                    ? `<p class="conditional-transition-outcome">${outcomeParts.map(escapeHtml).join(' · ')}</p>`
+                    ? `<p class="conditional-transition-outcome">${dynamicMarkup(data.keywordGlossary ? `<game-text:${outcomeParts.join(', ')}>` : outcomeParts.join(', '))}</p>`
                     : '');
             return `<article class="conditional-action">
                 ${renderIntentIcon(skill)}
@@ -679,6 +688,7 @@
                     <header><strong>${escapeHtml(action.displayName || replacementName || skill?.name || '조건부 행동')}</strong></header>
                     ${conditionMarkup}
                     ${outcomeMarkup}
+                    ${skill?.targetLabel ? `<p class="conditional-target">공격 대상: ${escapeHtml(skill.targetLabel)}</p>` : ''}
                     <p>${dynamicMarkup(resolved?.richDescription || resolved?.description || skill?.descriptionTemplate)}</p>
                 </div>
             </article>`;
