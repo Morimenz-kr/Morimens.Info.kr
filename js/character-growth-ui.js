@@ -17,7 +17,7 @@ window.CharacterGrowthUI = { mount(root, id) {
             }));
             const entry = growth.characters[id];
             if (!entry) throw new Error('이 각성체의 성장 정보가 없습니다.');
-            const choices=(item,side,label,min=1)=>`<label class="growth-compact-choice">${label}<select class="growth-${side}" aria-label="${item.name} ${label}">${Array.from({length:item.maxLevel-min+1},(_,i)=>`<option value="${i+min}">${i+min}</option>`).join('')}</select></label>`;
+            const choices=(item,side,label,min=1)=>`<label class="growth-compact-choice"><span class="growth-choice-heading">${label}<output>${min}</output></span><input type="range" class="growth-${side}" min="${min}" max="${item.maxLevel}" step="1" value="${min}" aria-label="${item.name} ${label}"></label>`;
             const types={Slot_Strike:'타격',Slot_Defend:'방어',Slot_Skill1:'스킬',Slot_Skill2:'스킬',Slot_Awake:'영지각성',Slot_Super:'광기 폭발'};
             panel.innerHTML = `<section class="growth-section growth-total"><h4>전체 필요 재화</h4><p id="growth-error" role="alert"></p><div id="growth-cost" aria-live="polite"></div></section><section class="growth-section"><h4>경험치</h4>
                 <div class="level-growth-controls growth-levels">${[['from','현재 레벨',1],['to','목표 레벨',60]].map(([key,label,value])=>`<div class="growth-level-control"><div class="growth-level-heading"><label for="growth-${key}">${label}</label><input id="growth-${key}" type="number" min="1" max="${entry.maxLevel}" value="${value}"></div><input id="growth-${key}-slider" type="range" min="1" max="${entry.maxLevel}" value="${value}" aria-label="${label} 슬라이더"><div class="growth-range-ends" aria-hidden="true"><span>1</span><span>${entry.maxLevel}</span></div></div>`).join('')}</div>
@@ -28,6 +28,7 @@ window.CharacterGrowthUI = { mount(root, id) {
                 `;
             const field = name => panel.querySelector('#growth-'+name);
             function render() {
+                panel.querySelectorAll('.growth-compact-choice').forEach(label=>label.querySelector('output').value=label.querySelector('input').value);
                 const from = Number(field('from').value), to = Number(field('to').value);
                 try {
                     const quote = CharacterGrowthData.quoteLevelUp(growth, resources, id, from, to);
