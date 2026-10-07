@@ -90,5 +90,14 @@
             return {resources:sumResources(talent.steps.slice(fromLevel,toLevel))};
         }));
     }
-    return { statsAtLevel, quoteLevelUp, quoteAscension, quoteLimitIncrease, quoteGrowthPlan, quoteSkillUpgrades, quoteTalentUpgrades, sortResources };
+    function growthAttributes(data,id,rank,potency) {
+        const entry=character(data,id);
+        if(!Number.isInteger(rank)||rank<0||rank>entry.ascensions.length||!Number.isInteger(potency)||potency<0||potency>entry.potencySteps.length)throw new RangeError('승급·잠재력 단계를 확인하세요');
+        const values={...entry.configuredNonLevelAttributes};
+        for(const step of [...entry.ascensions.slice(0,rank),...entry.potencySteps.slice(0,potency)])for(const bonus of step.attributeBonuses||[]){
+            if(Object.hasOwn(values,bonus.attribute))values[bonus.attribute]=Math.round((values[bonus.attribute]+bonus.quantity)*1000000)/1000000;
+        }
+        return values;
+    }
+    return { statsAtLevel, quoteLevelUp, quoteAscension, quoteLimitIncrease, quoteGrowthPlan, quoteSkillUpgrades, quoteTalentUpgrades, growthAttributes, sortResources };
 });

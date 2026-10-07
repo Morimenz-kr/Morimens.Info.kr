@@ -97,3 +97,9 @@ test('내재영격은 기본 활성화 대상을 제외하고 5단계 비용을 
     assert.deepEqual(api.quoteTalentUpgrades(growth,'celeste',[{type:3,fromLevel:0,toLevel:5}]),[{itemId:9719,quantity:300}]);
     assert.deepEqual(api.quoteTalentUpgrades(growth,'celeste',[{type:3,fromLevel:2,toLevel:5}]),[{itemId:9719,quantity:240}]);
 });
+
+test('회귀 라모나의 승급·잠재력 보너스는 누적하고 은열쇠 충전 등급의 소수를 보존한다',()=>{
+    assert.deepEqual(api.growthAttributes(growth,'ramona_timeworn',0,0),{occupation_master:2,keeper_energy_eff_2:17.4,crit:5,crit_damage:50});
+    const rank=api.growthAttributes(growth,'ramona_timeworn',5,0);assert.equal(rank.occupation_master,12);assert.equal(rank.keeper_energy_eff_2,29.4);
+    const full=api.growthAttributes(growth,'ramona_timeworn',5,15);assert.equal(full.occupation_master,36);assert.equal(full.keeper_energy_eff_2,58.2);
+});
