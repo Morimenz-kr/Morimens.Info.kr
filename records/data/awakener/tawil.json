@@ -1,0 +1,44 @@
+{
+  "id": "tawil",
+  "name": "타비",
+  "info": {
+    "story": "Across the gate of the Silver Key, humans bow before His Throne, seeking ultimate answers...",
+    "relems": "chaos",
+    "rarity": "ssr",
+    "class": "chorus"
+  },
+  "images": {
+    "thumb": "images/Tawil-thumb.webp",
+    "full": "images/Tawil-full.webp",
+    "card_art": "images/Tawil-full.webp"
+  },
+  "skill_kit_ids": {
+    "command_cards": [
+      "tawil_strike",
+      "tawil_defense",
+      "tawil_skill1_tome",
+      "tawil_skill2_wings"
+    ],
+    "rouse_skill": "tawil_rouse_gate",
+    "exalt": "tawil_exalt_convergence",
+    "overexalt": "tawil_overexalt_radiance"
+  },
+  "stats_id": "tawil",
+  "guide": {
+    "strategy": "타비는 '은열쇠' 에너지를 관리하며 '쌍익'-'사익'-'육익'으로 이어지는 강력한 연계 공격을 사용하는 서포터 겸 서브 딜러입니다...",
+    "recommended_wheel_id": "wheel_tawil_unique",
+    "recommended_covenants": [
+      {
+        "title": "1순위 추천 비밀계약",
+        "covenant_ids": ["tawil_covenant_set1", "tawil_covenant_set2", "tawil_covenant_set3", "tawil_covenant_set4", "tawil_covenant_set5", "tawil_covenant_set6"],
+        "synergy_id": "covenant_tawil_synergy"
+      },
+      {
+        "title": "2순위 추천 비밀계약",
+        "covenant_ids": ["pvp_setA_1", "pvp_setA_2", "pvp_setA_3", "pvp_setA_4", "pvp_setA_5", "pvp_setA_6"],
+        "synergy_id": "pvp_setA_synergy"
+      }
+    ],
+    "recommended_team_ids": ["nautila", "nymphaea", "pandia"]
+  }
+}

@@ -1,0 +1,447 @@
+.character-effect-breakthrough-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    min-height: 24px;
+    padding: 2px 7px;
+    border: 1px solid #555;
+    border-radius: 999px;
+    color: #888;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.character-effect-breakthrough-badge:hover,
+.character-effect-breakthrough-badge:focus-visible {
+    border-color: #ffc107;
+    outline: 2px solid transparent;
+}
+
+.character-effect-breakthrough-badge.active {
+    border-color: rgba(255, 193, 7, 0.75);
+    color: #ffd65a;
+}
+
+.character-effects-switch {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    margin-bottom: 16px;
+    background: #242429;
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+
+.character-effects-switch button {
+    position: relative;
+    min-width: 100px;
+    padding: 9px 18px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #aaa;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.character-effects-switch button + button::before {
+    content: "|";
+    position: absolute;
+    left: -4px;
+    top: 50%;
+    color: #666;
+    font-weight: 400;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.character-effects-switch button.active {
+    background: #ffc107;
+    color: #171717;
+}
+
+.character-effect-panel {
+    display: none;
+}
+
+.character-effect-panel.active {
+    display: block;
+}
+
+.character-effect-list,
+.character-breakthrough-list,
+.character-trait-list {
+    display: grid;
+    gap: 10px;
+}
+
+.character-derived-section {
+    margin-top: 22px;
+}
+
+.character-enlighten-section + .character-enlighten-section {
+    margin-top: 22px;
+}
+
+.character-derived-section h3,
+.character-enlighten-section > h3 {
+    margin: 0 0 10px;
+    color: #ffc107;
+    font-size: 1.05rem;
+}
+
+.character-effect-card {
+    overflow: hidden;
+    background: #1e1e22;
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+
+.character-effect-card[open] {
+    border-color: #666;
+}
+
+.character-effect-card summary {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 10px 44px 10px 14px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.character-effect-card summary::-webkit-details-marker {
+    display: none;
+}
+
+.character-effect-card summary strong {
+    min-width: 0;
+    color: #fff;
+    overflow-wrap: anywhere;
+}
+
+.character-effect-type,
+.character-effect-cost,
+.character-breakthrough-step,
+.character-trait-level,
+.character-effect-condition {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+.character-effect-type,
+.character-breakthrough-step,
+.character-effect-condition {
+    background: rgba(255, 193, 7, 0.14);
+    color: #ffc107;
+}
+
+.character-effect-cost {
+    background: #303036;
+    color: #bbb;
+}
+
+.character-effect-header-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.character-effect-body {
+    padding: 0 14px 14px;
+    border-top: 1px solid #3c3c42;
+}
+
+.character-effect-description {
+    margin: 14px 0;
+    color: #ccc;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.character-effect-rich-list {
+    margin: 0.4em 0 0;
+    padding-left: 1.4em;
+}
+
+.character-effect-rich-list li + li {
+    margin-top: 0.2em;
+}
+
+.character-effect-level-select {
+    flex: 0 0 auto;
+    width: auto;
+    min-width: 68px;
+    min-height: 36px;
+    padding: 6px 20px 6px 9px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    background: #18181b;
+    color: #fff;
+}
+
+.character-effect-variants {
+    display: grid;
+    gap: 10px;
+    padding-top: 14px;
+}
+
+.character-effect-variant {
+    padding: 12px;
+    background: #28282d;
+    border-left: 3px solid #ffc107;
+    border-radius: 6px;
+}
+
+.character-effect-variant-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.character-effect-variant-header strong {
+    color: #fff;
+}
+
+.character-effect-variant-header .character-effect-cost {
+    margin-left: 0;
+}
+
+.character-breakthrough-card {
+    padding: 16px;
+    background: #1e1e22;
+    border: 1px solid #444;
+    border-left: 4px solid #ffc107;
+    border-radius: 8px;
+}
+
+.character-breakthrough-card h3 {
+    margin: 8px 0 10px;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.character-breakthrough-card p,
+.character-breakthrough-card .character-effect-rich-text {
+    margin: 0;
+    color: #ccc;
+    line-height: 1.65;
+}
+
+.character-trait-card,
+.character-dimensional-card {
+    padding: 16px;
+    background: #1e1e22;
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+
+.character-trait-card {
+    border-left: 4px solid #55b7a6;
+}
+
+.character-dimensional-card {
+    border-left: 4px solid #8878d8;
+}
+
+.character-trait-level {
+    background: rgba(85, 183, 166, 0.14);
+    color: #72d1c0;
+}
+
+.character-trait-card h3,
+.character-dimensional-card h3 {
+    margin: 0 0 10px;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.character-trait-card p,
+.character-dimensional-card p,
+.character-trait-card .character-effect-rich-text,
+.character-dimensional-card .character-effect-rich-text {
+    margin: 0;
+    color: #ccc;
+    line-height: 1.65;
+}
+
+.character-trait-card h3 {
+    margin-top: 8px;
+}
+
+.tooltip-trigger {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: help;
+}
+
+.tooltip-trigger.keyword-iconized {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2em;
+    color: var(--keyword-color);
+    vertical-align: baseline;
+}
+
+.tooltip-trigger .keyword-icon {
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
+    object-fit: contain;
+    image-rendering: auto;
+    transform: translateY(0.075em);
+}
+
+.character-effect-tooltip-box {
+    position: fixed;
+    z-index: 10010;
+    width: min(520px, calc(100vw - 20px));
+    max-height: calc(100dvh - 32px);
+    box-sizing: border-box;
+    padding: 12px 14px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    color: #d7d7dc;
+    background: #252529;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.24);
+    font-size: 0.86rem;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateX(-50%);
+    transition: opacity 0.1s ease;
+}
+
+.character-effect-tooltip-box p {
+    margin: 0;
+    white-space: pre-line;
+}
+
+.character-effect-tooltip-box p + p {
+    margin-top: 0.85rem;
+}
+
+.character-effect-tooltip-list {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.character-effect-tooltip-list li {
+    margin: 0;
+    padding-left: 0.1rem;
+}
+
+.character-effect-tooltip-list li + li {
+    margin-top: 0.45rem;
+}
+
+.character-effect-tooltip-list ul {
+    margin: 0.35rem 0 0;
+    padding-left: 1.2rem;
+    list-style-type: circle;
+}
+
+.character-effect-tooltip-list ul li + li {
+    margin-top: 0.35rem;
+}
+
+.character-effect-tooltip-box.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.character-effects-empty {
+    padding: 30px 20px;
+    color: #888;
+    text-align: center;
+    background: #1e1e22;
+    border: 1px dashed #444;
+    border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+    .character-effect-breakthrough-badge {
+        min-width: 44px;
+        min-height: 32px;
+        padding-inline: 10px;
+    }
+
+    .chrome-tabs-container {
+        overflow-x: auto;
+        padding-left: 0;
+        scrollbar-width: thin;
+    }
+
+    .chrome-tab {
+        flex: 0 0 auto;
+        min-width: max-content;
+        padding: 10px 14px;
+    }
+
+    .character-effects-switch {
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .character-effects-switch button {
+        flex: 1;
+        min-width: 0;
+        padding-inline: 8px;
+    }
+
+    .character-effect-card summary {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .character-effect-header-controls {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .character-effect-card summary .character-effect-cost {
+        margin-left: 0;
+    }
+
+    .character-effect-level-select {
+        margin-left: auto;
+    }
+
+    .character-effect-variant-header {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .character-effect-tooltip-box {
+        width: calc(100vw - 20px);
+        max-height: calc(100dvh - 24px);
+        padding: 10px 12px;
+        font-size: 0.84rem;
+    }
+}

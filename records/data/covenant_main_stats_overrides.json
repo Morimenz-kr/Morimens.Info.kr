@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "description": "원문 이미지 판독과 사용자 확인으로 확정한 비밀계약 주옵 보정값",
+  "records": {
+    "chaos-005": {
+      "mapping_status": "confirmed",
+      "shared_main_stats": true,
+      "review_note": "약재의 꿈과 재진화는 원문에 옵션이 동일하다고 명시됨"
+    },
+    "chaos-018": {
+      "mapping_status": "confirmed",
+      "shared_main_stats": true,
+      "review_note": "4월의 찬가와 진홍빛 심동은 같은 딜러 세팅에서 교체 사용"
+    },
+    "aequor-003": {
+      "mapping_status": "confirmed",
+      "shared_main_stats": true,
+      "review_note": "기계장치의 신과 바다에서 돌아오는 길에 동일 주옵 적용"
+    },
+    "aequor-008": {
+      "mapping_status": "confirmed",
+      "shared_main_stats": true,
+      "review_note": "기계장치의 신과 바다에서 돌아오는 길에 동일 주옵 적용"
+    },
+    "aequor-010": {
+      "mapping_status": "confirmed",
+      "main_stats_text": "자유 영역 숙련 자유 영역 숙련 자유 영역 숙련",
+      "main_stats_raw": ["자유", "영숙", "자유", "영숙", "자유", "영숙"],
+      "main_stats": ["자유", "영역 숙련", "자유", "영역 숙련", "자유", "영역 숙련"],
+      "sub_stats_text": "영역 숙련",
+      "sub_stats_raw": ["영숙"],
+      "review_note": "카이커스 힐러 세팅. 영역 숙련이 가능한 Ⅱ·Ⅳ·Ⅵ만 지정하고 나머지는 자유"
+    },
+    "aequor-014": {
+      "mapping_status": "confirmed",
+      "shared_main_stats": true,
+      "main_stats_text": "은열 영숙 뎀증 영숙 뎀증 영숙",
+      "main_stats_raw": ["은열", "영숙", "뎀증", "영숙", "뎀증", "영숙"],
+      "main_stats": ["은열쇠 충전", "영역 숙련", "피해 증폭", "영역 숙련", "피해 증폭", "영역 숙련"],
+      "sub_stats_text": "영숙",
+      "sub_stats_raw": ["영숙"],
+      "review_note": "뒤 행으로 분리 추출된 골리아 주옵을 기계장치의 신과 바다에서 돌아오는 길에 공통 적용"
+    },
+    "aequor-015": {
+      "remove": true,
+      "merged_into": "aequor-014"
+    },
+    "aequor-016": {
+      "mapping_status": "confirmed",
+      "shared_main_stats": true,
+      "review_note": "기계장치의 신과 바다에서 돌아오는 길에 동일 주옵 적용"
+    },
+    "aequor-022": {
+      "mapping_status": "confirmed",
+      "shared_main_stats": true,
+      "review_note": "바다에서 돌아오는 길과 기계장치의 신에 동일 주옵 적용"
+    },
+    "aequor-024": {
+      "mapping_status": "confirmed",
+      "shared_main_stats": true,
+      "review_note": "바다에서 돌아오는 길과 기계장치의 신에 동일 주옵 적용"
+    },
+    "aequor-027": {
+      "mapping_status": "confirmed",
+      "shared_main_stats": true,
+      "review_note": "기계장치의 신과 바다에서 돌아오는 길에 동일 주옵 적용"
+    }
+  }
+}

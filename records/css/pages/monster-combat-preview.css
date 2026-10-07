@@ -1,0 +1,285 @@
+.monster-preview-page {
+    --preview-panel: rgba(28, 29, 34, 0.96);
+    --preview-line: #464850;
+    --preview-muted: #a5a9b2;
+    --preview-gold: #dfbd72;
+    max-width: 72rem;
+}
+
+.monster-preview-shell {
+    overflow: hidden;
+    border: 1px solid var(--preview-line);
+    border-radius: 0.8rem;
+    background: var(--preview-panel);
+    box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 0.28);
+}
+
+.monster-preview-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--preview-line);
+}
+
+.monster-preview-header p {
+    margin: 0 0 0.35rem;
+    color: var(--preview-gold);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+.monster-preview-header h1 {
+    margin: 0;
+    color: #f5f3ef;
+    font-size: clamp(1.25rem, 5vw, 1.8rem);
+}
+
+.monster-preview-loading,
+.monster-preview-error {
+    margin: 0;
+    padding: 2rem 1rem;
+    color: var(--preview-muted);
+}
+
+.monster-preview-hero {
+    display: grid;
+    grid-template-columns: 4rem minmax(0, 1fr);
+    gap: 0.8rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--preview-line);
+}
+
+.monster-preview-portrait {
+    width: 4rem;
+    height: 4rem;
+    border: 1px solid #5b5d65;
+    border-radius: 0.55rem;
+    object-fit: cover;
+    background: #202126;
+}
+
+.monster-preview-title h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.15rem;
+}
+
+.monster-preview-title p {
+    margin: 0.45rem 0 0;
+    color: #c1c4cb;
+    font-size: 0.76rem;
+    line-height: 1.6;
+}
+
+.monster-preview-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.45rem;
+}
+
+.monster-preview-tag {
+    display: inline-flex;
+    min-height: 1.6rem;
+    align-items: center;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid #555861;
+    border-radius: 999px;
+    color: #d7d9de;
+    font-size: 0.66rem;
+}
+
+.monster-preview-section {
+    padding: 1rem;
+    border-bottom: 1px solid var(--preview-line);
+}
+
+.monster-preview-section:last-child { border-bottom: 0; }
+
+.monster-preview-section > h2 {
+    margin: 0 0 0.75rem;
+    color: #f2f1ed;
+    font-size: 0.95rem;
+}
+
+.monster-preview-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.45rem;
+    margin: 0;
+}
+
+.monster-preview-stats > div {
+    min-width: 0;
+    padding: 0.7rem;
+    border: 1px solid #41434a;
+    border-radius: 0.5rem;
+    background: #25262c;
+}
+
+.monster-preview-stats dt {
+    color: #9da1aa;
+    font-size: 0.65rem;
+}
+
+.monster-preview-stats dd {
+    margin: 0.2rem 0 0;
+    color: #f0cf81;
+    font-size: 1rem;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.monster-preview-hp {
+    display: grid;
+    gap: 0.45rem;
+    margin-top: 0.6rem;
+}
+
+.monster-preview-hp-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    color: #c6c9cf;
+    font-size: 0.72rem;
+}
+
+.monster-preview-hp-row strong { color: #fff; }
+
+.monster-preview-patterns {
+    display: grid;
+    gap: 1rem;
+}
+
+.monster-preview-pattern h3 {
+    margin: 0 0 0.5rem;
+    color: var(--preview-gold);
+    font-size: 0.78rem;
+}
+
+.monster-preview-skill-list,
+.monster-preview-state-list {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.monster-preview-skill,
+.monster-preview-state {
+    display: grid;
+    grid-template-columns: 1.65rem minmax(0, 1fr);
+    gap: 0.65rem;
+    padding: 0.7rem 0;
+    border-top: 1px solid #3b3d44;
+}
+
+.monster-preview-skill:first-child,
+.monster-preview-state:first-child { border-top: 0; }
+
+.monster-preview-order {
+    display: inline-flex;
+    width: 1.65rem;
+    height: 1.65rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #666974;
+    border-radius: 50%;
+    color: #e2e3e6;
+    font-size: 0.67rem;
+}
+
+.monster-preview-copy { min-width: 0; }
+
+.monster-preview-copy header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem;
+}
+
+.monster-preview-copy strong {
+    color: #f1f1f2;
+    font-size: 0.78rem;
+}
+
+.monster-preview-source-id {
+    color: #777c86;
+    font: 0.62rem/1.4 ui-monospace, SFMono-Regular, Consolas, monospace;
+}
+
+.monster-preview-copy p {
+    margin: 0.25rem 0 0;
+    color: #b9bdc5;
+    font-size: 0.72rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.monster-preview-rule {
+    padding: 0.75rem 0;
+    border-top: 1px solid #3b3d44;
+}
+
+.monster-preview-rule:first-of-type { border-top: 0; }
+
+.monster-preview-rule h3 {
+    margin: 0;
+    color: #f0d090;
+    font-size: 0.8rem;
+}
+
+.monster-preview-rule p {
+    margin: 0.35rem 0 0;
+    color: #b9bdc5;
+    font-size: 0.72rem;
+    line-height: 1.65;
+}
+
+.monster-preview-code {
+    display: block;
+    margin-top: 0.4rem;
+    padding: 0.55rem;
+    overflow-x: auto;
+    border-radius: 0.35rem;
+    background: #17181c;
+    color: #c9ccd3;
+    font: 0.66rem/1.55 ui-monospace, SFMono-Regular, Consolas, monospace;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.monster-preview-details {
+    border-top: 1px solid #3b3d44;
+}
+
+.monster-preview-details summary {
+    min-height: 2.75rem;
+    padding: 0.8rem 0;
+    color: #d7d9de;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.monster-preview-details summary:focus-visible {
+    outline: 2px solid var(--preview-gold);
+    outline-offset: 2px;
+}
+
+@media (min-width: 48rem) {
+    .monster-preview-header,
+    .monster-preview-hero,
+    .monster-preview-section { padding: 1.25rem 1.5rem; }
+    .monster-preview-hero { grid-template-columns: 5.5rem minmax(0, 1fr); }
+    .monster-preview-portrait { width: 5.5rem; height: 5.5rem; }
+    .monster-preview-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .monster-preview-patterns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .monster-preview-pattern:first-child { grid-column: 1 / -1; }
+}
+
+@media (min-width: 64rem) {
+    .monster-preview-patterns { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .monster-preview-pattern:first-child { grid-column: auto; }
+}

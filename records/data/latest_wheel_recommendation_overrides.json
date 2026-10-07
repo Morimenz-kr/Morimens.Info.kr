@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "description": "최신 혼돈·심해 원문의 다중 명륜 그룹을 고점 후보와 대체 후보로 분류한 수동 검수값",
+  "builds": {
+    "ramona:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_spring_of_yakut", "wheel_door_of_truth", "wheel_channeling"],
+        "substitute_stats": ["은열쇠 충전"]
+      }
+    },
+    "ramona_timeworn:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_spring_of_yakut", "wheel_pure_silver_light", "wheel_door_of_truth", "wheel_channeling"],
+        "substitute_stats": ["은열쇠 충전"]
+      }
+    },
+    "doll:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_over_the_death", "wheel_heavy_of_duty", "wheel_sail_that_guides"],
+        "substitute_stats": ["영역 숙련", "광기 회복"]
+      }
+    },
+    "doll_inferno:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_doll_falls_void", "wheel_over_the_death", "wheel_never_ending_calculation", "wheel_heavy_of_duty"],
+        "substitute_ids": ["wheel_gift_of_corruption", "wheel_channeling", "wheel_pain_curse", "wheel_silent_party"]
+      }
+    },
+    "ogier:chaos": {
+      "탱커": {
+        "recommended_ids": ["wheel_auth_of_knight", "wheel_dusk_and_dawn", "wheel_guide_in_the_torch"],
+        "substitute_stats": ["죽음 저항", "영역 숙련"]
+      }
+    },
+    "lotan:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_spring_of_yakut", "wheel_channeling", "wheel_dusk_and_dawn"],
+        "substitute_stats": ["죽음 저항"]
+      }
+    },
+    "ryker:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_time_of_luck", "wheel_fin_of_pain", "wheel_for_the_star", "wheel_roullet_of_destiny"],
+        "substitute_stats": ["검은 인장 획득"]
+      }
+    },
+    "24:chaos": {
+      "혼돈": {
+        "recommended_ids": ["wheel_heteromorph_mark", "wheel_star_beast", "wheel_revive_from_ruins"],
+        "substitute_ids": ["wheel_falling_sun", "wheel_pathless_path", "wheel_dear_my_friend"],
+        "substitute_stats": ["크리티컬 피해", "크리티컬 확률"]
+      }
+    },
+    "nautila:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_voltex_of_memory"],
+        "substitute_stats": ["검은 인장 획득", "영역 숙련", "죽음 저항"]
+      }
+    },
+    "nymphaea:chaos": {
+      "딜러": {
+        "recommended_ids": ["wheel_gift_of_corruption", "wheel_falling_sun", "wheel_silent_party", "wheel_pain_curse"],
+        "substitute_stats": ["피해 증폭"]
+      },
+      "은열쇠 셔틀": {
+        "recommended_ids": ["wheel_spring_of_yakut", "wheel_door_of_truth"],
+        "substitute_stats": ["은열쇠 충전"]
+      }
+    },
+    "lily:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_over_the_pain", "wheel_dusk_and_dawn", "wheel_fun_in_box", "wheel_magic_of_35mm"],
+        "substitute_stats": ["죽음 저항"]
+      }
+    },
+    "alva:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_over_the_pain", "wheel_in_the_hard_rain", "wheel_dusk_and_dawn", "wheel_fun_in_box"],
+        "substitute_stats": ["죽음 저항"],
+        "note": "풀돌은 고점 후보 중 2개를 사용하고, 풀돌 전에는 죽음 저항 주옵 명륜을 사용"
+      }
+    },
+    "hameln:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_backward_clock", "wheel_door_of_truth", "wheel_meeting_moment", "wheel_channeling"],
+        "substitute_stats": ["은열쇠 충전"]
+      }
+    },
+    "tawil:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_wheel_of_seclusion", "wheel_eternal_requiem", "wheel_backward_clock", "wheel_sword_of_giant"],
+        "substitute_ids": ["wheel_spring_of_yakut", "wheel_pure_silver_light", "wheel_door_of_truth", "wheel_meeting_moment", "wheel_channeling"],
+        "substitute_stats": ["은열쇠 충전"]
+      }
+    },
+    "kathigu-ra:chaos": {
+      "탱커": {
+        "recommended_ids": ["wheel_solid_will", "wheel_wheel_of_seclusion", "wheel_last_poem", "wheel_non-existent"]
+      },
+      "딜러": {
+        "recommended_ids": ["wheel_amber_death", "wheel_wheel_of_seclusion", "wheel_sword_of_giant", "wheel_last_poem", "wheel_favorite_collection"],
+        "substitute_stats": ["크리티컬 확률", "크리티컬 피해"]
+      }
+    },
+    "mouchette:chaos": {
+      "범용": {
+        "recommended_ids": ["wheel_doomsday_rampage", "wheel_over_the_pain", "wheel_star_beast"],
+        "substitute_ids": ["wheel_sword_of_giant", "wheel_hand_of_forget", "wheel_dear_my_friend", "wheel_critical_point"],
+        "substitute_stats": ["크리티컬 피해", "크리티컬 확률"]
+      }
+    },
+    "24:aequor": {
+      "심해": {
+        "recommended_ids": ["wheel_heteromorph_mark", "wheel_falling_sun", "wheel_sword_of_giant"],
+        "substitute_ids": ["wheel_revive_from_ruins", "wheel_star_beast", "wheel_pain_curse", "wheel_critical_point"]
+      }
+    },
+    "karen:chaos": {
+      "자유": {
+        "recommended_stats": ["영역 숙련", "피해 증폭", "은열쇠 충전", "죽음 저항"],
+        "display_values": ["자유", "자유"]
+      }
+    },
+    "tulu:aequor": {
+      "범용": {
+        "recommended_ids": ["wheel_hymn_of_godking", "wheel_never_ending_calculation", "wheel_alice_lily"],
+        "substitute_ids": ["wheel_heavy_of_duty", "wheel_mind_wall"],
+        "substitute_stats": ["광기 회복", "영역 숙련"]
+      }
+    },
+    "murphy:aequor": {
+      "범용": {
+        "recommended_ids": ["wheel_secret_birth", "wheel_backward_clock", "wheel_channeling"],
+        "substitute_ids": ["wheel_meeting_moment"],
+        "substitute_stats": ["은열쇠 충전"]
+      }
+    },
+    "Murphy_Fauxborn:aequor": {
+      "딜러": {
+        "recommended_ids": ["wheel_wheel_of_seclusion", "wheel_eternal_requiem", "wheel_peace_sleep_in_dark", "wheel_sword_of_giant"],
+        "substitute_ids": ["wheel_backward_clock", "wheel_channeling", "wheel_blue_ring_poison"]
+      },
+      "서포터": {
+        "recommended_ids": ["wheel_channeling", "wheel_blue_ring_poison"],
+        "recommended_stats": ["은열쇠 충전"]
+      }
+    },
+    "caecus:aequor": {
+      "반격 딜러": {
+        "recommended_ids": ["wheel_fin_of_pain", "wheel_wandering_desire", "wheel_falling_sun"],
+        "substitute_ids": ["wheel_int_the_nightshadow"],
+        "substitute_stats": ["검은 인장 획득", "죽음 저항"]
+      },
+      "힐러": {
+        "recommended_ids": ["wheel_fin_of_pain", "wheel_wandering_desire", "wheel_falling_sun"],
+        "substitute_ids": ["wheel_int_the_nightshadow"],
+        "substitute_stats": ["검은 인장 획득", "죽음 저항"]
+      }
+    },
+    "aurita:aequor": {
+      "범용": {
+        "recommended_ids": ["wheel_name_of_a_rose", "wheel_dream_of_ocean", "wheel_backward_clock"],
+        "substitute_ids": ["wheel_critical_point", "wheel_dear_my_friend"],
+        "substitute_stats": ["크리티컬 확률"]
+      }
+    },
+    "goliath:aequor": {
+      "범용": {
+        "recommended_ids": ["wheel_birth_of_soul", "wheel_in_the_hard_rain", "wheel_power_of_faith", "wheel_fontain"],
+        "substitute_stats": ["영역 숙련"],
+        "note": "고점 후보 4개 중 보유한 2개를 사용하고 부족한 자리는 영역 숙련 주옵 명륜으로 대체"
+      }
+    },
+    "miryam:aequor": {
+      "범용": {
+        "recommended_ids": ["wheel_peace_sleep_in_dark", "wheel_spring_of_yakut", "wheel_never_ending_calculation", "wheel_power_of_faith", "wheel_fontain"],
+        "substitute_ids": ["wheel_heavy_of_duty", "wheel_channeling", "wheel_mind_wall"]
+      }
+    },
+    "sanga:aequor": {
+      "궁 방밀 딜러": {
+        "recommended_ids": ["wheel_death_of_coral_woman", "wheel_last_poem", "wheel_solid_will", "wheel_non-existent"],
+        "substitute_ids": ["wheel_spring_of_yakut", "wheel_door_of_truth"],
+        "substitute_stats": ["죽음 저항", "은열쇠 충전"]
+      },
+      "범용": {
+        "recommended_ids": ["wheel_death_of_coral_woman", "wheel_last_poem", "wheel_solid_will", "wheel_non-existent"],
+        "substitute_ids": ["wheel_spring_of_yakut", "wheel_door_of_truth"],
+        "substitute_stats": ["죽음 저항", "은열쇠 충전"]
+      },
+      "은열쇠 셔틀": {
+        "recommended_ids": ["wheel_death_of_coral_woman", "wheel_last_poem", "wheel_solid_will", "wheel_non-existent"],
+        "substitute_ids": ["wheel_spring_of_yakut", "wheel_door_of_truth"],
+        "substitute_stats": ["죽음 저항", "은열쇠 충전"]
+      },
+      "영역 숙련 셔틀": {
+        "recommended_ids": ["wheel_death_of_coral_woman", "wheel_last_poem", "wheel_solid_will", "wheel_non-existent"],
+        "substitute_ids": ["wheel_spring_of_yakut", "wheel_door_of_truth"],
+        "substitute_stats": ["죽음 저항", "은열쇠 충전"]
+      }
+    },
+    "coporsant:aequor": {
+      "범용": {
+        "recommended_ids": ["wheel_last_poem", "wheel_death_of_coral_woman", "wheel_guide_in_the_torch"],
+        "substitute_ids": ["wheel_dusk_and_dawn"],
+        "substitute_stats": ["죽음 저항"]
+      },
+      "초차원 조합": {
+        "recommended_ids": ["wheel_last_poem", "wheel_death_of_coral_woman", "wheel_guide_in_the_torch"],
+        "substitute_ids": ["wheel_dusk_and_dawn"],
+        "substitute_stats": ["죽음 저항"]
+      }
+    },
+    "vortice:aequor": {
+      "범용": {
+        "recommended_ids": ["wheel_eden", "wheel_you_and_me_will_meet", "wheel_birth_of_soul"],
+        "substitute_stats": ["영역 숙련"]
+      }
+    },
+    "pontos:aequor": {
+      "범용": {
+        "recommended_ids": ["wheel_living_prison", "wheel_pontos_sr", "wheel_star_beast", "wheel_fontain"],
+        "substitute_stats": ["크리티컬 피해", "검은 인장 획득"]
+      }
+    }
+  }
+}

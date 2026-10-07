@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
+    <meta charset="UTF-8">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정보 모음</title>
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://morimenz-kr.github.io/Morimens.Info.kr/">
+    <meta property="og:title" content="미사그 대학 한국 캠퍼스">
+    <meta property="og:description" content="캐릭터 공략, 환몽심잠, 융재금구, 쿠폰 등 미사그 대학의 모든 정보를 한눈에 확인하세요.">
+    <meta property="og:image" content="https://morimenz-kr.github.io/Morimens.Info.kr/images/background.png">
+
+    <script>window.GA_DEFER_PAGE_VIEW = true;</script>
+    <script src="config/config.js?v=design-system-20260831-10"></script>
+    <script>
+        CONFIG.VERSION = 'v1.3.37-silverkey-filters';
+        loadCSS('css/common.css');
+        loadCSS('css/components.css');
+        loadCSS('css/pages/links.css');
+        loadCSS('css/character-effects.css');
+        loadCSS('css/responsive.css');
+        loadJS('js/search_utils.js');
+        loadJS('js/feedback.js');
+        loadJS('js/research-depth.js');
+        loadJS('js/character-effects.js');
+    </script>
+</head>
+
+<body>
+
+<div class="container links-page-shell">
+    <a href="#" id="links-back-link" class="back-link">⬅ 뒤로가기</a>
+
+    <div class="link-container">
+        <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
+
+        <div class="chrome-tabs-container">
+            <div class="chrome-tab active" data-tab-target="dictionary">명륜 리스트</div>
+            <div class="chrome-tab" data-tab-target="character-effects" hidden>캐릭터 정보</div>
+            <div class="chrome-tab" data-tab-target="links">채널 정보글 링크</div>
+        </div>
+
+        <div id="tab-content-dictionary" class="tab-content active">
+            <div id="dictionary-filter-panel" class="dictionary-filter-panel" aria-label="도감 필터"></div>
+            <div id="dictionary-grid" class="dictionary-grid">
+            </div>
+        </div>
+
+        <div id="tab-content-character-effects" class="tab-content">
+            <div id="character-effects-root"></div>
+        </div>
+
+        <div id="tab-content-links" class="tab-content">
+            <div id="party-link-slot"></div>
+            <div id="links-list"></div>
+        </div>
+
+        <div class="report-section">
+            <p>혹시 연결되지 않는 링크가 있나요?</p>
+            <button id="open-report-modal" class="report-btn">🚨 버그/피드백 제보하기</button>
+        </div>
+    </div>
+</div>
+
+<dialog id="dictionary-detail-dialog" class="dictionary-detail-dialog" aria-labelledby="dictionary-dialog-title" tabindex="-1">
+    <div class="dictionary-dialog-frame">
+        <button id="dictionary-dialog-close" class="dictionary-dialog-close" type="button" aria-label="상세 정보 닫기">&times;</button>
+        <header class="dictionary-dialog-header">
+            <div id="dictionary-dialog-image" class="dictionary-dialog-image" aria-hidden="true"></div>
+            <div class="dictionary-dialog-heading">
+                <p id="dictionary-dialog-eyebrow" class="dictionary-dialog-eyebrow">도감 상세 정보</p>
+                <h2 id="dictionary-dialog-title"></h2>
+                <p id="dictionary-dialog-meta" class="dictionary-dialog-meta"></p>
+            </div>
+        </header>
+        <div id="dictionary-dialog-content" class="dictionary-dialog-scroll"></div>
+    </div>
+</dialog>
+
+
+<div id="substitute-modal" class="modal-overlay">
+    <div class="modal-content">
+        <h2 class="form-title" id="sub-modal-title">대체 장비 정보</h2>
+        <div id="sub-modal-body" class="sub-modal-body">
+        </div>
+        <button type="button" id="close-sub-modal" class="form-submit-btn sub-modal-close-btn">닫기</button>
+    </div>
+</div>
+<script>loadJS('js/links.js');</script>
+
+<button id="floating-report-btn" class="floating-report-btn" title="버그 신고">
+    🚨
+</button>
+</body>
+</html>

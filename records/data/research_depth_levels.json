@@ -1,0 +1,705 @@
+{
+  "schemaVersion": 1,
+  "levels": [
+    {
+      "level": 1,
+      "biological": 0.48,
+      "material": 62,
+      "spiritRate": 113,
+      "spirit": 70.06
+    },
+    {
+      "level": 2,
+      "biological": 0.49,
+      "material": 65,
+      "spiritRate": 113,
+      "spirit": 73.45
+    },
+    {
+      "level": 3,
+      "biological": 0.5,
+      "material": 69,
+      "spiritRate": 114,
+      "spirit": 78.66
+    },
+    {
+      "level": 4,
+      "biological": 0.51,
+      "material": 72,
+      "spiritRate": 115,
+      "spirit": 82.8
+    },
+    {
+      "level": 5,
+      "biological": 0.52,
+      "material": 75,
+      "spiritRate": 115,
+      "spirit": 86.25
+    },
+    {
+      "level": 6,
+      "biological": 0.53,
+      "material": 78,
+      "spiritRate": 115,
+      "spirit": 89.7
+    },
+    {
+      "level": 7,
+      "biological": 0.54,
+      "material": 81,
+      "spiritRate": 116,
+      "spirit": 93.96
+    },
+    {
+      "level": 8,
+      "biological": 0.55,
+      "material": 85,
+      "spiritRate": 116,
+      "spirit": 98.6
+    },
+    {
+      "level": 9,
+      "biological": 0.56,
+      "material": 88,
+      "spiritRate": 116,
+      "spirit": 102.08
+    },
+    {
+      "level": 10,
+      "biological": 0.57,
+      "material": 91,
+      "spiritRate": 117,
+      "spirit": 106.47
+    },
+    {
+      "level": 11,
+      "biological": 0.58,
+      "material": 95,
+      "spiritRate": 118,
+      "spirit": 112.1
+    },
+    {
+      "level": 12,
+      "biological": 0.59,
+      "material": 98,
+      "spiritRate": 119,
+      "spirit": 116.62
+    },
+    {
+      "level": 13,
+      "biological": 0.6,
+      "material": 101,
+      "spiritRate": 120,
+      "spirit": 121.2
+    },
+    {
+      "level": 14,
+      "biological": 0.61,
+      "material": 105,
+      "spiritRate": 121,
+      "spirit": 127.05
+    },
+    {
+      "level": 15,
+      "biological": 0.62,
+      "material": 108,
+      "spiritRate": 122,
+      "spirit": 131.76
+    },
+    {
+      "level": 16,
+      "biological": 0.63,
+      "material": 113,
+      "spiritRate": 125,
+      "spirit": 141.25
+    },
+    {
+      "level": 17,
+      "biological": 0.64,
+      "material": 118,
+      "spiritRate": 126,
+      "spirit": 148.68
+    },
+    {
+      "level": 18,
+      "biological": 0.65,
+      "material": 123,
+      "spiritRate": 129,
+      "spirit": 158.67
+    },
+    {
+      "level": 19,
+      "biological": 0.66,
+      "material": 129,
+      "spiritRate": 131,
+      "spirit": 168.99
+    },
+    {
+      "level": 20,
+      "biological": 0.67,
+      "material": 134,
+      "spiritRate": 132,
+      "spirit": 176.88
+    },
+    {
+      "level": 21,
+      "biological": 0.68,
+      "material": 139,
+      "spiritRate": 135,
+      "spirit": 187.65
+    },
+    {
+      "level": 22,
+      "biological": 0.69,
+      "material": 143,
+      "spiritRate": 139,
+      "spirit": 198.77
+    },
+    {
+      "level": 23,
+      "biological": 0.7,
+      "material": 148,
+      "spiritRate": 141,
+      "spirit": 208.68
+    },
+    {
+      "level": 24,
+      "biological": 0.71,
+      "material": 152,
+      "spiritRate": 144,
+      "spirit": 218.88
+    },
+    {
+      "level": 25,
+      "biological": 0.72,
+      "material": 157,
+      "spiritRate": 146,
+      "spirit": 229.22
+    },
+    {
+      "level": 26,
+      "biological": 0.73,
+      "material": 168,
+      "spiritRate": 148,
+      "spirit": 248.64
+    },
+    {
+      "level": 27,
+      "biological": 0.74,
+      "material": 179,
+      "spiritRate": 149,
+      "spirit": 266.71
+    },
+    {
+      "level": 28,
+      "biological": 0.76,
+      "material": 191,
+      "spiritRate": 150,
+      "spirit": 286.5
+    },
+    {
+      "level": 29,
+      "biological": 0.8,
+      "material": 203,
+      "spiritRate": 151,
+      "spirit": 306.53
+    },
+    {
+      "level": 30,
+      "biological": 0.83,
+      "material": 215,
+      "spiritRate": 153,
+      "spirit": 328.95
+    },
+    {
+      "level": 31,
+      "biological": 0.85,
+      "material": 224,
+      "spiritRate": 154,
+      "spirit": 344.96
+    },
+    {
+      "level": 32,
+      "biological": 0.87,
+      "material": 233,
+      "spiritRate": 154,
+      "spirit": 358.82
+    },
+    {
+      "level": 33,
+      "biological": 0.89,
+      "material": 243,
+      "spiritRate": 155,
+      "spirit": 376.65
+    },
+    {
+      "level": 34,
+      "biological": 0.91,
+      "material": 252,
+      "spiritRate": 157,
+      "spirit": 395.64
+    },
+    {
+      "level": 35,
+      "biological": 0.93,
+      "material": 262,
+      "spiritRate": 158,
+      "spirit": 413.96
+    },
+    {
+      "level": 36,
+      "biological": 0.97,
+      "material": 274,
+      "spiritRate": 162,
+      "spirit": 443.88
+    },
+    {
+      "level": 37,
+      "biological": 1.01,
+      "material": 287,
+      "spiritRate": 165,
+      "spirit": 473.55
+    },
+    {
+      "level": 38,
+      "biological": 1.04,
+      "material": 301,
+      "spiritRate": 169,
+      "spirit": 508.69
+    },
+    {
+      "level": 39,
+      "biological": 1.08,
+      "material": 314,
+      "spiritRate": 174,
+      "spirit": 546.36
+    },
+    {
+      "level": 40,
+      "biological": 1.12,
+      "material": 329,
+      "spiritRate": 178,
+      "spirit": 585.62
+    },
+    {
+      "level": 41,
+      "biological": 1.17,
+      "material": 344,
+      "spiritRate": 182,
+      "spirit": 626.08
+    },
+    {
+      "level": 42,
+      "biological": 1.21,
+      "material": 360,
+      "spiritRate": 184,
+      "spirit": 662.4
+    },
+    {
+      "level": 43,
+      "biological": 1.26,
+      "material": 376,
+      "spiritRate": 188,
+      "spirit": 706.88
+    },
+    {
+      "level": 44,
+      "biological": 1.31,
+      "material": 393,
+      "spiritRate": 192,
+      "spirit": 754.56
+    },
+    {
+      "level": 45,
+      "biological": 1.36,
+      "material": 411,
+      "spiritRate": 196,
+      "spirit": 805.56
+    },
+    {
+      "level": 46,
+      "biological": 1.39,
+      "material": 426,
+      "spiritRate": 197,
+      "spirit": 839.22
+    },
+    {
+      "level": 47,
+      "biological": 1.43,
+      "material": 443,
+      "spiritRate": 199,
+      "spirit": 881.57
+    },
+    {
+      "level": 48,
+      "biological": 1.46,
+      "material": 458,
+      "spiritRate": 202,
+      "spirit": 925.16
+    },
+    {
+      "level": 49,
+      "biological": 1.5,
+      "material": 474,
+      "spiritRate": 203,
+      "spirit": 962.22
+    },
+    {
+      "level": 50,
+      "biological": 1.53,
+      "material": 490,
+      "spiritRate": 206,
+      "spirit": 1009.4
+    },
+    {
+      "level": 51,
+      "biological": 1.59,
+      "material": 512,
+      "spiritRate": 209,
+      "spirit": 1070.08
+    },
+    {
+      "level": 52,
+      "biological": 1.65,
+      "material": 534,
+      "spiritRate": 213,
+      "spirit": 1137.42
+    },
+    {
+      "level": 53,
+      "biological": 1.71,
+      "material": 557,
+      "spiritRate": 217,
+      "spirit": 1208.69
+    },
+    {
+      "level": 54,
+      "biological": 1.77,
+      "material": 581,
+      "spiritRate": 221,
+      "spirit": 1284.01
+    },
+    {
+      "level": 55,
+      "biological": 1.84,
+      "material": 605,
+      "spiritRate": 238,
+      "spirit": 1439.9
+    },
+    {
+      "level": 56,
+      "biological": 1.94,
+      "material": 638,
+      "spiritRate": 247,
+      "spirit": 1575.86
+    },
+    {
+      "level": 57,
+      "biological": 2.02,
+      "material": 669,
+      "spiritRate": 257,
+      "spirit": 1719.33
+    },
+    {
+      "level": 58,
+      "biological": 2.11,
+      "material": 701,
+      "spiritRate": 265,
+      "spirit": 1857.65
+    },
+    {
+      "level": 59,
+      "biological": 2.2,
+      "material": 743,
+      "spiritRate": 272,
+      "spirit": 2020.96
+    },
+    {
+      "level": 60,
+      "biological": 2.26,
+      "material": 768,
+      "spiritRate": 281,
+      "spirit": 2158.08
+    },
+    {
+      "level": 61,
+      "biological": 2.28,
+      "material": 787,
+      "spiritRate": 286,
+      "spirit": 2250.82
+    },
+    {
+      "level": 62,
+      "biological": 2.31,
+      "material": 805,
+      "spiritRate": 292,
+      "spirit": 2350.6
+    },
+    {
+      "level": 63,
+      "biological": 2.34,
+      "material": 824,
+      "spiritRate": 298,
+      "spirit": 2455.52
+    },
+    {
+      "level": 64,
+      "biological": 2.37,
+      "material": 838,
+      "spiritRate": 306,
+      "spirit": 2564.28
+    },
+    {
+      "level": 65,
+      "biological": 2.44,
+      "material": 858,
+      "spiritRate": 312,
+      "spirit": 2676.96
+    },
+    {
+      "level": 66,
+      "biological": 2.47,
+      "material": 877,
+      "spiritRate": 318,
+      "spirit": 2788.86
+    },
+    {
+      "level": 67,
+      "biological": 2.5,
+      "material": 897,
+      "spiritRate": 324,
+      "spirit": 2906.28
+    },
+    {
+      "level": 68,
+      "biological": 2.53,
+      "material": 917,
+      "spiritRate": 332,
+      "spirit": 3044.44
+    },
+    {
+      "level": 69,
+      "biological": 2.57,
+      "material": 938,
+      "spiritRate": 338,
+      "spirit": 3170.44
+    },
+    {
+      "level": 70,
+      "biological": 2.6,
+      "material": 959,
+      "spiritRate": 344,
+      "spirit": 3298.96
+    },
+    {
+      "level": 71,
+      "biological": 2.61,
+      "material": 969,
+      "spiritRate": 346,
+      "spirit": 3352.74
+    },
+    {
+      "level": 72,
+      "biological": 2.63,
+      "material": 980,
+      "spiritRate": 348,
+      "spirit": 3410.4
+    },
+    {
+      "level": 73,
+      "biological": 2.64,
+      "material": 990,
+      "spiritRate": 350,
+      "spirit": 3465
+    },
+    {
+      "level": 74,
+      "biological": 2.66,
+      "material": 1001,
+      "spiritRate": 352,
+      "spirit": 3523.52
+    },
+    {
+      "level": 75,
+      "biological": 2.67,
+      "material": 1011,
+      "spiritRate": 354,
+      "spirit": 3578.94
+    },
+    {
+      "level": 76,
+      "biological": 2.68,
+      "material": 1022,
+      "spiritRate": 356,
+      "spirit": 3638.32
+    },
+    {
+      "level": 77,
+      "biological": 2.7,
+      "material": 1032,
+      "spiritRate": 358,
+      "spirit": 3694.56
+    },
+    {
+      "level": 78,
+      "biological": 2.71,
+      "material": 1043,
+      "spiritRate": 360,
+      "spirit": 3754.8
+    },
+    {
+      "level": 79,
+      "biological": 2.73,
+      "material": 1053,
+      "spiritRate": 362,
+      "spirit": 3811.86
+    },
+    {
+      "level": 80,
+      "biological": 2.74,
+      "material": 1064,
+      "spiritRate": 364,
+      "spirit": 3872.96
+    },
+    {
+      "level": 81,
+      "biological": 2.76,
+      "material": 1074,
+      "spiritRate": 366,
+      "spirit": 3930.84
+    },
+    {
+      "level": 82,
+      "biological": 2.77,
+      "material": 1085,
+      "spiritRate": 368,
+      "spirit": 3992.8
+    },
+    {
+      "level": 83,
+      "biological": 2.79,
+      "material": 1095,
+      "spiritRate": 370,
+      "spirit": 4051.5
+    },
+    {
+      "level": 84,
+      "biological": 2.8,
+      "material": 1106,
+      "spiritRate": 372,
+      "spirit": 4114.32
+    },
+    {
+      "level": 85,
+      "biological": 2.81,
+      "material": 1116,
+      "spiritRate": 374,
+      "spirit": 4173.84
+    },
+    {
+      "level": 86,
+      "biological": 2.83,
+      "material": 1127,
+      "spiritRate": 376,
+      "spirit": 4237.52
+    },
+    {
+      "level": 87,
+      "biological": 2.84,
+      "material": 1137,
+      "spiritRate": 378,
+      "spirit": 4297.86
+    },
+    {
+      "level": 88,
+      "biological": 2.86,
+      "material": 1148,
+      "spiritRate": 380,
+      "spirit": 4362.4
+    },
+    {
+      "level": 89,
+      "biological": 2.87,
+      "material": 1158,
+      "spiritRate": 382,
+      "spirit": 4423.56
+    },
+    {
+      "level": 90,
+      "biological": 2.89,
+      "material": 1169,
+      "spiritRate": 384,
+      "spirit": 4488.96
+    },
+    {
+      "level": 91,
+      "biological": 2.9,
+      "material": 1179,
+      "spiritRate": 386,
+      "spirit": 4550.94
+    },
+    {
+      "level": 92,
+      "biological": 2.92,
+      "material": 1190,
+      "spiritRate": 388,
+      "spirit": 4617.2
+    },
+    {
+      "level": 93,
+      "biological": 2.93,
+      "material": 1200,
+      "spiritRate": 390,
+      "spirit": 4680
+    },
+    {
+      "level": 94,
+      "biological": 2.94,
+      "material": 1211,
+      "spiritRate": 392,
+      "spirit": 4747.12
+    },
+    {
+      "level": 95,
+      "biological": 2.96,
+      "material": 1221,
+      "spiritRate": 394,
+      "spirit": 4810.74
+    },
+    {
+      "level": 96,
+      "biological": 2.97,
+      "material": 1232,
+      "spiritRate": 396,
+      "spirit": 4878.72
+    },
+    {
+      "level": 97,
+      "biological": 2.99,
+      "material": 1242,
+      "spiritRate": 398,
+      "spirit": 4943.16
+    },
+    {
+      "level": 98,
+      "biological": 3,
+      "material": 1253,
+      "spiritRate": 400,
+      "spirit": 5012
+    },
+    {
+      "level": 99,
+      "biological": 3.02,
+      "material": 1263,
+      "spiritRate": 402,
+      "spirit": 5077.26
+    },
+    {
+      "level": 100,
+      "biological": 3.03,
+      "material": 1274,
+      "spiritRate": 404,
+      "spirit": 5146.96
+    }
+  ]
+}
