@@ -17,15 +17,15 @@ window.CharacterGrowthUI = { mount(root, id) {
             }));
             const entry = growth.characters[id];
             if (!entry) throw new Error('이 각성체의 성장 정보가 없습니다.');
-            const choices=(item,side,label,min=1)=>`<label class="growth-compact-choice"><span class="growth-choice-heading">${label}<output>${min}</output></span><input type="range" class="growth-${side}" min="${min}" max="${item.maxLevel}" step="1" value="${min}" aria-label="${item.name} ${label}"></label>`;
+            const choices=(item,side,label,min=1)=>`<label class="growth-compact-choice"><span class="growth-choice-heading"><span class="growth-choice-label">${label}</span><output>${min}</output></span><input type="range" class="growth-${side}" min="${min}" max="${item.maxLevel}" step="1" value="${min}" aria-label="${item.name} ${label}"></label>`;
             const types={Slot_Strike:'타격',Slot_Defend:'방어',Slot_Skill1:'스킬',Slot_Skill2:'스킬',Slot_Awake:'영지각성',Slot_Super:'광기 폭발'};
-            panel.innerHTML = `<section class="growth-section growth-total"><h4>전체 필요 재화</h4><p id="growth-error" role="alert"></p><div id="growth-cost" aria-live="polite"></div></section><section class="growth-section"><h4>경험치</h4>
+            panel.innerHTML = `<section class="growth-section"><h4>경험치</h4>
                 <div class="level-growth-controls growth-levels">${[['from','현재 레벨',1],['to','목표 레벨',60]].map(([key,label,value])=>`<div class="growth-level-control"><div class="growth-level-heading"><label for="growth-${key}">${label}</label><input id="growth-${key}" type="number" min="1" max="${entry.maxLevel}" value="${value}"></div><input id="growth-${key}-slider" type="range" min="1" max="${entry.maxLevel}" value="${value}" aria-label="${label} 슬라이더"><div class="growth-range-ends" aria-hidden="true"><span>1</span><span>${entry.maxLevel}</span></div></div>`).join('')}</div>
                 <div id="growth-stats"></div></section>
                 <section class="growth-section"><div class="growth-section-heading"><h4>스킬</h4><button type="button" id="growth-skills-max" class="growth-action">전체 목표 Lv.6</button></div>
-                <div class="growth-skills">${entry.skillUpgrades.map(skill=>`<div class="growth-skill-row" data-skill-slot="${skill.slot}"><div class="growth-skill-name">${types[skill.slot]===skill.name?'':`<span class="growth-skill-type">${types[skill.slot]}</span>`}${skill.name}</div>${choices(skill,'skill-from','현재')}${choices(skill,'skill-to','목표')}</div>`).join('')}</div></section>
+                <div class="growth-skill-columns" aria-hidden="true"><span>스킬</span><span>현재</span><span>목표</span></div><div class="growth-skills">${entry.skillUpgrades.map(skill=>`<div class="growth-skill-row" data-skill-slot="${skill.slot}"><div class="growth-skill-name">${types[skill.slot]===skill.name?'':`<span class="growth-skill-type">${types[skill.slot]}</span>`}${skill.name}</div>${choices(skill,'skill-from','현재')}${choices(skill,'skill-to','목표')}</div>`).join('')}</div></section>
                 ${entry.talentUpgrades.map(talent=>`<section class="growth-section"><h4>${talent.name}</h4><div class="growth-talent-row" data-talent-type="${talent.type}">${choices(talent,'talent-from','현재',0)}${choices(talent,'talent-to','목표',0)}</div></section>`).join('')}
-                `;
+                <section class="growth-section growth-total"><h4>전체 필요 재화</h4><p id="growth-error" role="alert"></p><div id="growth-cost" aria-live="polite"></div></section>`;
             const field = name => panel.querySelector('#growth-'+name);
             function render() {
                 panel.querySelectorAll('.growth-compact-choice').forEach(label=>label.querySelector('output').value=label.querySelector('input').value);

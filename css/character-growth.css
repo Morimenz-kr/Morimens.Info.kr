@@ -26,10 +26,15 @@
 .growth-resource-name img { width: 40px; height: 40px; object-fit: contain; flex-shrink: 0; }
 .growth-resource-list li { align-items: center; }
 /* Keep growth sections in the existing neutral site palette. */
-.growth-section { padding: 1.25rem 0; border-bottom: 1px solid var(--color-border); }
+.growth-section { padding: 1.5rem 0; border-bottom: 1px solid var(--color-border); }
 #tab-level-growth .growth-section h4 { margin: 0 0 .75rem; }
 .growth-section-heading { display: flex; flex-wrap: wrap; gap: .5rem 1rem; justify-content: space-between; align-items: baseline; }
-.growth-skill-row { display: grid; grid-template-columns: minmax(0,1.2fr) repeat(2,minmax(0,1fr)); gap: .75rem; align-items: center; padding: .65rem 0; }
+.growth-skill-columns, .growth-skill-row { display: grid; grid-template-columns: minmax(0,1.2fr) repeat(2,minmax(0,1fr)); gap: .75rem; align-items: center; padding: .65rem 0; }
+.growth-skill-columns { color: var(--color-text-muted); font-size: .85em; padding: .25rem 0 .5rem; border-bottom: 1px solid var(--color-border); }
+.growth-skill-row { border-bottom: 1px solid var(--color-border); }
+.growth-skill-row:last-child { border-bottom: 0; }
+.growth-skill-row .growth-choice-label { display: none; }
+.growth-skill-row .growth-choice-heading { justify-content: flex-end; }
 .growth-skill-name { min-width: 0; overflow-wrap: anywhere; }
 .growth-skill-type { display: block; color: var(--color-text-muted); font-size: .8em; }
 .growth-compact-choice { display: grid !important; min-width: 0; gap: 0 !important; color: var(--color-text-muted); }
@@ -47,6 +52,9 @@
 #growth-error { color: var(--color-danger); line-height: 1.6; }
 @container (max-width: 26rem) {
     .growth-skill-row { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .growth-skill-columns { display: none; }
+    .growth-skill-row .growth-choice-label { display: inline; }
+    .growth-skill-row .growth-choice-heading { justify-content: space-between; }
     .growth-skill-name { grid-column: 1 / -1; }
     .growth-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
     .growth-table tbody, .growth-table tr { display: block; }
