@@ -13,7 +13,7 @@ test('등록 캐릭터 전원의 모든 레벨과 재화 참조가 완전하다'
             assert.equal(row.level, i + 1);
             for (const field of ['physique', 'attack', 'defense']) assert.ok(Number.isInteger(row[field]) && row[field] > 0);
         });
-        for (const step of [...entry.ascensions, ...entry.limitIncreases]) for (const cost of step.resources) {
+        for (const step of [...entry.ascensions, ...entry.limitIncreases,...entry.potencySteps,...entry.skillUpgrades.flatMap(skill=>skill.steps)]) for (const cost of step.resources) {
             assert.ok(resources.items[cost.itemId]?.name);
             assert.ok(Number.isInteger(cost.quantity) && cost.quantity > 0);
         }
@@ -21,6 +21,33 @@ test('등록 캐릭터 전원의 모든 레벨과 재화 참조가 완전하다'
     }
     assert.equal(growth.characters.jenkin.sourceId, 15593);
     assert.equal(growth.characters.GOgier.sourceId, 148578);
+});
+test('90레벨 목표는 선행 잠재력까지 자동 합산하고 이미 해금한 단계는 제외한다',()=>{
+    const plan=api.quoteGrowthPlan(growth,'pandia',90);
+    assert.equal(plan.needPotency,15);assert.equal(plan.needLimit,10);
+    assert.deepEqual(plan.potencyResources,[{itemId:9673,quantity:15}]);
+    const partial=api.quoteGrowthPlan(growth,'pandia',90,{rank:5,limit:10,potency:11});
+    assert.deepEqual(partial.potencyResources,[{itemId:9673,quantity:4}]);
+    assert.deepEqual(partial.ascension,[]);assert.deepEqual(partial.expansion,[]);
+    assert.equal(api.quoteGrowthPlan(growth,'pandia',60).needLimit,0);
+    for(const entry of Object.values(growth.characters)){
+        const full=api.quoteGrowthPlan(growth,entry.id,entry.maxLevel);
+        assert.equal(full.needPotency,entry.potencySteps.length);
+        assert.equal(entry.skillUpgrades.length,6);
+        assert.ok(entry.skillUpgrades.every(skill=>skill.steps.length===5));
+    }
+});
+test('스킬별 슬롯 비용과 전체 합계는 광기 폭발 비용을 별도로 보존한다',()=>{
+    assert.deepEqual(api.quoteSkillUpgrades(growth,'pandia',[{slot:'Slot_Strike',fromLevel:1,toLevel:2}]),[{itemId:9825,quantity:9},{itemId:10108,quantity:3150}]);
+    assert.deepEqual(api.quoteSkillUpgrades(growth,'pandia',[{slot:'Slot_Super',fromLevel:1,toLevel:2}]),[{itemId:9776,quantity:1},{itemId:9825,quantity:18},{itemId:10108,quantity:6300}]);
+    const all=api.quoteSkillUpgrades(growth,'pandia',growth.characters.pandia.skillUpgrades.map(skill=>({slot:skill.slot,fromLevel:1,toLevel:6})));
+    assert.equal(all.find(cost=>cost.itemId===10108).quantity,1215900);
+    assert.throws(()=>api.quoteSkillUpgrades(growth,'pandia',[{slot:'Slot_Strike',fromLevel:6,toLevel:7}]),RangeError);
+});
+test('재화 99종의 아이콘은 실제 공개 이미지 파일과 연결된다',()=>{
+    const fs=require('node:fs'),path=require('node:path');
+    assert.equal(Object.keys(resources.items).length,99);
+    for(const item of Object.values(resources.items))assert.ok(fs.existsSync(path.join(__dirname,'..',item.icon)),item.name);
 });
 test('판디아 성장식의 올림과 60·90레벨 경계를 보존한다', () => {
     assert.deepEqual(api.statsAtLevel(growth, 'pandia', 1), {level:1,physique:32,attack:37,defense:33});

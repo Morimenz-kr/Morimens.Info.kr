@@ -11,81 +11,506 @@
       "AwakerPotency": "4d1e97c92e9e3c417d12c7609d3cfe0fe02f6d4f8a3f3f5fdd5877716b694baf",
       "ActorAttrType": "d80a2317f8b81be786828ced5ddfbcfdb32edbfed6d268bb3c3cba1db72ab0b7",
       "Item": "36f058c52cd2f77ee62e5df893a4a9911b04559f1a993b7d18b5d0e7e313ed64",
-      "Constant": "6fc7eb9340328a6feb4a619529a7d7d5415bdec916ba2124c2bc8ac71bdfeec1"
+      "Constant": "6fc7eb9340328a6feb4a619529a7d7d5415bdec916ba2124c2bc8ac71bdfeec1",
+      "AwakerSkillUpgrade": "c26989fb691d4d9e8e056cc159af6af00d79952000365a7fc0ddc4a1dfcdda6f",
+      "Skill": "a73180ccedbf8407a4e00f59b72a81af535a2649c97df165d412504da9dba0e4"
     }
   },
   "items": {
+    "9538": {
+      "id": 9538,
+      "name": "파편 · 파로스",
+      "icon": "images/growth/items/9538.png"
+    },
+    "9540": {
+      "id": 9540,
+      "name": "파편 · 리즈",
+      "icon": "images/growth/items/9540.png"
+    },
+    "9543": {
+      "id": 9543,
+      "name": "현자의 돌",
+      "icon": "images/growth/items/9543.png"
+    },
+    "9549": {
+      "id": 9549,
+      "name": "마른 번데기",
+      "icon": "images/growth/items/9549.png"
+    },
+    "9557": {
+      "id": 9557,
+      "name": "파편 · 아그리파",
+      "icon": "images/growth/items/9557.png"
+    },
+    "9595": {
+      "id": 9595,
+      "name": "파편 · 틴커트",
+      "icon": "images/growth/items/9595.png"
+    },
+    "9601": {
+      "id": 9601,
+      "name": "원생 번데기",
+      "icon": "images/growth/items/9601.png"
+    },
+    "9614": {
+      "id": 9614,
+      "name": "파편 · 완다",
+      "icon": "images/growth/items/9614.png"
+    },
+    "9621": {
+      "id": 9621,
+      "name": "빛나는 결정 나비",
+      "icon": "images/growth/items/9621.png"
+    },
+    "9647": {
+      "id": 9647,
+      "name": "파편 · 윙클",
+      "icon": "images/growth/items/9647.png"
+    },
+    "9671": {
+      "id": 9671,
+      "name": "포자 중합체",
+      "icon": "images/growth/items/9671.png"
+    },
+    "9673": {
+      "id": 9673,
+      "name": "파편 · 판디아",
+      "icon": "images/growth/items/9673.png"
+    },
+    "9686": {
+      "id": 9686,
+      "name": "파편 · 카이커스",
+      "icon": "images/growth/items/9686.png"
+    },
+    "9712": {
+      "id": 9712,
+      "name": "파편 · 레아",
+      "icon": "images/growth/items/9712.png"
+    },
+    "9713": {
+      "id": 9713,
+      "name": "파편 · 타이스",
+      "icon": "images/growth/items/9713.png"
+    },
+    "9726": {
+      "id": 9726,
+      "name": "부서진 광석",
+      "icon": "images/growth/items/9726.png"
+    },
+    "9727": {
+      "id": 9727,
+      "name": "파편 · 오를라",
+      "icon": "images/growth/items/9727.png"
+    },
+    "9732": {
+      "id": 9732,
+      "name": "파편 · 셀레스트",
+      "icon": "images/growth/items/9732.png"
+    },
     "9740": {
       "id": 9740,
-      "name": "감정 복사본"
+      "name": "감정 복사본",
+      "icon": "images/growth/items/9740.png"
+    },
+    "9750": {
+      "id": 9750,
+      "name": "파편 · 에리카",
+      "icon": "images/growth/items/9750.png"
     },
     "9755": {
       "id": 9755,
-      "name": "기억 복사본"
+      "name": "기억 복사본",
+      "icon": "images/growth/items/9755.png"
+    },
+    "9756": {
+      "id": 9756,
+      "name": "유카탄의 별",
+      "icon": "images/growth/items/9756.png"
     },
     "9758": {
       "id": 9758,
-      "name": "연마된 이성"
+      "name": "연마된 이성",
+      "icon": "images/growth/items/9758.png"
     },
     "9762": {
       "id": 9762,
-      "name": "영지 비약Ⅲ"
+      "name": "영지 비약Ⅲ",
+      "icon": "images/growth/items/9762.png"
+    },
+    "9765": {
+      "id": 9765,
+      "name": "파편 · 릴리",
+      "icon": "images/growth/items/9765.png"
+    },
+    "9766": {
+      "id": 9766,
+      "name": "파편 · 히로",
+      "icon": "images/growth/items/9766.png"
     },
     "9768": {
       "id": 9768,
-      "name": "영지 템플릿"
+      "name": "영지 템플릿",
+      "icon": "images/growth/items/9768.png"
+    },
+    "9769": {
+      "id": 9769,
+      "name": "혼돈의 결정 나비",
+      "icon": "images/growth/items/9769.png"
+    },
+    "9771": {
+      "id": 9771,
+      "name": "낮은줄기 바다백합",
+      "icon": "images/growth/items/9771.png"
+    },
+    "9776": {
+      "id": 9776,
+      "name": "행운의 사탕",
+      "icon": "images/growth/items/9776.png"
+    },
+    "9777": {
+      "id": 9777,
+      "name": "파편 · 살바도르",
+      "icon": "images/growth/items/9777.png"
+    },
+    "9778": {
+      "id": 9778,
+      "name": "칠흑의 족쇄",
+      "icon": "images/growth/items/9778.png"
+    },
+    "9779": {
+      "id": 9779,
+      "name": "밀랍상 점토",
+      "icon": "images/growth/items/9779.png"
+    },
+    "9780": {
+      "id": 9780,
+      "name": "성심의 경건함",
+      "icon": "images/growth/items/9780.png"
+    },
+    "9781": {
+      "id": 9781,
+      "name": "차원 결정",
+      "icon": "images/growth/items/9781.png"
+    },
+    "9782": {
+      "id": 9782,
+      "name": "지모수의 유해",
+      "icon": "images/growth/items/9782.png"
+    },
+    "9783": {
+      "id": 9783,
+      "name": "성태의 면류관",
+      "icon": "images/growth/items/9783.png"
+    },
+    "9785": {
+      "id": 9785,
+      "name": "꿈결의 고리",
+      "icon": "images/growth/items/9785.png"
     },
     "9793": {
       "id": 9793,
-      "name": "순백의 서류"
+      "name": "순백의 서류",
+      "icon": "images/growth/items/9793.png"
+    },
+    "9794": {
+      "id": 9794,
+      "name": "파편·라모나",
+      "icon": "images/growth/items/9794.png"
     },
     "9799": {
       "id": 9799,
-      "name": "순백의 비편"
+      "name": "순백의 비편",
+      "icon": "images/growth/items/9799.png"
+    },
+    "9801": {
+      "id": 9801,
+      "name": "파편 · 오레타",
+      "icon": "images/growth/items/9801.png"
+    },
+    "9812": {
+      "id": 9812,
+      "name": "유인타 백합",
+      "icon": "images/growth/items/9812.png"
+    },
+    "9814": {
+      "id": 9814,
+      "name": "파편 · 다포딜",
+      "icon": "images/growth/items/9814.png"
+    },
+    "9825": {
+      "id": 9825,
+      "name": "희미한 결정 나비",
+      "icon": "images/growth/items/9825.png"
+    },
+    "9826": {
+      "id": 9826,
+      "name": "파편 · 라이커",
+      "icon": "images/growth/items/9826.png"
     },
     "9834": {
       "id": 9834,
-      "name": "영지 비약Ⅱ"
+      "name": "영지 비약Ⅱ",
+      "icon": "images/growth/items/9834.png"
+    },
+    "9847": {
+      "id": 9847,
+      "name": "파편 · 아이기스",
+      "icon": "images/growth/items/9847.png"
+    },
+    "9863": {
+      "id": 9863,
+      "name": "파편 · 유우하시",
+      "icon": "images/growth/items/9863.png"
+    },
+    "9878": {
+      "id": 9878,
+      "name": "파편 · 소렐",
+      "icon": "images/growth/items/9878.png"
+    },
+    "9880": {
+      "id": 9880,
+      "name": "파편 · 산",
+      "icon": "images/growth/items/9880.png"
+    },
+    "9901": {
+      "id": 9901,
+      "name": "파편 · 노틸라",
+      "icon": "images/growth/items/9901.png"
+    },
+    "9902": {
+      "id": 9902,
+      "name": "파편 · 오지에",
+      "icon": "images/growth/items/9902.png"
     },
     "9904": {
       "id": 9904,
-      "name": "정신 템플릿"
+      "name": "정신 템플릿",
+      "icon": "images/growth/items/9904.png"
+    },
+    "9921": {
+      "id": 9921,
+      "name": "파편 · 돌",
+      "icon": "images/growth/items/9921.png"
     },
     "9925": {
       "id": 9925,
-      "name": "의식 복사본"
+      "name": "의식 복사본",
+      "icon": "images/growth/items/9925.png"
+    },
+    "9938": {
+      "id": 9938,
+      "name": "파편 · 골리아",
+      "icon": "images/growth/items/9938.png"
     },
     "9940": {
       "id": 9940,
-      "name": "순백의 조각"
+      "name": "순백의 조각",
+      "icon": "images/growth/items/9940.png"
+    },
+    "9954": {
+      "id": 9954,
+      "name": "파편 · 카렌",
+      "icon": "images/growth/items/9954.png"
+    },
+    "9958": {
+      "id": 9958,
+      "name": "파편 · 젠킨",
+      "icon": "images/growth/items/9958.png"
+    },
+    "9967": {
+      "id": 9967,
+      "name": "파편 · 파인트",
+      "icon": "images/growth/items/9967.png"
     },
     "9971": {
       "id": 9971,
-      "name": "연마된 영혼"
+      "name": "연마된 영혼",
+      "icon": "images/growth/items/9971.png"
+    },
+    "9981": {
+      "id": 9981,
+      "name": "파편 · 탄망·머피",
+      "icon": "images/growth/items/9981.png"
+    },
+    "10013": {
+      "id": 10013,
+      "name": "유성의 파편",
+      "icon": "images/growth/items/10013.png"
+    },
+    "10024": {
+      "id": 10024,
+      "name": "파편 · 로탄",
+      "icon": "images/growth/items/10024.png"
     },
     "10030": {
       "id": 10030,
-      "name": "연마된 본능"
+      "name": "연마된 본능",
+      "icon": "images/growth/items/10030.png"
+    },
+    "10034": {
+      "id": 10034,
+      "name": "파편 · 툴루",
+      "icon": "images/growth/items/10034.png"
+    },
+    "10038": {
+      "id": 10038,
+      "name": "파편 · 님피아",
+      "icon": "images/growth/items/10038.png"
+    },
+    "10039": {
+      "id": 10039,
+      "name": "파편 · 미리암",
+      "icon": "images/growth/items/10039.png"
     },
     "10044": {
       "id": 10044,
-      "name": "인식 템플릿"
+      "name": "인식 템플릿",
+      "icon": "images/growth/items/10044.png"
+    },
+    "10047": {
+      "id": 10047,
+      "name": "파편 · 머피",
+      "icon": "images/growth/items/10047.png"
+    },
+    "10063": {
+      "id": 10063,
+      "name": "파편 · 엘바",
+      "icon": "images/growth/items/10063.png"
     },
     "10064": {
       "id": 10064,
-      "name": "영지 비약Ⅰ"
+      "name": "영지 비약Ⅰ",
+      "icon": "images/growth/items/10064.png"
+    },
+    "10088": {
+      "id": 10088,
+      "name": "파편 · 카시아",
+      "icon": "images/growth/items/10088.png"
     },
     "10108": {
       "id": 10108,
-      "name": "장미 금권"
+      "name": "장미 금권",
+      "icon": "images/growth/items/10108.png"
+    },
+    "10114": {
+      "id": 10114,
+      "name": "파편 · 「24」",
+      "icon": "images/growth/items/10114.png"
+    },
+    "10117": {
+      "id": 10117,
+      "name": "높은줄기 바다백합",
+      "icon": "images/growth/items/10117.png"
     },
     "25218": {
       "id": 25218,
-      "name": "원초 영핵"
+      "name": "원초 영핵",
+      "icon": "images/growth/items/25218.png"
+    },
+    "54108": {
+      "id": 54108,
+      "name": "파편 · 타비",
+      "icon": "images/growth/items/54108.png"
+    },
+    "54109": {
+      "id": 54109,
+      "name": "파편 · 혈쇄·히로",
+      "icon": "images/growth/items/54109.png"
+    },
+    "54110": {
+      "id": 54110,
+      "name": "파편 · 하멜른",
+      "icon": "images/growth/items/54110.png"
+    },
+    "54112": {
+      "id": 54112,
+      "name": "파편 · 융해·돌",
+      "icon": "images/growth/items/54112.png"
     },
     "69985": {
       "id": 69985,
-      "name": "원초 영핵 정수"
+      "name": "원초 영핵 정수",
+      "icon": "images/growth/items/69985.png"
+    },
+    "77865": {
+      "id": 77865,
+      "name": "파편 · 픽맨",
+      "icon": "images/growth/items/77865.png"
+    },
+    "77870": {
+      "id": 77870,
+      "name": "파편 · 코퍼산트",
+      "icon": "images/growth/items/77870.png"
+    },
+    "77872": {
+      "id": 77872,
+      "name": "파편 · 카라부",
+      "icon": "images/growth/items/77872.png"
+    },
+    "77885": {
+      "id": 77885,
+      "name": "파편 · 카티구라",
+      "icon": "images/growth/items/77885.png"
+    },
+    "77887": {
+      "id": 77887,
+      "name": "파편 · 카스토르",
+      "icon": "images/growth/items/77887.png"
+    },
+    "77890": {
+      "id": 77890,
+      "name": "파편 · 클레멘타인",
+      "icon": "images/growth/items/77890.png"
+    },
+    "77894": {
+      "id": 77894,
+      "name": "파편 · 아라크네",
+      "icon": "images/growth/items/77894.png"
+    },
+    "77897": {
+      "id": 77897,
+      "name": "파편 · 폴룩스",
+      "icon": "images/growth/items/77897.png"
+    },
+    "94441": {
+      "id": 94441,
+      "name": "파편 · 무셰트",
+      "icon": "images/growth/items/94441.png"
+    },
+    "95690": {
+      "id": 95690,
+      "name": "파편 · 도어세인",
+      "icon": "images/growth/items/95690.png"
+    },
+    "125187": {
+      "id": 125187,
+      "name": "파편 · 서",
+      "icon": "images/growth/items/125187.png"
+    },
+    "130224": {
+      "id": 130224,
+      "name": "파편 · 사야",
+      "icon": "images/growth/items/130224.png"
+    },
+    "130765": {
+      "id": 130765,
+      "name": "잔편·모스크",
+      "icon": "images/growth/items/130765.png"
+    },
+    "141229": {
+      "id": 141229,
+      "name": "파편 · 폰토스",
+      "icon": "images/growth/items/141229.png"
+    },
+    "145290": {
+      "id": 145290,
+      "name": "파편 · 침식·로탄",
+      "icon": "images/growth/items/145290.png"
+    },
+    "148664": {
+      "id": 148664,
+      "name": "파편 · 서약·오지에",
+      "icon": "images/growth/items/148664.png"
     }
   },
   "experienceItems": [

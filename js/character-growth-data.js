@@ -57,5 +57,27 @@
         if (![fromStep, toStep].every(step => Number.isInteger(step) && step >= 0 && step <= entry.limitIncreases.length) || fromStep > toStep) throw new RangeError('상한 확장 단계를 확인하세요');
         return sumResources(entry.limitIncreases.slice(fromStep, toStep));
     }
-    return { statsAtLevel, quoteLevelUp, quoteAscension, quoteLimitIncrease };
+    function quoteGrowthPlan(data, id, toLevel, {rank=0,limit=0,potency=0}={}) {
+        const entry=character(data,id);validLevel(toLevel,entry.maxLevel);
+        if(!Number.isInteger(potency)||potency<0||potency>entry.potencySteps.length)throw new RangeError('잠재력 단계를 확인하세요');
+        const bonus = step => entry.potencySteps.slice(0,step).reduce((n,row)=>n+row.additionalMaxLevel,0);
+        const maxExtension = entry.limitIncreases.at(-1).additionalMaxLevel;
+        let needPotency=potency;
+        while(entry.baseMaxLevel+maxExtension+bonus(needPotency)<toLevel)needPotency++;
+        const needRank=Math.max(rank,Math.min(entry.ascensions.length,Math.ceil(Math.min(toLevel,entry.baseMaxLevel)/10)-1));
+        const needLimit=Math.max(limit,toLevel<=entry.baseMaxLevel+bonus(needPotency)?0:entry.limitIncreases.findIndex(row=>entry.baseMaxLevel+bonus(needPotency)+row.additionalMaxLevel>=toLevel)+1);
+        const potencyResources=sumResources(entry.potencySteps.slice(potency,needPotency));
+        return {needRank,needLimit,needPotency,ascension:quoteAscension(data,id,rank,needRank),expansion:quoteLimitIncrease(data,id,limit,needLimit),potencyResources};
+    }
+    function quoteSkillUpgrades(data,id,selections) {
+        const entry=character(data,id);
+        return sumResources(selections.map(({slot,fromLevel,toLevel})=>{
+            const skill=entry.skillUpgrades.find(row=>row.slot===slot);
+            if(!skill)throw new RangeError('알 수 없는 스킬');
+            validLevel(fromLevel,skill.maxLevel);validLevel(toLevel,skill.maxLevel);
+            if(toLevel<fromLevel)throw new RangeError('목표 스킬 레벨은 현재 레벨 이상이어야 합니다');
+            return {resources:sumResources(skill.steps.filter(row=>row.fromLevel>=fromLevel&&row.toLevel<=toLevel))};
+        }));
+    }
+    return { statsAtLevel, quoteLevelUp, quoteAscension, quoteLimitIncrease, quoteGrowthPlan, quoteSkillUpgrades };
 });
