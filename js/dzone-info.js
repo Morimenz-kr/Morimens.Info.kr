@@ -1249,6 +1249,9 @@
     }
 
     function gameGrade(difficulty) {
+        const verified = difficulty?.gameGrade;
+        if (verified?.type === 'text' && /^(?:C|B|A|S|SS|SSS)$/.test(verified.value)) return verified;
+        if (verified?.type === 'sprite' && Number.isInteger(verified.value) && CONFUSE_SPRITES[verified.value]) return verified;
         const stageName = String(difficulty?.stageNameKo || '');
         const confuse = stageName.match(/@([1-7])(?:\D|$)/);
         if (confuse) return { type: 'sprite', value: Number(confuse[1]) };

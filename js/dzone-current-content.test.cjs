@@ -4,6 +4,20 @@ const path = require('node:path');
 const test = require('node:test');
 const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_current.json'), 'utf8'));
 
+test('71기는 154버전 원본의 7개 위험 등급과 35개 독립 스테이지를 포함한다', () => {
+    assert.equal(data.period, 71);
+    assert.equal(data.source.resourceVersion, 154);
+    assert.equal(data.difficultyCount, 7);
+    const ids = [];
+    for (const wave of data.waves) {
+        assert.deepEqual(wave.alerts.map(alert => alert.alert), [1,2,3,4,5,6,7]);
+        assert.deepEqual(wave.alerts.slice(0,6).map(alert => alert.gameGrade), ['C','B','A','S','SS','SSS'].map(value => ({type:'text',value})));
+        assert.equal(wave.alerts[6].gameGrade.type, 'sprite');
+        ids.push(...wave.alerts.map(alert => alert.stageId));
+    }
+    assert.equal(new Set(ids).size, 35);
+});
+
 test('현재 시즌의 모든 단계 의도와 소환체는 단계 컨텍스트로 해석된다', () => {
     let checked = 0;
     for (const wave of data.waves) {
