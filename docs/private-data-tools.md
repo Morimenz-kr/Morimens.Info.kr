@@ -8,6 +8,8 @@
 4. 공개 저장소에서 `npm test`, `npm run data:validate`, `npm run pages:prepare -- --data-source repository`를 실행한다. 화면을 변경했다면 반응형 검증도 수행한다.
 5. 결과 데이터와 사이트 변경만 Git에 반영한다. 비공개 도구를 `git add -f`로 추가하지 않는다.
 
+융재금구 생성은 비공개 `morimens-data-extractor` 저장소의 `site-integration/generate-dzone.ps1` 또는 그 저장소의 `tools/build-dzone-site-data.mjs`를 직접 실행한다. 사이트에 남은 생성 도구 사본을 기준으로 작업하지 않는다. 먼저 원격 최신 코드와 작업 트리 차이를 확인하고, 결과의 `contentAudit.generator.files` 해시를 실행한 도구와 대조한다. 응시 등 단계 컨텍스트 검사는 현재 시즌 전체와 소환체에 실행한다.
+
 `tools/`는 배포·운영·결과 데이터 검사에 필요한 파일만 `.gitignore`의 허용 목록으로 관리한다. 새 공개 도구가 필요하면 구현 내용에 비공개 생성 로직이 없는지 검토한 뒤 허용 목록을 수정한다. 추출 원본은 별도 개인 파일로 보관한다.
 
 사이트가 브라우저에 제공하는 JavaScript와 결과 데이터는 공개된다. 비공개 도구 분리가 이미 공개된 Git 기록이나 외부 사본을 제거하지는 않는다.

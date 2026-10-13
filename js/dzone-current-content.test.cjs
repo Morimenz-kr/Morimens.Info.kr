@@ -30,7 +30,13 @@ test('현재 시즌의 모든 단계 의도와 소환체는 단계 컨텍스트�
 
 test('현재 시즌의 실제 참조 설명과 조건부 행동에는 미해석 데이터가 없다', () => {
     assert.deepEqual(data.contentAudit.diagnostics, []);
-    assert.ok(data.contentAudit.patternEdgesChecked > 0);
+    assert.equal(data.contentAudit.generator.id, 'morimens-data-extractor/dzone');
+    for (const file of ['build-dzone-site-data.mjs', 'dzone-content.mjs', 'monster-combat-transformer.mjs', 'game-reference-graph.mjs']) {
+        assert.match(data.contentAudit.generator.files[file], /^[a-f0-9]{64}$/);
+    }
+    assert.ok(data.contentAudit.referenceInventory.edgeCount > 0);
+    assert.equal(data.contentAudit.referenceInventory.missingTargetCount, 0);
+    assert.equal(data.contentAudit.referenceInventory.externalTargetCount, 0);
     for (const match of JSON.stringify(data.waves).matchAll(/<(kw_[a-f0-9]{16}):/g)) {
         assert.ok(data.keywordGlossary[match[1]]?.description);
     }
