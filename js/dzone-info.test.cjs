@@ -16,10 +16,12 @@ const linksCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'lin
 const infoToolsCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'info_tools.css'), 'utf8');
 const rerunHtml = fs.readFileSync(path.join(__dirname, '..', 'rerun_schedule.html'), 'utf8');
 const landingHtml = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
-const currentDzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
+// Detailed regression fixtures below target the season that introduced the
+// seven-grade data shape. Keep them pinned when the live season advances.
+const currentDzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season70.json'), 'utf8'));
 const dzoneData69 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season69.json'), 'utf8'));
 const dzoneData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season68.json'), 'utf8'));
-const dzoneMaps = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps.json'), 'utf8'));
+const dzoneMaps = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season70.json'), 'utf8'));
 const dzoneMaps69 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season69.json'), 'utf8'));
 const dzoneMaps68 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season68.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
