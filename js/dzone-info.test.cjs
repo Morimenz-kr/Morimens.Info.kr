@@ -26,6 +26,68 @@ const dzoneMaps69 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data'
 const dzoneMaps68 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_maps_season68.json'), 'utf8'));
 const characterEffects = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 
+test('반복 패턴은 정확히 같은 최소 주기만 표시하고 원본을 보존한다', () => {
+    const context=vm.createContext({});
+    vm.runInContext(source.slice(source.indexOf('    function shortestRepeatingSequence('),source.indexOf('    function renderSequence(')),context);
+    const cycle=[1,2,1,3,4], original=[...cycle,...cycle,...cycle];
+    assert.equal(JSON.stringify(context.shortestRepeatingSequence(original)),JSON.stringify(cycle));
+    assert.equal(original.length,15);
+    assert.equal(JSON.stringify(context.shortestRepeatingSequence([1,2,1,3])),JSON.stringify([1,2,1,3]));
+    assert.equal(JSON.stringify(context.shortestRepeatingSequence([1,2,1])),JSON.stringify([1,2,1]));
+});
+
+test('최초 행동에서 이어지는 완전한 반복 구간만 분리하고 원본 턴 순서는 보존한다', () => {
+    const context = vm.createContext({});
+    vm.runInContext(source.slice(source.indexOf('    function shortestRepeatingSequence('), source.indexOf('    function renderSequence(')), context);
+    const split = (opening, loop) => Array.from(context.openingBeforeCycle({ skillIds: opening }, { skillIds: loop }).skillIds);
+    assert.deepEqual(split([9, 1, 2, 3], [1, 2, 3]), [9]);
+    assert.deepEqual(split([9, 1, 2, 3, 1, 2, 3], [1, 2, 3, 1, 2, 3]), [9]);
+    assert.deepEqual(split([1, 2, 3], [1, 2, 3]), []);
+    assert.deepEqual(split([9, 1, 2], [1, 2, 3]), [9, 1, 2]);
+    assert.deepEqual(split([9, 2, 3, 1], [1, 2, 3]), [9, 2, 3, 1]);
+    const current = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_current.json'), 'utf8'));
+    for (const tid of [80576, 80577]) {
+        const monster = current.waves[0].monsters.find(item => item.tid === tid);
+        const opening = monster.patterns.find(item => item.id === 'opening');
+        const cycle = monster.patterns.find(item => item.id === 'cycle-1');
+        const before = JSON.stringify(monster.patterns);
+        assert.deepEqual(Array.from(context.openingBeforeCycle(opening, cycle).skillIds), [opening.skillIds[0]]);
+        assert.equal(JSON.stringify(monster.patterns), before);
+    }
+});
+
+test('모든 보관 시즌과 소환 몬스터의 표시 구간을 줄여도 실제 행동 순서는 유지된다', () => {
+    const context = vm.createContext({});
+    vm.runInContext(source.slice(source.indexOf('    function shortestRepeatingSequence('), source.indexOf('    function renderSequence(')), context);
+    const directory = path.join(__dirname, '..', 'data');
+    for (const file of fs.readdirSync(directory).filter(name => /^dzone_(current|season\d+)\.json$/.test(name))) {
+        function visit(value) {
+            if (!value || typeof value !== 'object') return;
+            if (Array.isArray(value.patterns)) {
+                const opening = value.patterns.find(p => p.id === 'opening');
+                const cycle = value.patterns.find(p => p.id === 'cycle-1');
+                for (const pattern of value.patterns.filter(p => p.id.startsWith('cycle-'))) {
+                    const unit = pattern.repeatSkillIds || context.shortestRepeatingSequence(pattern.skillIds);
+                    assert.ok(unit.length > 0);
+                    assert.equal(pattern.skillIds.length % unit.length, 0);
+                    pattern.skillIds.forEach((id, index) => assert.equal(id, unit[index % unit.length]));
+                }
+                if (opening && cycle?.skillIds.length) {
+                    const display = context.openingBeforeCycle(opening, cycle);
+                    const unit = cycle.repeatSkillIds || context.shortestRepeatingSequence(cycle.skillIds);
+                    for (let index = 0; index < opening.skillIds.length + cycle.skillIds.length * 10 + 100; index++) {
+                        const original = index < opening.skillIds.length ? opening.skillIds[index] : cycle.skillIds[(index - opening.skillIds.length) % cycle.skillIds.length];
+                        const shown = index < display.skillIds.length ? display.skillIds[index] : unit[(index - display.skillIds.length) % unit.length];
+                        assert.equal(shown, original, `${file}, ${value.tid}, ${index + 1}턴`);
+                    }
+                }
+            }
+            for (const [key, child] of Object.entries(value)) if (key !== 'patterns') visit(child);
+        }
+        visit(JSON.parse(fs.readFileSync(path.join(directory, file), 'utf8')));
+    }
+});
+
 test('제4금지구역 보스는 실제 전투 미니 초상화를 사용한다', () => {
     const portrait = fs.readFileSync(path.join(__dirname, '..', 'images', 'dzone', 'monster', 'Portrait_Minihead_EnemyAwaker_B11_AF.webp'));
     const checksum = crypto.createHash('sha256').update(portrait).digest('hex');
@@ -1014,7 +1076,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'conditional-20261007-v1\.3\.109-wave4-boss-portrait-20260929'/);
+    assert.match(html, /CONFIG\.VERSION = 'opening-cycle-20261014-v4'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));

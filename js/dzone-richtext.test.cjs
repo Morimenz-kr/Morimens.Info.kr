@@ -2,6 +2,13 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { render } = require('./dzone-richtext.js');
 const key = 'kw_0123456789abcdef';
+
+test('native presentation-only keywords retain their color and icon without an invented tooltip', () => {
+    const html=render(`<game-text:<${key}:소모>>`,{[key]:{presentationOnly:true,color:'#c48662',icon:'images/keyword-icons/inline/battle_card_buff_016.png'}});
+    assert.match(html,/style="color:#c48662"/);
+    assert.match(html,/battle_card_buff_016/);
+    assert.doesNotMatch(html,/tooltip-trigger|tabindex/);
+});
 test('only explicit state references get tooltips, ordinary 보유/소모 stay plain', () => {
     const output = render(`<game-text:방어막 보유 시 HP를 소모하고 <${key}:서리 방패>를 획득합니다.>`, { [key]: { name: '서리 방패' } });
     assert.equal((output.match(/tooltip-trigger/g) || []).length, 1);

@@ -311,6 +311,20 @@
     transform: translateY(0.075em);
 }
 
+.game-keyword.keyword-iconized {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2em;
+    vertical-align: baseline;
+}
+
+.game-keyword .keyword-icon {
+    width: 1em;
+    height: 1em;
+    object-fit: contain;
+    transform: translateY(0.075em);
+}
+
 .character-effect-tooltip-box {
     position: fixed;
     z-index: 10010;

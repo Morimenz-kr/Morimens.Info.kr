@@ -513,6 +513,7 @@
             const tooltip = tooltipDictionary[trigger.dataset.keyword];
             if (!tooltip) return;
 
+            const rect = trigger.getBoundingClientRect();
             tooltipPinned = pinned;
             tooltipBox.replaceChildren();
             const description = typeof tooltip === 'object' ? tooltip.description : tooltip;
@@ -552,7 +553,9 @@
                 if (body) {
                     const bodyElement = document.createElement('p');
                     bodyElement.className = 'character-effect-tooltip-body';
-                    bodyElement.textContent = body;
+                    if (tooltip.richDescription && window.DzoneRichText) {
+                        bodyElement.innerHTML = window.DzoneRichText.render(tooltip.richDescription, tooltipDictionary);
+                    } else bodyElement.textContent = body;
                     tooltipBox.appendChild(bodyElement);
                 }
             } else if (hasListItems) {
@@ -591,7 +594,6 @@
             }
             tooltipBox.classList.add('visible');
 
-            const rect = trigger.getBoundingClientRect();
             const margin = 10;
             const gap = 7;
             const belowSpace = window.innerHeight - rect.bottom - gap - margin;
@@ -671,6 +673,15 @@
         });
         tooltipBox.addEventListener('click', event => {
             event.stopPropagation();
+            const trigger = event.target.closest('.tooltip-trigger');
+            if (trigger) showTooltip(trigger, true);
+        });
+        tooltipBox.addEventListener('keydown', event => {
+            const trigger = event.target.closest('.tooltip-trigger');
+            if (trigger && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                showTooltip(trigger, true);
+            }
         });
         tooltipBox.addEventListener('mouseleave', () => hideTooltip());
         container.addEventListener('scroll', () => hideTooltip(true), { capture: true, passive: true });

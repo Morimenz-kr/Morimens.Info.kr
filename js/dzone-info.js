@@ -451,8 +451,31 @@
         return `${description.slice(0, clauseStart)}의도가 ${description.slice(markerIndex)}`;
     }
 
+    function shortestRepeatingSequence(skillIds) {
+        for (let length = 1; length <= skillIds.length / 2; length++) {
+            if (skillIds.length % length === 0 && skillIds.every((id, index) => id === skillIds[index % length])) {
+                return skillIds.slice(0, length);
+            }
+        }
+        return skillIds;
+    }
+
+    // Move only complete, aligned copies of the following cycle out of the
+    // opening display. Keep source patterns intact for turn-based conditions.
+    function openingBeforeCycle(opening, cycle) {
+        if (!opening || !cycle?.skillIds?.length) return opening;
+        const loop = cycle.repeatSkillIds || shortestRepeatingSequence(cycle.skillIds);
+        if (!loop.length) return opening;
+        let end = opening.skillIds.length;
+        while (end >= loop.length && loop.every((id, index) => opening.skillIds[end - loop.length + index] === id)) {
+            end -= loop.length;
+        }
+        return { ...opening, skillIds: opening.skillIds.slice(0, end) };
+    }
+
     function renderSequence(monster, stats, pattern, repeats = false, { loopLabel = '이후 1번부터 반복', stepLabels = [] } = {}) {
-        const sequence = pattern.skillIds.map((skillId, index) => {
+        const displayedSkills = repeats && !stepLabels.length ? (pattern.repeatSkillIds || shortestRepeatingSequence(pattern.skillIds)) : pattern.skillIds;
+        const sequence = displayedSkills.map((skillId, index) => {
             const skill = skillById(monster, skillId);
             const resolved = stats.resolvedSkills?.[String(skillId)];
             const stepLabel = stepLabels[index] || String(index + 1);
@@ -572,26 +595,34 @@
         if (!opening && !firstCycle) return '';
         const override = deterministicOverride(monster);
 
+        if (opening?.terminalSkillId) {
+            const end = opening.skillIds.indexOf(opening.terminalSkillId);
+            return `<section class="combat-flow" aria-label="행동 진행 순서">${renderFlowPhase(monster, stats, {
+                title: '진화 전 행동 순서', pattern: { ...opening, skillIds: opening.skillIds.slice(0, end + 1) }
+            })}</section>`;
+        }
+
         if (override && !secondCycle) {
             return `<section class="combat-flow" aria-label="행동 진행 순서">${renderFinalTurnOrder(monster, stats, opening, firstCycle, override)}${renderFoldedReplacements(monster, stats)}</section>`;
         }
 
         const phases = [];
-        if (sameSequence(opening, firstCycle) || (!opening && firstCycle)) {
+        const displayedOpening = openingBeforeCycle(opening, firstCycle);
+        if (sameSequence(opening, firstCycle) || (!displayedOpening?.skillIds.length && firstCycle)) {
             phases.push(renderFlowPhase(monster, stats, {
                 title: secondCycle ? '1페이즈' : '행동 순서',
                 pattern: firstCycle || opening,
                 repeats: true
             }));
         } else {
-            if (opening) phases.push(renderFlowPhase(monster, stats, {
+            if (displayedOpening?.skillIds.length) phases.push(renderFlowPhase(monster, stats, {
                 title: '전투 시작',
-                pattern: opening
+                pattern: displayedOpening
             }));
             if (firstCycle) {
                 phases.push('<div class="flow-connector"><span>이후</span></div>');
                 phases.push(renderFlowPhase(monster, stats, {
-                    title: secondCycle ? '1페이즈' : '이후 반복 행동',
+                    title: secondCycle ? '1페이즈' : '반복 행동',
                     pattern: firstCycle,
                     repeats: true
                 }));
@@ -736,7 +767,9 @@
         }).join('')}</section>`;
     }
 
-    function renderSummons(wave, tid) {
+    function renderSummons(wave, tid, ancestors = new Set()) {
+        if (ancestors.has(tid)) return '';
+        const visited = new Set([...ancestors, tid]);
         const alert = wave.alerts.find(item => item.alert === selectedAlert);
         const summons = (alert?.summonedMonsters || []).filter(monster => monster.parentTid === tid);
         if (!summons.length) return '';
@@ -762,14 +795,15 @@
             const monster = summonDefinition(wave, stats.tid);
             if (!monster) return '';
             return renderMonsterCard(monster, stats, {
-                badgeLabel: stats.count > 1 ? `소환 개체 ${stats.conditionalCount ? '· 최대 ' : ''}×${stats.count}` : '소환 개체',
+                badgeLabel: stats.rule?.kind === 'evolution' ? '진화 후' : stats.count > 1 ? `소환 개체 ${stats.conditionalCount ? '· 최대 ' : ''}×${stats.count}` : '소환 개체',
                 badgeType: 'Summon',
-                extraClass: 'monster-card--summon'
+                extraClass: 'monster-card--summon',
+                after: renderSummons(wave, stats.tid, visited)
             });
             }).join('');
         };
         return [...groups].map(([skillId, items]) => {
-            const label = skillId ? `「${items[0].rule.sourceSkillName}」로 소환` : '소환 개체';
+            const label = items[0].rule?.kind === 'evolution' ? `「${items[0].rule.sourceSkillName}」 이후` : skillId ? `「${items[0].rule.sourceSkillName}」로 소환` : '소환 개체';
             return `<section class="summon-section" aria-label="${escapeHtml(label)}"><h5 class="section-label">${escapeHtml(label)}</h5><div class="summon-list">${renderCards(items)}</div></section>`;
         }).join('');
     }
@@ -816,7 +850,7 @@
     function renderHp(stats, monster) {
         if (!stats.phases || stats.phases.length < 2) {
             const hp = stats.hpDisplay ? escapeHtml(stats.hpDisplay) : Number.isFinite(stats.hp) ? number.format(stats.hp) : '전투 중 결정';
-            return `<dl class="monster-stats"><div class="monster-stat monster-stat--hp"><dt>HP</dt><dd>${hp}</dd></div></dl>`;
+            return `<dl class="monster-stats"><div class="monster-stat monster-stat--hp"><dt>HP</dt><dd>${hp}</dd></div></dl>${stats.hpNote ? `<p class="summon-scaling-note">${escapeHtml(stats.hpNote)}</p>` : ''}`;
         }
         const phaseCount = stats.phases.length;
         const phaseMap = stats.phases.map((phase, index) => `<span class="hp-phase-segment" style="--hp-phase-size: ${phase.hp}" aria-hidden="true"><b>${index + 1}</b></span>`).join('');
@@ -1485,6 +1519,7 @@
             const cost = heading.match(/산출력\s+(\d+(?:·\d+)*)/)?.[1];
             tooltips[key] = {
                 ...entry,
+                icon: entry.tooltipIcon || entry.icon,
                 category,
                 ...(cost !== undefined ? { cost } : {}),
                 description
