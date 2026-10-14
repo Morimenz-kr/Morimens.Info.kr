@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-21",
+  "updated_at": "2026-10-14",
   "source": "https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488",
   "verified_periods": {
     "ryker": {
@@ -845,6 +845,19 @@
     }
   ],
   "next_pickups": [
+    {
+      "id": "vivian",
+      "name": "비비안",
+      "image_thumb": "images/vivian-thumb.webp",
+      "start_date": "2026-10-19",
+      "start_time": "10:00",
+      "end_date": "2026-11-16",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "release",
+      "source_note": "클라이언트 Config.Summon 151579 예약 일정",
+      "client_summon_id": 151579
+    },
     {
       "id": "kathigu-ra",
       "name": "카티구라",

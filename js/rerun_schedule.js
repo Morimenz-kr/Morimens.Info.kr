@@ -135,7 +135,7 @@
         return characterMap.get(id) || {
             id,
             name: String(entry?.name || '이름 미상'),
-            image_thumb: FALLBACK_IMAGE
+            image_thumb: entry?.image_thumb || FALLBACK_IMAGE
         };
     }
 
