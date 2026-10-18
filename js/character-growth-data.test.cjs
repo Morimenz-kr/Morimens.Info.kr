@@ -9,8 +9,15 @@ test('재료 계열은 유지하면서 같은 계열 안에서는 상위부터 �
     assert.deepEqual(api.sortResources(resources,[9769,9825,9621].map(itemId=>({itemId,quantity:1}))).map(row=>row.itemId),[9769,9621,9825]);
 });
 
-test('등록 캐릭터 전원의 모든 레벨과 재화 참조가 완전하다', () => {
-    assert.deepEqual(Object.keys(growth.characters).sort(), manifest.map(row => row.id).sort());
+test('육성 준비 중으로 명시한 캐릭터 외에는 모든 레벨과 재화 참조가 완전하다', () => {
+    const available = manifest.filter(row => !row.pending_data?.includes('growth'));
+    const pending = manifest.filter(row => row.pending_data?.includes('growth'));
+    assert.deepEqual(Object.keys(growth.characters).sort(), available.map(row => row.id).sort());
+    const effects = require('../data/character_effects.json');
+    for (const row of pending) {
+        assert.ok(!growth.characters[row.id], '검증된 육성 데이터가 있으면 pending 표시를 제거한다');
+        assert.ok(effects[row.id]?.baseStats?.length, '육성 대기 중에도 공개 스탯은 제공한다');
+    }
     for (const entry of Object.values(growth.characters)) {
         assert.equal(entry.levels.length, entry.maxLevel);
         entry.levels.forEach((row, i) => {

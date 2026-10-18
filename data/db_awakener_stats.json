@@ -87,5 +87,48 @@
     "breakthroughs": [],
     "awakening_path": [],
     "talents": []
+  },
+  "vivian": {
+    "base_stats": [
+      {
+        "stat": "체력",
+        "value": 149
+      },
+      {
+        "stat": "공격",
+        "value": 95
+      },
+      {
+        "stat": "방어",
+        "value": 104
+      },
+      {
+        "stat": "기초 광기",
+        "value": 150
+      },
+      {
+        "stat": "크리티컬률",
+        "value": "14.6% → 33.8%"
+      },
+      {
+        "stat": "검은 인장 드롭",
+        "value": "3.6% → 10.8%"
+      }
+    ],
+    "level_growth": [],
+    "breakthroughs": [],
+    "awakening_path": [],
+    "talents": [
+      {
+        "name": "원초의 숨결",
+        "level_range": "고유",
+        "description": "비비안이 파티에 편성 시 「혼돈」 영역이 「원초·혼돈」 영역으로 대체된다."
+      },
+      {
+        "name": "영혼 적성",
+        "level_range": "고유",
+        "description": "「황무지에 잠든 자」는 영구 힘의 15%에 해당하는 임시 힘을 추가로 획득한다. 「불타는 분노」는 이번 발동으로 인한 힘, 침식, 광기를 50% 증가시킨다."
+      }
+    ]
   }
 }

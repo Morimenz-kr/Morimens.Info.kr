@@ -1340,5 +1340,21 @@
     "image_path": "images/key_GOgier.png",
     "tags": ["서약·오지에", "방어막 획득", "힘 획득", "광기 획득", "암류"],
     "owner_character_ids": ["GOgier"]
+  },
+  {
+    "korean_name": "밤에서 태어난 알",
+    "english_name": "key_vivian",
+    "description": "HP를 47pt 회복하고, 각성체 1명을 선택하여 광기를 20pt 획득시킨다. 비비안: 「가마술」의 카운트다운이 1 감소한다.",
+    "image_path": "images/key_vivian.png",
+    "tags": [
+      "비비안",
+      "체력 회복",
+      "광기 부여",
+      "카운트다운 감소"
+    ],
+    "owner_character_ids": [
+      "vivian"
+    ],
+    "source": "의식 잠수 「공주의 일기」"
   }
 ]

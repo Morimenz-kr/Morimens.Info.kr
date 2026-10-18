@@ -1,0 +1,32 @@
+{
+  "id": "vivian",
+  "name": "비비안",
+  "info": {
+    "relems": "chaos",
+    "rarity": "ssr",
+    "class": "chorus"
+  },
+  "images": {
+    "thumb": "images/vivian-thumb.png",
+    "full": "images/vivian_tide.webp",
+    "card_art": "images/vivian_tide.webp"
+  },
+  "skill_kit_ids": {
+    "command_cards": [
+      "vivian_strike",
+      "vivian_defense",
+      "vivian_soup",
+      "vivian_whatever"
+    ],
+    "rouse_skill": "vivian_scroll",
+    "exalt": "vivian_wasteland",
+    "overexalt": "vivian_transcend"
+  },
+  "stats_id": "vivian",
+  "guide": {
+    "strategy": "",
+    "recommended_wheel_id": "wheel_vivian_ssr",
+    "recommended_covenants": [],
+    "recommended_team_ids": []
+  }
+}

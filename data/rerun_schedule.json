@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-14",
+  "updated_at": "2026-10-18",
   "source": "https://docs.google.com/spreadsheets/d/1gRDzdVHGfCC4qjt5aZYKuU9FWEfWdqREztNGeiczmRk/edit?gid=653016488#gid=653016488",
   "verified_periods": {
     "ryker": {
@@ -920,6 +920,39 @@
       "timezone": "Asia/Seoul",
       "kind": "rerun",
       "source_note": "2026-09-21 2.6.1 업데이트 미리보기 이미지"
+    },
+    {
+      "id": "pickman",
+      "name": "픽맨",
+      "start_date": "2026-11-02",
+      "start_time": "10:00",
+      "end_date": "2026-11-30",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "rerun",
+      "source_note": "사용자 제공 한국어 공식 공지 이미지 (2026-10-18 확인)"
+    },
+    {
+      "id": "tulu",
+      "name": "툴루",
+      "start_date": "2026-11-02",
+      "start_time": "10:00",
+      "end_date": "2026-11-30",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "rerun",
+      "source_note": "사용자 제공 한국어 공식 공지 이미지 (2026-10-18 확인)"
+    },
+    {
+      "id": "lily",
+      "name": "릴리",
+      "start_date": "2026-11-02",
+      "start_time": "10:00",
+      "end_date": "2026-11-30",
+      "end_time": "10:00",
+      "timezone": "Asia/Seoul",
+      "kind": "rerun",
+      "source_note": "사용자 제공 한국어 공식 공지 이미지 (2026-10-18 확인)"
     }
   ]
 }

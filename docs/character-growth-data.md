@@ -1,6 +1,8 @@
 # 캐릭터 성장 데이터
 
-사이트에 등록된 각성체 61명의 기본 성장 스탯과 레벨업·승급·레벨 상한 확장 재화다. 기준은 클라이언트 리소스 154 / 빌드 51이다. 캐릭터 목록에서 진입하는 `links.html?category=character&id=…`의 캐릭터 정보 → **능력치/육성** 탭에 연결되어 있다.
+각성체 61명의 검증된 기본 성장 스탯과 레벨업·승급·레벨 상한 확장 재화다. 기준은 클라이언트 리소스 154 / 빌드 51이다. 캐릭터 목록에서 진입하는 `links.html?category=character&id=…`의 캐릭터 정보 → **능력치/육성** 탭에 연결되어 있다. 비비안은 공식 소개에 공개된 능력치만 제공하며 상세 육성 데이터는 준비 중이다.
+
+상세 육성 데이터가 없는 신규 각성체는 `character_manifest.json`의 `pending_data`에 `growth`를 명시하고, `character_effects.json`의 `baseStats`에 공개된 `{ stat, value }` 목록을 제공한다. `CharacterGrowthUI.mount(root, id, { pending, baseStats })`는 이 경우 공개 능력치만 표시하며 레벨별 계산을 제공하지 않는다. 기존 호출은 세 번째 인자 없이 유지할 수 있다. 검증된 육성 데이터가 확보되면 `growth` 표시를 제거한다.
 
 ## 파일
 

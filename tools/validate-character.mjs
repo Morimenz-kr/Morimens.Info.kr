@@ -7,7 +7,8 @@ const PENDING_CHARACTER_DATA = new Set([
   'tide_image',
   'settings',
   'dimensional_image',
-  'gachatype'
+  'gachatype',
+  'growth'
 ]);
 
 const paths = {
@@ -19,7 +20,8 @@ const paths = {
   wheels: path.join(ROOT, 'data', 'wheel_list.json'),
   silverkeys: path.join(ROOT, 'data', 'silverkey_list.json'),
   covenants: path.join(ROOT, 'data', 'covenant_list.json'),
-  partyBuilderRules: path.join(ROOT, 'data', 'party_builder_rules.json')
+  partyBuilderRules: path.join(ROOT, 'data', 'party_builder_rules.json'),
+  growth: path.join(ROOT, 'data', 'character_growth.json')
 };
 
 function readJson(filePath) {
@@ -99,6 +101,13 @@ function validateCharacter(character, db) {
   const errors = [];
   const warnings = [];
   const details = [];
+
+  if (!db.growth.characters?.[character.id]) {
+    addMissingDataIssue(character, errors, warnings, 'growth', 'growth.missing', `${character.id} has no verified growth data.`);
+    if (!db.effects[character.id]?.baseStats?.length) {
+      addIssue(errors, 'growth.public_stats.missing', `${character.id} has no published stats for the pending growth panel.`);
+    }
+  }
 
   for (const pendingKey of asArray(character.pending_data)) {
     if (!PENDING_CHARACTER_DATA.has(pendingKey)) {
@@ -356,7 +365,8 @@ function main() {
     wheels: readJson(paths.wheels),
     silverkeys: readJson(paths.silverkeys),
     covenants: readJson(paths.covenants),
-    partyBuilderRules: readJson(paths.partyBuilderRules)
+    partyBuilderRules: readJson(paths.partyBuilderRules),
+    growth: readJson(paths.growth)
   };
   db.wheelIds = buildIdSet(db.wheels);
   db.covenantIds = buildIdSet(db.covenants);

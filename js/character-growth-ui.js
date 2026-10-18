@@ -1,4 +1,4 @@
-window.CharacterGrowthUI = { mount(root, id) {
+window.CharacterGrowthUI = { mount(root, id, options = {}) {
     const switcher = root.querySelector('.character-effects-switch');
     if (!switcher || !id) return;
     const tab = document.createElement('button');
@@ -9,6 +9,27 @@ window.CharacterGrowthUI = { mount(root, id) {
     async function load() {
         if (started) return;
         started = true;
+        if (options.pending) {
+            const section = document.createElement('section');
+            section.className = 'growth-section';
+            const stats = document.createElement('table');
+            stats.className = 'growth-table';
+            const body = document.createElement('tbody');
+            for (const row of options.baseStats || []) {
+                const item = document.createElement('tr');
+                const label = document.createElement('th');
+                label.scope = 'row';
+                label.textContent = row.stat;
+                const value = document.createElement('td');
+                value.textContent = row.value;
+                item.append(label, value);
+                body.append(item);
+            }
+            stats.append(body);
+            section.append(stats);
+            panel.replaceChildren(section);
+            return;
+        }
         try {
             const [growth, resources] = await Promise.all(['character_growth','growth_resources'].map(async name => {
                 const response = await fetch(`data/${name}.json?v=growth-20261007-14`);

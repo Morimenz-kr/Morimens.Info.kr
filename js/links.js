@@ -978,7 +978,10 @@ const initializeLinksPage = async () => {
                     charData.name,
                     tooltipDB
                 );
-                window.CharacterGrowthUI?.mount(document.getElementById('character-effects-root'), charId);
+                window.CharacterGrowthUI?.mount(document.getElementById('character-effects-root'), charId, {
+                    pending: charData.pending_data?.includes('growth'),
+                    baseStats: characterEffectsDB[charId]?.baseStats
+                });
             }
             // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
             const gridContainer = document.getElementById('dictionary-grid');
