@@ -1051,8 +1051,8 @@ const initializeLinksPage = async () => {
                             <div class="recommend-box">
                                 <div class="recommend-left">
                                     <img src="${charData.image_thumb}" class="recommend-thumb" onerror="this.src='images/smile_Ramona.webp';">
-                                    <div class="recommend-role">${setInfo.settingName} 세팅</div>
-                                    <div class="recommend-step">${setInfo.recommendStep} 추천</div>
+                                    <div class="recommend-role">${setInfo.settings_source === 'classroom' ? setInfo.settingName : `${setInfo.settingName} 세팅`}</div>
+                                    ${setInfo.settings_source === 'classroom' ? `<div class="recommend-step">추천 능력치: ${setInfo.recommended_attribute}</div>` : `<div class="recommend-step">${setInfo.recommendStep} 추천</div>`}
                                 </div>
                                 <div class="recommend-right">
                                     <div class="${wheelPairClass}">
@@ -1086,7 +1086,7 @@ const initializeLinksPage = async () => {
                                                 <img src="${mainCov.image_path}" class="equip-img-covenant" alt="" onerror="this.src='images/placeholder.png';">
                                                 <span class="equip-name-label">${mainCov.korean_name}</span>
                                             </button>
-                                            ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
+                                            ${setInfo.settings_source === 'classroom' ? `<button type="button" class="sub-link" data-sub-modal-type="covenant" data-character-id="${charId}" data-setting-index="${idx}">추천 비밀계약 모두 보기</button>` : renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
                                         ` : `
                                             <div class="equip-recommendation-static">
                                                 <div class="equip-covenant-free">자유</div>
@@ -1251,6 +1251,18 @@ function findWheelRecommendation(charId, setInfo) {
 }
 
 function buildWheelDisplayItems(record) {
+    if (record.source === 'classroom') {
+        const ids = record.recommended_ids || [];
+        const first = ids.find(id => window.wheelMap[id]?.grade === 'SSR');
+        const remaining = ids.filter(id => id !== first);
+        let owned = [];
+        try {
+            const inventory = JSON.parse(localStorage.getItem('morimens_inventory_checker_v2'));
+            if (Array.isArray(inventory?.wheels)) owned = inventory.wheels;
+        } catch { /* 보유 현황이 없으면 기본 순서를 사용한다. */ }
+        const second = remaining.find(id => owned.includes(id)) || remaining[0];
+        return [first, second].filter(Boolean).map(value => ({ kind: 'wheel', tier: 'recommended', value }));
+    }
     if (record.display_values?.length > 0) {
         return record.display_values
             .slice(0, record.selection_count || 2)
@@ -1332,8 +1344,8 @@ function openDynamicSubModal(type, charId, idx = 0) {
         title.textContent = '대체할 SR 명륜';
         ids = setInfo.myeongryun_sr.substitutes || [];
     } else {
-        title.textContent = '대체할 비밀계약';
-        ids = setInfo.covenant.substitutes || [];
+        title.textContent = setInfo.settings_source === 'classroom' ? '비경교실 추천 비밀계약' : '대체할 비밀계약';
+        ids = setInfo.settings_source === 'classroom' ? [setInfo.covenant.main_id, ...(setInfo.covenant.substitutes || [])] : setInfo.covenant.substitutes || [];
         isWheel = false;
     }
 
