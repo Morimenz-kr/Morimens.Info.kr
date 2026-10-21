@@ -539,6 +539,12 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
 
 
     /* 5. 비밀계약 전체 너비 및 강조 */
+    .recommend-right > .equip-slot > .equip-label,
+    .recommend-right > .equip-slot > .equip-recommendation-trigger,
+    .recommend-right > .equip-slot > .equip-recommendation-static {
+        align-self: center;
+    }
+
     .recommend-right > div:last-child {
         grid-column: 1 / -1 !important;
         border-top: 1px dashed #444 !important;

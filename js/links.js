@@ -1052,7 +1052,7 @@ const initializeLinksPage = async () => {
                                 <div class="recommend-left">
                                     <img src="${charData.image_thumb}" class="recommend-thumb" onerror="this.src='images/smile_Ramona.webp';">
                                     <div class="recommend-role">${setInfo.settings_source === 'classroom' ? setInfo.settingName : `${setInfo.settingName} 세팅`}</div>
-                                    ${setInfo.settings_source === 'classroom' ? `<div class="recommend-step">추천 능력치: ${setInfo.recommended_attribute}</div>` : `<div class="recommend-step">${setInfo.recommendStep} 추천</div>`}
+                                    ${setInfo.settings_source === 'classroom' ? '' : `<div class="recommend-step">${setInfo.recommendStep} 추천</div>`}
                                 </div>
                                 <div class="recommend-right">
                                     <div class="${wheelPairClass}">
@@ -1360,8 +1360,8 @@ function openDynamicSubModal(type, charId, idx = 0) {
         ids.forEach(id => {
             const data = isWheel ? window.wheelMap[id] : window.covMap[id];
             if (data) {
-                const mainStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_main_stats?.[id]) : '';
-                const subStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_sub_stats?.[id]) : '';
+                const mainStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_main_stats?.[id] || (setInfo.settings_source === 'classroom' ? setInfo.covenant.main_stats : undefined)) : '';
+                const subStats = !isWheel ? encodeTooltipMainStats(setInfo.covenant.substitute_sub_stats?.[id] || (setInfo.settings_source === 'classroom' ? setInfo.covenant.sub_stats : undefined)) : '';
                 html += `
                 <div class="sub-item-vertical">
                     <img src="${data.image_path || data.image_thumb || 'images/placeholder.png'}"

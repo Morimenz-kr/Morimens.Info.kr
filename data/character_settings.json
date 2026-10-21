@@ -504,6 +504,7 @@
       },
       "covenant": {
         "main_id": "covenant_twins_white",
+        "sub_stats": ["피해 증폭"],
         "substitutes": [
           "covenant_grave",
           "covenant_deus"
