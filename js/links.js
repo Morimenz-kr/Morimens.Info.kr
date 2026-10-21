@@ -917,7 +917,7 @@ const initializeLinksPage = async () => {
 
     try {
         const ts = new Date().getTime();
-        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB] = await Promise.all([
+        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB, officialRecommendationsDB] = await Promise.all([
             fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
             fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
             fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
@@ -926,7 +926,8 @@ const initializeLinksPage = async () => {
             fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => []),
             fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
             fetch(`data/db_tooltips.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
-            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] }))
+            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] })),
+            fetch(`data/official_character_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ recommendations: {} }))
         ]);
 
         if (isDictionaryPage) await window.ResearchDepth?.load();
@@ -945,7 +946,8 @@ const initializeLinksPage = async () => {
         if (window.CharacterEffects) {
             window.CharacterEffects.configureTooltips(tooltipDB);
         }
-        window.currentSettings = settingsDB;
+        const mergedSettingsDB = mergeOfficialCharacterRecommendations(settingsDB, officialRecommendationsDB.recommendations);
+        window.currentSettings = mergedSettingsDB;
         window.wheelRecommendationLookup = createWheelRecommendationLookup(wheelRecommendationsDB.records || []);
 
         const charData = manifest.find(c => c.id === charId);
@@ -986,7 +988,7 @@ const initializeLinksPage = async () => {
             // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
             const gridContainer = document.getElementById('dictionary-grid');
             const filterPanel = document.getElementById('dictionary-filter-panel');
-            const settings = settingsDB[charId] || settingsDB[charData.name];
+            const settings = mergedSettingsDB[charId] || mergedSettingsDB[charData.name];
             if (filterPanel) {
                 filterPanel.classList.remove('show');
                 filterPanel.innerHTML = '';
@@ -1051,7 +1053,7 @@ const initializeLinksPage = async () => {
                             <div class="recommend-box">
                                 <div class="recommend-left">
                                     <img src="${charData.image_thumb}" class="recommend-thumb" onerror="this.src='images/smile_Ramona.webp';">
-                                    <div class="recommend-role">${setInfo.settingName} 세팅</div>
+                                    <div class="recommend-role">${formatRecommendationSettingName(setInfo.settingName)}</div>
                                     <div class="recommend-step">${setInfo.recommendStep} 추천</div>
                                 </div>
                                 <div class="recommend-right">
@@ -1206,6 +1208,23 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeLinksPage, { once: true });
 } else {
     initializeLinksPage();
+}
+
+function mergeOfficialCharacterRecommendations(settingsDB = {}, officialRecommendations = {}) {
+    const merged = { ...settingsDB };
+    Object.entries(officialRecommendations || {}).forEach(([characterId, recommendation]) => {
+        if (!recommendation) return;
+        const current = merged[characterId];
+        const currentList = Array.isArray(current) ? current : current ? [current] : [];
+        merged[characterId] = [recommendation, ...currentList.filter(setting => setting?.settings_source !== 'official_client')];
+    });
+    return merged;
+}
+
+function formatRecommendationSettingName(settingName = '') {
+    const normalized = String(settingName).trim();
+    if (!normalized) return '추천 세팅';
+    return normalized.endsWith('세팅') ? normalized : `${normalized} 세팅`;
 }
 
 function createWheelRecommendationLookup(records) {

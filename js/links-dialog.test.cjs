@@ -11,6 +11,9 @@ const linksCss = fs.readFileSync(path.join(repositoryRoot, 'css', 'pages', 'link
 const characterEffectsSource = fs.readFileSync(path.join(repositoryRoot, 'js', 'character-effects.js'), 'utf8');
 const silverKeys = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'silverkey_list.json'), 'utf8'));
 const wheels = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'wheel_list.json'), 'utf8'));
+const covenants = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'covenant_list.json'), 'utf8'));
+const officialRecommendations = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'official_character_recommendations.json'), 'utf8'));
+const responsiveCss = fs.readFileSync(path.join(repositoryRoot, 'css', 'responsive.css'), 'utf8');
 
 test('#219 꺼지지 않는 태양은 산출력·피해 강효 필터에 모두 포함된다', () => {
     const context = vm.createContext({ window: { characterNameSet: new Set(['카티구라']) } });
@@ -63,6 +66,43 @@ test('#78 추천 장비는 공통 상세 dialog를 열고 주옵 추천은 일�
     assert.ok(matches.length > 0);
     assert.ok(matches.every(wheel => /검은 인장 드롭/.test(wheel.main_stat)));
     assert.equal(new Set(matches.map(wheel => wheel.english_name)).size, matches.length);
+});
+
+test('공식 추천 세팅을 모든 지원 각성체의 기존 세팅 앞에 한 번만 추가한다', () => {
+    const records = officialRecommendations.recommendations;
+    const wheelIds = new Set(wheels.map(item => item.english_name));
+    const covenantIds = new Set(covenants.map(item => item.english_name));
+    assert.equal(Object.keys(records).length, 61);
+
+    for (const [characterId, setting] of Object.entries(records)) {
+        assert.equal(setting.settingName, '공식 추천 세팅', characterId);
+        assert.equal(setting.settings_source, 'official_client', characterId);
+        assert.ok(setting.recommendStep, characterId);
+        assert.equal(setting.myeongryun.recommended_ids.length, 2, characterId);
+        assert.ok(setting.myeongryun.recommended_ids.every(id => wheelIds.has(id)), characterId);
+        assert.ok(covenantIds.has(setting.covenant.main_id), characterId);
+        assert.ok(setting.covenant.substitutes.every(id => covenantIds.has(id)), characterId);
+        if (setting.covenant.main_stats) assert.equal(setting.covenant.main_stats.length, 6, characterId);
+    }
+
+    const context = vm.createContext({});
+    vm.runInContext(linksSource.slice(
+        linksSource.indexOf('function mergeOfficialCharacterRecommendations('),
+        linksSource.indexOf('function createWheelRecommendationLookup(')
+    ), context);
+    const merged = context.mergeOfficialCharacterRecommendations(
+        { pandia: [{ settingName: '범용', settings_source: 'chaos' }] },
+        { pandia: records.pandia }
+    );
+    assert.equal(merged.pandia.length, 2);
+    assert.equal(merged.pandia[0].settingName, '공식 추천 세팅');
+    assert.equal(context.formatRecommendationSettingName('공식 추천 세팅'), '공식 추천 세팅');
+    assert.equal(context.formatRecommendationSettingName('범용'), '범용 세팅');
+});
+
+test('모바일 추천 카드에서 비밀계약 슬롯과 내부 요소를 가운데 정렬한다', () => {
+    assert.match(responsiveCss, /\.recommend-right > \.equip-slot > \.equip-recommendation-trigger[\s\S]*?align-self:\s*center\s*!important/);
+    assert.match(responsiveCss, /\.recommend-right > div:last-child\s*\{[^}]*grid-column:\s*1 \/ -1/s);
 });
 
 test('시스템용 열쇠 지령 효과는 획득형 은열쇠 도감에서 제외한다', () => {

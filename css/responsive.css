@@ -546,6 +546,14 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         margin-top: 0 !important;
     }
 
+    .recommend-right > .equip-slot > .equip-label,
+    .recommend-right > .equip-slot > .equip-recommendation-trigger,
+    .recommend-right > .equip-slot > .equip-recommendation-static,
+    .recommend-right > .equip-slot > .sub-link {
+        justify-self: center !important;
+        align-self: center !important;
+    }
+
     /* 6. 이미지 크기 보정 */
     .equip-img-myeongryun {
         width: 80px !important;

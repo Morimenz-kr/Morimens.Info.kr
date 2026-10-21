@@ -1,0 +1,1715 @@
+{
+  "schema_version": 1,
+  "description": "게임 클라이언트 AwakerConfig의 RecommendWeapon·RecommendTrinket를 사이트 추천 세팅으로 정규화한 데이터. 추천 주옵은 사이트에서 검증된 캐릭터별 Ⅰ~Ⅵ 값이 있을 때만 포함한다.",
+  "recommendations": {
+    "24": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_heteromorph_mark",
+          "wheel_star_beast"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_scarlet",
+        "substitutes": [
+          "covenant_April",
+          "covenant_wolf"
+        ],
+        "main_stats": [
+          "광기 회복",
+          "검은 인장 획득",
+          "피해 증폭",
+          "광기 회복",
+          "광기 회복",
+          "피해 증폭"
+        ],
+        "sub_stats": [
+          "광기 회복"
+        ]
+      },
+      "recommendStep": "2~3돌",
+      "settings_source": "official_client"
+    },
+    "pandia": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_wandering_desire",
+          "wheel_falling_sun"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_wolf"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "liz": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_turn_and_turn",
+          "wheel_falling_sun"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_wolf"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "tulu": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_hymn_of_godking",
+          "wheel_in_the_hard_rain"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_reEvolve",
+        "substitutes": [
+          "covenant_vampire",
+          "covenant_grave"
+        ],
+        "main_stats": [
+          "광기 회복",
+          "영역 숙련",
+          "피해 증폭",
+          "광기 회복",
+          "광기 회복",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "1돌",
+      "settings_source": "official_client"
+    },
+    "goliath": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_sword_of_giant",
+          "wheel_in_the_hard_rain"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_grave"
+        ],
+        "main_stats": [
+          "광기 회복",
+          "영역 숙련",
+          "피해 증폭",
+          "광기 회복",
+          "광기 회복",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "2돌",
+      "settings_source": "official_client"
+    },
+    "nautila": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_voltex_of_memory",
+          "wheel_birth_of_soul"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_party",
+          "covenant_twins_white"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "celeste": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_sail_that_guides",
+          "wheel_tale_of_gluttony"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_deus"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련",
+          "죽음 저항",
+          "영역 숙련",
+          "죽음 저항",
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "1돌",
+      "settings_source": "official_client"
+    },
+    "helot_catena": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_sink_to_crimson",
+          "wheel_the_day_threw_off_shackles"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_wolf"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭"
+        ],
+        "sub_stats": [
+          "크리티컬 피해",
+          "크리티컬 확률"
+        ]
+      },
+      "recommendStep": "명함 ~ 3돌",
+      "settings_source": "official_client"
+    },
+    "ramona_timeworn": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_backward_clock",
+          "wheel_hymn_of_godking"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_revelation",
+          "covenant_deus"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련 / 검은 인장 획득",
+          "피해 증폭",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭 / 영역 숙련"
+        ]
+      },
+      "recommendStep": "풀돌",
+      "settings_source": "official_client"
+    },
+    "lotan": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_star_beast",
+          "wheel_pathless_path"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_scarlet",
+        "substitutes": [
+          "covenant_April",
+          "covenant_twins_black"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련",
+          "죽음 저항",
+          "은열쇠 충전",
+          "죽음 저항",
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "풀돌",
+      "settings_source": "official_client"
+    },
+    "doll": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_over_the_death",
+          "wheel_hymn_of_godking"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_reEvolve",
+        "substitutes": [
+          "covenant_rabbit",
+          "covenant_butterfly"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련",
+          "피해 증폭",
+          "영역 숙련",
+          "은열쇠 충전",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "풀돌",
+      "settings_source": "official_client"
+    },
+    "karen": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_silent_party",
+          "wheel_tale_of_gluttony"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_reEvolve",
+        "substitutes": [
+          "covenant_rabbit",
+          "covenant_deus"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "casiah": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_magical_performance",
+          "wheel_hymn_of_godking"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_deus",
+        "substitutes": [
+          "covenant_blood",
+          "covenant_medicine"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "aurita": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_dream_of_ocean",
+          "wheel_name_of_a_rose"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_twins_black"
+        ],
+        "main_stats": [
+          "크리티컬 확률",
+          "크리티컬 확률",
+          "크리티컬 확률",
+          "광기 회복",
+          "광기 회복",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "명함, 3돌",
+      "settings_source": "official_client"
+    },
+    "tinct": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_bound_song",
+          "wheel_birth_of_soul"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_deus",
+        "substitutes": [
+          "covenant_twins_white",
+          "covenant_twins_black"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "faros": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_in_the_hard_rain",
+          "wheel_gift_of_corruption"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_twins_white",
+        "substitutes": [
+          "covenant_wolf",
+          "covenant_grave"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련",
+          "피해 증폭",
+          "영역 숙련",
+          "피해 증폭",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "murphy": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_secret_birth",
+          "wheel_backward_clock"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_medicine",
+          "covenant_revelation"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련",
+          "피해 증폭",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "1돌",
+      "settings_source": "official_client"
+    },
+    "faint": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_swallowed_lullaby",
+          "wheel_dusk_and_dawn"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_grave",
+        "substitutes": [
+          "covenant_rabbit",
+          "covenant_twins_black"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "검은 인장 획득",
+          "죽음 저항",
+          "은열쇠 충전",
+          "죽음 저항",
+          "죽음 저항"
+        ],
+        "sub_stats": [
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "명함 이상",
+      "settings_source": "official_client"
+    },
+    "winkle": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_never_ending_calculation",
+          "wheel_hymn_of_godking"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_reEvolve",
+        "substitutes": [
+          "covenant_vampire",
+          "covenant_butterfly"
+        ]
+      },
+      "recommendStep": "명함, 1돌",
+      "settings_source": "official_client"
+    },
+    "nymphaea": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_gift_of_corruption",
+          "wheel_falling_sun"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_wolf",
+        "substitutes": [
+          "covenant_April",
+          "covenant_scarlet"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "lily": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_over_the_pain",
+          "wheel_dusk_and_dawn"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_twins_black",
+          "covenant_grave"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련",
+          "죽음 저항",
+          "은열쇠 충전",
+          "죽음 저항",
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "miryam": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_power_of_faith",
+          "wheel_falling_sun"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_reEvolve",
+        "substitutes": [
+          "covenant_rabbit",
+          "covenant_butterfly"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련",
+          "피해 증폭",
+          "영역 숙련",
+          "피해 증폭",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "2돌",
+      "settings_source": "official_client"
+    },
+    "horla": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_last_poem",
+          "wheel_dusk_and_dawn"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_grave",
+        "substitutes": [
+          "covenant_twins_white",
+          "covenant_twins_black"
+        ]
+      },
+      "recommendStep": "명함 이상",
+      "settings_source": "official_client"
+    },
+    "sorel": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_name_of_a_rose",
+          "wheel_pathless_path"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_twins_black"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭"
+        ],
+        "sub_stats": [
+          "크리티컬 피해",
+          "크리티컬 확률"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "ogier": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_auth_of_knight",
+          "wheel_core_meltdown"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_deus"
+        ]
+      },
+      "recommendStep": "풀돌",
+      "settings_source": "official_client"
+    },
+    "wanda": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_queens_precepts",
+          "wheel_birth_of_soul"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_wolf",
+        "substitutes": [
+          "covenant_medicine",
+          "covenant_grave"
+        ]
+      },
+      "recommendStep": "명함, 3돌",
+      "settings_source": "official_client"
+    },
+    "helot": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_the_day_threw_off_shackles",
+          "wheel_star_beast"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_wolf"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "검은 인장 획득",
+          "죽음 저항",
+          "은열쇠 충전",
+          "죽음 저항",
+          "죽음 저항"
+        ],
+        "sub_stats": [
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "명함 이상",
+      "settings_source": "official_client"
+    },
+    "alva": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_solid_will",
+          "wheel_voltex_of_memory"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_April"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련",
+          "죽음 저항",
+          "은열쇠 충전",
+          "죽음 저항",
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "Murphy_Fauxborn": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_peace_sleep_in_dark",
+          "wheel_eternal_requiem"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_medicine",
+          "covenant_April"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "3돌 ~ 초한",
+      "settings_source": "official_client"
+    },
+    "dafoodil": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_favorite_collection",
+          "wheel_sword_of_giant"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_wolf"
+        ]
+      },
+      "recommendStep": "2돌 미만",
+      "settings_source": "official_client"
+    },
+    "aigis": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_memories_of_winter_night",
+          "wheel_backward_clock"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_twins_black",
+          "covenant_revelation"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "검은 인장 획득",
+          "피해 증폭",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭"
+        ],
+        "sub_stats": [
+          "은열쇠 충전"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "sanga": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_death_of_coral_woman",
+          "wheel_dusk_and_dawn"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_36rings"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "은열쇠 충전",
+          "죽음 저항",
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "초한",
+      "settings_source": "official_client"
+    },
+    "jenkin": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_pathless_path",
+          "wheel_sword_of_giant"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_wolf"
+        ]
+      },
+      "recommendStep": "명함, 1돌",
+      "settings_source": "official_client"
+    },
+    "caecus": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_fin_of_pain",
+          "wheel_silent_party"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_betray",
+        "substitutes": [
+          "covenant_rabbit",
+          "covenant_scarlet"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "검은 인장 획득",
+          "은열쇠 충전",
+          "검은 인장 획득"
+        ]
+      },
+      "recommendStep": "초한",
+      "settings_source": "official_client"
+    },
+    "ramona": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_backward_clock",
+          "wheel_hymn_of_godking"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_revelation",
+          "covenant_deus"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련 / 검은 인장 획득",
+          "피해 증폭",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "영역 숙련 / 피해 증폭"
+        ]
+      },
+      "recommendStep": "풀돌",
+      "settings_source": "official_client"
+    },
+    "thais": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_merciful_upbringing",
+          "wheel_backward_clock"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_revelation",
+          "covenant_grave"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "검은 인장 획득",
+          "피해 증폭",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭"
+        ],
+        "sub_stats": [
+          "은열쇠 충전"
+        ]
+      },
+      "recommendStep": "2돌 이상",
+      "settings_source": "official_client"
+    },
+    "leigh": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_tale_of_gluttony",
+          "wheel_sail_that_guides"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_deus"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "검은 인장 획득",
+          "죽음 저항",
+          "은열쇠 충전",
+          "죽음 저항",
+          "죽음 저항"
+        ],
+        "sub_stats": [
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "uvhash": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_caro_party",
+          "wheel_name_of_a_rose"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_36rings"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "salvador": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_stone_tablet_god_word",
+          "wheel_tale_of_gluttony"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_betray",
+        "substitutes": [
+          "covenant_rabbit",
+          "covenant_grave"
+        ]
+      },
+      "recommendStep": "2돌",
+      "settings_source": "official_client"
+    },
+    "agrippa": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_pale_descencdant",
+          "wheel_falling_sun"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_deus"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "검은 인장 획득",
+          "죽음 저항",
+          "은열쇠 충전",
+          "죽음 저항",
+          "죽음 저항"
+        ],
+        "sub_stats": [
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "명힘",
+      "settings_source": "official_client"
+    },
+    "doll_inferno": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_doll_falls_void",
+          "wheel_never_ending_calculation"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_medicine",
+        "substitutes": [
+          "covenant_reEvolve",
+          "covenant_butterfly"
+        ],
+        "main_stats": [
+          "광기 회복",
+          "영역 숙련",
+          "피해 증폭",
+          "광기 회복",
+          "광기 회복",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "3돌 ~ 초한",
+      "settings_source": "official_client"
+    },
+    "erica": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_core_meltdown",
+          "wheel_secret_birth"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_twins_white",
+          "covenant_blood"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "ryker": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_time_of_luck",
+          "wheel_bound_song"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_deus",
+        "substitutes": [
+          "covenant_twins_white",
+          "covenant_April"
+        ],
+        "main_stats": [
+          "크리티컬 확률",
+          "크리티컬 확률",
+          "크리티컬 확률",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "검은 인장 획득"
+        ]
+      },
+      "recommendStep": "명함 ~ 1돌",
+      "settings_source": "official_client"
+    },
+    "tawil": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_wheel_of_seclusion",
+          "wheel_merciful_upbringing"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_medicine",
+          "covenant_blood"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭 / 영역 숙련"
+        ]
+      },
+      "recommendStep": "3돌 ~ 초한",
+      "settings_source": "official_client"
+    },
+    "hameln": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_eternal_requiem",
+          "wheel_merciful_upbringing"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_blood",
+          "covenant_revelation"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련 / 검은 인장 획득",
+          "피해 증폭",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭 / 영역 숙련"
+        ]
+      },
+      "recommendStep": "2돌",
+      "settings_source": "official_client"
+    },
+    "kathigu-ra": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_amber_death",
+          "wheel_sword_of_giant"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_party"
+        ],
+        "main_stats": [
+          "크리티컬 확률",
+          "크리티컬 확률",
+          "크리티컬 확률",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭"
+        ]
+      },
+      "recommendStep": "3돌 ~ 초한",
+      "settings_source": "official_client"
+    },
+    "pollux": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_twisted_knight_poem",
+          "wheel_sword_of_giant"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_twins_black"
+        ]
+      },
+      "recommendStep": "3돌, 초한",
+      "settings_source": "official_client"
+    },
+    "arachne": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_web_of_ancient",
+          "wheel_birth_of_soul"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_medicine"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "coporsant": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_guide_in_the_torch",
+          "wheel_death_of_coral_woman"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_grave",
+        "substitutes": [
+          "covenant_rabbit",
+          "covenant_twins_black"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "영역 숙련",
+          "죽음 저항",
+          "영역 숙련",
+          "죽음 저항",
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "castor": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_intolerable_freedom",
+          "wheel_voltex_of_memory"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_twins_white",
+          "covenant_deus"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "clementine": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_hidden_pain",
+          "wheel_wheel_of_seclusion"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_vampire",
+        "substitutes": [
+          "covenant_twins_black",
+          "covenant_April"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "pickman": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_paradox_of_factualism",
+          "wheel_doll_falls_void"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_reEvolve",
+        "substitutes": [
+          "covenant_medicine",
+          "covenant_grave"
+        ],
+        "main_stats": [
+          "광기 회복",
+          "크리티컬 피해",
+          "피해 증폭",
+          "광기 회복",
+          "광기 회복",
+          "피해 증폭"
+        ],
+        "sub_stats": [
+          "광기 회복",
+          "크리티컬 피해",
+          "크리티컬 확률",
+          "피해 증폭",
+          "은열쇠 충전"
+        ]
+      },
+      "recommendStep": "2돌",
+      "settings_source": "official_client"
+    },
+    "mouchette": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_doomsday_rampage",
+          "wheel_over_the_pain"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_scarlet"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "은열쇠 충전",
+          "죽음 저항",
+          "죽음 저항"
+        ]
+      },
+      "recommendStep": "2돌, 3돌, 초한",
+      "settings_source": "official_client"
+    },
+    "doresain": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_kiss_of_rest",
+          "wheel_favorite_collection"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_scarlet",
+        "substitutes": [
+          "covenant_April",
+          "covenant_36rings"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "피해 증폭"
+        ],
+        "sub_stats": [
+          "크리티컬 피해",
+          "크리티컬 확률"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "xu": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_wasted_frown",
+          "wheel_gift_of_corruption"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_twins_white",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_deus"
+        ],
+        "main_stats": [
+          "광기 회복",
+          "크리티컬 피해",
+          "피해 증폭",
+          "광기 회복",
+          "광기 회복",
+          "피해 증폭"
+        ],
+        "sub_stats": [
+          "광기 회복",
+          "피해 증폭"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "saya": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_saya_ssr",
+          "wheel_auth_of_knight"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_medicine",
+        "substitutes": [
+          "covenant_rabbit",
+          "covenant_grave"
+        ],
+        "main_stats": [
+          "은열쇠 충전",
+          "검은 인장 획득",
+          "피해 증폭",
+          "검은 인장 획득",
+          "은열쇠 충전",
+          "검은 인장 획득"
+        ],
+        "sub_stats": [
+          "검은 인장 획득"
+        ]
+      },
+      "recommendStep": "명함, 3돌",
+      "settings_source": "official_client"
+    },
+    "vortice": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_eden",
+          "wheel_kiss_of_rest"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_scarlet",
+          "covenant_36rings"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "영역 숙련",
+          "크리티컬 피해",
+          "영역 숙련",
+          "은열쇠 충전",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "3돌",
+      "settings_source": "official_client"
+    },
+    "pontos": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_living_prison",
+          "wheel_power_of_faith"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_deus",
+        "substitutes": [
+          "covenant_grave",
+          "covenant_medicine"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "은열쇠 충전",
+          "은열쇠 충전",
+          "영역 숙련"
+        ]
+      },
+      "recommendStep": "정보글 기준",
+      "settings_source": "official_client"
+    },
+    "lotan_cetarchon": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_lotan_cetarchon_ssr",
+          "wheel_kiss_of_rest"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_April",
+        "substitutes": [
+          "covenant_twins_black",
+          "covenant_wolf"
+        ],
+        "main_stats": [
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "크리티컬 피해",
+          "자유",
+          "검은 인장 획득",
+          "검은 인장 획득"
+        ]
+      },
+      "recommendStep": "2돌~초한",
+      "settings_source": "official_client"
+    },
+    "caraboo": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_caraboo_ssr",
+          "wheel_voltex_of_memory"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_twins_white",
+          "covenant_grave"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    },
+    "GOgier": {
+      "settingName": "공식 추천 세팅",
+      "myeongryun": {
+        "selection_count": 2,
+        "recommended_ids": [
+          "wheel_GOgier_ssr",
+          "wheel_auth_of_knight"
+        ],
+        "substitute_ids": [],
+        "recommended_stats": [],
+        "substitute_stats": []
+      },
+      "covenant": {
+        "main_id": "covenant_rabbit",
+        "substitutes": [
+          "covenant_twins_white",
+          "covenant_grave"
+        ]
+      },
+      "recommendStep": "명함",
+      "settings_source": "official_client"
+    }
+  }
+}
