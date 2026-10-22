@@ -367,7 +367,7 @@
     ],
     "main_stat": "크리티컬률 14.4%",
     "description": "장착자가 발생시키는 고정 침식 효과가 30/40/50/60% 증가하고, 광기 폭발로 발생하는 고정 HP 회복이 15/20/25/30% 증가한다. 장착자가 광기 폭발을 사용한 후 현재 영구 힘의 13/17/21/25%에 해당하는 임시 힘을 획득한다. 재사용 대기 시간 3턴.",
-    "image_path": "images/wheel_vivian_ssr.png"
+    "image_path": "images/wheel_vivian_ssr_client.png"
   },
   {
     "grade": "SSR",
