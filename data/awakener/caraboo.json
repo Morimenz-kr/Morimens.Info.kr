@@ -8,9 +8,9 @@
     "class": "warden"
   },
   "images": {
-    "thumb": "images/caraboo-thumb.png",
-    "full": "images/character_caro.png",
-    "card_art": "images/character_caro.png"
+    "thumb": "images/client_art/thumb/caraboo-8fff569dd5.webp",
+    "full": "images/client_art/tide/caraboo-5d1aa441ea.webp",
+    "card_art": "images/client_art/tide/caraboo-5d1aa441ea.webp"
   },
   "skill_kit_ids": {
     "command_cards": ["caraboo_strike", "caraboo_defense", "caraboo_blessing", "caraboo_miracle_blessing", "caraboo_curse_of_wavering_eyes"],

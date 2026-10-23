@@ -1046,7 +1046,8 @@ test('몬스터 분류는 이름 옆에, 상성 각성체는 HP 아래 상세 �
     assert.match(source, /\$\{tag\.label\}에 추가 효과/);
     assert.match(source, /name: '파인트'/);
     assert.doesNotMatch(source, /name: '페인트'/);
-    assert.match(source, /images\/Lily-thumb\.png/);
+    const lily = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_manifest.json'), 'utf8')).find(character => character.id === 'lily');
+    assert.ok(source.includes(lily.image_thumb));
     assert.match(source, /links\.html\?category=character/);
     assert.match(css, /\.monster-overview\s*\{/);
     assert.match(css, /\.affinity-awakener\s*\{/);

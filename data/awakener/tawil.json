@@ -9,8 +9,8 @@
   },
   "images": {
     "thumb": "images/Tawil-thumb.webp",
-    "full": "images/Tawil-full.webp",
-    "card_art": "images/Tawil-full.webp"
+    "full": "images/client_art/tide/tawil-4d7bcd9256.webp",
+    "card_art": "images/client_art/tide/tawil-4d7bcd9256.webp"
   },
   "skill_kit_ids": {
     "command_cards": [
