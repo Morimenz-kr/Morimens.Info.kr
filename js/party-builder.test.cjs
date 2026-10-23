@@ -22,7 +22,7 @@ function keyContext(leaderId, keyList = keys) {
         saveAllData: silent => { assert.equal(silent, true); calls.saves++; },
         closeModal: id => calls.closed.push(id)
     });
-    vm.runInContext(source.slice(source.indexOf('function normalizeDedicatedTarget(')), context);
+    vm.runInContext(source.slice(source.indexOf('function equipDedicatedWheel(')), context);
     vm.runInContext(source.slice(source.indexOf('function equipDedicatedKey('), source.indexOf('function setupKeySearchEvents(')), context);
     return { context, team, calls };
 }
@@ -47,7 +47,7 @@ test('전용 은열쇠는 표시명·태그 순서보다 명시적 소유자 ID�
     assert.equal(team.key, 'stable-owner');
 });
 
-test('기존 태그 기반 전용 은열쇠 장착도 유지한다', () => {
+test('이관한 모든 소유자 ID로 전용 은열쇠를 장착한다', () => {
     for (const key of keys) {
         const owner = key.owner_character_ids?.[0];
         const character = owner ? chars.find(char => char.id === owner)
@@ -98,7 +98,7 @@ test('무셰트 전용 SSR·SR은 별칭 설정 없이도 각각 장착하고 �
         renderAll: () => { renders++; }, renderWheelModalUI: () => { renders++; },
         saveAllData: silent => { assert.equal(silent, true); saves++; }
     });
-    vm.runInContext(source.slice(source.indexOf('function normalizeDedicatedTarget(')), context);
+    vm.runInContext(source.slice(source.indexOf('function equipDedicatedWheel(')), context);
     context.equipDedicatedWheel('SSR');
     assert.equal(team.wheels[0][0], 'wheel_doomsday_rampage');
     assert.equal(context.selectedWheelSlotIdx, 0);

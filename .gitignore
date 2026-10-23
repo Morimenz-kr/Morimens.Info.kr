@@ -23,6 +23,8 @@ ui-debug.log
 !/tools/prepare-pages-artifact.mjs
 !/tools/prepare-pages-artifact.test.cjs
 !/tools/validate-character.mjs
+!/tools/migrate-character-identity.mjs
+!/tools/validate-character-identity.mjs
 !/tools/workflow-config.test.cjs
 !/tools/validate-dzone-content.mjs
 /js/dimension-descriptions.test.cjs

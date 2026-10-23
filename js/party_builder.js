@@ -9,8 +9,7 @@ const ROMAN_NUMS = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
 const DEFAULT_PARTY_BUILDER_RULES = {
     exclusive_groups: [["ramona", "ramona_timeworn"]],
     character_tags: {},
-    tag_aliases: {},
-    dedicated_wheel_aliases: {}
+    tag_aliases: {}
 };
 let draggedIdx = -1;
 let lastHoverIdx = -1;
@@ -255,7 +254,11 @@ async function loadExternalData() {
         DB.chars = await resChars.json();
         DB.wheels = await resWheels.json();
         DB.keys = await resKeys.json();
+        window.characterIdentity = window.CharacterIdentity.create(DB.chars);
+        window.characterIdentity.hydrate(DB.wheels);
+        window.characterIdentity.hydrate(DB.keys);
         TOOLTIP_DICTIONARY = resTooltips?.ok ? await resTooltips.json() : {};
+        window.characterIdentity.hydrate(TOOLTIP_DICTIONARY, true);
         window.CharacterEffects?.configureTooltips(TOOLTIP_DICTIONARY);
         PARTY_BUILDER_RULES = await loadPartyBuilderRules(resRules);
         DB.chars.forEach(c => c.id = String(c.id));
@@ -280,10 +283,7 @@ async function loadPartyBuilderRules(response) {
                 : DEFAULT_PARTY_BUILDER_RULES.character_tags,
             tag_aliases: rules.tag_aliases && typeof rules.tag_aliases === 'object'
                 ? rules.tag_aliases
-                : DEFAULT_PARTY_BUILDER_RULES.tag_aliases,
-            dedicated_wheel_aliases: rules.dedicated_wheel_aliases && typeof rules.dedicated_wheel_aliases === 'object'
-                ? rules.dedicated_wheel_aliases
-                : DEFAULT_PARTY_BUILDER_RULES.dedicated_wheel_aliases
+                : DEFAULT_PARTY_BUILDER_RULES.tag_aliases
         };
     } catch (error) {
         console.warn("Party builder rules load failed:", error);
@@ -302,7 +302,7 @@ function assignTagsToWheels() {
         });
     }
     DB.wheels.forEach(wheel => {
-        wheel.tags = [];
+        wheel.tags = (wheel.recommended_character_ids || []).map(id => window.characterIdentity.name(id));
         const text = (wheel.description + " " + wheel.main_stat).replace(/\s+/g, '');
         ALL_SEARCH_TAGS.forEach(keyword => {
             if (text.includes(_cleanSearchTags[keyword])) wheel.tags.push(keyword);
@@ -995,7 +995,7 @@ function renderCharGrid() {
         const dPass = !activeCharFilters.domain.size || activeCharFilters.domain.has(c.relems);
         const cPass = !activeCharFilters.class.size || activeCharFilters.class.has(c.class);
         if(!dPass || !cPass) return false;
-        if(searchText && !matchesBuilderSearch(c.name, searchText)) return false;
+        if(searchText && !matchesBuilderSearch(window.characterIdentity.searchText(c), searchText)) return false;
         return true;
     }).forEach(c => {
         const id = c.id;
@@ -1446,16 +1446,8 @@ function equipDedicatedKey() {
     const charInfo = DB.chars.find(x => String(x.id) === leaderCharId);
     if (!charInfo) return;
 
-    // 전용 관계는 고정 ID를 우선하고, 관계가 없는 기존 데이터만 이름 태그로 찾는다.
-    const targetKey = DB.keys.find(key =>
-        Array.isArray(key.owner_character_ids)
-        && key.owner_character_ids.includes(leaderCharId)
-    ) || DB.keys.find(key => {
-        if (key.owner_character_ids?.length) return false;
-        const tagArray = key.Tag || key.tags;
-        return Array.isArray(tagArray)
-            && normalizeDedicatedTarget(tagArray[0]) === normalizeDedicatedTarget(charInfo.name);
-    });
+    // 전용 장비는 표시명이나 태그 순서와 관계없이 고정 소유자 ID로 찾는다.
+    const targetKey = DB.keys.find(key => key.owner_character_ids?.includes(String(leaderCharId)));
 
     if (!targetKey) {
         openSystemAlert("알림", charInfo.name + "의 전용 은열쇠를 찾을 수 없습니다.");
@@ -1794,13 +1786,7 @@ if (btnSr) {
     btnSr.onclick = () => equipDedicatedWheel('SR');
 }
 
-function normalizeDedicatedTarget(value) {
-    return String(value || '')
-        .normalize('NFKC')
-        .replace(/[「」｢｣]/g, '')
-        .trim()
-        .toLowerCase();
-}
+
 
 function equipDedicatedWheel(grade) {
     const team = allPages[currentPageIdx].teams[currentTeamIdx];
@@ -1817,20 +1803,8 @@ function equipDedicatedWheel(grade) {
     if (!charInfo) return;
 
     // 3. 해당 등급의 전용 명륜 찾기
-    const charTargets = new Set([
-        normalizeDedicatedTarget(charId),
-        normalizeDedicatedTarget(charInfo.id),
-        normalizeDedicatedTarget(charInfo.name),
-        ...((PARTY_BUILDER_RULES.dedicated_wheel_aliases || {})[charId] || [])
-            .map(normalizeDedicatedTarget)
-            .filter(Boolean)
-    ]);
-    const targetWheel = DB.wheels.find(function(wheel) {
-        const optFor = wheel.optimized_for;
-        return wheel.grade === grade
-            && Array.isArray(optFor)
-            && optFor.some(target => charTargets.has(normalizeDedicatedTarget(target)));
-    });
+    const targetWheel = DB.wheels.find(wheel => wheel.grade === grade
+        && wheel.owner_character_ids?.includes(String(charId)));
 
     if (!targetWheel) {
         openSystemAlert("알림", `${charInfo.name}의 전용 ${grade} 명륜을 찾을 수 없습니다.`);

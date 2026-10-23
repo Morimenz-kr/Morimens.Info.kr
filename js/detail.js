@@ -84,10 +84,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 cachedFetch(`data/db_awakener_stats.json`, `db_stats_${ver}`),
                 cachedFetch(`data/covenant_list.json`, `db_covenants_${ver}`),
                 cachedFetch(`data/wheel_list.json`, `db_wheels_${ver}`),
-                cachedFetch(`data/character_manifest.json`, `db_manifest_${ver}`),
+                fetch('data/character_manifest.json', { cache: 'no-store' }).then(validateResponse),
                 cachedFetch(`data/db_tooltips.json`, `db_tooltips_${ver}`)
             ]);
 
+            const identity = window.CharacterIdentity.create(manifestData);
+            [awakenerData, cardsDB, tooltipsDB, wheelsDB, covenantsDB].forEach(value => identity.hydrate(value));
+            identity.hydrate(tooltipsDB, true);
             // DB 데이터 캐싱
             ALL_CARDS_DB = cardsDB.cards.reduce((acc, card) => { acc[card.id] = card; return acc; }, {});
             ALL_STATS_DB = statsDB;
@@ -99,6 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const fullCharacterData = {
                 ...awakenerData,
+                name: identity.name(charId),
+                images: { ...awakenerData.images, thumb: identity.byId.get(charId)?.image_thumb || awakenerData.images.thumb },
                 stats: ALL_STATS_DB[awakenerData.stats_id] || {},
                 skill_kit: {
                     command_cards: awakenerData.skill_kit_ids.command_cards.map(id => ALL_CARDS_DB[id]).filter(Boolean),

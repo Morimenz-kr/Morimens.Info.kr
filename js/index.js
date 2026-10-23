@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // [핵심 변경] detail.html 대신 links.html로 이동하며 카테고리와 ID를 전달함
                 gridHTML += `
-                    <a href="links.html?category=character&id=${char.id}" class="card-link">
+                    <a href="links.html?category=character&id=${char.id}" class="card-link" data-character-id="${char.id}">
                         <div class="character-card ${char.relems} ${char.grade} ${char.class}">
                             <img src="${char.image_thumb}" alt="${char.name}" onerror="this.onerror=null;this.src='images/character_caro.png';">
                             <span class="relems-tag ${char.relems}">${relemName}</span>
@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             characterGrid.innerHTML = gridHTML;
             // 생성된 모든 <a> 태그를 배열에 저장 (참조 유지)
             allCardLinks = characterGrid.querySelectorAll('a.card-link');
+            allCardLinks.forEach(link => { const c = characters.find(c => c.id === link.dataset.characterId); link.dataset.searchNames = [c.name, ...(c.name_aliases || [])].join(' '); });
 
         } catch (error) {
             console.error("캐릭터 목록 로드 실패:", error);
@@ -59,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const classMatch = currentFilters.class === 'all' || card.classList.contains(currentFilters.class);
 
             // 검색어 검사
-            const name = card.querySelector('h3').textContent;
+            const name = link.dataset.searchNames || card.querySelector('h3').textContent;
             const searchMatch = window.SearchUtils
                 ? window.SearchUtils.matchesSearchText(name, searchTerm)
                 : name.toLowerCase().includes(searchTerm);

@@ -1,15 +1,89 @@
 [
-  { "id": "24", "name": "「24」", "image_thumb": "images/client_art/thumb/24-9d74c83837.webp", "image_tide": "images/client_art/tide/24-bf7353f477.webp", "relems": "chaos", "class": "assault", "grade": "ssr" },
-  { "id": "nautila", "name": "노틸라", "image_thumb": "images/client_art/thumb/nautila-e3cc9994aa.webp", "image_tide": "images/client_art/tide/nautila-56c8b23ce5.webp", "relems": "chaos", "class": "warden", "grade": "ssr" },
-  { "id": "nymphaea", "name": "님피아", "image_thumb": "images/client_art/thumb/nymphaea-5e54472cc3.webp", "image_tide": "images/client_art/tide/nymphaea-d23ba14cda.webp", "relems": "chaos", "class": "assault", "grade": "ssr" },
-  { "id": "ryker", "name": "라이커", "image_thumb": "images/client_art/thumb/ryker-e93ccd8ecc.webp", "image_tide": "images/client_art/tide/ryker-0f6a081b2a.webp", "relems": "chaos", "class": "chorus", "grade": "ssr" },
-  { "id": "lily", "name": "릴리", "image_thumb": "images/client_art/thumb/lily-6bb2a2a22c.webp", "image_tide": "images/client_art/tide/lily-759dc99973.webp", "relems": "chaos", "class": "warden", "grade": "ssr" },
-  { "id": "mouchette", "name": "무셰트", "image_thumb": "images/client_art/thumb/mouchette-196d439647.webp", "image_tide": "images/client_art/tide/mouchette-afe8c31cff.webp", "relems": "chaos", "class": "assault", "grade": "ssr" },
+  {
+    "id": "24",
+    "name": "「24」",
+    "image_thumb": "images/client_art/thumb/24-9d74c83837.webp",
+    "image_tide": "images/client_art/tide/24-bf7353f477.webp",
+    "relems": "chaos",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "「24」"
+    ],
+    "client_id": 15601
+  },
+  {
+    "id": "nautila",
+    "name": "노틸라",
+    "image_thumb": "images/client_art/thumb/nautila-e3cc9994aa.webp",
+    "image_tide": "images/client_art/tide/nautila-56c8b23ce5.webp",
+    "relems": "chaos",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "노틸라"
+    ],
+    "client_id": 15565
+  },
+  {
+    "id": "nymphaea",
+    "name": "님피아",
+    "image_thumb": "images/client_art/thumb/nymphaea-5e54472cc3.webp",
+    "image_tide": "images/client_art/tide/nymphaea-d23ba14cda.webp",
+    "relems": "chaos",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "님피아"
+    ],
+    "client_id": 15580
+  },
+  {
+    "id": "ryker",
+    "name": "라이커",
+    "image_thumb": "images/client_art/thumb/ryker-e93ccd8ecc.webp",
+    "image_tide": "images/client_art/tide/ryker-0f6a081b2a.webp",
+    "relems": "chaos",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "라이커"
+    ],
+    "client_id": 15604
+  },
+  {
+    "id": "lily",
+    "name": "릴리",
+    "image_thumb": "images/client_art/thumb/lily-6bb2a2a22c.webp",
+    "image_tide": "images/client_art/tide/lily-759dc99973.webp",
+    "relems": "chaos",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "릴리"
+    ],
+    "client_id": 15581
+  },
+  {
+    "id": "mouchette",
+    "name": "무셰트",
+    "image_thumb": "images/client_art/thumb/mouchette-196d439647.webp",
+    "image_tide": "images/client_art/tide/mouchette-afe8c31cff.webp",
+    "relems": "chaos",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "무셰트",
+      "모샤"
+    ],
+    "client_id": 94450
+  },
   {
     "id": "vivian",
     "name": "비비안",
     "name_en": "Vivian",
-    "image_thumb": "images/client_art/thumb/vivian-ae044aa756.webp", "image_tide": "images/client_art/tide/vivian-85559d3aa5.webp",
+    "image_thumb": "images/client_art/thumb/vivian-ae044aa756.webp",
+    "image_tide": "images/client_art/tide/vivian-85559d3aa5.webp",
     "relems": "chaos",
     "class": "chorus",
     "grade": "ssr",
@@ -18,61 +92,739 @@
       "dimensional_image",
       "gachatype",
       "growth"
-    ]
+    ],
+    "name_aliases": [
+      "비비안"
+    ],
+    "client_id": 151844
   },
-  { "id": "GOgier", "name": "서약·오지에", "image_thumb": "images/client_art/thumb/GOgier-94ee55b1f4.webp", "image_tide": "images/client_art/tide/GOgier-ee44155dbb.webp", "relems": "chaos", "class": "warden", "grade": "ssr", "pending_data": ["settings"] },
-  { "id": "alva", "name": "엘바", "image_thumb": "images/client_art/thumb/alva-95e469539d.webp", "image_tide": "images/client_art/tide/alva-ca7ba36be7.webp", "relems": "chaos", "class": "warden", "grade": "ssr" },
-  { "id": "doll_inferno", "name": "융해 · 돌", "image_thumb": "images/client_art/thumb/doll_inferno-62253e4ee8.webp", "image_tide": "images/client_art/tide/doll_inferno-49d9a97e6d.webp", "relems": "chaos", "class": "chorus", "grade": "ssr" },
-  { "id": "lotan_cetarchon", "name": "침식 · 로탄", "image_thumb": "images/client_art/thumb/lotan_cetarchon-7ac6b8d13c.webp", "image_tide": "images/client_art/tide/lotan_cetarchon-e67e440294.webp", "relems": "chaos", "class": "assault", "grade": "ssr" },
-  { "id": "karen", "name": "카렌", "image_thumb": "images/client_art/thumb/karen-8233836bc2.webp", "image_tide": "images/client_art/tide/karen-becc73a7cd.webp", "relems": "chaos", "class": "chorus", "grade": "ssr" },
-  { "id": "kathigu-ra", "name": "카티구라", "image_thumb": "images/client_art/thumb/kathigu-ra-eb1c74a5be.webp", "image_tide": "images/client_art/tide/kathigu-ra-4dc18dcaa7.webp", "relems": "chaos", "class": "assault", "grade": "ssr" },
-  { "id": "tawil", "name": "타비", "image_thumb": "images/client_art/thumb/tawil-f88335e3bb.webp", "image_tide": "images/client_art/tide/tawil-4d7bcd9256.webp", "relems": "chaos", "class": "chorus", "grade": "ssr" },
-  { "id": "pandia", "name": "판디아", "image_thumb": "images/client_art/thumb/pandia-96cbdd0587.webp", "image_tide": "images/client_art/tide/pandia-84d95a5f67.webp", "relems": "chaos", "class": "assault", "grade": "ssr" },
-  { "id": "hameln", "name": "하멜른", "image_thumb": "images/client_art/thumb/hameln-c1301fb621.webp", "image_tide": "images/client_art/tide/hameln-4682f4f5c6.webp", "relems": "chaos", "class": "chorus", "grade": "ssr" },
-  { "id": "ramona_timeworn", "name": "회귀 · 라모나", "image_thumb": "images/client_art/thumb/ramona_timeworn-34d7dc211d.webp", "image_tide": "images/client_art/tide/ramona_timeworn-098e13ff37.webp", "relems": "chaos", "class": "chorus", "grade": "ssr" },
-  { "id": "goliath", "name": "골리아", "image_thumb": "images/client_art/thumb/goliath-2dbc826ce0.webp", "image_tide": "images/client_art/tide/goliath-8833085b7a.webp", "relems": "aequor", "class": "assault", "grade": "ssr" },
-  { "id": "murphy", "name": "머피", "image_thumb": "images/client_art/thumb/murphy-5cbab65243.webp", "image_tide": "images/client_art/tide/murphy-2320ca3aef.webp", "relems": "aequor", "class": "warden", "grade": "ssr" },
-  { "id": "vortice", "name": "모스", "image_thumb": "images/client_art/thumb/vortice-e6bc093998.webp", "image_tide": "images/client_art/tide/vortice-3814704c83.webp", "relems": "aequor", "class": "assault", "grade": "ssr" },
-  { "id": "miryam", "name": "미리암", "image_thumb": "images/client_art/thumb/miryam-73d11b3c31.webp", "image_tide": "images/client_art/tide/miryam-d91e680a8a.webp", "relems": "aequor", "class": "chorus", "grade": "ssr" },
-  { "id": "sanga", "name": "산", "image_thumb": "images/client_art/thumb/sanga-95ea3ff95d.webp", "image_tide": "images/client_art/tide/sanga-242e4aeebd.webp", "relems": "aequor", "class": "warden", "grade": "ssr" },
-  { "id": "celeste", "name": "셀레스트", "image_thumb": "images/client_art/thumb/celeste-ed6a4ef1fd.webp", "image_tide": "images/client_art/tide/celeste-1b421c851b.webp", "relems": "aequor", "class": "chorus", "grade": "ssr" },
-  { "id": "aurita", "name": "오레타", "image_thumb": "images/client_art/thumb/aurita-42bae1eb09.webp", "image_tide": "images/client_art/tide/aurita-2b4fb2f1f8.webp", "relems": "aequor", "class": "assault", "grade": "ssr" },
-  { "id": "caecus", "name": "카이커스", "image_thumb": "images/client_art/thumb/caecus-ad01a617e5.webp", "image_tide": "images/client_art/tide/caecus-2f09a27959.webp", "relems": "aequor", "class": "warden", "grade": "ssr" },
-  { "id": "coporsant", "name": "코퍼산트", "image_thumb": "images/client_art/thumb/coporsant-23b436bd6c.webp", "image_tide": "images/client_art/tide/coporsant-179b20eb23.webp", "relems": "aequor", "class": "warden", "grade": "ssr" },
-  { "id": "Murphy_Fauxborn", "name": "탄망 · 머피", "image_thumb": "images/client_art/thumb/Murphy_Fauxborn-ee9e365952.webp", "image_tide": "images/client_art/tide/Murphy_Fauxborn-60b946c3cb.webp", "relems": "aequor", "class": "chorus", "grade": "ssr" },
-  { "id": "tulu", "name": "툴루", "image_thumb": "images/client_art/thumb/tulu-0391198127.webp", "image_tide": "images/client_art/tide/tulu-3b6dc6c7d3.webp", "relems": "aequor", "class": "assault", "grade": "ssr" },
-  { "id": "faros", "name": "파로스", "image_thumb": "images/client_art/thumb/faros-43f5911ebf.webp", "image_tide": "images/client_art/tide/faros-168b8241ec.webp", "relems": "aequor", "class": "chorus", "grade": "ssr" },
-  { "id": "pontos", "name": "폰토스", "image_thumb": "images/client_art/thumb/pontos-8b3dca9e99.webp", "image_tide": "images/client_art/tide/pontos-bf8fc172c1.webp", "relems": "aequor", "class": "warden", "grade": "ssr" },
-  { "id": "doresain", "name": "도어세인", "image_thumb": "images/client_art/thumb/doresain-20c6a448e5.webp", "image_tide": "images/client_art/tide/doresain-5979c1b93a.webp", "relems": "caro", "class": "assault", "grade": "ssr" },
-  { "id": "leigh", "name": "레이아", "image_thumb": "images/client_art/thumb/leigh-be8d97ff2a.webp", "image_tide": "images/client_art/tide/leigh-00def5abe3.webp", "relems": "caro", "class": "chorus", "grade": "ssr" },
-  { "id": "saya", "name": "사야", "image_thumb": "images/client_art/thumb/saya-a27180a83e.webp", "image_tide": "images/client_art/tide/saya-a91c490ed2.webp", "relems": "caro", "class": "chorus", "grade": "ssr" },
-  { "id": "salvador", "name": "살바도르", "image_thumb": "images/client_art/thumb/salvador-0ea7ea38c2.webp", "image_tide": "images/client_art/tide/salvador-4e49962ebd.webp", "relems": "caro", "class": "warden", "grade": "ssr" },
-  { "id": "xu", "name": "서", "image_thumb": "images/client_art/thumb/xu-606382ad0a.webp", "image_tide": "images/client_art/tide/xu-4ea3d43057.webp", "relems": "caro", "class": "chorus", "grade": "ssr" },
-  { "id": "sorel", "name": "소렐", "image_thumb": "images/client_art/thumb/sorel-db27973a67.webp", "image_tide": "images/client_art/tide/sorel-8f08e41e49.webp", "relems": "caro", "class": "assault", "grade": "ssr" },
-  { "id": "agrippa", "name": "아그리파", "image_thumb": "images/client_art/thumb/agrippa-a732e8b55f.webp", "image_tide": "images/client_art/tide/agrippa-aa36d9af5d.webp", "relems": "caro", "class": "warden", "grade": "ssr" },
-  { "id": "aigis", "name": "아이기스", "image_thumb": "images/client_art/thumb/aigis-15eedb19fe.webp", "image_tide": "images/client_art/tide/aigis-ed91e60134.webp", "relems": "caro", "class": "chorus", "grade": "ssr" },
-  { "id": "uvhash", "name": "유우하시", "image_thumb": "images/client_art/thumb/uvhash-0d8e0c528a.webp", "image_tide": "images/client_art/tide/uvhash-d139fe9f00.webp", "relems": "caro", "class": "assault", "grade": "ssr" },
-  { "id": "caraboo", "name": "카라부", "name_en": "Caraboo", "image_thumb": "images/client_art/thumb/caraboo-8fff569dd5.webp", "image_tide": "images/client_art/tide/caraboo-5d1aa441ea.webp", "relems": "caro", "class": "warden", "grade": "ssr", "pending_data": ["settings", "dimensional_image"] },
-  { "id": "thais", "name": "타이스", "image_thumb": "images/client_art/thumb/thais-794849bb79.webp", "image_tide": "images/client_art/tide/thais-5e6bc7dc34.webp", "relems": "caro", "class": "chorus", "grade": "ssr" },
-  { "id": "faint", "name": "파인트", "image_thumb": "images/client_art/thumb/faint-3fd9e13526.webp", "image_tide": "images/client_art/tide/faint-659a6c9b0d.webp", "relems": "caro", "class": "warden", "grade": "ssr" },
-  { "id": "pickman", "name": "픽맨", "image_thumb": "images/client_art/thumb/pickman-440962b6ab.webp", "image_tide": "images/client_art/tide/pickman-7580a9c040.webp", "relems": "caro", "class": "chorus", "grade": "ssr" },
-  { "id": "helot_catena", "name": "혈쇄 · 히로", "image_thumb": "images/client_art/thumb/helot_catena-e692193c16.webp", "image_tide": "images/client_art/tide/helot_catena-54b98a5e82.webp", "relems": "caro", "class": "assault", "grade": "ssr" },
-  { "id": "helot", "name": "히로", "image_thumb": "images/client_art/thumb/helot-6793aa2597.webp", "image_tide": "images/client_art/tide/helot-ea1a7613d5.webp", "relems": "caro", "class": "assault", "grade": "ssr" },
-  { "id": "dafoodil", "name": "다포딜", "image_thumb": "images/client_art/thumb/dafoodil-4e18a22e18.webp", "image_tide": "images/client_art/tide/dafoodil-b53328ed63.webp", "relems": "ultra", "class": "assault", "grade": "ssr" },
-  { "id": "liz", "name": "리즈", "image_thumb": "images/client_art/thumb/liz-f643bac1ac.webp", "image_tide": "images/client_art/tide/liz-5923635a65.webp", "relems": "ultra", "class": "assault", "grade": "ssr" },
-  { "id": "arachne", "name": "아라크네", "image_thumb": "images/client_art/thumb/arachne-7e41f0ec2d.webp", "image_tide": "images/client_art/tide/arachne-51438951ee.webp", "relems": "ultra", "class": "chorus", "grade": "ssr" },
-  { "id": "erica", "name": "에리카", "image_thumb": "images/client_art/thumb/erica-81876ecd88.webp", "image_tide": "images/client_art/tide/erica-044de50ba3.webp", "relems": "ultra", "class": "warden", "grade": "ssr" },
-  { "id": "horla", "name": "오를라", "image_thumb": "images/client_art/thumb/horla-50f9bd2b0f.webp", "image_tide": "images/client_art/tide/horla-b4ebd0ebc8.webp", "relems": "ultra", "class": "chorus", "grade": "ssr" },
-  { "id": "wanda", "name": "완다", "image_thumb": "images/client_art/thumb/wanda-36f51261c0.webp", "image_tide": "images/client_art/tide/wanda-5cb43b4c63.webp", "relems": "ultra", "class": "warden", "grade": "ssr" },
-  { "id": "winkle", "name": "윙클", "image_thumb": "images/client_art/thumb/winkle-ec3e369045.webp", "image_tide": "images/client_art/tide/winkle-68196b90d9.webp", "relems": "ultra", "class": "warden", "grade": "ssr" },
-  { "id": "jenkin", "name": "젠킨", "image_thumb": "images/client_art/thumb/jenkin-7cb1a3e7f4.webp", "image_tide": "images/client_art/tide/jenkin-afa7272f7e.webp", "relems": "ultra", "class": "assault", "grade": "ssr" },
-  { "id": "castor", "name": "카스토르", "image_thumb": "images/client_art/thumb/castor-8541430644.webp", "image_tide": "images/client_art/tide/castor-0534527a93.webp", "relems": "ultra", "class": "warden", "grade": "ssr" },
-  { "id": "casiah", "name": "카시아", "image_thumb": "images/client_art/thumb/casiah-4bfc6681c3.webp", "image_tide": "images/client_art/tide/casiah-44a55cbf79.webp", "relems": "ultra", "class": "chorus", "grade": "ssr" },
-  { "id": "clementine", "name": "클레멘타인", "image_thumb": "images/client_art/thumb/clementine-9c49671a3a.webp", "image_tide": "images/client_art/tide/clementine-b5f53f8e21.webp", "relems": "ultra", "class": "chorus", "grade": "ssr" },
-  { "id": "tinct", "name": "틴커트", "image_thumb": "images/client_art/thumb/tinct-d30a22effc.webp", "image_tide": "images/client_art/tide/tinct-46340e2ea9.webp", "relems": "ultra", "class": "chorus", "grade": "ssr" },
-  { "id": "pollux", "name": "폴룩스", "image_thumb": "images/client_art/thumb/pollux-0dd1a80ca3.webp", "image_tide": "images/client_art/tide/pollux-2c86858ae1.webp", "relems": "ultra", "class": "assault", "grade": "ssr" },
-  { "id": "doll", "name": "돌", "image_thumb": "images/client_art/thumb/doll-90f6a14901.webp", "image_tide": "images/client_art/tide/doll-1e99830c2b.webp", "relems": "chaos", "class": "chorus", "grade": "sr" },
-  { "id": "ramona", "name": "라모나", "image_thumb": "images/client_art/thumb/ramona-12d7a78c59.webp", "image_tide": "images/client_art/tide/ramona-26c172833f.webp", "relems": "chaos", "class": "chorus", "grade": "sr" },
-  { "id": "lotan", "name": "로탄", "image_thumb": "images/client_art/thumb/lotan-d56a22f975.webp", "image_tide": "images/client_art/tide/lotan-ef04b2921f.webp", "relems": "chaos", "class": "assault", "grade": "sr" },
-  { "id": "ogier", "name": "오지에", "image_thumb": "images/client_art/thumb/ogier-22998a840e.webp", "image_tide": "images/client_art/tide/ogier-a343217456.webp", "relems": "chaos", "class": "warden", "grade": "sr" }
+  {
+    "id": "GOgier",
+    "name": "서약·오지에",
+    "image_thumb": "images/client_art/thumb/GOgier-94ee55b1f4.webp",
+    "image_tide": "images/client_art/tide/GOgier-ee44155dbb.webp",
+    "relems": "chaos",
+    "class": "warden",
+    "grade": "ssr",
+    "pending_data": [
+      "settings"
+    ],
+    "name_aliases": [
+      "서약·오지에"
+    ],
+    "client_id": 148578
+  },
+  {
+    "id": "alva",
+    "name": "엘바",
+    "image_thumb": "images/client_art/thumb/alva-95e469539d.webp",
+    "image_tide": "images/client_art/tide/alva-ca7ba36be7.webp",
+    "relems": "chaos",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "엘바",
+      "앨바"
+    ],
+    "client_id": 15588
+  },
+  {
+    "id": "doll_inferno",
+    "name": "융해 · 돌",
+    "image_thumb": "images/client_art/thumb/doll_inferno-62253e4ee8.webp",
+    "image_tide": "images/client_art/tide/doll_inferno-49d9a97e6d.webp",
+    "relems": "chaos",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "융해 · 돌"
+    ],
+    "client_id": 15602
+  },
+  {
+    "id": "lotan_cetarchon",
+    "name": "침식 · 로탄",
+    "image_thumb": "images/client_art/thumb/lotan_cetarchon-7ac6b8d13c.webp",
+    "image_tide": "images/client_art/tide/lotan_cetarchon-e67e440294.webp",
+    "relems": "chaos",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "침식 · 로탄"
+    ],
+    "client_id": 145363
+  },
+  {
+    "id": "karen",
+    "name": "카렌",
+    "image_thumb": "images/client_art/thumb/karen-8233836bc2.webp",
+    "image_tide": "images/client_art/tide/karen-becc73a7cd.webp",
+    "relems": "chaos",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "카렌"
+    ],
+    "client_id": 15571
+  },
+  {
+    "id": "kathigu-ra",
+    "name": "카티구라",
+    "image_thumb": "images/client_art/thumb/kathigu-ra-eb1c74a5be.webp",
+    "image_tide": "images/client_art/tide/kathigu-ra-4dc18dcaa7.webp",
+    "relems": "chaos",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "카티구라"
+    ],
+    "client_id": 77913
+  },
+  {
+    "id": "tawil",
+    "name": "타비",
+    "image_thumb": "images/client_art/thumb/tawil-f88335e3bb.webp",
+    "image_tide": "images/client_art/tide/tawil-4d7bcd9256.webp",
+    "relems": "chaos",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "타비"
+    ],
+    "client_id": 54116
+  },
+  {
+    "id": "pandia",
+    "name": "판디아",
+    "image_thumb": "images/client_art/thumb/pandia-96cbdd0587.webp",
+    "image_tide": "images/client_art/tide/pandia-84d95a5f67.webp",
+    "relems": "chaos",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "판디아"
+    ],
+    "client_id": 15560
+  },
+  {
+    "id": "hameln",
+    "name": "하멜른",
+    "image_thumb": "images/client_art/thumb/hameln-c1301fb621.webp",
+    "image_tide": "images/client_art/tide/hameln-4682f4f5c6.webp",
+    "relems": "chaos",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "하멜른"
+    ],
+    "client_id": 54117
+  },
+  {
+    "id": "ramona_timeworn",
+    "name": "회귀 · 라모나",
+    "image_thumb": "images/client_art/thumb/ramona_timeworn-34d7dc211d.webp",
+    "image_tide": "images/client_art/tide/ramona_timeworn-098e13ff37.webp",
+    "relems": "chaos",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "회귀 · 라모나",
+      "환행 · 라모나"
+    ],
+    "client_id": 15568
+  },
+  {
+    "id": "goliath",
+    "name": "골리아",
+    "image_thumb": "images/client_art/thumb/goliath-2dbc826ce0.webp",
+    "image_tide": "images/client_art/tide/goliath-8833085b7a.webp",
+    "relems": "aequor",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "골리아"
+    ],
+    "client_id": 15564
+  },
+  {
+    "id": "murphy",
+    "name": "머피",
+    "image_thumb": "images/client_art/thumb/murphy-5cbab65243.webp",
+    "image_tide": "images/client_art/tide/murphy-2320ca3aef.webp",
+    "relems": "aequor",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "머피"
+    ],
+    "client_id": 15576
+  },
+  {
+    "id": "vortice",
+    "name": "모스",
+    "image_thumb": "images/client_art/thumb/vortice-e6bc093998.webp",
+    "image_tide": "images/client_art/tide/vortice-3814704c83.webp",
+    "relems": "aequor",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "모스"
+    ],
+    "client_id": 130901
+  },
+  {
+    "id": "miryam",
+    "name": "미리암",
+    "image_thumb": "images/client_art/thumb/miryam-73d11b3c31.webp",
+    "image_tide": "images/client_art/tide/miryam-d91e680a8a.webp",
+    "relems": "aequor",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "미리암"
+    ],
+    "client_id": 15582
+  },
+  {
+    "id": "sanga",
+    "name": "산",
+    "image_thumb": "images/client_art/thumb/sanga-95ea3ff95d.webp",
+    "image_tide": "images/client_art/tide/sanga-242e4aeebd.webp",
+    "relems": "aequor",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "산"
+    ],
+    "client_id": 15592
+  },
+  {
+    "id": "celeste",
+    "name": "셀레스트",
+    "image_thumb": "images/client_art/thumb/celeste-ed6a4ef1fd.webp",
+    "image_tide": "images/client_art/tide/celeste-1b421c851b.webp",
+    "relems": "aequor",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "셀레스트",
+      "살레스트"
+    ],
+    "client_id": 15566
+  },
+  {
+    "id": "aurita",
+    "name": "오레타",
+    "image_thumb": "images/client_art/thumb/aurita-42bae1eb09.webp",
+    "image_tide": "images/client_art/tide/aurita-2b4fb2f1f8.webp",
+    "relems": "aequor",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "오레타"
+    ],
+    "client_id": 15573
+  },
+  {
+    "id": "caecus",
+    "name": "카이커스",
+    "image_thumb": "images/client_art/thumb/caecus-ad01a617e5.webp",
+    "image_tide": "images/client_art/tide/caecus-2f09a27959.webp",
+    "relems": "aequor",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "카이커스"
+    ],
+    "client_id": 15594
+  },
+  {
+    "id": "coporsant",
+    "name": "코퍼산트",
+    "image_thumb": "images/client_art/thumb/coporsant-23b436bd6c.webp",
+    "image_tide": "images/client_art/tide/coporsant-179b20eb23.webp",
+    "relems": "aequor",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "코퍼산트"
+    ],
+    "client_id": 77922
+  },
+  {
+    "id": "Murphy_Fauxborn",
+    "name": "탄망 · 머피",
+    "image_thumb": "images/client_art/thumb/Murphy_Fauxborn-ee9e365952.webp",
+    "image_tide": "images/client_art/tide/Murphy_Fauxborn-60b946c3cb.webp",
+    "relems": "aequor",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "탄망 · 머피"
+    ],
+    "client_id": 15589
+  },
+  {
+    "id": "tulu",
+    "name": "툴루",
+    "image_thumb": "images/client_art/thumb/tulu-0391198127.webp",
+    "image_tide": "images/client_art/tide/tulu-3b6dc6c7d3.webp",
+    "relems": "aequor",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "툴루"
+    ],
+    "client_id": 15563
+  },
+  {
+    "id": "faros",
+    "name": "파로스",
+    "image_thumb": "images/client_art/thumb/faros-43f5911ebf.webp",
+    "image_tide": "images/client_art/tide/faros-168b8241ec.webp",
+    "relems": "aequor",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "파로스"
+    ],
+    "client_id": 15575
+  },
+  {
+    "id": "pontos",
+    "name": "폰토스",
+    "image_thumb": "images/client_art/thumb/pontos-8b3dca9e99.webp",
+    "image_tide": "images/client_art/tide/pontos-bf8fc172c1.webp",
+    "relems": "aequor",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "폰토스"
+    ],
+    "client_id": 141302
+  },
+  {
+    "id": "doresain",
+    "name": "도어세인",
+    "image_thumb": "images/client_art/thumb/doresain-20c6a448e5.webp",
+    "image_tide": "images/client_art/tide/doresain-5979c1b93a.webp",
+    "relems": "caro",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "도어세인"
+    ],
+    "client_id": 95786
+  },
+  {
+    "id": "leigh",
+    "name": "레이아",
+    "image_thumb": "images/client_art/thumb/leigh-be8d97ff2a.webp",
+    "image_tide": "images/client_art/tide/leigh-00def5abe3.webp",
+    "relems": "caro",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "레이아",
+      "레아"
+    ],
+    "client_id": 15597
+  },
+  {
+    "id": "saya",
+    "name": "사야",
+    "image_thumb": "images/client_art/thumb/saya-a27180a83e.webp",
+    "image_tide": "images/client_art/tide/saya-a91c490ed2.webp",
+    "relems": "caro",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "사야"
+    ],
+    "client_id": 130226
+  },
+  {
+    "id": "salvador",
+    "name": "살바도르",
+    "image_thumb": "images/client_art/thumb/salvador-0ea7ea38c2.webp",
+    "image_tide": "images/client_art/tide/salvador-4e49962ebd.webp",
+    "relems": "caro",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "살바도르"
+    ],
+    "client_id": 15599
+  },
+  {
+    "id": "xu",
+    "name": "서",
+    "image_thumb": "images/client_art/thumb/xu-606382ad0a.webp",
+    "image_tide": "images/client_art/tide/xu-4ea3d43057.webp",
+    "relems": "caro",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "서"
+    ],
+    "client_id": 125346
+  },
+  {
+    "id": "sorel",
+    "name": "소렐",
+    "image_thumb": "images/client_art/thumb/sorel-db27973a67.webp",
+    "image_tide": "images/client_art/tide/sorel-8f08e41e49.webp",
+    "relems": "caro",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "소렐"
+    ],
+    "client_id": 15584
+  },
+  {
+    "id": "agrippa",
+    "name": "아그리파",
+    "image_thumb": "images/client_art/thumb/agrippa-a732e8b55f.webp",
+    "image_tide": "images/client_art/tide/agrippa-aa36d9af5d.webp",
+    "relems": "caro",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "아그리파"
+    ],
+    "client_id": 15600
+  },
+  {
+    "id": "aigis",
+    "name": "아이기스",
+    "image_thumb": "images/client_art/thumb/aigis-15eedb19fe.webp",
+    "image_tide": "images/client_art/tide/aigis-ed91e60134.webp",
+    "relems": "caro",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "아이기스"
+    ],
+    "client_id": 15591
+  },
+  {
+    "id": "uvhash",
+    "name": "유우하시",
+    "image_thumb": "images/client_art/thumb/uvhash-0d8e0c528a.webp",
+    "image_tide": "images/client_art/tide/uvhash-d139fe9f00.webp",
+    "relems": "caro",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "유우하시"
+    ],
+    "client_id": 15598
+  },
+  {
+    "id": "caraboo",
+    "name": "카라부",
+    "name_en": "Caraboo",
+    "image_thumb": "images/client_art/thumb/caraboo-8fff569dd5.webp",
+    "image_tide": "images/client_art/tide/caraboo-5d1aa441ea.webp",
+    "relems": "caro",
+    "class": "warden",
+    "grade": "ssr",
+    "pending_data": [
+      "settings",
+      "dimensional_image"
+    ],
+    "name_aliases": [
+      "카라부"
+    ],
+    "client_id": 77921
+  },
+  {
+    "id": "thais",
+    "name": "타이스",
+    "image_thumb": "images/client_art/thumb/thais-794849bb79.webp",
+    "image_tide": "images/client_art/tide/thais-5e6bc7dc34.webp",
+    "relems": "caro",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "타이스"
+    ],
+    "client_id": 15596
+  },
+  {
+    "id": "faint",
+    "name": "파인트",
+    "image_thumb": "images/client_art/thumb/faint-3fd9e13526.webp",
+    "image_tide": "images/client_art/tide/faint-659a6c9b0d.webp",
+    "relems": "caro",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "파인트",
+      "페인트"
+    ],
+    "client_id": 15577
+  },
+  {
+    "id": "pickman",
+    "name": "픽맨",
+    "image_thumb": "images/client_art/thumb/pickman-440962b6ab.webp",
+    "image_tide": "images/client_art/tide/pickman-7580a9c040.webp",
+    "relems": "caro",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "픽맨"
+    ],
+    "client_id": 77926
+  },
+  {
+    "id": "helot_catena",
+    "name": "혈쇄 · 히로",
+    "image_thumb": "images/client_art/thumb/helot_catena-e692193c16.webp",
+    "image_tide": "images/client_art/tide/helot_catena-54b98a5e82.webp",
+    "relems": "caro",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "혈쇄 · 히로"
+    ],
+    "client_id": 15567
+  },
+  {
+    "id": "helot",
+    "name": "히로",
+    "image_thumb": "images/client_art/thumb/helot-6793aa2597.webp",
+    "image_tide": "images/client_art/tide/helot-ea1a7613d5.webp",
+    "relems": "caro",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "히로"
+    ],
+    "client_id": 15587
+  },
+  {
+    "id": "dafoodil",
+    "name": "다포딜",
+    "image_thumb": "images/client_art/thumb/dafoodil-4e18a22e18.webp",
+    "image_tide": "images/client_art/tide/dafoodil-b53328ed63.webp",
+    "relems": "ultra",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "다포딜"
+    ],
+    "client_id": 15590
+  },
+  {
+    "id": "liz",
+    "name": "리즈",
+    "image_thumb": "images/client_art/thumb/liz-f643bac1ac.webp",
+    "image_tide": "images/client_art/tide/liz-5923635a65.webp",
+    "relems": "ultra",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "리즈"
+    ],
+    "client_id": 15562
+  },
+  {
+    "id": "arachne",
+    "name": "아라크네",
+    "image_thumb": "images/client_art/thumb/arachne-7e41f0ec2d.webp",
+    "image_tide": "images/client_art/tide/arachne-51438951ee.webp",
+    "relems": "ultra",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "아라크네"
+    ],
+    "client_id": 77918
+  },
+  {
+    "id": "erica",
+    "name": "에리카",
+    "image_thumb": "images/client_art/thumb/erica-81876ecd88.webp",
+    "image_tide": "images/client_art/tide/erica-044de50ba3.webp",
+    "relems": "ultra",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "에리카"
+    ],
+    "client_id": 15603
+  },
+  {
+    "id": "horla",
+    "name": "오를라",
+    "image_thumb": "images/client_art/thumb/horla-50f9bd2b0f.webp",
+    "image_tide": "images/client_art/tide/horla-b4ebd0ebc8.webp",
+    "relems": "ultra",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "오를라"
+    ],
+    "client_id": 15583
+  },
+  {
+    "id": "wanda",
+    "name": "완다",
+    "image_thumb": "images/client_art/thumb/wanda-36f51261c0.webp",
+    "image_tide": "images/client_art/tide/wanda-5cb43b4c63.webp",
+    "relems": "ultra",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "완다"
+    ],
+    "client_id": 15586
+  },
+  {
+    "id": "winkle",
+    "name": "윙클",
+    "image_thumb": "images/client_art/thumb/winkle-ec3e369045.webp",
+    "image_tide": "images/client_art/tide/winkle-68196b90d9.webp",
+    "relems": "ultra",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "윙클",
+      "웬코르"
+    ],
+    "client_id": 15579
+  },
+  {
+    "id": "jenkin",
+    "name": "젠킨",
+    "image_thumb": "images/client_art/thumb/jenkin-7cb1a3e7f4.webp",
+    "image_tide": "images/client_art/tide/jenkin-afa7272f7e.webp",
+    "relems": "ultra",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "젠킨"
+    ],
+    "client_id": 15593
+  },
+  {
+    "id": "castor",
+    "name": "카스토르",
+    "image_thumb": "images/client_art/thumb/castor-8541430644.webp",
+    "image_tide": "images/client_art/tide/castor-0534527a93.webp",
+    "relems": "ultra",
+    "class": "warden",
+    "grade": "ssr",
+    "name_aliases": [
+      "카스토르"
+    ],
+    "client_id": 77923
+  },
+  {
+    "id": "casiah",
+    "name": "카시아",
+    "image_thumb": "images/client_art/thumb/casiah-4bfc6681c3.webp",
+    "image_tide": "images/client_art/tide/casiah-44a55cbf79.webp",
+    "relems": "ultra",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "카시아"
+    ],
+    "client_id": 15572
+  },
+  {
+    "id": "clementine",
+    "name": "클레멘타인",
+    "image_thumb": "images/client_art/thumb/clementine-9c49671a3a.webp",
+    "image_tide": "images/client_art/tide/clementine-b5f53f8e21.webp",
+    "relems": "ultra",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "클레멘타인"
+    ],
+    "client_id": 77925
+  },
+  {
+    "id": "tinct",
+    "name": "틴커트",
+    "image_thumb": "images/client_art/thumb/tinct-d30a22effc.webp",
+    "image_tide": "images/client_art/tide/tinct-46340e2ea9.webp",
+    "relems": "ultra",
+    "class": "chorus",
+    "grade": "ssr",
+    "name_aliases": [
+      "틴커트"
+    ],
+    "client_id": 15574
+  },
+  {
+    "id": "pollux",
+    "name": "폴룩스",
+    "image_thumb": "images/client_art/thumb/pollux-0dd1a80ca3.webp",
+    "image_tide": "images/client_art/tide/pollux-2c86858ae1.webp",
+    "relems": "ultra",
+    "class": "assault",
+    "grade": "ssr",
+    "name_aliases": [
+      "폴룩스"
+    ],
+    "client_id": 77917
+  },
+  {
+    "id": "doll",
+    "name": "돌",
+    "image_thumb": "images/client_art/thumb/doll-90f6a14901.webp",
+    "image_tide": "images/client_art/tide/doll-1e99830c2b.webp",
+    "relems": "chaos",
+    "class": "chorus",
+    "grade": "sr",
+    "name_aliases": [
+      "돌"
+    ],
+    "client_id": 15570
+  },
+  {
+    "id": "ramona",
+    "name": "라모나",
+    "image_thumb": "images/client_art/thumb/ramona-12d7a78c59.webp",
+    "image_tide": "images/client_art/tide/ramona-26c172833f.webp",
+    "relems": "chaos",
+    "class": "chorus",
+    "grade": "sr",
+    "name_aliases": [
+      "라모나"
+    ],
+    "client_id": 15595
+  },
+  {
+    "id": "lotan",
+    "name": "로탄",
+    "image_thumb": "images/client_art/thumb/lotan-d56a22f975.webp",
+    "image_tide": "images/client_art/tide/lotan-ef04b2921f.webp",
+    "relems": "chaos",
+    "class": "assault",
+    "grade": "sr",
+    "name_aliases": [
+      "로탄"
+    ],
+    "client_id": 15569
+  },
+  {
+    "id": "ogier",
+    "name": "오지에",
+    "image_thumb": "images/client_art/thumb/ogier-22998a840e.webp",
+    "image_tide": "images/client_art/tide/ogier-a343217456.webp",
+    "relems": "chaos",
+    "class": "warden",
+    "grade": "sr",
+    "name_aliases": [
+      "오지에"
+    ],
+    "client_id": 15585
+  }
 ]

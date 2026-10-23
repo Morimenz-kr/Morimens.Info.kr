@@ -1,3 +1,9 @@
+function formatRecommendationSettingName(settingName = '') {
+    const name = String(settingName ?? '').trim();
+    if (!name) return '추천 세팅';
+    return /세팅$/.test(name) ? name : `${name} 세팅`;
+}
+
 // --- 뒤로가기 ---
 function goBack() {
     const ref = document.referrer;
@@ -10,9 +16,13 @@ function goBack() {
     }
 }
 
-// --- 기능 로직 ---
-// 1. 닫기 버튼을 눌렀을 때 실행되는 함수
-// 2. 모달 바깥(어두운 오버레이)을 클릭했을 때 창을 닫는 로직
+// --- 기능 로직 ---
+
+// 1. 닫기 버튼을 눌렀을 때 실행되는 함수
+
+// 2. 모달 바깥(어두운 오버레이)을 클릭했을 때 창을 닫는 로직
+
+
 function copyCodeWithSelection(text) {
     const textarea = document.createElement('textarea');
     textarea.value = text;
@@ -931,6 +941,9 @@ const initializeLinksPage = async () => {
 
         if (isDictionaryPage) await window.ResearchDepth?.load();
 
+        window.characterIdentity = window.CharacterIdentity.create(manifest);
+        [wheelList, keyList, characterEffectsDB, tooltipDB, settingsDB].forEach(value => window.characterIdentity.hydrate(value));
+        window.characterIdentity.hydrate(tooltipDB, true);
         window.wheelMap = {};
         wheelList.forEach(w => {
             window.wheelMap[w.english_name] = w;
@@ -1051,7 +1064,7 @@ const initializeLinksPage = async () => {
                             <div class="recommend-box">
                                 <div class="recommend-left">
                                     <img src="${charData.image_thumb}" class="recommend-thumb" onerror="this.src='images/smile_Ramona.webp';">
-                                    <div class="recommend-role">${setInfo.settingName} 세팅</div>
+                                    <div class="recommend-role">${formatRecommendationSettingName(setInfo.settingName)}</div>
                                     <div class="recommend-step">${setInfo.recommendStep} 추천</div>
                                 </div>
                                 <div class="recommend-right">

@@ -68,6 +68,8 @@
                 fetch(`data/gachatype.json?t=${ts}`).then(res => res.json())
             ]);
 
+            window.characterIdentity = window.CharacterIdentity.create(characters);
+            window.characterIdentity.hydrate(wheels);
             state.characters = characters;
             state.wheels = getInventoryWheels(wheels);
             state.groupByCharacterId = buildGroupMap(gachatype);
@@ -257,7 +259,7 @@
         const filtered = state.characters.filter(character => {
             const groupMatch = matchesCharacterGroup(character);
             const classMatch = matchesCharacterClass(character);
-            const textMatch = !state.search || matchesInventorySearch(character.name, state.search);
+            const textMatch = !state.search || matchesInventorySearch(window.characterIdentity.searchText(character), state.search);
             return groupMatch && classMatch && textMatch;
         });
 
@@ -472,7 +474,7 @@
                 .filter(character => {
                     const groupMatch = matchesCharacterGroup(character);
                     const classMatch = matchesCharacterClass(character);
-                    const textMatch = !state.search || matchesInventorySearch(character.name, state.search);
+                    const textMatch = !state.search || matchesInventorySearch(window.characterIdentity.searchText(character), state.search);
                     return groupMatch && classMatch && textMatch;
                 })
                 .map(character => character.id);
@@ -833,7 +835,7 @@
 
     function getFilteredSelectedCharacters() {
         return state.characters.filter(character => {
-            const textMatch = !state.search || matchesInventorySearch(character.name, state.search);
+            const textMatch = !state.search || matchesInventorySearch(window.characterIdentity.searchText(character), state.search);
             return state.selectedCharacters.has(character.id)
                 && matchesCharacterGroup(character)
                 && matchesCharacterClass(character)

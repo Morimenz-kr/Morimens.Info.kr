@@ -289,6 +289,7 @@
 
             const [data, manifest] = await Promise.all([scheduleResponse.json(), manifestResponse.json()]);
             const manifestItems = Array.isArray(manifest) ? manifest : [];
+            window.CharacterIdentity.create(manifestItems).hydrate(data);
             const characterMap = new Map(manifestItems.filter(item => item?.id).map(item => [item.id, item]));
             const configuredCurrent = Array.isArray(data?.current_pickups)
                 ? data.current_pickups
