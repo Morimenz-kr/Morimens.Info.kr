@@ -725,7 +725,7 @@ function renderMain() {
             const w1 = team.wheels[i][0]; const w2 = team.wheels[i][1];
             const w1Info = DB.wheels.find(x => x.english_name === w1);
             const w2Info = DB.wheels.find(x => x.english_name === w2);
-            const charImg = info ? `images/${info.id}_tide.webp` : 'images/smile_Ramona.webp';
+            const charImg = info ? (info.image_tide || `images/${info.id}_tide.webp`) : 'images/smile_Ramona.webp';
             let topInfoHTML = info ? `<div class="char-top-info"><img src="images/character_${info.relems}.png" class="char-top-icon"><span class="char-top-name">${displayName}</span></div>` : '';
 
             div.innerHTML = `<img src="${charImg}" class="char-tide-img" onerror="this.src='${info?.image_thumb}'">${conflictHTML}${topInfoHTML}${supportBadgeHTML}<div class="card-bottom-overlay"><div class="wheels-wrapper"><div class="slot-wheel" onclick="openWheelModal(${i},0,event)">${w1Info ? `<img src="${w1Info.image_path}">` : '+'}</div><div class="slot-wheel" onclick="openWheelModal(${i},1,event)">${w2Info ? `<img src="${w2Info.image_path}">` : '+'}</div></div></div>`;

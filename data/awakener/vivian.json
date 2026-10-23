@@ -7,9 +7,9 @@
     "class": "chorus"
   },
   "images": {
-    "thumb": "images/vivian-thumb.png",
-    "full": "images/vivian_tide.webp",
-    "card_art": "images/vivian_tide.webp"
+    "thumb": "images/client_art/thumb/vivian-ae044aa756.webp",
+    "full": "images/client_art/tide/vivian-85559d3aa5.webp",
+    "card_art": "images/client_art/tide/vivian-85559d3aa5.webp"
   },
   "skill_kit_ids": {
     "command_cards": [

@@ -15,116 +15,116 @@
     });
     const MONSTER_TAGS = Object.freeze({
         84277: { label: '지배자' },
-        84280: { label: '조각가 협회', counters: [{ id: '24', name: '「24」', image: 'images/24-thumb.png', effect: "｢24｣가 입히는 기본 피해가 20 ~ 50% 증가하며, '조각가 협회' 적에게 입히는 최종 피해가 20 ~ 70% 증가한다." }] },
+        84280: { label: '조각가 협회', counters: [{ id: '24', name: '「24」', image: 'images/client_art/thumb/24-9d74c83837.webp', effect: "｢24｣가 입히는 기본 피해가 20 ~ 50% 증가하며, '조각가 협회' 적에게 입히는 최종 피해가 20 ~ 70% 증가한다." }] },
         84283: { label: '미지의 생물' },
-        84284: { label: '설원', counters: [{ id: 'helot', name: '히로', image: 'images/Helot-thumb.png', effect: "히로가 '설원' 적에게 입히는 최종 피해가 20 ~ 70% 증가한다." }] },
-        84291: { label: '야수', counters: [{ id: 'casiah', name: '카시아', image: 'images/Casiah-thumb.png', effect: "전투 시작 시 '야수' 적이 존재하면, 카시아가 이번 전투에서 획득하는 힘이 20 ~ 50% 증가한다." }] },
-        84293: { label: '변이체', counters: [{ id: 'arachne', name: '아라크네', image: 'images/arachne-thumb.png', effect: "아라크네가 부여하는 [운명 재단]이 30 ~ 100% 증가하며, '변이체' 적에게 부여하는 [운명 재단]이 2배가 된다." }] },
+        84284: { label: '설원', counters: [{ id: 'helot', name: '히로', image: 'images/client_art/thumb/helot-6793aa2597.webp', effect: "히로가 '설원' 적에게 입히는 최종 피해가 20 ~ 70% 증가한다." }] },
+        84291: { label: '야수', counters: [{ id: 'casiah', name: '카시아', image: 'images/client_art/thumb/casiah-4bfc6681c3.webp', effect: "전투 시작 시 '야수' 적이 존재하면, 카시아가 이번 전투에서 획득하는 힘이 20 ~ 50% 증가한다." }] },
+        84293: { label: '변이체', counters: [{ id: 'arachne', name: '아라크네', image: 'images/client_art/thumb/arachne-7e41f0ec2d.webp', effect: "아라크네가 부여하는 [운명 재단]이 30 ~ 100% 증가하며, '변이체' 적에게 부여하는 [운명 재단]이 2배가 된다." }] },
         84297: { label: '각성체' },
-        84298: { label: '주재자', counters: [{ id: 'mouchette', name: '무셰트', image: 'images/Mouchette-thumb.png', effect: "무셰트가 '주재자' 적에게 입히는 최종 피해가 20 ~ 50% 증가한다." }] },
-        84299: { label: '벌레 종족', counters: [{ id: 'clementine', name: '클레멘타인', image: 'images/Clementine-thumb.png', effect: "클레멘타인이 '벌레 종족' 적에게 피해를 입힐 때, 목표에게 입힌 피해량의 50 ~ 100%에 해당하는 [출혈]을 부여한다. 클레멘타인이 매 턴 처음으로 방어막을 생성하거나 HP를 회복할 때, '벌레 종족' 적은 임시로 클레멘타인의 방어력 20 ~ 30%만큼 힘을 잃는다." }] },
+        84298: { label: '주재자', counters: [{ id: 'mouchette', name: '무셰트', image: 'images/client_art/thumb/mouchette-196d439647.webp', effect: "무셰트가 '주재자' 적에게 입히는 최종 피해가 20 ~ 50% 증가한다." }] },
+        84299: { label: '벌레 종족', counters: [{ id: 'clementine', name: '클레멘타인', image: 'images/client_art/thumb/clementine-9c49671a3a.webp', effect: "클레멘타인이 '벌레 종족' 적에게 피해를 입힐 때, 목표에게 입힌 피해량의 50 ~ 100%에 해당하는 [출혈]을 부여한다. 클레멘타인이 매 턴 처음으로 방어막을 생성하거나 HP를 회복할 때, '벌레 종족' 적은 임시로 클레멘타인의 방어력 20 ~ 30%만큼 힘을 잃는다." }] },
         84303: { label: '혈육', counters: [
-            { id: 'alva', name: '앨바', image: 'images/Alva-thumb.png', effect: "앨바가 '혈육' 적에게 입히는 최종 피해가 50 ~ 100% 증가한다." },
-            { id: 'saya', name: '사야', image: 'images/Saya-thumb.png', effect: "사야가 '혈육' 적에게 부여하는 [침식]이 추가로 50 ~ 100% 증가한다." }
+            { id: 'alva', name: '앨바', image: 'images/client_art/thumb/alva-95e469539d.webp', effect: "앨바가 '혈육' 적에게 입히는 최종 피해가 50 ~ 100% 증가한다." },
+            { id: 'saya', name: '사야', image: 'images/client_art/thumb/saya-a27180a83e.webp', effect: "사야가 '혈육' 적에게 부여하는 [침식]이 추가로 50 ~ 100% 증가한다." }
         ] },
         90640: { label: '껍데기', counters: [
-            { id: 'saya', name: '사야', image: 'images/Saya-thumb.png', effect: "사야가 파티에 있을 때 '혈육' 영역이 '번식 · 혈육'으로 변경된다. '핏빛 용광로'가 '껍데기' 적에게 부여하는 '핏빛 침식'이 5배로 증가한다." },
-            { id: 'caraboo', name: '카라부', image: 'images/caraboo-thumb.png', effect: "카라부가 파티에 있을 때 '혈육' 영역이 '번식 · 혈육'으로 변경된다. '핏빛 용광로'가 '껍데기' 적에게 부여하는 '핏빛 침식'이 5배로 증가한다." }
+            { id: 'saya', name: '사야', image: 'images/client_art/thumb/saya-a27180a83e.webp', effect: "사야가 파티에 있을 때 '혈육' 영역이 '번식 · 혈육'으로 변경된다. '핏빛 용광로'가 '껍데기' 적에게 부여하는 '핏빛 침식'이 5배로 증가한다." },
+            { id: 'caraboo', name: '카라부', image: 'images/client_art/thumb/caraboo-8fff569dd5.webp', effect: "카라부가 파티에 있을 때 '혈육' 영역이 '번식 · 혈육'으로 변경된다. '핏빛 용광로'가 '껍데기' 적에게 부여하는 '핏빛 침식'이 5배로 증가한다." }
         ] },
         90641: { label: '권속' },
         90642: { label: '권속' },
-        90643: { label: '심해', counters: [{ id: 'coporsant', name: '코퍼산트', image: 'images/Coporsant-thumb.png', effect: "전투 시작 시 모든 적이 받는 촉수 피해가 5 ~ 15% 증가하며, '심해' 적에게는 효과가 2배가 된다. '징벌의 천둥'이 '심해' 적에게 입히는 피해가 50 ~ 100% 증가한다." }] },
-        90644: { label: '초차원', counters: [{ id: 'lily', name: '릴리', image: 'images/Lily-thumb.png', effect: "'초차원' 적의 공격을 받은 뒤, 이번 공격으로 잃은 HP의 10 ~ 20%에 해당하는 지연 회복 효과를 획득한다." }] },
+        90643: { label: '심해', counters: [{ id: 'coporsant', name: '코퍼산트', image: 'images/client_art/thumb/coporsant-23b436bd6c.webp', effect: "전투 시작 시 모든 적이 받는 촉수 피해가 5 ~ 15% 증가하며, '심해' 적에게는 효과가 2배가 된다. '징벌의 천둥'이 '심해' 적에게 입히는 피해가 50 ~ 100% 증가한다." }] },
+        90644: { label: '초차원', counters: [{ id: 'lily', name: '릴리', image: 'images/client_art/thumb/lily-6bb2a2a22c.webp', effect: "'초차원' 적의 공격을 받은 뒤, 이번 공격으로 잃은 HP의 10 ~ 20%에 해당하는 지연 회복 효과를 획득한다." }] },
         90645: { label: '인간형', counters: [
-            { id: 'xu', name: '서', image: 'images/Xu-thumb.png', effect: "[도취]의 각 스택은 '인간형' 적이 입히는 피해를 1% 감소시키고, [도취]가 제거될 때 '인간형' 적의 최대 HP 1%에 해당하는 [고정 피해]를 입힌다." },
-            { id: 'faint', name: '파인트', image: 'images/Faint-thumb.png', effect: "파인트의 명령 카드를 사용한 후, '인간형' 적의 힘을 파인트의 공격력 5 ~ 10%만큼 [강탈]하며, 매 턴 최대 3회 발동한다." },
-            { id: 'tinct', name: '틴커트', image: 'images/Tinct-thumb.png', effect: "'서서히 퍼지는 선율'을 사용하면 모든 '인간형' 적의 피해를 임시로 10 ~ 20% 감소시키며, 중첩할 수 없다." }
+            { id: 'xu', name: '서', image: 'images/client_art/thumb/xu-606382ad0a.webp', effect: "[도취]의 각 스택은 '인간형' 적이 입히는 피해를 1% 감소시키고, [도취]가 제거될 때 '인간형' 적의 최대 HP 1%에 해당하는 [고정 피해]를 입힌다." },
+            { id: 'faint', name: '파인트', image: 'images/client_art/thumb/faint-3fd9e13526.webp', effect: "파인트의 명령 카드를 사용한 후, '인간형' 적의 힘을 파인트의 공격력 5 ~ 10%만큼 [강탈]하며, 매 턴 최대 3회 발동한다." },
+            { id: 'tinct', name: '틴커트', image: 'images/client_art/thumb/tinct-d30a22effc.webp', effect: "'서서히 퍼지는 선율'을 사용하면 모든 '인간형' 적의 피해를 임시로 10 ~ 20% 감소시키며, 중첩할 수 없다." }
         ] },
         90646: { label: '등불 교회', counters: [
-            { id: 'castor', name: '카스토르', image: 'images/Castor-thumb.png', effect: "카스토르가 '등불 교회' 적에게 부여하는 [침식]이 20 ~ 50% 증가한다." },
-            { id: 'pollux', name: '폴룩스', image: 'images/Pollux-thumb.png', effect: "피해를 입힐 때, [죄의 낙인]의 효과는 '등불 교회' 적에게 2배가 된다." }
+            { id: 'castor', name: '카스토르', image: 'images/client_art/thumb/castor-8541430644.webp', effect: "카스토르가 '등불 교회' 적에게 부여하는 [침식]이 20 ~ 50% 증가한다." },
+            { id: 'pollux', name: '폴룩스', image: 'images/client_art/thumb/pollux-0dd1a80ca3.webp', effect: "피해를 입힐 때, [죄의 낙인]의 효과는 '등불 교회' 적에게 2배가 된다." }
         ] },
-        94556: { label: '망령', counters: [{ id: 'doresain', name: '도어세인', image: 'images/Doresain-thumb.png', effect: "도어세인이 '언데드' 적을 처치할 때, 30 ~ 50 광기를 획득한다." }] }
+        94556: { label: '망령', counters: [{ id: 'doresain', name: '도어세인', image: 'images/client_art/thumb/doresain-20c6a448e5.webp', effect: "도어세인이 '언데드' 적을 처치할 때, 30 ~ 50 광기를 획득한다." }] }
     });
     const MECHANIC_COUNTER_LIBRARY = Object.freeze({
         alva: {
-            id: 'alva', name: '앨바', image: 'images/Alva-thumb.png', note: '봉인 해제',
+            id: 'alva', name: '앨바', image: 'images/client_art/thumb/alva-95e469539d.webp', note: '봉인 해제',
             effect: '「임전 태세」 사용 시 모든 각성체의 봉인 상태를 해제한다.'
         },
         arachne: {
-            id: 'arachne', name: '아라크네', image: 'images/arachne-thumb.png', note: '손패 둔화 해제',
+            id: 'arachne', name: '아라크네', image: 'images/client_art/thumb/arachne-7e41f0ec2d.webp', note: '손패 둔화 해제',
             effect: '「운명, 이로써 고하노라」 사용 시 모든 손패의 둔화 상태를 제거한다.'
         },
         karen: {
-            id: 'karen', name: '카렌', image: 'images/Karen-thumb.png', note: '손패 둔화 해제',
+            id: 'karen', name: '카렌', image: 'images/client_art/thumb/karen-8233836bc2.webp', note: '손패 둔화 해제',
             effect: '「손님, 천천히 드세요!」 사용 시 손패의 모든 둔화 상태를 제거한다.'
         },
         celeste: {
-            id: 'celeste', name: '셀레스트', image: 'images/Celeste-thumb.png', note: '손패 둔화 해제',
+            id: 'celeste', name: '셀레스트', image: 'images/client_art/thumb/celeste-ed6a4ef1fd.webp', note: '손패 둔화 해제',
             effect: '「순백의 꿈」 사용 시 손패의 둔화 상태를 제거한다.'
         },
         vortice: {
-            id: 'vortice', name: '모스', image: 'images/mosk-thumb.png', note: '손패 연소 해제',
+            id: 'vortice', name: '모스', image: 'images/client_art/thumb/vortice-e6bc093998.webp', note: '손패 연소 해제',
             effect: '「심연! 소용돌이! 대포!」 사용 시 손에 있는 모든 카드의 연소 상태를 해제한다.'
         },
         'kathigu-ra': {
-            id: 'kathigu-ra', name: '카티구라', image: 'images/Kathigu-Ra-thumb.png', note: '손패 연소 제거',
+            id: 'kathigu-ra', name: '카티구라', image: 'images/client_art/thumb/kathigu-ra-eb1c74a5be.webp', note: '손패 연소 제거',
             effect: '영혼 단련 효과로 턴 시작 시와 버리기 단계 전에 손패의 모든 연소를 제거하고, 제거한 스택마다 폭염 1스택을 획득한다.'
         },
         caraboo: {
-            id: 'caraboo', name: '카라부', image: 'images/caraboo-thumb.png', note: '손패 연소 해제',
+            id: 'caraboo', name: '카라부', image: 'images/client_art/thumb/caraboo-8fff569dd5.webp', note: '손패 연소 해제',
             effect: '「짜잔☆요정님 등장!」 사용 시 손에 든 모든 카드의 연소 상태를 해제한다.'
         },
         sanga: {
-            id: 'sanga', name: '산', image: 'images/Sanga-thumb.png', note: '자신의 손상 해제',
+            id: 'sanga', name: '산', image: 'images/client_art/thumb/sanga-95ea3ff95d.webp', note: '자신의 손상 해제',
             effect: '「폐쇄적 창작」 사용 후 다음 턴 시작 시 자신의 손상 상태를 해제한다.'
         },
         faint: {
-            id: 'faint', name: '파인트', image: 'images/Faint-thumb.png', note: '자신의 손상 해제',
+            id: 'faint', name: '파인트', image: 'images/client_art/thumb/faint-3fd9e13526.webp', note: '자신의 손상 해제',
             effect: '「별의 요람」 사용 시 자신의 손상 상태를 해제한다.'
         },
         winkle: {
-            id: 'winkle', name: '윙클', image: 'images/Winkle-thumb.png', note: '자신의 손상 해제',
+            id: 'winkle', name: '윙클', image: 'images/client_art/thumb/winkle-ec3e369045.webp', note: '자신의 손상 해제',
             effect: '「형태 없는 전이」 사용 시 자신의 손상 상태를 해제한다.'
         },
         erica: {
-            id: 'erica', name: '에리카', image: 'images/Erica-thumb.png', note: '자신의 손상·허약 해제',
+            id: 'erica', name: '에리카', image: 'images/client_art/thumb/erica-81876ecd88.webp', note: '자신의 손상·허약 해제',
             effect: '「기계 무장-회수」는 자신의 손상을, 「기계 무장-전개」는 자신의 허약 상태를 해제한다.'
         },
         tinct: {
-            id: 'tinct', name: '틴커트', image: 'images/Tinct-thumb.png', note: '자신의 손상·허약·취약 해제',
+            id: 'tinct', name: '틴커트', image: 'images/client_art/thumb/tinct-d30a22effc.webp', note: '자신의 손상·허약·취약 해제',
             effect: '「진혼곡」 사용 시 자신의 손상, 허약, 취약 상태를 모두 해제한다.'
         },
         ogier: {
-            id: 'ogier', name: '오지에', image: 'images/Ogier-thumb.png', note: '자신의 손상 해제',
+            id: 'ogier', name: '오지에', image: 'images/client_art/thumb/ogier-22998a840e.webp', note: '자신의 손상 해제',
             effect: '「일곱 덕목, 미덕의 전승」 사용 시 자신이 손상 상태라면 이를 해제한다.'
         },
         caecus: {
-            id: 'caecus', name: '카이커스', image: 'images/Caecus-thumb.png', note: '자신의 허약 해제',
+            id: 'caecus', name: '카이커스', image: 'images/client_art/thumb/caecus-ad01a617e5.webp', note: '자신의 허약 해제',
             effect: '「이단의 혈통」 사용 시 자신의 허약 상태를 해제한다.'
         },
         tulu: {
-            id: 'tulu', name: '툴루', image: 'images/Tulu-thumb.png', note: '자신의 허약 해제',
+            id: 'tulu', name: '툴루', image: 'images/client_art/thumb/tulu-0391198127.webp', note: '자신의 허약 해제',
             effect: '「레무리아의 재림」 사용 시 자신의 허약 상태를 해제한다.'
         },
         helot: {
-            id: 'helot', name: '히로', image: 'images/Helot-thumb.png', note: '자신의 허약·힘 감소 해제',
+            id: 'helot', name: '히로', image: 'images/client_art/thumb/helot-6793aa2597.webp', note: '자신의 허약·힘 감소 해제',
             effect: '「절망 속의 생존」 사용 시 자신의 허약과 임시 힘 감소 상태를 해제한다.'
         },
         lotan: {
-            id: 'lotan', name: '로탄', image: 'images/Lotan-thumb.png', note: '자신의 허약 해제',
+            id: 'lotan', name: '로탄', image: 'images/client_art/thumb/lotan-d56a22f975.webp', note: '자신의 허약 해제',
             effect: '「혼돈의 짐승」 사용 시 자신의 허약 상태를 해제한다.'
         },
         faros: {
-            id: 'faros', name: '파로스', image: 'images/Faros-thumb.png', note: '자신의 취약 해제',
+            id: 'faros', name: '파로스', image: 'images/client_art/thumb/faros-43f5911ebf.webp', note: '자신의 취약 해제',
             effect: '「잃어버린 고대의 도시」 사용 시 자신의 취약 상태를 해제한다.'
         },
         leigh: {
-            id: 'leigh', name: '레이아', image: 'images/Leigh-thumb.png', note: '자신의 취약 해제',
+            id: 'leigh', name: '레이아', image: 'images/client_art/thumb/leigh-be8d97ff2a.webp', note: '자신의 취약 해제',
             effect: '「아첨의 포옹」의 포식 효과가 발동하면 자신의 취약 상태를 해제한다.'
         },
         doll: {
-            id: 'doll', name: '돌', image: 'images/Doll-thumb.png', note: '자신의 취약 해제',
+            id: 'doll', name: '돌', image: 'images/client_art/thumb/doll-90f6a14901.webp', note: '자신의 취약 해제',
             effect: '「이성, 진리와 현실」 사용 시 자신의 취약 상태를 해제한다.'
         }
     });
