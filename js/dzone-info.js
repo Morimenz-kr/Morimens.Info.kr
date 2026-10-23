@@ -24,7 +24,7 @@
         84298: { label: '주재자', counters: [{ id: 'mouchette', name: '무셰트', image: 'images/client_art/thumb/mouchette-196d439647.webp', effect: "무셰트가 '주재자' 적에게 입히는 최종 피해가 20 ~ 50% 증가한다." }] },
         84299: { label: '벌레 종족', counters: [{ id: 'clementine', name: '클레멘타인', image: 'images/client_art/thumb/clementine-9c49671a3a.webp', effect: "클레멘타인이 '벌레 종족' 적에게 피해를 입힐 때, 목표에게 입힌 피해량의 50 ~ 100%에 해당하는 [출혈]을 부여한다. 클레멘타인이 매 턴 처음으로 방어막을 생성하거나 HP를 회복할 때, '벌레 종족' 적은 임시로 클레멘타인의 방어력 20 ~ 30%만큼 힘을 잃는다." }] },
         84303: { label: '혈육', counters: [
-            { id: 'alva', name: '앨바', image: 'images/client_art/thumb/alva-95e469539d.webp', effect: "앨바가 '혈육' 적에게 입히는 최종 피해가 50 ~ 100% 증가한다." },
+            { id: 'alva', name: '엘바', image: 'images/client_art/thumb/alva-95e469539d.webp', effect: "엘바가 '혈육' 적에게 입히는 최종 피해가 50 ~ 100% 증가한다." },
             { id: 'saya', name: '사야', image: 'images/client_art/thumb/saya-a27180a83e.webp', effect: "사야가 '혈육' 적에게 부여하는 [침식]이 추가로 50 ~ 100% 증가한다." }
         ] },
         90640: { label: '껍데기', counters: [
@@ -48,7 +48,7 @@
     });
     const MECHANIC_COUNTER_LIBRARY = Object.freeze({
         alva: {
-            id: 'alva', name: '앨바', image: 'images/client_art/thumb/alva-95e469539d.webp', note: '봉인 해제',
+            id: 'alva', name: '엘바', image: 'images/client_art/thumb/alva-95e469539d.webp', note: '봉인 해제',
             effect: '「임전 태세」 사용 시 모든 각성체의 봉인 상태를 해제한다.'
         },
         arachne: {
