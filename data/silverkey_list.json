@@ -1055,7 +1055,7 @@
     "korean_name": "기울어진 배",
     "english_name": "key_ship",
     "description": "1점 산출력을 획득하고, 모든 적에게 5스택 강생 의식을 적용한다. 만약 ‘탄망 머피’가 팀에 있다면, 나선원무 한 장을 뽑는다.",
-    "image_path": "images/key_ship.png",
+    "image_path": "images/client_art/key/key_ship-f18956160b.webp",
     "tags": [
       "탄망 · 머피",
       "강생 의식",
@@ -1078,7 +1078,7 @@
     "korean_name": "소원을 다시 만나다",
     "english_name": "key_wish_again",
     "description": "버린 카드 더미에서 명령카드 1장을 선택하여 회수합니다. 만약 ‘라모나’가 팀에 있을 경우, 그 팀원이 이번 턴에 사용하는 다음 명령카드가 2번 발동됩니다.",
-    "image_path": "images/key_wish_again.png",
+    "image_path": "images/client_art/key/key_wish_again-c645121564.webp",
     "tags": [
       "라모나",
       "카드 추가"
