@@ -216,6 +216,7 @@
     let researchLevel = 81;
     let selectedMechanic = '';
     let mechanicCursor = -1;
+    let readUsagePlan = () => null;
     let stageUsageView = 'awakeners';
     let usageCharacterManifest = [];
     const stageUsageCache = new Map();
@@ -978,6 +979,7 @@
                     <span class="stage-usage-toggle" aria-hidden="true"></span>
                 </summary>
                 <div class="stage-usage-content">
+                    ${readUsagePlan()?.period === selectedPeriod ? `<p><a class="usage-party-settings" href="party_builder.html?usagePlan=${selectedPeriod}">담은 파티 · ${Object.keys(readUsagePlan().zones).length}/5구역</a></p>` : ''}
                     <div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
                         <button type="button" data-usage-view="awakeners" aria-pressed="${stageUsageView === 'awakeners'}">각성체 채용률</button>
                         <button type="button" data-usage-view="parties" aria-pressed="${stageUsageView === 'parties'}">자주 쓰인 편성</button>
@@ -1071,7 +1073,7 @@
         const name = character?.name || sourceName;
         const image = safeImage(character?.image_thumb) || sourceImage;
         const tag = character ? 'a' : 'span';
-        const href = character ? ` href="links.html?category=character&amp;id=${encodeURIComponent(character.id)}"` : '';
+        const href = character ? ` href="links.html?category=character&amp;id=${encodeURIComponent(character.id)}&amp;period=${selectedPeriod}&amp;wave=${selectedWave}&amp;difficulty=${selectedAlert}#usage"` : '';
         return `<${tag}${href} class="usage-awakener${compact ? ' usage-awakener--compact' : ''}">
             ${image ? `<img src="${escapeHtml(image)}" alt="" width="40" height="40" loading="lazy" decoding="async">` : '<span class="usage-awakener-fallback" aria-hidden="true"></span>'}
             <span>${escapeHtml(name)}</span>
@@ -1139,6 +1141,12 @@
         updated.textContent = `최근 집계 ${dateTime.format(metadata.fetchedAt * 1000)}`;
     }
 
+    function partySettingsLink(party) {
+        const characters = (party.awakeners || []).map(a => usageCharacterManifest.find(c => Number(c.client_id) === Number(a.tid)));
+        if (characters.length !== 4 || characters.some(c => !c)) return '<span class="stage-usage-message">세팅 연결 정보 없음</span>';
+        const query = new URLSearchParams({ category: 'character', id: characters[0].id, period: selectedPeriod, wave: selectedWave, difficulty: selectedAlert, team: characters.map(c => c.id).sort().join('|'), usageView: 'records' });
+        return `<a class="usage-party-settings" href="links.html?${escapeHtml(query.toString())}#usage">세팅 보기</a>`;
+    }
     function renderStageUsage(data) {
         if (stageUsageView === 'parties') {
             const parties = Array.isArray(data.parties) ? data.parties.slice(0, 10) : [];
@@ -1147,7 +1155,7 @@
                 <li>
                     <span class="usage-rank">${index + 1}</span>
                     <span class="usage-party-members">${(party.awakeners || []).map(item => usageAwakener(item, true)).join('')}</span>
-                    <span class="usage-result"><strong>${usagePercent(party.rate)}</strong><small>${number.format(party.count)}회</small></span>
+                    <span class="usage-result"><strong>${usagePercent(party.rate)}</strong><small>${number.format(party.count)}회</small>${partySettingsLink(party)}</span>
                 </li>`).join('')}</ol>`;
         }
         const awakeners = Array.isArray(data.awakeners) ? data.awakeners.slice(0, 12) : [];
@@ -1502,6 +1510,8 @@
 
     async function initialize() {
         try {
+            readUsagePlan = (await import('./usage-plan.mjs')).readPlan;
+            if (new URLSearchParams(location.search).get('view') === 'parties') stageUsageView = 'parties';
             const hashSelection = location.hash.match(/^(?:#season-(\d+)-)?wave-(\d+)(?:-alert-(\d+))?$/);
             if (hashSelection) {
                 if (hashSelection[1]) selectedPeriod = window.DzoneSeason.selectSeason(Number(hashSelection[1])).period;

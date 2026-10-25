@@ -3,10 +3,12 @@
 <head>
     <script src="config/config.js?v=design-system-20260831-10"></script>
     <script>
+        CONFIG.ASSET_REVISION = 'usage-plan-20261025';
         loadCSS('css/common.css');
         loadCSS('css/components.css');
         loadCSS('css/character-effects.css');
         loadCSS('css/party_builder.css?v=party-builder-20260723-17');
+        loadCSS('css/pages/character-usage.css');
         loadJS('js/search_utils.js');
         loadJS('js/character-effects.js');
         loadJS('js/feedback.js');
@@ -19,7 +21,8 @@
 </head>
 <body>
 
-<div class="builder-container">
+<p id="builder-load-status" role="status" style="padding: 1rem;">편성을 불러오는 중…</p>
+<div class="builder-container" style="visibility: hidden" aria-busy="true">
     <div class="sidebar" id="sidebar-tabs"></div>
 
     <div class="main-area">
@@ -236,6 +239,6 @@
 
 <button class="floating-report-btn" title="버그 신고">🚨</button>
 
-<script src="js/party_builder.js?v=character-identity-226"></script>
+<script src="js/party_builder.js?v=usage-plan-20261025"></script>
 </body>
 </html>

@@ -38,8 +38,9 @@ test('은열쇠·비밀계약·명륜 도감은 공통 dialog 상세 UI를 사�
 });
 
 test('#78 추천 장비는 공통 상세 dialog를 열고 주옵 추천은 일치하는 명륜을 표시한다', () => {
-    assert.match(linksSource, /class="equip-recommendation-trigger" data-tooltip-kind="wheel"/);
-    assert.match(linksSource, /class="equip-recommendation-trigger" data-tooltip-kind="covenant"/);
+    const usageSource = fs.readFileSync(path.join(__dirname, 'character-usage.js'), 'utf8');
+    assert.match(usageSource, /window\.openDictionaryDialog\(item,/);
+    assert.match(linksSource, /mountCharacterUsage\(gridContainer/);
     assert.match(linksSource, /function findWheelsByRecommendedStat\(/);
     assert.match(linksSource, /function renderWheelStatMatches\(/);
     assert.match(linksSource, /조건에 맞는 명륜/);

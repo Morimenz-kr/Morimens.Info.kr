@@ -18,13 +18,17 @@
     <script src="config/config.js?v=v1.3.39-vivian"></script>
     <script>
         CONFIG.VERSION = 'v1.3.39-vivian';
-        CONFIG.ASSET_REVISION = 'character-identity-226-recommendation-234';
+        CONFIG.ASSET_REVISION = 'character-usage-plan-20261025';
+        if (location.hostname.endsWith('.morimens-info-qa.pages.dev')) {
+            CONFIG.CHARACTER_USAGE_ENDPOINT_URL = 'https://morimens-character-usage-qa.khj613401.workers.dev';
+        }
         loadCSS('css/common.css');
         loadCSS('css/components.css');
         loadCSS('css/pages/links.css');
         loadCSS('css/character-effects.css');
         loadCSS('css/responsive.css');
         loadCSS('css/character-growth.css');
+        loadCSS('css/pages/character-usage.css');
         loadJS('js/character-growth-data.js');
         loadJS('js/character-growth-ui.js');
         loadJS('js/search_utils.js');

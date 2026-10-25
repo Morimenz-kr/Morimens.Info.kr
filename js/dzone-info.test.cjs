@@ -1014,7 +1014,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'conditional-20261007-v1\.3\.109-wave4-boss-portrait-20260929'/);
+    assert.match(html, /CONFIG\.VERSION = 'conditional-20261007-v1\.3\.109-wave4-boss-portrait-20260929-party-plan-20261025'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
@@ -1226,13 +1226,14 @@ test('노드 지도는 전투 버튼만 상세 카드에 연결하고 실전 통
 
 test('실전 통계의 각성체 링크는 사이트 ID를 사용하고 미등록 개체는 링크하지 않는다', () => {
     const context = vm.createContext({
+        selectedPeriod: 71, selectedWave: 1, selectedAlert: 7,
         usageCharacterManifest: JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_manifest.json'), 'utf8')),
         safeImage: value => value || '',
         escapeHtml: value => String(value)
     });
     vm.runInContext(source.slice(source.indexOf('    function usageAwakener('), source.indexOf('    function loadDzoneUsageOverview(')), context);
     const moss = context.usageAwakener({ tid: 130901, name: '모스', image_thumb: 'images/mosk-thumb.png' });
-    assert.match(moss, /href="links.html\?category=character&amp;id=vortice"/);
+    assert.match(moss, /href="links.html\?category=character&amp;id=vortice&amp;period=71&amp;wave=1&amp;difficulty=7#usage"/);
     const variant = context.usageAwakener({ name: '탄망·머피' }, true);
     assert.match(variant, /id=Murphy_Fauxborn/);
     assert.match(variant, /usage-awakener--compact/);

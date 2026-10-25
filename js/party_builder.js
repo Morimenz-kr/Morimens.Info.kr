@@ -55,6 +55,7 @@ let currentTeamIdx = 0;
 let DB = { chars: [], wheels: [], keys: [] };
 let PARTY_BUILDER_RULES = { ...DEFAULT_PARTY_BUILDER_RULES };
 let TOOLTIP_DICTIONARY = {};
+let renderUsagePlanSource = () => {};
 
 // 필터 및 검색 관련 변수
 let activeCharFilters = { domain: new Set(), class: new Set() };
@@ -217,11 +218,28 @@ function openPageInputModal(mode) {
 document.addEventListener('DOMContentLoaded', async () => {
     console.log("Party Builder JS (Full Version) Loaded!");
     updateBackButtonLabel();
+    try {
     await loadExternalData();
     assignTagsToWheels();
     assignTagsToKeys();
+    const { readPlan } = await import('./usage-plan.mjs');
+    window.__usagePlanRead = readPlan;
     loadFromLocalStorage();
+    try { const selected = JSON.parse(localStorage.getItem('morimens_builder_selection')); if (allPages[selected?.page] && allPages[selected.page].teams[selected.team]) { currentPageIdx = selected.page; currentTeamIdx = selected.team; } } catch { /* Ignore invalid selection. */ }
+    const { connectUsagePlan } = await import('./usage-plan-builder.mjs');
+    await connectUsagePlan({ database: DB, pages: allPages, maxPages: MAX_PAGES, emptyPage: createEmptyPage,
+        select: (page, team) => { currentPageIdx = page; currentTeamIdx = team; }, save: () => saveAllData(true), render: renderAll,
+        alert: message => openSystemAlert('편성 가져오기', message), confirm: openSystemConfirm,
+        currentTeam: () => allPages[currentPageIdx].teams[currentTeamIdx], currentPage: () => allPages[currentPageIdx],
+        setSourceRenderer: callback => { renderUsagePlanSource = callback; } });
     renderAll();
+    document.querySelector('.builder-container').style.removeProperty('visibility');
+    document.querySelector('.builder-container').setAttribute('aria-busy', 'false');
+    document.getElementById('builder-load-status')?.remove();
+    } catch (error) {
+        document.getElementById('builder-load-status').textContent = '편성을 불러오지 못했습니다. 새로고침해주세요.';
+        console.error(error); return;
+    }
 
     document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
@@ -253,6 +271,9 @@ async function loadExternalData() {
         if (!resChars.ok || !resWheels.ok || !resKeys.ok) throw new Error("파일 로드 실패");
         DB.chars = await resChars.json();
         DB.wheels = await resWheels.json();
+        const { usageExtraWheels } = await import('./character-usage-equipment.mjs');
+        DB.wheels.push(...usageExtraWheels.filter(w => !DB.wheels.some(old => old.english_name === w.english_name)));
+        DB.covenants = await fetch('data/covenant_list.json').then(r => r.ok ? r.json() : []).catch(() => []);
         DB.keys = await resKeys.json();
         window.characterIdentity = window.CharacterIdentity.create(DB.chars);
         window.characterIdentity.hydrate(DB.wheels);
@@ -392,9 +413,11 @@ function deleteCurrentPage() {
 
 // [8] 렌더링 엔진 (Tabs, Sidebar, Main)
 function renderAll() {
+    localStorage.setItem('morimens_builder_selection', JSON.stringify({ page: currentPageIdx, team: currentTeamIdx }));
     renderPageTabs();
     renderSidebar();
     renderMain();
+    renderUsagePlanSource();
 }
 
 function renderPageTabs() {
@@ -1374,6 +1397,7 @@ function normalizeSavedPage(savedPage, pageIndex) {
         );
     }
 
+    if (Number.isInteger(savedPage.usagePeriod)) page.usagePeriod = savedPage.usagePeriod;
     return page;
 }
 
@@ -1396,6 +1420,13 @@ function normalizeSavedTeam(savedTeam, teamIndex) {
         ? savedTeam.supportIdx
         : -1;
 
+    if (savedTeam.usageSource) {
+        try {
+            const raw = { version: 1, period: 1, zones: { [savedTeam.usageSource.row.wave]: savedTeam.usageSource } };
+            const saved = window.__usagePlanRead?.({ getItem: () => JSON.stringify(raw) });
+            if (saved) team.usageSource = Object.values(saved.zones)[0];
+        } catch { /* Invalid old source does not prevent loading the builder. */ }
+    }
     return team;
 }
 function unequipSelectedWheel() { allPages[currentPageIdx].teams[currentTeamIdx].wheels[editingCharIdx][selectedWheelSlotIdx] = null; renderWheelModalUI(); renderAll(); }

@@ -225,6 +225,11 @@ export default {
             const url = new URL(request.url);
             const origin = request.headers.get('Origin') || '';
             const corsHeaders = getCorsHeaders(origin, env);
+            const characterUsage = url.pathname.match(/^\/api\/dzone\/character\/([A-Za-z0-9_-]{1,80})\/usage$/);
+            if (characterUsage) {
+                const { handleCharacterUsage } = await import('./character-usage.mjs');
+                return await handleCharacterUsage(request, env, characterUsage[1]);
+            }
             const dzoneStageId = parseDzoneUsageStageId(url.pathname);
 
             if (url.pathname === '/api/dzone/usage') {
