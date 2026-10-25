@@ -6,6 +6,11 @@ on:
       - main
     paths:
       - 'workers/**'
+      - 'js/character-usage-model.mjs'
+      - 'js/character-usage-equipment.mjs'
+      - 'data/character_manifest.json'
+      - 'data/wheel_list.json'
+      - 'data/covenant_list.json'
       - 'wrangler.jsonc'
       - '.github/workflows/worker-deploy.yml'
   workflow_dispatch:
@@ -38,7 +43,7 @@ jobs:
         run: npm ci
 
       - name: Test Worker
-        run: node --test workers/feedback-worker.test.cjs
+        run: node --test workers/*.test.cjs
 
       - name: Check deployment credentials
         shell: bash

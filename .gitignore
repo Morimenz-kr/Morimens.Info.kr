@@ -30,6 +30,7 @@ ui-debug.log
 !/tools/validate-character.mjs
 !/tools/migrate-character-identity.mjs
 !/tools/validate-character-identity.mjs
+!/tools/validate-character-usage.mjs
 !/tools/workflow-config.test.cjs
 !/tools/validate-dzone-content.mjs
 !/tools/scheduled-season73-release.mjs

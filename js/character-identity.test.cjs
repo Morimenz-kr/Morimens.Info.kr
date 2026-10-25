@@ -84,7 +84,7 @@ test('모든 전용 SSR·SR·은열쇠 버튼은 임의 표시명 변경 후에�
 test('융재 편성 기록은 원문의 이름·이미지와 무관하게 클라이언트 ID로 표시한다', () => {
     const source = fs.readFileSync(path.join(__dirname, 'dzone-info.js'), 'utf8');
     const renamed = manifest.map(character => ({ ...character, name: character.id === 'alva' ? '새 이름' : character.name }));
-    const context = vm.createContext({ usageCharacterManifest: renamed, safeImage: value => value || '', escapeHtml: String, encodeURIComponent });
+    const context = vm.createContext({ selectedPeriod: 71, selectedWave: 1, selectedAlert: 7, usageCharacterManifest: renamed, safeImage: value => value || '', escapeHtml: String, encodeURIComponent });
     vm.runInContext(source.slice(source.indexOf('    function usageAwakener('), source.indexOf('    function loadDzoneUsageOverview(')), context);
     const alva = renamed.find(character => character.id === 'alva');
     const html = context.usageAwakener({ tid: alva.client_id, name: '알 수 없는 원문명', image_thumb: 'images/obsolete.png' });

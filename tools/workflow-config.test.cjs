@@ -76,7 +76,7 @@ test('main의 Worker 변경은 기존 Cloudflare 자격 증명과 별도 수집 
   assert.match(WORKER_DEPLOY_WORKFLOW, /DZONE_INGEST_TOKEN:\s*\$\{\{ secrets\.DZONE_INGEST_TOKEN \}\}/);
   assert.match(WORKER_DEPLOY_WORKFLOW, /wrangler@4\.129\.0 secret put DZONE_INGEST_TOKEN/);
   assert.match(WORKER_DEPLOY_WORKFLOW, /wrangler@4\.129\.0 deploy/);
-  assert.match(WORKER_DEPLOY_WORKFLOW, /node --test workers\/feedback-worker\.test\.cjs/);
+  assert.match(WORKER_DEPLOY_WORKFLOW, /node --test workers\/\*\.test\.cjs/);
   assert.match(WORKER_DEPLOY_WORKFLOW, /cancel-in-progress:\s*false/);
 });
 
