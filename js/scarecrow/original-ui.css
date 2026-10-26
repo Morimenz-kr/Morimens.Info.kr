@@ -175,7 +175,7 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 
 /* Equipped-card reference alignment. Values scale together with the native 294px card. */
 @font-face{font-family:ScarecrowCardKR;src:url('images/growth/game-card-kr.ttf') format('truetype');font-weight:600;font-display:swap}
-.char-card .char-tide-img{top:-4%;height:100%;width:100%;object-fit:fill;transform:none;transition:none}
+.char-card .char-tide-img{top:-4%;height:100%;width:100%;object-fit:cover;transform:none;transition:none}
 .char-card:hover .char-tide-img{transform:none}
 .char-card[data-growth-flow=anchored] .char-top-info{top:0;left:0;width:auto;max-width:100%;padding:calc(var(--card-unit)*4);gap:calc(var(--card-unit)*4);background:transparent;border-radius:0}
 .char-card[data-growth-flow=anchored] .char-top-icon{width:calc(var(--card-unit)*54);height:calc(var(--card-unit)*54);margin:0}
