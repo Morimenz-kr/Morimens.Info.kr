@@ -1,0 +1,2 @@
+# Hash-locked published runtime files must retain exact bytes on every OS.
+scarecrow/runtime/** -text

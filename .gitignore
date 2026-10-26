@@ -34,3 +34,7 @@ ui-debug.log
 /docs/morimens-client-data-audit-*.md
 /private-tools/
 /repomix-output*
+
+!/tools/build-scarecrow.mjs
+!/tools/serve-scarecrow.mjs
+!/tools/test-scarecrow.mjs

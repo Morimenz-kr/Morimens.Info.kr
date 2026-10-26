@@ -1,0 +1,219 @@
+{
+  "key_injection": {
+    "clientItemId": 9518,
+    "clientSkillId": 4771
+  },
+  "key_mouse_wisdom": {
+    "clientItemId": 9653,
+    "clientSkillId": 4292
+  },
+  "key_pure_white": {
+    "clientItemId": 9685,
+    "clientSkillId": 4129
+  },
+  "key_unfair_exchange": {
+    "clientItemId": 9991,
+    "clientSkillId": 4691
+  },
+  "key_funeral": {
+    "clientItemId": 9995,
+    "clientSkillId": 4582
+  },
+  "key_eternal_obsession": {
+    "clientItemId": 10032,
+    "clientSkillId": 4222
+  },
+  "key_voice": {
+    "clientItemId": 10052,
+    "clientSkillId": 4043
+  },
+  "key_tiny_wish": {
+    "clientItemId": 10065,
+    "clientSkillId": 4048
+  },
+  "key_aureta": {
+    "clientItemId": 36801,
+    "clientSkillId": 36800
+  },
+  "key_blood": {
+    "clientItemId": 36813,
+    "clientSkillId": 36807
+  },
+  "key_last_pledge": {
+    "clientItemId": 36814,
+    "clientSkillId": 36809
+  },
+  "key_moment": {
+    "clientItemId": 36815,
+    "clientSkillId": 36808
+  },
+  "key_born": {
+    "clientItemId": 36847,
+    "clientSkillId": 36845
+  },
+  "key_lakeside": {
+    "clientItemId": 36848,
+    "clientSkillId": 36844
+  },
+  "key_return": {
+    "clientItemId": 36849,
+    "clientSkillId": 36843
+  },
+  "key_rotten_party": {
+    "clientItemId": 36850,
+    "clientSkillId": 36846
+  },
+  "key_miracle": {
+    "clientItemId": 36857,
+    "clientSkillId": 36853
+  },
+  "key_giant": {
+    "clientItemId": 36858,
+    "clientSkillId": 36854
+  },
+  "key_all_of_her": {
+    "clientItemId": 36859,
+    "clientSkillId": 36855
+  },
+  "key_rose": {
+    "clientItemId": 36860,
+    "clientSkillId": 36856
+  },
+  "key_grey_fog": {
+    "clientItemId": 36861,
+    "clientSkillId": 36851
+  },
+  "key_summer_dream": {
+    "clientItemId": 36862,
+    "clientSkillId": 36852
+  },
+  "key_spring": {
+    "clientItemId": 45298,
+    "clientSkillId": 56202
+  },
+  "key_black_swan": {
+    "clientItemId": 45299,
+    "clientSkillId": 70827
+  },
+  "key_sea": {
+    "clientItemId": 45300,
+    "clientSkillId": 52698
+  },
+  "key_gun_sound": {
+    "clientItemId": 45301,
+    "clientSkillId": 58288
+  },
+  "key_mt_blessing": {
+    "clientItemId": 45302,
+    "clientSkillId": 65357
+  },
+  "key_seed": {
+    "clientItemId": 49204,
+    "clientSkillId": 49416
+  },
+  "key_open_door": {
+    "clientItemId": 56636,
+    "clientSkillId": 66499
+  },
+  "key_4th_music": {
+    "clientItemId": 56638,
+    "clientSkillId": 60590
+  },
+  "key_void": {
+    "clientItemId": 56643,
+    "clientSkillId": 70828
+  },
+  "key_star_protect": {
+    "clientItemId": 70919,
+    "clientSkillId": 70829
+  },
+  "key_door_of_beer": {
+    "clientItemId": 72095,
+    "clientSkillId": 77673
+  },
+  "key_special": {
+    "clientItemId": 80191,
+    "clientSkillId": 80194
+  },
+  "key_lightning": {
+    "clientItemId": 81756,
+    "clientSkillId": 84378
+  },
+  "key_twisted_fate": {
+    "clientItemId": 88873,
+    "clientSkillId": 90212
+  },
+  "key_hungry": {
+    "clientItemId": 94559,
+    "clientSkillId": 94560
+  },
+  "key_never_falling_sun": {
+    "clientItemId": 95548,
+    "clientSkillId": 97917
+  },
+  "key_keirei": {
+    "clientItemId": 95691,
+    "clientSkillId": 94561
+  },
+  "key_summer_time": {
+    "clientItemId": 97737,
+    "clientSkillId": 97919
+  },
+  "key_paint": {
+    "clientItemId": 99102,
+    "clientSkillId": 100304
+  },
+  "key_bloodtear": {
+    "clientItemId": 99724,
+    "clientSkillId": 117757
+  },
+  "key_dream_moment": {
+    "clientItemId": 100577,
+    "clientSkillId": 116332
+  },
+  "key_ship": {
+    "clientItemId": 118128,
+    "clientSkillId": 120314
+  },
+  "key_wish_again": {
+    "clientItemId": 119952,
+    "clientSkillId": 119835
+  },
+  "key_from_fog": {
+    "clientItemId": 120491,
+    "clientSkillId": 123509
+  },
+  "key_arachne": {
+    "clientItemId": 124899,
+    "clientSkillId": 134212
+  },
+  "key_homegirl_story": {
+    "clientItemId": 125190,
+    "clientSkillId": 126793
+  },
+  "key_fireworks": {
+    "clientItemId": 129499,
+    "clientSkillId": 128689
+  },
+  "key_saya": {
+    "clientItemId": 130063,
+    "clientSkillId": 139862
+  },
+  "key_mosk": {
+    "clientItemId": 130703,
+    "clientSkillId": 130240
+  },
+  "key_pontos": {
+    "clientItemId": 141174,
+    "clientSkillId": 143604
+  },
+  "key_lotan_cetarchon": {
+    "clientItemId": 145281,
+    "clientSkillId": 146648
+  },
+  "key_caraboo": {
+    "clientItemId": 145970,
+    "clientSkillId": 146647
+  },
+  "key_GOgier": {}
+}

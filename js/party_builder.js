@@ -999,7 +999,7 @@ function renderCharGrid() {
         return true;
     }).forEach(c => {
         const id = c.id;
-        let conflictReason = "";
+        let conflictReason = globalThis.PartyBuilderAvailability?.character?.(c) === false ? "계산 준비 중" : "";
 
         if (isSupportSelectionMode) {
             // [조력자 선택 모드]
@@ -1023,7 +1023,7 @@ function renderCharGrid() {
 
         const isSelected = tempChars.includes(id) || (isSupportSelectionMode && team.supportIdx !== -1 && team.chars[team.supportIdx] === id);
 
-        const el = document.createElement('div');
+        const el = document.createElement('button'); el.type = 'button'; el.dataset.characterId = c.id; el.setAttribute('aria-label', c.name);
         el.className = `grid-item grid-item-character has-label ${isSelected ? 'selected' : ''} ${conflictReason ? 'conflict' : ''}`;
         el.innerHTML = `<div class="grid-item-thumb" style="width:100%;aspect-ratio:1/1;overflow:hidden;flex:0 0 auto;"><img src="${c.image_thumb}" alt="" style="width:100%;height:100%;object-fit:cover;display:block;"></div><span class="grid-item-label">${c.name}</span>`;
 
@@ -1201,6 +1201,12 @@ function openWheelModal(charIdx, slotIdx, e) {
         btnSr.onclick = () => equipDedicatedWheel('SR');
     }
 
+    const character = DB.chars.find(c => c.id === allPages[currentPageIdx].teams[currentTeamIdx].chars[editingCharIdx]);
+    for (const grade of ['SSR','SR']) {
+        const button = document.getElementById(grade === 'SSR' ? 'btn-equip-ssr' : 'btn-equip-sr');
+        const wheel = DB.wheels.find(w => w.grade === grade && w.owner_character_ids?.includes(String(character?.id)));
+        if (button) { button.disabled = !wheel || globalThis.PartyBuilderAvailability?.wheel?.(wheel) === false; button.textContent = button.disabled ? (wheel ? '계산 준비 중' : '전용 ' + grade + ' 없음') : '전용 ' + grade + ' 장착'; }
+    }
     renderWheelModalUI();
     ensureWheelDoneButton();
     document.getElementById('modal-wheel').classList.add('show');
@@ -1326,14 +1332,16 @@ function renderWheelList() {
         const isUsed = !isSel && usageCount > 0
             && !(ownedOnlyFilters.wheels && String(w.grade || '').toUpperCase() === 'SSR' && isMaxBreakthroughWheel(w, ownedInventory));
         const isSsrBlocked = !isSel && String(w.grade || '').toUpperCase() === 'SSR' && hasNonMaxSsr;
-        const isDisabled = isUsed || isSsrBlocked;
+        const isUnavailable = globalThis.PartyBuilderAvailability?.wheel?.(w) === false;
+        const isDisabled = isUsed || isSsrBlocked || isUnavailable;
 
-        const el = document.createElement('div');
+        const el = document.createElement('button'); el.type = 'button'; el.dataset.equipmentId = w.english_name; el.setAttribute('aria-label', w.korean_name);
         el.className = `grid-item grid-item-wheel has-label ${isSel ? 'selected' : ''} ${isDisabled ? 'disabled' : ''}`;
 
         // 원본과 동일하게 이미지 삽입
         el.innerHTML = `<img src="${w.image_path}" alt=""><span class="grid-item-label">${w.korean_name}</span>`;
 
+        if (isUnavailable) { el.setAttribute("aria-disabled", "true"); el.title = "계산 준비 중"; const label = document.createElement("span"); label.className = "conflict-tag"; label.textContent = "계산 준비 중"; el.append(label); }
         // 툴팁 이벤트
         el.onmouseenter = (e) => showTooltip(w, e);
         el.onmouseleave = hideTooltip;
@@ -1422,6 +1430,9 @@ function openKeyModal(e) {
     const btnKey = document.getElementById('btn-equip-key');
     if (btnKey) {
         btnKey.style.display = 'block';
+        const dedicatedKey = DB.keys.find(key => key.owner_character_ids?.includes(String(team.chars[0])));
+        btnKey.disabled = !dedicatedKey || globalThis.PartyBuilderAvailability?.key?.(dedicatedKey) === false;
+        btnKey.textContent = btnKey.disabled ? (dedicatedKey ? '계산 준비 중' : '전용 은열쇠 없음') : '전용 은열쇠 장착';
         btnKey.onclick = () => equipDedicatedKey();
     }
 
@@ -1456,6 +1467,7 @@ function equipDedicatedKey() {
 
     // [중요] 프로젝트 데이터 구조에 맞춰 파티의 은열쇠 슬롯에 저장
     // 만약 캐릭터별 배열 형태라면 team.keys[0]에 저장합니다.
+    if (globalThis.PartyBuilderAvailability?.key?.(targetKey) === false) return openSystemAlert("알림", "이 은열쇠는 계산 준비 중입니다.");
     if (Array.isArray(team.keys)) {
         team.keys[0] = targetKey.english_name;
     } else {
@@ -1518,12 +1530,14 @@ function renderKeyGrid() {
     // 3단계: 화면 렌더링
     filteredKeys.forEach(k => {
         const isSel = k.english_name === currentK;
-        const isUsed = used.has(k.english_name);
+        const isUnavailable = globalThis.PartyBuilderAvailability?.key?.(k) === false;
+        const isUsed = used.has(k.english_name) || isUnavailable;
 
-        const el = document.createElement('div');
+        const el = document.createElement('button'); el.type = 'button'; el.dataset.equipmentId = k.english_name; el.setAttribute('aria-label', k.korean_name);
         el.className = `grid-item grid-item-key has-label ${isSel ? 'selected' : ''} ${isUsed ? 'disabled' : ''}`;
         el.innerHTML = `<img src="${k.image_path}" alt=""><span class="grid-item-label">${k.korean_name}</span>`;
 
+        if (isUnavailable) { el.setAttribute("aria-disabled", "true"); el.title = "계산 준비 중"; const label = document.createElement("span"); label.className = "conflict-tag"; label.textContent = "계산 준비 중"; el.append(label); }
         el.onmouseenter = (e) => showTooltip(k, e);
         el.onmouseleave = hideTooltip;
 
@@ -1810,6 +1824,8 @@ function equipDedicatedWheel(grade) {
         openSystemAlert("알림", `${charInfo.name}의 전용 ${grade} 명륜을 찾을 수 없습니다.`);
         return;
     }
+
+    if (globalThis.PartyBuilderAvailability?.wheel?.(targetWheel) === false) return openSystemAlert("알림", "이 명륜은 계산 준비 중입니다.");
 
     // 4. 슬롯 인덱스 결정 (SSR=0, SR=1) 및 포커스 이동
     const slotIdx = (grade === 'SSR') ? 0 : 1;

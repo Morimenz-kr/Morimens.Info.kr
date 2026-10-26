@@ -180,17 +180,8 @@
         if (els.manualFocusName) {
             els.manualFocusName.textContent = state.selectedContract.korean_name;
         }
-        els.contractGrid.innerHTML = state.contracts.map(contract => `
-            <button type="button" class="contract-card ${contract.english_name === state.selectedContract.english_name ? 'active' : ''}" data-contract="${escapeHtml(contract.english_name)}">
-                <img src="${escapeHtml(contract.image_path)}" alt="">
-                <span class="contract-card-name">${escapeHtml(contract.korean_name)}</span>
-            </button>
-        `).join('');
-        els.contractGrid.querySelectorAll('[data-contract]').forEach(button => {
-            button.addEventListener('click', () => {
-                requestContractChange(button.dataset.contract);
-            });
-        });
+        window.CovenantPicker.render({grid: els.contractGrid, contracts: state.contracts,
+            selected: state.selectedContract.english_name, onSelect: requestContractChange});
     }
 
     function requestContractChange(contractName) {

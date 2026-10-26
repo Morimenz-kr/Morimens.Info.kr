@@ -13,12 +13,18 @@
     "data:export": "node tools/firebase-data.mjs export --out .generated/data",
     "pages:prepare": "node tools/prepare-pages-artifact.mjs --out .generated/site",
     "firebase:emulators": "firebase emulators:start --only firestore",
-    "firebase:emulator-test": "firebase emulators:exec --only firestore \"node --test tools/firebase-firestore.test.cjs\""
+    "firebase:emulator-test": "firebase emulators:exec --only firestore \"node --test tools/firebase-firestore.test.cjs\"",
+    "scarecrow:build": "node tools/build-scarecrow.mjs",
+    "scarecrow:serve": "node tools/serve-scarecrow.mjs",
+    "scarecrow:test": "node tools/test-scarecrow.mjs"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "5.0.1",
     "firebase-admin": "14.2.0",
     "firebase-tools": "15.26.0",
-    "firebase": "12.17.1"
+    "firebase": "12.17.1",
+    "esbuild": "0.25.12",
+    "wasmoon": "1.16.0",
+    "@playwright/test": "1.63.0"
   }
 }

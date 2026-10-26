@@ -475,14 +475,6 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
         gap: 10px !important;              /* 이미지와 글자 사이 간격 */
     }
 
-    /* Desktop grid alignment must not pin mobile flex children to the left. */
-    .recommend-right > .equip-slot > .equip-label,
-    .recommend-right > .equip-slot > .equip-recommendation-trigger,
-    .recommend-right > .equip-slot > .equip-recommendation-static,
-    .recommend-right > .equip-slot > .sub-link {
-        align-self: center;
-    }
-
     .recommend-right > .wheel-pair {
         grid-column: 1 / -1 !important;
         display: grid !important;
@@ -547,6 +539,12 @@ header h1 { font-size: clamp(1.4em, 3vw, 2.2em); }
 
 
     /* 5. 비밀계약 전체 너비 및 강조 */
+    .recommend-right > .equip-slot > .equip-label,
+    .recommend-right > .equip-slot > .equip-recommendation-trigger,
+    .recommend-right > .equip-slot > .equip-recommendation-static {
+        align-self: center;
+    }
+
     .recommend-right > div:last-child {
         grid-column: 1 / -1 !important;
         border-top: 1px dashed #444 !important;

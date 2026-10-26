@@ -9,6 +9,18 @@
     const selectedVariants = new Map();
     const tierOrder = ['silver', 'gold', 'cursed', 'blessed', 'sinful', 'other'];
     const otherTiers = new Set(['special', 'base', 'upgraded', 'pendulum', 'sinful']);
+    let picker = null;
+    window.RelicInfoPicker = {
+        ready: false,
+        configure({selected = [], available, onChange}) {
+            picker = {selected: new Set(selected), available: new Set(available), onChange};
+            for (const relic of relics) {
+                const active = relic.variants.find(v => picker.selected.has(v.id));
+                if (active) selectedVariants.set(relic.id, active.id);
+            }
+            render();
+        }
+    };
 
     function escapeHtml(value) {
         return String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
@@ -83,6 +95,8 @@
 
     function variantsFor(relic) {
         return relic.variants.filter(variant => (
+            (!picker || picker.available.has(variant.id))
+            &&
             (selectedChapter === 'all' || variant.chapter === selectedChapter)
             && (selectedTier === 'all' || filterTier(variant) === selectedTier)
         ));
@@ -138,10 +152,16 @@
     }
 
     function renderCard(relic) {
-        return `<button type="button" class="catalog-relic-card" data-open-relic="${relic.id}" aria-haspopup="dialog" aria-label="${escapeHtml(relic.name)} 상세 정보 열기">
+        const card = `<button type="button" class="catalog-relic-card" data-open-relic="${relic.id}" aria-haspopup="dialog" aria-label="${escapeHtml(relic.name)} 상세 정보 열기">
             <span class="catalog-relic-image">${relicImage(relic)}</span>
             <span class="catalog-relic-name">${escapeHtml(relic.name)}</span>
         </button>`;
+        if (!picker) return card;
+        const variants = variantsFor(relic);
+        const selected = variants.find(v => v.id === selectedVariants.get(relic.id)) || variants[0];
+        const equipped = picker.selected.has(selected.id);
+        return `<div class="catalog-relic-picker-item">${card}<span class="catalog-relic-picker-variant">${escapeHtml(variantLabel(selected))}</span><button type="button" data-toggle-relic="${selected.id}" aria-label="${escapeHtml(relic.name)} ${escapeHtml(variantLabel(selected))} ${equipped ? '해제' : '장착'}" aria-pressed="${equipped}">${equipped ? '해제' : '장착'}</button></div>`;
+
     }
 
     function renderDialog(relic) {
@@ -161,6 +181,18 @@
         document.getElementById('relic-dialog-variant-label').textContent = variantLabel(selected);
         document.getElementById('relic-dialog-variants').innerHTML = selectorMarkup(relic, variants, selected);
         document.getElementById('relic-dialog-effect').innerHTML = effect;
+        const equip = document.getElementById('relic-dialog-equip');
+        equip.hidden = !picker;
+        if (picker) {
+            equip.textContent = picker.selected.has(selected.id) ? '해제' : '장착';
+            equip.setAttribute('aria-pressed', String(picker.selected.has(selected.id)));
+            equip.onclick = () => {
+                if (picker.selected.has(selected.id)) picker.selected.delete(selected.id);
+                else picker.selected.add(selected.id);
+                picker.onChange([...picker.selected]);
+                render();
+            };
+        }
         window.CharacterEffects?.setupTooltips(document.getElementById('relic-detail-dialog'));
     }
 
@@ -231,6 +263,14 @@
                 render();
             });
             document.getElementById('relic-list').addEventListener('click', event => {
+                const toggle = event.target.closest('[data-toggle-relic]');
+                if (toggle && picker) {
+                    const id = Number(toggle.dataset.toggleRelic);
+                    if (picker.selected.has(id)) picker.selected.delete(id); else picker.selected.add(id);
+                    picker.onChange([...picker.selected]);
+                    render();
+                    return;
+                }
                 const button = event.target.closest('[data-open-relic]');
                 if (!button) return;
                 openDialog(Number(button.dataset.openRelic));
@@ -267,6 +307,7 @@
                 dialogTrigger = null;
             });
             render();
+            window.RelicInfoPicker.ready = true;
         } catch (error) {
             console.error('유물 정보 로드 실패:', error);
             document.getElementById('relic-list').innerHTML = '<div class="relic-empty">유물 정보를 불러오지 못했습니다.</div>';

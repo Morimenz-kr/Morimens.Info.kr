@@ -233,3 +233,10 @@
 @media (prefers-reduced-motion: reduce) {
     .catalog-relic-image { transition: none; }
 }
+
+/* Optional picker mode uses the same catalog cards and detail dialog. */
+.catalog-relic-picker-item{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+.catalog-relic-picker-variant{font-size:.72rem;text-align:center;color:#aaa;overflow-wrap:anywhere}
+.catalog-relic-picker-item>[data-toggle-relic],#relic-dialog-equip{min-height:44px;border:1px solid #777;background:#30323a;color:#eee;border-radius:.3rem;cursor:pointer}
+.catalog-relic-picker-item>[aria-pressed=true]{border-color:var(--relic-accent);color:var(--relic-accent)}
+#relic-dialog-equip{flex-shrink:0;margin:.75rem;font:inherit}#relic-dialog-equip[hidden]{display:none}

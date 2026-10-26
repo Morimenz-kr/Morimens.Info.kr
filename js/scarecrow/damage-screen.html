@@ -1,0 +1,20 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ScareCrow · 카드 피해 계산</title><link rel="stylesheet" href="live.css"></head><body><div id="sc-previsual" aria-label="ScareCrow 전투 배치 시안">
+
+<div class="shell">
+ <header><h1>ScareCrow</h1><span class="subtitle">카드 피해 계산</span><button class="back" data-party>파티 편집</button></header>
+ <section class="party" hidden aria-label="파티 편성"><h2>내 파티</h2><div class="party-realms" aria-label="편성 계역"></div><div class="party-grid"></div><div class="party-bottom"><button class="primary" data-next>카드 피해 확인 →</button></div></section>
+ <section class="battle">
+  <div class="field">
+   <div class="battle-top"><div class="relics" aria-label="유물"></div><div class="summary result-hud" data-summary role="status" aria-live="polite" hidden></div></div>
+   <div class="arena"><section class="friendly"><div class="realm-hud" aria-label="계역 전투 상태"></div><div class="allies" aria-label="카드를 사용할 아군"></div></section><div class="enemies" aria-label="적 상태"></div></div>
+   <div class="lower"><div class="team-panel"><div class="team-health"></div><div class="effects"><button class="effect" data-open="team" aria-label="팀 힘 설정"><img data-icon="power" alt="힘"><strong data-power>52</strong></button><span class="team-icons"></span><button class="quiet" data-open="team">증폭 <span data-amp>0</span>%</button></div></div><div class="enemy-info"><button data-open="enemy-list">적 상태</button></div></div>
+   <div class="hud"><button class="key" data-open="key"><span class="key-ring" data-key-ring><img data-key-image alt=""></span><span class="key-info"><span class="key-label"><span>은열쇠</span><strong data-key>75%</strong></span><span class="track"><i data-key-fill></i></span></span></button><button class="history" data-open="history">사용 이력 <span data-history></span></button></div>
+  </div>
+  <div class="dock"><div class="dock-head"><div class="owner-row"><span class="owner" data-owner></span><button class="quiet" data-ultimate aria-pressed="false">광기폭발</button></div><div class="dock-actions"><button class="quiet" data-open="generated">＋ 생성 카드</button><button class="quiet" data-open="card">카드 조건</button></div></div><div class="cards" aria-label="카드 선택"></div><div class="run"><span class="selection" data-selection aria-live="polite"></span><button class="primary" data-run>피해 확인</button></div></div>
+ </section>
+ <section class="editor" hidden aria-label="선택 항목 설정"><div class="editor-head"><h2 data-title></h2><button class="quiet" data-close>닫기</button></div><div data-body></div><div class="editor-foot"><button class="primary" data-apply>적용</button></div></section>
+ <footer>계산 데이터를 준비하고 있습니다.</footer>
+</div>
+
+</div>
+<script type="module" src="live-app.js"></script></body></html>
