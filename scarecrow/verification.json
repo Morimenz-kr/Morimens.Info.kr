@@ -1,7 +1,15 @@
 {
   "date": "2026-10-26",
-  "client": "res154/build51",
-  "engine": "a8203271aab4de6e5377a779251ad9b210e0b76548a79d2dfdf3619f40382327",
+  "client": "res160/build51",
+  "engine": "c0c90ad9074011796d699e90abfd3e5512e9fbe70a808ff2f3072168fee6c341",
+  "upstreamCommit": "aef7db8135571329a28f5027239b5a2c83993530",
+  "upstreamNative": {
+    "cases": 2230,
+    "passed": 2165,
+    "expectedUnplayable": 65,
+    "unexpectedErrors": 0
+  },
+  "upstreamBrowserFullResultCases": 37,
   "sourceRegression": {
     "passed": 388,
     "failed": 0
@@ -27,41 +35,28 @@
       1024,
       1280
     ],
-    "textZoom": "200%",
-    "sharedPages": {
-      "party_builder.html": [
-        320,
-        390,
-        768,
-        1024,
-        1280
-      ],
-      "relic_info.html": [
-        320,
-        390,
-        768,
-        1024,
-        1280
-      ],
-      "covenant_simulator.html": [
-        320,
-        390,
-        768,
-        1024,
-        1280
-      ]
-    }
+    "textZoom": "200%"
   },
-  "offlineEngine": {
-    "damageOracleCases": 273,
+  "mergedEngine": {
+    "fullRegression": true,
     "growthBoundaryCases": 488,
-    "releasedCharacters": 61,
-    "dualWeaponParity": true,
-    "fullEngineRegression": true
+    "offlineLuaCalculatorCases": 8,
+    "dualWeaponBuildCases": 7,
+    "dualWeaponCombatCase": true,
+    "freshNativeCapture": false
+  },
+  "cleanRestore": {
+    "passed": true,
+    "resourceVersion": 160,
+    "engineSha256": "c0c90ad9074011796d699e90abfd3e5512e9fbe70a808ff2f3072168fee6c341",
+    "baseFixtureFiles": 5306,
+    "recoveredExecutableModules": 4,
+    "calculatorFixtureFiles": 8
   },
   "limitations": [
-    "res160 fixtures unavailable; no res160 parity claim",
-    "preserved offline oracles; no fresh game capture"
+    "Native execution and WASM parity scopes differ; upstream browser parity is 37 cases.",
+    "Calculator/growth adapters are offline Lua/WASM comparisons, not new native captures.",
+    "All conditional combinations and post-battle exploration carry-over are not verified."
   ],
   "unsupported": {
     "characters": [
@@ -76,10 +71,5 @@
       "key_GOgier",
       "key_vivian"
     ]
-  },
-  "cleanCheckout": {
-    "publicBuildWithoutPrivateRepo": true,
-    "privateRestoreFiles": 5312,
-    "reproducedEngineSha256": "a8203271aab4de6e5377a779251ad9b210e0b76548a79d2dfdf3619f40382327"
   }
 }

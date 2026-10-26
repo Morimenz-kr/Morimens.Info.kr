@@ -1,12 +1,12 @@
 {
   "format": 1,
-  "resourceVersion": 154,
+  "resourceVersion": 160,
   "buildVersion": 51,
   "originDeployment": "d25b1986-1b7d-4360-bd81-48fc141c8ebf",
   "files": {
-    "catalog.json": "67923d98a1ce12a623571f7ab5d88871a58deab7df2740b0f1cd4afc17067d0c",
+    "catalog.json": "7f19f189b247a42bd6d57448913aee7ac945cf756458e9c28e81359266158ff3",
     "data/covenant_parts.json": "f0026317e6e34ce46a9501c6706df39c384892499d975a4e00845b5c4ada45df",
-    "engine.scpack.gz": "ad20ab818016717f8f5f8445abd09f6b93aa6844e979aaf2d5abc84e2189791e",
+    "engine.scpack.gz": "728a55d44a43eea4c5122d22cfade9434f3d55ab14cc40def17fb4f5155f50e4",
     "gear-contract-18335-1.webp": "bb8741787d4162e69a73a1288269ced6a9e9a035e3a7a75c0d96f52d1ca7f286",
     "gear-contract-18335-2.webp": "8400602ae0368909d62137d57b55e0a9a7efa3e640e1b8e6fad6c6d705b2baa1",
     "gear-contract-18335-3.webp": "b37d8766d174a314eb692f42c7529a3da54af232553997a98df8b0d53a439d66",
@@ -1728,9 +1728,12 @@
   },
   "engineSource": {
     "branch": "codex/scarecrow-checkpoint",
-    "base": "c9a4580",
-    "packageSha256": "a8203271aab4de6e5377a779251ad9b210e0b76548a79d2dfdf3619f40382327",
-    "profile": "res154/build51",
-    "verifiedNativeDamageCases": 273
+    "upstreamCommit": "aef7db8135571329a28f5027239b5a2c83993530",
+    "upstreamPackageSha256": "3cae0d30ed8a629189a979d0949b6fd6985e12be7d0961634e99741cc30d8fcc",
+    "packageSha256": "c0c90ad9074011796d699e90abfd3e5512e9fbe70a808ff2f3072168fee6c341",
+    "profile": "res160/build51",
+    "nativeExecutionCases": 2230,
+    "nativeExpectedRejections": 65,
+    "upstreamBrowserParityCases": 37
   }
 }

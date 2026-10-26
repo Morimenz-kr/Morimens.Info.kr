@@ -74,7 +74,7 @@ for (const name of dataFiles) await writeFile(path.join(output, `data/${name}.js
 await writeFile(path.join(output, 'catalog.json'), JSON.stringify(catalog));
 await writeFile(path.join(output, 'live-data.json'), JSON.stringify(live));
 
-// Copy current catalog art by its real path. Calculations remain locked to res154.
+// Copy current catalog art by its real path. Calculations remain locked to the manifest client version.
 const art = new Set(['images/smile_Ramona.webp', ...['chaos','aequor','caro','ultra'].map(k => `images/character_${k}.png`)]);
 function collect(value) {
     if (typeof value === 'string') for (const match of value.matchAll(/images\/[A-Za-z0-9_./% -]+\.(?:png|webp|jpe?g|gif)/g)) art.add(match[0]);
