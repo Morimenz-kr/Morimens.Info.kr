@@ -1112,7 +1112,7 @@
             for (const url of urls) {
                 try {
                     const response = await fetch(url, {
-                        cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
+                        cache: url === '/private-tools/output/dzone-usage-overview.json' ? 'no-store' : 'no-cache', credentials: 'omit', referrerPolicy: 'no-referrer'
                     });
                     if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) continue;
                     const payload = await response.json();
@@ -1198,7 +1198,7 @@
             ).replace(/\/+$/, '');
             const usageUrl = `${usageApiBase}/api/dzone/stage/${stageId}/usage`;
             const stageRequest = fetch(usageUrl, {
-                cache: 'no-store', credentials: 'omit', referrerPolicy: 'no-referrer'
+                cache: 'no-cache', credentials: 'omit', referrerPolicy: 'no-referrer'
             }).then(async response => {
                 if (response.status === 404) {
                     return {

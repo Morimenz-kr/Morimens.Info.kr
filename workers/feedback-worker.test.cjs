@@ -447,6 +447,136 @@ test('융재금구 편성 통계 API는 인증된 집계만 저장하고 공개 
     assert.equal(payload.data.constraints.combinations.none.count, 10);
 });
 
+function installDzoneTestCache(t) {
+    const previous = globalThis.caches;
+    let now = 0;
+    const entries = new Map();
+    const cache = {
+        async match(key) {
+            const entry = entries.get(key.url);
+            return entry?.expiresAt > now ? entry.response.clone() : undefined;
+        },
+        async put(key, response) {
+            const ttl = Number(response.headers.get('cache-control').match(/s-maxage=(\d+)/)[1]);
+            entries.set(key.url, { response: response.clone(), expiresAt: now + ttl * 1000 });
+        },
+        async delete(key) { return entries.delete(key.url); }
+    };
+    globalThis.caches = { default: cache };
+    t.after(() => { globalThis.caches = previous; });
+    return { cache, advance(milliseconds) { now += milliseconds; } };
+}
+
+function createCachedDzoneTestEnv() {
+    const payload = normalizeDzoneUsagePayload({
+        stageTid: 82810, since: 1_700_000_000, recordCount: 10,
+        awakeners: [{ tid: 101, name: '테스트', count: 4 }], parties: []
+    }, 82810, 1_800_000_000_000);
+    const kv = createJsonKv({ 'dzone:usage:stage:82810': JSON.stringify(payload) });
+    const get = kv.get.bind(kv);
+    let reads = 0;
+    kv.get = (...args) => { reads += 1; return get(...args); };
+    return { payload, env: { RESOURCE_LINK_STATE: kv, DZONE_INGEST_TOKEN: 'test-token' }, reads: () => reads };
+}
+
+test('통계 반복 조회 10회는 엣지 캐시에서 KV 1회만 읽고 ETag 일치 시 본문을 생략한다', async t => {
+    installDzoneTestCache(t);
+    const { env, reads } = createCachedDzoneTestEnv();
+    const url = 'https://worker.test/api/dzone/stage/82810/usage';
+    const first = await worker.fetch(new Request(url), env, {});
+    const etag = first.headers.get('ETag');
+    assert.ok(etag);
+    assert.equal(first.headers.get('Cache-Control'), 'public, max-age=0, s-maxage=30, must-revalidate');
+    assert.equal(first.headers.get('Access-Control-Expose-Headers'), 'ETag');
+    for (let index = 0; index < 9; index++) {
+        const response = await worker.fetch(new Request(`${url}?t=${index}`, { headers: { 'If-None-Match': etag } }), env, {});
+        assert.equal(response.status, 304);
+        assert.equal(await response.text(), '');
+        assert.equal(response.headers.get('Access-Control-Allow-Origin'), '*');
+    }
+    assert.equal(reads(), 1);
+});
+
+test('직접 KV 게시도 캐시 만료 후 내용 변경으로 감지하며 같은 fetchedAt에 의존하지 않는다', async t => {
+    const cache = installDzoneTestCache(t);
+    const { env, reads, payload } = createCachedDzoneTestEnv();
+    const url = 'https://worker.test/api/dzone/stage/82810/usage';
+    const first = await worker.fetch(new Request(url), env, {});
+    const etag = first.headers.get('ETag');
+    payload.data.awakeners[0].count = 5;
+    await env.RESOURCE_LINK_STATE.put('dzone:usage:stage:82810', JSON.stringify(payload));
+    cache.advance(29_999);
+    assert.equal((await worker.fetch(new Request(url, { headers: { 'If-None-Match': etag } }), env, {})).status, 304);
+    cache.advance(1);
+    const next = await worker.fetch(new Request(url, { headers: { 'If-None-Match': etag } }), env, {});
+    assert.equal(next.status, 200);
+    assert.notEqual(next.headers.get('ETag'), etag);
+    assert.equal((await next.json()).data.awakeners[0].count, 5);
+    assert.equal(reads(), 2);
+});
+
+test('인증된 POST는 같은 엣지 통계 캐시를 무효화하고 POST 응답은 저장하지 않는다', async t => {
+    installDzoneTestCache(t);
+    const { env, payload, reads } = createCachedDzoneTestEnv();
+    const url = 'https://worker.test/api/dzone/stage/82810/usage';
+    const first = await worker.fetch(new Request(url), env, {});
+    const posted = await worker.fetch(new Request(url, {
+        method: 'POST', headers: { Authorization: 'Bearer test-token', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...payload.data, recordCount: 20 })
+    }), env, {});
+    assert.equal(posted.status, 200);
+    assert.equal(posted.headers.get('Cache-Control'), 'no-store');
+    const next = await worker.fetch(new Request(url, { headers: { 'If-None-Match': first.headers.get('ETag') } }), env, {});
+    assert.equal(next.status, 200);
+    assert.equal((await next.json()).data.recordCount, 20);
+    assert.equal(reads(), 2);
+});
+
+test('전체 통계와 70기 미리보기는 캐시와 ETag를 분리한다', async t => {
+    installDzoneTestCache(t);
+    const payload = normalizeDzoneUsageOverview(createDzoneUsageOverviewInput(), 1_800_000_000_000);
+    const kv = createJsonKv({ 'dzone:usage:overview': JSON.stringify(payload) });
+    const env = { RESOURCE_LINK_STATE: kv };
+    const url = 'https://worker.test/api/dzone/usage';
+    const actual = await worker.fetch(new Request(url), env, {});
+    const preview = await worker.fetch(new Request(`${url}?period=70`), env, {});
+    assert.notEqual(actual.headers.get('ETag'), preview.headers.get('ETag'));
+    assert.equal((await actual.json()).data.stages.length, 20);
+    assert.equal((await preview.json()).data.preview, true);
+    const unchanged = await worker.fetch(new Request(`${url}?t=123`, { headers: { 'If-None-Match': actual.headers.get('ETag') } }), env, {});
+    assert.equal(unchanged.status, 304);
+});
+
+test('통계 캐시 장애와 캐시 API가 없는 환경에서도 조건부 조회가 동작한다', async t => {
+    const { cache } = installDzoneTestCache(t);
+    cache.match = async () => { throw new Error('cache unavailable'); };
+    cache.put = async () => { throw new Error('cache unavailable'); };
+    const { env } = createCachedDzoneTestEnv();
+    const url = 'https://worker.test/api/dzone/stage/82810/usage';
+    const response = await worker.fetch(new Request(url), env, {});
+    assert.equal(response.status, 200);
+    globalThis.caches = undefined;
+    for (const value of ['*', `"other", ${response.headers.get('ETag').replace(/^W\//, '')}`]) {
+        const conditional = await worker.fetch(new Request(url, { headers: { 'If-None-Match': value } }), env, {});
+        assert.equal(conditional.status, 304);
+    }
+});
+
+test('통계 오류 응답은 캐시하지 않고 조건부 요청용 CORS 사전 요청을 허용한다', async t => {
+    const { cache } = installDzoneTestCache(t);
+    let puts = 0;
+    cache.put = async () => { puts += 1; };
+    const url = 'https://worker.test/api/dzone/stage/82810/usage';
+    for (const env of [{}, { RESOURCE_LINK_STATE: createJsonKv() }]) {
+        const response = await worker.fetch(new Request(url), env, {});
+        assert.ok([503, 404].includes(response.status));
+        assert.equal(response.headers.get('Cache-Control'), 'no-store');
+    }
+    assert.equal(puts, 0);
+    const preflight = await worker.fetch(new Request(url, { method: 'OPTIONS' }), {}, {});
+    assert.match(preflight.headers.get('Access-Control-Allow-Headers'), /If-None-Match/);
+});
+
 test('Gift Code 감시는 명시적으로 활성화할 때만 실행된다', () => {
     assert.equal(isGiftCodeMonitorEnabled({}), false);
     assert.equal(isGiftCodeMonitorEnabled({ GIFT_CODE_MONITOR_ENABLED: 'false' }), false);

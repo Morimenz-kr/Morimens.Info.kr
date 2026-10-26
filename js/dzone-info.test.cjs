@@ -1245,17 +1245,20 @@ test('운영 API에서 기존 범위와 1~7급 35개 집계를 읽고 누락·�
     }))).flat();
     let payload = { data: { stages }, fetchedAt: 1788529507 };
     const urls = [];
+    const cacheModes = [];
     const context = vm.createContext({
         window: { location: { hostname: 'morimens.info' } },
         dzoneUsageOverviewCache: null, STAGE_USAGE_REFRESH_INTERVAL: 30000,
-        fetch: async url => {
+        fetch: async (url, options) => {
             urls.push(url);
+            cacheModes.push(options.cache);
             return { ok: true, headers: { get: () => 'application/json' }, json: async () => payload };
         }
     });
     vm.runInContext(source.slice(source.indexOf('    function loadDzoneUsageOverview('), source.indexOf('    function updateStageUsageMeta(')), context);
     assert.equal((await context.loadDzoneUsageOverview('https://worker.test', true)).stages.length, 10);
     assert.deepEqual(urls, ['https://worker.test/api/dzone/usage']);
+    assert.deepEqual(cacheModes, ['no-cache']);
     payload = { ...payload, data: { stages: [...stages.slice(0, 9), stages[0]] } };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
     payload = { ...payload, data: { stages: stages.map(stage => ({ ...stage, stageTid: 100 })) } };
@@ -1268,6 +1271,11 @@ test('운영 API에서 기존 범위와 1~7급 35개 집계를 읽고 누락·�
     assert.equal((await context.loadDzoneUsageOverview('https://worker.test', true)).stages.length, 35);
     payload = { ...payload, data: { stages: gradeStages.slice(0, 34) } };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+    context.window.location.hostname = 'localhost';
+    payload = { data: { stages: gradeStages }, fetchedAt: 1_788_529_507 };
+    await context.loadDzoneUsageOverview('https://worker.test', true);
+    assert.equal(urls.at(-1), '/private-tools/output/dzone-usage-overview.json');
+    assert.equal(cacheModes.at(-1), 'no-store');
 });
 
 

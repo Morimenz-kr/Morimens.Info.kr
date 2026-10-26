@@ -27,6 +27,7 @@ const CRON_WATCHDOG_STATE_KEY = 'cron:watchdog-state:v1';
 const CRON_STATUS_KEY = 'cron:status:v1';
 const DZONE_USAGE_KEY_PREFIX = 'dzone:usage:stage:';
 const DZONE_USAGE_OVERVIEW_KEY = 'dzone:usage:overview';
+const DZONE_USAGE_CACHE_SECONDS = 30;
 const DZONE_USAGE_MAX_AWAKENERS = 200;
 const DZONE_USAGE_MAX_PARTIES = 100;
 const DZONE_USAGE_MAX_CONSTRAINT_BUCKETS = 6;
@@ -234,9 +235,9 @@ export default {
                 }
                 if (request.method === 'GET') {
                     if (url.searchParams.get('period') === '70') {
-                        return jsonResponse(buildDzoneSeason70Preview(), 200, dzoneCorsHeaders);
+                        return await getCachedDzoneUsage(request, () => jsonResponse(buildDzoneSeason70Preview(), 200, dzoneCorsHeaders));
                     }
-                    return await handleGetDzoneUsageOverview(env, dzoneCorsHeaders);
+                    return await getCachedDzoneUsage(request, () => handleGetDzoneUsageOverview(env, dzoneCorsHeaders));
                 }
                 if (request.method === 'POST') {
                     return await handlePutDzoneUsageOverview(request, env, dzoneCorsHeaders);
@@ -250,7 +251,7 @@ export default {
                     return new Response(null, { status: 204, headers: dzoneCorsHeaders });
                 }
                 if (request.method === 'GET') {
-                    return await handleGetDzoneUsage(dzoneStageId, env, dzoneCorsHeaders);
+                    return await getCachedDzoneUsage(request, () => handleGetDzoneUsage(dzoneStageId, env, dzoneCorsHeaders));
                 }
                 if (request.method === 'POST') {
                     return await handlePutDzoneUsage(request, dzoneStageId, env, dzoneCorsHeaders);
@@ -4152,13 +4153,67 @@ function getPublicDzoneCorsHeaders() {
     return {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Authorization, Content-Type',
+        'Access-Control-Allow-Headers': 'Authorization, Content-Type, If-None-Match',
+        'Access-Control-Expose-Headers': 'ETag',
         'Cache-Control': 'no-store'
     };
 }
 
 function dzoneUsageKey(stageId) {
     return `${DZONE_USAGE_KEY_PREFIX}${stageId}`;
+}
+
+function dzoneUsageCacheKey(request) {
+    const url = new URL(request.url);
+    const preview = url.pathname === '/api/dzone/usage' && url.searchParams.get('period') === '70';
+    // Timestamp query strings must not create a fresh cache entry on each poll.
+    url.search = '';
+    url.searchParams.set('__dzone_cache', 'v1');
+    if (preview) url.searchParams.set('period', '70');
+    return new Request(url.href);
+}
+
+function conditionalDzoneUsageResponse(request, response) {
+    const etag = response.headers.get('ETag');
+    const matches = etag && (request.headers.get('If-None-Match') || '').split(',').some(value => {
+        const candidate = value.trim();
+        return candidate === '*' || candidate.replace(/^W\//, '') === etag.replace(/^W\//, '');
+    });
+    return matches ? new Response(null, { status: 304, headers: response.headers }) : response;
+}
+
+async function getCachedDzoneUsage(request, load) {
+    const cache = globalThis.caches?.default;
+    const key = dzoneUsageCacheKey(request);
+    try {
+        const cached = await cache?.match(key);
+        if (cached) return conditionalDzoneUsageResponse(request, cached);
+    } catch {
+        // Cache availability must not prevent a public aggregate read.
+    }
+    const response = await load();
+    if (response.status !== 200) return response;
+    const body = await response.text();
+    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(body));
+    const hash = Array.from(new Uint8Array(digest), value => value.toString(16).padStart(2, '0')).join('');
+    const headers = new Headers(response.headers);
+    headers.set('ETag', `W/"${hash}"`);
+    headers.set('Cache-Control', `public, max-age=0, s-maxage=${DZONE_USAGE_CACHE_SECONDS}, must-revalidate`);
+    const result = new Response(body, { status: 200, headers });
+    try {
+        await cache?.put(key, result.clone());
+    } catch {
+        // The response and conditional validation also work without edge caching.
+    }
+    return conditionalDzoneUsageResponse(request, result);
+}
+
+async function invalidateDzoneUsageCache(request) {
+    try {
+        await globalThis.caches?.default.delete(dzoneUsageCacheKey(request));
+    } catch {
+        // Other edges and direct KV publications converge through the short TTL.
+    }
 }
 
 function normalizeDzoneUsageCount(value, label, maximum = Number.MAX_SAFE_INTEGER) {
@@ -4355,6 +4410,7 @@ async function handlePutDzoneUsage(request, stageId, env, corsHeaders) {
     try {
         const payload = normalizeDzoneUsagePayload(body, stageId);
         await env.RESOURCE_LINK_STATE.put(dzoneUsageKey(stageId), JSON.stringify(payload));
+        await invalidateDzoneUsageCache(request);
         return jsonResponse({ ok: true, stageTid: stageId, fetchedAt: payload.fetchedAt }, 200, corsHeaders);
     } catch (error) {
         return jsonResponse({ error: error.message || 'Invalid usage payload' }, 400, corsHeaders);
@@ -4408,6 +4464,7 @@ async function handlePutDzoneUsageOverview(request, env, corsHeaders) {
     try {
         const payload = normalizeDzoneUsageOverview(body);
         await env.RESOURCE_LINK_STATE.put(DZONE_USAGE_OVERVIEW_KEY, JSON.stringify(payload));
+        await invalidateDzoneUsageCache(request);
         return jsonResponse({ ok: true, period: payload.data.period, recordCount: payload.data.recordCount, fetchedAt: payload.fetchedAt }, 200, corsHeaders);
     } catch (error) {
         return jsonResponse({ error: error.message || 'Invalid usage overview' }, 400, corsHeaders);

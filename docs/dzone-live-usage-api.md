@@ -175,7 +175,29 @@ https://carriepigeon.khj613401.workers.dev/api/dzone/usage
 https://morimenz-kr.github.io/Morimens.Info.kr/dzone_info.html
 ```
 
-첫 URL은 `data.stageTid`, `data.recordCount`, `data.awakeners`, `data.parties`, `fetchedAt`을 반환해야 한다. 사이트는 최대 약 30초 안에 기존 실전 편성 통계 영역을 갱신한다.
+첫 URL은 `data.stageTid`, `data.recordCount`, `data.awakeners`, `data.parties`, `fetchedAt`을 반환해야 한다. 브라우저는 30초마다 확인하며, 아래 엣지 캐시가 추가로 최대 30초 유지될 수 있다. KV 자체의 전파 지연은 별도이므로 게시 직후 모든 지역에서 바로 새 집계가 보인다고 보장하지 않는다.
+
+## 공개 통계 조회 캐시
+
+정상 GET 응답에는 본문 전체의 SHA-256으로 만든 약한 `ETag`와
+`Cache-Control: public, max-age=0, s-maxage=30, must-revalidate`를 붙인다.
+브라우저의 통계 API 요청은 `cache: 'no-cache'`로 매번 재검증한다.
+브라우저 HTTP 캐시는 저장한 ETag를 전송하고, 본문이 같으면 Worker는 본문 없는
+`304`를 반환한다. 브라우저는 기존 JSON을 재사용하므로 화면 코드는 평소와 같이
+정상 응답을 받는다. 로컬 비공개 JSON 파일에는 계속 `no-store`를 사용한다.
+
+Worker는 Cloudflare Cache API에 정상 응답을 30초간 보관한다. 같은 엣지의 캐시
+적중 요청은 KV를 다시 읽지 않는다. 시간값 같은 조회 매개변수는 캐시 키에서
+제외하되 `?period=70` 미리보기는 운영 집계와 분리한다. 다른 stage ID와 다른
+호스트도 서로 다른 키를 사용한다. 오류·인증·POST 응답은 캐시하지 않는다.
+
+인증된 API POST는 저장 성공 후 요청을 처리한 엣지의 해당 캐시를 삭제한다.
+다른 지역의 캐시와 KV 직접 게시 경로는 30초 만료를 통해 새 결과를 확인한다.
+Cache API가 없거나 실패하면 KV 조회와 ETag 검증으로 동작한다. 캐시가 만료된
+요청이나 동시에 들어온 최초 요청은 KV를 읽을 수 있으며, Worker 호출 자체를
+없애는 구조는 아니다.
+
+Cache API의 TTL과 지역별 저장 특성은 [Cloudflare 공식 문서](https://developers.cloudflare.com/workers/runtime-apis/cache/)를 따른다.
 
 ## 비공개 수집기와의 운영 경계
 
