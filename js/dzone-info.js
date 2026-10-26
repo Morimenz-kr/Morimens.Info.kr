@@ -926,6 +926,11 @@
         </section>`;
     }
 
+    function renderGameName(value) {
+        return escapeHtml(value).replace(/@([1-7])(?!\d)/g, (_, index) =>
+            `<span class="dzone-name-symbol" role="img" aria-label="특수 문양">${renderGameGrade({ gameGrade: { type: 'sprite', value: Number(index) } })}</span>`);
+    }
+
     function renderMonsterCard(monster, stats, { badgeLabel = '', badgeType = '', extraClass = '', after = '' } = {}) {
         const badge = badgeLabel
             ? `<span class="monster-badge" data-type="${escapeHtml(badgeType)}">${escapeHtml(badgeLabel)}</span>`
@@ -946,7 +951,7 @@
             <details class="monster-card site-disclosure ${escapeHtml(extraClass)}" data-monster-id="${monster.tid}" open>
                 <summary class="monster-heading">
                     ${portrait}
-                     <div class="monster-heading-copy"><h4>${escapeHtml(monster.nameKo)}</h4>${badge}${renderMonsterTags(monster)}${hpBarBadge}</div>
+                     <div class="monster-heading-copy"><h4>${renderGameName(monster.nameKo)}</h4>${badge}${renderMonsterTags(monster)}${hpBarBadge}</div>
                 </summary>
                 <div class="monster-body">
                     <div class="monster-overview">

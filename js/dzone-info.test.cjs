@@ -1287,3 +1287,20 @@ test('쪼기 전환은 실제 흰색 의도 분기 하나와 보강 50만 표시
  assert.match(actions[0].conditionText,/한 번에 스택 수 이상의 피해/);
  assert.doesNotMatch(JSON.stringify(actions),/발동 표식|상태@/);
 });
+
+test('몬스터 이름의 특수 문자 코드는 난이도와 같은 아틀라스 문양으로 표시한다', () => {
+    const context = vm.createContext({ escapeHtml: value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;') });
+    vm.runInContext(source.slice(source.indexOf('    const CONFUSE_SPRITES ='), source.indexOf('    const CONFUSE_GRADE_BY_SEASON =')), context);
+    vm.runInContext(source.slice(source.indexOf('    function gameGrade('), source.indexOf('    function selectedDifficultyLabel(')), context);
+    vm.runInContext(source.slice(source.indexOf('    function renderGameName('), source.indexOf('    function renderMonsterCard(')), context);
+    const current = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season72.json'), 'utf8'));
+    const boss = current.waves.find(wave => wave.wave === 3).monsters.find(monster => monster.tid === 60096);
+    assert.equal(boss.nameKo, '「@2주자」');
+    assert.match(context.renderGameName(boss.nameKo), /ui_story_confuse_2\.png/);
+    assert.match(context.renderGameName(boss.nameKo), /주자」/);
+    assert.doesNotMatch(context.renderGameName(boss.nameKo), /@2/);
+    for (let index = 1; index <= 7; index++) assert.match(context.renderGameName(`@${index}주자`), new RegExp(`ui_story_confuse_${index}\\.png`));
+    assert.equal(context.renderGameName('일반 이름 @12 @8'), '일반 이름 @12 @8');
+    assert.doesNotMatch(context.renderGameName('<script>@2</script>'), /<script>/);
+    assert.match(context.renderGameName('@2'), /role="img" aria-label="특수 문양"/);
+});

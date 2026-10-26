@@ -213,6 +213,20 @@
     min-width: 0;
 }
 
+.dzone-name-symbol {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.dzone-name-symbol .dzone-grade-mark--sprite {
+    display: inline-block;
+    height: 1em;
+    width: auto;
+    max-width: none;
+    vertical-align: -0.1em;
+    transform: none;
+}
+
 .dzone-grade-mark {
     flex: 0 1 auto;
 }
