@@ -451,8 +451,31 @@
         return `${description.slice(0, clauseStart)}의도가 ${description.slice(markerIndex)}`;
     }
 
+    function shortestRepeatingSequence(skillIds) {
+        for (let length = 1; length <= skillIds.length / 2; length++) {
+            if (skillIds.length % length === 0 && skillIds.every((id, index) => id === skillIds[index % length])) {
+                return skillIds.slice(0, length);
+            }
+        }
+        return skillIds;
+    }
+
+    // Move only complete, aligned copies of the following cycle out of the
+    // opening display. Keep source patterns intact for turn-based conditions.
+    function openingBeforeCycle(opening, cycle) {
+        if (!opening || !cycle?.skillIds?.length) return opening;
+        const loop = cycle.repeatSkillIds || shortestRepeatingSequence(cycle.skillIds);
+        if (!loop.length) return opening;
+        let end = opening.skillIds.length;
+        while (end >= loop.length && loop.every((id, index) => opening.skillIds[end - loop.length + index] === id)) {
+            end -= loop.length;
+        }
+        return { ...opening, skillIds: opening.skillIds.slice(0, end) };
+    }
+
     function renderSequence(monster, stats, pattern, repeats = false, { loopLabel = '이후 1번부터 반복', stepLabels = [] } = {}) {
-        const sequence = pattern.skillIds.map((skillId, index) => {
+        const displayedSkills = repeats && !stepLabels.length ? (pattern.repeatSkillIds || shortestRepeatingSequence(pattern.skillIds)) : pattern.skillIds;
+        const sequence = displayedSkills.map((skillId, index) => {
             const skill = skillById(monster, skillId);
             const resolved = stats.resolvedSkills?.[String(skillId)];
             const stepLabel = stepLabels[index] || String(index + 1);
@@ -577,21 +600,22 @@
         }
 
         const phases = [];
-        if (sameSequence(opening, firstCycle) || (!opening && firstCycle)) {
+        const displayedOpening = openingBeforeCycle(opening, firstCycle);
+        if (sameSequence(opening, firstCycle) || (!displayedOpening?.skillIds.length && firstCycle)) {
             phases.push(renderFlowPhase(monster, stats, {
                 title: secondCycle ? '1페이즈' : '행동 순서',
                 pattern: firstCycle || opening,
                 repeats: true
             }));
         } else {
-            if (opening) phases.push(renderFlowPhase(monster, stats, {
+            if (displayedOpening?.skillIds.length) phases.push(renderFlowPhase(monster, stats, {
                 title: '전투 시작',
-                pattern: opening
+                pattern: displayedOpening
             }));
             if (firstCycle) {
                 phases.push('<div class="flow-connector"><span>이후</span></div>');
                 phases.push(renderFlowPhase(monster, stats, {
-                    title: secondCycle ? '1페이즈' : '이후 반복 행동',
+                    title: secondCycle ? '1페이즈' : '반복 행동',
                     pattern: firstCycle,
                     repeats: true
                 }));

@@ -4,9 +4,9 @@ const path = require('node:path');
 const test = require('node:test');
 const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_current.json'), 'utf8'));
 
-test('71기는 154버전 원본의 7개 위험 등급과 35개 독립 스테이지를 포함한다', () => {
-    assert.equal(data.period, 71);
-    assert.equal(data.source.resourceVersion, 154);
+test('72기는 160버전 원본의 7개 위험 등급과 35개 독립 스테이지를 포함한다', () => {
+    assert.equal(data.period, 72);
+    assert.equal(data.source.resourceVersion, 160);
     assert.equal(data.difficultyCount, 7);
     const ids = [];
     for (const wave of data.waves) {
