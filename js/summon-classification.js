@@ -6,7 +6,7 @@
     // Preserve the original release group, including after additions to the standard pool.
     function create(groups) {
         const standard = new Set(groups.standard || []);
-        const limited = new Set([...(groups.forgotten || []), ...(groups.celestial || [])]);
+        const limited = new Set([...(groups.limited || []), ...(groups.forgotten || []), ...(groups.celestial || [])]);
         function characterAvailability(item) {
             if (standard.has(item.id)) return 'standard';
             if (limited.has(item.id)) return 'limited';

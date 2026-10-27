@@ -33,4 +33,8 @@ test('상시·한정 분류는 등급과 별개로 SR에도 적용한다', () =>
     for (const character of characters) assert.ok(['standard', 'limited'].includes(classification.characterAvailability(character)), character.id);
     for (const character of characters.filter(item => item.grade === 'sr')) assert.equal(classification.characterAvailability(character), 'standard');
     assert.equal(classification.characterAvailability(characters.find(item => item.id === 'tulu')), 'limited');
+    assert.equal(classification.characterAvailability(characters.find(item => item.id === 'lotan_cetarchon')), 'limited');
+    assert.equal(classification.characterGrade(characters.find(item => item.id === 'lotan_cetarchon')), '한정 SSR');
+    assert.equal(classification.wheelGrade(wheels.find(item => item.english_name === 'wheel_lotan_cetarchon_ssr')), '한정 SSR');
+    assert.ok(!groups.standard.includes('lotan_cetarchon'));
 });

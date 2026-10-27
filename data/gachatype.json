@@ -26,9 +26,11 @@
     "doll",
     "ramona",
     "lotan",
-    "lotan_cetarchon",
     "ogier",
     "ramona_timeworn"
+  ],
+  "limited": [
+    "lotan_cetarchon"
   ],
   "forgotten": [
     "lily",

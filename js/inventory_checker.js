@@ -8,6 +8,7 @@
     const MAX_SHARE_CANVAS_PIXELS = 16000000;
     const MAX_SHARE_CANVAS_DIMENSION = 8192;
     const GROUP_LABELS = {
+        limited: '한정',
         standard: '통상',
         forgotten: '망각편',
         celestial: '성신편'
