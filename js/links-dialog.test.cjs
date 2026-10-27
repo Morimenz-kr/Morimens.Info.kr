@@ -12,6 +12,21 @@ const characterEffectsSource = fs.readFileSync(path.join(repositoryRoot, 'js', '
 const silverKeys = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'silverkey_list.json'), 'utf8'));
 const wheels = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'wheel_list.json'), 'utf8'));
 
+test('#246 탄피 전용 명륜은 미리암의 의식 대신 강생 의식 툴팁을 표시한다', () => {
+    const window = {};
+    new Function('window', characterEffectsSource)(window);
+    const tooltips = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data', 'db_tooltips.json'), 'utf8'));
+    window.CharacterEffects.configureTooltips(tooltips);
+    const wheel = wheels.find(item => item.english_name === 'wheel_peace_sleep_in_dark');
+    const html = window.CharacterEffects.renderRichText(wheel.description);
+    assert.match(html, /data-keyword="강생 의식"/);
+    assert.match(html, /incarnation-ritual\.png/);
+    assert.doesNotMatch(html, /data-keyword="의식"/);
+    assert.match(tooltips['강생 의식'], /희생/);
+    assert.match(window.CharacterEffects.renderRichText('의식을 사용한다.'), /data-keyword="의식"/);
+    assert.match(tooltips['의식'], /성례.*집착/);
+});
+
 test('#219 꺼지지 않는 태양은 산출력·피해 강효 필터에 모두 포함된다', () => {
     const context = vm.createContext({ window: { characterNameSet: new Set(['카티구라']) } });
     vm.runInContext(linksSource.slice(
