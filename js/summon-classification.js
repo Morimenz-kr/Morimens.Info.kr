@@ -7,6 +7,13 @@
     function create(groups) {
         const standard = new Set(groups.standard || []);
         const limited = new Set([...(groups.limited || []), ...(groups.forgotten || []), ...(groups.celestial || [])]);
+        const celestial = new Set(groups.celestial || []);
+        const forgotten = new Set([...(groups.standard || []), ...(groups.forgotten || [])]);
+        function characterChapter(item) {
+            if (celestial.has(item.id)) return 'celestial';
+            if (forgotten.has(item.id)) return 'forgotten';
+            return '';
+        }
         function characterAvailability(item) {
             if (standard.has(item.id)) return 'standard';
             if (limited.has(item.id)) return 'limited';
@@ -25,7 +32,7 @@
             // Dedicated wheels follow the original owner's release group; generic wheels are non-limited.
             return (item.owner_character_ids || []).some(id => character(id) === '한정 SSR') ? '한정 SSR' : '상시 SSR';
         }
-        return { characterGrade, wheelGrade, characterAvailability };
+        return { characterGrade, wheelGrade, characterAvailability, characterChapter };
     }
     return { create };
 });

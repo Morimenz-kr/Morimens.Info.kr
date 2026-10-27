@@ -38,3 +38,11 @@ test('상시·한정 분류는 등급과 별개로 SR에도 적용한다', () =>
     assert.equal(classification.wheelGrade(wheels.find(item => item.english_name === 'wheel_lotan_cetarchon_ssr')), '한정 SSR');
     assert.ok(!groups.standard.includes('lotan_cetarchon'));
 });
+
+test('챕터는 획득 분류와 독립적이며 침식 로탄은 성신편이다', () => {
+    for (const item of characters) assert.ok(['forgotten', 'celestial'].includes(classification.characterChapter(item)), item.id);
+    assert.equal(classification.characterChapter({id: 'lotan_cetarchon'}), 'celestial');
+    assert.equal(classification.characterChapter({id: 'lotan'}), 'forgotten');
+    assert.equal(classification.characterAvailability({id: 'ramona_timeworn'}), 'standard');
+    assert.equal(classification.characterChapter({id: 'ramona_timeworn'}), 'forgotten');
+});

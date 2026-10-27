@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const characterGrid = document.getElementById('character-grid');
 
     let allCardLinks = []; // 필터링 최적화를 위한 오브젝트 풀링 역할
-    let currentFilters = { availability: 'all', relems: 'all', grade: 'all', class: 'all', search: '' };
+    let currentFilters = { availability: 'all', chapter: 'all', relems: 'all', grade: 'all', class: 'all', search: '' };
 
     // --- 1. JSON에서 캐릭터 카드를 생성하는 함수 (Instantiate) ---
     async function buildCharacterGrid() {
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.dataset.searchNames = [character.name, ...(character.name_aliases || [])].join(' ');
                 link.dataset.grade = character.grade;
                 link.dataset.releaseType = classification.characterAvailability(character);
+                link.dataset.chapter = classification.characterChapter(character);
             });
 
         } catch (error) {
@@ -61,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const relemsMatch = currentFilters.relems === 'all' || card.classList.contains(currentFilters.relems);
             const gradeMatch = currentFilters.grade === 'all' || link.dataset.grade === currentFilters.grade;
             const availabilityMatch = currentFilters.availability === 'all' || link.dataset.releaseType === currentFilters.availability;
+            const chapterMatch = currentFilters.chapter === 'all' || link.dataset.chapter === currentFilters.chapter;
             const classMatch = currentFilters.class === 'all' || card.classList.contains(currentFilters.class);
 
             // 검색어 검사
@@ -70,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : name.toLowerCase().includes(searchTerm);
 
             // 모든 조건이 맞으면 보이게, 아니면 숨김
-            if (relemsMatch && gradeMatch && availabilityMatch && classMatch && searchMatch) {
+            if (relemsMatch && gradeMatch && availabilityMatch && chapterMatch && classMatch && searchMatch) {
                 link.classList.remove('hidden');
             } else {
                 link.classList.add('hidden');
@@ -84,18 +86,11 @@ document.addEventListener('DOMContentLoaded', () => {
         await buildCharacterGrid();
 
         // 2. 필터 이벤트 리스너 등록
-        const ui = window.CharacterFilterUI;
-        const container = document.getElementById('availability-filters');
-        container.innerHTML = ui.renderFilterOptions([
-            ['all', '전체'], ['standard', '상시'], ['limited', '한정']
-        ], 'data-availability-filter');
-        ui.bindFilterGroup(container, 'data-availability-filter', value => {
-            currentFilters.availability = value;
-            applyFilters();
-        });
-        for (const key of ['grade', 'relems', 'class']) {
+        for (const key of ['availability', 'chapter', 'grade', 'relems', 'class']) {
             document.getElementById(key + '-filter').addEventListener('change', event => {
                 currentFilters[key] = event.target.value;
+                const count = ['grade', 'relems', 'class'].filter(name => currentFilters[name] !== 'all').length;
+                document.getElementById('advanced-filter-label').textContent = count ? '상세 필터 · ' + count : '상세 필터';
                 applyFilters();
             });
         }

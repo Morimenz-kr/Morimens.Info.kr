@@ -14,7 +14,7 @@ test('공유 필터는 버튼과 접근성 선택 상태를 제공하고 상시�
 });
 
 test('두 페이지는 필터만 공통화하고 원래 카드 렌더러를 유지한다', () => {
-    for (const file of ['index.js', 'inventory_checker.js']) {
+    for (const file of ['inventory_checker.js']) {
         const source = fs.readFileSync(path.join(__dirname, file), 'utf8');
         assert.match(source, /CharacterFilterUI/);
         assert.match(source, /renderFilterOptions/);
@@ -24,7 +24,8 @@ test('두 페이지는 필터만 공통화하고 원래 카드 렌더러를 유�
     const catalog = fs.readFileSync(path.join(__dirname, 'index.js'), 'utf8');
     assert.match(catalog, /class="card-link"/);
     assert.match(catalog, /class="character-card /);
-    assert.match(catalog, /'standard', '상시'/);
-    assert.match(catalog, /'limited', '한정'/);
+    const html = fs.readFileSync(path.join(__dirname, '../list.html'), 'utf8');
+    for (const key of ['availability', 'chapter', 'grade', 'relems', 'class']) assert.ok(html.includes('id="' + key + '-filter"'));
+    assert.match(html, /catalog-advanced site-disclosure/);
     assert.doesNotMatch(catalog, /상시 SSR|한정 SSR/);
 });

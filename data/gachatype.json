@@ -29,9 +29,6 @@
     "ogier",
     "ramona_timeworn"
   ],
-  "limited": [
-    "lotan_cetarchon"
-  ],
   "forgotten": [
     "lily",
     "dafoodil",
@@ -68,6 +65,7 @@
     "pontos",
     "caraboo",
     "GOgier",
-    "vivian"
+    "vivian",
+    "lotan_cetarchon"
   ]
 }
