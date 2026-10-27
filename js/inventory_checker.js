@@ -17,7 +17,13 @@
         warden: '방어형',
         chorus: '보조형'
     };
-    const { RELEMS_LABELS } = window.CharacterCatalogUI;
+    const RELEMS_LABELS = {
+        chaos: '혼돈',
+        aequor: '심해',
+        caro: '혈육',
+        ultra: '초차원'
+    };
+    const RELEMS_ORDER = ['chaos', 'aequor', 'caro', 'ultra'];
     const BREAKTHROUGH_LABELS = ['명함', '1돌', '2돌', '3돌', '4돌', '5돌', '6돌', '초한', '8돌', '9돌', '10돌', '11돌', '12돌', '13돌', '14돌', '풀돌'];
 
     const LINKED_CHARACTER_BREAKTHROUGH_GROUPS = [
@@ -50,7 +56,7 @@
     document.addEventListener('DOMContentLoaded', initialize);
 
     async function initialize() {
-        const ui = window.CharacterCatalogUI;
+        const ui = window.CharacterFilterUI;
         document.getElementById('character-filters').innerHTML = ui.renderFilterOptions([
             ['all', '전체'], ['standard', '통상'], ['forgotten', '망각편'], ['celestial', '성신편']
         ], 'data-character-filter');
@@ -116,15 +122,15 @@
             });
         });
 
-        window.CharacterCatalogUI.bindFilterGroup(els.characterFiltersBox, 'data-character-filter', value => {
+        window.CharacterFilterUI.bindFilterGroup(els.characterFiltersBox, 'data-character-filter', value => {
             state.characterFilter = value;
             renderAll();
         });
-        window.CharacterCatalogUI.bindFilterGroup(els.characterClassFiltersBox, 'data-character-class-filter', value => {
+        window.CharacterFilterUI.bindFilterGroup(els.characterClassFiltersBox, 'data-character-class-filter', value => {
             state.characterClassFilter = value;
             renderAll();
         });
-        window.CharacterCatalogUI.bindFilterGroup(els.wheelFiltersBox, 'data-wheel-filter', value => {
+        window.CharacterFilterUI.bindFilterGroup(els.wheelFiltersBox, 'data-wheel-filter', value => {
             state.wheelFilter = value;
             renderAll();
         });
@@ -235,7 +241,7 @@
     }
 
     function renderFilters() {
-        const ui = window.CharacterCatalogUI;
+        const ui = window.CharacterFilterUI;
         ui.setActiveFilter(els.characterFiltersBox, 'data-character-filter', state.characterFilter);
         ui.setActiveFilter(els.characterClassFiltersBox, 'data-character-class-filter', state.characterClassFilter);
         ui.setActiveFilter(els.wheelFiltersBox, 'data-wheel-filter', state.wheelFilter);
@@ -249,19 +255,38 @@
             return groupMatch && classMatch && textMatch;
         });
 
-        els.characterGrid.innerHTML = window.CharacterCatalogUI.renderGroups(filtered, renderCharacterCard);
+        const grouped = RELEMS_ORDER.map(relems => ({
+            relems,
+            characters: filtered.filter(character => character.relems === relems)
+        })).filter(group => group.characters.length > 0);
+
+        els.characterGrid.innerHTML = grouped.map(group => `
+            <section class="relems-section ${escapeAttribute(group.relems)}" aria-label="${escapeAttribute(RELEMS_LABELS[group.relems] || group.relems)}">
+                <div class="relems-section-title">${escapeHtml(RELEMS_LABELS[group.relems] || group.relems)}</div>
+                <div class="relems-character-grid">
+                    ${group.characters.map(character => renderCharacterCard(character)).join('')}
+                </div>
+            </section>
+        `).join('');
     }
 
     function renderCharacterCard(character) {
-        const selected = state.selectedCharacters.has(character.id);
-        const groups = getCharacterGroups(character.id);
-        const groupLabel = groups.map(group => GROUP_LABELS[group] || group).join(', ');
-        const className = CLASS_LABELS[character.class] || character.class || '역할 미상';
-        return window.CharacterCatalogUI.renderCharacterCard(character, {
-            selected,
-            title: `${character.name} (${groupLabel || '통상'} / ${className})`,
-            extraMarkup: selected ? renderBreakthroughStepper('character', character.id, getCharacterBreakthrough(character.id)) : ''
-        });
+            const selected = state.selectedCharacters.has(character.id);
+            const groups = getCharacterGroups(character.id);
+            const group = groups[0];
+            const groupLabel = groups.map(item => GROUP_LABELS[item] || item).join(', ');
+            const className = CLASS_LABELS[character.class] || character.class || '역할 미상';
+            const breakthrough = getCharacterBreakthrough(character.id);
+            return `
+                <div role="button" tabindex="0" class="inventory-card character-inventory-card ${selected ? 'selected' : ''}"
+                        data-character-id="${escapeAttribute(character.id)}"
+                        title="${escapeAttribute(character.name)} (${groupLabel || GROUP_LABELS[group] || '통상'} / ${className})">
+                    <span class="check-mark">✓</span>
+                    <img src="${escapeAttribute(character.image_thumb)}" alt="${escapeAttribute(character.name)}" loading="lazy" onerror="this.src='${FALLBACK_IMAGE}'">
+                    <span class="inventory-card-name">${escapeHtml(character.name)}</span>
+                    ${selected ? renderBreakthroughStepper('character', character.id, breakthrough) : ''}
+                </div>
+            `;
     }
 
     function renderBreakthroughStepper(type, id, value) {

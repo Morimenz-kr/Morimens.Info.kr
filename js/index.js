@@ -1,48 +1,108 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    const ui = window.CharacterCatalogUI;
-    const grid = document.getElementById('character-grid');
-    const search = document.getElementById('search-bar');
-    const count = document.getElementById('catalog-count');
-    const filters = { grade: 'all', relems: 'all', class: 'all', search: '' };
-    let characters = [], classification;
-    const options = {
-        grade: [['all', '전체 등급'], ['ssr', 'SSR'], ['상시 SSR', '상시 SSR'], ['한정 SSR', '한정 SSR'], ['sr', 'SR']],
-        relems: [['all', '전체 계역'], ...ui.RELEMS_ORDER.map(id => [id, ui.RELEMS_LABELS[id]])],
-        class: ui.CLASS_OPTIONS
-    };
-    function render() {
-        if (!classification) return;
-        const visible = characters.filter(character => {
-            const release = classification.characterGrade(character);
-            const text = [character.name, ...(character.name_aliases || [])].join(' ');
-            return (filters.grade === 'all' || character.grade === filters.grade || release === filters.grade)
-                && (filters.relems === 'all' || character.relems === filters.relems)
-                && (filters.class === 'all' || character.class === filters.class)
-                && (!filters.search || window.SearchUtils.matchesSearchText(text, filters.search));
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM 요소 캐시 (GetComponent 캐싱)
+    const searchBar = document.getElementById('search-bar');
+    const characterGrid = document.getElementById('character-grid');
+
+    let allCardLinks = []; // 필터링 최적화를 위한 오브젝트 풀링 역할
+    let currentFilters = { relems: 'all', grade: 'all', class: 'all', search: '' };
+
+    // --- 1. JSON에서 캐릭터 카드를 생성하는 함수 (Instantiate) ---
+    async function buildCharacterGrid() {
+        try {
+            const [characters, gachaTypes] = await Promise.all(['character_manifest', 'gachatype'].map(async name => {
+                const response = await fetch(`data/${name}.json?t=${Date.now()}`, { cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            }));
+            const classification = window.SummonClassification.create(gachaTypes);
+
+            let gridHTML = '';
+            for (const char of characters) {
+                const relemName = RELEMS_MAP[char.relems] || char.relems;
+                const className = CLASS_MAP[char.class] || char.class;
+
+                // [핵심 변경] detail.html 대신 links.html로 이동하며 카테고리와 ID를 전달함
+                gridHTML += `
+                    <a href="links.html?category=character&id=${char.id}" class="card-link" data-character-id="${char.id}">
+                        <div class="character-card ${char.relems} ${char.grade} ${char.class}">
+                            <img src="${char.image_thumb}" alt="${char.name}" onerror="this.onerror=null;this.src='images/character_caro.png';">
+                            <span class="relems-tag ${char.relems}">${relemName}</span>
+                            <h3>${char.name}</h3>
+                            <p>${className}</p>
+                        </div>
+                    </a>
+                `;
+            }
+
+            characterGrid.innerHTML = gridHTML;
+            // 생성된 모든 <a> 태그를 배열에 저장 (참조 유지)
+            allCardLinks = characterGrid.querySelectorAll('a.card-link');
+            allCardLinks.forEach(link => {
+                const character = characters.find(item => item.id === link.dataset.characterId);
+                link.dataset.searchNames = [character.name, ...(character.name_aliases || [])].join(' ');
+                link.dataset.grade = character.grade;
+                link.dataset.releaseGrade = classification.characterGrade(character);
+            });
+
+        } catch (error) {
+            console.error("캐릭터 목록 로드 실패:", error);
+            characterGrid.innerHTML = "<p>캐릭터 목록을 불러오는 데 실패했습니다.</p>";
+        }
+    }
+
+    // --- 2. 필터를 적용하는 함수 (Active/Deactive) ---
+    function applyFilters() {
+        const searchTerm = currentFilters.search;
+
+        allCardLinks.forEach(link => {
+            const card = link.querySelector('.character-card');
+
+            // 필터 조건 검사
+            const relemsMatch = currentFilters.relems === 'all' || card.classList.contains(currentFilters.relems);
+            const gradeMatch = currentFilters.grade === 'all' || link.dataset.grade === currentFilters.grade || link.dataset.releaseGrade === currentFilters.grade;
+            const classMatch = currentFilters.class === 'all' || card.classList.contains(currentFilters.class);
+
+            // 검색어 검사
+            const name = link.dataset.searchNames || card.querySelector('h3').textContent;
+            const searchMatch = window.SearchUtils
+                ? window.SearchUtils.matchesSearchText(name, searchTerm)
+                : name.toLowerCase().includes(searchTerm);
+
+            // 모든 조건이 맞으면 보이게, 아니면 숨김
+            if (relemsMatch && gradeMatch && classMatch && searchMatch) {
+                link.classList.remove('hidden');
+            } else {
+                link.classList.add('hidden');
+            }
         });
-        grid.innerHTML = visible.length ? ui.renderGroups(visible, character => ui.renderCharacterCard(character, {
-            href: 'links.html?category=character&id=' + encodeURIComponent(character.id)
-        })) : '<p class="empty-selection">검색 조건에 맞는 각성체가 없습니다.</p>';
-        count.textContent = visible.length + ' / ' + characters.length;
     }
-    for (const [key, values] of Object.entries(options)) {
-        const container = document.getElementById(key + '-filters');
-        const attribute = 'data-' + key + '-filter';
-        container.innerHTML = ui.renderFilterOptions(values, attribute);
-        ui.bindFilterGroup(container, attribute, value => { filters[key] = value; render(); });
+
+    // --- 3. 이벤트 리스너 설정 및 초기화 (Awake/Start) ---
+    async function initialize() {
+        // 1. 그리드 생성
+        await buildCharacterGrid();
+
+        // 2. 필터 이벤트 리스너 등록
+        const ui = window.CharacterFilterUI;
+        const options = {
+            grade: [['all', '전체 등급'], ['상시 SSR', '상시 SSR'], ['한정 SSR', '한정 SSR'], ['ssr', 'SSR'], ['sr', 'SR']],
+            relems: [['all', '전체 계역'], ['chaos', '혼돈'], ['aequor', '심해'], ['caro', '혈육'], ['ultra', '초차원']],
+            class: ui.CLASS_OPTIONS
+        };
+        for (const [key, values] of Object.entries(options)) {
+            const container = document.getElementById(key + '-filters');
+            const attribute = 'data-' + key + '-filter';
+            container.innerHTML = ui.renderFilterOptions(values, attribute);
+            ui.bindFilterGroup(container, attribute, value => {
+                currentFilters[key] = value;
+                applyFilters();
+            });
+        }
+        searchBar.addEventListener('input', (e) => {
+            currentFilters.search = e.target.value.trim();
+            applyFilters();
+        });
     }
-    search.addEventListener('input', event => { filters.search = event.target.value.trim(); render(); });
-    try {
-        const [manifest, groups] = await Promise.all(['character_manifest', 'gachatype'].map(async name => {
-            const response = await fetch('data/' + name + '.json?t=' + Date.now(), { cache: 'no-store' });
-            if (!response.ok) throw new Error('HTTP error! status: ' + response.status);
-            return response.json();
-        }));
-        characters = manifest;
-        classification = window.SummonClassification.create(groups);
-        render();
-    } catch (error) {
-        console.error('캐릭터 목록 로드 실패:', error);
-        grid.innerHTML = '<p class="empty-selection">캐릭터 목록을 불러오는 데 실패했습니다.</p>';
-    }
+
+    initialize();
 });

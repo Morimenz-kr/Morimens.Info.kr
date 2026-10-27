@@ -3,6 +3,17 @@
    ============================================ */
 
 /* --- 1. 헤더 영역 --- */
+.controls-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+}
+
+.controls-container .search-bar {
+    width: 100%;
+    min-width: 0;
+}
+
 .header-area {
     position: relative;
     display: flex;
