@@ -12,7 +12,8 @@
     <script>
         loadCSS('css/common.css');
         loadCSS('css/components.css');
-        loadCSS('css/pages/inventory_checker.css?v=inventory-20260723-1');
+        loadCSS('css/character-catalog.css?v=catalog-ui-1');
+        loadCSS('css/pages/inventory_checker.css?v=catalog-ui-1');
         loadCSS('css/responsive.css');
         loadJS('js/search_utils.js');
         loadJS('js/feedback.js');
@@ -54,24 +55,9 @@
             <div class="checker-controls">
                 <input type="search" id="inventory-search" class="search-bar" placeholder="이름 검색..." aria-label="이름 검색">
                 <div class="filter-row">
-                    <div id="character-filters" class="filter-pills" aria-label="각성체 필터">
-                        <button type="button" class="filter-pill active" data-character-filter="all">전체</button>
-                        <button type="button" class="filter-pill" data-character-filter="standard">통상</button>
-                        <button type="button" class="filter-pill" data-character-filter="forgotten">망각편</button>
-                        <button type="button" class="filter-pill" data-character-filter="celestial">성신편</button>
-                    </div>
-                    <div id="character-class-filters" class="filter-pills" aria-label="각성체 역할 필터">
-                        <button type="button" class="filter-pill active" data-character-class-filter="all">전체 역할</button>
-                        <button type="button" class="filter-pill" data-character-class-filter="assault">공격형</button>
-                        <button type="button" class="filter-pill" data-character-class-filter="warden">방어형</button>
-                        <button type="button" class="filter-pill" data-character-class-filter="chorus">보조형</button>
-                    </div>
-                    <div id="wheel-filters" class="filter-pills hidden" aria-label="명륜 필터">
-                        <button type="button" class="filter-pill active" data-wheel-filter="all">전체</button>
-                        <button type="button" class="filter-pill" data-wheel-filter="SSR">SSR</button>
-                        <button type="button" class="filter-pill" data-wheel-filter="SR">SR</button>
-                        <button type="button" class="filter-pill" data-wheel-filter="R">R</button>
-                    </div>
+                    <div id="character-filters" class="filter-pills" aria-label="각성체 필터"></div>
+                    <div id="character-class-filters" class="filter-pills" aria-label="각성체 역할 필터"></div>
+                    <div id="wheel-filters" class="filter-pills hidden" aria-label="명륜 필터"></div>
                     <div class="bulk-actions" aria-label="일괄 선택">
                         <button type="button" id="select-visible-btn" class="ghost-action">모두 선택</button>
                         <button type="button" id="deselect-visible-btn" class="ghost-action">모두 해제</button>
@@ -107,6 +93,7 @@
     <span aria-hidden="true">🚨</span>
 </button>
 
-<script src="js/inventory_checker.js?v=character-identity-226"></script>
+<script src="js/character-catalog-ui.js?v=catalog-ui-1"></script>
+<script src="js/inventory_checker.js?v=catalog-ui-1"></script>
 </body>
 </html>
