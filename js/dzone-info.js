@@ -1322,11 +1322,26 @@
         return `<span class="dzone-grade-badge">${renderGameGrade(difficulty)}</span>`;
     }
 
+    function orderedEncounters(wave) {
+        const encounters = [...wave.encounters]
+            .sort((left, right) => (TYPE_ORDER[left.battleType] ?? 99) - (TYPE_ORDER[right.battleType] ?? 99));
+        if (wave.wave !== 4) return encounters;
+        const nodes = mapData?.waves?.find(item => item.wave === wave.wave)?.nodes;
+        if (!nodes?.length) return encounters;
+        const battleOrder = new Map();
+        [...nodes].filter(node => node.battleId)
+            .sort((left, right) => left.column - right.column || left.row - right.row)
+            .forEach(node => {
+                if (!battleOrder.has(node.battleId)) battleOrder.set(node.battleId, battleOrder.size);
+            });
+        if (!encounters.every(encounter => battleOrder.has(encounter.battleId))) return encounters;
+        return encounters.sort((left, right) => battleOrder.get(left.battleId) - battleOrder.get(right.battleId));
+    }
+
     function renderWave(wave) {
         const difficulty = wave.alerts.find(item => item.alert === selectedAlert);
         const difficultyLabel = selectedDifficultyLabel(difficulty);
-        const sortedEncounters = [...wave.encounters]
-            .sort((left, right) => (TYPE_ORDER[left.battleType] ?? 99) - (TYPE_ORDER[right.battleType] ?? 99));
+        const sortedEncounters = orderedEncounters(wave);
         const typeCounts = sortedEncounters.reduce((counts, encounter) => counts.set(encounter.battleType, (counts.get(encounter.battleType) || 0) + 1), new Map());
         const typeIndexes = new Map();
         const encounters = sortedEncounters.map(encounter => {

@@ -1014,7 +1014,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'dzone-season72-res160-20261024-cycle2'/);
+    assert.match(html, /CONFIG\.VERSION = 'dzone-season72-wave4-order-20261027'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
@@ -1196,6 +1196,38 @@ test('카드 버린 직후 방어막 기록값을 내부 상태명 없이 설명
     assert.equal(matching.length, 8);
     assert.ok(matching.every(description => description.includes('중 높은 수치의 25%만큼 피해가 증가합니다.')));
     assert.doesNotMatch(descriptions.join('\n'), /실드값 스택 수|max\(플레이어 방어막/);
+});
+
+test('#245 현재와 보관 기수의 4파만 지도 진행 순서로 배열한다', () => {
+    const orderingSource = source.slice(source.indexOf('    function orderedEncounters('), source.indexOf('    function renderWave('));
+    for (const period of [68, 69, 70, 71, 72]) {
+        const load = name => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', name), 'utf8'));
+        const season = load(`dzone_season${period}.json`);
+        const maps = load(`dzone_maps_season${period}.json`);
+        const context = vm.createContext({ mapData: maps, TYPE_ORDER: { Common: 0, Elite: 1, Boss: 2 } });
+        vm.runInContext(orderingSource, context);
+        for (const wave of season.waves) {
+            const before = JSON.stringify(wave.encounters);
+            const expected = wave.wave === 4
+                ? maps.waves.find(item => item.wave === 4).nodes.filter(node => node.battleId)
+                    .sort((a, b) => a.column - b.column).map(node => node.battleId)
+                : [...wave.encounters].sort((a, b) => context.TYPE_ORDER[a.battleType] - context.TYPE_ORDER[b.battleType]).map(item => item.battleId);
+            assert.deepEqual(Array.from(context.orderedEncounters(wave), item => item.battleId), expected, `${period}기 ${wave.wave}파`);
+            assert.equal(JSON.stringify(wave.encounters), before);
+        }
+    }
+    assert.match(source, /const sortedEncounters = orderedEncounters\(wave\)/);
+});
+
+test('#245 지도가 없거나 전투 연결이 누락되면 기존 유형 정렬을 유지한다', () => {
+    const orderingSource = source.slice(source.indexOf('    function orderedEncounters('), source.indexOf('    function renderWave('));
+    const season = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season72.json'), 'utf8'));
+    const wave = season.waves.find(item => item.wave === 4);
+    for (const mapData of [null, { waves: [{ wave: 4, nodes: [{ column: 1, row: 4, battleId: wave.encounters[0].battleId }] }] }]) {
+        const context = vm.createContext({ mapData, TYPE_ORDER: { Common: 0, Elite: 1, Boss: 2 } });
+        vm.runInContext(orderingSource, context);
+        assert.deepEqual(Array.from(context.orderedEncounters(wave), item => item.battleId), [88643, 88573, 88618]);
+    }
 });
 
 test('노드 지도는 전투 버튼만 상세 카드에 연결하고 실전 통계와 맨 위로 이동을 제공한다', () => {
