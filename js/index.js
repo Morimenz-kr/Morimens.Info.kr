@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const characterGrid = document.getElementById('character-grid');
 
     let allCardLinks = []; // 필터링 최적화를 위한 오브젝트 풀링 역할
-    let currentFilters = { relems: 'all', grade: 'all', class: 'all', search: '' };
+    let currentFilters = { availability: 'all', relems: 'all', grade: 'all', class: 'all', search: '' };
 
     // --- 1. JSON에서 캐릭터 카드를 생성하는 함수 (Instantiate) ---
     async function buildCharacterGrid() {
@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const character = characters.find(item => item.id === link.dataset.characterId);
                 link.dataset.searchNames = [character.name, ...(character.name_aliases || [])].join(' ');
                 link.dataset.grade = character.grade;
-                link.dataset.releaseGrade = classification.characterGrade(character);
+                link.dataset.releaseType = classification.characterAvailability(character);
             });
 
         } catch (error) {
@@ -59,7 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 필터 조건 검사
             const relemsMatch = currentFilters.relems === 'all' || card.classList.contains(currentFilters.relems);
-            const gradeMatch = currentFilters.grade === 'all' || link.dataset.grade === currentFilters.grade || link.dataset.releaseGrade === currentFilters.grade;
+            const gradeMatch = currentFilters.grade === 'all' || link.dataset.grade === currentFilters.grade;
+            const availabilityMatch = currentFilters.availability === 'all' || link.dataset.releaseType === currentFilters.availability;
             const classMatch = currentFilters.class === 'all' || card.classList.contains(currentFilters.class);
 
             // 검색어 검사
@@ -69,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : name.toLowerCase().includes(searchTerm);
 
             // 모든 조건이 맞으면 보이게, 아니면 숨김
-            if (relemsMatch && gradeMatch && classMatch && searchMatch) {
+            if (relemsMatch && gradeMatch && availabilityMatch && classMatch && searchMatch) {
                 link.classList.remove('hidden');
             } else {
                 link.classList.add('hidden');
@@ -84,17 +85,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 2. 필터 이벤트 리스너 등록
         const ui = window.CharacterFilterUI;
-        const options = {
-            grade: [['all', '전체 등급'], ['상시 SSR', '상시 SSR'], ['한정 SSR', '한정 SSR'], ['ssr', 'SSR'], ['sr', 'SR']],
-            relems: [['all', '전체 계역'], ['chaos', '혼돈'], ['aequor', '심해'], ['caro', '혈육'], ['ultra', '초차원']],
-            class: ui.CLASS_OPTIONS
-        };
-        for (const [key, values] of Object.entries(options)) {
-            const container = document.getElementById(key + '-filters');
-            const attribute = 'data-' + key + '-filter';
-            container.innerHTML = ui.renderFilterOptions(values, attribute);
-            ui.bindFilterGroup(container, attribute, value => {
-                currentFilters[key] = value;
+        const container = document.getElementById('availability-filters');
+        container.innerHTML = ui.renderFilterOptions([
+            ['all', '전체'], ['standard', '상시'], ['limited', '한정']
+        ], 'data-availability-filter');
+        ui.bindFilterGroup(container, 'data-availability-filter', value => {
+            currentFilters.availability = value;
+            applyFilters();
+        });
+        for (const key of ['grade', 'relems', 'class']) {
+            document.getElementById(key + '-filter').addEventListener('change', event => {
+                currentFilters[key] = event.target.value;
                 applyFilters();
             });
         }

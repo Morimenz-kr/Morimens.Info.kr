@@ -28,3 +28,9 @@ test('#236 상시 편입 여부 대신 최초 출시 분류를 유지하고 SR�
     for (const wheel of wheels.filter(item => item.grade === 'SR')) assert.equal(classification.wheelGrade(wheel), 'SR');
     for (const character of characters.filter(item => item.grade === 'sr')) assert.equal(classification.characterGrade(character), 'SR');
 });
+
+test('상시·한정 분류는 등급과 별개로 SR에도 적용한다', () => {
+    for (const character of characters) assert.ok(['standard', 'limited'].includes(classification.characterAvailability(character)), character.id);
+    for (const character of characters.filter(item => item.grade === 'sr')) assert.equal(classification.characterAvailability(character), 'standard');
+    assert.equal(classification.characterAvailability(characters.find(item => item.id === 'tulu')), 'limited');
+});

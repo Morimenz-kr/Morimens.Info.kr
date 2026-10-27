@@ -14,6 +14,33 @@
     min-width: 0;
 }
 
+.catalog-filter-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.catalog-filter-toolbar .filter-pills {
+    flex: 0 0 auto;
+    width: auto;
+}
+
+.catalog-filter-toolbar select {
+    flex: 1 1 7.5rem;
+    min-width: 0;
+    min-inline-size: min(100%, 7.5rem);
+    min-height: 36px;
+    padding: 7px 10px;
+    font-size: 0.85rem;
+}
+
+.catalog-filter-toolbar #grade-filter {
+    flex-basis: 5.5rem;
+    min-inline-size: min(100%, 5.5rem);
+}
+
 .header-area {
     position: relative;
     display: flex;

@@ -10,7 +10,7 @@
 
     <script src="config/config.js"></script>
     <script>
-        CONFIG.ASSET_REVISION += '-character-filters-only-2';
+        CONFIG.ASSET_REVISION += '-character-filters-compact-3';
         loadCSS('css/common.css');
         loadCSS('css/components.css');
         loadCSS('css/character-filters.css');
@@ -30,9 +30,27 @@
 
     <section class="controls-container" aria-label="검색 및 필터">
         <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색..." aria-label="캐릭터 이름 검색">
-        <div id="grade-filters" class="filter-pills" role="group" aria-label="등급 필터"></div>
-        <div id="relems-filters" class="filter-pills" role="group" aria-label="계역 필터"></div>
-        <div id="class-filters" class="filter-pills" role="group" aria-label="역할 필터"></div>
+        <div class="catalog-filter-toolbar">
+            <div id="availability-filters" class="filter-pills" role="group" aria-label="상시·한정 필터"></div>
+            <select id="grade-filter" aria-label="등급 필터">
+                <option value="all">등급</option>
+                <option value="ssr">SSR</option>
+                <option value="sr">SR</option>
+            </select>
+            <select id="relems-filter" aria-label="계역 필터">
+                <option value="all">계역 전체</option>
+                <option value="chaos">혼돈</option>
+                <option value="aequor">심해</option>
+                <option value="caro">혈육</option>
+                <option value="ultra">초차원</option>
+            </select>
+            <select id="class-filter" aria-label="역할 필터">
+                <option value="all">역할 전체</option>
+                <option value="assault">공격형</option>
+                <option value="warden">방어형</option>
+                <option value="chorus">보조형</option>
+            </select>
+        </div>
     </section>
 
     <section class="character-grid" id="character-grid" aria-label="캐릭터 목록">
@@ -41,9 +59,9 @@
 
 <script src="config/constants.js"></script>
 <script src="js/search_utils.js"></script>
-<script src="js/summon-classification.js?v=release-type-236"></script>
+<script src="js/summon-classification.js?v=availability-3"></script>
 <script src="js/character-filter-ui.js?v=filters-only-2"></script>
-<script src="js/index.js?v=filters-only-2"></script>
+<script src="js/index.js?v=filters-compact-3"></script>
 
 
 <button class="floating-report-btn" title="버그 신고" aria-label="버그 제보하기">

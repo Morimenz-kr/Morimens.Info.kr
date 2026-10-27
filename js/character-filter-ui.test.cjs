@@ -5,10 +5,10 @@ const path = require('node:path');
 const ui = require('./character-filter-ui.js');
 
 test('공유 필터는 버튼과 접근성 선택 상태를 제공하고 상시·한정을 구분한다', () => {
-    const html = ui.renderFilterOptions([['all', '전체 등급'], ['상시 SSR', '상시 SSR'], ['한정 SSR', '한정 SSR']], 'data-grade-filter', '한정 SSR');
+    const html = ui.renderFilterOptions([['all', '전체'], ['standard', '상시'], ['limited', '한정']], 'data-availability-filter', 'limited');
     assert.equal((html.match(/aria-pressed="true"/g) || []).length, 1);
-    assert.match(html, /data-grade-filter="상시 SSR" aria-pressed="false"/);
-    assert.match(html, /data-grade-filter="한정 SSR" aria-pressed="true"/);
+    assert.match(html, /data-availability-filter="standard" aria-pressed="false"/);
+    assert.match(html, /data-availability-filter="limited" aria-pressed="true"/);
     assert.equal((html.match(/type="button"/g) || []).length, 3);
     assert.match(ui.renderFilterOptions([['all', '<전체>']], 'data-filter'), /&lt;전체&gt;/);
 });
@@ -24,6 +24,7 @@ test('두 페이지는 필터만 공통화하고 원래 카드 렌더러를 유�
     const catalog = fs.readFileSync(path.join(__dirname, 'index.js'), 'utf8');
     assert.match(catalog, /class="card-link"/);
     assert.match(catalog, /class="character-card /);
-    assert.match(catalog, /상시 SSR/);
-    assert.match(catalog, /한정 SSR/);
+    assert.match(catalog, /'standard', '상시'/);
+    assert.match(catalog, /'limited', '한정'/);
+    assert.doesNotMatch(catalog, /상시 SSR|한정 SSR/);
 });
