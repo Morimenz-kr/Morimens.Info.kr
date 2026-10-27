@@ -47,3 +47,15 @@
   .story-chapter-control,.story-stage-control { grid-column:auto; }
   .story-entry-effects:has(.story-player-effects) { grid-template-columns:repeat(2,minmax(0,1fr)); }
 }
+
+.story-page .game-amount { display:inline; font-weight:700; font-size:1.08em; }
+.story-page .game-amount--damage { color:#ef8888; }
+.story-page .game-amount--shield { color:#8cc7ec; }
+.flow-repeat-block { list-style:none; border-inline-start:2px solid var(--dzone-border); padding-inline-start:.75rem; margin:.6rem 0; }
+.flow-repeat-label,.flow-end { font-size:.85rem; line-height:1.6; color:var(--color-text-primary); }
+.flow-end { border-top:1px solid var(--dzone-border); padding-top:.75rem; }
+.story-summon-links { display:flex; flex-wrap:wrap; align-items:center; gap:.35rem .75rem; margin:.75rem 0; }
+.story-summon-links strong { font-size:.85rem; }
+.story-summon-link { display:inline-flex; align-items:center; min-height:2.75rem; color:#8cc7ec; font-size:.85rem; text-underline-offset:.2em; }
+.story-summon-link:focus-visible { outline:2px solid #e8c571; outline-offset:3px; }
+.story-monster { scroll-margin-top:1rem; }

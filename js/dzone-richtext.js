@@ -7,9 +7,14 @@
         const wrapped = String(source).match(/^<game-text:([\s\S]*)>$/);
         if (!wrapped) return escapeHtml(transformText(source));
         let output = '', cursor = 0;
-        const regex = /<(kw_[a-f0-9]{16}):([^<>]*)>/g;
+        const regex = /<(kw_[a-f0-9]{16}|amount_damage|amount_shield):([^<>]*)>/g;
         for (const match of wrapped[1].matchAll(regex)) {
             output += escapeHtml(transformText(wrapped[1].slice(cursor, match.index)));
+            if (match[1].startsWith('amount_')) {
+                output += '<strong class="game-amount game-amount--' + match[1].slice(7) + '">' + escapeHtml(transformText(match[2])) + '</strong>';
+                cursor = match.index + match[0].length;
+                continue;
+            }
             const item = glossary?.[match[1]];
             const label = escapeHtml(match[2]);
             if (!item) throw new Error(`Missing generated tooltip ${match[1]}`);
