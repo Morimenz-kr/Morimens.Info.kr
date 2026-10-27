@@ -616,6 +616,7 @@ function getDictionaryFilterMeta(item, category) {
             tags.join(' ')
         ].filter(Boolean).join(' ').toLowerCase(),
         grade: category === 'myeongryun' ? String(item.grade || '').trim() : '',
+        releaseGrade: category === 'myeongryun' ? window.summonClassification?.wheelGrade(item) || '' : '',
         mainStat: mainStatFilter,
         effectFilters
     };
@@ -711,7 +712,9 @@ function renderDictionaryFilters(data, category, onFilterChange) {
     const effects = uniqueSortedValues([...metaByItem.values()].flatMap(meta => meta.effectFilters));
     const isMyeongryun = category === 'myeongryun';
     const isSilverKey = category === 'silverkey';
-    const grades = uniqueSortedValues([...metaByItem.values()].map(meta => meta.grade));
+    const gradeOrder = ['SSR', '상시 SSR', '한정 SSR', 'SR', 'R'];
+    const grades = uniqueSortedValues([...metaByItem.values()].flatMap(meta => [meta.grade, meta.releaseGrade]))
+        .sort((left, right) => gradeOrder.indexOf(left) - gradeOrder.indexOf(right));
     const optionFieldHtml = isMyeongryun ? `
         <div class="dictionary-filter-field">
             <span class="dictionary-filter-section-title">등급</span>
@@ -788,7 +791,7 @@ function renderDictionaryFilters(data, category, onFilterChange) {
                     : searchText.includes(query.toLowerCase());
                 if (!matches) return false;
             }
-            if (grades.length > 0 && !grades.includes(meta.grade)) return false;
+            if (grades.length > 0 && !grades.includes(meta.grade) && !grades.includes(meta.releaseGrade)) return false;
             if (mainStats.length > 0 && !mainStats.includes(meta.mainStat)) return false;
             if (effects.length > 0 && !effects.some(effect => meta.effectFilters.includes(effect))) return false;
             return true;
@@ -927,7 +930,7 @@ const initializeLinksPage = async () => {
 
     try {
         const ts = new Date().getTime();
-        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB] = await Promise.all([
+        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB, gachaTypes] = await Promise.all([
             fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
             fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
             fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
@@ -936,8 +939,11 @@ const initializeLinksPage = async () => {
             fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => []),
             fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
             fetch(`data/db_tooltips.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
-            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] }))
+            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] })),
+            fetch(`data/gachatype.json?t=${ts}`).then(res => res.json())
         ]);
+
+        window.summonClassification = window.SummonClassification.create(gachaTypes);
 
         if (isDictionaryPage) await window.ResearchDepth?.load();
 

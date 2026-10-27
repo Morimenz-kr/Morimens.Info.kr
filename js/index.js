@@ -12,11 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. JSON에서 캐릭터 카드를 생성하는 함수 (Instantiate) ---
     async function buildCharacterGrid() {
         try {
-            const response = await fetch(`data/character_manifest.json?t=${Date.now()}`, { cache: 'no-store' });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const characters = await response.json();
+            const [characters, gachaTypes] = await Promise.all(['character_manifest', 'gachatype'].map(async name => {
+                const response = await fetch(`data/${name}.json?t=${Date.now()}`, { cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            }));
+            const classification = window.SummonClassification.create(gachaTypes);
 
             let gridHTML = '';
             for (const char of characters) {
@@ -39,7 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
             characterGrid.innerHTML = gridHTML;
             // 생성된 모든 <a> 태그를 배열에 저장 (참조 유지)
             allCardLinks = characterGrid.querySelectorAll('a.card-link');
-            allCardLinks.forEach(link => { const c = characters.find(c => c.id === link.dataset.characterId); link.dataset.searchNames = [c.name, ...(c.name_aliases || [])].join(' '); });
+            allCardLinks.forEach(link => {
+                const character = characters.find(item => item.id === link.dataset.characterId);
+                link.dataset.searchNames = [character.name, ...(character.name_aliases || [])].join(' ');
+                link.dataset.grade = character.grade;
+                link.dataset.releaseGrade = classification.characterGrade(character);
+            });
 
         } catch (error) {
             console.error("캐릭터 목록 로드 실패:", error);
@@ -56,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 필터 조건 검사
             const relemsMatch = currentFilters.relems === 'all' || card.classList.contains(currentFilters.relems);
-            const gradeMatch = currentFilters.grade === 'all' || card.classList.contains(currentFilters.grade);
+            const gradeMatch = currentFilters.grade === 'all' || link.dataset.grade === currentFilters.grade || link.dataset.releaseGrade === currentFilters.grade;
             const classMatch = currentFilters.class === 'all' || card.classList.contains(currentFilters.class);
 
             // 검색어 검사

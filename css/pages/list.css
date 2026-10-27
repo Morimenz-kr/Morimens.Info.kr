@@ -3,6 +3,16 @@
    ============================================ */
 
 /* --- 1. 헤더 영역 --- */
+.controls-container .filter-container {
+    flex-wrap: wrap;
+}
+
+.controls-container .filter-container select {
+    flex: 1 1 8.5rem;
+    min-inline-size: min(100%, 8.5rem);
+    max-inline-size: 100%;
+}
+
 .header-area {
     position: relative;
     display: flex;

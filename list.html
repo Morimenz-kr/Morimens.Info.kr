@@ -10,6 +10,7 @@
 
     <script src="config/config.js"></script>
     <script>
+        CONFIG.ASSET_REVISION += '-release-type-236';
         loadCSS('css/common.css');
         loadCSS('css/components.css');
         loadCSS('css/pages/list.css');
@@ -39,6 +40,8 @@
             <select id="grade-filter" aria-label="등급 필터">
                 <option value="all">등급 (전체)</option>
                 <option value="ssr">SSR</option>
+                <option value="상시 SSR">상시 SSR</option>
+                <option value="한정 SSR">한정 SSR</option>
                 <option value="sr">SR</option>
             </select>
             <select id="class-filter" aria-label="클래스 필터">
@@ -56,7 +59,8 @@
 
 <script src="config/constants.js"></script>
 <script src="js/search_utils.js"></script>
-<script src="js/index.js?v=character-identity-226"></script>
+<script src="js/summon-classification.js?v=release-type-236"></script>
+<script src="js/index.js?v=release-type-236"></script>
 
 
 <button class="floating-report-btn" title="버그 신고" aria-label="버그 제보하기">
