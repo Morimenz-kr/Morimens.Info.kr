@@ -173,7 +173,7 @@
         targetBox.replaceChildren(fragment);
     }
 
-    function collectLastAppearances(history, verifiedPeriods) {
+    function collectLastAppearances(history, verifiedPeriods, schedules = [], now = new Date()) {
         const result = new Map();
         history.forEach(group => {
             const month = String(group?.month || '');
@@ -182,26 +182,38 @@
                 if (!entry?.id) return;
                 const previous = result.get(entry.id) || { release: null, rerun: null, name: entry.name };
                 previous.name = entry.name || previous.name;
-                if (Number(entry.appearance) === 1) previous.release = month;
-                if (Number(entry.appearance) > 1) previous.rerun = month;
+                if (Number(entry.appearance) === 1 && month > (previous.release || '')) previous.release = month;
+                if (Number(entry.appearance) > 1 && month > (previous.rerun || '')) previous.rerun = month;
                 result.set(entry.id, previous);
             });
         });
-        result.forEach((entry, id) => {
-            const period = verifiedPeriods?.[id];
-            const lastMonth = entry.rerun || entry.release;
-            if (period?.start_date?.slice(0, 7) === lastMonth && period?.end_date) {
-                entry.period = period;
-            }
+        const nowKey = dateTimeKey(now);
+        const periods = [
+            ...Object.entries(verifiedPeriods || {}).map(([id, period]) => ({ ...period, id })),
+            ...schedules
+        ];
+        periods.forEach(period => {
+            if (!period?.id || !period.start_date || !period.end_date) return;
+            if (scheduleBoundary(period, 'end') > nowKey || period.start_date > period.end_date) return;
+            const entry = result.get(period.id) || { release: null, rerun: null, name: period.name };
+            const month = period.start_date.slice(0, 7);
+            // Completed schedules can be newer than the separately maintained monthly history.
+            if (month < (entry.rerun || entry.release || '')) return;
+            if (entry.period && period.start_date < entry.period.start_date) return;
+            const kind = period.kind || (month === entry.release ? 'release' : 'rerun');
+            entry[kind === 'release' ? 'release' : 'rerun'] = month;
+            entry.name = period.name || entry.name;
+            entry.period = period;
+            result.set(period.id, entry);
         });
         return result;
     }
 
-    function renderGapRanking(history, current, characterMap, verifiedPeriods) {
+    function renderGapRanking(history, current, characterMap, verifiedPeriods, schedules) {
         const currentIds = new Set(current.map(item => item?.id).filter(Boolean));
         const today = new Date();
         const todayKey = localDateKey(today);
-        const rows = [...collectLastAppearances(history, verifiedPeriods)]
+        const rows = [...collectLastAppearances(history, verifiedPeriods, schedules, today)]
             .filter(([id]) => !currentIds.has(id))
             .map(([id, entry]) => {
                 const elapsedDays = entry.period?.end_date <= todayKey
@@ -308,7 +320,7 @@
             renderPickupCards(currentReleases, characterMap, currentBox, '현재 픽업 데이터가 없습니다.');
             renderPickupCards(currentReruns, characterMap, currentRerunBox, '현재 복각 데이터가 없습니다.');
             renderPickupCards(next, characterMap, nextBox, '다음 픽업 데이터가 없습니다.', { source: false });
-            renderGapRanking(history, current, characterMap, verifiedPeriods);
+            renderGapRanking(history, current, characterMap, verifiedPeriods, [...configuredCurrent, ...configuredNext]);
             renderHistory(history, characterMap);
         } catch (error) {
             console.error('픽업·복각 일정 로드 실패:', error);
