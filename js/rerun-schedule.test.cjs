@@ -13,6 +13,25 @@ const schedule = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/rerun_
 const schedules = [...schedule.current_pickups, ...schedule.next_pickups];
 const now = new Date('2026-10-29T03:00:00Z');
 
+test('원본 월별 표의 34명·100건과 출시 및 복각 차수가 모두 일치한다', () => {
+    const reference = require('./fixtures/rerun-history-20261030.json');
+    const history = context.mergeScheduleHistory(schedule.history, schedules, schedule.verified_periods,
+        new Date('2026-10-30T03:00:00Z'));
+    const actual = JSON.parse(JSON.stringify(history.flatMap(group => group.characters.map(entry =>
+        [group.month, entry.id, entry.appearance]))));
+    actual.sort((a, b) => a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]));
+    assert.deepEqual(actual, reference.records);
+    assert.equal(new Set(actual.map(record => record[1])).size, 34);
+    assert.equal(actual.length, 100);
+    const catalog = require('../data/character_manifest.json');
+    const gacha = require('../data/gachatype.json');
+    const ids = new Set(actual.map(record => record[1]));
+    for (const id of new Set([...gacha.forgotten, ...gacha.celestial])) {
+        if (!gacha.standard.includes(id)) assert.ok(ids.has(id), `한정 각성체 기록 누락: ${id}`);
+    }
+    for (const id of ids) assert.ok(catalog.some(character => character.id === id), `미등록 ID: ${id}`);
+});
+
 test('시작한 일정은 월별 기록에도 합치고 미래 일정은 표시하지 않는다', () => {
     const original = JSON.stringify(schedule.history);
     const history = context.mergeScheduleHistory(schedule.history, schedules, schedule.verified_periods, now);
