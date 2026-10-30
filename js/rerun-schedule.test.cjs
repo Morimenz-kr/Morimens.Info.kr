@@ -7,11 +7,35 @@ const vm = require('node:vm');
 const context = vm.createContext({ document: { getElementById: () => ({}) } });
 const source = fs.readFileSync(path.join(__dirname, 'rerun_schedule.js'), 'utf8');
 vm.runInContext(source.replace('    initialize();',
-    '    globalThis.collectLastAppearances = collectLastAppearances;'), context);
+    '    globalThis.collectLastAppearances = collectLastAppearances; globalThis.mergeScheduleHistory = mergeScheduleHistory;'), context);
 const collect = context.collectLastAppearances;
 const schedule = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/rerun_schedule.json'), 'utf8'));
 const schedules = [...schedule.current_pickups, ...schedule.next_pickups];
 const now = new Date('2026-10-29T03:00:00Z');
+
+test('시작한 일정은 월별 기록에도 합치고 미래 일정은 표시하지 않는다', () => {
+    const original = JSON.stringify(schedule.history);
+    const history = context.mergeScheduleHistory(schedule.history, schedules, schedule.verified_periods, now);
+    const september = history.find(group => group.month === '2026-09').characters;
+    const october = history.find(group => group.month === '2026-10').characters;
+    assert.deepEqual(Array.from(september, entry => entry.id).sort(),
+        ['GOgier', 'Murphy_Fauxborn', 'dafoodil', 'kathigu-ra'].sort());
+    assert.deepEqual(Array.from(october, entry => entry.id).sort(), ['castor', 'miryam', 'vivian', 'xu'].sort());
+    assert.equal(september.find(entry => entry.id === 'GOgier').appearance, 1);
+    assert.equal(september.find(entry => entry.id === 'Murphy_Fauxborn').appearance, 2);
+    assert.equal(october.find(entry => entry.id === 'vivian').appearance, 1);
+    assert.equal(history.some(group => group.month > '2026-10'), false);
+    for (const group of history) assert.equal(new Set(group.characters.map(entry => entry.id)).size, group.characters.length);
+    assert.equal(JSON.stringify(schedule.history), original);
+    const repeated = context.mergeScheduleHistory(history, schedules, schedule.verified_periods, now);
+    assert.equal(JSON.stringify(repeated), JSON.stringify(history));
+});
+
+test('기록은 한국 시간 픽업 시작 시점에 추가한다', () => {
+    const items = [{ id: 'new', kind: 'release', start_date: '2026-10-19', start_time: '10:00', end_date: '2026-11-16' }];
+    assert.equal(context.mergeScheduleHistory([], items, {}, new Date('2026-10-19T00:59:00Z')).length, 0);
+    assert.equal(context.mergeScheduleHistory([], items, {}, new Date('2026-10-19T01:00:00Z'))[0].characters[0].appearance, 1);
+});
 
 test('지난 복각과 신규 출시 일정이 월별 이력에 없어도 공백 목록에 포함된다', () => {
     const entries = collect(schedule.history, schedule.verified_periods, schedules, now);

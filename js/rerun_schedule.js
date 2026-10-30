@@ -173,6 +173,37 @@
         targetBox.replaceChildren(fragment);
     }
 
+    function mergeScheduleHistory(history, schedules, verifiedPeriods, now = new Date()) {
+        const groups = new Map(history.map(group => [group.month, {
+            ...group, characters: group.characters.map(entry => ({ ...entry }))
+        }]));
+        const nowKey = dateTimeKey(now);
+        const periods = [
+            ...schedules,
+            ...Object.entries(verifiedPeriods).map(([id, period]) => ({ ...period, id }))
+        ];
+        periods.forEach(period => {
+            if (!period?.id || !period.start_date || !period.end_date) return;
+            if (period.start_date > period.end_date || scheduleBoundary(period, 'start') > nowKey) return;
+            const month = period.start_date.slice(0, 7);
+            const group = groups.get(month) || { month, characters: [] };
+            if (group.characters.some(entry => entry.id === period.id)) return;
+            group.characters.push({ id: period.id, name: period.name, kind: period.kind });
+            groups.set(month, group);
+        });
+        const appearances = new Map();
+        return [...groups.values()].sort((a, b) => a.month.localeCompare(b.month)).map(group => ({
+            ...group,
+            characters: group.characters.map(entry => {
+                const previous = appearances.get(entry.id) || 0;
+                const appearance = Number(entry.appearance) ||
+                    (entry.kind === 'release' ? 1 : Math.max(2, previous + 1));
+                appearances.set(entry.id, Math.max(previous, appearance));
+                return { ...entry, appearance };
+            })
+        }));
+    }
+
     function collectLastAppearances(history, verifiedPeriods, schedules = [], now = new Date()) {
         const result = new Map();
         history.forEach(group => {
@@ -312,10 +343,13 @@
             const { current, next } = normalizeScheduleBuckets(configuredCurrent, configuredNext);
             const currentReleases = current.filter(item => item?.kind === 'release');
             const currentReruns = current.filter(item => item?.kind !== 'release');
-            const history = Array.isArray(data?.history) ? data.history : [];
             const verifiedPeriods = data?.verified_periods && typeof data.verified_periods === 'object'
                 ? data.verified_periods
                 : {};
+            const history = mergeScheduleHistory(
+                Array.isArray(data?.history) ? data.history : [],
+                [...configuredCurrent, ...configuredNext], verifiedPeriods
+            );
 
             renderPickupCards(currentReleases, characterMap, currentBox, '현재 픽업 데이터가 없습니다.');
             renderPickupCards(currentReruns, characterMap, currentRerunBox, '현재 복각 데이터가 없습니다.');
