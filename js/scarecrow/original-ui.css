@@ -1,4 +1,12 @@
 /* Calculator additions; the original party layout, portraits and selection modals remain shared. */
+.scarecrow-workspace{display:none}
+.scarecrow-workspace.show{display:flex;width:100%;height:100dvh;background:#18181c}
+body[data-scarecrow-screen=damage]{display:block;overflow:hidden;background:#18181c}
+body[data-scarecrow-screen=damage]>.builder-container{display:none!important}
+#modal-damage.scarecrow-workspace>.modal-box{width:100%;max-width:none;height:100%;max-height:none;margin:0;border:0;border-radius:0;background:#18181c;overflow:hidden}
+#modal-damage.scarecrow-workspace .modal-header{padding:.8rem clamp(1rem,3vw,2.5rem);background:#222126;border-bottom:1px solid #424047;flex-wrap:wrap}
+#modal-damage.scarecrow-workspace .modal-header h3{font-size:1.15rem;color:#e1d1ae;margin:0;line-height:1.4}
+#modal-damage.scarecrow-workspace .modal-header button{background:#302b27;border:1px solid #7b6947;color:#e2d4b3;border-radius:.3rem;font-size:.85rem;padding:.6rem .9rem}
 .scarecrow-workflow{flex-shrink:0;margin-bottom:.6rem}.scarecrow-workflow h1{font-size:1.25rem;color:var(--highlight);margin:0}.scarecrow-workflow p{font-size:.8rem;margin:.4rem 0;overflow-wrap:anywhere;color:#bbb}
 #scarecrow-next{min-height:44px;white-space:normal}#scarecrow-next:disabled{opacity:.45;cursor:not-allowed}.header-left{flex-wrap:wrap}.header-right{flex-wrap:wrap}.bottom-section .btn-group{flex-wrap:wrap}
 #modal-damage .modal-header,#modal-contract .modal-header{flex-shrink:0;gap:1rem}#modal-damage .modal-header h3,#modal-contract .modal-header h3{overflow-wrap:anywhere;min-width:0}#modal-damage .modal-header .btn,#modal-contract .modal-header .btn{flex-shrink:0;min-height:44px}.scarecrow-loading{padding:1rem}.scarecrow-loading[hidden]{display:none}
@@ -10,7 +18,7 @@
 @media(max-width:768px){.main-area{padding-bottom:calc(var(--scarecrow-footer-height,9rem) + 1rem)}.bottom-section .btn-group .btn{flex:1;min-width:0}.bottom-section .key-circle{flex-shrink:0}.scarecrow-workflow p{line-height:1.5}}
 .scarecrow-growth small span{display:block}.scarecrow-contract-label{font-size:.65rem}
 .content-row{isolation:isolate}
-#scarecrow-wheel-growth{margin:.5rem 0;flex-shrink:0;color:#ddd;text-align:left}#scarecrow-wheel-growth[hidden]{display:none}.scarecrow-wheel-stages{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.scarecrow-wheel-stages label{display:flex;flex-direction:column;gap:.3rem;min-width:0;font-size:.875rem}.scarecrow-wheel-stages select{min-width:0;width:100%;min-height:44px;background:#222;color:#fff;border:1px solid #777;padding:.4rem;border-radius:4px;font:inherit}#scarecrow-wheel-growth output{display:block;color:var(--highlight);margin-top:.6rem;font-size:.9rem;overflow-wrap:anywhere}#scarecrow-wheel-growth p{font-size:.75rem;line-height:1.4;margin:.35rem 0}.slot-wheel{position:relative}.scarecrow-wheel-badge{position:absolute;bottom:0;left:0;right:0;font-size:.65rem;line-height:1.3;padding:.2rem;background:#111d;color:#fff;text-align:center;overflow-wrap:anywhere}
+#scarecrow-wheel-growth{margin:.5rem 0;flex-shrink:0;color:#ddd;text-align:left}#scarecrow-wheel-growth[hidden]{display:none}.scarecrow-wheel-stages{display:grid;grid-template-columns:minmax(0,1fr);gap:.75rem}.scarecrow-wheel-stages label{display:flex;flex-direction:column;gap:.3rem;min-width:0;font-size:.875rem}.scarecrow-wheel-stages select{min-width:0;width:100%;min-height:44px;background:#222;color:#fff;border:1px solid #777;padding:.4rem;border-radius:4px;font:inherit}#scarecrow-wheel-growth output{display:block;color:var(--highlight);margin-top:.6rem;font-size:.9rem;overflow-wrap:anywhere}#scarecrow-wheel-growth p{font-size:.75rem;line-height:1.4;margin:.35rem 0}.slot-wheel{position:relative}.scarecrow-wheel-badge{position:absolute;bottom:0;left:0;right:0;font-size:.65rem;line-height:1.3;padding:.2rem;background:#111d;color:#fff;text-align:center;overflow-wrap:anywhere}
 body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!important}
 #global-tooltip{pointer-events:none!important}#modal-wheel .wheel-equip-panel{overflow-y:auto;justify-content:safe center}#modal-wheel .wheel-equip-panel>*{flex-shrink:0}#modal-wheel .wheel-equip-panel h3{margin-bottom:1rem!important}#scarecrow-wheel-growth details{font-size:.875rem;line-height:1.5;margin-top:.5rem}#scarecrow-wheel-growth summary{cursor:pointer;min-height:24px}
 @media(min-width:769px) and (max-height:600px){.main-area{overflow-y:auto}.content-row{flex:0 0 auto;min-height:350px;height:auto;padding:16px 0;overflow:visible}.slots-container{--party-card-height:300px;height:300px;min-height:300px}.bottom-section{position:sticky;bottom:0;z-index:50}}
@@ -48,7 +56,8 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 /* The covenant seal sits alongside potency/skills, below the level baseline. */
 .scarecrow-card-info .covenant-wrapper{top:2em}
 
-#modal-contract .modal-box{height:min(90dvh,36rem);max-height:90dvh}
+#modal-contract .modal-box{height:auto;max-height:92dvh}
+#modal-contract .modal-box>iframe{flex:0 1 auto!important}
 
 /* Party-card polish: larger seal, lower baseline, tighter name strip. */
 .scarecrow-card-info .covenant-wrapper{width:36%;max-width:80px;min-width:44px;top:2.25em;right:-.4rem}
@@ -109,8 +118,8 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 
 .scarecrow-card-info[data-prefab-layout=anchored] .scarecrow-skill-row>span{font-size:.95em;letter-spacing:-.02em}
 
-:is(.char-card,.large-slot) .scarecrow-wheel-badge{font-size:clamp(.5rem,20cqw,1.6rem)}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-number{font-size:1.1em}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value){font-size:clamp(.5rem,20cqw,1.6rem)}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-number{font-size:1.1em}
 
 /* Game weapon art: 99 x 200 centered behind an 86 x 132 mask, in a 92 x 138 frame. */
 .char-card .slot-wheel{overflow:hidden}
@@ -118,15 +127,15 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 
 /* Match the in-game 30px badge cells at 0.84 scale, independently of text zoom. */
 .char-card .slot-wheel{box-sizing:border-box}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge{padding:0 0 2px;background:linear-gradient(transparent,#111b)}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-icons{gap:var(--weapon-star-gap);justify-content:center}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-diamond{width:var(--weapon-star-size);height:var(--weapon-star-size);flex-basis:var(--weapon-star-size)}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-diamond img{left:0;width:100%;height:100%;object-fit:contain}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-number{font-size:var(--weapon-number-size);height:1em;min-width:0;margin-left:1px}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value){padding:0 0 2px;background:linear-gradient(transparent,#111b)}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-icons{gap:var(--weapon-star-gap);justify-content:center}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-diamond{width:var(--weapon-star-size);height:var(--weapon-star-size);flex-basis:var(--weapon-star-size)}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-diamond img{left:0;width:100%;height:100%;object-fit:contain}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-number{font-size:var(--weapon-number-size);height:1em;min-width:0;margin-left:1px}
 
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-icons{gap:0;white-space:nowrap}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-diamond{margin-right:var(--weapon-star-gap)}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-number{white-space:nowrap;overflow-wrap:normal;flex-shrink:0;font-weight:400}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-icons{gap:0;white-space:nowrap}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-diamond{margin-right:var(--weapon-star-gap)}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-number{white-space:nowrap;overflow-wrap:normal;flex-shrink:0;font-weight:400}
 
 
 .scarecrow-card-info[data-prefab-layout] .scarecrow-awaker-potency .scarecrow-stage-number{font-size:calc(var(--pc-star-size)*.85);height:var(--pc-star-size);min-width:var(--pc-star-size);padding:0;background:url('images/growth/UI_Common_Potency_01.png') center/contain no-repeat;line-height:1;flex-shrink:0}
@@ -134,15 +143,15 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 .char-card .scarecrow-stage-number .scarecrow-max-number{position:static;display:block;object-fit:contain;max-width:none;transform:none;clip-path:none}
 .scarecrow-card-info[data-prefab-layout] .scarecrow-awaker-potency .scarecrow-stage-number:has(.scarecrow-max-number){width:calc(var(--pc-star-size)*1.1);min-width:0;height:var(--pc-star-size);margin-left:calc(var(--pc-star-size)*.1)}
 .char-card .scarecrow-awaker-potency .scarecrow-max-number{width:100%;height:100%}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-number:has(.scarecrow-max-number){width:var(--weapon-star-size);height:var(--weapon-star-size);margin-left:0}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-max-number{width:100%;height:100%}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-number:has(.scarecrow-max-number){width:var(--weapon-star-size);height:var(--weapon-star-size);margin-left:0}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-max-number{width:100%;height:100%}
 
 .scarecrow-card-info[data-prefab-layout] .scarecrow-awaker-potency .scarecrow-stage-number:has(.scarecrow-max-number){width:var(--pc-star-size);height:var(--pc-star-size);margin-left:0;background:url('images/growth/UI_Common_Potency_01.png') center/contain no-repeat}
 .char-card .scarecrow-awaker-potency .scarecrow-max-number{width:90%;height:85%}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-number:has(.scarecrow-max-number){width:calc(var(--weapon-star-size)*.7);height:calc(var(--weapon-star-size)*.7);align-self:center}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-number:has(.scarecrow-max-number){width:calc(var(--weapon-star-size)*.7);height:calc(var(--weapon-star-size)*.7);align-self:center}
 
 /* Weapon refinement uses Text_Potency even at 12; only character maximum uses Image_Max. */
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-number{font-family:'Times New Roman',serif;font-size:var(--weapon-number-size);font-weight:400;letter-spacing:-.04em;color:#fff8d3;line-height:1;align-self:center}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-number{font-family:'Times New Roman',serif;font-size:var(--weapon-number-size);font-weight:400;letter-spacing:-.04em;color:#fff8d3;line-height:1;align-self:center}
 
 /* The character maximum is a two-layer Image_Max, not the ordinary Image_Number. */
 .scarecrow-card-info[data-prefab-layout] .scarecrow-awaker-potency .scarecrow-stage-number:has(.scarecrow-max-number){position:relative;isolation:isolate;overflow:visible;background:none}
@@ -158,20 +167,25 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 .char-card .scarecrow-awaker-potency .scarecrow-number-text{position:relative;z-index:1;white-space:nowrap;line-height:1;font-family:'Times New Roman',serif}
 
 /* Team weapon Image_Max_1 -> Image (84x72 at .5) -> Text_Max_1 (28px), all at .84. */
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-number{position:relative;isolation:isolate;width:calc(var(--weapon-star-size)*1.1);height:var(--weapon-star-size);margin-left:0;overflow:visible;background:none}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-weapon-number-background{position:absolute;left:50%;top:50%;width:calc(var(--weapon-star-size)*1.4);height:calc(var(--weapon-star-size)*1.2);max-width:none;max-height:none;transform:translate(-50%,-45%);object-fit:fill;opacity:1;filter:none;z-index:-1}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-weapon-number-text{position:relative;z-index:1;line-height:1;white-space:nowrap}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-number{position:relative;isolation:isolate;width:calc(var(--weapon-star-size)*1.1);height:var(--weapon-star-size);margin-left:0;overflow:visible;background:none}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-weapon-number-background{position:absolute;left:50%;top:50%;width:calc(var(--weapon-star-size)*1.4);height:calc(var(--weapon-star-size)*1.2);max-width:none;max-height:none;transform:translate(-50%,-45%);object-fit:fill;opacity:1;filter:none;z-index:-1}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-weapon-number-text{position:relative;z-index:1;line-height:1;white-space:nowrap}
 
 @font-face{font-family:ScarecrowNumbersKR;src:url('images/growth/game-numbers-kr.ttf') format('truetype');font-weight:600;font-style:normal;font-display:swap}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-stage-number,.char-card .scarecrow-awaker-potency .scarecrow-number-text{font-family:ScarecrowNumbersKR,serif;font-weight:600;font-synthesis:none;letter-spacing:0}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-weapon-number-background{left:50%;top:50%;transform:translate(-50%,-50%)}
-:is(.char-card,.large-slot) .scarecrow-wheel-badge .scarecrow-weapon-number-text{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(-.068em);line-height:1}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-stage-number,.char-card .scarecrow-awaker-potency .scarecrow-number-text{font-family:ScarecrowNumbersKR,serif;font-weight:600;font-synthesis:none;letter-spacing:0}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-weapon-number-background{left:50%;top:50%;transform:translate(-50%,-50%)}
+:is(:is(.char-card,.large-slot) .scarecrow-wheel-badge,#scarecrow-wheel-refinement-value) .scarecrow-weapon-number-text{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translateY(-.068em);line-height:1}
 
 /* Native equipment previews share the card badge renderer and its size tokens. */
 .large-slot{--weapon-star-size:25cqw;--weapon-star-gap:-2.5cqw;--weapon-number-size:14cqw;overflow:hidden}
 .large-slot .scarecrow-wheel-badge{font-size:var(--weapon-number-size);overflow-wrap:normal}
 .large-slot .scarecrow-stage-icons{flex-wrap:nowrap;white-space:nowrap}
 .large-slot .scarecrow-wheel-badge .scarecrow-diamond img{max-width:none;transform:none;clip-path:none}
+.scarecrow-wheel-stages input[type=range]{width:100%;min-width:0;min-height:44px;margin:0;accent-color:#d5bd84;cursor:pointer}
+.scarecrow-wheel-stages input[type=range]:focus-visible{outline:2px solid #d5bd84;outline-offset:3px}
+.scarecrow-wheel-stages label>span{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:.3rem}
+#scarecrow-wheel-growth .scarecrow-wheel-stages output{display:inline;margin:0;font:inherit;font-variant-numeric:tabular-nums;color:#e6cf98}
+.scarecrow-card-info .slot-covenant.is-empty{background:#292a30;border:1px dashed #666975;color:#858894;font-size:1.2rem;min-height:44px}
 
 /* Equipped-card reference alignment. Values scale together with the native 294px card. */
 @font-face{font-family:ScarecrowCardKR;src:url('images/growth/game-card-kr.ttf') format('truetype');font-weight:600;font-display:swap}
@@ -183,17 +197,17 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 .scarecrow-card-info[data-prefab-layout] .scarecrow-growth{font-family:ScarecrowCardKR,serif;font-weight:600}
 .scarecrow-card-info[data-prefab-layout=anchored] .scarecrow-skill-row>span{font-size:1em;letter-spacing:0}
 .scarecrow-card-info[data-prefab-layout] .slot-covenant.has-contract{overflow:visible;background:transparent}
-.scarecrow-card-info[data-prefab-layout] .slot-covenant.has-contract img{position:relative;left:-12.5%;top:-12.5%;width:125%;height:125%;max-width:none;transform:none}
+
 
 .char-card[data-growth-flow=anchored] .char-top-icon{width:calc(var(--card-unit)*68);height:calc(var(--card-unit)*68)}
 .char-card[data-growth-flow=anchored] .char-top-name{font-size:calc(var(--card-unit)*46)}
 .scarecrow-card-info[data-prefab-layout] .slot-covenant.has-contract{position:relative}
-.scarecrow-card-info[data-prefab-layout] .slot-covenant.has-contract img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+
 .scarecrow-card-info[data-prefab-layout=anchored] .scarecrow-skill-row>span{letter-spacing:-.035em;transform:scaleX(.9);transform-origin:left center}
 
 .scarecrow-card-info[data-prefab-layout] .slot-covenant.has-contract{inset:auto}
 .scarecrow-card-info[data-prefab-layout=anchored] .scarecrow-skill-row>span{white-space:nowrap}
-.scarecrow-card-info[data-prefab-layout=flow] .slot-covenant.has-contract img{width:100%;height:100%}
+
 
 /* Keep the restored cards uniform, including the support wrapper. */
 @media(max-width:1024px){#team-slots .slot-wrapper{height:auto;aspect-ratio:294/672}#team-slots .slot-wrapper .char-card{height:100%;aspect-ratio:294/672}}
@@ -202,3 +216,51 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 .scarecrow-edit-growth{position:absolute;top:3rem;right:.35rem;z-index:5;min-height:28px;padding:.25rem .45rem;border:1px solid #b7a98380;border-radius:3px;background:#192127e8;color:#eee8d7;font: .72rem/1.3 sans-serif;cursor:pointer}.scarecrow-edit-growth:focus-visible{outline:2px solid #86d6e4;outline-offset:2px}
 
 #modal-relic .modal-box{display:flex;flex-direction:column;width:min(1100px,96vw);height:90dvh;max-height:90dvh}#modal-relic .modal-header{flex-shrink:0;gap:.5rem}#modal-relic .modal-header h3{min-width:0;margin:0}#modal-relic .modal-header .btn{min-height:44px}#scarecrow-relics{min-height:44px}#modal-relic .modal-box iframe{flex:1;min-height:0}
+
+
+
+#modal-enemy .modal-box{display:flex;flex-direction:column;width:min(1100px,96vw);height:90dvh;max-height:90dvh}#modal-enemy .modal-header{flex-shrink:0;gap:.5rem}#modal-enemy .modal-header h3{min-width:0;margin:0}#modal-enemy iframe{min-height:0;flex:1}
+#modal-damage:is([data-view=member],[data-view=covenant]) .modal-box{width:min(1080px,96vw);max-width:min(1080px,96vw);height:min(900px,94dvh);max-height:94dvh;background:#18181c;border-color:#4b4140}
+#modal-damage:is([data-view=member],[data-view=covenant]) .modal-header{background:#222126;padding:1rem 1.25rem;border-bottom:1px solid #4b4140;gap:1rem;flex-wrap:wrap}
+#modal-damage:is([data-view=member],[data-view=covenant]) .modal-header h3{font-size:1rem;line-height:1.5;color:#dfcfab;min-width:0;overflow-wrap:anywhere}
+#modal-damage:is([data-view=member],[data-view=covenant]) .modal-header button{background:#302b27;border:1px solid #7b6947;color:#e2d4b3;border-radius:.25rem;font-size:.85rem;min-height:2.75rem;padding:.65rem .9rem}
+
+/* Quiet equipment actions, with one primary action. */
+#modal-wheel #modal-action-buttons { gap:.6rem; }
+#modal-wheel #modal-action-buttons>.btn { grid-column:auto!important; min-height:44px; border:1px solid #49474b; border-radius:.5rem; background:#2a292d; color:#dedbd3; padding:.65rem .75rem!important; font-size:.875rem; line-height:1.4; box-shadow:none; }
+#modal-wheel #modal-action-buttons>.btn:disabled { opacity:.4; cursor:not-allowed; }
+#modal-wheel #modal-action-buttons>.btn:not(:disabled):hover { border-color:#a18d63; background:#343136; }
+#modal-wheel #modal-action-buttons>.btn-red { background:transparent; color:#bcb7b3; }
+#modal-wheel #modal-action-buttons>.btn-wheel-done { background:#bca572; border-color:#bca572; color:#19191d; }
+#modal-wheel #modal-action-buttons>.btn-wheel-done:hover { background:#cfba88; color:#19191d; }
+#modal-wheel #modal-action-buttons>.btn:focus-visible { outline:2px solid #e0c994; outline-offset:3px; }
+#scarecrow-wheel-growth #scarecrow-wheel-stats { display:flex; flex-wrap:wrap; gap:.5rem 1rem; color:#d6d2cb; }
+.scarecrow-wheel-stat { display:flex; align-items:center; flex-wrap:wrap; gap:.4rem; min-width:0; font-size:.875rem; }
+.scarecrow-wheel-stat strong { color:#e6cf98; font-weight:500; font-variant-numeric:tabular-nums; }
+
+#scarecrow-wheel-refinement-value .scarecrow-stage-icons{display:inline-flex;vertical-align:middle;gap:0;white-space:nowrap}
+#scarecrow-wheel-refinement-value .scarecrow-diamond{width:1.3em;height:1.3em;flex-basis:1.3em}
+#scarecrow-wheel-refinement-value{--weapon-star-size:1.3em;--weapon-star-gap:0em;--weapon-number-size:1em}
+
+/* UI_Team_Item_Awaker_List: Secret_Contract/Trinket_Bg/Image_Conversion
+   and Secret_Contract/Image_Trinket_Bind; dimensions retain the native 0.96 scale. */
+.scarecrow-card-info[data-prefab-layout] .slot-covenant{position:relative;inset:auto;isolation:isolate;overflow:visible}
+.scarecrow-card-info[data-prefab-layout] .slot-covenant.has-contract{background:none}
+.scarecrow-card-info[data-prefab-layout] .slot-covenant>img.scarecrow-contract-set-art{position:absolute;left:50%;top:50%;width:calc(150 * var(--pc-seal-unit));height:calc(150 * var(--pc-seal-unit));max-width:none;transform:translate(-50%,-50%);object-fit:contain;pointer-events:none;z-index:1}
+.scarecrow-card-info[data-prefab-layout] .slot-covenant>img.scarecrow-contract-bound-ring{position:absolute;left:calc(50% - .4925 * var(--pc-seal-unit));top:calc(50% - 4.0238 * var(--pc-seal-unit));width:calc(130 * var(--pc-seal-unit));height:calc(142 * var(--pc-seal-unit));max-width:none;transform:translate(-50%,-50%);object-fit:contain;pointer-events:none;z-index:0}
+.scarecrow-contract-completion{position:absolute;left:calc(50% + 1.3 * var(--pc-seal-unit));top:calc(50% + 44.9 * var(--pc-seal-unit));transform:translate(-50%,-50%);width:calc(136.373657 * var(--pc-seal-unit));height:calc(36 * var(--pc-seal-unit));background-image:url('images/growth/UI_Battle_Image_Gradient.png'),url('images/growth/UI_Battle_Image_Gradient.png');background-size:100% 100%;background-repeat:no-repeat;color:#bec4c8;font-family:ScarecrowNumbersKR,serif;font-weight:600;font-synthesis:none;font-size:var(--pc-seal-completion-font);line-height:1;white-space:nowrap;z-index:2;pointer-events:none}
+.scarecrow-contract-completion[hidden]{display:none}
+.scarecrow-completion-text{position:absolute;left:calc(50% + 1.2 * var(--pc-seal-unit));top:calc(50% + 2.4 * var(--pc-seal-unit));transform:translate(-50%,-50%);letter-spacing:-.04em;text-shadow:0 1px 2px #000}
+.scarecrow-card-info[data-prefab-layout=flow] .covenant-wrapper{width:max(44px,4.5rem);height:calc(44px + 1.6rem);min-height:calc(44px + 1.6rem);flex:0 0 auto;min-width:44px;align-self:flex-end}
+.scarecrow-card-info[data-prefab-layout=flow] .slot-covenant:is(.has-contract,.is-empty){position:absolute;left:50%;top:0;transform:translateX(-50%);width:44px;height:44px;flex-shrink:0}
+.scarecrow-card-info[data-prefab-layout=flow] .scarecrow-contract-completion{left:50%;top:calc(44px + .5rem);width:100%;height:1.4em}
+.scarecrow-card-info[data-prefab-layout=flow] .scarecrow-completion-text{left:50%;top:50%}
+
+/* Keep the white binding halo behind the full emblem silhouette, including ears. */
+.scarecrow-card-info[data-prefab-layout] .slot-covenant>img.scarecrow-contract-bound-ring{z-index:0;mix-blend-mode:screen;filter:grayscale(1) brightness(1.8) drop-shadow(0 0 .1rem #fff9)}
+.scarecrow-contract-completion{z-index:3}
+
+.scarecrow-card-info[data-prefab-layout] .slot-covenant.has-bound>img.scarecrow-contract-set-art{filter:drop-shadow(0 0 .08rem #fffd) drop-shadow(0 0 .18rem #fffb)}
+
+/* Mixed sets use one light gray hexagon; their completion and selection stay shared. */
+.scarecrow-card-info[data-prefab-layout] .slot-covenant.has-contract.is-mixed{display:block;border-radius:0;background:#7c8089;border:0;clip-path:polygon(50% 0,93.3013% 25%,93.3013% 75%,50% 100%,6.6987% 75%,6.6987% 25%)}

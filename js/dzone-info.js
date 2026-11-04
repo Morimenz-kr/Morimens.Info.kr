@@ -207,6 +207,9 @@
         month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false,
         timeZone: 'Asia/Seoul'
     });
+    let monsterPicker=null;
+    const monsterChoices=new Map();
+    window.DzoneMonsterPicker={configure({onSelect}){monsterPicker=onSelect;if(data)render();}};
     let data = null;
     let mapData = null;
     let tooltips = {};
@@ -942,11 +945,15 @@
         const portrait = portraitSource
             ? `<img class="monster-portrait" src="${escapeHtml(portraitUrl)}" alt="" width="48" height="48" loading="lazy" decoding="async">`
             : '';
+        const hasSelectionStats=data?.waves.find(w=>w.wave===selectedWave)?.alerts.find(a=>a.alert===selectedAlert)?.monsters.some(m=>m.tid===monster.tid);
+        const canSelect=hasSelectionStats&&Number.isFinite(stats.hp)&&stats.hp>0&&Number.isFinite(stats.attack)&&Number.isFinite(stats.defense);
+        if(monsterPicker&&canSelect)monsterChoices.set(monster.tid,{period:data.period,wave:selectedWave,alert:selectedAlert,tid:monster.tid});
+        const selection=monsterPicker?`<button type="button" class="alert-button monster-select" data-select-monster="${monster.tid}" ${canSelect?'':'disabled'}>${escapeHtml(monster.nameKo)} 선택</button>`:'';
         return `
-            <details class="monster-card site-disclosure ${escapeHtml(extraClass)}" data-monster-id="${monster.tid}" open>
+            <details class="monster-card site-disclosure ${escapeHtml(extraClass)}" data-monster-id="${monster.tid}" ${monsterPicker?'':'open'}>
                 <summary class="monster-heading">
                     ${portrait}
-                     <div class="monster-heading-copy"><h4>${escapeHtml(monster.nameKo)}</h4>${badge}${renderMonsterTags(monster)}${hpBarBadge}</div>
+                     <div class="monster-heading-copy"><h4>${escapeHtml(monster.nameKo)}</h4>${badge}${renderMonsterTags(monster)}${hpBarBadge}</div>${selection}
                 </summary>
                 <div class="monster-body">
                     <div class="monster-overview">
@@ -1271,7 +1278,7 @@
             const selected = data?.waves.find(wave => wave.wave === selectedWave);
             const stageId = selected?.alerts.find(item => item.alert === selectedAlert)?.stageId;
             if (stageId) await loadStageUsage(stageId, true);
-            scheduleStageUsageRefresh();
+            if(!monsterPicker)scheduleStageUsageRefresh();
         }, Math.min(delay, 2 ** 31 - 1));
     }
 
@@ -1336,9 +1343,9 @@
                     <div class="wave-heading"><h2 class="wave-title"><span>${zoneLabel(wave.wave)}</span></h2>${mechanicBadges.length ? `<ul class="wave-mechanics" aria-label="주요 기믹">${mechanicBadges.map(label => `<li>${escapeHtml(label)}</li>`).join('')}</ul>` : ''}</div>
                     <div class="wave-meta" aria-label="${escapeHtml(difficultyLabel)}">${renderDifficultyBadge(difficulty)}</div>
                 </header>
-                ${renderMap(wave)}
-                ${renderStageUsageShell(difficulty)}
-                ${renderRelics(wave)}
+                ${monsterPicker?'':renderMap(wave)}
+                ${monsterPicker?'':renderStageUsageShell(difficulty)}
+                ${monsterPicker?'':renderRelics(wave)}
                 <div class="encounter-grid">${encounters}</div>
             </section>`;
     }
@@ -1357,7 +1364,9 @@
         const difficultyLabel = selectedDifficultyLabel(difficulty);
         const content = document.getElementById('dzone-content');
         content.dataset.season = String(data.period);
+        monsterChoices.clear();
         content.innerHTML = renderWave(selected);
+        if(monsterPicker)content.querySelectorAll('[data-select-monster]').forEach(button=>button.addEventListener('click',event=>{event.preventDefault();event.stopPropagation();const choice=monsterChoices.get(Number(button.dataset.selectMonster));if(choice)monsterPicker({...choice});}));
         document.getElementById('selection-status').textContent = `${data.period}기, ${zoneLabel(selectedWave)}, ${difficultyLabel} 난이도 선택됨`;
         document.querySelectorAll('[data-season]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.season) === data.period)));
         document.querySelectorAll('[data-wave]').forEach(item => item.setAttribute('aria-pressed', String(Number(item.dataset.wave) === selectedWave)));
@@ -1366,7 +1375,7 @@
         window.CharacterEffects?.setupTooltips(content);
         activateMap();
         renderMechanicNavigation();
-        if (difficulty?.stageId) void loadStageUsage(difficulty.stageId);
+        if (!monsterPicker&&difficulty?.stageId) void loadStageUsage(difficulty.stageId);
     }
 
     function buildControls() {
@@ -1565,7 +1574,7 @@
             }));
             window.addEventListener('scroll', updateBackToTop, { passive: true });
             updateBackToTop();
-            scheduleStageUsageRefresh();
+            if(!monsterPicker)scheduleStageUsageRefresh();
             window.addEventListener('focus', refreshSeason);
             document.addEventListener('visibilitychange', () => {
                 if (!document.hidden) refreshSeason();

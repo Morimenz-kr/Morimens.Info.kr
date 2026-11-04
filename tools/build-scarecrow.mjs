@@ -35,8 +35,8 @@ if (process.env.SCARECROW_ENGINE_PACK) {
 }
 
 // These are the site's actual shared renderers. Do not freeze copied pickers.
-for (const relative of ['css/common.css','css/components.css','css/party_builder.css','css/character-effects.css','css/responsive.css','css/pages/info_tools.css','css/pages/relic-info.css','css/pages/covenant_simulator.css','js/party_builder.js','js/covenant-picker.js','js/relic-info.js','js/research-depth.js','js/search_utils.js','js/character-effects.js','js/character-identity.js']) await copy(path.join(root,relative),path.join(output,relative));
-const dataFiles = ['character_manifest', 'wheel_list', 'silverkey_list', 'party_builder_rules', 'db_tooltips', 'relic_catalog', 'research_depth_levels', 'covenant_list'];
+for (const relative of ['css/common.css','css/components.css','css/party_builder.css','css/character-effects.css','css/responsive.css','css/pages/info_tools.css','css/pages/relic-info.css','css/pages/covenant_simulator.css','js/party_builder.js','js/covenant-picker.js','js/covenant-parts.mjs','js/covenant-bound-material.mjs','js/relic-info.js','js/research-depth.js','js/search_utils.js','js/character-effects.js','js/character-identity.js','css/pages/dzone-info.css','js/dzone-info.js','js/dzone-season.js','js/dzone-richtext.js']) await copy(path.join(root,relative),path.join(output,relative));
+const dataFiles = ['character_manifest', 'wheel_list', 'silverkey_list', 'party_builder_rules', 'db_tooltips', 'relic_catalog', 'research_depth_levels', 'covenant_list','covenant_bound_material','dzone_current','dzone_season68','dzone_season69','dzone_season70','dzone_season71','dzone_season72','dzone_maps','dzone_maps_season68','dzone_maps_season69','dzone_maps_season70','dzone_maps_season71','dzone_maps_season72'];
 const data = {};
 for (const name of dataFiles) { data[name] = await json(`data/${name}.json`); }
 const wheelMap = await json('scarecrow/runtime/site-equipment-map.json');
@@ -50,6 +50,7 @@ for (const w of data.wheel_list) w.clientItemId = wheelMap[w.english_name] ?? nu
 for (const k of data.silverkey_list) Object.assign(k, keyMap[k.english_name] || {});
 const catalog = await json('scarecrow/runtime/catalog.json');
 const live = await json('scarecrow/runtime/live-data.json');
+for(const contract of data.covenant_list){const match=catalog.suits.find(s=>s.id===contract.clientSuitId);if(match)match.name=contract.korean_name;}
 const unsupported = { characters: [], wheels: [], keys: [] };
 for (const c of data.character_manifest) {
     const match = catalog.characters.find(v => v.manifestId === c.id);
@@ -75,7 +76,7 @@ await writeFile(path.join(output, 'catalog.json'), JSON.stringify(catalog));
 await writeFile(path.join(output, 'live-data.json'), JSON.stringify(live));
 
 // Copy current catalog art by its real path. Calculations remain locked to the manifest client version.
-const art = new Set(['images/smile_Ramona.webp', ...['chaos','aequor','caro','ultra'].map(k => `images/character_${k}.png`)]);
+const art = new Set(['images/growth/UI_Commpn_Image_TrinketBindCircle.png','images/growth/UI_Battle_Image_Gradient.png','images/smile_Ramona.webp', ...['chaos','aequor','caro','ultra'].map(k => `images/character_${k}.png`)]);
 function collect(value) {
     if (typeof value === 'string') for (const match of value.matchAll(/images\/[A-Za-z0-9_./% -]+\.(?:png|webp|jpe?g|gif)/g)) art.add(match[0]);
     else if (Array.isArray(value)) value.forEach(collect);
@@ -95,13 +96,13 @@ const ignoreNode = { name: 'node-runtime-fallbacks', setup(b) {
 for (const [entry, name] of [['damage-screen.mjs','live-app.js'], ['worker.mjs','worker.js']]) {
     await build({ entryPoints: [path.join(source, entry)], outfile: path.join(output, name), bundle: true, format: 'esm', platform: 'browser', target: 'es2022', plugins: [ignoreNode], logLevel: 'warning' });
 }
-for (const name of ['original-ui-adapter.js','original-ui.css','growth-presentation.js','prefab-party-card.js','contract-picker.js','live.css']) await copy(path.join(source, name), path.join(output, name));
+for (const name of ['original-ui-adapter.js','original-ui.css','growth-presentation.js','prefab-party-card.js','contract-picker.js','covenant-stats.mjs','covenant-equipment.mjs','enemy-loadout.mjs','enemy-picker.js','live.css']) await copy(path.join(source, name), path.join(output, name));
 await copy(path.join(source, 'damage-screen.html'), path.join(output, 'battle.html'));
 let html = await read('party_builder.html');
 html = html.replace(/<script src="config\/config.js[^>]*><\/script>[\s\S]*?<\/script>/, ['css/common.css','css/components.css','css/character-effects.css','css/party_builder.css'].map(p => `<link rel="stylesheet" href="${p}">`).join('') + '<script defer src="js/search_utils.js"></script><script defer src="js/character-effects.js"></script>');
 html = html.replace(/<title>[^<]*<\/title>/, '<title>허수아비 · 카드 피해 계산</title>')
     .replace('</head>', '<link rel="stylesheet" href="original-ui.css"></head>')
-    .replace('</body>', '<script src="growth-presentation.js"></script><script src="prefab-party-card.js"></script><script src="original-ui-adapter.js"></script></body>');
+    .replace('</body>', '<script src="js/dzone-season.js"></script><script src="growth-presentation.js"></script><script src="prefab-party-card.js"></script><script src="original-ui-adapter.js"></script></body>');
 await writeFile(path.join(output, 'index.html'), html);
 let contract = await read('js/scarecrow/contract-picker.html');
 contract = contract.replace('<script type="module"', '<script src="js/covenant-picker.js"></script><script type="module"');
@@ -111,7 +112,14 @@ relic = relic.replace(/<script src="config\/config.js[^>]*><\/script>[\s\S]*?<\/
 relic = relic.replace(/<script>\s*loadJS\('js\/character-effects.js'\);[\s\S]*?<\/script>/, '<script src="js/character-effects.js"></script><script src="js/research-depth.js"></script><script src="js/relic-info.js"></script>');
 relic = relic.replace('href="index.html" class="back-link"', 'href="#" onclick="parent.postMessage({type:\'scarecrow:close\'},location.origin);return false" class="back-link"');
 await writeFile(path.join(output, 'relic-picker.html'), relic);
+await copy(path.join(root,'images/dzone/grades'),path.join(output,'images/dzone/grades'));
+// Reuse the real D-Zone page and its renderer in optional monster-selection mode.
+let enemyHtml=await read('dzone_info.html');
+enemyHtml=enemyHtml.replace(/<script src="config\/config.js[^>]*><\/script>[\s\S]*?<\/script>/,['css/common.css','css/components.css','css/character-effects.css','css/pages/info_tools.css','css/pages/dzone-info.css','css/responsive.css'].map(p=>`<link rel="stylesheet" href="${p}">`).join(''));
+enemyHtml=enemyHtml.replace(/<script>\s*loadJS\('js\/character-effects.js'\);[\s\S]*?<\/script>/,['js/character-effects.js','js/research-depth.js','js/dzone-season.js','js/dzone-richtext.js','js/dzone-info.js','enemy-picker.js'].map(p=>`<script src="${p}"></script>`).join(''));
+enemyHtml=enemyHtml.replace('</head>',`<style>body{margin:0}.bg-image,.background-overlay{display:none}.dzone-page-shell{padding:1rem;max-width:none}.dzone-page-shell>nav,.dzone-hero,.floating-report-btn,.dzone-research-panel,.dzone-mechanic-nav,.dzone-toolbar-heading{display:none}.dzone-shell{margin:0}.monster-heading{flex-wrap:wrap}.monster-select{min-height:44px;white-space:normal;overflow-wrap:anywhere}.dzone-picker-note{padding:0 1rem;line-height:1.6;color:#e4e4ed}</style></head>`).replace('<main class="container info-page dzone-page-shell">','<p class="dzone-picker-note">적의 전투 시작 상태를 사용합니다. 구역 유물과 별도 전투 조건은 허수아비에서 설정하세요.</p><main class="container info-page dzone-page-shell">');
+await writeFile(path.join(output,'enemy-picker.html'),enemyHtml);
 await writeFile(path.join(output, '_headers'), '/*\n  Cache-Control: no-cache\n  X-Content-Type-Options: nosniff\n');
-const proof = { resourceVersion: lock.resourceVersion, originDeployment: lock.originDeployment, candidateEngine, sharedRenderers: ['js/party_builder.js','js/covenant-picker.js','js/relic-info.js'], characters: data.character_manifest.length, wheels: data.wheel_list.length, unsupported };
+const proof = { resourceVersion: lock.resourceVersion, originDeployment: lock.originDeployment, candidateEngine, sharedRenderers: ['js/party_builder.js','js/covenant-picker.js','js/covenant-parts.mjs','js/covenant-bound-material.mjs','js/relic-info.js'], characters: data.character_manifest.length, wheels: data.wheel_list.length, unsupported };
 await writeFile(path.join(output, 'build-info.json'), JSON.stringify(proof, null, 2));
 console.log(JSON.stringify(proof));

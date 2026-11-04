@@ -38,3 +38,8 @@ ui-debug.log
 !/tools/build-scarecrow.mjs
 !/tools/serve-scarecrow.mjs
 !/tools/test-scarecrow.mjs
+!/tools/test-scarecrow-keeper.mjs
+!/tools/test-scarecrow-covenant.mjs
+!/tools/test-scarecrow-enemy.mjs
+!/tools/test-scarecrow-flame.mjs
+!/tools/test-scarecrow-tentacle.mjs

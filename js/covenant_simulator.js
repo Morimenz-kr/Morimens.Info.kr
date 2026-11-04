@@ -51,7 +51,9 @@
 
     document.addEventListener('DOMContentLoaded', init);
 
+    let renderPartButtons;
     async function init() {
+        ({renderCovenantParts:renderPartButtons}=await import('./covenant-parts.mjs'));
         cacheElements();
         bindEvents();
         await loadContracts();
@@ -283,25 +285,10 @@
     }
 
     function renderParts() {
-        const renderButtons = indexes => indexes.map(index => {
-            const part = state.parts[index];
-            return `
-            <button type="button" class="part-button ${index === state.selectedPart ? 'active' : ''} ${part.lastTouched ? 'has-result' : ''}" data-part-index="${index}">
-                <span class="part-roman">${ROMANS[index]}</span>
-                <span class="part-main part-completion">완성도 ${formatNumber(getPartCompletion(part), 1)}%</span>
-            </button>
-        `;
-        }).join('');
-        els.leftPartGrid.innerHTML = renderButtons([3, 4, 5]);
-        els.rightPartGrid.innerHTML = renderButtons([0, 1, 2]);
-        document.querySelectorAll('[data-part-index]').forEach(button => {
-            button.addEventListener('click', () => {
-                state.selectedPart = Number(button.dataset.partIndex);
-                state.manualPreview = null;
-                renderParts();
-                renderManual();
-            });
-        });
+        const parts=state.parts.map(part=>({lastTouched:part.lastTouched,caption:`완성도 ${formatNumber(getPartCompletion(part), 1)}%`}));
+        const onSelect=index=>{state.selectedPart=index;state.manualPreview=null;renderParts();renderManual();};
+        renderPartButtons(els.leftPartGrid,{indexes:[3,4,5],selected:state.selectedPart,parts,onSelect});
+        renderPartButtons(els.rightPartGrid,{indexes:[0,1,2],selected:state.selectedPart,parts,onSelect});
         renderManualMainOption();
     }
 

@@ -3395,3 +3395,9 @@ body {
         line-height: 1.25;
     }
 }
+
+/* Original client attribute icons in the shared wheel filter. */
+.wheel-filter-chip { display:inline-flex; align-items:center; justify-content:center; gap:.4rem; max-width:100%; min-height:44px; }
+.wheel-filter-chip>span { min-width:0; overflow-wrap:anywhere; }
+.wheel-stat-icon { width:1.25rem; height:1.25rem; aspect-ratio:1; object-fit:contain; flex:0 0 auto; }
+.wheel-filter-chip:focus-visible { outline:2px solid #d5bd84; outline-offset:3px; }

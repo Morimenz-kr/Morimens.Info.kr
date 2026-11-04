@@ -1241,10 +1241,23 @@ function normalizeWheelMainStat(value) {
         .replace(/\s+/g, ' ')
         .replace(/드롭율/g, '드롭')
         .replace(/겅은 인장/g, '검은 인장')
+        .replace(/크리티컬률/g, '크리티컬 확률')
         .trim()
         .replace(/^영역숙련/, '영역 숙련')
         .replace(/검은 인장 드롭\s*(\d)/, '검은 인장 드롭 $1')
         .replace(/\s+\d+(?:\.\d+)?%?$/, '');
+}
+// ActorAttrType.Icon from the client: stable attribute names select the original sprites.
+function wheelMainStatIcon(value) {
+    const icons = {
+        '검은 인장 드롭': '001', '검은 인장 획득률': '001',
+        '영역 숙련': '002', '광기 회복': '003', '광기 충전': '003',
+        '광기 충전 등급': '003', '피해 증폭': '004', '은열쇠 충전': '005',
+        '죽음 저항': '006', '크리티컬 피해': '007',
+        '크리티컬 확률': '008', '크리티컬률': '008'
+    };
+    const number = icons[normalizeWheelMainStat(value)];
+    return number ? 'images/keyword-icons/original/ui_battle_white_buff_' + number + '.png' : null;
 }
 function renderWheelMainStatFilters() {
     const container = document.getElementById('wheel-main-stat-filters');
@@ -1265,7 +1278,15 @@ function renderWheelMainStatFilters() {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = `wheel-filter-chip${activeWheelMainStats.has(option) ? ' active' : ''}`;
-        button.textContent = option;
+        const iconPath = wheelMainStatIcon(option);
+        if (iconPath) {
+            const icon = document.createElement('img');
+            icon.src = iconPath; icon.alt = ''; icon.width = 24; icon.height = 24;
+            icon.className = 'wheel-stat-icon';
+            button.append(icon);
+        }
+        const caption = document.createElement('span'); caption.textContent = option;
+        button.append(caption);
         button.setAttribute('aria-pressed', String(activeWheelMainStats.has(option)));
         button.onclick = () => {
             if (activeWheelMainStats.has(option)) {

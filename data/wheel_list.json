@@ -202,7 +202,7 @@
     "korean_name": "어둠에서 어둠으로",
     "english_name": "wheel_dark_to_dark",
     "optimized_for": [],
-    "main_stat": "크리티컬률 14.4%",
+    "main_stat": "크리티컬 확률 14.4%",
     "description": "탐색 시작 후 「밤으로의 추락」 1장을 생성하여 드로우 덱에 넣는다. 「밤으로의 추락」: 행동력 3pt를 소모하고, 장착자가 고정 광기를 18/22/26/30pt 획득한다. 사용 후 「영성 진화」로 변화하여 패로 돌아온다. 보존. 소모. 예비 3. 「영성 진화」: 행동력 6pt를 소모하고, 장착자의 모든 「타격」을 드로우하며, 해당 카드들은 다음 사용 전까지 보존을 획득한다. 사용 후 「흑조 재생」으로 변화되어 패로 돌아온다. 보존. 소모. 예비 3. 「흑조 재생」: 행동력 9pt를 소모하고, 모든 각성체의 다음 「타격」이 1회 추가로 발동한다. 보존. 소모. 예비 3.",
     "image_path": "images/client_art/wheel/wheel_dark_to_dark-11a21780de.webp",
     "recommended_character_ids": [],
@@ -213,7 +213,7 @@
     "korean_name": "이마고의 진료실",
     "english_name": "wheel_imago_clinic",
     "optimized_for": [],
-    "main_stat": "크리티컬률 14.4%",
+    "main_stat": "크리티컬 확률 14.4%",
     "description": "탐색 시작 후 「이마고의 진료실」을 1장 생성하여 덱에 넣는다.\n「이마고의 진료실」: 행동력을 3pt 소모하고, 이번 턴에 능동 또는 촉수 피해를 1회 받을 때마다 다음 턴 시작 시 장착자가 「경청 기록」을 1스택 획득하며, 1스택당 자신의 「명령 카드」가 「강화」를 4/6/8/10스택 보유한 것으로 간주하고, 이는 최대 5스택까지 중첩되며, 턴 종료 시 제거된다. 이번 탐색에서 「경청 기록」이 누적 5·10·15·20·25스택 획득 시, 「곤충 표본」 1장을 생성하여 덱에 영구히 넣는다. 소모. 예비 1.\n「곤충 표본」: 「원초의 기억」에서 3종을 발견하고, 1개를 선택하여 1회 적용되게 하며 임시 차용 사용으로는 간주하지 않는다. 보존. 소모.",
     "image_path": "images/wheel_imago_clinic.png",
     "source": "특별 기행 「영혼 해부자」 (2026-10-19 10:00 ~ 2026-11-16 10:00, 한국 시간)",
@@ -498,7 +498,7 @@
     "owner_character_ids": [
       "GOgier"
     ],
-    "main_stat": "크리티컬률 14.4%",
+    "main_stat": "크리티컬 확률 14.4%",
     "description": "파티 유일: 장착자의 「광기 폭발」로 생성되는 기본 방어막과 고정 힘이 15/20/25/30% 증가한다. 장착자의 「방어」로 생성되는 기본 방어막이 20/30/40/50% 증가한다. 장착자가 「방어」를 사용한 후 장착자 공격력의 2/3/4/5%만큼의 힘을 획득한다.",
     "image_path": "images/client_art/wheel/wheel_GOgier_ssr-4bb2879586.webp",
     "recommended_character_ids": [
@@ -513,7 +513,7 @@
     "owner_character_ids": [
       "vivian"
     ],
-    "main_stat": "크리티컬률 14.4%",
+    "main_stat": "크리티컬 확률 14.4%",
     "description": "장착자가 발생시키는 고정 침식 효과가 30/40/50/60% 증가하고, 광기 폭발로 발생하는 고정 HP 회복이 15/20/25/30% 증가한다. 장착자가 광기 폭발을 사용한 후 현재 영구 힘의 13/17/21/25%에 해당하는 임시 힘을 획득한다. 재사용 대기 시간 3턴.",
     "image_path": "images/wheel_vivian_ssr_client.png",
     "recommended_character_ids": [
@@ -1756,7 +1756,7 @@
     "owner_character_ids": [
       "GOgier"
     ],
-    "main_stat": "크리티컬률 7.2%",
+    "main_stat": "크리티컬 확률 7.2%",
     "description": "파티 유일: 장착자의 「광기 폭발」로 생성되는 기본 방어막과 고정 힘이 9/11/13/15% 증가한다.",
     "image_path": "images/client_art/wheel/wheel_GOgier_sr-947e2b5b2d.webp",
     "recommended_character_ids": [
@@ -1771,7 +1771,7 @@
     "owner_character_ids": [
       "vivian"
     ],
-    "main_stat": "크리티컬률 7.2%",
+    "main_stat": "크리티컬 확률 7.2%",
     "description": "장착자가 발생시키는 고정 침식 효과가 15/20/25/30% 증가하고, 광기 폭발로 발생하는 고정 HP 회복이 9/11/13/15% 증가한다.",
     "image_path": "images/client_art/wheel/wheel_vivian_sr-e81d452d2d.webp",
     "recommended_character_ids": [
