@@ -10,3 +10,12 @@ test('backup round trip retains talents, slots, wheels and presets',()=>{const a
 test('unknown character IDs are reported for review',()=>{const a=M.apply(M.empty(),['unknown'],{owned:true},{ }).account;assert.deepEqual(M.validate(a,['a'],[],growth).unknown,['unknown']);});
 test('merge fills missing fields while retaining entered values',()=>{const a=M.apply(M.empty(),['a'],{owned:true,level:20},growth).account;const b=M.apply(M.empty(),['a'],{owned:true,level:60,'skill:one':6},growth).account;const merged=M.merge(a,b);assert.equal(merged.characters.a.level,20);assert.equal(merged.characters.a.skills.one,6);assert.equal(a.characters.a.skills.one,undefined);});
 test('team availability keeps distinct missing slots',()=>{const a=M.apply(M.empty(),['a'],{owned:true},growth).account;assert.deepEqual(M.availability({members:['a','b','c','d']},a),{owned:1,missing:['b','c','d']});});
+
+test('ScareCrow potency badge uses three passive diamonds then enhancement 1 through 12',()=>{
+    assert.deepEqual(M.potencyDisplay(0),{diamonds:0,extra:0,max:false});
+    assert.deepEqual(M.potencyDisplay(3),{diamonds:3,extra:0,max:false});
+    assert.deepEqual(M.potencyDisplay(4),{diamonds:3,extra:1,max:false});
+    assert.deepEqual(M.potencyDisplay(7),{diamonds:3,extra:4,max:false});
+    assert.deepEqual(M.potencyDisplay(15),{diamonds:3,extra:12,max:true});
+    assert.deepEqual(M.potencyDisplay(null),{diamonds:0,extra:null,max:false});
+});

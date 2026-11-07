@@ -48,21 +48,43 @@ function filtered() {
     if($('sort').value==='potency') rows.sort((a,b)=>(state.tab==='wheels'?wheel(b.english_name).potency:entry(b.id).potency)-(state.tab==='wheels'?wheel(a.english_name).potency:entry(a.id).potency));
     return rows;
 }
+const skillSlots = [
+    ['Slot_Super', '광기 폭발'], ['Slot_Strike', '타격'], ['Slot_Defend', '방어'],
+    ['Slot_Awake', '각성'], ['Slot_Skill1', '스킬 1'], ['Slot_Skill2', '스킬 2']
+];
+function potencyBadge(value) {
+    const p = M.potencyDisplay(value), base = 'images/growth/';
+    const stars = [0,1,2].map(i => `<img class="potency-diamond ${i < p.diamonds ? 'lit' : 'unlit'}" src="${base}UI_Common_Star_Icon_6.png" alt="" width="18" height="18">`).join('');
+    const extra = p.extra > 0 ? `<span class="potency-number"><img src="${base}${p.max ? 'UI_Common_Potency_02' : 'UI_Common_Potency_01'}.png" alt="" width="24" height="24">${p.max ? `<img class="potency-max" src="${base}UI_Common_Potency_MaxNumber.png" alt="" width="18" height="18">` : `<span>${p.extra}</span>`}</span>` : '';
+    return `<span class="potency-badge" role="img" aria-label="${value == null ? '돌파 미입력' : `돌파 ${value}단계 · 다이아 ${p.diamonds}개${p.extra ? ` · 강화 ${p.extra}` : ''}`}">${stars}${extra}${value == null ? '<span class="potency-unknown">—</span>' : ''}</span>`;
+}
 function stepper(id,value,type='character') {
-    return `<div class="classic-stepper"><button data-step="${esc(id)}" data-kind="${type}" data-delta="-1" aria-label="${esc(type==='character'?char(id)?.name:state.wheels.find(w=>w.english_name===id)?.korean_name)} 돌파 낮추기" ${value===0?'disabled':''}>〈</button><span>${potencyLabel(value)}</span><button data-step="${esc(id)}" data-kind="${type}" data-delta="1" aria-label="${esc(type==='character'?char(id)?.name:state.wheels.find(w=>w.english_name===id)?.korean_name)} 돌파 올리기" ${value===(type==='character'?15:3)?'disabled':''}>〉</button></div>`;
+    const name = type === 'character' ? char(id)?.name : state.wheels.find(w=>w.english_name===id)?.korean_name;
+    return `<div class="classic-stepper"><button data-step="${esc(id)}" data-kind="${type}" data-delta="-1" aria-label="${esc(name)} 돌파 낮추기" ${value===0?'disabled':''}>〈</button>${type === 'character' ? potencyBadge(value) : `<span>${potencyLabel(value)}</span>`}<button data-step="${esc(id)}" data-kind="${type}" data-delta="1" aria-label="${esc(name)} 돌파 올리기" ${value===(type==='character'?15:3)?'disabled':''}>〉</button></div>`;
 }
 function characterCard(c) {
-    const e=entry(c.id),g=state.growth[c.id],skills=g?.skillUpgrades||[];
-    const filled=skills.filter(s=>e.skills?.[s.slot]!=null).length;
-    const skillLabel=!filled?'미입력':skills.every(s=>e.skills?.[s.slot]===s.maxLevel)?'전체 최대':filled<skills.length?`${filled}/${skills.length}개 입력`:'개별 설정';
-    const talentRows=[2,1,3].map(type=>g?.talentUpgrades?.find(t=>t.type===type)).filter(Boolean);
-    const any=M.fields(g).some(f=>M.get(e,f.key)!=null),status=M.complete(e,g)?'입력 완료':any?'일부 입력':'미입력';
+    const e = entry(c.id), g = state.growth[c.id];
+    const any = M.fields(g).some(f=>M.get(e,f.key)!=null), status = M.complete(e,g)?'입력 완료':any?'일부 입력':'미입력';
+    const skills = skillSlots.map(([slot,label]) => {
+        const source = g?.skillUpgrades?.find(s=>s.slot===slot);
+        const value = e.skills?.[slot] ?? '—';
+        return `<div class="skill-level" aria-label="${esc(label)}${source && source.name !== label ? ` · ${esc(source.name)}` : ''} 레벨 ${value}"><dt>${label}</dt><dd>${value}</dd></div>`;
+    }).join('');
+    const talents = [[2,'영혼 단련'],[1,'광기의 징조'],[3,'내재 영격']].map(([type,label]) => {
+        const source = g?.talentUpgrades?.find(t=>t.type===type);
+        return `<div class="stat-line"><dt>${label}</dt><dd>${source ? e.talents?.[type] ?? '—' : '<span class="source-missing">자료 없음</span>'}</dd></div>`;
+    }).join('');
     return `<article class="character-card ${e.owned?'selected':'not-owned'} ${state.bulk&&state.selected.has(c.id)?'is-selected':''}" data-card-id="${esc(c.id)}">
     <button class="compact-select" data-toggle-card="${esc(c.id)}" aria-pressed="${state.bulk?state.selected.has(c.id):e.owned}" aria-label="${esc(c.name)} ${state.bulk?'편집 대상':'보유'} 선택"><span class="check-mark" aria-hidden="true">✓</span><img src="${esc(c.image_thumb)}" alt="" width="100" height="108" loading="lazy"><span class="inventory-card-name">${esc(c.name)}</span></button>
-    ${e.owned?stepper(c.id,e.potency??0):''}
     <p class="compact-level">Lv.${e.level??'—'}</p>
-    <button class="growth-entry" data-edit="${esc(c.id)}" aria-label="${esc(c.name)} 성장 정보 · ${status}"><span>성장 정보</span><small>${status}</small></button>
-    <div class="card-growth" ${$('expand-growth').checked?'':'hidden'}>${g?talentRows.map(t=>`<div class="stat-line"><span>${esc(t.name)}</span><strong>${e.talents?.[t.type]??'—'}</strong></div>`).join('')+`<details class="card-skill site-disclosure"><summary>스킬 · ${skillLabel}</summary><dl>${skills.map(x=>`<div class="stat-line"><dt>${esc(x.name)}</dt><dd>${e.skills?.[x.slot]??'—'} / ${x.maxLevel}</dd></div>`).join('')}</dl></details>`:'<p class="missing-data">성장 데이터 준비 중</p>'}</div></article>`;
+    ${e.owned ? stepper(c.id,e.potency??0) : `<div class="unowned-potency">${potencyBadge(state.account.characters[c.id]?.potency ?? null)}</div>`}
+    <section class="card-growth" aria-label="${esc(c.name)} 성장 정보">
+      <h3 class="growth-section-title">스킬 레벨</h3><dl class="skill-levels">${skills}</dl>
+      <dl class="talent-levels">${talents}</dl>
+      ${!g ? '<p class="missing-data">성장 데이터 준비 중</p>' : ''}
+    </section>
+    <button class="growth-entry" data-edit="${esc(c.id)}" aria-label="${esc(c.name)} 성장 편집 · ${status}"><span>성장 편집</span><small>${status}</small></button>
+    </article>`;
 }
 function wheelCard(w) {const e=wheel(w.english_name);return `<article class="character-card wheel-card ${e.owned?'selected':'not-owned'}"><button class="compact-select" data-toggle-wheel="${esc(w.english_name)}" aria-pressed="${e.owned}" aria-label="${esc(w.korean_name)} 보유 선택"><span class="check-mark" aria-hidden="true">✓</span><img src="${esc(w.image_path)}" alt="" width="100" height="108" loading="lazy"><span class="inventory-card-name">${esc(w.korean_name)}</span></button>${e.owned?stepper(w.english_name,e.potency??0,'wheel'):''}</article>`;}
 function render() {
@@ -73,7 +95,7 @@ function render() {
     document.querySelectorAll('[data-tab]').forEach(b=>{if(b.dataset.tab===state.tab)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
     $('inventory-panel').hidden=state.tab==='teams';$('teams-panel').hidden=state.tab!=='teams';
     $('search').placeholder=state.tab==='wheels'?'명륜 이름 검색':'각성체 이름 검색';
-    $('realm').closest('label').hidden=state.tab==='wheels';$('incomplete').closest('label').hidden=state.tab==='wheels';$('group-filters').hidden=state.tab==='wheels';$('role-filters').hidden=state.tab==='wheels';$('wheel-filters').hidden=state.tab!=='wheels';$('expand-growth').closest('label').hidden=state.tab==='wheels';
+    $('realm').closest('label').hidden=state.tab==='wheels';$('incomplete').closest('label').hidden=state.tab==='wheels';$('group-filters').hidden=state.tab==='wheels';$('role-filters').hidden=state.tab==='wheels';$('wheel-filters').hidden=state.tab!=='wheels';
     $('bulk-toggle').hidden=state.tab!=='characters';$('presets-button').hidden=state.tab!=='characters';
             $('bulk-toggle').textContent=state.bulk?'일괄 편집 중':'일괄 편집';$('selection-tools').hidden=!state.bulk;$('bulk-bar').hidden=!state.bulk;
     const rows=filtered();$('result-count').textContent=`${state.tab==='wheels'?'명륜':'각성체'} ${rows.length}${state.tab==='wheels'?'개':'명'} · ${state.bulk?'편집할 대상을 선택하세요.':'— 는 미입력 값입니다.'}`;
@@ -113,7 +135,7 @@ function bind() {
         if(el.dataset.wheelPotency)mutate(a=>{(a.wheels[el.dataset.wheelPotency]||={owned:false,potency:0}).potency=Number(el.value);},'명륜 돌파를 저장했습니다.');
     });
     $('search').addEventListener('input',render);['realm','incomplete','sort'].forEach(id=>$(id).addEventListener('change',render));
-    $('expand-growth').onchange=render;$('owned-filter').onchange=()=>{state.owned=$('owned-filter').value;render();};
+    $('owned-filter').onchange=()=>{state.owned=$('owned-filter').value;render();};
     $('register-visible').onclick=()=>setVisibleOwnership(true);$('unregister-visible').onclick=()=>setVisibleOwnership(false);
     $('clear-account').onclick=()=>{if(confirm('프리뷰의 전체 보유·성장 정보를 초기화할까요? 기존 보유 현황은 유지됩니다.'))commit(M.empty(),'프리뷰를 초기화했습니다.');};
     $('preview-image-button').onclick=()=>shareImage('preview');$('copy-image').onclick=()=>shareImage('copy');

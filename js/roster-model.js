@@ -100,5 +100,10 @@
         const missing = team.members.filter(id => !account.characters[id]?.owned);
         return {missing, owned: team.members.length - missing.length};
     }
-    return {KEY, LEGACY, empty, clone, migrate, fields, get, set, complete, apply, validate, merge, availability};
+    // ScareCrow growth-presentation.js: three passive diamonds, then 1–12 enhancement.
+    function potencyDisplay(value) {
+        if (!number(value, 0, 15)) return {diamonds: 0, extra: null, max: false};
+        return {diamonds: Math.min(value, 3), extra: Math.max(0, value - 3), max: value === 15};
+    }
+    return {potencyDisplay, KEY, LEGACY, empty, clone, migrate, fields, get, set, complete, apply, validate, merge, availability};
 });
