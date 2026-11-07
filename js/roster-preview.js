@@ -66,15 +66,15 @@ function stepper(id,value,type='character') {
 }
 function characterCard(c) {
     const e=entry(c.id),g=state.growth[c.id];
-    const skills=skillSlots.map(([slot])=>e.skills?.[slot]??'—');
-    const talents=[e.talents?.[2]??'—',e.talents?.[1]??'—',state.limitedIds.includes(c.id)?5:e.talents?.[3]??'—'];
+    const skills=skillSlots.map(([slot])=>e.skills?.[slot]??'–');
+    const talents=[e.talents?.[2]??'–',e.talents?.[1]??'–',state.limitedIds.includes(c.id)?5:e.talents?.[3]??'–'];
     const skillText=skills.join('/'),talentText=talents.join('/');
     const skillLabel=skillSlots.map(([,label],i)=>`${label} ${skills[i]}`).join(', ');
     const talentLabel=['영혼 단련','광기의 징조','내재 영격'].map((label,i)=>`${label} ${talents[i]}`).join(', ');
     const numbers=values=>values.map(esc).join('/<wbr>');
     return `<article class="character-card ${e.owned?'selected':'not-owned'} ${state.bulk&&state.selected.has(c.id)?'is-selected':''}" data-card-id="${esc(c.id)}">
       <button class="compact-select" data-toggle-card="${esc(c.id)}" aria-pressed="${state.bulk?state.selected.has(c.id):e.owned}" aria-label="${esc(c.name)} ${state.bulk?'편집 대상':'보유'} 선택"><span class="check-mark" aria-hidden="true">✓</span><img src="${esc(c.image_thumb)}" alt="" width="100" height="108" loading="lazy"><span class="inventory-card-name">${esc(c.name)}</span></button>
-      ${e.owned?`<p class="compact-level">Lv.${e.level??'—'}</p>${stepper(c.id,e.potency??0)}<button class="growth-entry compact-growth" data-edit="${esc(c.id)}" aria-label="${esc(c.name)} 성장 편집. ${esc(skillLabel)}. ${esc(talentLabel)}"><span class="growth-values compact-skills" title="${esc(skillLabel)}" aria-label="${esc(skillLabel)}">${numbers(skills)}</span><span class="growth-values compact-talents" title="${esc(talentLabel)}" aria-label="${esc(talentLabel)}">${numbers(talents)}</span></button>`:''}
+      ${e.owned?`<p class="compact-level">Lv.${e.level??'—'}</p>${stepper(c.id,e.potency??0)}<button class="growth-entry compact-growth" data-edit="${esc(c.id)}" aria-label="${esc(c.name)} 성장 편집. ${esc(skillLabel)}. ${esc(talentLabel)}"><span class="growth-icon-row"><img src="images/growth/UI_Comon_Icon_AwakerSkill.png" alt="" aria-hidden="true" width="14" height="14"><span class="growth-values compact-skills" title="${esc(skillLabel)}" aria-label="${esc(skillLabel)}">${numbers(skills)}</span></span><span class="growth-icon-row"><img src="images/growth/UI_Common_Icon_AwakerTalent.png" alt="" aria-hidden="true" width="14" height="14"><span class="growth-values compact-talents" title="${esc(talentLabel)}" aria-label="${esc(talentLabel)}">${numbers(talents)}</span></span></button>`:''}
     </article>`;
 }
 function wheelCard(w) {const e=wheel(w.english_name);return `<article class="character-card wheel-card ${e.owned?'selected':'not-owned'}"><button class="compact-select" data-toggle-wheel="${esc(w.english_name)}" aria-pressed="${e.owned}" aria-label="${esc(w.korean_name)} 보유 선택"><span class="check-mark" aria-hidden="true">✓</span><img src="${esc(w.image_path)}" alt="" width="100" height="108" loading="lazy"><span class="inventory-card-name">${esc(w.korean_name)}</span></button>${e.owned?stepper(w.english_name,e.potency??0,'wheel'):''}</article>`;}
@@ -138,8 +138,8 @@ function bind() {
     for(const [id,value] of [['bulk-register',true],['bulk-unregister',false]])$(id).onclick=()=>{const r=M.apply(state.account,[...state.selected],{owned:value},state.growth);commit(r.account,`${state.selected.size}명 ${value?'보유 등록':'보유 해제'}했습니다.`);};
     $('bulk-edit').onclick=()=>openEditor([...state.selected],true);
     $('editor-form').onsubmit=saveEditor;
-    $('editor-form').addEventListener('input',()=>{$('editor-form').dataset.dirty='true';updatePatchSummary();});
-    $('editor-form').addEventListener('change',()=>{$('editor-form').dataset.dirty='true';updatePatchSummary();});
+    $('editor-form').addEventListener('input',handleEditorInput);
+    $('editor-form').addEventListener('change',handleEditorInput);
     $('editor').addEventListener('cancel',e=>{if($('editor-form').dataset.dirty==='true'&&!confirm('저장하지 않은 변경을 닫을까요?'))e.preventDefault();});
     $('undo-button').onclick=()=>{if(!state.undo)return;const prev=state.undo;if(commit(prev,'직전 변경을 되돌렸습니다.')){$('undo-button').hidden=true;state.undo=null;}};
     $('dismiss-toast').onclick=()=>{$('toast').hidden=true;};
@@ -153,8 +153,38 @@ function setVisibleOwnership(owned){const ids=filtered().map(c=>state.tab==='whe
 function resetInventory(){ $('search').value='';$('realm').value='all';state.role='all';state.group='all';state.grade='all';$('owned-filter').value='all';$('incomplete').checked=false;$('sort').value='default';state.owned='all';render(); }
 function modal(id) {state.lastFocus=document.activeElement;$(id).showModal();document.body.style.overflow='hidden';}
 function inputField(key,label,max,value='',min=0,bulk=false) {
-    if(bulk)return `<label class="field"><span>${esc(label)}</span><select data-field="${esc(key)}"><option value="">変更 안 함</option><option value="max">각자 최대</option><option value="null">미입력으로 비우기</option>${Array.from({length:Math.min(max-min+1,100)},(_,i)=>i+min).map(n=>`<option value="${n}">${n}</option>`).join('')}</select></label>`.replace('変更','변경');
-    return `<label class="field"><span>${esc(label)}</span><input type="number" data-field="${esc(key)}" min="${min}" max="${max}" step="1" value="${value??''}" placeholder="미입력"><small>${min}–${max} · 빈칸은 미입력</small></label>`;
+    const id=`growth-${key.replaceAll(':','-')}`;
+    const current=value==null?'':value;
+    const canonical=bulk?`<input type="hidden" data-field="${esc(key)}" min="${min}" max="${max}" value="">`:'';
+    const mode=bulk?`<select data-mode="${esc(key)}" aria-label="${esc(label)} 적용 방식"><option value="">변경 안 함</option><option value="custom">값 지정</option><option value="max">각자 최대</option><option value="null">미입력으로 비우기</option></select>`:'';
+    return `<div class="field slider-field" data-slider-field="${esc(key)}"><label for="${id}">${esc(label)}</label>${canonical}${mode}<div class="slider-controls" ${bulk?'hidden':''}><input type="range" data-range="${esc(key)}" min="${min}" max="${max}" step="1" value="${current===''?min:current}" aria-label="${esc(label)} 슬라이더"><input id="${id}" type="number" ${bulk?'data-range-number':'data-field'}="${esc(key)}" min="${min}" max="${max}" step="1" value="${bulk?'':current}" placeholder="—" aria-label="${esc(label)} 정확한 값"></div><small>${min}–${max} · ${bulk?'값 지정 시 슬라이더로 조절':'빈칸은 미입력'}</small></div>`;
+}
+function syncSliders(preserveCustom = false) {
+    document.querySelectorAll('#editor [data-slider-field]').forEach(field=>{
+        const canonical=field.querySelector('[data-field]'),range=field.querySelector('[data-range]'),mode=field.querySelector('[data-mode]'),number=field.querySelector('input[type=number]');
+        const value=canonical.value;
+        if(mode){const custom=value!==''&&value!=='max'&&value!=='null'||preserveCustom&&mode.value==='custom'&&value==='';mode.value=custom?'custom':value;field.querySelector('.slider-controls').hidden=!custom;if(custom)number.value=value;}
+        range.disabled=canonical.disabled;number.disabled=canonical.disabled;
+        const explicit=value!==''&&value!=='max'&&value!=='null';
+        range.value=explicit?value:range.min;
+        range.setAttribute('aria-valuetext',explicit?value:'미입력');
+        field.classList.toggle('fixed-field',canonical.disabled);
+    });
+}
+function handleEditorInput(event) {
+    const target=event.target,field=target.closest('[data-slider-field]');
+    if(field){
+        const canonical=field.querySelector('[data-field]'),range=field.querySelector('[data-range]'),number=field.querySelector('input[type=number]'),mode=field.querySelector('[data-mode]');
+        if(target.hasAttribute('data-mode')){
+            canonical.value=target.value==='custom'?(number.value||range.min):target.value;
+        }else if(target.hasAttribute('data-range')){
+            canonical.value=target.value;number.value=target.value;
+        }else if(target===number){
+            canonical.value=target.value;
+        }
+        syncSliders(true);
+    }
+    $('editor-form').dataset.dirty='true';updatePatchSummary();
 }
 function openEditor(ids,bulk=false) {
     state.editIds=ids;$('editor-form').dataset.bulk=String(bulk);$('editor-form').dataset.dirty='false';
@@ -175,11 +205,11 @@ function openEditor(ids,bulk=false) {
     ${bulk?'<label class="check-line"><input type="checkbox" id="blanks-only" checked> 미입력 항목만 채우기</label><label class="field"><span>이 설정을 프리셋으로 저장 (선택)</span><input type="text" maxlength="80" id="preset-name" placeholder="예: 내 주력 특성"></label>':'<label class="check-line"><input type="checkbox" id="save-next"> 저장 후 다음 캐릭터 편집</label>'}
     <p id="patch-summary" class="import-summary" aria-live="polite"></p>`;
     $('editor-submit').textContent=bulk?`${ids.length}명에게 적용`:'저장';
-    $('max-skills').onclick=()=>{document.querySelectorAll('#editor [data-field^="skill:"]').forEach(el=>el.value=bulk?'max':el.max);$('editor-form').dataset.dirty='true';updatePatchSummary();};
-    $('clear-skills').onclick=()=>{document.querySelectorAll('#editor [data-field^="skill:"]').forEach(el=>el.value=bulk?'null':'');$('editor-form').dataset.dirty='true';updatePatchSummary();};
-    $('editor-preset').onchange=()=>{const value=$('editor-preset').value;let patch={};if(value.startsWith('user:'))patch=state.account.presets[Number(value.split(':')[1])].patch;else for(const f of bulkFields)if(value==='growth'||value==='cards'&&f.key.startsWith('skill:')||value==='talents'&&f.key.startsWith('talent:'))patch[f.key]='max';document.querySelectorAll('#editor [data-field]').forEach(el=>{if(el.disabled)return;const value=patch[el.dataset.field];if(bulk)el.value=value===null?'null':value??'';else if(value!==undefined)el.value=value==='max'?el.max:value??'';});$('editor-form').dataset.dirty='true';updatePatchSummary();};
-    if(!bulk&&state.limitedIds.includes(c.id)){const locked=document.querySelector('#editor [data-field="talent:3"]');locked.value=5;locked.disabled=true;locked.closest('label').querySelector('small').textContent='한정 각성체 · 5 고정';}
-    updatePatchSummary();if(!$('editor').open)modal('editor');else $('editor').scrollTop=0;
+    $('max-skills').onclick=()=>{document.querySelectorAll('#editor [data-field^="skill:"]').forEach(el=>el.value=bulk?'max':el.max);$('editor-form').dataset.dirty='true';syncSliders();updatePatchSummary();};
+    $('clear-skills').onclick=()=>{document.querySelectorAll('#editor [data-field^="skill:"]').forEach(el=>el.value=bulk?'null':'');$('editor-form').dataset.dirty='true';syncSliders();updatePatchSummary();};
+    $('editor-preset').onchange=()=>{const value=$('editor-preset').value;let patch={};if(value.startsWith('user:'))patch=state.account.presets[Number(value.split(':')[1])].patch;else for(const f of bulkFields)if(value==='growth'||value==='cards'&&f.key.startsWith('skill:')||value==='talents'&&f.key.startsWith('talent:'))patch[f.key]='max';document.querySelectorAll('#editor [data-field]').forEach(el=>{if(el.disabled)return;const value=patch[el.dataset.field];if(bulk)el.value=value===null?'null':value??'';else if(value!==undefined)el.value=value==='max'?el.max:value??'';});$('editor-form').dataset.dirty='true';syncSliders();updatePatchSummary();};
+    if(!bulk&&state.limitedIds.includes(c.id)){const locked=document.querySelector('#editor [data-field="talent:3"]');locked.value=5;locked.disabled=true;locked.closest('.field').querySelector('small').textContent='한정 각성체 · 5 고정';}
+    syncSliders();updatePatchSummary();if(!$('editor').open)modal('editor');else $('editor-body').scrollTop=0;
 }
 function readPatch() {const bulk=$('editor-form').dataset.bulk==='true',patch={};document.querySelectorAll('#editor [data-field]').forEach(el=>{if(el.disabled)return;const value=el.value;if(bulk&&value==='')return;patch[el.dataset.field]=value==='max'?'max':value==='null'||value===''?null:Number(value);});if(!bulk||$('editor-owned').checked)patch.owned=$('editor-owned').checked;return patch;}
 function patchResult(){return M.apply(state.account,state.editIds,readPatch(),state.growth,$('blanks-only')?.checked===true,state.limitedIds);}

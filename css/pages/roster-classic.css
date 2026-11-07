@@ -639,3 +639,42 @@ html:has(.classic-roster),body.classic-roster {
 }
 .classic-roster .classic-stepper .potency-number { width:.875rem; height:1.125rem; }
 .classic-roster .classic-stepper .potency-number .potency-max { width:.75rem; height:.875rem; }
+/* ScareCrow artwork identifies the two compact numeric rows. */
+.classic-roster .growth-icon-row { display:flex; align-items:center; justify-content:center; gap:4px; width:100%; min-width:0; }
+.classic-roster .growth-icon-row>img { width:.875rem; height:.875rem; object-fit:contain; flex:0 0 .875rem; }
+.classic-roster .growth-icon-row .growth-values { min-width:0; }
+/* Modal semantics keep keyboard focus inside a right-hand editing drawer. */
+.classic-roster #editor {
+    position:fixed;
+    inset:0 0 0 auto;
+    margin:0;
+    width:min(32.5rem,100%);
+    max-width:100%;
+    height:100dvh;
+    max-height:100dvh;
+    border-radius:0;
+    border:0;
+    border-left:1px solid var(--color-border);
+    overflow:hidden;
+}
+.classic-roster #editor-form { height:100%; display:flex; flex-direction:column; min-height:0; }
+.classic-roster #editor .dialog-heading { flex-shrink:0; }
+.classic-roster #editor .dialog-body { flex:1; min-height:0; overflow:auto; overscroll-behavior:contain; }
+.classic-roster #editor .dialog-footer { flex-shrink:0; padding-bottom:max(1rem,env(safe-area-inset-bottom)); }
+.classic-roster #editor .field-grid { grid-template-columns:minmax(0,1fr); gap:1rem; }
+.classic-roster .slider-field>label { font-size:.85rem; color:var(--color-text-secondary); }
+.classic-roster .slider-controls { display:grid; grid-template-columns:minmax(0,1fr) 5rem; gap:1rem; align-items:center; }
+.classic-roster .slider-controls input[type=range] { min-width:0; width:100%; min-height:44px; accent-color:var(--color-accent); cursor:pointer; }
+.classic-roster .slider-controls input[type=number] { text-align:center; padding:.5rem .3rem; }
+.classic-roster .fixed-field input[type=range] { display:none; }
+.classic-roster .fixed-field .slider-controls { grid-template-columns:5rem; }
+.classic-roster .fixed-field input[type=number] { opacity:1; color:var(--color-text-primary); background:var(--color-bg-dark); }
+.classic-roster .slider-field small { line-height:1.4; }
+@media(max-width:767px) {
+    .classic-roster #editor { width:100%; border-left:0; }
+    .classic-roster .slider-controls { gap:.75rem; }
+}
+.classic-roster #editor .dialog-heading>div,
+.classic-roster #editor .editor-person>div { min-width:0; }
+.classic-roster #editor .editor-person img { flex-shrink:0; }
+.classic-roster #editor .dialog-heading h2 { overflow-wrap:anywhere; }
