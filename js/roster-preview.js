@@ -62,7 +62,7 @@ function potencyBadge(value) {
 }
 function stepper(id,value,type='character') {
     const name = type === 'character' ? char(id)?.name : state.wheels.find(w=>w.english_name===id)?.korean_name;
-    return `<div class="classic-stepper"><button data-step="${esc(id)}" data-kind="${type}" data-delta="-1" aria-label="${esc(name)} 돌파 낮추기" ${value===0?'disabled':''}>〈</button>${type === 'character' ? potencyBadge(value) : `<span>${potencyLabel(value)}</span>`}<button data-step="${esc(id)}" data-kind="${type}" data-delta="1" aria-label="${esc(name)} 돌파 올리기" ${value===(type==='character'?15:3)?'disabled':''}>〉</button></div>`;
+    return `<div class="classic-stepper"><button data-step="${esc(id)}" data-kind="${type}" data-delta="-1" aria-label="${esc(name)} 돌파 낮추기" ${value===0?'disabled':''}>〈</button>${potencyBadge(value)}<button data-step="${esc(id)}" data-kind="${type}" data-delta="1" aria-label="${esc(name)} 돌파 올리기" ${value===(type==='character'?15:3)?'disabled':''}>〉</button></div>`;
 }
 function characterCard(c) {
     const e=entry(c.id),g=state.growth[c.id];
