@@ -720,13 +720,15 @@ html:has(.classic-roster),body.classic-roster {
 .classic-roster .classic-stepper:has(.potency-badge)>button { justify-self:center; width:24px; }
 .classic-roster .classic-stepper:has(.potency-badge)>button:first-child { padding-inline:0 6px; }
 .classic-roster .classic-stepper:has(.potency-badge)>button:last-child { padding-inline:6px 0; }
-.classic-roster .classic-stepper .potency-badge { width:5.5625rem; gap:1px; }
+.classic-roster .classic-stepper .potency-badge { width:5.5625rem; gap:.0625rem; }
 .classic-roster .classic-stepper .potency-diamond {
     width:1.375rem;
     height:1.375rem;
     flex:0 0 1.375rem;
     margin:0;
 }
+/* Bring only the diamond artwork together; keep the number and arrow spacing. */
+.classic-roster .classic-stepper .potency-diamond+.potency-diamond { margin-inline-start:-.1875rem; }
 .classic-roster .classic-stepper .potency-diamond>img {
     grid-area:1 / 1;
     display:block;
