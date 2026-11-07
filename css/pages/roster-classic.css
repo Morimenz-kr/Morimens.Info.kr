@@ -718,8 +718,8 @@ html:has(.classic-roster),body.classic-roster {
     border-radius:0;
 }
 .classic-roster .classic-stepper:has(.potency-badge)>button { justify-self:center; width:24px; }
-.classic-roster .classic-stepper:has(.potency-badge)>button:first-child { padding-inline:0 6px; }
-.classic-roster .classic-stepper:has(.potency-badge)>button:last-child { padding-inline:6px 0; }
+.classic-roster .classic-stepper:has(.potency-badge)>button:first-child { padding-inline:0 2px; }
+.classic-roster .classic-stepper:has(.potency-badge)>button:last-child { padding-inline:2px 0; }
 .classic-roster .classic-stepper .potency-badge { width:5.5625rem; gap:.0625rem; }
 .classic-roster .classic-stepper .potency-diamond {
     width:1.375rem;
