@@ -103,6 +103,22 @@ function render() {
     if(focusData&&!focus.isConnected){const attr='data-'+focusData.replace(/[A-Z]/g,c=>'-'+c.toLowerCase());document.querySelector('['+attr+'="'+CSS.escape(focus.dataset[focusData])+'"]'+(focusData==='step'?'[data-delta="'+focus.dataset.delta+'"]':''))?.focus();}
 }
 function bind() {
+    const menu=$('tool-menu'),trigger=$('more-tools');
+    const positionTools=()=>{
+        if(!menu.matches(':popover-open'))return;
+        const anchor=trigger.getBoundingClientRect(),margin=12,gap=6;
+        if(anchor.bottom<=0||anchor.top>=innerHeight){menu.hidePopover();return;}
+        const below=Math.max(0,innerHeight-anchor.bottom-margin-gap),above=Math.max(0,anchor.top-margin-gap);
+        const natural=menu.scrollHeight+menu.offsetHeight-menu.clientHeight;
+        const openBelow=natural<=below||below>=above;
+        menu.style.maxHeight=`${Math.max(0,openBelow?below:above)}px`;
+        const bounds=menu.getBoundingClientRect();
+        menu.style.left=`${Math.max(margin,Math.min(anchor.left,innerWidth-margin-bounds.width))}px`;
+        menu.style.top=`${Math.max(margin,Math.min(openBelow?anchor.bottom+gap:anchor.top-gap-bounds.height,innerHeight-margin-bounds.height))}px`;
+    };
+    menu.addEventListener('toggle',()=>{const open=menu.matches(':popover-open');trigger.setAttribute('aria-expanded',String(open));if(open){menu.scrollTop=0;positionTools();}});
+    window.addEventListener('resize',positionTools);
+    document.addEventListener('scroll',event=>{if(!menu.contains(event.target))positionTools();},true);
     document.addEventListener('click',event=>{
         const b=event.target.closest('button');if(!b)return;
         if(b.dataset.group){state.group=b.dataset.group;render();}if(b.dataset.role){state.role=b.dataset.role;render();}if(b.dataset.grade){state.grade=b.dataset.grade;render();}
@@ -153,7 +169,7 @@ function bind() {
 }
 function setVisibleOwnership(owned){const ids=filtered().map(c=>state.tab==='wheels'?c.english_name:c.id);mutate(a=>{for(const id of ids){if(state.tab==='wheels')(a.wheels[id]||={owned:false,potency:0}).owned=owned;else(a.characters[id]||={owned:false,potency:0,talents:{},skills:{}}).owned=owned;}},`현재 검색 결과 ${ids.length}${state.tab==='wheels'?'개':'명'} ${owned?'보유 등록':'해제'}했습니다.`);}
 function resetInventory(){ $('search').value='';$('realm').value='all';state.role='all';state.group='all';state.grade='all';$('owned-filter').value='all';$('incomplete').checked=false;$('sort').value='default';state.owned='all';render(); }
-function modal(id) {state.lastFocus=document.activeElement;$(id).showModal();document.body.style.overflow='hidden';}
+function modal(id) {const menu=$('tool-menu');state.lastFocus=menu.matches(':popover-open')&&menu.contains(document.activeElement)?$('more-tools'):document.activeElement;if(menu.matches(':popover-open'))menu.hidePopover();$(id).showModal();document.body.style.overflow='hidden';}
 function inputField(key,label,max,value='',min=0,bulk=false) {
     const id=`growth-${key.replaceAll(':','-')}`;
     const current=value==null?'':value;
