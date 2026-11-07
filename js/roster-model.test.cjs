@@ -43,3 +43,27 @@ test('limited innate level is supplied even when the legacy growth catalog omits
     const restored=M.validate(result.account,['a'],[],growth).account;
     assert.equal(M.normalizeLimited(restored,['a']).characters.a.talents[3],5);
 });
+
+test('character defaults use level 1, base potency, skill 1 and talent 0 with limited innate 5',()=>{
+    const normal=M.characterDefaults();
+    assert.equal(normal.level,1);assert.equal(normal.potency,0);
+    assert.deepEqual(Object.values(normal.skills),[1,1,1,1,1,1]);
+    assert.deepEqual(normal.talents,{1:0,2:0,3:0});
+    assert.equal(M.characterDefaults({},true).talents[3],5);
+});
+test('applying defaults preserves entered levels and explicit zero values across reload/import',()=>{
+    const a=M.empty();a.characters.a={owned:true,level:55,potency:7,talents:{1:12,2:0,3:3},skills:{Slot_Super:4}};
+    const normalized=M.normalizeDefaults(a,['a']);
+    assert.equal(normalized.characters.a.level,55);assert.equal(normalized.characters.a.potency,7);
+    assert.equal(normalized.characters.a.talents[2],0);assert.equal(normalized.characters.a.talents[3],5);
+    assert.equal(normalized.characters.a.skills.Slot_Super,4);assert.equal(normalized.characters.a.skills.Slot_Strike,1);
+    assert.equal(a.characters.a.skills.Slot_Strike,undefined);
+    assert.deepEqual(M.normalizeDefaults(normalized,['a']),normalized);
+});
+test('default-only bulk mode upgrades baseline values while preserving invested growth',()=>{
+    const a=M.empty();a.characters.a={owned:true,level:1,potency:0,talents:{1:0},skills:{one:1}};
+    a.characters.b={owned:true,level:30,potency:3,talents:{1:8},skills:{one:3}};
+    const r=M.apply(a,['a','b'],{level:50,'talent:1':10,'skill:one':4},growth,true,[],true);
+    assert.equal(r.account.characters.a.level,50);assert.equal(r.account.characters.a.talents[1],10);assert.equal(r.account.characters.a.skills.one,4);
+    assert.equal(r.account.characters.b.level,30);assert.equal(r.account.characters.b.talents[1],8);assert.equal(r.account.characters.b.skills.one,3);
+});

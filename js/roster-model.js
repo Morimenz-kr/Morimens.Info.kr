@@ -32,7 +32,7 @@
         else entry[key] = value;
     }
     function complete(entry, growth) { const fs = fields(growth); return fs.length > 0 && fs.every(f => get(entry, f.key) != null); }
-    function apply(account, ids, patch, growths, blanksOnly = false, limitedIds = []) {
+    function apply(account, ids, patch, growths, blanksOnly = false, limitedIds = [], defaultsOnly = false) {
         const out = normalizeLimited(account, limitedIds), skipped = []; let changes = 0;
         const limited = new Set(limitedIds);
         for (const id of ids) {
@@ -44,7 +44,7 @@
                 if (key === 'owned') { if (typeof raw !== 'boolean') throw Error('잘못된 보유 설정입니다.'); if (entry.owned !== raw) changes++; entry.owned = raw; continue; }
                 const field = allowed.find(f => f.key === key);
                 if (!field) { skipped.push({id, key}); continue; }
-                if (blanksOnly && get(entry, key) != null) continue;
+                if (blanksOnly && get(entry, key) != null && !(defaultsOnly && get(entry,key) === (key === 'level' || key.startsWith('skill:') ? 1 : 0))) continue;
                 const value = key === 'talent:3' && limited.has(id) ? 5 : raw === 'max' ? field.max : raw;
                 if (value !== null && !number(value, field.min, field.max)) { skipped.push({id, key}); continue; }
                 if (get(entry, key) !== value) { set(entry, key, value); changes++; }
@@ -115,5 +115,24 @@
         }
         return out;
     }
-    return {normalizeLimited, potencyDisplay, KEY, LEGACY, empty, clone, migrate, fields, get, set, complete, apply, validate, merge, availability};
+    const defaultSkillSlots = ['Slot_Super','Slot_Strike','Slot_Defend','Slot_Awake','Slot_Skill1','Slot_Skill2'];
+    function characterDefaults(row = {}, limited = false) {
+        const out = clone(row || {});
+        out.owned = out.owned === true;
+        out.level ??= 1;
+        out.potency ??= 0;
+        out.talents ||= {};
+        out.skills ||= {};
+        out.talents[1] ??= 0;
+        out.talents[2] ??= 0;
+        out.talents[3] = limited ? 5 : out.talents[3] ?? 0;
+        for (const slot of defaultSkillSlots) out.skills[slot] ??= 1;
+        return out;
+    }
+    function normalizeDefaults(account, limitedIds = []) {
+        const out = clone(account), limited = new Set(limitedIds);
+        for (const [id,row] of Object.entries(out.characters)) out.characters[id] = characterDefaults(row, limited.has(id));
+        return out;
+    }
+    return {characterDefaults, normalizeDefaults, normalizeLimited, potencyDisplay, KEY, LEGACY, empty, clone, migrate, fields, get, set, complete, apply, validate, merge, availability};
 });

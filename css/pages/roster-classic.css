@@ -678,3 +678,5 @@ html:has(.classic-roster),body.classic-roster {
 .classic-roster #editor .editor-person>div { min-width:0; }
 .classic-roster #editor .editor-person img { flex-shrink:0; }
 .classic-roster #editor .dialog-heading h2 { overflow-wrap:anywhere; }
+
+.classic-roster .madness-skill-value { color:var(--color-accent); }
