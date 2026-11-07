@@ -20,6 +20,18 @@ test('ScareCrow potency badge uses three passive diamonds then enhancement 1 thr
     assert.deepEqual(M.potencyDisplay(null),{diamonds:0,extra:null,max:false});
 });
 
+test('wheel potency 0 through 15 survives migration and backup validation without truncation',()=>{
+    for(let potency=0;potency<=15;potency++){
+        const migrated=M.migrate({wheels:['w'],wheelBreakthroughs:{w:potency}});
+        const restored=M.validate(JSON.parse(JSON.stringify(migrated)),[],['w'],{}).account;
+        assert.deepEqual(restored.wheels.w,{owned:true,potency});
+    }
+    for(const potency of [-1,16,1.5,'15',null]){
+        const account=M.empty();account.wheels.w={owned:true,potency};
+        assert.throws(()=>M.validate(account,[],['w'],{}),/명륜 돌파/);
+    }
+});
+
 test('limited innate level stays 5 through load normalization and bulk edits',()=>{
     const a=M.empty();a.characters.a={owned:true,potency:0,talents:{1:12,2:0,3:0},skills:{}};
     a.characters.b={owned:true,potency:0,talents:{3:2},skills:{}};

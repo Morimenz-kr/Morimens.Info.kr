@@ -69,7 +69,7 @@
         }
         for (const [id, row] of Object.entries(input.wheels)) {
             if (!wheels.includes(id)) { unknown.push(id); continue; }
-            if (!row || typeof row.owned !== 'boolean' || !number(row.potency, 0, 3)) throw Error('명륜 돌파 값을 확인해 주세요.');
+            if (!row || typeof row.owned !== 'boolean' || !number(row.potency, 0, 15)) throw Error('명륜 돌파 값을 확인해 주세요.');
             out.wheels[id] = {owned: row.owned, potency: row.potency};
         }
         const allowed = new Set(['owned', 'potency', 'level']);
