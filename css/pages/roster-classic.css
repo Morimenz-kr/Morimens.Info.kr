@@ -722,17 +722,65 @@ html:has(.classic-roster),body.classic-roster {
 }
 .classic-roster .classic-stepper .potency-diamond.lit { filter:none; }
 .classic-roster .classic-stepper .potency-diamond.unlit { opacity:.3; filter:grayscale(1); }
-.classic-roster .classic-stepper .potency-number { width:1.25rem; height:1.375rem; }
-.classic-roster .classic-stepper .potency-number>span {
+.classic-roster .classic-stepper .potency-number {
+    /* One game unit in CSS: keep the current 18px-wide maximum number.
+       Its source width is 54, inside Image_Max's 1.22 parent scale. */
+    --potency-game-unit:calc(1.125rem / 65.88);
+    width:1.25rem;
+    height:1.375rem;
+}
+.classic-roster .classic-stepper .potency-number .potency-game-parent {
+    position:absolute;
+    left:50%;
+    top:50%;
+    display:grid;
+    place-items:center;
+    font:inherit;
+    color:inherit;
+    text-shadow:none;
+    transform:translate(-50%,-50%) scale(var(--potency-parent-scale));
+}
+/* Source RectTransforms from UI_Common_Item_Potency, before the common scale. */
+.classic-roster .classic-stepper .potency-number .potency-game-regular {
+    --potency-parent-scale:1.5312;
+    width:calc(84 * var(--potency-game-unit));
+    height:calc(72 * var(--potency-game-unit));
+    top:calc(50% + 5.2 * var(--potency-game-unit));
+}
+.classic-roster .classic-stepper .potency-number .potency-game-max {
+    --potency-parent-scale:1.22;
+    width:calc(100 * var(--potency-game-unit));
+    height:calc(90 * var(--potency-game-unit));
+}
+.classic-roster .potency-number .potency-game-background {
+    display:block;
+    width:100%;
+    height:100%;
+    max-width:none;
+    object-fit:contain;
+}
+.classic-roster .classic-stepper .potency-game-parent .potency-game-text {
+    position:absolute;
+    left:calc(50% + .312528491 * var(--potency-game-unit));
+    top:calc(50% - 2.031255484 * var(--potency-game-unit));
+    transform:translate(-50%,-50%);
     font-family:GamePotencyNumbers,serif;
-    font-size:1rem;
+    font-size:calc(36 * var(--potency-game-unit));
     font-weight:400;
+    line-height:1;
     color:#fff8d3;
     font-synthesis:none;
     text-shadow:none;
     white-space:nowrap;
 }
-/* The sprite has translucent padding: an 18px box gives a 13px visible cap height,
-   matching the 1rem game font. Keep the source image intact. */
-.classic-roster .classic-stepper .potency-number .potency-max { width:1.125rem; height:1.125rem; }
+.classic-roster .classic-stepper .potency-number .potency-max {
+    position:absolute;
+    left:calc(50% - 1.7 * var(--potency-game-unit));
+    top:calc(50% - 3.1 * var(--potency-game-unit));
+    transform:translate(-50%,-50%);
+    width:calc(54 * var(--potency-game-unit));
+    height:calc(50 * var(--potency-game-unit));
+    max-width:none;
+    object-fit:contain;
+}
 .classic-roster .madness-skill-value { color:#ddd976; }
