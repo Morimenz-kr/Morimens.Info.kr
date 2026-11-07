@@ -10,7 +10,7 @@
 
     <script src="config/config.js"></script>
     <script>
-        CONFIG.ASSET_REVISION += '-character-filters-chapter-4';
+        CONFIG.ASSET_REVISION += '-character-filters-visible-5';
         loadCSS('css/common.css');
         loadCSS('css/components.css');
         loadCSS('css/pages/list.css');
@@ -31,38 +31,33 @@
         <input type="search" id="search-bar" class="search-bar" placeholder="캐릭터 이름 검색..." aria-label="캐릭터 이름 검색">
         <div class="catalog-filter-toolbar">
             <select id="availability-filter" aria-label="상시·한정 필터">
-                <option value="all">상시·한정 전체</option>
+                <option value="all">상시·한정</option>
                 <option value="standard">상시</option>
                 <option value="limited">한정</option>
             </select>
             <select id="chapter-filter" aria-label="챕터 필터">
-                <option value="all">챕터 전체</option>
+                <option value="all">챕터</option>
                 <option value="forgotten">망각편</option>
                 <option value="celestial">성신편</option>
             </select>
-            <details class="catalog-advanced site-disclosure">
-                <summary><span id="advanced-filter-label">상세 필터</span></summary>
-                <div class="catalog-advanced-fields">
                     <select id="grade-filter" aria-label="등급 필터">
-                        <option value="all">등급 전체</option>
+                        <option value="all">등급</option>
                         <option value="ssr">SSR</option>
                         <option value="sr">SR</option>
                     </select>
                     <select id="relems-filter" aria-label="계역 필터">
-                        <option value="all">계역 전체</option>
+                        <option value="all">계역</option>
                         <option value="chaos">혼돈</option>
                         <option value="aequor">심해</option>
                         <option value="caro">혈육</option>
                         <option value="ultra">초차원</option>
                     </select>
                     <select id="class-filter" aria-label="역할 필터">
-                        <option value="all">역할 전체</option>
+                        <option value="all">역할</option>
                         <option value="assault">공격형</option>
                         <option value="warden">방어형</option>
                         <option value="chorus">보조형</option>
                     </select>
-                </div>
-            </details>
         </div>
     </section>
 
@@ -73,7 +68,7 @@
 <script src="config/constants.js"></script>
 <script src="js/search_utils.js"></script>
 <script src="js/summon-classification.js?v=chapter-4"></script>
-<script src="js/index.js?v=filters-chapter-4"></script>
+<script src="js/index.js?v=filters-visible-5"></script>
 
 
 <button class="floating-report-btn" title="버그 신고" aria-label="버그 제보하기">

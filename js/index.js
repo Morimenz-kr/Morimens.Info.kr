@@ -89,8 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const key of ['availability', 'chapter', 'grade', 'relems', 'class']) {
             document.getElementById(key + '-filter').addEventListener('change', event => {
                 currentFilters[key] = event.target.value;
-                const count = ['grade', 'relems', 'class'].filter(name => currentFilters[name] !== 'all').length;
-                document.getElementById('advanced-filter-label').textContent = count ? '상세 필터 · ' + count : '상세 필터';
                 applyFilters();
             });
         }

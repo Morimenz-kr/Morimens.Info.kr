@@ -16,61 +16,18 @@
 
 .catalog-filter-toolbar {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
     align-items: start;
     gap: 8px;
     min-width: 0;
 }
 
-.catalog-filter-toolbar select,
-.catalog-advanced > summary {
+.catalog-filter-toolbar select {
     width: 100%;
     min-width: 0;
     min-height: 44px;
     padding: 10px;
     font-size: 0.85rem;
-}
-
-.catalog-advanced {
-    min-width: 0;
-}
-
-.catalog-advanced[open] {
-    grid-column: 1 / -1;
-}
-
-.catalog-advanced > summary {
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    border: 1px solid #444;
-    border-radius: 8px;
-    background: #222;
-    color: #ddd;
-}
-
-.catalog-advanced[open] > summary {
-    border-color: #ffc107;
-}
-
-.catalog-advanced-fields {
-    margin-top: 8px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
-    gap: 8px;
-}
-
-.catalog-advanced:not([open]) .catalog-advanced-fields {
-    display: none;
-}
-
-@media (max-width: 600px) {
-    .catalog-filter-toolbar {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .catalog-advanced {
-        grid-column: 1 / -1;
-    }
 }
 
 .header-area {
