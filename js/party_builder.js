@@ -229,6 +229,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (open) closeModal(open.id);
     });
 
+    if (new URLSearchParams(location.search).get('import') === 'record') {
+        try {
+            const response = await fetch('data/record_links.json');
+            if (!response.ok) throw Error('편성 연결 자료를 불러오지 못했습니다.');
+            const links = await response.json();
+            const party = RecordIntegration.readHandoff(sessionStorage, links);
+            const names = party.chars.map(id => DB.chars.find(row => String(row.id) === id)?.name || id);
+            openSystemConfirm('실전 편성 가져오기', `${names.join(' / ')} 편성으로 현재 팀을 교체합니다. 기존 편성 도구가 지원하는 각성체·명륜·은열쇠·지원만 적용하며 성장·카드·계약은 변경하지 않습니다.`, () => {
+                Object.assign(allPages[currentPageIdx].teams[currentTeamIdx], party);
+                renderAll(); saveAllData(true);
+                sessionStorage.removeItem(RecordIntegration.HANDOFF_KEY);
+                history.replaceState(null, '', location.pathname);
+                showToast('실전 편성을 가져왔습니다.');
+            });
+        } catch (error) { openSystemAlert('가져오기 실패', error.message); }
+    }
+
     ['modal-char', 'modal-wheel', 'modal-key'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.addEventListener('click', (e) => { if (e.target === el) closeModal(id); });

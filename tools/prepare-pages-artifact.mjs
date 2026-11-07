@@ -16,6 +16,7 @@ const ROOT_FILES = Object.freeze([
   'party_builder.html',
   'payment_efficiency.html',
   'relic_info.html',
+  'records.html',
   'rerun_schedule.html'
 ]);
 const SITE_DIRECTORIES = Object.freeze(['config', 'css', 'data', 'images', 'js']);

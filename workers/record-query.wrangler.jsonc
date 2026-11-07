@@ -1,0 +1,8 @@
+{
+  "name": "morimens-record-query",
+  "main": "record-query-worker.mjs",
+  "compatibility_date": "2026-10-07",
+  "vars": { "RECORD_ALLOWED_ORIGINS": "https://morimenz-kr.github.io", "RECORD_QUERY_MODE": "pull" },
+  "durable_objects": { "bindings": [{ "name": "RECORD_RATE_LIMIT", "class_name": "RecordRateLimit" }, { "name": "RECORD_PULL_RELAY", "class_name": "RecordPullRelay" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RecordRateLimit"] }, { "tag": "v2", "new_sqlite_classes": ["RecordPullRelay"] }]
+}

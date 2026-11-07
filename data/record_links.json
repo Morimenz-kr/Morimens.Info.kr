@@ -1,0 +1,2058 @@
+{
+  "schemaVersion": 1,
+  "source": "client-config",
+  "characters": [
+    {
+      "clientId": 15560,
+      "siteId": "pandia",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15562,
+      "siteId": "liz",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15563,
+      "siteId": "tulu",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15564,
+      "siteId": "goliath",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15565,
+      "siteId": "nautila",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15566,
+      "siteId": "celeste",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15567,
+      "siteId": "helot_catena",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15568,
+      "siteId": "ramona_timeworn",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15569,
+      "siteId": "lotan",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15570,
+      "siteId": "doll",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15571,
+      "siteId": "karen",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15572,
+      "siteId": "casiah",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15573,
+      "siteId": "aurita",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15574,
+      "siteId": "tinct",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15575,
+      "siteId": "faros",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15576,
+      "siteId": "murphy",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15577,
+      "siteId": "faint",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15579,
+      "siteId": "winkle",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15580,
+      "siteId": "nymphaea",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15581,
+      "siteId": "lily",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15582,
+      "siteId": "miryam",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15583,
+      "siteId": "horla",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15584,
+      "siteId": "sorel",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15585,
+      "siteId": "ogier",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15586,
+      "siteId": "wanda",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15587,
+      "siteId": "helot",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15588,
+      "siteId": "alva",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15589,
+      "siteId": "Murphy_Fauxborn",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15590,
+      "siteId": "dafoodil",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15591,
+      "siteId": "aigis",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15592,
+      "siteId": "sanga",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15593,
+      "siteId": "jenkin",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15594,
+      "siteId": "caecus",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15595,
+      "siteId": "ramona",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15596,
+      "siteId": "thais",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15597,
+      "siteId": "leigh",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15598,
+      "siteId": "uvhash",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15599,
+      "siteId": "salvador",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15600,
+      "siteId": "agrippa",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15601,
+      "siteId": "24",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15602,
+      "siteId": "doll_inferno",
+      "availability": "limited"
+    },
+    {
+      "clientId": 15603,
+      "siteId": "erica",
+      "availability": "standard"
+    },
+    {
+      "clientId": 15604,
+      "siteId": "ryker",
+      "availability": "limited"
+    },
+    {
+      "clientId": 54116,
+      "siteId": "tawil",
+      "availability": "limited"
+    },
+    {
+      "clientId": 54117,
+      "siteId": "hameln",
+      "availability": "limited"
+    },
+    {
+      "clientId": 77913,
+      "siteId": "kathigu-ra",
+      "availability": "limited"
+    },
+    {
+      "clientId": 77917,
+      "siteId": "pollux",
+      "availability": "limited"
+    },
+    {
+      "clientId": 77918,
+      "siteId": "arachne",
+      "availability": "limited"
+    },
+    {
+      "clientId": 77921,
+      "siteId": "caraboo",
+      "availability": "limited"
+    },
+    {
+      "clientId": 77922,
+      "siteId": "coporsant",
+      "availability": "limited"
+    },
+    {
+      "clientId": 77923,
+      "siteId": "castor",
+      "availability": "limited"
+    },
+    {
+      "clientId": 77925,
+      "siteId": "clementine",
+      "availability": "limited"
+    },
+    {
+      "clientId": 77926,
+      "siteId": "pickman",
+      "availability": "limited"
+    },
+    {
+      "clientId": 94450,
+      "siteId": "mouchette",
+      "availability": "limited"
+    },
+    {
+      "clientId": 148578,
+      "siteId": "GOgier",
+      "availability": "limited"
+    },
+    {
+      "clientId": 95786,
+      "siteId": "doresain",
+      "availability": "limited"
+    },
+    {
+      "clientId": 125346,
+      "siteId": "xu",
+      "availability": "limited"
+    },
+    {
+      "clientId": 130226,
+      "siteId": "saya",
+      "availability": "limited"
+    },
+    {
+      "clientId": 130901,
+      "siteId": "vortice",
+      "availability": "limited"
+    },
+    {
+      "clientId": 141302,
+      "siteId": "pontos",
+      "availability": "limited"
+    },
+    {
+      "clientId": 145363,
+      "siteId": "lotan_cetarchon",
+      "availability": "standard"
+    }
+  ],
+  "wheels": [
+    {
+      "clientId": 9516,
+      "siteId": "wheel_star_beast",
+      "name": "별하늘의 짐승"
+    },
+    {
+      "clientId": 9529,
+      "siteId": "wheel_fin_of_pain",
+      "name": "상처받은 지느러미"
+    },
+    {
+      "clientId": 9530,
+      "siteId": "wheel_sail_that_guides",
+      "name": "인도하는 돛"
+    },
+    {
+      "clientId": 9531,
+      "siteId": "wheel_sucking",
+      "name": "흡입"
+    },
+    {
+      "clientId": 9550,
+      "siteId": "wheel_aging",
+      "name": "숙성"
+    },
+    {
+      "clientId": 9577,
+      "siteId": "wheel_favorite_collection",
+      "name": "가장 소중한 수집품"
+    },
+    {
+      "clientId": 9581,
+      "siteId": "wheel_secret_birth",
+      "name": "은밀한 탄생"
+    },
+    {
+      "clientId": 9588,
+      "siteId": "wheel_heteromorph_mark",
+      "name": "이형체의 포식"
+    },
+    {
+      "clientId": 9589,
+      "siteId": "wheel_gift_of_corruption",
+      "name": "부패의 선물"
+    },
+    {
+      "clientId": 9610,
+      "siteId": "wheel_meeting_moment",
+      "name": "모임의 순간"
+    },
+    {
+      "clientId": 9616,
+      "siteId": "wheel_core_meltdown",
+      "name": "노심융해"
+    },
+    {
+      "clientId": 9623,
+      "siteId": "wheel_turn_and_turn",
+      "name": "돌고 도는 춤사위"
+    },
+    {
+      "clientId": 9625,
+      "siteId": "wheel_spring_of_yakut",
+      "name": "아쿠트의 봄"
+    },
+    {
+      "clientId": 9630,
+      "siteId": "wheel_in_the_hard_rain",
+      "name": "폭우 속에서"
+    },
+    {
+      "clientId": 9642,
+      "siteId": "wheel_death_of_coral_woman",
+      "name": "산호 여인의 죽음"
+    },
+    {
+      "clientId": 9667,
+      "siteId": "wheel_swallowed_lullaby",
+      "name": "삼켜진 자장가"
+    },
+    {
+      "clientId": 9677,
+      "siteId": "wheel_queens_precepts",
+      "name": "여왕의 계율"
+    },
+    {
+      "clientId": 9689,
+      "siteId": "wheel_solid_will",
+      "name": "견고한 의지"
+    },
+    {
+      "clientId": 9691,
+      "siteId": "wheel_lords_cane",
+      "name": "귀족의 지팡이"
+    },
+    {
+      "clientId": 9692,
+      "siteId": "wheel_info_is_life",
+      "name": "정보가 곧 생명"
+    },
+    {
+      "clientId": 9693,
+      "siteId": "wheel_mind_wall",
+      "name": "마음의 장벽"
+    },
+    {
+      "clientId": 9695,
+      "siteId": "wheel_hand_of_forget",
+      "name": "망각의 손"
+    },
+    {
+      "clientId": 9697,
+      "siteId": "wheel_non-existent",
+      "name": "존재하지 않는 곳"
+    },
+    {
+      "clientId": 9703,
+      "siteId": "wheel_falling_sun",
+      "name": "태양의 추락"
+    },
+    {
+      "clientId": 9704,
+      "siteId": "wheel_birth_of_soul",
+      "name": "영혼의 탄생"
+    },
+    {
+      "clientId": 9734,
+      "siteId": "wheel_over_the_pain",
+      "name": "고통을 넘어"
+    },
+    {
+      "clientId": 9736,
+      "siteId": "wheel_magical_performance",
+      "name": "환희의 마법 공연"
+    },
+    {
+      "clientId": 9741,
+      "siteId": "wheel_critical_point",
+      "name": "임계점"
+    },
+    {
+      "clientId": 9764,
+      "siteId": "wheel_int_the_nightshadow",
+      "name": "밤의 그림자 속에서"
+    },
+    {
+      "clientId": 9786,
+      "siteId": "wheel_memories_of_winter_night",
+      "name": "겨울밤의 추억"
+    },
+    {
+      "clientId": 9789,
+      "siteId": "wheel_bound_song",
+      "name": "속박된 노래"
+    },
+    {
+      "clientId": 9817,
+      "siteId": "wheel_backward_clock",
+      "name": "거꾸로 가는 시계"
+    },
+    {
+      "clientId": 9827,
+      "siteId": "wheel_sword_of_giant",
+      "name": "거인의 검"
+    },
+    {
+      "clientId": 9845,
+      "siteId": "wheel_pathless_path",
+      "name": "길 없는 길"
+    },
+    {
+      "clientId": 9846,
+      "siteId": "wheel_the_day_threw_off_shackles",
+      "name": "족쇄를 벗어던진 날"
+    },
+    {
+      "clientId": 9849,
+      "siteId": "wheel_over_the_death",
+      "name": "죽음을 넘어"
+    },
+    {
+      "clientId": 9850,
+      "siteId": "wheel_heavy_of_duty",
+      "name": "책임의 무게"
+    },
+    {
+      "clientId": 9855,
+      "siteId": "wheel_pain_curse",
+      "name": "고통의 저주"
+    },
+    {
+      "clientId": 9856,
+      "siteId": "wheel_voltex_of_memory",
+      "name": "기억의 나선"
+    },
+    {
+      "clientId": 9873,
+      "siteId": "wheel_auth_of_knight",
+      "name": "기사의 맹세"
+    },
+    {
+      "clientId": 9876,
+      "siteId": "wheel_dream_of_ocean",
+      "name": "바다의 꿈"
+    },
+    {
+      "clientId": 9877,
+      "siteId": "wheel_caro_party",
+      "name": "혈육의 광연"
+    },
+    {
+      "clientId": 9881,
+      "siteId": "wheel_merciful_upbringing",
+      "name": "자비로운 양육"
+    },
+    {
+      "clientId": 9884,
+      "siteId": "wheel_name_of_a_rose",
+      "name": "장미의 이름으로"
+    },
+    {
+      "clientId": 9943,
+      "siteId": "wheel_wandering_desire",
+      "name": "떠도는 욕망"
+    },
+    {
+      "clientId": 9947,
+      "siteId": "wheel_never_ending_calculation",
+      "name": "끝나지 않는 계산"
+    },
+    {
+      "clientId": 9974,
+      "siteId": "wheel_silent_party",
+      "name": "소리 없는 잔치"
+    },
+    {
+      "clientId": 9979,
+      "siteId": "wheel_active",
+      "name": "활성"
+    },
+    {
+      "clientId": 9997,
+      "siteId": "wheel_kicked",
+      "name": "추방"
+    },
+    {
+      "clientId": 9998,
+      "siteId": "wheel_tale_of_gluttony",
+      "name": "탐식의 이야기"
+    },
+    {
+      "clientId": 9999,
+      "siteId": "wheel_bless",
+      "name": "축복"
+    },
+    {
+      "clientId": 10004,
+      "siteId": "wheel_hope",
+      "name": "희망"
+    },
+    {
+      "clientId": 10005,
+      "siteId": "wheel_secret_talk",
+      "name": "밀담"
+    },
+    {
+      "clientId": 10006,
+      "siteId": "wheel_illusion",
+      "name": "환각"
+    },
+    {
+      "clientId": 10007,
+      "siteId": "wheel_manifestation",
+      "name": "발현"
+    },
+    {
+      "clientId": 10008,
+      "siteId": "wheel_favor",
+      "name": "총애"
+    },
+    {
+      "clientId": 10009,
+      "siteId": "wheel_berserk",
+      "name": "광란"
+    },
+    {
+      "clientId": 10010,
+      "siteId": "wheel_gluttony",
+      "name": "폭식"
+    },
+    {
+      "clientId": 10011,
+      "siteId": "wheel_judge",
+      "name": "징벌"
+    },
+    {
+      "clientId": 10012,
+      "siteId": "wheel_revelation",
+      "name": "계시"
+    },
+    {
+      "clientId": 10019,
+      "siteId": "wheel_insight",
+      "name": "통찰"
+    },
+    {
+      "clientId": 10025,
+      "siteId": "wheel_pale_descencdant",
+      "name": "창백한 후예"
+    },
+    {
+      "clientId": 10033,
+      "siteId": "wheel_greed",
+      "name": "탐욕"
+    },
+    {
+      "clientId": 10069,
+      "siteId": "wheel_stone_tablet_god_word",
+      "name": "신언의 석판"
+    },
+    {
+      "clientId": 10073,
+      "siteId": "wheel_channeling",
+      "name": "정신 집중"
+    },
+    {
+      "clientId": 10075,
+      "siteId": "wheel_cut_and_hurt",
+      "name": "절단과 상처"
+    },
+    {
+      "clientId": 10077,
+      "siteId": "wheel_adventure_bag",
+      "name": "모험 가방"
+    },
+    {
+      "clientId": 10078,
+      "siteId": "wheel_dessection_of_death",
+      "name": "죽음의 해부"
+    },
+    {
+      "clientId": 10080,
+      "siteId": "wheel_memory_syndrom",
+      "name": "기억증후군"
+    },
+    {
+      "clientId": 10100,
+      "siteId": "wheel_time_of_luck",
+      "name": "행운의 시간"
+    },
+    {
+      "clientId": 10101,
+      "siteId": "wheel_power_of_faith",
+      "name": "신앙의 힘"
+    },
+    {
+      "clientId": 34858,
+      "siteId": "wheel_magic_of_35mm",
+      "name": "35mm의 마법"
+    },
+    {
+      "clientId": 41379,
+      "siteId": "wheel_isallu_eye",
+      "name": "이살라우의 주시"
+    },
+    {
+      "clientId": 44832,
+      "siteId": "wheel_man_in_mirror",
+      "name": "거울 속의 사람"
+    },
+    {
+      "clientId": 45297,
+      "siteId": "wheel_silver_fish",
+      "name": "은빛 물고기의 결심"
+    },
+    {
+      "clientId": 47519,
+      "siteId": "wheel_call_of_abyss",
+      "name": "심연의 부름"
+    },
+    {
+      "clientId": 47520,
+      "siteId": "wheel_flowers_and_poems",
+      "name": "지난날의 꽃과 시"
+    },
+    {
+      "clientId": 47521,
+      "siteId": "wheel_goodbye_kiss",
+      "name": "작별의 키스"
+    },
+    {
+      "clientId": 53767,
+      "siteId": "wheel_million_eyes",
+      "name": "무수한 총애의 시선"
+    },
+    {
+      "clientId": 54105,
+      "siteId": "wheel_wheel_of_seclusion",
+      "name": "감춰진 수레바퀴"
+    },
+    {
+      "clientId": 54113,
+      "siteId": "wheel_doll_falls_void",
+      "name": "허무로 추락하는 인형"
+    },
+    {
+      "clientId": 54114,
+      "siteId": "wheel_eternal_requiem",
+      "name": "영원한 진혼곡"
+    },
+    {
+      "clientId": 54115,
+      "siteId": "wheel_sink_to_crimson",
+      "name": "진홍빛으로 가라앉다"
+    },
+    {
+      "clientId": 56635,
+      "siteId": "wheel_until_snowmt_melt",
+      "name": "설산이 녹을 때까지"
+    },
+    {
+      "clientId": 56637,
+      "siteId": "wheel_stick_of_shepered",
+      "name": "목동의 지팡이"
+    },
+    {
+      "clientId": 56639,
+      "siteId": "wheel_never_stop_show",
+      "name": "끝없는 연주"
+    },
+    {
+      "clientId": 56640,
+      "siteId": "wheel_roullet_of_destiny",
+      "name": "운명의 룰렛"
+    },
+    {
+      "clientId": 56641,
+      "siteId": "wheel_sleep_under_iceburg",
+      "name": "빙하 아래에 잠든"
+    },
+    {
+      "clientId": 56642,
+      "siteId": "wheel_door_of_truth",
+      "name": "진리의 문"
+    },
+    {
+      "clientId": 68682,
+      "siteId": "wheel_blue_stone_seat",
+      "name": "청석 왕좌"
+    },
+    {
+      "clientId": 68683,
+      "siteId": "wheel_hat_of_witch",
+      "name": "마녀의 모자"
+    },
+    {
+      "clientId": 68689,
+      "siteId": "wheel_hypnotic_pendulum",
+      "name": "최면 진자"
+    },
+    {
+      "clientId": 77859,
+      "siteId": "wheel_intolerable_freedom",
+      "name": "견딜 수 없는 자유"
+    },
+    {
+      "clientId": 77882,
+      "siteId": "wheel_guide_in_the_torch",
+      "name": "성화 속 길잡이"
+    },
+    {
+      "clientId": 77888,
+      "siteId": "wheel_hidden_pain",
+      "name": "숨겨진 고통"
+    },
+    {
+      "clientId": 77900,
+      "siteId": "wheel_caraboo_ssr",
+      "name": "달콤한 열매의 낭설"
+    },
+    {
+      "clientId": 78871,
+      "siteId": "wheel_alone_feather",
+      "name": "고독한 깃털"
+    },
+    {
+      "clientId": 78874,
+      "siteId": "wheel_brush_of_yearning",
+      "name": "갈망의 붓"
+    },
+    {
+      "clientId": 78878,
+      "siteId": "wheel_guide_sea",
+      "name": "바다의 길잡이"
+    },
+    {
+      "clientId": 78880,
+      "siteId": "wheel_caraboo_sr",
+      "name": "평온한 진실"
+    },
+    {
+      "clientId": 89652,
+      "siteId": "wheel_training_partner",
+      "name": "파트너 특훈"
+    },
+    {
+      "clientId": 94448,
+      "siteId": "wheel_doomsday_rampage",
+      "name": "광란의 세계 끝에서"
+    },
+    {
+      "clientId": 95674,
+      "siteId": "wheel_great_dish",
+      "name": "진미"
+    },
+    {
+      "clientId": 95699,
+      "siteId": "wheel_kiss_of_rest",
+      "name": "안식의 입맞춤"
+    },
+    {
+      "clientId": 97317,
+      "siteId": "wheel_blue_ring_poison",
+      "name": "푸른 고리 독소"
+    },
+    {
+      "clientId": 116878,
+      "siteId": "wheel_you_and_me_will_meet",
+      "name": "다시 만날 거야"
+    },
+    {
+      "clientId": 125136,
+      "siteId": "wheel_otori_lily",
+      "name": "백합의 미끼"
+    },
+    {
+      "clientId": 125195,
+      "siteId": "wheel_wasted_frown",
+      "name": "억지로 미간을 찌푸리다"
+    },
+    {
+      "clientId": 130039,
+      "siteId": "wheel_saya_sr",
+      "name": "진흙 속의 동화"
+    },
+    {
+      "clientId": 130704,
+      "siteId": "wheel_eden",
+      "name": "먼 곳의 에덴"
+    },
+    {
+      "clientId": 133338,
+      "siteId": "wheel_fontain",
+      "name": "은밀한 오후 휴식 시간"
+    },
+    {
+      "clientId": 133355,
+      "siteId": "wheel_illusion_of_sakura",
+      "name": "벚꽃 아래의 미혹"
+    },
+    {
+      "clientId": 141205,
+      "siteId": "wheel_living_prison",
+      "name": "살아있는 감옥"
+    },
+    {
+      "clientId": 141508,
+      "siteId": "wheel_alice_lily",
+      "name": "이상한 나라의 릴리"
+    },
+    {
+      "clientId": 145300,
+      "siteId": "wheel_lotan_cetarchon_ssr",
+      "name": "하늘의 추락"
+    },
+    {
+      "clientId": 148117,
+      "siteId": "wheel_soul_sync",
+      "name": "영혼의 동조"
+    }
+  ],
+  "keys": [
+    {
+      "clientId": 9518,
+      "siteId": "key_injection",
+      "name": "주사 수호"
+    },
+    {
+      "clientId": 4771,
+      "siteId": "key_injection",
+      "name": "주사 수호"
+    },
+    {
+      "clientId": 9653,
+      "siteId": "key_mouse_wisdom",
+      "name": "쥐의 지혜"
+    },
+    {
+      "clientId": 4292,
+      "siteId": "key_mouse_wisdom",
+      "name": "쥐의 지혜"
+    },
+    {
+      "clientId": 9685,
+      "siteId": "key_pure_white",
+      "name": "순백의 첫 만남"
+    },
+    {
+      "clientId": 4129,
+      "siteId": "key_pure_white",
+      "name": "순백의 첫 만남"
+    },
+    {
+      "clientId": 9991,
+      "siteId": "key_unfair_exchange",
+      "name": "불평등한 교환"
+    },
+    {
+      "clientId": 4691,
+      "siteId": "key_unfair_exchange",
+      "name": "불평등한 교환"
+    },
+    {
+      "clientId": 9995,
+      "siteId": "key_funeral",
+      "name": "불멸의 장례식"
+    },
+    {
+      "clientId": 4582,
+      "siteId": "key_funeral",
+      "name": "불멸의 장례식"
+    },
+    {
+      "clientId": 10032,
+      "siteId": "key_eternal_obsession",
+      "name": "영원한 집착"
+    },
+    {
+      "clientId": 4222,
+      "siteId": "key_eternal_obsession",
+      "name": "영원한 집착"
+    },
+    {
+      "clientId": 10052,
+      "siteId": "key_voice",
+      "name": "머릿속의 목소리"
+    },
+    {
+      "clientId": 4043,
+      "siteId": "key_voice",
+      "name": "머릿속의 목소리"
+    },
+    {
+      "clientId": 10065,
+      "siteId": "key_tiny_wish",
+      "name": "작은 소원"
+    },
+    {
+      "clientId": 4048,
+      "siteId": "key_tiny_wish",
+      "name": "작은 소원"
+    },
+    {
+      "clientId": 36801,
+      "siteId": "key_aureta",
+      "name": "오레타의 보물"
+    },
+    {
+      "clientId": 36800,
+      "siteId": "key_aureta",
+      "name": "오레타의 보물"
+    },
+    {
+      "clientId": 36813,
+      "siteId": "key_blood",
+      "name": "포효하는 피와 모래"
+    },
+    {
+      "clientId": 36807,
+      "siteId": "key_blood",
+      "name": "포효하는 피와 모래"
+    },
+    {
+      "clientId": 36814,
+      "siteId": "key_last_pledge",
+      "name": "마지막 서약"
+    },
+    {
+      "clientId": 36809,
+      "siteId": "key_last_pledge",
+      "name": "마지막 서약"
+    },
+    {
+      "clientId": 36815,
+      "siteId": "key_moment",
+      "name": "순간의 영원"
+    },
+    {
+      "clientId": 36808,
+      "siteId": "key_moment",
+      "name": "순간의 영원"
+    },
+    {
+      "clientId": 36847,
+      "siteId": "key_born",
+      "name": "뼈를 침식하는 포옹"
+    },
+    {
+      "clientId": 36845,
+      "siteId": "key_born",
+      "name": "뼈를 침식하는 포옹"
+    },
+    {
+      "clientId": 36848,
+      "siteId": "key_lakeside",
+      "name": "호숫가의 회상"
+    },
+    {
+      "clientId": 36844,
+      "siteId": "key_lakeside",
+      "name": "호숫가의 회상"
+    },
+    {
+      "clientId": 36849,
+      "siteId": "key_return",
+      "name": "회귀의 문을 넘어"
+    },
+    {
+      "clientId": 36843,
+      "siteId": "key_return",
+      "name": "회귀의 문을 넘어"
+    },
+    {
+      "clientId": 36850,
+      "siteId": "key_rotten_party",
+      "name": "부패의 연회"
+    },
+    {
+      "clientId": 36846,
+      "siteId": "key_rotten_party",
+      "name": "부패의 연회"
+    },
+    {
+      "clientId": 36857,
+      "siteId": "key_miracle",
+      "name": "기적의 강림"
+    },
+    {
+      "clientId": 36853,
+      "siteId": "key_miracle",
+      "name": "기적의 강림"
+    },
+    {
+      "clientId": 36858,
+      "siteId": "key_giant",
+      "name": "거인의 패도"
+    },
+    {
+      "clientId": 36854,
+      "siteId": "key_giant",
+      "name": "거인의 패도"
+    },
+    {
+      "clientId": 36859,
+      "siteId": "key_all_of_her",
+      "name": "그녀의 전부"
+    },
+    {
+      "clientId": 36855,
+      "siteId": "key_all_of_her",
+      "name": "그녀의 전부"
+    },
+    {
+      "clientId": 36860,
+      "siteId": "key_rose",
+      "name": "장미의 승리"
+    },
+    {
+      "clientId": 36856,
+      "siteId": "key_rose",
+      "name": "장미의 승리"
+    },
+    {
+      "clientId": 36861,
+      "siteId": "key_grey_fog",
+      "name": "회색 안개의 진상"
+    },
+    {
+      "clientId": 36851,
+      "siteId": "key_grey_fog",
+      "name": "회색 안개의 진상"
+    },
+    {
+      "clientId": 36862,
+      "siteId": "key_summer_dream",
+      "name": "한여름의 꿈"
+    },
+    {
+      "clientId": 36852,
+      "siteId": "key_summer_dream",
+      "name": "한여름의 꿈"
+    },
+    {
+      "clientId": 45298,
+      "siteId": "key_spring",
+      "name": "봄의 현시"
+    },
+    {
+      "clientId": 56202,
+      "siteId": "key_spring",
+      "name": "봄의 현시"
+    },
+    {
+      "clientId": 45299,
+      "siteId": "key_black_swan",
+      "name": "검은 백조의 춤사위"
+    },
+    {
+      "clientId": 70827,
+      "siteId": "key_black_swan",
+      "name": "검은 백조의 춤사위"
+    },
+    {
+      "clientId": 45300,
+      "siteId": "key_sea",
+      "name": "바다의 의식"
+    },
+    {
+      "clientId": 52698,
+      "siteId": "key_sea",
+      "name": "바다의 의식"
+    },
+    {
+      "clientId": 45301,
+      "siteId": "key_gun_sound",
+      "name": "한 발의 총성"
+    },
+    {
+      "clientId": 58288,
+      "siteId": "key_gun_sound",
+      "name": "한 발의 총성"
+    },
+    {
+      "clientId": 45302,
+      "siteId": "key_mt_blessing",
+      "name": "산맥의 각오"
+    },
+    {
+      "clientId": 65357,
+      "siteId": "key_mt_blessing",
+      "name": "산맥의 각오"
+    },
+    {
+      "clientId": 49204,
+      "siteId": "key_seed",
+      "name": "유일한 씨앗"
+    },
+    {
+      "clientId": 49416,
+      "siteId": "key_seed",
+      "name": "유일한 씨앗"
+    },
+    {
+      "clientId": 56636,
+      "siteId": "key_open_door",
+      "name": "문을 여는 답"
+    },
+    {
+      "clientId": 66499,
+      "siteId": "key_open_door",
+      "name": "문을 여는 답"
+    },
+    {
+      "clientId": 56638,
+      "siteId": "key_4th_music",
+      "name": "네 번째 악장"
+    },
+    {
+      "clientId": 60590,
+      "siteId": "key_4th_music",
+      "name": "네 번째 악장"
+    },
+    {
+      "clientId": 56643,
+      "siteId": "key_void",
+      "name": "허무의 역병"
+    },
+    {
+      "clientId": 70828,
+      "siteId": "key_void",
+      "name": "허무의 역병"
+    },
+    {
+      "clientId": 70919,
+      "siteId": "key_star_protect",
+      "name": "별들의 가호"
+    },
+    {
+      "clientId": 70829,
+      "siteId": "key_star_protect",
+      "name": "별들의 가호"
+    },
+    {
+      "clientId": 72095,
+      "siteId": "key_door_of_beer",
+      "name": "주점의 문"
+    },
+    {
+      "clientId": 77673,
+      "siteId": "key_door_of_beer",
+      "name": "주점의 문"
+    },
+    {
+      "clientId": 80191,
+      "siteId": "key_special",
+      "name": "특별 치료"
+    },
+    {
+      "clientId": 80194,
+      "siteId": "key_special",
+      "name": "특별 치료"
+    },
+    {
+      "clientId": 81756,
+      "siteId": "key_lightning",
+      "name": "사라지지 않는 번개"
+    },
+    {
+      "clientId": 84378,
+      "siteId": "key_lightning",
+      "name": "사라지지 않는 번개"
+    },
+    {
+      "clientId": 88873,
+      "siteId": "key_twisted_fate",
+      "name": "어긋난 운명"
+    },
+    {
+      "clientId": 90212,
+      "siteId": "key_twisted_fate",
+      "name": "어긋난 운명"
+    },
+    {
+      "clientId": 94559,
+      "siteId": "key_hungry",
+      "name": "사냥의 결의"
+    },
+    {
+      "clientId": 94560,
+      "siteId": "key_hungry",
+      "name": "사냥의 결의"
+    },
+    {
+      "clientId": 95548,
+      "siteId": "key_never_falling_sun",
+      "name": "꺼지지 않는 태양"
+    },
+    {
+      "clientId": 97917,
+      "siteId": "key_never_falling_sun",
+      "name": "꺼지지 않는 태양"
+    },
+    {
+      "clientId": 95691,
+      "siteId": "key_keirei",
+      "name": "잔혹한 인사"
+    },
+    {
+      "clientId": 94561,
+      "siteId": "key_keirei",
+      "name": "잔혹한 인사"
+    },
+    {
+      "clientId": 97737,
+      "siteId": "key_summer_time",
+      "name": "정지된 한여름의 추억"
+    },
+    {
+      "clientId": 97919,
+      "siteId": "key_summer_time",
+      "name": "정지된 한여름의 추억"
+    },
+    {
+      "clientId": 99102,
+      "siteId": "key_paint",
+      "name": "허세의 색채색"
+    },
+    {
+      "clientId": 100304,
+      "siteId": "key_paint",
+      "name": "허세의 색채색"
+    },
+    {
+      "clientId": 99724,
+      "siteId": "key_bloodtear",
+      "name": "피눈물의 성심"
+    },
+    {
+      "clientId": 117757,
+      "siteId": "key_bloodtear",
+      "name": "피눈물의 성심"
+    },
+    {
+      "clientId": 100577,
+      "siteId": "key_dream_moment",
+      "name": "아름다운 꿈의 순간"
+    },
+    {
+      "clientId": 116332,
+      "siteId": "key_dream_moment",
+      "name": "아름다운 꿈의 순간"
+    },
+    {
+      "clientId": 118128,
+      "siteId": "key_ship",
+      "name": "기울어진 배"
+    },
+    {
+      "clientId": 120314,
+      "siteId": "key_ship",
+      "name": "기울어진 배"
+    },
+    {
+      "clientId": 119952,
+      "siteId": "key_wish_again",
+      "name": "소원을 다시 만나다"
+    },
+    {
+      "clientId": 119835,
+      "siteId": "key_wish_again",
+      "name": "소원을 다시 만나다"
+    },
+    {
+      "clientId": 120491,
+      "siteId": "key_from_fog",
+      "name": "안개 경계에서 온"
+    },
+    {
+      "clientId": 123509,
+      "siteId": "key_from_fog",
+      "name": "안개 경계에서 온"
+    },
+    {
+      "clientId": 124899,
+      "siteId": "key_arachne",
+      "name": "운명의 궤도"
+    },
+    {
+      "clientId": 134212,
+      "siteId": "key_arachne",
+      "name": "운명의 궤도"
+    },
+    {
+      "clientId": 125190,
+      "siteId": "key_homegirl_story",
+      "name": "심집순이의 옛이야기"
+    },
+    {
+      "clientId": 126793,
+      "siteId": "key_homegirl_story",
+      "name": "심집순이의 옛이야기"
+    },
+    {
+      "clientId": 129499,
+      "siteId": "key_fireworks",
+      "name": "세말 불꽃놀이"
+    },
+    {
+      "clientId": 128689,
+      "siteId": "key_fireworks",
+      "name": "세말 불꽃놀이"
+    },
+    {
+      "clientId": 130063,
+      "siteId": "key_saya",
+      "name": "신세계를 위하여"
+    },
+    {
+      "clientId": 139862,
+      "siteId": "key_saya",
+      "name": "신세계를 위하여"
+    },
+    {
+      "clientId": 130703,
+      "siteId": "key_mosk",
+      "name": "익사한 순수"
+    },
+    {
+      "clientId": 130240,
+      "siteId": "key_mosk",
+      "name": "익사한 순수"
+    },
+    {
+      "clientId": 141174,
+      "siteId": "key_pontos",
+      "name": "마음이 허한 사람"
+    },
+    {
+      "clientId": 143604,
+      "siteId": "key_pontos",
+      "name": "마음이 허한 사람"
+    },
+    {
+      "clientId": 145281,
+      "siteId": "key_lotan_cetarchon",
+      "name": "고래를 삼킨 폭풍"
+    },
+    {
+      "clientId": 146648,
+      "siteId": "key_lotan_cetarchon",
+      "name": "고래를 삼킨 폭풍"
+    },
+    {
+      "clientId": 145970,
+      "siteId": "key_caraboo",
+      "name": "거짓이 아닌 것"
+    },
+    {
+      "clientId": 146647,
+      "siteId": "key_caraboo",
+      "name": "거짓이 아닌 것"
+    }
+  ],
+  "attributes": {
+    "18103": {
+      "key": "block",
+      "name": "방어막",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 33
+    },
+    "18104": {
+      "key": "damage_per_strikecard",
+      "name": "타격 피해 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 44
+    },
+    "18105": {
+      "key": "crit_damage",
+      "name": "크리티컬 피해",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_007.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_actor_crit_damage.png",
+      "equivalency": 0.6,
+      "sort": 6
+    },
+    "18106": {
+      "key": "block_per",
+      "name": "방어막 보정",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/IconS_Buff_009.png",
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 42
+    },
+    "18107": {
+      "key": "atk",
+      "name": "공격",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_010.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_atk.png",
+      "equivalency": 1,
+      "sort": 2
+    },
+    "18108": {
+      "key": "max_hp",
+      "name": "체력",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/IconS_Buff_020.png",
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 31
+    },
+    "18109": {
+      "key": "damage_per_card",
+      "name": "카드 피해 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 45
+    },
+    "18110": {
+      "key": "frail_per",
+      "name": "손상 비율 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 48
+    },
+    "18111": {
+      "key": "gain_block_per",
+      "name": "받는 방어막 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 54
+    },
+    "18112": {
+      "key": "def_per",
+      "name": "방어 상승",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_009.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_def_increase.png",
+      "equivalency": 1,
+      "sort": 6
+    },
+    "18113": {
+      "key": "ulti_energy_init",
+      "name": "초기 광기",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 21
+    },
+    "18114": {
+      "key": "physique",
+      "name": "체력",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_011.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_hp.png",
+      "equivalency": 1,
+      "sort": 1
+    },
+    "18115": {
+      "key": "ulti_energy_return",
+      "name": "광기 소비 감소",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_ene_return.png",
+      "equivalency": null,
+      "sort": 24
+    },
+    "18116": {
+      "key": "physique_per",
+      "name": "체력 상승",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_011.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_hp_increase.png",
+      "equivalency": 1,
+      "sort": 2
+    },
+    "18117": {
+      "key": "tentacle_dmg",
+      "name": "촉수 피해",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 66
+    },
+    "18118": {
+      "key": "dimension_slot",
+      "name": "초차원 공간 슬롯 개수",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 64
+    },
+    "18119": {
+      "key": "be_damage_per",
+      "name": "받는 피해 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 50
+    },
+    "18120": {
+      "key": "ulti_energy_max",
+      "name": "광기 최대치",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_003.png",
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 4
+    },
+    "18121": {
+      "key": "skillslot_6",
+      "name": "스킬2 레벨",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 30
+    },
+    "18122": {
+      "key": "skillslot_3",
+      "name": "방어 레벨",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 27
+    },
+    "18123": {
+      "key": "damagetimes_plus",
+      "name": "피해 횟수 보정",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 38
+    },
+    "18124": {
+      "key": "block_plus",
+      "name": "방어막 잠금값 보정",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 41
+    },
+    "18125": {
+      "key": "gain_block_plus",
+      "name": "받는 방어막 잠금값 보정",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 53
+    },
+    "18126": {
+      "key": "occupation_master",
+      "name": "영역 숙련",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_002.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Star_2.png",
+      "equivalency": 1,
+      "sort": 7
+    },
+    "18127": {
+      "key": "hp",
+      "name": "HP",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_011.png",
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 34
+    },
+    "18128": {
+      "key": "atk_per",
+      "name": "공격 상승",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_010.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_atk_increase.png",
+      "equivalency": 1,
+      "sort": 4
+    },
+    "18129": {
+      "key": "o_damage_per",
+      "name": "기본 피해",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 18
+    },
+    "18130": {
+      "key": "scarlet_blood_count",
+      "name": "레벨",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 62
+    },
+    "18131": {
+      "key": "ulti_energy_passive",
+      "name": "광기 자동 회복",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_ene_passive.png",
+      "equivalency": null,
+      "sort": 23
+    },
+    "18132": {
+      "key": "AwakerPotencyLevel",
+      "name": "계령 등급",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 58
+    },
+    "18133": {
+      "key": "gain_ulti_energy_per",
+      "name": "받는 광기 생성량 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 56
+    },
+    "18134": {
+      "key": "max_scarlet_blood_count",
+      "name": "배아 융합 최대치",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 61
+    },
+    "18135": {
+      "key": "ulti_energy",
+      "name": "현재 광기",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 35
+    },
+    "18136": {
+      "key": "be_damage_plus",
+      "name": "받는 피해 잠금값 보정",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 49
+    },
+    "18137": {
+      "key": "block_heal_per",
+      "name": "방어막/치유 증폭",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/IconS_Buff_013.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_block_increase.png",
+      "equivalency": null,
+      "sort": 19
+    },
+    "18138": {
+      "key": "heal_per",
+      "name": "치유 보정",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/IconS_Buff_013.png",
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 40
+    },
+    "18139": {
+      "key": "keeper_energy_eff_2",
+      "name": "은열쇠 충전",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_005.png",
+      "growthIconSource": null,
+      "equivalency": 0.6,
+      "sort": 10
+    },
+    "18140": {
+      "key": "death_resist_times",
+      "name": "죽음 저항 횟수",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 60
+    },
+    "18141": {
+      "key": "skillslot_2",
+      "name": "타격 레벨",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 26
+    },
+    "18142": {
+      "key": "basic_damage_per",
+      "name": "피해 증폭",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_004.png",
+      "growthIconSource": null,
+      "equivalency": 0.4,
+      "sort": 8
+    },
+    "18143": {
+      "key": "damage_per_ulti",
+      "name": "광기 폭발 피해 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 46
+    },
+    "18144": {
+      "key": "anti_crit",
+      "name": "크리티컬 저항",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/IconS_Buff_020.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_actor_crit.png",
+      "equivalency": null,
+      "sort": 20
+    },
+    "18145": {
+      "key": "skillslot_1",
+      "name": "본원 강림 레벨",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 25
+    },
+    "18146": {
+      "key": "be_heal_plus",
+      "name": "받는 치유 잠금값 보정",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 51
+    },
+    "18147": {
+      "key": "enchant_upgrade_per",
+      "name": "행운의 각인 확률",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_actor_crit.png",
+      "equivalency": 0,
+      "sort": 11
+    },
+    "18148": {
+      "key": "heal_plus",
+      "name": "치유 잠금값 보정",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 39
+    },
+    "18149": {
+      "key": "max_hp_per",
+      "name": "체력 상승",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/IconS_Buff_020.png",
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 32
+    },
+    "18150": {
+      "key": "weak_per",
+      "name": "허약 비율 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 47
+    },
+    "18151": {
+      "key": "death_resist",
+      "name": "죽음 저항",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_006.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_death_resist.png",
+      "equivalency": 1.4,
+      "sort": 12
+    },
+    "18152": {
+      "key": "ulti_energy_per",
+      "name": "광기 생성량 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 43
+    },
+    "18154": {
+      "key": "max_tentacle_count",
+      "name": "최대 촉수 수량",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 65
+    },
+    "18155": {
+      "key": "blackcoin_upgrade_per",
+      "name": "검은 인장 드롭율",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_001.png",
+      "growthIconSource": null,
+      "equivalency": 0.3,
+      "sort": 11
+    },
+    "18156": {
+      "key": "gain_ulti_energy_plus",
+      "name": "받는 광기 생성량 잠금값 보정",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 55
+    },
+    "18157": {
+      "key": "blind",
+      "name": "의도 숨김",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 68
+    },
+    "18158": {
+      "key": "damage_plus",
+      "name": "피해 잠금값 보정",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 36
+    },
+    "18159": {
+      "key": "crit",
+      "name": "크리티컬 확률",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_008.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_actor_crit.png",
+      "equivalency": 0.4,
+      "sort": 5
+    },
+    "18160": {
+      "key": "skillslot_5",
+      "name": "스킬1 레벨",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 29
+    },
+    "18161": {
+      "key": "AwakerLevel",
+      "name": "레벨",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 59
+    },
+    "18162": {
+      "key": "damage_per",
+      "name": "피해 보정",
+      "percentage": true,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/IconS_Buff_021.png",
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 37
+    },
+    "18163": {
+      "key": "tentacle_count",
+      "name": "촉수 수량",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 67
+    },
+    "18164": {
+      "key": "be_heal_per",
+      "name": "받는 치유 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 52
+    },
+    "18165": {
+      "key": "max_energy",
+      "name": "최대 행동력",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 63
+    },
+    "18166": {
+      "key": "vulnerable_per",
+      "name": "취약 비율 보정",
+      "percentage": true,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 57
+    },
+    "18167": {
+      "key": "def",
+      "name": "방어",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_009.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_def.png",
+      "equivalency": 1,
+      "sort": 3
+    },
+    "18168": {
+      "key": "skillslot_4",
+      "name": "영지 각성 레벨",
+      "percentage": false,
+      "iconSource": null,
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 28
+    },
+    "21322": {
+      "key": "keeper_energy_eff",
+      "name": "은열쇠 충전",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_005.png",
+      "growthIconSource": null,
+      "equivalency": 0,
+      "sort": 15
+    },
+    "22207": {
+      "key": "ulti_energy_plus_3",
+      "name": "광기 충전 레벨",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_003.png",
+      "growthIconSource": "UIResources/AtlasSource/2_Icon/Awaker_Potential/UI_Character_Potency_ene_first.png",
+      "equivalency": 0.2,
+      "sort": 9
+    },
+    "22214": {
+      "key": "ulti_energy_plus_2",
+      "name": "광기 충전",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_003.png",
+      "growthIconSource": null,
+      "equivalency": 0,
+      "sort": 10
+    },
+    "121209": {
+      "key": "AccountLvBattleCurve",
+      "name": "금기 학식 등급",
+      "percentage": false,
+      "iconSource": "UIResources/AtlasSource/UI_Battle_Icon/UI_Battle_White_Buff_016.png",
+      "growthIconSource": null,
+      "equivalency": null,
+      "sort": 12
+    }
+  }
+}
