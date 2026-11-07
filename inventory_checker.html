@@ -1,99 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-
 <head>
-    <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
-    <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>보유 현황 체크</title>
-
-    <script src="config/config.js?v=inventory-20260526"></script>
-    <script>
-        loadCSS('css/common.css');
-        loadCSS('css/components.css');
-        loadCSS('css/character-filters.css?v=filters-only-2');
-        loadCSS('css/pages/inventory_checker.css?v=filters-only-2');
-        loadCSS('css/responsive.css');
-        loadJS('js/search_utils.js');
-        loadJS('js/feedback.js');
-    </script>
-<script src="js/character-identity.js?v=identity-226"></script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>보유 현황 · 성장 관리 프리뷰</title>
+<link rel="icon" href="images/smile_Ramona.webp"><link rel="stylesheet" href="css/common.css">
+<link rel="stylesheet" href="css/pages/roster-preview.css">
+<script src="js/roster-model.js" defer></script><script src="js/roster-preview.js" defer></script>
 </head>
-
-<body>
-<div class="bg-image"></div>
-<div class="background-overlay"></div>
-
-<main class="container inventory-page">
-    <div class="header-area">
-        <nav aria-label="탐색"><a href="index.html" class="back-link">← 돌아가기</a></nav>
-    </div>
-
-    <section class="inventory-shell" aria-label="보유 현황 체크 도구">
-        <div class="inventory-summary">
-            <h2>각성체 / 명륜 보유 현황</h2>
-            <div class="summary-counts" aria-live="polite">
-                <span>각성체 <strong id="character-count">0</strong></span>
-                <span>명륜 <strong id="wheel-count">0</strong></span>
-            </div>
-        </div>
-
-        <section class="checker-panel" aria-label="보유 항목 선택">
-            <div class="chrome-tabs-container checker-tabs" role="tablist" aria-label="체크 대상">
-                <div class="tab-buttons">
-                    <button type="button" class="chrome-tab active" data-tab-button="characters">각성체</button>
-                    <button type="button" class="chrome-tab" data-tab-button="wheels">명륜</button>
-                </div>
-                <div class="capture-actions">
-                    <button type="button" id="copy-image-btn" class="primary-action">이미지 복사</button>
-                    <button type="button" id="preview-image-btn" class="ghost-action">미리보기</button>
-                    <button type="button" id="clear-selection-btn" class="ghost-action">전체 초기화</button>
-                </div>
-            </div>
-
-            <div class="checker-controls">
-                <input type="search" id="inventory-search" class="search-bar" placeholder="이름 검색..." aria-label="이름 검색">
-                <div class="filter-row">
-                    <div id="character-filters" class="filter-pills" aria-label="각성체 필터"></div>
-                    <div id="character-class-filters" class="filter-pills" aria-label="각성체 역할 필터"></div>
-                    <div id="wheel-filters" class="filter-pills hidden" aria-label="명륜 필터"></div>
-                    <div class="bulk-actions" aria-label="일괄 선택">
-                        <button type="button" id="select-visible-btn" class="ghost-action">모두 선택</button>
-                        <button type="button" id="deselect-visible-btn" class="ghost-action">모두 해제</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="character-grid" class="inventory-grid character-inventory-grid" aria-label="각성체 목록"></div>
-            <div id="wheel-grid" class="inventory-grid wheel-inventory-grid hidden" aria-label="명륜 목록"></div>
-        </section>
-
-        <section class="capture-panel" aria-label="공유용 결과">
-            <div id="copy-status" class="copy-status" role="status" aria-live="polite"></div>
-        </section>
-    </section>
+<body class="roster-app">
+<main id="main" class="roster-shell">
+<nav class="topline" aria-label="페이지 탐색"><a href="index.html">← 모리멘즈 정보</a><span class="preview-tag">프리뷰</span></nav>
+<header class="page-heading"><div><p class="eyebrow">내 계정으로 시작하는 조합 탐색</p><h1>보유 현황</h1><p id="account-summary" class="muted">각성체 정보를 불러오는 중입니다.</p></div><div class="header-actions"><button id="demo-button">데모 계정 체험</button><button id="backup-button">백업·불러오기</button></div></header>
+<div class="preview-note">프리뷰 전용 저장 · 기존 보유 현황 유지 <span id="save-state">이 기기에 저장</span></div>
+<nav class="page-tabs" aria-label="보유 현황 메뉴"><button data-tab="characters" aria-current="page">각성체 <span id="character-total"></span></button><button data-tab="wheels">명륜 <span id="wheel-total"></span></button><button data-tab="teams">추천 조합 <span class="tiny-tag">데모</span></button></nav>
+<section id="inventory-panel" aria-label="보유 목록">
+<div class="inventory-toolbar"><div class="search-wrap"><label class="sr-only" for="search">이름 검색</label><input id="search" type="search" placeholder="각성체 이름 검색"></div><div class="segmented" aria-label="목록 표시 방식"><button data-view="cards" aria-pressed="true">카드</button><button data-view="list" aria-pressed="false">상세 목록</button></div><button id="bulk-toggle">일괄 편집</button><button id="presets-button">프리셋</button></div>
+<div class="filterbar"><div class="segmented" aria-label="보유 여부"><button data-owned="all" aria-pressed="true">전체</button><button data-owned="owned" aria-pressed="false">보유</button><button data-owned="missing" aria-pressed="false">미보유</button></div><label>영역 <select id="realm"><option value="all">전체 영역</option><option value="chaos">혼돈</option><option value="aequor">심해</option><option value="caro">혈육</option><option value="ultra">초차원</option></select></label><details class="more-filters"><summary>상세 필터 <span id="filter-badge"></span></summary><div><label>역할 <select id="role"><option value="all">전체 역할</option><option value="assault">공격형</option><option value="warden">방어형</option><option value="chorus">보조형</option></select></label><label><input id="incomplete" type="checkbox"> 성장 미입력만</label><label>정렬 <select id="sort"><option value="default">기본 순서</option><option value="name">이름순</option><option value="potency">돌파 높은 순</option></select></label></div></details></div>
+<div class="list-meta"><p id="result-count"></p><span id="selection-tools" hidden><button id="select-visible">검색 결과 선택</button><button id="select-owned">보유 전체 선택</button><button id="clear-selected">선택 해제</button></span></div>
+<div id="inventory-grid" class="character-grid"></div>
+</section>
+<section id="teams-panel" hidden aria-label="추천 조합">
+<div class="team-intro"><div><h2>내 계정에 맞는 조합 찾기</h2><p class="muted">보유 여부와 성장 차이를 보고, 참고할 조합을 골라보세요.</p></div><span class="demo-label">합성 데모 · 실제 클리어 통계 아님</span></div>
+<div class="segmented team-view-switch" aria-label="추천 정보 종류"><button id="show-team-list" aria-pressed="true">조합 찾기</button><button id="show-team-stats" aria-pressed="false">채용 통계</button></div><div class="team-filters"><label>파 <select id="team-wave"><option value="all">전체 파</option><option value="1">1파</option><option value="2">2파</option><option value="3">3파</option><option value="4">4파</option><option value="5">5파</option></select></label><label>반드시 포함 <select id="team-include"><option value="">전체 각성체</option></select></label><label>제외 <select id="team-exclude"><option value="">없음</option></select></label><label><input type="checkbox" id="team-owned"> 보유 조합만</label><label><input type="checkbox" id="team-support"> 지원 1명 허용</label><button id="reset-teams">조건 초기화</button></div>
+<div id="team-stats" hidden></div><p id="team-summary" class="list-meta"></p><div id="team-grid" class="team-grid"></div>
+</section>
+<footer class="page-footer">보유만 등록해도 조합을 탐색할 수 있어요. 성장값은 필요할 때 채워주세요.</footer>
 </main>
-
-<div id="preview-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="preview-modal-title">
-    <div class="modal-content preview-modal-content">
-        <div class="modal-header">
-            <h2 id="preview-modal-title">공유 이미지 미리보기</h2>
-            <button type="button" id="close-preview-modal" class="close-btn" aria-label="닫기">&times;</button>
-        </div>
-        <div class="preview-image-frame">
-            <img id="preview-image" alt="공유 이미지 미리보기">
-        </div>
-    </div>
-</div>
-
-
-<button class="floating-report-btn"
-        title="버그 신고" aria-label="버그 제보하기">
-    <span aria-hidden="true">🚨</span>
-</button>
-
-<script src="js/character-filter-ui.js?v=filters-only-2"></script>
-<script src="js/inventory_checker.js?v=filters-only-2"></script>
-</body>
-</html>
+<aside id="bulk-bar" hidden aria-label="일괄 편집 작업"><div><strong id="bulk-count">0명 선택</strong><span id="hidden-selection" class="muted"></span></div><div><button id="bulk-register">보유 등록</button><button id="bulk-unregister">보유 해제</button><button class="primary" id="bulk-edit">성장값 적용</button><button id="bulk-cancel">완료</button></div></aside>
+<div id="toast" class="toast" role="status" hidden><span id="toast-message"></span><button id="undo-button" hidden>되돌리기</button><button id="dismiss-toast" aria-label="알림 닫기">×</button></div>
+<dialog id="editor"><form id="editor-form"><header class="dialog-heading"><div id="editor-title"></div><button type="button" data-close aria-label="편집 닫기">×</button></header><div id="editor-body" class="dialog-body"></div><footer class="dialog-footer"><button type="button" data-close>취소</button><button type="submit" class="primary" id="editor-submit">저장</button></footer></form></dialog>
+<dialog id="utility"><header class="dialog-heading"><h2 id="utility-title"></h2><button data-close aria-label="창 닫기">×</button></header><div id="utility-body" class="dialog-body"></div></dialog>
+<noscript>보유 현황 프리뷰를 사용하려면 JavaScript를 켜주세요.</noscript>
+</body></html>
