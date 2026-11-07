@@ -62,7 +62,7 @@ function potencyBadge(value) {
 }
 function stepper(id,value,type='character') {
     const name = type === 'character' ? char(id)?.name : state.wheels.find(w=>w.english_name===id)?.korean_name;
-    return `<div class="classic-stepper"><button data-step="${esc(id)}" data-kind="${type}" data-delta="-1" aria-label="${esc(name)} 돌파 낮추기" ${value===0?'disabled':''}>〈</button>${potencyBadge(value)}<button data-step="${esc(id)}" data-kind="${type}" data-delta="1" aria-label="${esc(name)} 돌파 올리기" ${value===15?'disabled':''}>〉</button></div>`;
+    return `<div class="classic-stepper"><button data-step="${esc(id)}" data-kind="${type}" data-delta="-1" aria-label="${esc(name)} ${value===0?'풀돌로 변경':'돌파 낮추기'}">〈</button>${potencyBadge(value)}<button data-step="${esc(id)}" data-kind="${type}" data-delta="1" aria-label="${esc(name)} ${value===15?'명함으로 변경':'돌파 올리기'}">〉</button></div>`;
 }
 function characterCard(c) {
     const e=entry(c.id),g=state.growth[c.id];
@@ -77,7 +77,7 @@ function characterCard(c) {
       ${e.owned?`<p class="compact-level">Lv.${e.level??'—'}</p>${stepper(c.id,e.potency??0)}<button class="growth-entry compact-growth" data-edit="${esc(c.id)}" aria-label="${esc(c.name)} 성장 편집. ${esc(skillLabel)}. ${esc(talentLabel)}"><span class="growth-icon-row"><img src="images/growth/UI_Comon_Icon_AwakerSkill.png" alt="" aria-hidden="true" width="14" height="14"><span class="growth-values compact-skills" title="${esc(skillLabel)}" aria-label="${esc(skillLabel)}">${numbers(skills,true)}</span></span><span class="growth-icon-row"><img src="images/growth/UI_Common_Icon_AwakerTalent.png" alt="" aria-hidden="true" width="14" height="14"><span class="growth-values compact-talents" title="${esc(talentLabel)}" aria-label="${esc(talentLabel)}">${numbers(talents)}</span></span></button>`:''}
     </article>`;
 }
-function wheelCard(w) {const e=wheel(w.english_name);return `<article class="character-card wheel-card ${e.owned?'selected':'not-owned'}"><button class="compact-select" data-toggle-wheel="${esc(w.english_name)}" aria-pressed="${e.owned}" aria-label="${esc(w.korean_name)} 보유 선택"><span class="check-mark" aria-hidden="true">✓</span><img src="${esc(w.image_path)}" alt="" width="100" height="108" loading="lazy"><span class="inventory-card-name">${esc(w.korean_name)}</span></button>${e.owned?stepper(w.english_name,e.potency??0,'wheel'):''}</article>`;}
+function wheelCard(w) {const e=wheel(w.english_name);return `<article class="character-card wheel-card ${e.owned?'selected':'not-owned'} ${state.bulk&&state.selected.has(w.english_name)?'is-selected':''}"><button class="compact-select" data-toggle-wheel="${esc(w.english_name)}" aria-pressed="${state.bulk?state.selected.has(w.english_name):e.owned}" aria-label="${esc(w.korean_name)} ${state.bulk?'편집 대상':'보유'} 선택"><span class="check-mark" aria-hidden="true">✓</span><img src="${esc(w.image_path)}" alt="" width="100" height="108" loading="lazy"><span class="inventory-card-name">${esc(w.korean_name)}</span></button>${e.owned?stepper(w.english_name,e.potency??0,'wheel'):''}</article>`;}
 function render() {
     const focus=document.activeElement;const focusData=['toggleCard','toggleWheel','step'].find(key=>focus?.dataset?.[key]);
     const owned=state.chars.filter(c=>entry(c.id).owned),complete=owned.filter(c=>M.complete(entry(c.id),state.growth[c.id]));
@@ -87,15 +87,17 @@ function render() {
     $('inventory-panel').hidden=state.tab==='teams';$('teams-panel').hidden=state.tab!=='teams';
     $('search').placeholder=state.tab==='wheels'?'명륜 이름 검색':'각성체 이름 검색';
     $('realm').closest('label').hidden=state.tab==='wheels';$('incomplete').closest('label').hidden=state.tab==='wheels';$('group-filters').hidden=state.tab==='wheels';$('role-filters').hidden=state.tab==='wheels';$('wheel-filters').hidden=state.tab!=='wheels';
-    $('bulk-toggle').hidden=state.tab!=='characters';$('presets-button').hidden=state.tab!=='characters';
+    $('bulk-toggle').hidden=state.tab==='teams';$('presets-button').hidden=state.tab!=='characters';
             $('bulk-toggle').textContent=state.bulk?'일괄 편집 중':'일괄 편집';$('selection-tools').hidden=!state.bulk;$('bulk-bar').hidden=!state.bulk;
-    const rows=filtered();$('result-count').textContent=`${state.tab==='wheels'?'명륜':'각성체'} ${rows.length}${state.tab==='wheels'?'개':'명'}${state.bulk?' · 선택 '+state.selected.size+'명':''}`;
+    const rows=filtered();$('result-count').textContent=`${state.tab==='wheels'?'명륜':'각성체'} ${rows.length}${state.tab==='wheels'?'개':'명'}${state.bulk?' · 선택 '+state.selected.size+(state.tab==='wheels'?'개':'명'):''}`;
     document.querySelectorAll('[data-group]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.group===state.group)));document.querySelectorAll('[data-role]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.role===state.role)));document.querySelectorAll('[data-grade]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.grade===state.grade)));
     $('inventory-grid').className=state.tab==='wheels'?'character-grid classic-wheels':'character-grid classic-groups';
     $('inventory-grid').innerHTML=rows.length?(state.tab==='wheels'?rows.map(wheelCard).join(''):Object.entries(realms).map(([key,label])=>{const members=rows.filter(c=>c.relems===key);return members.length?`<section class="relems-section ${key}" aria-label="${label}"><h2 class="relems-section-title">${label}</h2><div class="relems-character-grid">${members.map(characterCard).join('')}</div></section>`:'';}).join('')):'<div class="empty"><h2>조건에 맞는 항목이 없어요.</h2><p>검색어나 보유 조건을 바꿔보세요.</p><button data-reset-inventory>필터 초기화</button></div>';
-    $('bulk-count').textContent=`${state.selected.size}명 선택`;
-    const visible=new Set(rows.map(c=>c.id));const hidden=[...state.selected].filter(id=>!visible.has(id)).length;
-    $('hidden-selection').textContent=hidden?`현재 목록 밖 ${hidden}명 포함`:'';
+    const unit=state.tab==='wheels'?'개':'명';
+    $('bulk-count').textContent=`${state.selected.size}${unit} 선택`;
+    $('bulk-edit').textContent=state.tab==='wheels'?'돌파 설정':'성장값 적용';
+    const visible=new Set(rows.map(c=>state.tab==='wheels'?c.english_name:c.id));const hidden=[...state.selected].filter(id=>!visible.has(id)).length;
+    $('hidden-selection').textContent=hidden?`현재 목록 밖 ${hidden}${unit} 포함`:'';
     ['bulk-edit','bulk-register','bulk-unregister'].forEach(id=>$(id).disabled=!state.selected.size);
     if(state.tab==='teams')renderTeams();
     if(focusData&&!focus.isConnected){const attr='data-'+focusData.replace(/[A-Z]/g,c=>'-'+c.toLowerCase());document.querySelector('['+attr+'="'+CSS.escape(focus.dataset[focusData])+'"]'+(focusData==='step'?'[data-delta="'+focus.dataset.delta+'"]':''))?.focus();}
@@ -105,8 +107,8 @@ function bind() {
         const b=event.target.closest('button');if(!b)return;
         if(b.dataset.group){state.group=b.dataset.group;render();}if(b.dataset.role){state.role=b.dataset.role;render();}if(b.dataset.grade){state.grade=b.dataset.grade;render();}
         if(b.dataset.toggleCard){const id=b.dataset.toggleCard;if(state.bulk){state.selected.has(id)?state.selected.delete(id):state.selected.add(id);render();}else mutate(a=>{const e=a.characters[id]||={owned:false,potency:0,talents:{},skills:{}};e.owned=!e.owned;},'보유 현황을 저장했습니다.');}
-        if(b.dataset.toggleWheel)mutate(a=>{const e=a.wheels[b.dataset.toggleWheel]||={owned:false,potency:0};e.owned=!e.owned;},'명륜 보유 현황을 저장했습니다.');
-        if(b.dataset.step){const id=b.dataset.step;mutate(a=>{const collection=b.dataset.kind==='wheel'?a.wheels:a.characters;collection[id].potency+=Number(b.dataset.delta);if(b.dataset.kind==='character'&&['ramona','ramona_timeworn'].includes(id)){for(const linked of ['ramona','ramona_timeworn'])if(a.characters[linked]?.owned)a.characters[linked].potency=collection[id].potency;}},'돌파를 저장했습니다.');}
+        if(b.dataset.toggleWheel){const id=b.dataset.toggleWheel;if(state.bulk){state.selected.has(id)?state.selected.delete(id):state.selected.add(id);render();}else mutate(a=>{const e=a.wheels[id]||={owned:false,potency:0};e.owned=!e.owned;},'명륜 보유 현황을 저장했습니다.');}
+        if(b.dataset.step){const id=b.dataset.step;mutate(a=>{const collection=b.dataset.kind==='wheel'?a.wheels:a.characters;collection[id].potency=M.stepPotency(collection[id].potency??0,Number(b.dataset.delta));if(b.dataset.kind==='character'&&['ramona','ramona_timeworn'].includes(id)){for(const linked of ['ramona','ramona_timeworn'])if(a.characters[linked]?.owned)a.characters[linked].potency=collection[id].potency;}},'돌파를 저장했습니다.');}
         if(b.dataset.tab){state.tab=b.dataset.tab;state.bulk=false;state.selected.clear();$('search').value='';render();}
                         if(b.dataset.edit)openEditor([b.dataset.edit]);
         if(b.dataset.find){state.tab='teams';state.teamStats=false;state.bulk=false;$('team-include').value=b.dataset.find;render();$('teams-panel').scrollIntoView({block:'start'});}
@@ -131,11 +133,11 @@ function bind() {
     $('clear-account').onclick=()=>{if(confirm('프리뷰의 전체 보유·성장 정보를 초기화할까요? 기존 보유 현황은 유지됩니다.'))commit(M.empty(),'프리뷰를 초기화했습니다.');};
     $('preview-image-button').onclick=()=>shareImage('preview');$('copy-image').onclick=()=>shareImage('copy');
     $('bulk-toggle').onclick=()=>{state.bulk=!state.bulk;state.selected.clear();render();};
-    $('select-visible').onclick=()=>{filtered().forEach(c=>state.selected.add(c.id));render();};
-    $('select-owned').onclick=()=>{state.chars.filter(c=>entry(c.id).owned).forEach(c=>state.selected.add(c.id));render();};
+    $('select-visible').onclick=()=>{filtered().forEach(c=>state.selected.add(state.tab==='wheels'?c.english_name:c.id));render();};
+    $('select-owned').onclick=()=>{if(state.tab==='wheels')state.wheels.filter(w=>wheel(w.english_name).owned).forEach(w=>state.selected.add(w.english_name));else state.chars.filter(c=>entry(c.id).owned).forEach(c=>state.selected.add(c.id));render();};
     $('clear-selected').onclick=()=>{state.selected.clear();render();};
     $('bulk-cancel').onclick=()=>{state.bulk=false;state.selected.clear();render();};
-    for(const [id,value] of [['bulk-register',true],['bulk-unregister',false]])$(id).onclick=()=>{const r=M.apply(state.account,[...state.selected],{owned:value},state.growth);commit(r.account,`${state.selected.size}명 ${value?'보유 등록':'보유 해제'}했습니다.`);};
+    for(const [id,value] of [['bulk-register',true],['bulk-unregister',false]])$(id).onclick=()=>{const r=state.tab==='wheels'?M.applyWheels(state.account,[...state.selected],{owned:value}):M.apply(state.account,[...state.selected],{owned:value},state.growth);commit(r.account,`${state.selected.size}${state.tab==='wheels'?'개':'명'} ${value?'보유 등록':'보유 해제'}했습니다.`);};
     $('bulk-edit').onclick=()=>openEditor([...state.selected],true);
     $('editor-form').onsubmit=saveEditor;
     $('editor-form').addEventListener('input',handleEditorInput);
@@ -188,6 +190,16 @@ function handleEditorInput(event) {
 }
 function openEditor(ids,bulk=false) {
     state.editIds=ids;$('editor-form').dataset.bulk=String(bulk);$('editor-form').dataset.dirty='false';
+    const isWheel=state.tab==='wheels';$('editor-form').dataset.kind=isWheel?'wheel':'character';
+    $('editor').setAttribute('aria-label',isWheel?'명륜 돌파 편집':'성장 정보 편집');
+    if(isWheel){
+        const e=wheel(ids[0]);
+        $('editor-title').innerHTML=`<h2>${bulk?`${ids.length}개 명륜 편집`:esc(state.wheels.find(w=>w.english_name===ids[0]).korean_name)}</h2>`;
+        $('editor-body').innerHTML=`<label class="check-line"><input type="checkbox" id="editor-owned" ${!bulk&&e.owned?'checked':''}> ${bulk?'선택한 명륜을 보유 등록':'보유 명륜'}</label><div class="field-grid">${inputField('potency','돌파',15,e.potency??0,0,bulk)}</div><p id="patch-summary" class="import-summary" role="status" aria-live="polite" hidden></p>`;
+        $('editor-submit').textContent=bulk?`${ids.length}개에 적용`:'저장';
+        syncSliders();updatePatchSummary();if(!$('editor').open)modal('editor');else $('editor-body').scrollTop=0;
+        return;
+    }
     const c=char(ids[0]),e=entry(ids[0]),g=state.growth[c.id];
     $('editor-title').innerHTML=bulk?`<h2>${ids.length}명 편집</h2>`:`<div class="editor-person"><img src="${esc(c.image_thumb)}" alt=""><div><h2>${esc(c.name)}</h2></div></div>`;
     const allFields=bulk?[...new Map(Object.values(state.growth).flatMap(M.fields).map(f=>[f.key,f])).values()]:M.fields(g);
@@ -212,11 +224,12 @@ function openEditor(ids,bulk=false) {
     syncSliders();updatePatchSummary();if(!$('editor').open)modal('editor');else $('editor-body').scrollTop=0;
 }
 function readPatch() {const bulk=$('editor-form').dataset.bulk==='true',patch={};document.querySelectorAll('#editor [data-field]').forEach(el=>{if(el.disabled)return;const value=el.value;if(bulk&&value==='')return;patch[el.dataset.field]=value==='max'?'max':value==='null'||value===''?null:Number(value);});if(!bulk||$('editor-owned').checked)patch.owned=$('editor-owned').checked;return patch;}
-function patchResult(){return M.apply(state.account,state.editIds,readPatch(),state.growth,$('blanks-only')?.checked===true,state.limitedIds,true);}
+function patchResult(){return $('editor-form').dataset.kind==='wheel'?M.applyWheels(state.account,state.editIds,readPatch()):M.apply(state.account,state.editIds,readPatch(),state.growth,$('blanks-only')?.checked===true,state.limitedIds,true);}
 function updatePatchSummary() { const r=patchResult();$('patch-summary').hidden=!r.skipped.length;$('patch-summary').textContent=r.skipped.length?`${r.skipped.length}개 항목 적용 불가`:''; }
 function saveEditor(event) {
     event.preventDefault();const r=patchResult(),bulk=$('editor-form').dataset.bulk==='true',next=$('save-next')?.checked,id=state.editIds[0];
-    if(bulk&&$('preset-name').value.trim())r.account.presets.push({name:$('preset-name').value.trim(),patch:readPatch()});
+    const presetName=$('preset-name')?.value.trim();
+    if(bulk&&presetName)r.account.presets.push({name:presetName,patch:readPatch()});
     if(!commit(r.account,`성장값 ${r.changes}개 항목 저장${r.skipped.length?` · ${r.skipped.length}개 항목 제외`:''}`))return;
     $('editor-form').dataset.dirty='false';if(next){const rows=filtered(),i=rows.findIndex(c=>c.id===id);if(rows[i+1]){openEditor([rows[i+1].id]);$('save-next').checked=true;return;}}$('editor').close();
 }

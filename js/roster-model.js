@@ -52,6 +52,27 @@
         }
         return {account: normalizeLimited(out, limitedIds), skipped, changes};
     }
+    function applyWheels(account, ids, patch) {
+        const out=clone(account), skipped=[];let changes=0;
+        for(const id of ids){
+            const entry=out.wheels[id] ||= {owned:false,potency:0};
+            for(const [key,raw] of Object.entries(patch)){
+                if(raw===''||raw===undefined)continue;
+                if(key==='owned'){
+                    if(typeof raw!=='boolean')throw Error('잘못된 보유 설정입니다.');
+                    if(entry.owned!==raw)changes++;entry.owned=raw;continue;
+                }
+                const value=raw==='max'?15:raw===null?0:raw;
+                if(key!=='potency'||!number(value,0,15)){skipped.push({id,key});continue;}
+                if(entry.potency!==value)changes++;entry.potency=value;
+            }
+        }
+        return {account:out,skipped,changes};
+    }
+    function stepPotency(value, delta) {
+        if(!number(value,0,15)||![-1,1].includes(delta))throw Error('잘못된 돌파 변경입니다.');
+        return (value+delta+16)%16;
+    }
     function validate(input, characters, wheels, growths) {
         if (!input || input.version !== 1 || typeof input.characters !== 'object' || !input.characters || Array.isArray(input.characters)
             || typeof input.wheels !== 'object' || !input.wheels || Array.isArray(input.wheels) || !Array.isArray(input.presets)) throw Error('지원하는 보유 현황 백업 파일이 아닙니다.');
@@ -134,5 +155,5 @@
         for (const [id,row] of Object.entries(out.characters)) out.characters[id] = characterDefaults(row, limited.has(id));
         return out;
     }
-    return {characterDefaults, normalizeDefaults, normalizeLimited, potencyDisplay, KEY, LEGACY, empty, clone, migrate, fields, get, set, complete, apply, validate, merge, availability};
+    return {characterDefaults, normalizeDefaults, normalizeLimited, potencyDisplay, stepPotency, KEY, LEGACY, empty, clone, migrate, fields, get, set, complete, apply, applyWheels, validate, merge, availability};
 });

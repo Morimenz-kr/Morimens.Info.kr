@@ -32,6 +32,29 @@ test('wheel potency 0 through 15 survives migration and backup validation withou
     }
 });
 
+test('wheel bulk edits change only selected wheels, retain ownership and support maximum and default',()=>{
+    const a=M.empty();a.characters.a={owned:true,potency:7,skills:{one:3},talents:{}};
+    a.wheels={a:{owned:true,potency:2},b:{owned:false,potency:9},c:{owned:true,potency:4}};
+    const snapshot=M.clone(a);
+    const full=M.applyWheels(a,['a','b'],{potency:'max'});
+    assert.equal(full.changes,2);assert.deepEqual(full.skipped,[]);
+    assert.deepEqual(full.account.wheels,{a:{owned:true,potency:15},b:{owned:false,potency:15},c:a.wheels.c});
+    assert.deepEqual(full.account.characters,a.characters);assert.deepEqual(a,snapshot);
+    const reset=M.applyWheels(full.account,['b'],{potency:null,owned:true}).account;
+    assert.deepEqual(reset.wheels.b,{owned:true,potency:0});assert.equal(reset.wheels.a.potency,15);
+    assert.equal(M.applyWheels(a,['a'],{potency:8}).account.wheels.a.potency,8);
+    assert.deepEqual(M.applyWheels(a,['a'],{potency:16}).account,a);
+    assert.deepEqual(M.applyWheels(a,['a'],{}).account,a);
+});
+
+test('potency arrows cycle both directions over every value including base and full',()=>{
+    assert.equal(M.stepPotency(0,-1),15);assert.equal(M.stepPotency(15,1),0);
+    for(let n=0;n<=15;n++){
+        assert.equal(M.stepPotency(M.stepPotency(n,1),-1),n);
+        assert.equal(M.stepPotency(M.stepPotency(n,-1),1),n);
+    }
+});
+
 test('limited innate level stays 5 through load normalization and bulk edits',()=>{
     const a=M.empty();a.characters.a={owned:true,potency:0,talents:{1:12,2:0,3:0},skills:{}};
     a.characters.b={owned:true,potency:0,talents:{3:2},skills:{}};
