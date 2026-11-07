@@ -641,6 +641,8 @@ html:has(.classic-roster),body.classic-roster {
 .classic-roster .classic-stepper .potency-number .potency-max { width:.75rem; height:.875rem; }
 /* ScareCrow artwork identifies the two compact numeric rows. */
 .classic-roster .growth-icon-row {
+    position:relative;
+    left:.25rem;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -696,12 +698,11 @@ html:has(.classic-roster),body.classic-roster {
     margin-inline:-8px;
 }
 
-/* Regular numerals: the game's Text_Potency font (UX_Text_FZBeiWeiKaiShu).
-   Maximum stage: the separate UI_Common_Potency_MaxNumber sprite. */
+/* Use upright serif digits to visually match the original maximum-stage sprite. */
 @font-face {
-    font-family:GamePotencyNumbers;
-    src:url('../../images/growth/game-potency-numbers.woff2') format('woff2');
-    font-weight:400;
+    font-family:PotencyMaxStyle;
+    src:url('../../images/growth/game-potency-max-style.woff2') format('woff2');
+    font-weight:600;
     font-style:normal;
     font-display:swap;
 }
@@ -730,6 +731,7 @@ html:has(.classic-roster),body.classic-roster {
     height:1.375rem;
 }
 .classic-roster .classic-stepper .potency-number .potency-game-parent {
+    --potency-parent-scale:1.22;
     position:absolute;
     left:50%;
     top:50%;
@@ -739,16 +741,6 @@ html:has(.classic-roster),body.classic-roster {
     color:inherit;
     text-shadow:none;
     transform:translate(-50%,-50%) scale(var(--potency-parent-scale));
-}
-/* Source RectTransforms from UI_Common_Item_Potency, before the common scale. */
-.classic-roster .classic-stepper .potency-number .potency-game-regular {
-    --potency-parent-scale:1.5312;
-    width:calc(84 * var(--potency-game-unit));
-    height:calc(72 * var(--potency-game-unit));
-    top:calc(50% + 5.2 * var(--potency-game-unit));
-}
-.classic-roster .classic-stepper .potency-number .potency-game-max {
-    --potency-parent-scale:1.22;
     width:calc(100 * var(--potency-game-unit));
     height:calc(90 * var(--potency-game-unit));
 }
@@ -761,14 +753,14 @@ html:has(.classic-roster),body.classic-roster {
 }
 .classic-roster .classic-stepper .potency-game-parent .potency-game-text {
     position:absolute;
-    left:calc(50% + .312528491 * var(--potency-game-unit));
-    top:calc(50% - 2.031255484 * var(--potency-game-unit));
+    left:calc(50% - 1.7 * var(--potency-game-unit));
+    top:calc(50% - 3.1 * var(--potency-game-unit));
     transform:translate(-50%,-50%);
-    font-family:GamePotencyNumbers,serif;
-    font-size:calc(36 * var(--potency-game-unit));
-    font-weight:400;
+    font-family:PotencyMaxStyle,serif;
+    font-size:calc(45 * var(--potency-game-unit));
+    font-weight:600;
     line-height:1;
-    color:#fff8d3;
+    color:#f4f2f8;
     font-synthesis:none;
     text-shadow:none;
     white-space:nowrap;
