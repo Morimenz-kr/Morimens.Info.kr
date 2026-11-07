@@ -686,11 +686,12 @@ html:has(.classic-roster),body.classic-roster {
     margin-inline:-8px;
 }
 
-/* Game numerals match the original maximum-stage sprite. */
+/* Regular numerals: the game's Text_Potency font (UX_Text_FZBeiWeiKaiShu).
+   Maximum stage: the separate UI_Common_Potency_MaxNumber sprite. */
 @font-face {
-    font-family:ScarecrowNumbersKR;
-    src:url('../../images/growth/game-numbers-kr.ttf') format('truetype');
-    font-weight:600;
+    font-family:GamePotencyNumbers;
+    src:url('../../images/growth/game-potency-numbers.woff2') format('woff2');
+    font-weight:400;
     font-style:normal;
     font-display:swap;
 }
@@ -704,18 +705,18 @@ html:has(.classic-roster),body.classic-roster {
 }
 .classic-roster .classic-stepper .potency-badge { gap:1px; }
 .classic-roster .classic-stepper .potency-diamond {
-    width:.875rem;
+    width:.9375rem;
     height:1.25rem;
-    flex:0 0 .875rem;
+    flex:0 0 .9375rem;
     margin:0;
 }
 .classic-roster .classic-stepper .potency-diamond.lit { filter:none; }
 .classic-roster .classic-stepper .potency-diamond.unlit { opacity:.3; filter:grayscale(1); }
 .classic-roster .classic-stepper .potency-number { width:1.0625rem; height:1.375rem; }
 .classic-roster .classic-stepper .potency-number>span {
-    font-family:ScarecrowNumbersKR,serif;
+    font-family:GamePotencyNumbers,serif;
     font-size:.875rem;
-    font-weight:600;
+    font-weight:400;
     color:#fff8d3;
     font-synthesis:none;
     text-shadow:none;
