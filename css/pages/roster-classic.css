@@ -1,0 +1,560 @@
+/* Keep the main inventory shell, portrait density and realm sections. */
+html:has(.classic-roster),body.classic-roster {
+    background:var(--color-bg-dark);
+}
+.classic-overlay {
+    position:fixed;
+    inset:0;
+    background:#000b;
+    z-index:0;
+    pointer-events:none;
+}
+.classic-roster .bg-image {
+    z-index:0;
+}
+.classic-roster .roster-shell {
+    position:relative;
+    z-index:1;
+    max-width:1220px;
+    padding:20px 30px 40px;
+}
+.classic-back {
+    margin-bottom:20px;
+}
+.classic-roster .back-link {
+    display:inline-flex;
+    min-height:40px;
+    align-items:center;
+    padding:8px 14px;
+    border:1px solid var(--color-border);
+    border-radius:var(--radius-sm);
+    background:#333;
+    color:#ccc;
+    font-size:.9rem;
+    font-weight:600;
+}
+.classic-roster .inventory-shell {
+    padding:20px;
+    background:rgba(30,30,34,.94);
+}
+.classic-roster .inventory-summary {
+    align-items:center;
+}
+.classic-roster h1 {
+    font-size:1.35rem;
+    letter-spacing:normal;
+    line-height:1.3;
+}
+.classic-roster .summary-counts span {
+    font-size:.85rem;
+}
+.classic-tabs-row {
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:12px;
+    border-bottom:1px solid #444;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+}
+.classic-roster .page-tabs {
+    border:0;
+    margin:0;
+    padding-left:10px;
+    gap:0;
+    max-width:100%;
+}
+.classic-roster .page-tabs button {
+    min-width:100px;
+    border:1px solid #444;
+    border-bottom:0;
+    border-radius:8px 8px 0 0;
+    padding:10px 16px;
+    color:#888;
+    background:#2a2a2e;
+    font-size:.95rem;
+    min-height:44px;
+}
+.classic-roster .page-tabs button[aria-current] {
+    background:#38383e;
+    color:var(--color-accent);
+    box-shadow:none;
+    font-weight:600;
+}
+.classic-roster .capture-actions {
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    padding-bottom:8px;
+}
+.classic-roster .capture-actions button {
+    font-size:.85rem;
+}
+.classic-roster .capture-actions .primary-action {
+    background:var(--color-link-blue);
+    border-color:var(--color-link-blue);
+    color:#fff;
+}
+.classic-roster .search-wrap {
+    width:100%;
+    min-width:0;
+}
+.classic-filters {
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin:12px 0;
+}
+.classic-filters .segmented {
+    gap:8px;
+}
+.classic-roster .classic-filters .segmented button {
+    border-radius:6px;
+    margin:0;
+    padding:.45rem .65rem;
+    background:#2a2a2a;
+    min-height:40px;
+    font-size:.85rem;
+}
+.classic-roster .segmented button[aria-pressed=true] {
+    border-color:var(--color-accent);
+    background:#2a2a2a;
+    color:var(--color-accent);
+}
+.classic-bulk {
+    display:flex;
+    gap:8px;
+    margin-left:auto;
+    flex-wrap:wrap;
+}
+.classic-bulk button {
+    font-size:.8rem;
+}
+.classic-tools {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    padding:8px 0;
+    border-top:1px solid #38383d;
+}
+.classic-tools .check-line {
+    margin:0;
+    min-height:40px;
+}
+.classic-tools>button {
+    font-size:.8rem;
+}
+.classic-tools details>summary {
+    min-height:40px;
+    display:flex;
+    align-items:center;
+    cursor:pointer;
+    color:#bbb;
+    font-size:.8rem;
+}
+.classic-tools details>summary:before {
+    content:'›';
+    margin-right:.4rem;
+}
+.classic-tools details[open]>summary:before {
+    transform:rotate(90deg);
+}
+.classic-tools details {
+    position:relative;
+}
+.tool-menu {
+    position:absolute;
+    right:0;
+    top:100%;
+    background:#29292e;
+    border:1px solid #555;
+    border-radius:6px;
+    padding:12px;
+    z-index:4;
+    width:260px;
+    max-width:calc(100vw - 48px);
+    display:grid;
+    gap:8px;
+    box-shadow:0 8px 24px #0008;
+}
+.tool-menu label {
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex-wrap:wrap;
+    font-size:.85rem;
+}
+.tool-menu button {
+    text-align:left;
+    font-size:.85rem;
+}
+.classic-preview-note {
+    color:#999;
+    font-size:.75rem;
+    margin-left:auto;
+}
+.classic-roster .list-meta {
+    margin:4px 0 12px;
+    font-size:.75rem;
+}
+.classic-roster .page-footer {
+    margin-top:20px;
+}
+.classic-roster #inventory-grid.classic-groups {
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+.classic-roster .relems-character-grid,.classic-roster #inventory-grid.classic-wheels {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(112px,1fr));
+    align-items:start;
+    gap:12px;
+}
+.classic-roster .relems-section-title {
+    font-size:.95rem;
+    line-height:1.4;
+}
+.classic-roster .character-card {
+    background:var(--color-bg-card);
+    border:1px solid var(--color-border);
+    border-radius:var(--radius-md);
+    padding:9px;
+    gap:8px;
+    overflow:visible;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+}
+.classic-roster .character-card.selected {
+    border-color:var(--color-accent);
+    box-shadow:0 0 0 1px #ffc10735;
+}
+.classic-roster .character-card.is-selected {
+    outline:2px solid #eee;
+    outline-offset:2px;
+    box-shadow:none;
+}
+.classic-roster .character-card .compact-select {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    position:relative;
+    background:transparent;
+    border:0;
+    border-radius:0;
+    padding:0;
+    width:100%;
+    min-width:0;
+    min-height:44px;
+    line-height:1.4;
+}
+.classic-roster .compact-select:hover {
+    background:transparent;
+}
+.classic-roster .compact-select img {
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:1/1.08;
+    object-fit:cover;
+    border:1px solid #3f3f3f;
+    border-radius:6px;
+    filter:none;
+    opacity:1;
+    background:#111;
+}
+.classic-roster .not-owned .compact-select img {
+    filter:none;
+    opacity:1;
+}
+.classic-roster .wheel-card .compact-select img {
+    object-fit:contain;
+}
+.classic-roster .inventory-card-name {
+    width:100%;
+    color:#eee;
+    font-weight:600;
+    font-size:.85rem;
+    text-align:center;
+    overflow-wrap:anywhere;
+}
+.classic-roster .check-mark {
+    position:absolute;
+    right:-3px;
+    top:-3px;
+    background:var(--color-accent);
+    color:#151515;
+    width:24px;
+    height:24px;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    z-index:1;
+    display:none;
+}
+.classic-roster .compact-select[aria-pressed=true] .check-mark {
+    display:flex;
+}
+.classic-roster .compact-level {
+    font-size:.75rem;
+    color:#aaa;
+    text-align:center;
+    margin:0;
+}
+.classic-roster .growth-entry {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:1px;
+    width:100%;
+    font-size:.78rem;
+    line-height:1.3;
+    padding:5px 2px;
+    min-height:44px;
+    background:transparent;
+    border-color:#444;
+}
+.growth-entry small {
+    font-size:.7rem;
+    color:#aaa;
+}
+.classic-roster .classic-stepper {
+    display:grid;
+    grid-template-columns:24px minmax(0,1fr) 24px;
+    align-items:center;
+    width:100%;
+    border:1px solid #555;
+    border-radius:16px;
+    background:#252525;
+}
+.classic-roster .classic-stepper button {
+    min-width:24px;
+    min-height:32px;
+    border:0;
+    background:transparent;
+    padding:0;
+    font-size:.8rem;
+    border-radius:16px;
+}
+.classic-stepper span {
+    text-align:center;
+    font-size:.8rem;
+    overflow-wrap:anywhere;
+}
+.classic-roster .card-growth {
+    margin:0;
+    padding:8px 0 0;
+    border-top:1px solid #444;
+    width:100%;
+}
+.classic-roster .stat-line {
+    display:flex;
+    font-size:.75rem;
+    gap:4px;
+    flex-wrap:wrap;
+}
+.classic-roster .stat-line strong {
+    font-size:.8rem;
+}
+.classic-roster .card-skill {
+    margin-top:8px;
+    padding-top:8px;
+}
+.classic-roster .card-skill summary {
+    min-height:40px;
+    font-size:.75rem;
+    display:flex;
+    gap:4px;
+    align-items:center;
+    cursor:pointer;
+    list-style:none;
+}
+.classic-roster .card-skill summary:before {
+    content:'›';
+    font-size:1rem;
+}
+.classic-roster .card-skill[open] summary:before {
+    transform:rotate(90deg);
+}
+.classic-roster .card-skill summary::-webkit-details-marker {
+    display:none;
+}
+.classic-roster .card-skill .stat-line {
+    display:block;
+    overflow-wrap:anywhere;
+}
+.classic-roster .card-skill dd {
+    color:#ddd;
+}
+.classic-roster .card-skill dt {
+    color:#aaa;
+}
+.classic-roster .missing-data {
+    font-size:.75rem;
+}
+.classic-roster .team-intro {
+    margin:16px 0;
+}
+.classic-roster .team-member img {
+    border:1px solid #444;
+}
+.classic-roster .team-card {
+    background:var(--color-bg-card);
+    border-color:var(--color-border);
+}
+.classic-roster .team-filters {
+    background:#252529;
+}
+.classic-roster .team-view-switch button {
+    font-size:.85rem;
+}
+.classic-roster .dialog-heading h2 {
+    margin:0;
+}
+.classic-roster #share-preview {
+    display:block;
+    width:100%;
+    height:auto;
+}
+.classic-roster .toast {
+    z-index:25;
+}
+.classic-roster dialog {
+    z-index:30;
+}
+.classic-roster #bulk-bar {
+    z-index:5;
+}
+.classic-roster:has(#bulk-bar:not([hidden])) .roster-shell {
+    padding-bottom:2rem;
+}
+@media(max-width:767px) {
+    .classic-roster .roster-shell {
+        padding:16px 15px 30px;
+    }
+    .classic-roster .inventory-shell {
+        padding:14px;
+    }
+    .classic-roster .inventory-summary {
+        gap:12px;
+        align-items:start;
+        flex-direction:column;
+    }
+    .classic-roster .summary-counts {
+        justify-content:start;
+    }
+    .classic-roster h1 {
+        font-size:1.2rem;
+    }
+    .classic-roster .classic-tabs-row {
+        gap:8px;
+    }
+    .classic-roster .page-tabs {
+        padding-left:0;
+        width:100%;
+    }
+    .classic-roster .page-tabs button {
+        min-width:0;
+        flex:1;
+        font-size:.85rem;
+        padding:10px 12px;
+    }
+    .classic-roster .capture-actions {
+        gap:6px;
+    }
+    .classic-roster .capture-actions button {
+        padding:8px 10px;
+        font-size:.8rem;
+    }
+    .classic-filters {
+        gap:8px;
+    }
+    .classic-bulk {
+        margin-left:0;
+    }
+    .classic-tools {
+        gap:8px;
+    }
+    .classic-preview-note {
+        width:100%;
+        margin-left:0;
+        font-size:.7rem;
+    }
+    .classic-roster .classic-tools .tool-menu {
+        left:auto;
+        right:0;
+    }
+    .classic-roster .character-card {
+        padding:9px;
+    }
+    .classic-roster .card-growth .stat-line {
+        display:flex;
+    }
+    .classic-roster .team-members {
+        grid-template-columns:repeat(4,minmax(0,1fr));
+    }
+    .classic-roster .team-member img {
+        aspect-ratio:1/1.08;
+        width:100%;
+        max-width:80px;
+    }
+    .classic-roster .team-filters label {
+        width:100%;
+    }
+    .classic-roster .team-filters select {
+        flex:1;
+        max-width:100%;
+    }
+    .classic-roster #bulk-bar {
+        padding:12px;
+    }
+    .classic-roster .team-intro h2 {
+        font-size:1rem;
+    }
+}
+@media(max-width:379px) {
+    .classic-roster .roster-shell {
+        padding:12px 10px 24px;
+    }
+    .classic-roster .inventory-shell {
+        padding:10px;
+    }
+    .classic-roster .relems-character-grid,.classic-roster #inventory-grid.classic-wheels {
+        grid-template-columns:repeat(auto-fill,minmax(112px,1fr));
+        gap:10px;
+    }
+    .classic-roster .page-tabs button {
+        padding:10px 8px;
+    }
+    .classic-roster .team-members {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .classic-roster .tool-menu {
+        position:static;
+        width:100%;
+        max-width:100%;
+    }
+    .classic-roster #more-tools[open] {
+        width:100%;
+    }
+}
+.classic-roster #preview-image-button {
+    width:auto;
+    max-width:none;
+    max-height:none;
+}
+.classic-roster .character-card .compact-select[aria-pressed=false] .check-mark {
+    display:flex;
+    background:#222b;
+    border:1px solid #666;
+    color:transparent;
+}
+
+.classic-roster .back-link {
+    margin-bottom: 0;
+}
