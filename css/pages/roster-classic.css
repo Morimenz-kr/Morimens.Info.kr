@@ -633,6 +633,8 @@ html:has(.classic-roster),body.classic-roster {
     grid-template-columns:repeat(auto-fill,minmax(min(100%,max(112px,7rem)),1fr));
 }
 .classic-roster .classic-stepper .potency-diamond {
+    display:grid;
+    place-items:center;
     width:.9375rem;
     height:1.375rem;
     flex-basis:.9375rem;
@@ -721,8 +723,15 @@ html:has(.classic-roster),body.classic-roster {
     flex:0 0 1rem;
     margin:0;
 }
+.classic-roster .classic-stepper .potency-diamond>img {
+    grid-area:1 / 1;
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
 .classic-roster .classic-stepper .potency-diamond.lit { filter:none; }
-.classic-roster .classic-stepper .potency-diamond.unlit { opacity:.3; filter:grayscale(1); }
+.classic-roster .classic-stepper .potency-diamond.unlit { opacity:1; filter:none; }
 .classic-roster .classic-stepper .potency-number {
     /* One game unit in CSS: keep the current 18px-wide maximum number.
        Its source width is 54, inside Image_Max's 1.22 parent scale. */
@@ -750,6 +759,16 @@ html:has(.classic-roster),body.classic-roster {
     height:100%;
     max-width:none;
     object-fit:contain;
+}
+/* Image_Number's original 84x72 decoration and 1.5312 scale, independent of
+   the visually matched digits. Only 12 uses the 100x90 maximum decoration. */
+.classic-roster .potency-number .potency-game-background.potency-background-regular {
+    position:absolute;
+    left:50%;
+    top:calc(50% + 5.2 * var(--potency-game-unit) / 1.22);
+    transform:translate(-50%,-50%);
+    width:calc(84 * 1.5312 * var(--potency-game-unit) / 1.22);
+    height:calc(72 * 1.5312 * var(--potency-game-unit) / 1.22);
 }
 .classic-roster .classic-stepper .potency-game-parent .potency-game-text {
     position:absolute;
