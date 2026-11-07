@@ -589,28 +589,53 @@ html:has(.classic-roster),body.classic-roster {
 .classic-roster .potency-unknown { color:var(--color-text-muted); font-size:.75rem; }
 .classic-roster .unowned-potency { min-height:32px; display:flex; align-items:center; justify-content:center; }
 .classic-roster .card-growth { padding-top:8px; }
-.classic-roster .growth-section-title { font-size:.75rem; font-weight:500; color:var(--color-text-muted); margin:0 0 6px; }
-.classic-roster .skill-levels { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px 4px; }
-.classic-roster .skill-level { min-width:0; text-align:center; }
-.classic-roster .skill-level dt { color:var(--color-text-muted); font-size:.7rem; line-height:1.4; overflow-wrap:anywhere; }
-.classic-roster .skill-level dd { color:var(--color-text-primary); font-size:.85rem; line-height:1.5; font-variant-numeric:tabular-nums; }
-.classic-roster .talent-levels { border-top:1px solid #444; margin-top:8px; padding-top:6px; }
-.classic-roster .talent-levels .stat-line { align-items:baseline; flex-wrap:wrap; gap:2px 4px; margin:3px 0; }
-.classic-roster .talent-levels dt { font-size:.75rem; color:var(--color-text-muted); }
-.classic-roster .talent-levels dd { margin-left:auto; font-size:.8rem; color:var(--color-text-primary); font-variant-numeric:tabular-nums; }
-.classic-roster .source-missing { font-size:.7rem; color:var(--color-text-muted); }
-.classic-roster .compact-level { color:var(--color-text-secondary); }
-.classic-roster .growth-entry { margin-top:auto; }
-
-.classic-roster .skill-level dt { min-height:2.8em; display:flex; align-items:center; justify-content:center; }
-.classic-roster .classic-stepper:has(.potency-badge) { grid-template-columns:24px minmax(0,1fr) 24px; }
-.classic-roster .classic-stepper:has(.potency-badge) .potency-badge { grid-column:1/-1; grid-row:1; }
-.classic-roster .classic-stepper:has(.potency-badge)>button { grid-row:2; }
-.classic-roster .classic-stepper:has(.potency-badge)>button:first-child { grid-column:1; }
-.classic-roster .classic-stepper:has(.potency-badge)>button:last-child { grid-column:3; }
 .classic-roster .potency-number>span {
     color:#fff8d3;
     font-family:Georgia,'Times New Roman',serif;
     font-weight:600;
     text-shadow:0 1px 2px #000;
 }
+
+/* Two numeric lines on owned cards; unowned cards remain thumbnail-only. */
+.classic-roster .classic-stepper:has(.potency-badge) {
+    grid-template-columns:24px minmax(0,1fr) 24px;
+    align-items:center;
+    min-height:32px;
+}
+.classic-roster .classic-stepper .potency-badge { flex-wrap:nowrap; min-height:24px; }
+.classic-roster .classic-stepper .potency-diamond { width:11px; height:15px; flex:0 0 11px; }
+.classic-roster .classic-stepper .potency-number { width:14px; height:18px; }
+.classic-roster .classic-stepper .potency-number>span { font-size:.65rem; }
+.classic-roster .classic-stepper .potency-number .potency-max { width:12px; height:14px; }
+.classic-roster .growth-entry.compact-growth {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:3px;
+    min-height:44px;
+    margin:0;
+    border:0;
+    border-radius:4px;
+    background:transparent;
+    padding:2px 0;
+    color:var(--color-text-secondary);
+    font-size:.75rem;
+    line-height:1.4;
+    font-variant-numeric:tabular-nums;
+    font-weight:400;
+}
+.classic-roster .compact-growth:hover { background:var(--color-bg-elevated); }
+.classic-roster .growth-values { max-width:100%; text-align:center; overflow-wrap:anywhere; }
+.classic-roster .compact-talents { color:#b9b19d; }
+
+.classic-roster .relems-character-grid,
+.classic-roster #inventory-grid.classic-wheels {
+    grid-template-columns:repeat(auto-fill,minmax(min(100%,max(112px,7rem)),1fr));
+}
+.classic-roster .classic-stepper .potency-diamond {
+    width:.625rem;
+    height:.9375rem;
+    flex-basis:.625rem;
+}
+.classic-roster .classic-stepper .potency-number { width:.875rem; height:1.125rem; }
+.classic-roster .classic-stepper .potency-number .potency-max { width:.75rem; height:.875rem; }

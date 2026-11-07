@@ -4,12 +4,13 @@ const M = window.RosterModel, $ = id => document.getElementById(id);
 const realms = {chaos:'혼돈',aequor:'심해',caro:'혈육',ultra:'초차원'};
 const potencyLabel = n => n === 0 ? '명함' : n === 7 ? '초한' : n === 15 ? '풀돌' : `${n}돌`;
 const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const state = {account:M.empty(),chars:[],wheels:[],growth:{},tab:'characters',view:'cards',owned:'all',bulk:false,selected:new Set(),undo:null,editIds:[],lastFocus:null,teams:[],demo:false,teamStats:false,group:'all',role:'all',grade:'all',groups:{}};
+const state = {account:M.empty(),chars:[],wheels:[],growth:{},tab:'characters',view:'cards',owned:'all',bulk:false,selected:new Set(),undo:null,editIds:[],lastFocus:null,teams:[],demo:false,teamStats:false,group:'all',role:'all',grade:'all',groups:{},limitedIds:[]};
 const entry = id => state.account.characters[id] || {owned:false,potency:0,talents:{},skills:{}};
 const wheel = id => state.account.wheels[id] || {owned:false,potency:0};
 const char = id => state.chars.find(c=>c.id===id);
 function notice(message, undo=false) { $('toast-message').textContent=message; $('undo-button').hidden=!undo; $('toast').hidden=false; }
 function commit(account,message) {
+    account=M.normalizeLimited(account,state.limitedIds);
     const linked=['ramona','ramona_timeworn'];const changed=linked.find(id=>account.characters[id]?.owned&&account.characters[id].potency!==state.account.characters[id]?.potency);if(changed)for(const id of linked)if(account.characters[id]?.owned)account.characters[id].potency=account.characters[changed].potency;
     try { localStorage.setItem(M.KEY,JSON.stringify(account)); }
     catch { notice('저장 공간이 부족하거나 저장이 차단됐습니다. 변경을 적용하지 않았습니다.'); return false; }
@@ -20,9 +21,10 @@ async function load() {
     try {
         const fetchJSON = async path => {const response=await fetch(path);if(!response.ok)throw Error(path);return response.json();};
         const [chars,wheels,growth,groups] = await Promise.all([fetchJSON('data/character_manifest.json'),fetchJSON('data/wheel_list.json'),fetchJSON('data/character_growth.json'),fetchJSON('data/gachatype.json')]);
-        state.chars=chars;state.wheels=wheels.filter(w=>['SSR','SR','R'].includes(w.grade));state.growth=growth.characters;state.groups=groups;state.identity=window.CharacterIdentity.create(chars);
+        state.chars=chars;state.wheels=wheels.filter(w=>['SSR','SR','R'].includes(w.grade));state.growth=growth.characters;state.groups=groups;state.limitedIds=[...new Set([...(groups.forgotten||[]),...(groups.celestial||[])])];state.identity=window.CharacterIdentity.create(chars);
         try { const saved=localStorage.getItem(M.KEY);state.account=saved?M.validate(JSON.parse(saved),chars.map(c=>c.id),state.wheels.map(w=>w.english_name),state.growth).account:M.migrate(JSON.parse(localStorage.getItem(M.LEGACY)||'null')); }
         catch { notice('저장값을 읽지 못했습니다. 원본은 유지했으며 빈 프리뷰로 열었습니다.'); }
+        state.account=M.normalizeLimited(state.account,state.limitedIds);
         state.teams=[
             {id:'aequor',name:'심해 조합',members:['Murphy_Fauxborn','miryam','goliath','tulu'],wave:3},
             {id:'ultra',name:'초차원 조합',members:['pollux','castor','clementine','arachne'],wave:1},
@@ -63,27 +65,16 @@ function stepper(id,value,type='character') {
     return `<div class="classic-stepper"><button data-step="${esc(id)}" data-kind="${type}" data-delta="-1" aria-label="${esc(name)} 돌파 낮추기" ${value===0?'disabled':''}>〈</button>${type === 'character' ? potencyBadge(value) : `<span>${potencyLabel(value)}</span>`}<button data-step="${esc(id)}" data-kind="${type}" data-delta="1" aria-label="${esc(name)} 돌파 올리기" ${value===(type==='character'?15:3)?'disabled':''}>〉</button></div>`;
 }
 function characterCard(c) {
-    const e = entry(c.id), g = state.growth[c.id];
-    const any = M.fields(g).some(f=>M.get(e,f.key)!=null), status = M.complete(e,g)?'입력 완료':any?'일부 입력':'미입력';
-    const skills = skillSlots.map(([slot,label]) => {
-        const source = g?.skillUpgrades?.find(s=>s.slot===slot);
-        const value = e.skills?.[slot] ?? '—';
-        return `<div class="skill-level" aria-label="${esc(label)}${source && source.name !== label ? ` · ${esc(source.name)}` : ''} 레벨 ${value}"><dt>${label}</dt><dd>${value}</dd></div>`;
-    }).join('');
-    const talents = [[2,'영혼 단련'],[1,'광기의 징조'],[3,'내재 영격']].map(([type,label]) => {
-        const source = g?.talentUpgrades?.find(t=>t.type===type);
-        return `<div class="stat-line"><dt>${label}</dt><dd>${source ? e.talents?.[type] ?? '—' : '<span class="source-missing">자료 없음</span>'}</dd></div>`;
-    }).join('');
+    const e=entry(c.id),g=state.growth[c.id];
+    const skills=skillSlots.map(([slot])=>e.skills?.[slot]??'—');
+    const talents=[e.talents?.[2]??'—',e.talents?.[1]??'—',state.limitedIds.includes(c.id)?5:e.talents?.[3]??'—'];
+    const skillText=skills.join('/'),talentText=talents.join('/');
+    const skillLabel=skillSlots.map(([,label],i)=>`${label} ${skills[i]}`).join(', ');
+    const talentLabel=['영혼 단련','광기의 징조','내재 영격'].map((label,i)=>`${label} ${talents[i]}`).join(', ');
+    const numbers=values=>values.map(esc).join('/<wbr>');
     return `<article class="character-card ${e.owned?'selected':'not-owned'} ${state.bulk&&state.selected.has(c.id)?'is-selected':''}" data-card-id="${esc(c.id)}">
-    <button class="compact-select" data-toggle-card="${esc(c.id)}" aria-pressed="${state.bulk?state.selected.has(c.id):e.owned}" aria-label="${esc(c.name)} ${state.bulk?'편집 대상':'보유'} 선택"><span class="check-mark" aria-hidden="true">✓</span><img src="${esc(c.image_thumb)}" alt="" width="100" height="108" loading="lazy"><span class="inventory-card-name">${esc(c.name)}</span></button>
-    <p class="compact-level">Lv.${e.level??'—'}</p>
-    ${e.owned ? stepper(c.id,e.potency??0) : `<div class="unowned-potency">${potencyBadge(state.account.characters[c.id]?.potency ?? null)}</div>`}
-    <section class="card-growth" aria-label="${esc(c.name)} 성장 정보">
-      <h3 class="growth-section-title">스킬 레벨</h3><dl class="skill-levels">${skills}</dl>
-      <dl class="talent-levels">${talents}</dl>
-      ${!g ? '<p class="missing-data">성장 데이터 준비 중</p>' : ''}
-    </section>
-    <button class="growth-entry" data-edit="${esc(c.id)}" aria-label="${esc(c.name)} 성장 편집 · ${status}"><span>성장 편집</span><small>${status}</small></button>
+      <button class="compact-select" data-toggle-card="${esc(c.id)}" aria-pressed="${state.bulk?state.selected.has(c.id):e.owned}" aria-label="${esc(c.name)} ${state.bulk?'편집 대상':'보유'} 선택"><span class="check-mark" aria-hidden="true">✓</span><img src="${esc(c.image_thumb)}" alt="" width="100" height="108" loading="lazy"><span class="inventory-card-name">${esc(c.name)}</span></button>
+      ${e.owned?`<p class="compact-level">Lv.${e.level??'—'}</p>${stepper(c.id,e.potency??0)}<button class="growth-entry compact-growth" data-edit="${esc(c.id)}" aria-label="${esc(c.name)} 성장 편집. ${esc(skillLabel)}. ${esc(talentLabel)}"><span class="growth-values compact-skills" title="${esc(skillLabel)}" aria-label="${esc(skillLabel)}">${numbers(skills)}</span><span class="growth-values compact-talents" title="${esc(talentLabel)}" aria-label="${esc(talentLabel)}">${numbers(talents)}</span></button>`:''}
     </article>`;
 }
 function wheelCard(w) {const e=wheel(w.english_name);return `<article class="character-card wheel-card ${e.owned?'selected':'not-owned'}"><button class="compact-select" data-toggle-wheel="${esc(w.english_name)}" aria-pressed="${e.owned}" aria-label="${esc(w.korean_name)} 보유 선택"><span class="check-mark" aria-hidden="true">✓</span><img src="${esc(w.image_path)}" alt="" width="100" height="108" loading="lazy"><span class="inventory-card-name">${esc(w.korean_name)}</span></button>${e.owned?stepper(w.english_name,e.potency??0,'wheel'):''}</article>`;}
@@ -170,6 +161,7 @@ function openEditor(ids,bulk=false) {
     const c=char(ids[0]),e=entry(ids[0]),g=state.growth[c.id];
     $('editor-title').innerHTML=bulk?`<h2>${ids.length}명 성장값 적용</h2><p class="muted editor-note">선택한 필드만 변경합니다.</p>`:`<div class="editor-person"><img src="${esc(c.image_thumb)}" alt=""><div><h2>${esc(c.name)}</h2><span class="muted">성장 정보 편집</span></div></div>`;
     const allFields=bulk?[...new Map(Object.values(state.growth).flatMap(M.fields).map(f=>[f.key,f])).values()]:M.fields(g);
+    if(!bulk&&state.limitedIds.includes(c.id)&&!allFields.some(f=>f.key==='talent:3'))allFields.push({key:'talent:3',label:'내재 영격',min:5,max:5});
     // Bulk talent maxima use the maximum catalog range; applying is resolved per character.
     const bulkFields=bulk?allFields.map(f=>({...f,max:Math.max(...Object.values(state.growth).flatMap(x=>M.fields(x).filter(t=>t.key===f.key).map(t=>t.max)))})):allFields;
     const fHTML=fs=>fs.map(f=>inputField(f.key,f.label,f.max,M.get(e,f.key),f.min,bulk)).join('');
@@ -185,11 +177,12 @@ function openEditor(ids,bulk=false) {
     $('editor-submit').textContent=bulk?`${ids.length}명에게 적용`:'저장';
     $('max-skills').onclick=()=>{document.querySelectorAll('#editor [data-field^="skill:"]').forEach(el=>el.value=bulk?'max':el.max);$('editor-form').dataset.dirty='true';updatePatchSummary();};
     $('clear-skills').onclick=()=>{document.querySelectorAll('#editor [data-field^="skill:"]').forEach(el=>el.value=bulk?'null':'');$('editor-form').dataset.dirty='true';updatePatchSummary();};
-    $('editor-preset').onchange=()=>{const value=$('editor-preset').value;let patch={};if(value.startsWith('user:'))patch=state.account.presets[Number(value.split(':')[1])].patch;else for(const f of bulkFields)if(value==='growth'||value==='cards'&&f.key.startsWith('skill:')||value==='talents'&&f.key.startsWith('talent:'))patch[f.key]='max';document.querySelectorAll('#editor [data-field]').forEach(el=>{const value=patch[el.dataset.field];if(bulk)el.value=value===null?'null':value??'';else if(value!==undefined)el.value=value==='max'?el.max:value??'';});$('editor-form').dataset.dirty='true';updatePatchSummary();};
+    $('editor-preset').onchange=()=>{const value=$('editor-preset').value;let patch={};if(value.startsWith('user:'))patch=state.account.presets[Number(value.split(':')[1])].patch;else for(const f of bulkFields)if(value==='growth'||value==='cards'&&f.key.startsWith('skill:')||value==='talents'&&f.key.startsWith('talent:'))patch[f.key]='max';document.querySelectorAll('#editor [data-field]').forEach(el=>{if(el.disabled)return;const value=patch[el.dataset.field];if(bulk)el.value=value===null?'null':value??'';else if(value!==undefined)el.value=value==='max'?el.max:value??'';});$('editor-form').dataset.dirty='true';updatePatchSummary();};
+    if(!bulk&&state.limitedIds.includes(c.id)){const locked=document.querySelector('#editor [data-field="talent:3"]');locked.value=5;locked.disabled=true;locked.closest('label').querySelector('small').textContent='한정 각성체 · 5 고정';}
     updatePatchSummary();if(!$('editor').open)modal('editor');else $('editor').scrollTop=0;
 }
-function readPatch() {const bulk=$('editor-form').dataset.bulk==='true',patch={};document.querySelectorAll('#editor [data-field]').forEach(el=>{const value=el.value;if(bulk&&value==='')return;patch[el.dataset.field]=value==='max'?'max':value==='null'||value===''?null:Number(value);});if(!bulk||$('editor-owned').checked)patch.owned=$('editor-owned').checked;return patch;}
-function patchResult(){return M.apply(state.account,state.editIds,readPatch(),state.growth,$('blanks-only')?.checked===true);}
+function readPatch() {const bulk=$('editor-form').dataset.bulk==='true',patch={};document.querySelectorAll('#editor [data-field]').forEach(el=>{if(el.disabled)return;const value=el.value;if(bulk&&value==='')return;patch[el.dataset.field]=value==='max'?'max':value==='null'||value===''?null:Number(value);});if(!bulk||$('editor-owned').checked)patch.owned=$('editor-owned').checked;return patch;}
+function patchResult(){return M.apply(state.account,state.editIds,readPatch(),state.growth,$('blanks-only')?.checked===true,state.limitedIds);}
 function updatePatchSummary() { const r=patchResult();$('patch-summary').textContent=`${state.editIds.length}명 · 변경 ${r.changes}개 항목${r.skipped.length?` · 자료 누락/범위 초과 ${r.skipped.length}개 항목 제외`:''}`; }
 function saveEditor(event) {
     event.preventDefault();const r=patchResult(),bulk=$('editor-form').dataset.bulk==='true',next=$('save-next')?.checked,id=state.editIds[0];
@@ -217,6 +210,7 @@ function showBackup(){ $('utility-title').textContent='백업·불러오기';$('
     if(!$('utility').open)modal('utility');
 }
 function prepareImport(raw){const result=M.validate(raw,state.chars.map(c=>c.id),state.wheels.map(w=>w.english_name),state.growth);if(result.unknown.length)throw Error(`현재 자료에 없는 ID ${result.unknown.length}개가 있어 적용하지 않았습니다. 원본 파일을 보존해 주세요.`);
+    result.account=M.normalizeLimited(result.account,state.limitedIds);
     const count=Object.values(result.account.characters).filter(c=>c.owned).length;$('import-preview').innerHTML=`<div class="import-summary">보유 각성체 ${count}명 · 명륜 ${Object.values(result.account.wheels).filter(w=>w.owned).length}개 · 프리셋 ${result.account.presets.length}개</div><label class="field"><span>적용 방식</span><select id="import-mode"><option value="merge">병합 · 기존 값 유지, 빈 항목만 채우기</option><option value="replace">프리뷰 계정 전체 교체</option></select></label><p class="editor-note">적용 전 상태는 이 기기에 복구용으로 저장합니다.</p><button id="confirm-import" class="primary">확인 후 적용</button>`;
     $('confirm-import').onclick=()=>{try{localStorage.setItem(`${M.KEY}_before_import`,JSON.stringify(state.account));const next=$('import-mode').value==='merge'?M.merge(state.account,result.account):result.account;if(commit(next,'파일 내용을 적용했습니다.'))$('utility').close();}catch{notice('복구용 백업 저장에 실패해 불러오기를 중단했습니다.');}};
 }

@@ -19,3 +19,27 @@ test('ScareCrow potency badge uses three passive diamonds then enhancement 1 thr
     assert.deepEqual(M.potencyDisplay(15),{diamonds:3,extra:12,max:true});
     assert.deepEqual(M.potencyDisplay(null),{diamonds:0,extra:null,max:false});
 });
+
+test('limited innate level stays 5 through load normalization and bulk edits',()=>{
+    const a=M.empty();a.characters.a={owned:true,potency:0,talents:{1:12,2:0,3:0},skills:{}};
+    a.characters.b={owned:true,potency:0,talents:{3:2},skills:{}};
+    const newlyOwned=M.apply(M.empty(),['a'],{owned:true},growth,false,['a']);
+    assert.equal(newlyOwned.account.characters.a.talents[3],5);
+    const normalized=M.normalizeLimited(a,['a']);
+    assert.equal(normalized.characters.a.talents[3],5);
+    assert.equal(normalized.characters.a.talents[2],0);
+    assert.equal(normalized.characters.b.talents[3],2);
+    assert.equal(a.characters.a.talents[3],0);
+    for(const value of [0,null,'max']){
+        const result=M.apply(a,['a'],{'talent:3':value},growth,false,['a']);
+        assert.equal(result.account.characters.a.talents[3],5);
+        assert.equal(result.skipped.length,0);
+    }
+});
+test('limited innate level is supplied even when the legacy growth catalog omits it',()=>{
+    const result=M.apply(M.empty(),['a'],{owned:true,'talent:3':0},growth,false,['a']);
+    assert.equal(result.account.characters.a.talents[3],5);
+    assert.equal(result.skipped.length,0);
+    const restored=M.validate(result.account,['a'],[],growth).account;
+    assert.equal(M.normalizeLimited(restored,['a']).characters.a.talents[3],5);
+});

@@ -32,23 +32,25 @@
         else entry[key] = value;
     }
     function complete(entry, growth) { const fs = fields(growth); return fs.length > 0 && fs.every(f => get(entry, f.key) != null); }
-    function apply(account, ids, patch, growths, blanksOnly = false) {
-        const out = clone(account), skipped = []; let changes = 0;
+    function apply(account, ids, patch, growths, blanksOnly = false, limitedIds = []) {
+        const out = normalizeLimited(account, limitedIds), skipped = []; let changes = 0;
+        const limited = new Set(limitedIds);
         for (const id of ids) {
             const entry = out.characters[id] ||= {owned: false, potency: 0, talents: {}, skills: {}};
             const allowed = [{key: 'potency', min: 0, max: 15}, ...fields(growths[id])];
+            if (limited.has(id) && !allowed.some(f => f.key === 'talent:3')) allowed.push({key:'talent:3',min:5,max:5});
             for (const [key, raw] of Object.entries(patch)) {
                 if (raw === '' || raw === undefined) continue;
                 if (key === 'owned') { if (typeof raw !== 'boolean') throw Error('잘못된 보유 설정입니다.'); if (entry.owned !== raw) changes++; entry.owned = raw; continue; }
                 const field = allowed.find(f => f.key === key);
                 if (!field) { skipped.push({id, key}); continue; }
                 if (blanksOnly && get(entry, key) != null) continue;
-                const value = raw === 'max' ? field.max : raw;
+                const value = key === 'talent:3' && limited.has(id) ? 5 : raw === 'max' ? field.max : raw;
                 if (value !== null && !number(value, field.min, field.max)) { skipped.push({id, key}); continue; }
                 if (get(entry, key) !== value) { set(entry, key, value); changes++; }
             }
         }
-        return {account: out, skipped, changes};
+        return {account: normalizeLimited(out, limitedIds), skipped, changes};
     }
     function validate(input, characters, wheels, growths) {
         if (!input || input.version !== 1 || typeof input.characters !== 'object' || !input.characters || Array.isArray(input.characters)
@@ -105,5 +107,13 @@
         if (!number(value, 0, 15)) return {diamonds: 0, extra: null, max: false};
         return {diamonds: Math.min(value, 3), extra: Math.max(0, value - 3), max: value === 15};
     }
-    return {potencyDisplay, KEY, LEGACY, empty, clone, migrate, fields, get, set, complete, apply, validate, merge, availability};
+    function normalizeLimited(account, limitedIds) {
+        const out = clone(account);
+        for (const id of limitedIds) {
+            const row = out.characters[id];
+            if (row) (row.talents ||= {})[3] = 5;
+        }
+        return out;
+    }
+    return {normalizeLimited, potencyDisplay, KEY, LEGACY, empty, clone, migrate, fields, get, set, complete, apply, validate, merge, availability};
 });
