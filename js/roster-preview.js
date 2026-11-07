@@ -57,7 +57,7 @@ const skillSlots = [
 function potencyBadge(value) {
     const p = M.potencyDisplay(value), base = 'images/growth/';
     const stars = [0,1,2].map(i => `<img class="potency-diamond ${i < p.diamonds ? 'lit' : 'unlit'}" src="${base}UI_Common_Star_Icon_6.png" alt="" width="18" height="18">`).join('');
-    const extra = p.extra > 0 ? `<span class="potency-number"><img src="${base}${p.max ? 'UI_Common_Potency_02' : 'UI_Common_Potency_01'}.png" alt="" width="24" height="24">${p.max ? `<img class="potency-max" src="${base}UI_Common_Potency_MaxNumber.png" alt="" width="18" height="18">` : `<span>${p.extra}</span>`}</span>` : '';
+    const extra = p.extra > 0 ? `<span class="potency-number"><img src="${base}${p.max ? 'UI_Common_Potency_02' : 'UI_Common_Potency_01'}.png" alt="" width="24" height="24"><span>${p.extra}</span></span>` : '';
     return `<span class="potency-badge" role="img" aria-label="${value == null ? '돌파 미입력' : `돌파 ${value}단계 · 다이아 ${p.diamonds}개${p.extra ? ` · 강화 ${p.extra}` : ''}`}">${stars}${extra}${value == null ? '<span class="potency-unknown">—</span>' : ''}</span>`;
 }
 function stepper(id,value,type='character') {
