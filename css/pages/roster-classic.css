@@ -633,9 +633,9 @@ html:has(.classic-roster),body.classic-roster {
     grid-template-columns:repeat(auto-fill,minmax(min(100%,max(112px,7rem)),1fr));
 }
 .classic-roster .classic-stepper .potency-diamond {
-    width:.625rem;
-    height:.9375rem;
-    flex-basis:.625rem;
+    width:.9375rem;
+    height:1.375rem;
+    flex-basis:.9375rem;
 }
 .classic-roster .classic-stepper .potency-number { width:.875rem; height:1.125rem; }
 .classic-roster .classic-stepper .potency-number .potency-max { width:.75rem; height:.875rem; }
@@ -680,3 +680,8 @@ html:has(.classic-roster),body.classic-roster {
 .classic-roster #editor .dialog-heading h2 { overflow-wrap:anywhere; }
 
 .classic-roster .madness-skill-value { color:var(--color-accent); }
+
+.classic-roster .classic-stepper:has(.potency-badge) {
+    width:calc(100% + 16px);
+    margin-inline:-8px;
+}
