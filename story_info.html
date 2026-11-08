@@ -6,9 +6,9 @@
   <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
   <title>스토리 전투 정보 | 미사그 대학 한국 캠퍼스</title>
   <meta name="description" content="망각편과 성신편의 노말·하드 스테이지별 적 편성, 보스 HP와 페이즈별 초상 및 행동을 확인합니다.">
-  <script src="config/config.js"></script>
+  <script src="config/config.js?v=story-viewer-20261030-1"></script>
   <script>loadCSS('css/common.css');loadCSS('css/components.css');loadCSS('css/character-effects.css');loadCSS('css/pages/info_tools.css');loadCSS('css/pages/dzone-info.css');loadCSS('css/responsive.css');</script>
-  <link rel="stylesheet" href="css/pages/story-info.css?v=viewer-flow-1">
+  <link rel="stylesheet" href="css/pages/story-info.css?v=story-viewer-20261030-1">
 </head>
 <body>
 <div class="bg-image"></div><div class="background-overlay"></div>
@@ -22,14 +22,19 @@
       <label class="story-chapter-control">장<select id="story-chapter" name="chapter"></select></label>
       <label class="story-stage-control">스테이지<select id="story-stage" name="stage"></select></label>
     </form>
+    <div id="story-research-control"></div>
     <p id="story-status" role="status">스토리 목록을 불러오는 중입니다.</p>
     <div id="story-content" aria-busy="true"></div>
   </section>
 </main>
-<script src="js/character-effects.js?v=viewer-flow-1"></script>
-<script src="js/dzone-richtext.js?v=amounts-1"></script>
+<script src="js/character-effects.js?v=story-viewer-20261030-1"></script>
+<script src="js/dzone-richtext.js?v=story-viewer-20261030-1"></script>
 <script src="js/monster-type-catalog.js"></script>
-<script src="js/story-flow.js?v=viewer-flow-1"></script>
-<script src="js/story-info.js?v=viewer-flow-1"></script>
+<script src="js/research-depth.js?v=story-viewer-20261030-1"></script>
+<script src="js/battle-map.js?v=story-viewer-20261030-1"></script>
+<script src="js/battle-view.js?v=story-viewer-20261030-1"></script>
+<script src="js/story-flow.js?v=story-viewer-20261030-1"></script>
+<script src="js/story-resonance.js?v=story-viewer-20261030-1"></script>
+<script src="js/story-info.js?v=story-viewer-20261030-1"></script>
 </body>
 </html>

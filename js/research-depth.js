@@ -54,6 +54,13 @@
         return currentLevel;
     }
 
+    function mountLevelControl(host, id) {
+        if (!/^[a-z][a-z0-9-]*$/.test(id)) throw new Error('Invalid research control ID');
+        host.classList.add('dzone-research-panel');
+        host.innerHTML = `<label for="${id}">금기 학식 등급</label><input id="${id}" type="number" min="1" max="${levels.at(-1)?.level || 100}" inputmode="numeric" value="${selectedLevel()}">`;
+        return host.querySelector('input');
+    }
+
     function depthAt(value) {
         const level = clampLevel(value);
         const row = levels.find(item => item.level === level) || levels[0];
@@ -86,5 +93,5 @@
         return `생체 ${number.format(depth.biological)} · 물상 ${number.format(depth.material)} · 영식 ${number.format(depth.spirit)}`;
     }
 
-    window.ResearchDepth = { load, selectedLevel, selectLevel, bindLevelInput, depthAt, evaluate, formatDepth };
+    window.ResearchDepth = { load, selectedLevel, selectLevel, bindLevelInput, mountLevelControl, depthAt, evaluate, formatDepth };
 })();

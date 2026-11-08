@@ -507,38 +507,7 @@
     }
 
     function renderPhaseTransition(monster, transition, stats) {
-        if (!transition) return '';
-        const awakeningSkill = transition.phaseSkillIds?.[0];
-        const heading = awakeningSkill ? (skillById(monster, awakeningSkill)?.name || transition.stateName || '각성') : '단계 전환';
-        const awakening = stats?.phaseResolvedSkills?.[String(transition.phaseIndex)]?.[String(awakeningSkill)]
-            || stats?.resolvedSkills?.[String(awakeningSkill)];
-        const effects = [];
-        if (transition.rebirth) effects.push('쓰러지면 부활');
-        if (transition.maxHpMultiplier) effects.push(`최대 HP ${transition.maxHpMultiplier}배로 증가`);
-        if (transition.healsToMax) effects.push('증가한 최대 HP까지 회복');
-        const stateKeywordMarkup = (state, markup) => {
-            if (state.id !== 140728 || /<kw_[a-f0-9]{16}:허기>/.test(markup || '')) return markup;
-            const entry = Object.entries(data.keywordGlossary || {}).find(([, item]) =>
-                item.source?.type === 'State' && item.source.id === 140727 && item.name === '허기');
-            return entry ? String(markup).replace('허기', `<${entry[0]}:허기>`) : markup;
-        };
-        const stateItems = (transition.addedStates || [])
-            .map(state => transition.displayStateReplacements?.[String(state.id)] || state)
-            .filter(state => state.visible && (state.name || state.descriptionTemplate))
-            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(stateKeywordMarkup(state, state.richDescriptionTemplate || state.descriptionTemplate))}` : ''}</span></li>`)
-            .join('');
-        const cards = (transition.createdCards || []).map(card => `
-            <article class="phase-card">
-                <header><span>생성 카드</span><strong>${escapeHtml(card.name || '카드')}</strong><em>비용 ${number.format(card.cost || 0)}</em></header>
-                ${card.effects?.length ? `<p>${card.effects.map(effect => dynamicMarkup(effect)).join(' · ')}</p>` : (card.descriptionTemplate ? `<p>${dynamicMarkup(card.descriptionTemplate)}</p>` : '')}
-            </article>`).join('');
-        return `<section class="phase-transition" aria-label="${escapeHtml(heading)} 단계 전환">
-            <header><h5>${escapeHtml(heading)}</h5><span>2단계 전환</span></header>
-            ${effects.length ? `<p class="phase-transition-summary">${effects.join(' · ')}</p>` : ''}
-            ${awakening ? `<p>${dynamicMarkup(awakening.richDescription || awakening.description)}</p>` : ''}
-            ${stateItems ? `<ul class="phase-transition-states">${stateItems}</ul>` : ''}
-            ${cards}
-        </section>`;
+        return window.BattleView.renderPhaseTransition(monster, transition, stats, {escapeHtml, number, dynamicMarkup, skillById, data});
     }
 
     function renderFoldedReplacements(monster, stats) {
@@ -814,15 +783,7 @@
     }
 
     function renderHp(stats, monster) {
-        if (!stats.phases || stats.phases.length < 2) {
-            const hp = stats.hpDisplay ? escapeHtml(stats.hpDisplay) : Number.isFinite(stats.hp) ? number.format(stats.hp) : '전투 중 결정';
-            return `<dl class="monster-stats"><div class="monster-stat monster-stat--hp"><dt>HP</dt><dd>${hp}</dd></div></dl>`;
-        }
-        const phaseCount = stats.phases.length;
-        const phaseMap = stats.phases.map((phase, index) => `<span class="hp-phase-segment" style="--hp-phase-size: ${phase.hp}" aria-hidden="true"><b>${index + 1}</b></span>`).join('');
-        const phaseTransition = (monster?.phaseTransitions || []).find(transition => transition.phaseIndex === 2);
-        const bars = stats.phases.map((phase, index) => `<div class="hp-stage"><dt>${index + 1}번째 체력바${index === 1 && phaseTransition ? ' · 각성 후' : ''}</dt><dd>${number.format(phase.hp)}</dd></div>`).join('');
-        return `<section class="hp-breakdown" aria-label="HP ${phaseCount}줄"><header><h5>HP <span>${phaseCount}줄</span></h5></header><div class="hp-phase-map" aria-hidden="true">${phaseMap}</div><dl>${bars}<div class="hp-stage hp-stage--total"><dt>실질 총 HP</dt><dd>${number.format(stats.effectiveHp)}</dd></div></dl></section>`;
+        return window.BattleView.renderHp(stats, monster, {escapeHtml, number, dynamicMarkup, skillById, data});
     }
 
     function renderSummonScaling(stats) {
@@ -986,71 +947,11 @@
     }
 
     function renderMap(wave) {
-        const layout = mapData?.waves?.find(item => item.wave === wave.wave);
-        if (!layout?.nodes?.length) return '';
-        const hasStart = layout.nodes.some(node => node.kind === 'start');
-        const combatNodes = layout.nodes.filter(node => node.kind === 'combat');
-        const visibleNodes = !hasStart && combatNodes.length === 1 ? combatNodes : layout.nodes;
-        const minRow = Math.min(...visibleNodes.map(node => node.row));
-        const minColumn = Math.min(...visibleNodes.map(node => node.column + (node.row % 2 === 0 ? 0.5 : 0)));
-        const positioned = visibleNodes.map((node, index) => ({
-            ...node,
-            index,
-            x: node.column + (node.row % 2 === 0 ? 0.5 : 0) - minColumn,
-            y: node.row - minRow
-        }));
-        const maxX = Math.max(...positioned.map(node => node.x));
-        const maxY = Math.max(...positioned.map(node => node.y));
-        const boardWidth = Math.ceil(maxX * 99.36 + 108);
-        const boardHeight = Math.ceil(maxY * 60.48 + 81);
-        const nodes = positioned.map(node => {
-            const style = `--map-x:${node.x};--map-y:${node.y}`;
-            const icon = node.icon ? `images/dzone/map/node-${encodeURIComponent(node.icon)}.webp` : '';
-            const textureClass = node.texture ? ` dzone-map-node--texture-${escapeHtml(node.texture)}` : '';
-            const ariaNodeLabel = node.label.endsWith('노드') ? node.label : `${node.label} 노드`;
-            const visualLabel = node.texture ? '' : `<span>${escapeHtml(node.label)}</span>`;
-            const content = `<span class="dzone-map-node-surface" aria-hidden="true"></span>
-                <span class="dzone-map-node-content${icon ? '' : ' dzone-map-node-content--label-only'}" aria-hidden="true">
-                    ${icon ? `<img src="${icon}" alt="" width="54" height="54" decoding="async">` : ''}
-                    ${visualLabel}
-                </span>`;
-            if (node.battleId) {
-                return `<li class="dzone-map-node dzone-map-node--${escapeHtml(node.kind)}${node.icon === 'boss' ? ' dzone-map-node--boss' : ''}${textureClass}" style="${style}">
-                    <button type="button" data-map-battle="${node.battleId}" aria-label="${escapeHtml(ariaNodeLabel)}, 전투 정보 보기" aria-pressed="false">${content}</button>
-                </li>`;
-            }
-            return `<li class="dzone-map-node dzone-map-node--${escapeHtml(node.kind)}${textureClass}" style="${style}" aria-label="${escapeHtml(ariaNodeLabel)}">${content}</li>`;
-        }).join('');
-        return `<details class="dzone-map" aria-labelledby="dzone-map-title-${wave.wave}" open>
-            <summary class="dzone-map-header">
-                <div><h3 id="dzone-map-title-${wave.wave}">${zoneLabel(wave.wave)} 지도</h3><p>전투 노드를 선택하면 해당 전투 정보로 이동합니다.</p></div>
-                <span class="dzone-map-toggle" aria-hidden="true"></span>
-            </summary>
-            <div class="dzone-map-viewport" tabindex="0" aria-label="${zoneLabel(wave.wave)} 노드 지도. 지도가 넓으면 좌우로 이동할 수 있습니다.">
-                <ol class="dzone-map-board" style="--map-width:${boardWidth}px;--map-height:${boardHeight}px">${nodes}</ol>
-            </div>
-        </details>`;
-    }
-
-    function activateMap() {
-        const viewport = document.querySelector('.dzone-map-viewport');
-        const start = document.querySelector('.dzone-map-node--start');
-        if (viewport && start) viewport.scrollLeft = Math.max(0, start.offsetLeft - viewport.clientWidth / 2 + start.clientWidth / 2);
-        document.querySelector('.dzone-map')?.addEventListener('click', event => {
-            const button = event.target.closest('[data-map-battle]');
-            if (!button) return;
-            const battleId = Number(button.dataset.mapBattle);
-            const encounter = document.querySelector(`[data-battle-id="${battleId}"]`);
-            if (!encounter) return;
-            document.querySelectorAll('[data-map-battle]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-            encounter.open = true;
-            encounter.scrollIntoView({
-                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-                block: 'start'
-            });
-            encounter.querySelector('summary')?.focus({ preventScroll: true });
+        return window.BattleMap.render(mapData?.waves?.find(item=>item.wave===wave.wave),{
+            escapeHtml,title:zoneLabel(wave.wave)+' 지도',id:wave.wave
         });
     }
+    function activateMap() { window.BattleMap.activate(document); }
 
     function usagePercent(value) {
         const rate = Math.max(0, Math.min(1, Number(value) || 0));
@@ -1347,7 +1248,7 @@
             if (period !== data.period) void loadSeason(period);
         };
 
-        const researchInput = document.getElementById('dzone-research-level');
+        const researchInput = window.ResearchDepth.mountLevelControl(document.getElementById('dzone-research-control'), 'dzone-research-level');
         researchLevel = window.ResearchDepth.bindLevelInput(researchInput, level => {
             researchLevel = level;
             render();

@@ -66,3 +66,24 @@ test('금기 학식 등급 입력은 편집 중 빈 값을 허용하고 입력 �
     input.onchange();
     assert.equal(input.value, '100');
 });
+
+test('카드 각인 46종의 표시 인수는 실제 등급별 연구 깊이로 계산 가능하다', async () => {
+    const levels = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/research_depth_levels.json'), 'utf8'));
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/story/card-enchants.json'), 'utf8'));
+    const context = { window: {}, localStorage: { getItem: () => null }, fetch: async () => ({ ok: true, json: async () => levels }) };
+    vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'research-depth.js'), 'utf8'), context);
+    const api = context.window.ResearchDepth;
+    await api.load();
+    for (const row of data.catalog) {
+        const entry = data.keywordGlossary[row.key];
+        assert(entry.richDescriptionTemplate, entry.name);
+        for (const level of [1, 81, 100]) {
+            for (const match of entry.richDescriptionTemplate.matchAll(/\{\{parameter:(\d+)\}\}/g)) {
+                assert.notEqual(api.evaluate(entry.source.args[Number(match[1]) - 1], api.depthAt(level)), null, `${entry.name} / ${level}`);
+            }
+        }
+    }
+    const iron = data.keywordGlossary[data.catalog.find(row => row.id === 18184).key];
+    assert.equal(api.evaluate(iron.source.args[0], api.depthAt(1)), 10);
+    assert.equal(api.evaluate(iron.source.args[0], api.depthAt(81)), 162);
+});

@@ -508,13 +508,39 @@
             tooltipHost.appendChild(tooltipBox);
         }
         let tooltipPinned = false;
+        let tooltipPath = [], tooltipAnchor = null, activeKeyword = null;
 
-        function showTooltip(trigger, pinned = false) {
+        function showTooltip(trigger, pinned = false, back = false) {
             const tooltip = tooltipDictionary[trigger.dataset.keyword];
             if (!tooltip) return;
+            const nested = !back && tooltipBox.contains(trigger);
+            if (!back) {
+                if (nested && activeKeyword) tooltipPath.push(activeKeyword);
+                else { tooltipPath = []; tooltipAnchor = trigger; }
+            }
+            const rect = (tooltipAnchor || trigger).getBoundingClientRect();
+            activeKeyword = trigger.dataset.keyword;
+            tooltipBox.navigateTooltip = (target, previous = false) => showTooltip(target, true, previous);
+            tooltipBox.previousTooltip = () => {
+                const keyword = tooltipPath.pop();
+                if (!keyword || !tooltipAnchor) return;
+                showTooltip({ dataset: { keyword } }, true, true);
+                tooltipBox.querySelector('button, .tooltip-trigger')?.focus({ preventScroll: true });
+            };
 
             tooltipPinned = pinned;
+            tooltipBox.setAttribute('role', tooltipPath.length || (pinned && tooltip.richDescription) ? 'dialog' : 'tooltip');
+            if (typeof tooltip === 'object' && tooltip.name) tooltipBox.setAttribute('aria-label', tooltip.name);
+            else tooltipBox.removeAttribute('aria-label');
             tooltipBox.replaceChildren();
+            if (tooltipPath.length) {
+                const previous = document.createElement('button');
+                previous.type = 'button';
+                previous.className = 'back-button character-effect-tooltip-back';
+                previous.dataset.tooltipBack = 'true';
+                previous.textContent = '← ' + (tooltipDictionary[tooltipPath.at(-1)]?.name || '이전 설명');
+                tooltipBox.appendChild(previous);
+            }
             const description = typeof tooltip === 'object' ? tooltip.description : tooltip;
             const lines = String(description).split('\n');
             const hasListItems = lines.some(line => /^\s*-\s+/.test(line));
@@ -552,8 +578,15 @@
                 if (body) {
                     const bodyElement = document.createElement('p');
                     bodyElement.className = 'character-effect-tooltip-body';
-                    bodyElement.textContent = body;
+                    if (tooltip.richDescription && window.DzoneRichText) bodyElement.innerHTML = window.DzoneRichText.render(tooltip.richDescription, tooltipDictionary);
+                    else bodyElement.textContent = body;
                     tooltipBox.appendChild(bodyElement);
+                }
+                if (tooltip.contextNote) {
+                    const context = document.createElement('p');
+                    context.className = 'character-effect-tooltip-context';
+                    context.textContent = tooltip.contextNote;
+                    tooltipBox.appendChild(context);
                 }
             } else if (hasListItems) {
                 const list = document.createElement('ul');
@@ -591,7 +624,6 @@
             }
             tooltipBox.classList.add('visible');
 
-            const rect = trigger.getBoundingClientRect();
             const margin = 10;
             const gap = 7;
             const belowSpace = window.innerHeight - rect.bottom - gap - margin;
@@ -616,11 +648,13 @@
 
             tooltipBox.style.left = `${left}px`;
             tooltipBox.style.top = `${top}px`;
+            if (nested) tooltipBox.querySelector('button, .tooltip-trigger')?.focus({ preventScroll: true });
         }
 
-        function hideTooltip(force = false) {
+        function hideTooltip(force = false, restoreFocus = false) {
             if (tooltipPinned && !force) return;
             tooltipPinned = false;
+            if (restoreFocus && tooltipBox.contains(document.activeElement)) tooltipAnchor?.focus({ preventScroll: true });
             tooltipBox.classList.remove('visible');
         }
 
@@ -656,10 +690,11 @@
             if (trigger && container.contains(trigger) && (event.key === 'Enter' || event.key === ' ')) {
                 event.preventDefault();
                 showTooltip(trigger, true);
+                if (tooltipDictionary[trigger.dataset.keyword]?.richDescription) tooltipBox.querySelector('.tooltip-trigger')?.focus({ preventScroll: true });
             }
         });
         document.addEventListener('keydown', event => {
-            if (event.key === 'Escape') hideTooltip(true);
+            if (event.key === 'Escape') hideTooltip(true, true);
         });
         container.addEventListener('click', event => {
             const trigger = event.target.closest('.tooltip-trigger');
@@ -679,11 +714,23 @@
             }
             hideTooltip(true);
         });
-        tooltipBox.addEventListener('click', event => {
-            event.stopPropagation();
-        });
+        if (tooltipBox.dataset.nestedTooltipEventsBound !== 'true') {
+            tooltipBox.dataset.nestedTooltipEventsBound = 'true';
+            const navigate = event => {
+                const previous = event.target.closest('[data-tooltip-back]');
+                const trigger = event.target.closest('.tooltip-trigger');
+                if (!previous && !trigger) return;
+                event.preventDefault();
+                if (previous) tooltipBox.previousTooltip?.();
+                else tooltipBox.navigateTooltip?.(trigger);
+            };
+            tooltipBox.addEventListener('click', event => { event.stopPropagation(); navigate(event); });
+            tooltipBox.addEventListener('keydown', event => {
+                if (event.target.closest('.tooltip-trigger') && (event.key === 'Enter' || event.key === ' ')) navigate(event);
+            });
+        }
         tooltipBox.addEventListener('mouseleave', () => hideTooltip());
-        container.addEventListener('scroll', () => hideTooltip(true), { capture: true, passive: true });
+        container.addEventListener('scroll', () => hideTooltip(), { capture: true, passive: true });
         dialogHost?.addEventListener('close', () => hideTooltip(true));
         window.addEventListener('resize', () => hideTooltip(true));
         window.addEventListener('scroll', () => hideTooltip(), { passive: true });

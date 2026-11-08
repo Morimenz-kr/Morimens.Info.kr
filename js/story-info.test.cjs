@@ -39,7 +39,7 @@ test('편별 실제 턴 순서를 생성하고 적용 과정은 표시하지 않
 test('망각편과 성신편의 공통·스테이지·지원 규칙은 별개로 보존한다',()=>{
  const counts={morimens:0,stars:0};let extra=0;
  for(const s of stages){const expected=s.arc==='성신편'?'stars':'morimens';assert.equal(s.ruleProfile,expected);counts[expected]++;
-  const common=s.rules.filter(r=>r.source==='chapter').map(r=>r.id);
+  const common=s.rules.filter(r=>r.source==='chapter'&&Number.isInteger(r.id)).map(r=>r.id);
   assert.deepEqual(common,expected==='stars'?[76236,74791,89559]:[72102]);
   if(s.rules.some(r=>r.source==='stage'||r.source==='positive'))extra++;
   for(const r of s.rules.filter(r=>r.source==='monster'))assert.equal(r.profile,expected);
@@ -89,6 +89,16 @@ test('스토리 툴팁과 카드 아이콘은 모든 스테이지에서 실제 �
   for(const match of markup)assert(stage.keywordGlossary[match[1]],stage.id+': '+match[1]);
  }
 });
+test('모든 전투의 계산된 행동과 전환 설명에 내부 수치 인수가 노출되지 않는다',()=>{
+ const unresolved=/\[(?:[A-Za-z]+:)?(?:Arg|StateArg|DescArg|Layer)\d*\]/;
+ for(const stage of stages)for(const stats of [...Object.values(stage.stats),...stage.summonedMonsters]){
+  const skillSets=[stats.resolvedSkills,...Object.values(stats.phaseResolvedSkills||{})];
+  for(const skills of skillSets)for(const [id,skill] of Object.entries(skills||{})){
+   assert(!unresolved.test(skill.description||''),`${stage.id}/${stats.tid}/${id}: ${skill.description}`);
+   assert(!unresolved.test(skill.richDescription||''),`${stage.id}/${stats.tid}/${id}: richDescription`);
+  }
+ }
+});
 test('응시의 무작위 카드 풀과 상단 프리즘 렌즈는 실제 효과 툴팁을 유지한다',()=>{
  const stage=stages.find(s=>s.id===118130);
  const symptom=Object.values(stage.keywordGlossary).find(e=>e.name==='증상 카드');
@@ -115,4 +125,28 @@ test('봉인·산호 증식·기생 산호를 실제 상태와 생성 카드에 
  const card=spawn.richDescription.match(/<(kw_[a-f0-9]+):산호 증식>/)[1];
  assert.equal(s.keywordGlossary[card].source.id,36030);assert.match(s.keywordGlossary[card].description,/15의 순수 피해/);assert.match(s.keywordGlossary[card].description,/덱에서 제거/);
  assert.match(s.stats[35581].resolvedSkills[36039].richDescription,/<kw_[a-f0-9]+:기생 산호>/);
+});
+
+test('사망 횟수 전환에는 해당 스킬 미사용 조건을 함께 표시한다',()=>{
+ const stage=stages.find(s=>s.id===118130),boss=stage.monsters[118028];
+ const action=boss.conditionalActions.find(a=>a.skillId===119313);
+ assert.match(action.conditionText,/4번째 체력바/);
+ assert.match(action.conditionText,/해역 윤회.*미사용 시/);
+ assert.match(stage.stats[118028].resolvedSkills[118092].richDescription,/<amount_damage:1,001pt>의 피해를 1회 입힌다/);
+});
+
+
+test('쌍둥이 모순의 회전 목록과 두 가지 마지막 분기를 원본 전환 조건으로 구분한다',()=>{
+ const s=stages.find(s=>s.id===59071),m=s.monsters[56424],flow=m.phaseFlow;
+ assert.deepEqual(flow.groups[0].cycles,[1,5,6]);assert.equal(flow.groups.length,5);
+ assert.deepEqual(flow.routes.map(r=>[r.from,r.to]),[[1,2],[1,2],[2,3],[2,3],[3,4],[3,7]]);
+ assert.match(flow.routes.find(r=>r.to===7).condition,/^「빛의 아이」 HP 소진/);assert.match(flow.routes.find(r=>r.to===7).condition,/강제 융합.*아닐 때/);
+ assert.equal(flow.routes.find(r=>r.to===4).condition,'보스 HP 소진');
+ for(const route of flow.routes){assert(m.skills.some(skill=>skill.id===route.skillId));assert(s.stats[56424].resolvedSkills[route.skillId]);}
+ assert.match(s.stats[56424].resolvedSkills[57668].richDescription,/<amount_damage:플레이어 현재 HP의 50%와 350pt 중 높은 값>/);
+});
+
+test('같은 초상화도 HP 전환 후 정보에 포함한다',()=>{
+ const s=stages.find(s=>s.id===118130),appearance=s.stats[118028].phaseAppearances['skill-119313'];
+ assert.equal(appearance.image,s.monsters[118028].webImage);assert.equal(appearance.hp,1049479);
 });

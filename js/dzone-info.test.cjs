@@ -5,6 +5,8 @@ const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
 
+const mapSource = fs.readFileSync(path.join(__dirname, 'battle-map.js'), 'utf8');
+const sharedSource = fs.readFileSync(path.join(__dirname, 'battle-view.js'), 'utf8');
 const source = fs.readFileSync(path.join(__dirname, 'dzone-info.js'), 'utf8');
 const html = fs.readFileSync(path.join(__dirname, '..', 'dzone_info.html'), 'utf8');
 const css = fs.readFileSync(path.join(__dirname, '..', 'css', 'pages', 'dzone-info.css'), 'utf8');
@@ -235,6 +237,10 @@ test('3파 원문 의도명과 효과는 행동 순서에만 표시하고 허기
         escapeHtml: String, dynamicMarkup: String,
         skillById: (m, id) => m.skills.find(skill => skill.id === id)
     });
+    transitionContext.window = {};
+    transitionContext.number ||= new Intl.NumberFormat('ko-KR');
+    transitionContext.data ||= {};
+    vm.runInContext(sharedSource, transitionContext);
     vm.runInContext(source.slice(source.indexOf('    function renderPhaseTransition('), source.indexOf('    function renderActionFlow(')), transitionContext);
     const transitionHtml = transitionContext.renderPhaseTransition(monster, transition, stats);
     assert.match(transitionHtml, /<kw_[a-f0-9]{16}:허기\(굶주림\)> 1스택/);
@@ -548,6 +554,10 @@ test('5파 보스 각성 효과명과 피에 굶주린 철구 설명을 정확�
         dynamicMarkup: String,
         skillById: (monster, id) => monster.skills.find(skill => skill.id === id)
     });
+    context.window = {};
+    context.number ||= new Intl.NumberFormat('ko-KR');
+    context.data ||= {};
+    vm.runInContext(sharedSource, context);
     vm.runInContext(source.slice(source.indexOf('    function renderPhaseTransition('), source.indexOf('    function renderActionFlow(')), context);
     const transitionHtml = context.renderPhaseTransition(reaper, transition, stats);
     assert.match(transitionHtml, /영혼을 거두리-피에 굶주린 철구/);
@@ -559,7 +569,7 @@ test('5파 보스 각성 효과명과 피에 굶주린 철구 설명을 정확�
         assert.doesNotMatch(resolved.description, /\(대상의 출혈 3스택당 \+1\)/);
         assert.doesNotMatch(resolved.richDescription, /\(대상의 출혈 3스택당 \+1\)/);
     }
-    assert.match(source, /displayStateReplacements/);
+    assert.match(sharedSource, /displayStateReplacements/);
     assert.doesNotMatch(source, /conditional-applied-state/);
     assert.match(css, /\.phase-transition-summary,\s*\.phase-transition > p,\s*\.phase-card p\s*\{[^}]*font-size:\s*0\.76rem/s);
 });
@@ -746,7 +756,8 @@ test('각성 후 HP 비례 수치는 증가한 최대 HP를 사용한다', () =>
 });
 
 test('융재금구는 금기 학식 등급만 받고 정확한 연구 깊이는 노출하지 않는다', () => {
-    assert.match(html, /id="dzone-research-level"/);
+    assert.match(html, /id="dzone-research-control"/);
+    assert.match(source, /ResearchDepth\.mountLevelControl/);
     assert.match(source, /ResearchDepth\.bindLevelInput\(researchInput/);
     assert.doesNotMatch(source, /researchInput\.value\s*=\s*researchLevel/);
     assert.doesNotMatch(html, /dzone-depth-summary/);
@@ -869,7 +880,7 @@ test('문맥상 일반어인 희생·기절·보유는 툴팁에서 제외한다
 });
 
 test('다중 체력과 조건부 행동은 별도 라운드 박스를 사용하지 않는다', () => {
-    assert.match(source, /<h5>HP <span>/);
+    assert.match(sharedSource, /<h5>HP <span>/);
     assert.doesNotMatch(source, /체력 단계/);
     assert.doesNotMatch(css, /\.flow-phase--awakened/);
     assert.match(css, /\.conditional-actions[\s\S]*border-top:/);
@@ -991,10 +1002,10 @@ test('카드에 부여하는 변이와 둔화는 실제 Cmd의 State에 연결�
 
 test('다중 체력 몬스터는 체력바 개수와 정확한 수치를 보여준다', () => {
     assert.match(source, /HP \$\{stats\.phases\.length\}줄/);
-    assert.match(source, /hp-phase-map/);
-    assert.match(source, /--hp-phase-size: \$\{phase\.hp\}/);
+    assert.match(sharedSource, /hp-phase-map/);
+    assert.match(sharedSource, /--hp-phase-size: \$\{phase\.hp\}/);
     assert.match(css, /\.hp-phase-segment \+ \.hp-phase-segment\s*\{[^}]*border-left:/);
-    assert.match(source, /실질 총 HP/);
+    assert.match(sharedSource, /실질 총 HP/);
     assert.doesNotMatch(source, /부활 후 \$\{index \+ 1\}번째 체력바/);
 });
 
@@ -1197,14 +1208,14 @@ test('카드 버린 직후 방어막 기록값을 내부 상태명 없이 설명
 
 test('노드 지도는 전투 버튼만 상세 카드에 연결하고 실전 통계와 맨 위로 이동을 제공한다', () => {
     assert.match(source, /function renderMap\(wave\)/);
-    assert.match(source, /const visualLabel = node\.texture \? '' :/);
-    assert.match(source, /const visibleNodes = !hasStart && combatNodes\.length === 1 \? combatNodes : layout\.nodes/);
-    assert.match(source, /<details class="dzone-map"[^>]* open>/);
-    assert.match(source, /\$\{zoneLabel\(wave\.wave\)\} 지도<\/h3>/);
+    assert.match(mapSource, /const visualLabel = node\.texture \? '' :/);
+    assert.match(mapSource, /const visibleNodes = simplifySingleCombat && !hasStart && combatNodes\.length === 1 \? combatNodes : layout\.nodes/);
+    assert.match(mapSource, /<details class="dzone-map"[^>]* open>/);
+    assert.match(source, /title:zoneLabel\(wave.wave\)\+' 지도'/);
     assert.doesNotMatch(source, /개 노드 · 전투 \$\{combatCount\}곳/);
-    assert.match(source, /data-map-battle=/);
+    assert.match(mapSource, /data-map-battle=/);
     assert.match(source, /data-battle-id=/);
-    assert.match(source, /encounter\.open = true/);
+    assert.match(mapSource, /encounter\.open\s*=\s*true/);
     assert.match(html, /id="dzone-back-to-top"/);
     assert.match(source, /window\.scrollTo/);
     assert.match(source, /<details class="stage-usage"[^>]* open>/);
@@ -1266,4 +1277,3 @@ test('운영 API에서 기존 범위와 1~7급 35개 집계를 읽고 누락·�
     payload = { ...payload, data: { stages: gradeStages.slice(0, 34) } };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
 });
-

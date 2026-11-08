@@ -66,24 +66,66 @@
             const first = monster.turnOverrides[0].firstTurn;
             const at = i => i < opening.length ? opening[i] : cycle.length ? cycle[(i - opening.length) % cycle.length] : undefined;
             const ids = Array.from({length: first - 1}, (_, i) => at(i)).filter(id => id !== undefined);
-            if (append(ids, {label: `1~${first - 1}턴`, finite: true})) return sections;
+            if (append(ids, {label: `1~${first - 1}턴`, finite: true, startTurn:1})) return sections;
             for (const [i, override] of monster.turnOverrides.entries()) {
                 const next = monster.turnOverrides[i + 1];
-                if (append([override.skillId], {label: `${override.firstTurn}턴${override.persistent ? '부터' : ''}`, loop: override.persistent, turns: next ? next.firstTurn - override.firstTurn : 1})) break;
+                if (append([override.skillId], {label: `${override.firstTurn}턴${override.persistent ? '부터' : ''}`, loop: override.persistent, startTurn:override.firstTurn, endTurn:next?next.firstTurn-1:override.persistent?null:override.firstTurn, turns: next ? next.firstTurn - override.firstTurn : 1})) break;
             }
             return sections;
         }
+        const random=(monster.randomActionGroups||[]).find(group=>cycle.length&&cycle.every(id=>group.skillIds.includes(id))&&opening.every(id=>group.skillIds.includes(id)));
+        if(random){append(random.skillIds,{label:'무작위 행동',random,loop:false});return sections;}
         const first = initialAndLoop(opening, cycle);
-        if (append(first.initial, {label: '처음에', finite: true})) return sections;
-        if (append(first.loop, {label: first.initial.length ? '이후 반복' : '처음부터 반복', loop: true, cycle: 1})) return sections;
+        const health=(monster.healthTransitions||[]).find(t=>first.initial.at(-1)===t.skillId);
+        if(health){
+            if(append(first.initial.slice(0,-1),{label:'전환 전',finite:true,startTurn:1}))return sections;
+            const name=monster.skills.find(s=>s.id===health.skillId)?.name||'페이즈 전환';
+            append([health.skillId],{label:name,finite:true,startTurn:first.initial.length,healthTransition:health});
+        }else if (append(first.initial, {label: '시작 행동', finite: true})) return sections;
+        const exits=health&&(monster.storyTransitions||[]).some(t=>t.sourceSkillId===first.loop.at(-1)&&t.cycleIndex&&t.cycleIndex!==1);
+        if (append(first.loop, {label:health?(exits?'전환 후 · 시작 행동':'전환 후 · 반복 행동'):first.initial.length ? '이후 반복' : '처음부터 반복', loop: !exits, finite:!!exits, cycle: 1})) return sections;
         for (const pattern of patterns.filter(p => /^cycle-/.test(p.id) && p.id !== 'cycle-1')) {
             const cycleIndex = Number(pattern.id.split('-')[1]);
             const transition = (monster.storyTransitions || []).find(t => t.cycleIndex === cycleIndex);
-            if (transition?.entrySkillId) append([transition.entrySkillId], {label: '전환 직후', transition, cycle: cycleIndex});
-            const resumed = transition?.entryReplacesFirst ? [...pattern.skillIds.slice(1), pattern.skillIds[0]] : pattern.skillIds;
-            append(unit(resumed), {label: '전환 후 반복', loop: true, cycle: cycleIndex, transition: transition?.entrySkillId ? undefined : transition});
+            if (transition?.entrySkillId && !(monster.phaseTransitions||[]).some(p=>p.phaseIndex===cycleIndex)) append([transition.entrySkillId], {label: '전환 직후', transition, cycle: cycleIndex});
+            if(transition?.entryReplacesFirst&&pattern.skillIds.length>1)append(pattern.skillIds.slice(1),{label:'전환 후 · 첫 주기',finite:true,cycle:cycleIndex,transition});
+            const resumed = pattern.skillIds;
+            append(unit(resumed), {label: health?'전환 후 · 반복 행동':'전환 후 반복', loop: true, cycle: cycleIndex, transition: transition?.entrySkillId ? undefined : transition});
         }
         return sections;
     }
-    return {unit, blocks, initialAndLoop, build};
+    function rows(section) {
+        let position=section.startTurn || 1;
+        return blocks(section.ids).map(block=>{
+            const start=position;position+=block.ids.length*block.count;
+            const labels=block.ids.map((id,i)=>String(start+i));
+            if(block.ids.length===1){
+                if(block.count>1)labels[0]=`${start}~${position-1}`;
+                else if(section.startTurn&&section.loop)labels[0]=`${start}~${section.endTurn??''}`;
+            }
+            return {...block,labels,groupRepeat:block.ids.length>1&&block.count>1};
+        });
+    }
+    function combineVariants(stage, refs, parentTid, {subset=false}={}) {
+        if(refs.length<2 || !refs[0].choiceGroup || (!subset&&refs.length!==refs[0].choiceCount) || refs.some(r=>r.choiceGroup!==refs[0].choiceGroup))return null;
+        const canonical=value=>Array.isArray(value)?value.map(canonical):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).sort().map(k=>[k,canonical(value[k])])):value;
+        const variants=refs.map(ref=>({monster:stage.monsters[ref.tid],stats:stage.summonedMonsters.find(s=>s.parentTid===parentTid&&s.tid===ref.tid&&(!s.commandId||s.commandId===ref.commandId))}));
+        if(variants.some(v=>!v.monster||!v.stats))return null;
+        const signature=({monster,stats})=>{
+            const {tid,patterns,skills,...definition}=monster;
+            const {tid:statTid,parentTid:parent,commandId,...values}=stats;
+            return JSON.stringify(canonical({definition,skills:[...skills].sort((a,b)=>a.id-b.id)}));
+        };
+        const first=signature(variants[0]);
+        return variants.every(v=>signature(v)===first)?variants:null;
+    }
+    function partitionVariants(stage, refs, parentTid) {
+        if(!refs[0]?.choiceGroup || refs.length!==refs[0].choiceCount)return refs.map(ref=>[ref]);
+        const buckets=[];
+        for(const ref of refs){const bucket=buckets.find(rows=>combineVariants(stage,[rows[0],ref],parentTid,{subset:true}));if(bucket)bucket.push(ref);else buckets.push([ref]);}
+        return buckets;
+    }
+    return {unit, blocks, initialAndLoop, build, rows, combineVariants, partitionVariants};
+
+
 });

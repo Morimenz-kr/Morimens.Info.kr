@@ -51,10 +51,7 @@
                 <div id="alert-selector" class="alert-selector" role="group" aria-labelledby="grade-filter-label"></div>
             </div>
         </div>
-        <div class="dzone-research-panel">
-            <label for="dzone-research-level">금기 학식 등급</label>
-            <input id="dzone-research-level" type="number" min="1" max="100" inputmode="numeric" value="81">
-        </div>
+        <div id="dzone-research-control"></div>
         <div class="dzone-mechanic-nav" aria-labelledby="mechanic-nav-label">
             <span id="mechanic-nav-label" class="dzone-mechanic-nav-label">이번 융재 기믹</span>
             <div id="dzone-mechanic-chips" class="dzone-mechanic-chips" role="group" aria-label="이번 융재 기믹 바로가기"></div>
@@ -79,6 +76,8 @@
     loadJS('js/research-depth.js');
     loadJS('js/dzone-season.js');
     loadJS('js/dzone-richtext.js');
+    loadJS('js/battle-map.js');
+    loadJS('js/battle-view.js');
     loadJS('js/dzone-info.js');
     loadJS('js/feedback.js');
 </script>

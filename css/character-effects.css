@@ -427,6 +427,9 @@
     pointer-events: auto;
 }
 
+.character-effect-tooltip-back { min-height:2.75rem; max-width:100%; margin:0 0 .65rem; font:inherit; text-align:start; white-space:normal; cursor:pointer; }
+.character-effect-tooltip-back:focus-visible,.character-effect-tooltip-box .tooltip-trigger:focus-visible { outline:2px solid var(--color-accent,#ffc107); outline-offset:2px; }
+
 .character-effects-empty {
     padding: 30px 20px;
     color: #888;
@@ -497,3 +500,14 @@
         font-size: 0.84rem;
     }
 }
+
+.character-effect-tooltip-context {
+    margin: .75rem 0 0;
+    font-size: .8125rem;
+    line-height: 1.5;
+    color: var(--text-secondary, #b7b9c2);
+}
+
+.game-amount { display:inline; font-weight:700; font-size:1.08em; }
+.game-amount--damage { color:#ef8888; }
+.game-amount--shield { color:#8cc7ec; }
