@@ -3,14 +3,14 @@
     if (typeof module === 'object' && module.exports) module.exports = api;
     else root.DzoneSeason = api;
 })(typeof window === 'undefined' ? globalThis : window, function () {
-    const CURRENT_SEASON = 72;
+    const CURRENT_SEASON = 73;
     const SEASONS = Object.freeze([
         Object.freeze({ period: 68, path: 'data/dzone_season68.json', mapPath: 'data/dzone_maps_season68.json', current: false }),
         Object.freeze({ period: 69, path: 'data/dzone_season69.json', mapPath: 'data/dzone_maps_season69.json', current: false }),
         Object.freeze({ period: 70, path: 'data/dzone_season70.json', mapPath: 'data/dzone_maps_season70.json', current: false }),
         Object.freeze({ period: 71, path: 'data/dzone_season71.json', mapPath: 'data/dzone_maps_season71.json', current: false }),
-        Object.freeze({ period: CURRENT_SEASON, path: 'data/dzone_current.json', mapPath: 'data/dzone_maps.json', current: true }),
-        Object.freeze({ period: 73, path: 'data/dzone_season73.json', mapPath: 'data/dzone_maps_season73.json', current: false })
+        Object.freeze({ period: 72, path: 'data/dzone_season72.json', mapPath: 'data/dzone_maps_season72.json', current: false }),
+        Object.freeze({ period: CURRENT_SEASON, path: 'data/dzone_current.json', mapPath: 'data/dzone_maps.json', current: true })
     ]);
 
     function availableSeasons() {
