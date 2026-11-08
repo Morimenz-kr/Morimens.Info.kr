@@ -221,6 +221,8 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 
 #modal-enemy .modal-box{display:flex;flex-direction:column;width:min(1100px,96vw);height:90dvh;max-height:90dvh}#modal-enemy .modal-header{flex-shrink:0;gap:.5rem}#modal-enemy .modal-header h3{min-width:0;margin:0}#modal-enemy iframe{min-height:0;flex:1}
 #modal-damage:is([data-view=member],[data-view=covenant]) .modal-box{width:min(1080px,96vw);max-width:min(1080px,96vw);height:min(900px,94dvh);max-height:94dvh;background:#18181c;border-color:#4b4140}
+#modal-damage[data-view=covenant] .modal-box{height:auto;min-height:0}
+#modal-damage[data-view=covenant] iframe{flex:0 1 auto!important;height:var(--covenant-editor-height,36rem)}
 #modal-damage:is([data-view=member],[data-view=covenant]) .modal-header{background:#222126;padding:1rem 1.25rem;border-bottom:1px solid #4b4140;gap:1rem;flex-wrap:wrap}
 #modal-damage:is([data-view=member],[data-view=covenant]) .modal-header h3{font-size:1rem;line-height:1.5;color:#dfcfab;min-width:0;overflow-wrap:anywhere}
 #modal-damage:is([data-view=member],[data-view=covenant]) .modal-header button{background:#302b27;border:1px solid #7b6947;color:#e2d4b3;border-radius:.25rem;font-size:.85rem;min-height:2.75rem;padding:.65rem .9rem}

@@ -152,7 +152,7 @@ export async function createLiveRuntime(){
    const reset=document.createElement('button');reset.type='button';reset.className='member-set-change';reset.textContent='전체 초기화';reset.setAttribute('aria-label','비밀계약 전체 초기화');reset.title='6부위 장착, 주옵션, 부옵션, 귀속을 모두 초기화합니다.';reset.disabled=!slots.some(Boolean)&&!owner.trinkets?.length&&!owner.contractBound;reset.onclick=()=>{owner.contractId=0;owner.contractSlots=Array(6).fill(0);owner.trinkets=[];owner.contractBound=false;owner.contract='미장착';ui.invalidate();ui.open('covenant');ui.root.querySelector('.member-covenants .member-set-change')?.focus({preventScroll:true});};head.append(reset);
    const sets=document.createElement('p');sets.className='member-set-summary';sets.textContent=covenantSets(catalog,owner).map(s=>catalog.suits.find(c=>c.id===s.id).name+' '+s.count+'개').join(' · ')||'장착 안 함';const summary=document.createElement('div');summary.className='member-contract-summary';summary.append(sets);options.append(summary);
    const completion=document.createElement('output');completion.setAttribute('aria-live','polite');completion.className='member-completion';summary.append(completion);
-   const hex=document.createElement('div');hex.className='member-hex';const diagram=document.createElement('div');diagram.className='member-contract-diagram';const hint=document.createElement('p');const defaultHint='비밀계약을 장착한 뒤 부위를 눌러 주옵션과 부옵션을 설정하세요.';hint.textContent=defaultHint;hint.className='member-hex-hint';hint.setAttribute('role','status');diagram.append(hex,hint);
+   const hex=document.createElement('div');hex.className='member-hex';const diagram=document.createElement('div');diagram.className='member-contract-diagram';const hint=document.createElement('p');const defaultHint='부위를 눌러 비밀계약을 선택한 뒤 주옵션과 부옵션을 설정하세요.';hint.textContent=defaultHint;hint.className='member-hex-hint';hint.setAttribute('role','status');diagram.append(hex,hint);
    const partGrid=document.createElement('div');partGrid.className='member-parts';partGrid.hidden=true;
    const overview=document.createElement('section');overview.className='member-contract-overview';const overviewTitle=document.createElement('h4');overviewTitle.textContent='비밀계약 능력치';const totals=document.createElement('dl');totals.className='contract-attribute-totals';const totalCells=new Map();
    for(const id of ids){const row=document.createElement('div'),name=document.createElement('dt'),value=document.createElement('dd');name.append(attrIcon(id),attrName(id));row.append(name,value);totals.append(row);totalCells.set(id,value);}
@@ -218,11 +218,12 @@ export async function createLiveRuntime(){
    }
    const drawHex=(index,focus=false)=>{selectedPosition=index;options.dataset.partEditing=index>=0?'true':'false';overview.hidden=index>=0;partGrid.hidden=index<0;for(const row of partGrid.children)row.hidden=Number(row.dataset.covenantPosition)!==index+1;
     const parts=slots.map((id,i)=>{const suit=catalog.suits.find(s=>s.id===id),record=siteContracts.find(s=>s.clientSuitId===id);return{suitId:id,setIcon:id?'images/covenant-set/'+id+'.png':null,name:suit?.name||'미장착',image:siteParts.find(s=>s.suitId===id)?.parts[i]?.imagePath||record?.image_path,pieceArt:!!siteParts.find(s=>s.suitId===id)?.parts[i],empty:!id,bound:!!id&&owner.contractBound,caption:id?(owner.contractBound?'귀속':'장착'):'비어 있음'};});
-    renderCovenantParts(hex,{hex:true,labelsInside:true,selected:index,parts,onSelect:index=>{if(!slots[index]){live.requestPicker('contract',index+1);return;}drawHex(index,true);}});
+    renderCovenantParts(hex,{hex:true,labelsInside:true,selected:index,parts,onSelect:index=>live.requestPicker('contract',index+1)});
     hint.textContent=defaultHint;hint.hidden=index>=0;refreshOptionIcons();
     if(focus&&index>=0){const row=partGrid.querySelector('[data-covenant-position="'+(index+1)+'"]');row.querySelector('h4').focus({preventScroll:true});row.scrollIntoView({block:'nearest'});}
    };
    binding.onchange=()=>{owner.contractBound=binding.checked;for(const part of owner.trinkets||[])part.bound=owner.contractBound;for(const refresh of partRefresh)refresh();refreshCompletion();drawHex(selectedPosition);ui.invalidate();};
+   live.editCovenantPart=position=>drawHex(position-1,true);
    drawHex(-1);
   },
   settings(parent,owner){

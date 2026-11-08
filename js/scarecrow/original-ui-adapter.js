@@ -115,6 +115,7 @@
  window.addEventListener('message',async event=>{
   if(event.origin!==location.origin)return;await initialized;
   if(event.source===damage.frame.contentWindow){
+   if(event.data?.type==='scarecrow:resize'&&damage.root.dataset.view==='covenant'){const height=Number(event.data.height);if(Number.isFinite(height)&&height>0&&height<30000)damage.root.style.setProperty('--covenant-editor-height',height+'px');}
    if(event.data?.type==='scarecrow:picker'&&event.data.kind==='enemy'){enemyIndex=event.data.enemyIndex;if(!Number.isInteger(enemyIndex)||enemyIndex<0||enemyIndex>6)return;enemyReturn={index:enemyIndex,actorIndex:event.data.actorIndex,cardIndex:event.data.cardIndex};if(!damage.root.classList.contains('scarecrow-workspace'))hide(damage.root);show(enemy);return;}
    if(event.data?.type==='scarecrow:picker'&&event.data.kind==='relics'){show(relic);return;}
    if(event.data?.type==='scarecrow:picker'){hide(damage.root);const i=event.data.index||0;if(event.data.kind==='equipment'){equipmentReturn={member:i,slot:event.data.position===1?1:0};openWheelModal(i,event.data.position===1?1:0);}else if(event.data.kind==='keeper')openKeyModal();else if(event.data.kind==='contract'){const position=event.data.position;if(position!=null&&(!Number.isInteger(position)||position<1||position>6))return;openContract(current().chars[i],position,{team:current(),member:i,position});}else openQuickSetup();}
