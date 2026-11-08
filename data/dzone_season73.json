@@ -328,6 +328,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -509,6 +510,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -731,6 +733,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -966,7 +969,8 @@
             }
           ],
           "conditionalActions": [],
-          "phaseTransitions": []
+          "phaseTransitions": [],
+          "intentionCycles": []
         },
         {
           "tid": 59750,
@@ -1145,6 +1149,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -1321,6 +1326,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -1538,6 +1544,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -1749,6 +1756,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -1937,6 +1945,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -2122,6 +2131,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -13911,6 +13921,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "skills": [
             {
               "id": 94704,
@@ -14344,6 +14355,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -14537,6 +14549,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -14742,6 +14755,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -14924,6 +14938,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -15119,6 +15134,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -15268,7 +15284,8 @@
             }
           ],
           "conditionalActions": [],
-          "phaseTransitions": []
+          "phaseTransitions": [],
+          "intentionCycles": []
         },
         {
           "tid": 60006,
@@ -15398,7 +15415,8 @@
             }
           ],
           "conditionalActions": [],
-          "phaseTransitions": []
+          "phaseTransitions": [],
+          "intentionCycles": []
         },
         {
           "tid": 59750,
@@ -15577,6 +15595,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -15753,6 +15772,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -15942,6 +15962,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -16130,6 +16151,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -16400,7 +16422,8 @@
               ],
               "createdCards": []
             }
-          ]
+          ],
+          "intentionCycles": []
         },
         {
           "tid": 49483,
@@ -16619,6 +16642,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -16807,6 +16831,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -32104,6 +32129,98 @@
                 "BattleAtkForce*1.3",
                 "1"
               ]
+            },
+            {
+              "id": 44766,
+              "name": "「거울 속 응시」반격",
+              "hasOfficialName": true,
+              "type": "Intent_DefenceBuff",
+              "typeLabel": "방어·강화",
+              "target": "CmdCaster",
+              "targetLabel": "자신",
+              "descriptionTemplate": "[Arg1]의 실드와 힘 [Arg2]pt를 획득하고, 임시 반격을 [Arg3] 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+              "para": "BattleDefForce*2,BattleAtkForce*0.04,BattleAtkForce*0.06",
+              "expressions": [
+                "BattleDefForce*2",
+                "BattleAtkForce*0.04",
+                "BattleAtkForce*0.06"
+              ]
+            },
+            {
+              "id": 44765,
+              "name": "「거울 속 응시」정화",
+              "hasOfficialName": true,
+              "type": "Intent_DefenceBuff",
+              "typeLabel": "방어·강화",
+              "target": "CmdCaster",
+              "targetLabel": "자신",
+              "descriptionTemplate": "[Arg1]의 실드와 힘 [Arg2]pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+              "para": "BattleDefForce*2,BattleAtkForce*0.04",
+              "expressions": [
+                "BattleDefForce*2",
+                "BattleAtkForce*0.04"
+              ]
+            },
+            {
+              "id": 44767,
+              "name": "「거울 속 응시」이식",
+              "hasOfficialName": true,
+              "type": "Intent_DefenceBuff",
+              "typeLabel": "방어·강화",
+              "target": "CmdCaster",
+              "targetLabel": "자신",
+              "descriptionTemplate": "[Arg1]의 실드와 힘 [Arg2]pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+              "para": "BattleDefForce*2,BattleAtkForce*0.04",
+              "expressions": [
+                "BattleDefForce*2",
+                "BattleAtkForce*0.04"
+              ]
+            },
+            {
+              "id": 44788,
+              "name": "「혼돈의 물어뜯기」강타",
+              "hasOfficialName": true,
+              "type": "Intent_HeavyAttackDCB02",
+              "typeLabel": "행동",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+              "para": "BattleAtkForce*1.2,1",
+              "expressions": [
+                "BattleAtkForce*1.2",
+                "1"
+              ]
+            },
+            {
+              "id": 44787,
+              "name": "「혼돈의 물어뜯기」회복",
+              "hasOfficialName": true,
+              "type": "Intent_AttackBuff",
+              "typeLabel": "공격·강화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 입히고, HP를 [Arg3]pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+              "para": "BattleAtkForce*0.45,2,BattleDefForce*5",
+              "expressions": [
+                "BattleAtkForce*0.45",
+                "2",
+                "BattleDefForce*5"
+              ]
+            },
+            {
+              "id": 44786,
+              "name": "「혼돈의 물어뜯기」약화",
+              "hasOfficialName": true,
+              "type": "Intent_AttackDebuff",
+              "typeLabel": "공격·약화",
+              "target": "FrontEnemy",
+              "targetLabel": "전방 각성체",
+              "descriptionTemplate": "[Damage:Arg1]pt의 피해를 [AttackTimes:Arg2]회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+              "para": "BattleAtkForce*0.3,2",
+              "expressions": [
+                "BattleAtkForce*0.3",
+                "2"
+              ]
             }
           ],
           "summonRules": [],
@@ -32410,6 +32527,100 @@
               ],
               "createdCards": []
             }
+          ],
+          "intentionCycles": [
+            {
+              "sourceSkillId": 44679,
+              "transitions": [
+                {
+                  "fromSkillId": 44679,
+                  "skillId": 44766,
+                  "stateId": 62151,
+                  "commandId": 62149,
+                  "triggerEvents": [
+                    "BSTAfterUseCard"
+                  ],
+                  "condition": "GetMonsterByID(44480).Intention==44679"
+                },
+                {
+                  "fromSkillId": 44766,
+                  "skillId": 44765,
+                  "stateId": 62151,
+                  "commandId": 62149,
+                  "triggerEvents": [
+                    "BSTAfterUseCard"
+                  ],
+                  "condition": "GetMonsterByID(44480).Intention==44766"
+                },
+                {
+                  "fromSkillId": 44765,
+                  "skillId": 44767,
+                  "stateId": 62151,
+                  "commandId": 62149,
+                  "triggerEvents": [
+                    "BSTAfterUseCard"
+                  ],
+                  "condition": "GetMonsterByID(44480).Intention==44765"
+                },
+                {
+                  "fromSkillId": 44767,
+                  "skillId": 44766,
+                  "stateId": 62151,
+                  "commandId": 62149,
+                  "triggerEvents": [
+                    "BSTAfterUseCard"
+                  ],
+                  "condition": "GetMonsterByID(44480).Intention==44767"
+                }
+              ],
+              "repeatFromSkillId": 44766
+            },
+            {
+              "sourceSkillId": 44675,
+              "transitions": [
+                {
+                  "fromSkillId": 44675,
+                  "skillId": 44788,
+                  "stateId": 60579,
+                  "commandId": 44896,
+                  "triggerEvents": [
+                    "BSTAfterUseCard"
+                  ],
+                  "condition": "GetMonsterByID(44480).Intention==44675 or GetMonsterByID(60097).Intention==44675"
+                },
+                {
+                  "fromSkillId": 44788,
+                  "skillId": 44787,
+                  "stateId": 60579,
+                  "commandId": 44896,
+                  "triggerEvents": [
+                    "BSTAfterUseCard"
+                  ],
+                  "condition": "GetMonsterByID(44480).Intention==44788 or GetMonsterByID(60097).Intention==44788"
+                },
+                {
+                  "fromSkillId": 44787,
+                  "skillId": 44786,
+                  "stateId": 60579,
+                  "commandId": 44896,
+                  "triggerEvents": [
+                    "BSTAfterUseCard"
+                  ],
+                  "condition": "GetMonsterByID(44480).Intention==44787 or GetMonsterByID(60097).Intention==44787"
+                },
+                {
+                  "fromSkillId": 44786,
+                  "skillId": 44788,
+                  "stateId": 60579,
+                  "commandId": 44896,
+                  "triggerEvents": [
+                    "BSTAfterUseCard"
+                  ],
+                  "condition": "GetMonsterByID(44480).Intention==44786 or GetMonsterByID(60097).Intention==44786"
+                }
+              ],
+              "repeatFromSkillId": 44788
+            }
           ]
         }
       ],
@@ -32610,6 +32821,140 @@
                   ],
                   "description": "29pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                   "richDescription": "<game-text:<fmt_bb646d:29>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                },
+                "44765": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 514,
+                        "display": 514
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 7.68,
+                        "display": 8
+                      }
+                    }
+                  ],
+                  "description": "514의 실드와 힘 8pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                  "richDescription": "<game-text:514의 실드와 <kw_440fa9c412a10160:힘> 8pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                },
+                "44766": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 514,
+                        "display": 514
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 7.68,
+                        "display": 8
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.06",
+                      "value": {
+                        "raw": 11.52,
+                        "display": 12
+                      }
+                    }
+                  ],
+                  "description": "514의 실드와 힘 8pt를 획득하고, 임시 반격을 12 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                  "richDescription": "<game-text:514의 실드와 <kw_440fa9c412a10160:힘> 8pt를 획득하고, <kw_0a7cc6d7ff9526b6:임시 반격>을 12 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                },
+                "44767": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 514,
+                        "display": 514
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 7.68,
+                        "display": 8
+                      }
+                    }
+                  ],
+                  "description": "514의 실드와 힘 8pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                  "richDescription": "<game-text:514의 실드와 <kw_440fa9c412a10160:힘> 8pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                },
+                "44786": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 57.599999999999994,
+                        "display": 58
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "58pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:58>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                },
+                "44787": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.45",
+                      "value": {
+                        "raw": 86.4,
+                        "display": 87
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "BattleDefForce*5",
+                      "value": {
+                        "raw": 1285,
+                        "display": 1285
+                      }
+                    }
+                  ],
+                  "description": "87pt의 피해를 2회 입히고, HP를 1,285pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:87>pt의 피해를 2회 입히고, HP를 1,285pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                },
+                "44788": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.2",
+                      "value": {
+                        "raw": 230.39999999999998,
+                        "display": 231
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "231pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:231>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                 }
               },
               "resolvedStates": [
@@ -32784,6 +33129,140 @@
                     ],
                     "description": "29pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:29>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 514,
+                          "display": 514
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 7.68,
+                          "display": 8
+                        }
+                      }
+                    ],
+                    "description": "514의 실드와 힘 8pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:514의 실드와 <kw_440fa9c412a10160:힘> 8pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 514,
+                          "display": 514
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 7.68,
+                          "display": 8
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 11.52,
+                          "display": 12
+                        }
+                      }
+                    ],
+                    "description": "514의 실드와 힘 8pt를 획득하고, 임시 반격을 12 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:514의 실드와 <kw_440fa9c412a10160:힘> 8pt를 획득하고, <kw_0a7cc6d7ff9526b6:임시 반격>을 12 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 514,
+                          "display": 514
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 7.68,
+                          "display": 8
+                        }
+                      }
+                    ],
+                    "description": "514의 실드와 힘 8pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:514의 실드와 <kw_440fa9c412a10160:힘> 8pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 57.599999999999994,
+                          "display": 58
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "58pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:58>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 86.4,
+                          "display": 87
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 1285,
+                          "display": 1285
+                        }
+                      }
+                    ],
+                    "description": "87pt의 피해를 2회 입히고, HP를 1,285pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:87>pt의 피해를 2회 입히고, HP를 1,285pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 230.39999999999998,
+                          "display": 231
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "231pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:231>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 },
                 "3": {
@@ -32906,6 +33385,140 @@
                     ],
                     "description": "29pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:29>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 514,
+                          "display": 514
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 7.68,
+                          "display": 8
+                        }
+                      }
+                    ],
+                    "description": "514의 실드와 힘 8pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:514의 실드와 <kw_440fa9c412a10160:힘> 8pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 514,
+                          "display": 514
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 7.68,
+                          "display": 8
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 11.52,
+                          "display": 12
+                        }
+                      }
+                    ],
+                    "description": "514의 실드와 힘 8pt를 획득하고, 임시 반격을 12 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:514의 실드와 <kw_440fa9c412a10160:힘> 8pt를 획득하고, <kw_0a7cc6d7ff9526b6:임시 반격>을 12 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 514,
+                          "display": 514
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 7.68,
+                          "display": 8
+                        }
+                      }
+                    ],
+                    "description": "514의 실드와 힘 8pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:514의 실드와 <kw_440fa9c412a10160:힘> 8pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 57.599999999999994,
+                          "display": 58
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "58pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:58>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 86.4,
+                          "display": 87
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 1285,
+                          "display": 1285
+                        }
+                      }
+                    ],
+                    "description": "87pt의 피해를 2회 입히고, HP를 1,285pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:87>pt의 피해를 2회 입히고, HP를 1,285pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 230.39999999999998,
+                          "display": 231
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "231pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:231>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 }
               },
@@ -33110,6 +33723,140 @@
                   ],
                   "description": "60pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                   "richDescription": "<game-text:<fmt_bb646d:60>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                },
+                "44765": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 1660,
+                        "display": 1660
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 15.92,
+                        "display": 16
+                      }
+                    }
+                  ],
+                  "description": "1,660의 실드와 힘 16pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                  "richDescription": "<game-text:1,660의 실드와 <kw_440fa9c412a10160:힘> 16pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                },
+                "44766": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 1660,
+                        "display": 1660
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 15.92,
+                        "display": 16
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.06",
+                      "value": {
+                        "raw": 23.88,
+                        "display": 24
+                      }
+                    }
+                  ],
+                  "description": "1,660의 실드와 힘 16pt를 획득하고, 임시 반격을 24 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                  "richDescription": "<game-text:1,660의 실드와 <kw_440fa9c412a10160:힘> 16pt를 획득하고, <kw_f2d5c8efccdd7e46:임시 반격>을 24 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                },
+                "44767": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 1660,
+                        "display": 1660
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 15.92,
+                        "display": 16
+                      }
+                    }
+                  ],
+                  "description": "1,660의 실드와 힘 16pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                  "richDescription": "<game-text:1,660의 실드와 <kw_440fa9c412a10160:힘> 16pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                },
+                "44786": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 119.39999999999999,
+                        "display": 120
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "120pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:120>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                },
+                "44787": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.45",
+                      "value": {
+                        "raw": 179.1,
+                        "display": 180
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "BattleDefForce*5",
+                      "value": {
+                        "raw": 4150,
+                        "display": 4150
+                      }
+                    }
+                  ],
+                  "description": "180pt의 피해를 2회 입히고, HP를 4,150pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:180>pt의 피해를 2회 입히고, HP를 4,150pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                },
+                "44788": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.2",
+                      "value": {
+                        "raw": 477.59999999999997,
+                        "display": 478
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "478pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:478>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                 }
               },
               "resolvedStates": [
@@ -33284,6 +34031,140 @@
                     ],
                     "description": "60pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:60>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 1660,
+                          "display": 1660
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 15.92,
+                          "display": 16
+                        }
+                      }
+                    ],
+                    "description": "1,660의 실드와 힘 16pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:1,660의 실드와 <kw_440fa9c412a10160:힘> 16pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 1660,
+                          "display": 1660
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 15.92,
+                          "display": 16
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 23.88,
+                          "display": 24
+                        }
+                      }
+                    ],
+                    "description": "1,660의 실드와 힘 16pt를 획득하고, 임시 반격을 24 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:1,660의 실드와 <kw_440fa9c412a10160:힘> 16pt를 획득하고, <kw_f2d5c8efccdd7e46:임시 반격>을 24 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 1660,
+                          "display": 1660
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 15.92,
+                          "display": 16
+                        }
+                      }
+                    ],
+                    "description": "1,660의 실드와 힘 16pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:1,660의 실드와 <kw_440fa9c412a10160:힘> 16pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 119.39999999999999,
+                          "display": 120
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "120pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:120>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 179.1,
+                          "display": 180
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 4150,
+                          "display": 4150
+                        }
+                      }
+                    ],
+                    "description": "180pt의 피해를 2회 입히고, HP를 4,150pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:180>pt의 피해를 2회 입히고, HP를 4,150pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 477.59999999999997,
+                          "display": 478
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "478pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:478>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 },
                 "3": {
@@ -33406,6 +34287,140 @@
                     ],
                     "description": "60pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:60>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 1660,
+                          "display": 1660
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 15.92,
+                          "display": 16
+                        }
+                      }
+                    ],
+                    "description": "1,660의 실드와 힘 16pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:1,660의 실드와 <kw_440fa9c412a10160:힘> 16pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 1660,
+                          "display": 1660
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 15.92,
+                          "display": 16
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 23.88,
+                          "display": 24
+                        }
+                      }
+                    ],
+                    "description": "1,660의 실드와 힘 16pt를 획득하고, 임시 반격을 24 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:1,660의 실드와 <kw_440fa9c412a10160:힘> 16pt를 획득하고, <kw_f2d5c8efccdd7e46:임시 반격>을 24 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 1660,
+                          "display": 1660
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 15.92,
+                          "display": 16
+                        }
+                      }
+                    ],
+                    "description": "1,660의 실드와 힘 16pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:1,660의 실드와 <kw_440fa9c412a10160:힘> 16pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 119.39999999999999,
+                          "display": 120
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "120pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:120>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 179.1,
+                          "display": 180
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 4150,
+                          "display": 4150
+                        }
+                      }
+                    ],
+                    "description": "180pt의 피해를 2회 입히고, HP를 4,150pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:180>pt의 피해를 2회 입히고, HP를 4,150pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 477.59999999999997,
+                          "display": 478
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "478pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:478>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 }
               },
@@ -33610,6 +34625,140 @@
                   ],
                   "description": "110pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                   "richDescription": "<game-text:<fmt_bb646d:110>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                },
+                "44765": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 4402,
+                        "display": 4402
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 29.28,
+                        "display": 30
+                      }
+                    }
+                  ],
+                  "description": "4,402의 실드와 힘 30pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                  "richDescription": "<game-text:4,402의 실드와 <kw_440fa9c412a10160:힘> 30pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                },
+                "44766": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 4402,
+                        "display": 4402
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 29.28,
+                        "display": 30
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.06",
+                      "value": {
+                        "raw": 43.92,
+                        "display": 44
+                      }
+                    }
+                  ],
+                  "description": "4,402의 실드와 힘 30pt를 획득하고, 임시 반격을 44 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                  "richDescription": "<game-text:4,402의 실드와 <kw_440fa9c412a10160:힘> 30pt를 획득하고, <kw_420a21b46a8e9ea6:임시 반격>을 44 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                },
+                "44767": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 4402,
+                        "display": 4402
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 29.28,
+                        "display": 30
+                      }
+                    }
+                  ],
+                  "description": "4,402의 실드와 힘 30pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                  "richDescription": "<game-text:4,402의 실드와 <kw_440fa9c412a10160:힘> 30pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                },
+                "44786": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 219.6,
+                        "display": 220
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "220pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:220>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                },
+                "44787": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.45",
+                      "value": {
+                        "raw": 329.40000000000003,
+                        "display": 330
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "BattleDefForce*5",
+                      "value": {
+                        "raw": 11005,
+                        "display": 11005
+                      }
+                    }
+                  ],
+                  "description": "330pt의 피해를 2회 입히고, HP를 11,005pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:330>pt의 피해를 2회 입히고, HP를 11,005pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                },
+                "44788": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.2",
+                      "value": {
+                        "raw": 878.4,
+                        "display": 879
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "879pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:879>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                 }
               },
               "resolvedStates": [
@@ -33784,6 +34933,140 @@
                     ],
                     "description": "110pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:110>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 4402,
+                          "display": 4402
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 29.28,
+                          "display": 30
+                        }
+                      }
+                    ],
+                    "description": "4,402의 실드와 힘 30pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:4,402의 실드와 <kw_440fa9c412a10160:힘> 30pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 4402,
+                          "display": 4402
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 29.28,
+                          "display": 30
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 43.92,
+                          "display": 44
+                        }
+                      }
+                    ],
+                    "description": "4,402의 실드와 힘 30pt를 획득하고, 임시 반격을 44 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:4,402의 실드와 <kw_440fa9c412a10160:힘> 30pt를 획득하고, <kw_420a21b46a8e9ea6:임시 반격>을 44 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 4402,
+                          "display": 4402
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 29.28,
+                          "display": 30
+                        }
+                      }
+                    ],
+                    "description": "4,402의 실드와 힘 30pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:4,402의 실드와 <kw_440fa9c412a10160:힘> 30pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 219.6,
+                          "display": 220
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "220pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:220>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 329.40000000000003,
+                          "display": 330
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 11005,
+                          "display": 11005
+                        }
+                      }
+                    ],
+                    "description": "330pt의 피해를 2회 입히고, HP를 11,005pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:330>pt의 피해를 2회 입히고, HP를 11,005pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 878.4,
+                          "display": 879
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "879pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:879>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 },
                 "3": {
@@ -33906,6 +35189,140 @@
                     ],
                     "description": "110pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:110>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 4402,
+                          "display": 4402
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 29.28,
+                          "display": 30
+                        }
+                      }
+                    ],
+                    "description": "4,402의 실드와 힘 30pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:4,402의 실드와 <kw_440fa9c412a10160:힘> 30pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 4402,
+                          "display": 4402
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 29.28,
+                          "display": 30
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 43.92,
+                          "display": 44
+                        }
+                      }
+                    ],
+                    "description": "4,402의 실드와 힘 30pt를 획득하고, 임시 반격을 44 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:4,402의 실드와 <kw_440fa9c412a10160:힘> 30pt를 획득하고, <kw_420a21b46a8e9ea6:임시 반격>을 44 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 4402,
+                          "display": 4402
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 29.28,
+                          "display": 30
+                        }
+                      }
+                    ],
+                    "description": "4,402의 실드와 힘 30pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:4,402의 실드와 <kw_440fa9c412a10160:힘> 30pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 219.6,
+                          "display": 220
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "220pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:220>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 329.40000000000003,
+                          "display": 330
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 11005,
+                          "display": 11005
+                        }
+                      }
+                    ],
+                    "description": "330pt의 피해를 2회 입히고, HP를 11,005pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:330>pt의 피해를 2회 입히고, HP를 11,005pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 878.4,
+                          "display": 879
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "879pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:879>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 }
               },
@@ -34110,6 +35527,140 @@
                   ],
                   "description": "175pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                   "richDescription": "<game-text:<fmt_bb646d:175>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                },
+                "44765": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 11504,
+                        "display": 11504
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 46.56,
+                        "display": 47
+                      }
+                    }
+                  ],
+                  "description": "11,504의 실드와 힘 47pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                  "richDescription": "<game-text:11,504의 실드와 <kw_440fa9c412a10160:힘> 47pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                },
+                "44766": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 11504,
+                        "display": 11504
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 46.56,
+                        "display": 47
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.06",
+                      "value": {
+                        "raw": 69.84,
+                        "display": 70
+                      }
+                    }
+                  ],
+                  "description": "11,504의 실드와 힘 47pt를 획득하고, 임시 반격을 70 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                  "richDescription": "<game-text:11,504의 실드와 <kw_440fa9c412a10160:힘> 47pt를 획득하고, <kw_e9c572433377cce6:임시 반격>을 70 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                },
+                "44767": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 11504,
+                        "display": 11504
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 46.56,
+                        "display": 47
+                      }
+                    }
+                  ],
+                  "description": "11,504의 실드와 힘 47pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                  "richDescription": "<game-text:11,504의 실드와 <kw_440fa9c412a10160:힘> 47pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                },
+                "44786": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 349.2,
+                        "display": 350
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "350pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:350>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                },
+                "44787": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.45",
+                      "value": {
+                        "raw": 523.8000000000001,
+                        "display": 524
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "BattleDefForce*5",
+                      "value": {
+                        "raw": 28760,
+                        "display": 28760
+                      }
+                    }
+                  ],
+                  "description": "524pt의 피해를 2회 입히고, HP를 28,760pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:524>pt의 피해를 2회 입히고, HP를 28,760pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                },
+                "44788": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.2",
+                      "value": {
+                        "raw": 1396.8,
+                        "display": 1397
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "1,397pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:1,397>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                 }
               },
               "resolvedStates": [
@@ -34284,6 +35835,140 @@
                     ],
                     "description": "175pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:175>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 11504,
+                          "display": 11504
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 46.56,
+                          "display": 47
+                        }
+                      }
+                    ],
+                    "description": "11,504의 실드와 힘 47pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:11,504의 실드와 <kw_440fa9c412a10160:힘> 47pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 11504,
+                          "display": 11504
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 46.56,
+                          "display": 47
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 69.84,
+                          "display": 70
+                        }
+                      }
+                    ],
+                    "description": "11,504의 실드와 힘 47pt를 획득하고, 임시 반격을 70 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:11,504의 실드와 <kw_440fa9c412a10160:힘> 47pt를 획득하고, <kw_e9c572433377cce6:임시 반격>을 70 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 11504,
+                          "display": 11504
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 46.56,
+                          "display": 47
+                        }
+                      }
+                    ],
+                    "description": "11,504의 실드와 힘 47pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:11,504의 실드와 <kw_440fa9c412a10160:힘> 47pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 349.2,
+                          "display": 350
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "350pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:350>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 523.8000000000001,
+                          "display": 524
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 28760,
+                          "display": 28760
+                        }
+                      }
+                    ],
+                    "description": "524pt의 피해를 2회 입히고, HP를 28,760pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:524>pt의 피해를 2회 입히고, HP를 28,760pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 1396.8,
+                          "display": 1397
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "1,397pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:1,397>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 },
                 "3": {
@@ -34406,6 +36091,140 @@
                     ],
                     "description": "175pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:175>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 11504,
+                          "display": 11504
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 46.56,
+                          "display": 47
+                        }
+                      }
+                    ],
+                    "description": "11,504의 실드와 힘 47pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:11,504의 실드와 <kw_440fa9c412a10160:힘> 47pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 11504,
+                          "display": 11504
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 46.56,
+                          "display": 47
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 69.84,
+                          "display": 70
+                        }
+                      }
+                    ],
+                    "description": "11,504의 실드와 힘 47pt를 획득하고, 임시 반격을 70 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:11,504의 실드와 <kw_440fa9c412a10160:힘> 47pt를 획득하고, <kw_e9c572433377cce6:임시 반격>을 70 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 11504,
+                          "display": 11504
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 46.56,
+                          "display": 47
+                        }
+                      }
+                    ],
+                    "description": "11,504의 실드와 힘 47pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:11,504의 실드와 <kw_440fa9c412a10160:힘> 47pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 349.2,
+                          "display": 350
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "350pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:350>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 523.8000000000001,
+                          "display": 524
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 28760,
+                          "display": 28760
+                        }
+                      }
+                    ],
+                    "description": "524pt의 피해를 2회 입히고, HP를 28,760pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:524>pt의 피해를 2회 입히고, HP를 28,760pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 1396.8,
+                          "display": 1397
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "1,397pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:1,397>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 }
               },
@@ -34610,6 +36429,140 @@
                   ],
                   "description": "246pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                   "richDescription": "<game-text:<fmt_bb646d:246>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                },
+                "44765": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 28564,
+                        "display": 28564
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 65.36,
+                        "display": 66
+                      }
+                    }
+                  ],
+                  "description": "28,564의 실드와 힘 66pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                  "richDescription": "<game-text:28,564의 실드와 <kw_440fa9c412a10160:힘> 66pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                },
+                "44766": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 28564,
+                        "display": 28564
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 65.36,
+                        "display": 66
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.06",
+                      "value": {
+                        "raw": 98.03999999999999,
+                        "display": 99
+                      }
+                    }
+                  ],
+                  "description": "28,564의 실드와 힘 66pt를 획득하고, 임시 반격을 99 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                  "richDescription": "<game-text:28,564의 실드와 <kw_440fa9c412a10160:힘> 66pt를 획득하고, <kw_33be3c4868a2febb:임시 반격>을 99 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                },
+                "44767": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 28564,
+                        "display": 28564
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 65.36,
+                        "display": 66
+                      }
+                    }
+                  ],
+                  "description": "28,564의 실드와 힘 66pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                  "richDescription": "<game-text:28,564의 실드와 <kw_440fa9c412a10160:힘> 66pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                },
+                "44786": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 490.2,
+                        "display": 491
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "491pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:491>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                },
+                "44787": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.45",
+                      "value": {
+                        "raw": 735.3000000000001,
+                        "display": 736
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "BattleDefForce*5",
+                      "value": {
+                        "raw": 71410,
+                        "display": 71410
+                      }
+                    }
+                  ],
+                  "description": "736pt의 피해를 2회 입히고, HP를 71,410pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:736>pt의 피해를 2회 입히고, HP를 71,410pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                },
+                "44788": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.2",
+                      "value": {
+                        "raw": 1960.8,
+                        "display": 1961
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "1,961pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:1,961>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                 }
               },
               "resolvedStates": [
@@ -34784,6 +36737,140 @@
                     ],
                     "description": "246pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:246>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 28564,
+                          "display": 28564
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 65.36,
+                          "display": 66
+                        }
+                      }
+                    ],
+                    "description": "28,564의 실드와 힘 66pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:28,564의 실드와 <kw_440fa9c412a10160:힘> 66pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 28564,
+                          "display": 28564
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 65.36,
+                          "display": 66
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 98.03999999999999,
+                          "display": 99
+                        }
+                      }
+                    ],
+                    "description": "28,564의 실드와 힘 66pt를 획득하고, 임시 반격을 99 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:28,564의 실드와 <kw_440fa9c412a10160:힘> 66pt를 획득하고, <kw_33be3c4868a2febb:임시 반격>을 99 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 28564,
+                          "display": 28564
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 65.36,
+                          "display": 66
+                        }
+                      }
+                    ],
+                    "description": "28,564의 실드와 힘 66pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:28,564의 실드와 <kw_440fa9c412a10160:힘> 66pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 490.2,
+                          "display": 491
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "491pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:491>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 735.3000000000001,
+                          "display": 736
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 71410,
+                          "display": 71410
+                        }
+                      }
+                    ],
+                    "description": "736pt의 피해를 2회 입히고, HP를 71,410pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:736>pt의 피해를 2회 입히고, HP를 71,410pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 1960.8,
+                          "display": 1961
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "1,961pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:1,961>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 },
                 "3": {
@@ -34906,6 +36993,140 @@
                     ],
                     "description": "246pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:246>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 28564,
+                          "display": 28564
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 65.36,
+                          "display": 66
+                        }
+                      }
+                    ],
+                    "description": "28,564의 실드와 힘 66pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:28,564의 실드와 <kw_440fa9c412a10160:힘> 66pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 28564,
+                          "display": 28564
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 65.36,
+                          "display": 66
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 98.03999999999999,
+                          "display": 99
+                        }
+                      }
+                    ],
+                    "description": "28,564의 실드와 힘 66pt를 획득하고, 임시 반격을 99 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:28,564의 실드와 <kw_440fa9c412a10160:힘> 66pt를 획득하고, <kw_33be3c4868a2febb:임시 반격>을 99 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 28564,
+                          "display": 28564
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 65.36,
+                          "display": 66
+                        }
+                      }
+                    ],
+                    "description": "28,564의 실드와 힘 66pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:28,564의 실드와 <kw_440fa9c412a10160:힘> 66pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 490.2,
+                          "display": 491
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "491pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:491>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 735.3000000000001,
+                          "display": 736
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 71410,
+                          "display": 71410
+                        }
+                      }
+                    ],
+                    "description": "736pt의 피해를 2회 입히고, HP를 71,410pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:736>pt의 피해를 2회 입히고, HP를 71,410pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 1960.8,
+                          "display": 1961
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "1,961pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:1,961>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 }
               },
@@ -35110,6 +37331,140 @@
                   ],
                   "description": "305pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                   "richDescription": "<game-text:<fmt_bb646d:305>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                },
+                "44765": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 39934,
+                        "display": 39934
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 81.2,
+                        "display": 82
+                      }
+                    }
+                  ],
+                  "description": "39,934의 실드와 힘 82pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                  "richDescription": "<game-text:39,934의 실드와 <kw_440fa9c412a10160:힘> 82pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                },
+                "44766": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 39934,
+                        "display": 39934
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 81.2,
+                        "display": 82
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.06",
+                      "value": {
+                        "raw": 121.8,
+                        "display": 122
+                      }
+                    }
+                  ],
+                  "description": "39,934의 실드와 힘 82pt를 획득하고, 임시 반격을 122 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                  "richDescription": "<game-text:39,934의 실드와 <kw_440fa9c412a10160:힘> 82pt를 획득하고, <kw_4de1e13894f5f476:임시 반격>을 122 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                },
+                "44767": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 39934,
+                        "display": 39934
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 81.2,
+                        "display": 82
+                      }
+                    }
+                  ],
+                  "description": "39,934의 실드와 힘 82pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                  "richDescription": "<game-text:39,934의 실드와 <kw_440fa9c412a10160:힘> 82pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                },
+                "44786": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 609,
+                        "display": 609
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "609pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:609>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                },
+                "44787": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.45",
+                      "value": {
+                        "raw": 913.5,
+                        "display": 914
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "BattleDefForce*5",
+                      "value": {
+                        "raw": 99835,
+                        "display": 99835
+                      }
+                    }
+                  ],
+                  "description": "914pt의 피해를 2회 입히고, HP를 99,835pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:914>pt의 피해를 2회 입히고, HP를 99,835pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                },
+                "44788": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.2",
+                      "value": {
+                        "raw": 2436,
+                        "display": 2436
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "2,436pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:2,436>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                 }
               },
               "resolvedStates": [
@@ -35284,6 +37639,140 @@
                     ],
                     "description": "305pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:305>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 39934,
+                          "display": 39934
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 81.2,
+                          "display": 82
+                        }
+                      }
+                    ],
+                    "description": "39,934의 실드와 힘 82pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:39,934의 실드와 <kw_440fa9c412a10160:힘> 82pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 39934,
+                          "display": 39934
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 81.2,
+                          "display": 82
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 121.8,
+                          "display": 122
+                        }
+                      }
+                    ],
+                    "description": "39,934의 실드와 힘 82pt를 획득하고, 임시 반격을 122 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:39,934의 실드와 <kw_440fa9c412a10160:힘> 82pt를 획득하고, <kw_4de1e13894f5f476:임시 반격>을 122 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 39934,
+                          "display": 39934
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 81.2,
+                          "display": 82
+                        }
+                      }
+                    ],
+                    "description": "39,934의 실드와 힘 82pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:39,934의 실드와 <kw_440fa9c412a10160:힘> 82pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 609,
+                          "display": 609
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "609pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:609>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 913.5,
+                          "display": 914
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 99835,
+                          "display": 99835
+                        }
+                      }
+                    ],
+                    "description": "914pt의 피해를 2회 입히고, HP를 99,835pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:914>pt의 피해를 2회 입히고, HP를 99,835pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 2436,
+                          "display": 2436
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "2,436pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:2,436>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 },
                 "3": {
@@ -35406,6 +37895,140 @@
                     ],
                     "description": "305pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:305>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 39934,
+                          "display": 39934
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 81.2,
+                          "display": 82
+                        }
+                      }
+                    ],
+                    "description": "39,934의 실드와 힘 82pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:39,934의 실드와 <kw_440fa9c412a10160:힘> 82pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 39934,
+                          "display": 39934
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 81.2,
+                          "display": 82
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 121.8,
+                          "display": 122
+                        }
+                      }
+                    ],
+                    "description": "39,934의 실드와 힘 82pt를 획득하고, 임시 반격을 122 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:39,934의 실드와 <kw_440fa9c412a10160:힘> 82pt를 획득하고, <kw_4de1e13894f5f476:임시 반격>을 122 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 39934,
+                          "display": 39934
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 81.2,
+                          "display": 82
+                        }
+                      }
+                    ],
+                    "description": "39,934의 실드와 힘 82pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:39,934의 실드와 <kw_440fa9c412a10160:힘> 82pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 609,
+                          "display": 609
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "609pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:609>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 913.5,
+                          "display": 914
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 99835,
+                          "display": 99835
+                        }
+                      }
+                    ],
+                    "description": "914pt의 피해를 2회 입히고, HP를 99,835pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:914>pt의 피해를 2회 입히고, HP를 99,835pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 2436,
+                          "display": 2436
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "2,436pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:2,436>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 }
               },
@@ -35610,6 +38233,140 @@
                   ],
                   "description": "366pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                   "richDescription": "<game-text:<fmt_bb646d:366>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                },
+                "44765": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 46160,
+                        "display": 46160
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 97.60000000000001,
+                        "display": 98
+                      }
+                    }
+                  ],
+                  "description": "46,160의 실드와 힘 98pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                  "richDescription": "<game-text:46,160의 실드와 <kw_440fa9c412a10160:힘> 98pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                },
+                "44766": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 46160,
+                        "display": 46160
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 97.60000000000001,
+                        "display": 98
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.06",
+                      "value": {
+                        "raw": 146.4,
+                        "display": 147
+                      }
+                    }
+                  ],
+                  "description": "46,160의 실드와 힘 98pt를 획득하고, 임시 반격을 147 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                  "richDescription": "<game-text:46,160의 실드와 <kw_440fa9c412a10160:힘> 98pt를 획득하고, <kw_d532deca4b28511e:임시 반격>을 147 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                },
+                "44767": {
+                  "args": [
+                    {
+                      "expression": "BattleDefForce*2",
+                      "value": {
+                        "raw": 46160,
+                        "display": 46160
+                      }
+                    },
+                    {
+                      "expression": "BattleAtkForce*0.04",
+                      "value": {
+                        "raw": 97.60000000000001,
+                        "display": 98
+                      }
+                    }
+                  ],
+                  "description": "46,160의 실드와 힘 98pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                  "richDescription": "<game-text:46,160의 실드와 <kw_440fa9c412a10160:힘> 98pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                },
+                "44786": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.3",
+                      "value": {
+                        "raw": 732,
+                        "display": 732
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    }
+                  ],
+                  "description": "732pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:732>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                },
+                "44787": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*0.45",
+                      "value": {
+                        "raw": 1098,
+                        "display": 1098
+                      }
+                    },
+                    {
+                      "expression": "2",
+                      "value": {
+                        "raw": 2,
+                        "display": 2
+                      }
+                    },
+                    {
+                      "expression": "BattleDefForce*5",
+                      "value": {
+                        "raw": 115400,
+                        "display": 115400
+                      }
+                    }
+                  ],
+                  "description": "1,098pt의 피해를 2회 입히고, HP를 115,400pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:1,098>pt의 피해를 2회 입히고, HP를 115,400pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                },
+                "44788": {
+                  "args": [
+                    {
+                      "expression": "BattleAtkForce*1.2",
+                      "value": {
+                        "raw": 2928,
+                        "display": 2928
+                      }
+                    },
+                    {
+                      "expression": "1",
+                      "value": {
+                        "raw": 1,
+                        "display": 1
+                      }
+                    }
+                  ],
+                  "description": "2,928pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                  "richDescription": "<game-text:<fmt_bb646d:2,928>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                 }
               },
               "resolvedStates": [
@@ -35784,6 +38541,140 @@
                     ],
                     "description": "366pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:366>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 46160,
+                          "display": 46160
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 97.60000000000001,
+                          "display": 98
+                        }
+                      }
+                    ],
+                    "description": "46,160의 실드와 힘 98pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:46,160의 실드와 <kw_440fa9c412a10160:힘> 98pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 46160,
+                          "display": 46160
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 97.60000000000001,
+                          "display": 98
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 146.4,
+                          "display": 147
+                        }
+                      }
+                    ],
+                    "description": "46,160의 실드와 힘 98pt를 획득하고, 임시 반격을 147 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:46,160의 실드와 <kw_440fa9c412a10160:힘> 98pt를 획득하고, <kw_d532deca4b28511e:임시 반격>을 147 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 46160,
+                          "display": 46160
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 97.60000000000001,
+                          "display": 98
+                        }
+                      }
+                    ],
+                    "description": "46,160의 실드와 힘 98pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:46,160의 실드와 <kw_440fa9c412a10160:힘> 98pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 732,
+                          "display": 732
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "732pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:732>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 1098,
+                          "display": 1098
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 115400,
+                          "display": 115400
+                        }
+                      }
+                    ],
+                    "description": "1,098pt의 피해를 2회 입히고, HP를 115,400pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:1,098>pt의 피해를 2회 입히고, HP를 115,400pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 2928,
+                          "display": 2928
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "2,928pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:2,928>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 },
                 "3": {
@@ -35906,6 +38797,140 @@
                     ],
                     "description": "366pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 출혈을 부여한다.",
                     "richDescription": "<game-text:<fmt_bb646d:366>pt의 피해를 3회 입히고, 방어되지 않은 피해량과 동일한 <kw_a4105dc593aa5715:출혈>을 부여한다.>"
+                  },
+                  "44765": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 46160,
+                          "display": 46160
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 97.60000000000001,
+                          "display": 98
+                        }
+                      }
+                    ],
+                    "description": "46,160의 실드와 힘 98pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.",
+                    "richDescription": "<game-text:46,160의 실드와 <kw_440fa9c412a10160:힘> 98pt를 획득하고, 자신의 부정 상태를 해제한다. 카드 사용 시, 추가 효과가 이식으로 전환된다.>"
+                  },
+                  "44766": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 46160,
+                          "display": 46160
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 97.60000000000001,
+                          "display": 98
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.06",
+                        "value": {
+                          "raw": 146.4,
+                          "display": 147
+                        }
+                      }
+                    ],
+                    "description": "46,160의 실드와 힘 98pt를 획득하고, 임시 반격을 147 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.",
+                    "richDescription": "<game-text:46,160의 실드와 <kw_440fa9c412a10160:힘> 98pt를 획득하고, <kw_d532deca4b28511e:임시 반격>을 147 획득한다. 카드 사용 시, 추가 효과가 정화로 전환된다.>"
+                  },
+                  "44767": {
+                    "args": [
+                      {
+                        "expression": "BattleDefForce*2",
+                        "value": {
+                          "raw": 46160,
+                          "display": 46160
+                        }
+                      },
+                      {
+                        "expression": "BattleAtkForce*0.04",
+                        "value": {
+                          "raw": 97.60000000000001,
+                          "display": 98
+                        }
+                      }
+                    ],
+                    "description": "46,160의 실드와 힘 98pt를 획득하고, 「광분」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.",
+                    "richDescription": "<game-text:46,160의 실드와 <kw_440fa9c412a10160:힘> 98pt를 획득하고, 「<kw_a52857a887ae15d1:광분>」 2장을 덱에 섞어 넣는다. 카드 사용 시, 추가 효과가 반격으로 전환된다.>"
+                  },
+                  "44786": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.3",
+                        "value": {
+                          "raw": 732,
+                          "display": 732
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      }
+                    ],
+                    "description": "732pt의 피해를 2회 주고, 2턴간 허약과 손상을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:732>pt의 피해를 2회 주고, 2턴간 <kw_e2cad76836e981c0:허약>과 <kw_537d6fe8fd803117:손상>을 부여한다. 카드 사용 시, 추가 효과가 강타로 전환된다.>"
+                  },
+                  "44787": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*0.45",
+                        "value": {
+                          "raw": 1098,
+                          "display": 1098
+                        }
+                      },
+                      {
+                        "expression": "2",
+                        "value": {
+                          "raw": 2,
+                          "display": 2
+                        }
+                      },
+                      {
+                        "expression": "BattleDefForce*5",
+                        "value": {
+                          "raw": 115400,
+                          "display": 115400
+                        }
+                      }
+                    ],
+                    "description": "1,098pt의 피해를 2회 입히고, HP를 115,400pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:1,098>pt의 피해를 2회 입히고, HP를 115,400pt 회복한다. 카드 사용 시, 추가 효과가 약화로 전환된다.>"
+                  },
+                  "44788": {
+                    "args": [
+                      {
+                        "expression": "BattleAtkForce*1.2",
+                        "value": {
+                          "raw": 2928,
+                          "display": 2928
+                        }
+                      },
+                      {
+                        "expression": "1",
+                        "value": {
+                          "raw": 1,
+                          "display": 1
+                        }
+                      }
+                    ],
+                    "description": "2,928pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.",
+                    "richDescription": "<game-text:<fmt_bb646d:2,928>pt의 피해를 1회 입힌다. 카드 사용 시, 추가 효과가 회복으로 전환된다.>"
                   }
                 }
               },
@@ -36224,7 +39249,8 @@
             }
           ],
           "conditionalActions": [],
-          "phaseTransitions": []
+          "phaseTransitions": [],
+          "intentionCycles": []
         },
         {
           "tid": 14090,
@@ -36348,7 +39374,8 @@
             }
           ],
           "conditionalActions": [],
-          "phaseTransitions": []
+          "phaseTransitions": [],
+          "intentionCycles": []
         },
         {
           "tid": 23417,
@@ -36574,7 +39601,8 @@
               ],
               "createdCards": []
             }
-          ]
+          ],
+          "intentionCycles": []
         }
       ],
       "alerts": [
@@ -42925,6 +45953,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "skills": [
             {
               "id": 94704,
@@ -43374,6 +46403,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -43606,6 +46636,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -43818,6 +46849,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -44021,7 +47053,8 @@
             }
           ],
           "conditionalActions": [],
-          "phaseTransitions": []
+          "phaseTransitions": [],
+          "intentionCycles": []
         },
         {
           "tid": 52080,
@@ -44518,7 +47551,8 @@
               ],
               "createdCards": []
             }
-          ]
+          ],
+          "intentionCycles": []
         },
         {
           "tid": 59750,
@@ -44697,6 +47731,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -44876,6 +47911,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -45124,6 +48160,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -45315,6 +48352,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -45486,6 +48524,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "contextualActionAudit": [
             {
               "stateId": 22073,
@@ -66626,6 +69665,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "skills": [
             {
               "id": 80585,
@@ -66756,6 +69796,7 @@
           ],
           "conditionalActions": [],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "skills": [
             {
               "id": 54455,
@@ -66833,6 +69874,7 @@
           ],
           "conditionalActions": [],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "skills": [
             {
               "id": 54442,
@@ -66989,6 +70031,7 @@
             }
           ],
           "phaseTransitions": [],
+          "intentionCycles": [],
           "skills": [
             {
               "id": 80588,
@@ -67548,6 +70591,76 @@
         "id": 44682
       },
       "icon": "images/dzone/cards/portrait_card_state_skull.png"
+    },
+    "kw_0a7cc6d7ff9526b6": {
+      "name": "임시 반격",
+      "description": "상태 효과 | 임시 반격\n\n이번 턴 능동 피해를 받을 때마다, 피해 출처에게 12 의 순수 피해를 가함.",
+      "source": {
+        "type": "State",
+        "id": 3023
+      },
+      "richDescription": "<game-text:이번 턴 능동 피해를 받을 때마다, 피해 출처에게 12 의 <fmt_c48662:순수 피해>를 가함.>",
+      "icon": "images/keyword-icons/original/icons_buff_019.png"
+    },
+    "kw_f2d5c8efccdd7e46": {
+      "name": "임시 반격",
+      "description": "상태 효과 | 임시 반격\n\n이번 턴 능동 피해를 받을 때마다, 피해 출처에게 24 의 순수 피해를 가함.",
+      "source": {
+        "type": "State",
+        "id": 3023
+      },
+      "richDescription": "<game-text:이번 턴 능동 피해를 받을 때마다, 피해 출처에게 24 의 <fmt_c48662:순수 피해>를 가함.>",
+      "icon": "images/keyword-icons/original/icons_buff_019.png"
+    },
+    "kw_420a21b46a8e9ea6": {
+      "name": "임시 반격",
+      "description": "상태 효과 | 임시 반격\n\n이번 턴 능동 피해를 받을 때마다, 피해 출처에게 44 의 순수 피해를 가함.",
+      "source": {
+        "type": "State",
+        "id": 3023
+      },
+      "richDescription": "<game-text:이번 턴 능동 피해를 받을 때마다, 피해 출처에게 44 의 <fmt_c48662:순수 피해>를 가함.>",
+      "icon": "images/keyword-icons/original/icons_buff_019.png"
+    },
+    "kw_e9c572433377cce6": {
+      "name": "임시 반격",
+      "description": "상태 효과 | 임시 반격\n\n이번 턴 능동 피해를 받을 때마다, 피해 출처에게 70 의 순수 피해를 가함.",
+      "source": {
+        "type": "State",
+        "id": 3023
+      },
+      "richDescription": "<game-text:이번 턴 능동 피해를 받을 때마다, 피해 출처에게 70 의 <fmt_c48662:순수 피해>를 가함.>",
+      "icon": "images/keyword-icons/original/icons_buff_019.png"
+    },
+    "kw_33be3c4868a2febb": {
+      "name": "임시 반격",
+      "description": "상태 효과 | 임시 반격\n\n이번 턴 능동 피해를 받을 때마다, 피해 출처에게 99 의 순수 피해를 가함.",
+      "source": {
+        "type": "State",
+        "id": 3023
+      },
+      "richDescription": "<game-text:이번 턴 능동 피해를 받을 때마다, 피해 출처에게 99 의 <fmt_c48662:순수 피해>를 가함.>",
+      "icon": "images/keyword-icons/original/icons_buff_019.png"
+    },
+    "kw_4de1e13894f5f476": {
+      "name": "임시 반격",
+      "description": "상태 효과 | 임시 반격\n\n이번 턴 능동 피해를 받을 때마다, 피해 출처에게 122 의 순수 피해를 가함.",
+      "source": {
+        "type": "State",
+        "id": 3023
+      },
+      "richDescription": "<game-text:이번 턴 능동 피해를 받을 때마다, 피해 출처에게 122 의 <fmt_c48662:순수 피해>를 가함.>",
+      "icon": "images/keyword-icons/original/icons_buff_019.png"
+    },
+    "kw_d532deca4b28511e": {
+      "name": "임시 반격",
+      "description": "상태 효과 | 임시 반격\n\n이번 턴 능동 피해를 받을 때마다, 피해 출처에게 147 의 순수 피해를 가함.",
+      "source": {
+        "type": "State",
+        "id": 3023
+      },
+      "richDescription": "<game-text:이번 턴 능동 피해를 받을 때마다, 피해 출처에게 147 의 <fmt_c48662:순수 피해>를 가함.>",
+      "icon": "images/keyword-icons/original/icons_buff_019.png"
     },
     "kw_35b7dab0e1a868b4": {
       "name": "반격",
@@ -68163,7 +71276,7 @@
   "contentAudit": {
     "schemaVersion": 1,
     "keywordVersion": 154,
-    "glossaryCount": 106,
+    "glossaryCount": 113,
     "diagnostics": [],
     "warnings": [
       {
@@ -68186,14 +71299,15 @@
     ],
     "presentationAudit": {
       "counts": {
-        "richTexts": 1904,
-        "inlineReferences": 1494,
-        "verifiedIcons": 735,
-        "sourceContexts": 152,
+        "richTexts": 2030,
+        "inlineReferences": 1641,
+        "verifiedIcons": 840,
+        "sourceContexts": 158,
         "unlinkedMentions": 0,
-        "colorSpans": 1017,
-        "sourceColorChecks": 1904,
-        "tooltipColorChecks": 106
+        "colorSpans": 1087,
+        "sourceColorChecks": 2030,
+        "tooltipColorChecks": 113,
+        "cardUseVariants": 6
       },
       "expectedKeywordIcons": {
         "kw_5efe89789797f750": "images/keyword-icons/inline/battle_card_buff_013.png",
@@ -68214,222 +71328,222 @@
     },
     "referenceInventory": {
       "rootCount": 53,
-      "nodeCount": 814,
-      "edgeCount": 2023,
-      "actionCount": 958,
-      "actionTypeCount": 40,
-      "resourceCount": 250,
-      "localizationCount": 756,
-      "candidateReferenceCount": 34,
+      "nodeCount": 874,
+      "edgeCount": 2208,
+      "actionCount": 1043,
+      "actionTypeCount": 42,
+      "resourceCount": 262,
+      "localizationCount": 798,
+      "candidateReferenceCount": 62,
       "missingTargetCount": 0,
       "externalTargetCount": 0
     },
     "monsterAnalysisCache": {
-      "hits": 0,
+      "hits": 38,
       "memoryHits": 6,
-      "misses": 1,
-      "invalidated": 37,
+      "misses": 0,
+      "invalidated": 0,
       "entries": [
         {
           "tid": 59749,
-          "fingerprint": "3e55744cf36b38e62924550ab50cd81b8141b408365adc9341cbd506580909d6",
-          "status": "source-changed"
+          "fingerprint": "2f77e5a535f8b5ea8fe73a2ac6768860da7ff4e3f57cd3eaa31c9fc49b552c36",
+          "status": "hit"
         },
         {
           "tid": 22337,
-          "fingerprint": "123d822f4617c91788399f0478c580fc436872b43dd9236454a9acd82471e348",
-          "status": "source-changed"
+          "fingerprint": "c16e6366fbb251a5bf207bc520fd072cf8105128f5ba1d79327f539af99a4402",
+          "status": "hit"
         },
         {
           "tid": 94654,
-          "fingerprint": "442215124b0c21dfef5d7944e0379757aabd5b3b6e0519f9efce3caa0665d093",
-          "status": "source-changed"
+          "fingerprint": "ce6a8874053892752b506a00984648e8f999a06c6c2609cb8b18cbb3df59af67",
+          "status": "hit"
         },
         {
           "tid": 120935,
-          "fingerprint": "47728b4413942725fd64d0525f69fd3601a71f923a66d5a86a32460700e21819",
-          "status": "source-changed"
+          "fingerprint": "bf6860a2ba265ade7046acf2123b67ed3821f2d419b2351fa448617b927d511f",
+          "status": "hit"
         },
         {
           "tid": 59750,
-          "fingerprint": "495c48d309bf1435e6d4d2e2f40dbe56d1d0bf81d5a5dec5be7e2455649e0f8e",
-          "status": "source-changed"
+          "fingerprint": "8a2e1b17eb59a095068e4fbba4858c77a7522eaffc0bcdbdf76b7f24218dd3ba",
+          "status": "hit"
         },
         {
           "tid": 14093,
-          "fingerprint": "2f051911e492cd6d8785dc4699e6961ab08b5f6d4aff31055905fbe67233497b",
-          "status": "source-changed"
+          "fingerprint": "a600a3cc3a38c91c7600db460fd3b4a5291906b29f03a1f54fc65fcd02d5762e",
+          "status": "hit"
         },
         {
           "tid": 94715,
-          "fingerprint": "562c6d1758d856b0443cf7125d2c9e4ed152d0dace4dafc3b52b97b932201dae",
-          "status": "source-changed"
+          "fingerprint": "61c9035e31d4a1effd4ba9bfb8a2f3eb619743da314cba95ed8ec088be3b01cd",
+          "status": "hit"
         },
         {
           "tid": 72144,
-          "fingerprint": "708d44af5c3376a0d0e58d6307a2b65a73ada05ce2d7f886b8ee1cd62e72ad5f",
-          "status": "source-changed"
+          "fingerprint": "77d12eaf890d5e4003cc297733650eee11ae95fda9044ad576f74051d7149828",
+          "status": "hit"
         },
         {
           "tid": 56173,
-          "fingerprint": "024861ee8459fa702dc5b2a39db481d4010568a823881f6a18043baadc998738",
-          "status": "source-changed"
+          "fingerprint": "31fae065bc79ba39211b792038f31b4fb6aefbfb160e3919008f805830eb6dbc",
+          "status": "hit"
         },
         {
           "tid": 34678,
-          "fingerprint": "1d68e4c35b2e57e844663d0f62346b646c82237178c77c14d77c8e56fe7aa8b9",
-          "status": "source-changed"
+          "fingerprint": "4f33884a31974ae41dcb5b0ec648102db9a8d6cd5926f0e70384fd18029c1f41",
+          "status": "hit"
         },
         {
           "tid": 94702,
-          "fingerprint": "2946e546b292105589f3012e9d796c53505789b4466517695024d110e6c0d831",
-          "status": "source-changed"
+          "fingerprint": "25737977cb30da3384b8891cf4d618f96396e1f741ac26f2372a0f5b535ab7a5",
+          "status": "hit"
         },
         {
           "tid": 14007,
-          "fingerprint": "aa6f589a3ae3a9bb060d6ed4641454e9eb237f21d96f3a9db3e9c09039719fce",
-          "status": "source-changed"
+          "fingerprint": "fef1a84172759a37b364b974ad6cf635ee8be6dbd38313720c0607eb87beccad",
+          "status": "hit"
         },
         {
           "tid": 13970,
-          "fingerprint": "7db59fc7346b8717aec801e05950a47364b0d76129d4dd2bb98b7ebd801a0da7",
-          "status": "source-changed"
+          "fingerprint": "efff37f7d22e39311c33b9b25aadb162e333772b809472e3dee8cbfdfd316853",
+          "status": "hit"
         },
         {
           "tid": 49239,
-          "fingerprint": "e8b8ec2d94c04c94c7f2ad90d34f161f75780edd31f4381a464398fd895a733f",
-          "status": "source-changed"
+          "fingerprint": "fb4f398f7fee2d80aef3257ea42758736dd5684c377833de451d6471426466d1",
+          "status": "hit"
         },
         {
           "tid": 13993,
-          "fingerprint": "f0ad26111a7b26a38ae4f0cec6b6241173e284df30c94a46a62cc8688a479f65",
-          "status": "source-changed"
+          "fingerprint": "011c1ece47acf2d17bb41ba7a7fd06ca7e88c29dc10ed29a0c584521f30e258e",
+          "status": "hit"
         },
         {
           "tid": 60009,
-          "fingerprint": "a15d83998229b3da1b9c0080a7513138c853817e4937769eaa0ad4d64ee0057f",
-          "status": "source-changed"
+          "fingerprint": "ddd6716b98e9774d06c8f080057addc72d7d737023261010fbb7db74dbdfe8d4",
+          "status": "hit"
         },
         {
           "tid": 60006,
-          "fingerprint": "908a31ff01dcb9bf7a81d0297aaf0f35542eba616df1719751013dcadb402e36",
-          "status": "source-changed"
+          "fingerprint": "140c2b34e684e0690258b78704f687e539c060d9f48e22f176d2cef4acda4f5c",
+          "status": "hit"
         },
         {
           "tid": 14111,
-          "fingerprint": "59fa89181e07e36c2eadfebb398e60cab2b02e1168a1019078425d5b43a5667a",
-          "status": "source-changed"
+          "fingerprint": "6280800525cb06998ae83b220bd3e5880cd6fcfebb0741bee2a75a0eb7f416f0",
+          "status": "hit"
         },
         {
           "tid": 56172,
-          "fingerprint": "4233680615dcdbb351c17c4b03728d358629325521282764e60f5c15cce4de50",
-          "status": "source-changed"
+          "fingerprint": "7ed1ff22988452b9c963543e5bdf68cba58d1653a414567a313ec1017a49cda5",
+          "status": "hit"
         },
         {
           "tid": 14039,
-          "fingerprint": "840db8d413f61be175cb74350084c6f9f43fa3163faeb51a38ada9dfe33739a8",
-          "status": "source-changed"
+          "fingerprint": "d0b895786457ddde7246fc35d8e12e542ee7253513a36e526b633d671936c174",
+          "status": "hit"
         },
         {
           "tid": 49483,
-          "fingerprint": "99aa891cd3b0bea75cba206b246eb683fe8b5da4dbea61d5eae9458fc30eea6d",
-          "status": "source-changed"
+          "fingerprint": "a0ff7fa81dbfd81013d7ca06ad1f6fa4893bb18a3878185c3a12444bcaa5dcae",
+          "status": "hit"
         },
         {
           "tid": 44456,
-          "fingerprint": "3b6d92f50ca63b96c4fa5b565599f2469d4b5e3282d3f3a8baa3a83fa1880b62",
-          "status": "source-changed"
+          "fingerprint": "b16c8ee2a91eff5fedf7b6e2cafd6ee1196798e956b713162cc686785af77a95",
+          "status": "hit"
         },
         {
           "tid": 44480,
-          "fingerprint": "b1e78a54c4231472fa6f233ad6cd247096ff4589118d1d1bea87416c2f7e75ac",
-          "status": "source-changed"
+          "fingerprint": "febcc5903c4dcd39877ecb9f25648643c7d2a3676d42d4c95db71b7f7ef4094f",
+          "status": "hit"
         },
         {
           "tid": 94942,
-          "fingerprint": "de247af77fa176e8868134ae0752f48b6bcb1c0bfb80d2a3ca51ecdbde4ff454",
-          "status": "source-changed"
+          "fingerprint": "62bc9c64c577daabffacb1cd03b31662fe5f5b3be8238f68bacde57616eee840",
+          "status": "hit"
         },
         {
           "tid": 14090,
-          "fingerprint": "925120ab3f0cf4b180310c85e6868cd6ff73d71b8760a7804c6d307707c58fb2",
-          "status": "source-changed"
+          "fingerprint": "b90a1a8c22cdcb3420e85e58b2571ed08681c385acc1ffef1bae1252fe7b5c90",
+          "status": "hit"
         },
         {
           "tid": 23417,
-          "fingerprint": "654a8c141693fc6d249de225d4caeabdbc1ffef1735da0f721c6adf989b19020",
-          "status": "source-changed"
+          "fingerprint": "1cc8174b1d8a2feec0c9b5885a9d6725914d270782981874be7e303b6e9ca435",
+          "status": "hit"
         },
         {
           "tid": 80817,
-          "fingerprint": "4c9d14dd6aed1f1b8c2056fbefd9facac07404d6a0949fee369699dd86b73dd9",
-          "status": "source-changed"
+          "fingerprint": "f756cde33c6b1ae70c8236ce137ad321b43e3490e65c375bf43db9013cec1391",
+          "status": "hit"
         },
         {
           "tid": 59741,
-          "fingerprint": "f34f281e190c18ff3d36afe23e0e5bdc7c3e0758ef3ea78436344447fe939222",
-          "status": "source-changed"
+          "fingerprint": "d4c7502437b24bcda869fc1dc36e07cb9e75bdb368eb8e03cd33c48cf50ab01c",
+          "status": "hit"
         },
         {
           "tid": 59742,
-          "fingerprint": "6e8b3e31d1ff2db44292ea21cf12799a15c8bef2ecfbc5d329dbd95b38906668",
-          "status": "source-changed"
+          "fingerprint": "d2745b4c5a0df5591d9894688c9457e9d7df29ba9523055e10b1b1d9b4c76e18",
+          "status": "hit"
         },
         {
           "tid": 79933,
-          "fingerprint": "4a087206201ad90e29d122b30a249702162f0c02a43838a0b2c37c998b0e411a",
-          "status": "source-changed"
+          "fingerprint": "63394d4e2b6ee001a4532e14fdcd9227364b753076376abde7fa0e97734b5303",
+          "status": "hit"
         },
         {
           "tid": 52080,
-          "fingerprint": "d93d91bf7bf4f2cc848834bebdecbefc0216d7cd1107a85018ad501946db665b",
-          "status": "source-changed"
+          "fingerprint": "4693c1b7f9155c7040c8b14cf2fa28ef164af8f030f258f7c1fa8fc2aa6e4888",
+          "status": "hit"
         },
         {
           "tid": 13984,
-          "fingerprint": "cf54b9f0e1ac29723051659d1c5572d833ba793d3259ebdcd85518aeadb89d80",
-          "status": "source-changed"
+          "fingerprint": "ad14000211fce007e9e9d6cbcd7cd50ae8b01d7e2af0d33fecd041a9f666bfaa",
+          "status": "hit"
         },
         {
           "tid": 79942,
-          "fingerprint": "4d53ce567daf6cd594f823bdc20e020e6def753a4507717d6ff869787dc22e9f",
-          "status": "source-changed"
+          "fingerprint": "12dcd3db1ba0c8d7075d16257bd8ab92392eb5bd8a80f550ec9ee41730a03b25",
+          "status": "hit"
         },
         {
           "tid": 13957,
-          "fingerprint": "d01dd1ee1d2ac39c336b7900cc5a0f3b62be30cf3bebbe66ac1884245f19c2a3",
-          "status": "source-changed"
+          "fingerprint": "dc6841d50c36342b1bc0e12e6eff2117ec915d1bf05861f9aa3a844adb9add04",
+          "status": "hit"
         },
         {
           "tid": 14095,
-          "fingerprint": "cf86bf5537f3a479e0c01559b522ed5bdfea160eb8d1b123979359c82c26323b",
-          "status": "source-changed"
+          "fingerprint": "20aef9717e1ac7022b8022da684ac9c2c757a62dcc392bd847ae1b79cedef492",
+          "status": "hit"
         },
         {
           "tid": 54466,
-          "fingerprint": "b4d32d835d5001c33a4e6c6f05e0aed28c75c12447dbaa6c74ffad89532c300a",
-          "status": "source-changed"
+          "fingerprint": "9b2fa40d0651d715d11c19afe6ee7c9f2f68ae13e7875d6c6df1b2c9d16abcba",
+          "status": "hit"
         },
         {
           "tid": 54465,
-          "fingerprint": "f63e2d79c6b01fe0cb5e86cb2682301afc7ace6dcb35aa4b1b7110ec72ee3f1f",
-          "status": "source-changed"
+          "fingerprint": "28b649180966a5acad1b9167f9a46cc79029d92741e662d6bf0f4a7e3cf0d462",
+          "status": "hit"
         },
         {
           "tid": 79944,
-          "fingerprint": "2fc98e87da37e68adde6b4c95368efc6b051ba9ec6415cdd43875fbc87c82a82",
-          "status": "miss"
+          "fingerprint": "f4830150f32b6b0a63bfadd21f609ebafb2303505a800589a098b5d481b57da6",
+          "status": "hit"
         }
       ]
     },
     "generator": {
       "id": "morimens-data-extractor/dzone",
       "files": {
-        "build-dzone-site-data.mjs": "6dbd2efcc833c0b7749708793da0e5e72f4f45d12ac592eb7d9b0ce0a38ecd20",
+        "build-dzone-site-data.mjs": "bd60a7414d97052f3848c660c5cfc16fca3be84d53d9c2e117ef2612cd82694e",
         "dzone-content.mjs": "e8f91130f533e7620f914ffc89976a6f1afe2143e7fdc82d6cf70cd9a839dc23",
         "monster-combat-transformer.mjs": "91cfa014da9b1ae9ffd4d532b045ab6d627747d33cef57d1073cb610b3559c2c",
-        "game-reference-graph.mjs": "8a815ab10e96dadcfd54a306cf07bd8dc04069b184bee296f1116976f844032b",
-        "audit-dzone-presentation.mjs": "3b773942530976b3f24e29cf861c9bef672de1df493b77ea17898ed6318c3bb4"
+        "game-reference-graph.mjs": "f837d2898bb24a36442d5a8c17cb68cdbf9a1b328a3876eaae5c197dbc14b835",
+        "audit-dzone-presentation.mjs": "c68e171b2c85817d9786115a91a0f16fc3dab86a8bc642191cd3ba0efe869a9d"
       }
     }
   }

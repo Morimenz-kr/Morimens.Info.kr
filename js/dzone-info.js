@@ -473,6 +473,22 @@
         return { ...opening, skillIds: opening.skillIds.slice(0, end) };
     }
 
+    function renderCardUseVariants(monster, stats, skillId) {
+        const cycle = (monster.intentionCycles || []).find(item => item.sourceSkillId === skillId);
+        if (!cycle) return '';
+        const variants = cycle.transitions.filter((item, index, all) => all.findIndex(other => other.skillId === item.skillId) === index);
+        const repeatIndex = variants.findIndex(item => item.skillId === cycle.repeatFromSkillId);
+        return `<section class="intention-cycle" aria-label="카드 사용에 따른 의도 변경">
+            <p>이 의도에서 카드를 사용하지 않으면 위의 기본 행동을 유지합니다. 카드를 1장 사용할 때마다 아래 순서로 바뀝니다.</p>
+            <ol>${variants.map((transition, index) => {
+                const variant = skillById(monster, transition.skillId);
+                const resolved = stats.resolvedSkills?.[String(transition.skillId)];
+                return `<li data-variant-skill="${transition.skillId}"><strong>${index + 1}장 사용 — ${escapeHtml(variant.name)}</strong><p>${dynamicMarkup(resolved?.richDescription || resolved?.description || variant.descriptionTemplate)}</p></li>`;
+            }).join('')}</ol>
+            <p>이후 ${repeatIndex + 1}장째 효과부터 순서대로 반복합니다. 카드 사용은 의도를 바꾸며, 효과는 변경된 의도를 실행할 때 적용됩니다.</p>
+        </section>`;
+    }
+
     function renderSequence(monster, stats, pattern, repeats = false, { loopLabel = '이후 1번부터 반복', stepLabels = [] } = {}) {
         const displayedSkills = repeats && !stepLabels.length ? (pattern.repeatSkillIds || shortestRepeatingSequence(pattern.skillIds)) : pattern.skillIds;
         const sequence = displayedSkills.map((skillId, index) => {
@@ -492,6 +508,7 @@
                 <div class="action-copy">
                     <strong>${escapeHtml(skill?.name || `행동 ${index + 1}`)}</strong>
                     <p>${dynamicMarkup(description)}</p>
+                    ${renderCardUseVariants(monster, stats, skillId)}
                 </div>
             </li>`;
         }).join('');

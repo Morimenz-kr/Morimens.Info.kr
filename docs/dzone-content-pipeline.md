@@ -11,6 +11,8 @@
 
 Pages 생성은 현재 시즌과 모든 `dzone_season*.json`을 검사한다. 미리보기 시즌도 표시 검사 실패 또는 원본에서 기록한 기대 아이콘과 실제 아이콘의 불일치가 있으면 배포 아티팩트를 만들지 않는다.
 
+`MonsterConfig.ExistState`뿐 아니라 `Skill.ExistState`의 조건부 상태 목록도 원본 참조망에 포함한다. 카드 사용으로 의도가 순환하면 상태의 `BSTAfterUseCard`, 임시 인자 대입, 실제 의도 변경 명령을 연결해 순서와 반복 시작점을 판정한다. 변형 이름을 나열하는 것으로 검수를 통과시키지 않는다. 각 변형의 전체 효과·대상·선택 난이도 수치를 본문에 제공하고, 연결된 변형이나 설명이 누락되면 생성을 실패시킨다.
+
 ## 단계 컨텍스트가 몬스터 행동을 바꾸는 경우
 
 - `StageGroup.StageChapterState`에서 시작해 `State → TriggerCmd → BEAddState`를 추적한 뒤 몬스터의 `Judgement`와 명령 `Cond`를 판정한다.

@@ -1087,6 +1087,10 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
 }
 .action-copy .dynamic { color: #e6b961; font-weight: 700; }
 
+.intention-cycle { margin-top: 0.65rem; padding-inline-start: 0.75rem; border-inline-start: 2px solid #696044; }
+.intention-cycle ol { margin: 0.65rem 0; padding: 0; list-style: none; }
+.intention-cycle li + li { margin-top: 0.65rem; }
+
 .action-replacements {
     margin-top: 0.8rem;
 }
