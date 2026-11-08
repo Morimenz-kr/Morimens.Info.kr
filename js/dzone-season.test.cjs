@@ -21,7 +21,8 @@ test('보관된 융재금구와 현재 융재금구 데이터를 선택한다', 
         { period: 69, path: 'data/dzone_season69.json', mapPath: 'data/dzone_maps_season69.json', current: false },
         { period: 70, path: 'data/dzone_season70.json', mapPath: 'data/dzone_maps_season70.json', current: false },
         { period: 71, path: 'data/dzone_season71.json', mapPath: 'data/dzone_maps_season71.json', current: false },
-        { period: 72, path: 'data/dzone_current.json', mapPath: 'data/dzone_maps.json', current: true }
+        { period: 72, path: 'data/dzone_current.json', mapPath: 'data/dzone_maps.json', current: true },
+        { period: 73, path: 'data/dzone_season73.json', mapPath: 'data/dzone_maps_season73.json', current: false }
     ]);
     assert.deepEqual(season.selectSeason(68), {
         period: 68,

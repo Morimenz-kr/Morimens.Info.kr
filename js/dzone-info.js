@@ -202,7 +202,7 @@
         '증상: 광기': '증상 카드 | 광기\n\n최대 HP의 10%를 잃고 모든 각성체가 광기 10을 획득합니다.',
         '증상: 흥분': '증상 카드 | 흥분\n\n드로우한 턴의 종료 시 남은 산출력이 2 이상이면 다음 턴 시작 시 카드를 2장 추가로 드로우합니다.'
     });
-    const number = new Intl.NumberFormat('ko-KR');
+    const number = new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 0, roundingMode: 'ceil' });
     const dateTime = new Intl.DateTimeFormat('ko-KR', {
         month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false,
         timeZone: 'Asia/Seoul'
@@ -537,7 +537,7 @@
             || stats?.resolvedSkills?.[String(awakeningSkill)];
         const effects = [];
         if (transition.rebirth) effects.push('쓰러지면 부활');
-        if (transition.maxHpMultiplier) effects.push(`최대 HP ${transition.maxHpMultiplier}배로 증가`);
+        if (transition.maxHpMultiplier) effects.push(`최대 HP ${(transition.maxHpMultiplier * 100).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}%로 증가`);
         if (transition.healsToMax) effects.push('증가한 최대 HP까지 회복');
         const stateKeywordMarkup = (state, markup) => {
             if (state.id !== 140728 || /<kw_[a-f0-9]{16}:허기>/.test(markup || '')) return markup;
@@ -766,7 +766,7 @@
         if (!summons.length) return '';
         const groups = new Map();
         for (const summon of summons) {
-            const key = summon.rule?.sourceSkillId || 0;
+            const key = summon.rule?.sourceSkillId || (summon.rule?.sourceStateId ? `state-${summon.rule.sourceStateId}` : 0);
             if (!groups.has(key)) groups.set(key, []);
             groups.get(key).push(summon);
         }
@@ -793,7 +793,9 @@
             }).join('');
         };
         return [...groups].map(([skillId, items]) => {
-            const label = skillId ? `「${items[0].rule.sourceSkillName}」로 소환` : '소환 개체';
+            const rule = items[0].rule || {};
+            const sourceName = rule.sourceSkillName || rule.sourceStateName;
+            const label = skillId && sourceName ? `「${sourceName}」로 소환` : '소환 개체';
             return `<section class="summon-section" aria-label="${escapeHtml(label)}"><h5 class="section-label">${escapeHtml(label)}</h5><div class="summon-list">${renderCards(items)}</div></section>`;
         }).join('');
     }
@@ -1393,7 +1395,7 @@
         const seasonSelector = document.getElementById('season-selector');
         seasonSelector.innerHTML = window.DzoneSeason.availableSeasons()
             .sort((left, right) => right.period - left.period)
-            .map(season => `<option value="${season.period}">${season.period}기${season.current ? ' (현재)' : ''}</option>`)
+            .map(season => `<option value="${season.period}">${season.period}기${season.current ? ' (현재)' : season.period > window.DzoneSeason.CURRENT_SEASON ? ' (미리보기)' : ''}</option>`)
             .join('');
         seasonSelector.value = String(data.period);
         seasonSelector.onchange = () => {
@@ -1469,7 +1471,7 @@
         document.getElementById('dzone-title').textContent = title;
         document.getElementById('dzone-summary').textContent = isCurrent
             ? '현재 진행 중인 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.'
-            : `바로 이전 ${data.period}기 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.`;
+            : `${data.period}기 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.`;
         document.getElementById('mechanic-nav-label').textContent = isCurrent ? '이번 융재 기믹' : `${data.period}기 융재 기믹`;
     }
 

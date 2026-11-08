@@ -28,3 +28,15 @@ test('generated state references render verified original and state-card icons i
 test('missing reference is an error, never a fallback to a same-named keyword', () => {
     assert.throws(() => render(`<game-text:<${key}:죽음 저항>>`, {}), /Missing generated tooltip/);
 });
+
+test('원본 피해·실드·광기 색상을 유지하고 중첩 키워드도 안전하게 렌더링한다', () => {
+    const output = render(`<game-text:<fmt_bb646d:123> 피해, <fmt_76aac8:456> 실드, <fmt_b6ad65:20> 광기. <fmt_bb646d:<${key}:상처>>>`, { [key]: { name: '상처' } });
+    assert.match(output, /data-game-color="#bb646d" style="color:#bb646d">123/);
+    assert.match(output, /data-game-color="#76aac8" style="color:#76aac8">456/);
+    assert.match(output, /data-game-color="#b6ad65" style="color:#b6ad65">20/);
+    assert.equal((output.match(/tooltip-trigger/g) || []).length, 1);
+    assert.doesNotMatch(output, /&lt;fmt_/);
+    const unsafe = render('<game-text:<fmt_bb646d:<img src=x onerror=alert(1)>>>', {});
+    assert.doesNotMatch(unsafe, /<img/);
+    assert.match(unsafe, /&lt;img/);
+});

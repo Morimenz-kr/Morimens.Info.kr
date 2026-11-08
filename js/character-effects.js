@@ -575,7 +575,8 @@
                 if (body) {
                     const bodyElement = document.createElement('p');
                     bodyElement.className = 'character-effect-tooltip-body';
-                    if (tooltip.clientTag) bodyElement.innerHTML = renderRichText(body);
+                    if (typeof tooltip.richDescription === 'string' && window.DzoneRichText) bodyElement.innerHTML = window.DzoneRichText.render(tooltip.richDescription, tooltipDictionary);
+                    else if (tooltip.clientTag) bodyElement.innerHTML = renderRichText(body);
                     else bodyElement.textContent = body;
                     tooltipBox.appendChild(bodyElement);
                 }
