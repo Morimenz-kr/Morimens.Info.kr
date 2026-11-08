@@ -32,6 +32,8 @@ ui-debug.log
 !/tools/validate-character-identity.mjs
 !/tools/workflow-config.test.cjs
 !/tools/validate-dzone-content.mjs
+!/tools/scheduled-season73-release.mjs
+!/tools/scheduled-season73-release.test.cjs
 /js/dimension-descriptions.test.cjs
 
 # Local extracted sources and private tool bundles must never be published.

@@ -1,0 +1,80 @@
+name: Release season 73 at 10 KST
+
+on:
+  schedule:
+    - cron: '0 1 9 11 *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Validate the release merge without changing main or deploying'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: season73-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+      RELEASE_SHA: 68be0655ed6109c3598b4156cdfe8bc17d7593d5
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Enforce one-time Korean release window
+        id: gate
+        run: node tools/scheduled-season73-release.mjs gate >> "$GITHUB_OUTPUT"
+      - name: Merge the verified release without publishing
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin codex/dzone-season73-audit
+          git merge --no-edit "$RELEASE_SHA"
+      - name: Validate merged production candidate
+        if: steps.gate.outputs.enabled == 'true'
+        run: |
+          npm ci
+          node --test tools/scheduled-season73-release.test.cjs
+          node tools/scheduled-season73-release.mjs verify
+          npm test
+          npm run data:validate
+          npm run pages:prepare -- --data-source repository
+      - name: Publish main and explicitly dispatch GitHub Pages
+        if: steps.gate.outputs.enabled == 'true' && env.DRY_RUN != 'true'
+        run: |
+          node tools/scheduled-season73-release.mjs gate
+          git push origin HEAD:main
+          RELEASE_COMMIT=$(git rev-parse HEAD)
+          DISPATCHED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          gh workflow run pages.yml --ref main
+          for attempt in $(seq 1 30); do
+            RUN_ID=$(gh run list --workflow pages.yml --commit "$RELEASE_COMMIT" --event workflow_dispatch --json databaseId,createdAt --jq ".[] | select(.createdAt >= \"$DISPATCHED_AT\") | .databaseId" | head -n 1)
+            if [ -n "$RUN_ID" ]; then break; fi
+            sleep 2
+          done
+          test -n "$RUN_ID"
+          gh run watch "$RUN_ID" --exit-status --interval 10
+      - name: Verify production data and default season
+        if: steps.gate.outputs.enabled == 'true' && env.DRY_RUN != 'true'
+        run: node tools/scheduled-season73-release.mjs live
+      - name: Verify production page in Chrome
+        if: steps.gate.outputs.enabled == 'true' && env.DRY_RUN != 'true'
+        run: |
+          google-chrome --headless --no-sandbox --disable-gpu --virtual-time-budget=20000 --dump-dom 'https://morimenz-kr.github.io/Morimens.Info.kr/dzone_info.html#season-73-wave-3-alert-1' > "$RUNNER_TEMP/season73.html"
+          node tools/scheduled-season73-release.mjs dom "$RUNNER_TEMP/season73.html"
+          echo '73기 운영 배포 확인: https://morimenz-kr.github.io/Morimens.Info.kr/dzone_info.html#season-73-wave-3-alert-1' >> "$GITHUB_STEP_SUMMARY"
