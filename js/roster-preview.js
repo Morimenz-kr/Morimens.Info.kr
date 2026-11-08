@@ -266,9 +266,10 @@ function showPresets(){
 function applyPreset(i){const ids=state.selected.size?[...state.selected]:state.chars.filter(c=>entry(c.id).owned).map(c=>c.id);if(!ids.length){notice('보유 캐릭터나 편집 대상을 먼저 선택해 주세요.');return;}$('utility').close();openEditor(ids,true);$('editor-preset').value=typeof i==='number'?`user:${i}`:i;$('editor-preset').dispatchEvent(new Event('change'));}
 async function buildShareImage(options) {
     const scope=shareScope($('share-scope').value);
-    const characters=scope==='wheels'?[]:filtered('characters'),wheels=scope==='characters'?[]:filtered('wheels');
-    if(!characters.length&&!wheels.length)throw Error('현재 검색 결과에 표시할 항목이 없습니다.');
-    const characterOwned=characters.filter(c=>entry(c.id).owned).length,wheelOwned=wheels.filter(c=>wheel(c.english_name).owned).length;
+    const characterRows=scope==='wheels'?[]:filtered('characters'),wheelRows=scope==='characters'?[]:filtered('wheels');
+    const characters=characterRows.filter(c=>entry(c.id).owned),wheels=wheelRows.filter(c=>wheel(c.english_name).owned);
+    if(!characters.length&&!wheels.length)throw Error('현재 범위에 공유할 보유 항목이 없습니다.');
+    const characterOwned=characters.length,wheelOwned=wheels.length;
     const describeFilters=tab=>{
         const filters=[...document.querySelectorAll(tab==='wheels'?'#owned-filter':'#character-filters select,#owned-filter')].filter(s=>s.value!=='all').map(s=>s.selectedOptions[0].textContent);
         if(tab===state.tab&&$('search').value.trim())filters.push($('search').value.trim());
@@ -279,7 +280,7 @@ async function buildShareImage(options) {
         const members=characters.filter(c=>c.relems===key);
         return members.length?`<section class="relems-section ${key}"><h3 class="relems-section-title">${label}</h3><div class="relems-character-grid">${members.map(characterCard).join('')}</div></section>`:'';
     }).join('');
-    const html=`<header class="inventory-summary"><h1>각성체 / 명륜 보유 현황</h1><div class="summary-counts"><span>각성체 <strong>${characterOwned}</strong> / ${characters.length}</span><span>명륜 <strong>${wheelOwned}</strong> / ${wheels.length}</span></div></header>
+    const html=`<header class="inventory-summary"><h1>각성체 / 명륜 보유 현황</h1><div class="summary-counts"><span>각성체 <strong>${characterOwned}</strong> / ${characterRows.length}</span><span>명륜 <strong>${wheelOwned}</strong> / ${wheelRows.length}</span></div></header>
     <section class="share-roster-section" data-share-kind="characters"><header class="share-section-heading"><h2>각성체</h2>${describeFilters('characters')}</header><div id="inventory-grid" class="character-grid classic-groups">${characterGrid||'<p class="muted">조건에 맞는 각성체가 없습니다.</p>'}</div></section>
     <section class="share-roster-section" data-share-kind="wheels"><header class="share-section-heading"><h2>명륜</h2>${describeFilters('wheels')}</header><div class="character-grid share-wheel-grid">${wheels.map(wheelCard).join('')||'<p class="muted">조건에 맞는 명륜이 없습니다.</p>'}</div></section>`;
     const snapshot=document.createElement('div');snapshot.innerHTML=html;
