@@ -250,7 +250,8 @@
       "image": "images/dzone/relic/icon_creation_060.webp",
       "chapters": [
         "morimens",
-        "stars"
+        "stars",
+        "special"
       ],
       "tiers": [
         "silver",
@@ -325,6 +326,54 @@
               "index": 1,
               "expression": "math.ceil(PlayerGrowth*0.0625)",
               "kind": "material",
+              "fixedValue": null
+            }
+          ]
+        },
+        {
+          "id": 100404,
+          "name": "창구의 중잠금",
+          "description": "“광기 폭발”을 시전한 후, [Arg1] 임시 힘을 획득합니다.",
+          "battleDescription": "“광기 폭발”을 시전한 후, [Arg1] 임시 힘을 획득합니다.",
+          "story": "두꺼우면서도 견고한 자물쇠는, 만약 키가 없다면 아마도 열기 어려울 것입니다. 물론, 이것은 어떤 도둑에게는 별로 중요하지 않다.",
+          "chapter": "special",
+          "chapterLabel": "기타",
+          "source": "pickman",
+          "sourceLabel": "픽맨 생성",
+          "tier": "silver",
+          "tierLabel": "백은",
+          "quality": "White",
+          "relicGroup": 999,
+          "iconSource": "Icon/Relic/Icon_Creation_060.png",
+          "parameters": [
+            {
+              "index": 1,
+              "expression": "math.ceil(PlayerGrowth*0.03125)",
+              "kind": "growth",
+              "fixedValue": null
+            }
+          ]
+        },
+        {
+          "id": 100408,
+          "name": "창구의 중잠금+",
+          "description": "“광기 폭발”을 시전한 후, [Arg1] 임시 힘을 획득합니다.",
+          "battleDescription": "“광기 폭발”을 시전한 후, [Arg1] 임시 힘을 획득합니다.",
+          "story": "두꺼우면서도 견고한 자물쇠는, 만약 키가 없다면 아마도 열기 어려울 것입니다. 물론, 이것은 어떤 도둑에게는 별로 중요하지 않다.",
+          "chapter": "special",
+          "chapterLabel": "기타",
+          "source": "pickman",
+          "sourceLabel": "픽맨 생성",
+          "tier": "gold",
+          "tierLabel": "황금",
+          "quality": "Forged",
+          "relicGroup": 999,
+          "iconSource": "Icon/Relic/Icon_Creation_060.png",
+          "parameters": [
+            {
+              "index": 1,
+              "expression": "math.ceil(PlayerGrowth*0.0625)",
+              "kind": "growth",
               "fixedValue": null
             }
           ]
@@ -441,8 +490,8 @@
         {
           "id": 13840,
           "name": "악동",
-          "description": "3턴마다 모든 적에게 1턴 동안 허약을 부여합니다. 허약 상태의 적에게 피해를 입힐 경우, 임시 힘을 [Arg1] 획득합니다. 턴마다 3번까지 발동합니다.",
-          "battleDescription": "매 3턴마다 모든 적에게 1스택의 허약를 추가합니다. 약화 상태의 적에게 피해를 입힌 후 [Arg1]의 임시 힘을 획득합니다. 각 턴당 최대 3회까지 발동됩니다.",
+          "description": "3턴마다 모든 적에게 1턴 동안 허약을 부여합니다. 허약 상태의 적에게 능동 피해를 입힐 경우, 임시 힘을 [Arg1] 획득합니다. 턴마다 3번까지 발동합니다.",
+          "battleDescription": "매 3턴마다 모든 적에게 1스택의 허약을 추가합니다. 허약 상태의 적에게 능동 피해를 입힌 후 [Arg1]의 임시 힘을 획득합니다. 각 턴당 최대 3회까지 발동됩니다.",
           "story": "순수한 악에서 태어났지만, 그것의 의도는 아니었다.",
           "chapter": "morimens",
           "chapterLabel": "망각편",
@@ -739,8 +788,8 @@
         {
           "id": 13866,
           "name": "봄의 제전",
-          "description": "3턴마다 모든 적에게 취약을 1스택 부여한다. 취약 상태의 적에게 피해를 입힌 후, 해당 적의 임시 힘을 [Arg1]pt 잃게 한다. 턴마다 최대 3회 발동한다.",
-          "battleDescription": "3턴마다 모든 적에게 취약을 1스택 부여한다. 취약 상태의 적에게 피해를 입힌 후, 해당 적의 임시 힘을 [Arg1]pt 잃게 한다. 턴마다 최대 3회 발동한다.",
+          "description": "3턴마다 모든 적에게 취약을 1스택 부여한다. 취약 상태의 적에게 능동 피해를 입힌 후, 해당 적의 임시 힘을 [Arg1]pt 잃게 한다. 턴마다 최대 3회 발동한다.",
+          "battleDescription": "3턴마다 모든 적에게 취약을 1스택 부여한다. 취약 상태의 적에게 능동 피해를 입힌 후, 해당 적의 임시 힘을 [Arg1]pt 잃게 한다. 턴마다 최대 3회 발동한다.",
           "story": "밤의 웃음소리 속에서 카누의 실루엣이 호수 위를 자유롭게 미끄러졌다.",
           "chapter": "morimens",
           "chapterLabel": "망각편",
@@ -955,7 +1004,8 @@
       "image": "images/dzone/relic/icon_creation_085.webp",
       "chapters": [
         "morimens",
-        "stars"
+        "stars",
+        "special"
       ],
       "tiers": [
         "silver",
@@ -1036,6 +1086,54 @@
               "index": 1,
               "expression": "math.ceil(PlayerGrowth*0.10)",
               "kind": "material",
+              "fixedValue": null
+            }
+          ]
+        },
+        {
+          "id": 100412,
+          "name": "창구의 은혜의 피",
+          "description": "턴 종료 시 [Heal:Arg1] HP을 회복합니다.",
+          "battleDescription": "턴 종료 시 [Heal:Arg1] HP을 회복합니다.",
+          "story": "그것은 달콤하고 부드러운 맛이 나며, 장미꽃 향기를 발산합니다.",
+          "chapter": "special",
+          "chapterLabel": "기타",
+          "source": "pickman",
+          "sourceLabel": "픽맨 생성",
+          "tier": "silver",
+          "tierLabel": "백은",
+          "quality": "White",
+          "relicGroup": 999,
+          "iconSource": "Icon/Relic/Icon_Creation_085.png",
+          "parameters": [
+            {
+              "index": 1,
+              "expression": "math.ceil(PlayerGrowth*0.05)",
+              "kind": "growth",
+              "fixedValue": null
+            }
+          ]
+        },
+        {
+          "id": 100400,
+          "name": "창구의 은혜의 피+",
+          "description": "턴 종료 시 [Heal:Arg1] HP을 회복합니다.",
+          "battleDescription": "턴 종료 시 [Heal:Arg1] HP을 회복합니다.",
+          "story": "그것은 달콤하고 부드러운 맛이 나며, 장미꽃 향기를 발산합니다.",
+          "chapter": "special",
+          "chapterLabel": "기타",
+          "source": "pickman",
+          "sourceLabel": "픽맨 생성",
+          "tier": "gold",
+          "tierLabel": "황금",
+          "quality": "Forged",
+          "relicGroup": 999,
+          "iconSource": "Icon/Relic/Icon_Creation_085.png",
+          "parameters": [
+            {
+              "index": 1,
+              "expression": "math.ceil(PlayerGrowth*0.10)",
+              "kind": "growth",
               "fixedValue": null
             }
           ]
@@ -1615,8 +1713,8 @@
         {
           "id": 13833,
           "name": "☆먼지 낀 재봉틀☆",
-          "description": "피해를 입힐 때마다 대상에게 중독을 [Arg1] 부여합니다. 해당 효과가 전투 중 25회 발동했을 경우, 모든 적의 중독을 즉시 발동시킵니다.",
-          "battleDescription": "피해를 입힐 때마다 대상에게 중독을 [Arg1] 부여합니다. 해당 효과가 전투 중 25회 발동했을 경우, 모든 적의 중독을 즉시 발동시킵니다.",
+          "description": "능동 피해 또는 촉수 피해를 입힐 때마다 대상에게 중독을 [Arg1] 부여합니다. 해당 효과가 전투 중 25회 발동했을 경우, 모든 적의 중독을 즉시 발동시킵니다.",
+          "battleDescription": "능동 피해 또는 촉수 피해를 입힐 때마다 대상에게 중독을 [Arg1] 부여합니다. 해당 효과가 전투 중 25회 발동했을 경우, 모든 적의 중독을 즉시 발동시킵니다.",
           "story": "자비로운 어머니가 심장의 상처를 봉합합니다.",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -2419,7 +2517,8 @@
       "image": "images/dzone/relic/icon_creation_039.webp",
       "chapters": [
         "morimens",
-        "stars"
+        "stars",
+        "special"
       ],
       "tiers": [
         "silver",
@@ -2429,8 +2528,8 @@
         {
           "id": 13918,
           "name": "실올 마노",
-          "description": "피해를 입힐 때마다 임시 힘을 [Arg1] 획득합니다. 최대 3번까지 중첩되며, 최대 중첩일 때 효과가 2배로 적용됩니다.",
-          "battleDescription": "피해를 입힐 때마다 임시 힘을 [Arg1] 획득합니다. 최대 3번까지 중첩되며, 최대 중첩일 때 효과가 2배로 적용됩니다.",
+          "description": "능동 피해를 입힐 때마다 임시 힘을 [Arg1] 획득합니다. 최대 3번까지 중첩되며, 최대 중첩일 때 효과가 2배로 적용됩니다.",
+          "battleDescription": "능동 피해를 입힐 때마다 임시 힘을 [Arg1] 획득합니다. 최대 3번까지 중첩되며, 최대 중첩일 때 효과가 2배로 적용됩니다.",
           "story": "일반적인 마노의 무늬일 거예요. 아마도.",
           "chapter": "morimens",
           "chapterLabel": "망각편",
@@ -2453,8 +2552,8 @@
         {
           "id": 70765,
           "name": "실올 마노",
-          "description": "피해를 줄 때마다 [Arg1] 임시 힘을 획득하며, 턴당 최대 15번까지 발동됩니다.",
-          "battleDescription": "피해를 줄 때마다 [Arg1] 임시 힘을 획득하며, 턴당 최대 15번까지 발동됩니다.",
+          "description": "능동 피해 또는 촉수 피해를 줄 때마다 [Arg1] 임시 힘을 획득하며, 턴당 최대 15번까지 발동됩니다.",
+          "battleDescription": "능동 피해 또는 촉수 피해를 줄 때마다 [Arg1] 임시 힘을 획득하며, 턴당 최대 15번까지 발동됩니다.",
           "story": "일반적인 마노의 무늬일 거예요. 아마도.",
           "chapter": "stars",
           "chapterLabel": "성신편",
@@ -2477,8 +2576,8 @@
         {
           "id": 70755,
           "name": "실올 마노+",
-          "description": "피해를 줄 때마다 [Arg1] 임시 힘을 획득하며, 턴당 최대 15번까지 발동됩니다.",
-          "battleDescription": "피해를 줄 때마다 [Arg1] 임시 힘을 획득하며, 턴당 최대 15번까지 발동됩니다.",
+          "description": "능동 피해 또는 촉수 피해를 줄 때마다 [Arg1] 임시 힘을 획득하며, 턴당 최대 15번까지 발동됩니다.",
+          "battleDescription": "능동 피해 또는 촉수 피해를 줄 때마다 [Arg1] 임시 힘을 획득하며, 턴당 최대 15번까지 발동됩니다.",
           "story": "일반적인 마노의 무늬일 거예요. 아마도.",
           "chapter": "stars",
           "chapterLabel": "성신편",
@@ -2494,6 +2593,54 @@
               "index": 1,
               "expression": "math.ceil(PlayerGrowth*0.0150)",
               "kind": "material",
+              "fixedValue": null
+            }
+          ]
+        },
+        {
+          "id": 100407,
+          "name": "창구의 실올 마노",
+          "description": "능동 피해를 줄 때마다 [Arg1]의 임시 힘을 획득하며, 턴마다 최대 15회 발동한다.",
+          "battleDescription": "능동 피해를 줄 때마다 [Arg1]의 임시 힘을 획득하며, 턴마다 최대 15회 발동한다.",
+          "story": "일반적인 마노의 무늬일 거예요. 아마도.",
+          "chapter": "special",
+          "chapterLabel": "기타",
+          "source": "pickman",
+          "sourceLabel": "픽맨 생성",
+          "tier": "silver",
+          "tierLabel": "백은",
+          "quality": "White",
+          "relicGroup": 999,
+          "iconSource": "Icon/Relic/Icon_Creation_039.png",
+          "parameters": [
+            {
+              "index": 1,
+              "expression": "math.ceil(PlayerGrowth*0.0075)",
+              "kind": "growth",
+              "fixedValue": null
+            }
+          ]
+        },
+        {
+          "id": 100410,
+          "name": "창구의 실올 마노+",
+          "description": "능동 피해를 줄 때마다 [Arg1]의 임시 힘을 획득하며, 턴마다 최대 15회 발동한다.",
+          "battleDescription": "능동 피해를 줄 때마다 [Arg1]의 임시 힘을 획득하며, 턴마다 최대 15회 발동한다.",
+          "story": "일반적인 마노의 무늬일 거예요. 아마도.",
+          "chapter": "special",
+          "chapterLabel": "기타",
+          "source": "pickman",
+          "sourceLabel": "픽맨 생성",
+          "tier": "gold",
+          "tierLabel": "황금",
+          "quality": "Forged",
+          "relicGroup": 999,
+          "iconSource": "Icon/Relic/Icon_Creation_039.png",
+          "parameters": [
+            {
+              "index": 1,
+              "expression": "math.ceil(PlayerGrowth*0.0150)",
+              "kind": "growth",
               "fixedValue": null
             }
           ]
@@ -3388,8 +3535,8 @@
         {
           "id": 121691,
           "name": "“백은의 귀환 · 공포”",
-          "description": "모든 각성체의 광기 폭발 최종 피해가 100% 증가하며, 각 각성체가 광기 폭발을 해제한 후 500% 기본 광기의 은열쇠 에너지를 획득합니다. 모든 각성체의 기본 광기가 20점 감소하며, 최대 5회까지 감소합니다.",
-          "battleDescription": "모든 각성체의 광기 폭발 최종 피해가 100% 증가하며, 각 각성체가 광기 폭발을 해제한 후 500% 기본 광기의 은열쇠 에너지를 획득합니다. 모든 각성체의 기본 광기가 20점 감소하며, 최대 5회까지 감소합니다.",
+          "description": "모든 각성체의 광기 폭발 최종 피해가 100% 증가합니다. 각 각성체가 광기 폭발을 사용한 후 해당 각성체의 광기 상한의 500%에 해당하는 은열쇠 에너지를 획득합니다. 모든 각성체의 광기 상한이 20 감소하며, 최대 5회까지 감소합니다.",
+          "battleDescription": "모든 각성체의 광기 폭발 최종 피해가 100% 증가합니다. 각 각성체가 광기 폭발을 사용한 후 해당 각성체의 광기 상한의 500%에 해당하는 은열쇠 에너지를 획득합니다. 모든 각성체의 광기 상한이 20 감소하며, 최대 5회까지 감소합니다.",
           "story": "",
           "chapter": "stars",
           "chapterLabel": "성신편",
@@ -3460,8 +3607,8 @@
         {
           "id": 121694,
           "name": "“백은의 귀환 · 기이함”",
-          "description": "모든 각성체는 매 턴 첫 번째 “명령 카드”로 25 pt의 광기를 획득하고, “영감” 1장을 손에 추가합니다. “광기 폭발”을 4번 사용한 후, 모든 각성체의 봉인 상태를 해제하고, 모든 각성체가 50 pt의 광기를 획득합니다.",
-          "battleDescription": "모든 각성체는 매 턴 첫 번째 “명령 카드”로 25 pt의 광기를 획득하고, “영감” 1장을 손에 추가합니다. “광기 폭발”을 4번 사용한 후, 모든 각성체의 봉인 상태를 해제하고, 모든 각성체가 50 pt의 광기를 획득합니다.",
+          "description": "모든 각성체는 매 턴 첫 번째 “명령 카드”로 25 pt의 광기를 획득하고, “영감” 1장을 손에 추가합니다. “광기 폭발”을 4번 사용할 때마다, 모든 각성체의 봉인 상태를 해제하고, 모든 각성체가 50 pt의 광기를 획득합니다.",
+          "battleDescription": "모든 각성체는 매 턴 첫 번째 “명령 카드”로 25 pt의 광기를 획득하고, “영감” 1장을 손에 추가합니다. “광기 폭발”을 4번 사용할 때마다, 모든 각성체의 봉인 상태를 해제하고, 모든 각성체가 50 pt의 광기를 획득합니다.",
           "story": "",
           "chapter": "stars",
           "chapterLabel": "성신편",
@@ -3742,8 +3889,8 @@
         {
           "id": 13849,
           "name": "안전한 출구",
-          "description": "매 턴 3번째로 피해를 입힌 후, [Arg1] 실드를 획득합니다. 매 턴 6번째로 피해를 입힌 후, 힘을 [Arg2] 획득합니다.",
-          "battleDescription": "매 턴 3번째로 피해를 입힌 후, [Arg1] 실드를 획득합니다. 매 턴 6번째로 피해를 입힌 후, 힘을 [Arg2] 획득합니다.",
+          "description": "매 턴 3번째로 능동 피해 또는 촉수 피해를 입힌 후, [Arg1] 실드를 획득합니다. 매 턴 6번째로 능동 피해 또는 촉수 피해를 입힌 후, 힘을 [Arg2] 획득합니다.",
+          "battleDescription": "매 턴 3번째로 능동 피해 또는 촉수 피해를 입힌 후, [Arg1] 실드를 획득합니다. 매 턴 6번째로 능동 피해 또는 촉수 피해를 입힌 후, 힘을 [Arg2] 획득합니다.",
           "story": "보아하니, 그도 도망치지 못한 것 같습니다.",
           "chapter": "morimens",
           "chapterLabel": "망각편",
@@ -5469,8 +5616,8 @@
         {
           "id": 13816,
           "name": "☆애곡의 방울☆",
-          "description": "전투 시작 시, 모든 적이 반격을 [Arg1] 획득합니다. 피해를 입힐 때마다 광기를 가장 적게 보유한 각성체가 6 광기를 획득합니다.",
-          "battleDescription": "전투 시작 시, 모든 적이 반격을 [Arg1] 획득합니다. 피해를 입힐 때마다 광기를 가장 적게 보유한 각성체가 6 광기를 획득합니다.",
+          "description": "전투 시작 시, 모든 적이 반격을 [Arg1] 획득합니다. 능동 피해 또는 촉수 피해를 입힐 때마다 광기를 가장 적게 보유한 각성체가 6 광기를 획득합니다.",
+          "battleDescription": "전투 시작 시, 모든 적이 반격을 [Arg1] 획득합니다. 능동 피해 또는 촉수 피해를 입힐 때마다 광기를 가장 적게 보유한 각성체가 6 광기를 획득합니다.",
           "story": "딩동, 딩동, 아이가 울고 있어요; 딩동, 딩동, 아이가 비명을 지르고 있어요; 딩동, 딩동, 아이가 울부짖고 있어요; 딩동, 딩동, 배가 고픈 거예요, 당신이 알잖아요.",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -5547,8 +5694,8 @@
         {
           "id": 13845,
           "name": "☆백은 차분기☆",
-          "description": "행동력이 0이 될 때 행동력을 2 획득합니다. 턴마다 2번까지 발동합니다.",
-          "battleDescription": "행동력이 0이 될 때 행동력을 2 획득합니다. 턴마다 2번까지 발동합니다.",
+          "description": "행동력을 소모해 0이 될 때 행동력을 2 획득합니다. 턴마다 2번까지 발동합니다.",
+          "battleDescription": "행동력을 소모해 0이 될 때 행동력을 2 획득합니다. 턴마다 2번까지 발동합니다.",
           "story": "“그것은 역사를 바꾸었습니다.”",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -5776,7 +5923,8 @@
       "image": "images/dzone/relic/icon_creation_140.webp",
       "chapters": [
         "morimens",
-        "stars"
+        "stars",
+        "special"
       ],
       "tiers": [
         "silver",
@@ -5851,6 +5999,54 @@
           "tierLabel": "황금",
           "quality": "Forged",
           "relicGroup": 252,
+          "iconSource": "Icon/Relic/Icon_Creation_140.png",
+          "parameters": [
+            {
+              "index": 1,
+              "expression": "30",
+              "kind": "fixed",
+              "fixedValue": 30
+            }
+          ]
+        },
+        {
+          "id": 100539,
+          "name": "창구의 피 묻은 자갈",
+          "description": "매 턴 처음으로 직접 「배아」를 사용한 후, 해당 턴 내에서 능동 피해가 [Arg1]% 피해량의 출혈을 일으킵니다.",
+          "battleDescription": "매 턴 처음으로 직접 「배아」를 사용한 후, 해당 턴 내에서 능동 피해가 [Arg1]% 피해량의 출혈을 일으킵니다.",
+          "story": "일、이、삼、사、오.",
+          "chapter": "special",
+          "chapterLabel": "기타",
+          "source": "pickman",
+          "sourceLabel": "픽맨 생성",
+          "tier": "silver",
+          "tierLabel": "백은",
+          "quality": "White",
+          "relicGroup": 999,
+          "iconSource": "Icon/Relic/Icon_Creation_140.png",
+          "parameters": [
+            {
+              "index": 1,
+              "expression": "15",
+              "kind": "fixed",
+              "fixedValue": 15
+            }
+          ]
+        },
+        {
+          "id": 100540,
+          "name": "창구의 피 묻은 자갈+",
+          "description": "매 턴 처음으로 직접 「배아」를 사용한 후, 해당 턴 내에서 능동 피해가 [Arg1]% 피해량의 출혈을 일으킵니다.",
+          "battleDescription": "매 턴 처음으로 직접 「배아」를 사용한 후, 해당 턴 내에서 능동 피해가 [Arg1]% 피해량의 출혈을 일으킵니다.",
+          "story": "일、이、삼、사、오.",
+          "chapter": "special",
+          "chapterLabel": "기타",
+          "source": "pickman",
+          "sourceLabel": "픽맨 생성",
+          "tier": "gold",
+          "tierLabel": "황금",
+          "quality": "Forged",
+          "relicGroup": 999,
           "iconSource": "Icon/Relic/Icon_Creation_140.png",
           "parameters": [
             {
@@ -5948,8 +6144,8 @@
         {
           "id": 13754,
           "name": "시력 교정기",
-          "description": "매 5번째 피해가 반드시 크리티컬로 적중합니다.",
-          "battleDescription": "매 5번째 피해가 반드시 크리티컬로 적중합니다.",
+          "description": "매 5번째 능동 피해 또는 촉수 피해가 반드시 크리티컬로 적중합니다.",
+          "battleDescription": "매 5번째 능동 피해 또는 촉수 피해가 반드시 크리티컬로 적중합니다.",
           "story": "누군가가 그것을 통해 진실을 찾았습니다.",
           "chapter": "morimens",
           "chapterLabel": "망각편",
@@ -5965,8 +6161,8 @@
         {
           "id": 70774,
           "name": "시력 교정기",
-          "description": "매 턴 처음 5번의 피해량이 [Arg1]% 증가합니다.",
-          "battleDescription": "매 턴 처음 5번의 피해량이 [Arg1]% 증가합니다.",
+          "description": "매 턴 처음 5번의 능동 피해 또는 촉수 피해량이 [Arg1]% 증가합니다.",
+          "battleDescription": "매 턴 처음 5번의 능동 피해 또는 촉수 피해량이 [Arg1]% 증가합니다.",
           "story": "누군가가 그것을 통해 진실을 찾았습니다.",
           "chapter": "stars",
           "chapterLabel": "성신편",
@@ -5989,8 +6185,8 @@
         {
           "id": 70783,
           "name": "시력 교정기+",
-          "description": "매 턴 처음 5번의 피해량이 [Arg1]% 증가합니다.",
-          "battleDescription": "매 턴 처음 5번의 피해량이 [Arg1]% 증가합니다.",
+          "description": "매 턴 처음 5번의 능동 피해 또는 촉수 피해량이 [Arg1]% 증가합니다.",
+          "battleDescription": "매 턴 처음 5번의 능동 피해 또는 촉수 피해량이 [Arg1]% 증가합니다.",
           "story": "누군가가 그것을 통해 진실을 찾았습니다.",
           "chapter": "stars",
           "chapterLabel": "성신편",
@@ -7694,8 +7890,8 @@
         {
           "id": 44664,
           "name": "축복·일곱 비늘의 키스",
-          "description": "획득 후 영구적으로 [Arg1] 힘을 얻습니다. 피해를 줄 때마다 [Arg2]의 HP를 회복하며, 턴당 최대 6번까지 발동됩니다.",
-          "battleDescription": "획득 후 영구적으로 [Arg1] 힘을 얻습니다. 피해를 줄 때마다 [Arg2]의 HP를 회복하며, 턴당 최대 6번까지 발동됩니다.",
+          "description": "획득 후 영구적으로 [Arg1] 힘을 얻습니다. 능동 피해 또는 촉수 피해를 줄 때마다 [Arg2]의 HP를 회복하며, 턴당 최대 6번까지 발동됩니다.",
+          "battleDescription": "획득 후 영구적으로 [Arg1] 힘을 얻습니다. 능동 피해 또는 촉수 피해를 줄 때마다 [Arg2]의 HP를 회복하며, 턴당 최대 6번까지 발동됩니다.",
           "story": "이 타락한 키스를 거부하라, 아버지 신의 품은 모든 어둠보다 따뜻하다.",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -10625,8 +10821,8 @@
         {
           "id": 13853,
           "name": "의식용 단검",
-          "description": "피해를 입힐 때마다 임시 반격을 [Arg1] 획득합니다. 턴마다 5번까지 발동하며, 5번째 발동 시 「영감」 1장을 드로우 덱에 추가합니다.",
-          "battleDescription": "피해를 입힐 때마다 임시 반격을 [Arg1] 획득합니다. 턴마다 5번까지 발동하며, 5번째 발동 시 「영감」 1장을 드로우 덱에 추가합니다.",
+          "description": "능동 피해 또는 촉수 피해를 입힐 때마다 임시 반격을 [Arg1] 획득합니다. 턴마다 5번까지 발동하며, 5번째 발동 시 「영감」 1장을 드로우 덱에 추가합니다.",
+          "battleDescription": "능동 피해 또는 촉수 피해를 입힐 때마다 임시 반격을 [Arg1] 획득합니다. 턴마다 5번까지 발동하며, 5번째 발동 시 「영감」 1장을 드로우 덱에 추가합니다.",
           "story": "날이 굽어진 단검. 주로 제사 의식에 사용된다.",
           "chapter": "morimens",
           "chapterLabel": "망각편",
@@ -12176,8 +12372,8 @@
         {
           "id": 13751,
           "name": "시계추「심화」",
-          "description": "크리티컬 확률이 25% 증가하고, 매 턴 처음 입히는 피해량이 2배가 됩니다.",
-          "battleDescription": "크리티컬 확률이 25% 증가하고, 매 턴 처음 입히는 피해량이 2배가 됩니다.",
+          "description": "크리티컬 확률이 25% 증가하고, 매 턴 처음 입히는 능동 피해 또는 촉수 피해량이 2배가 됩니다.",
+          "battleDescription": "크리티컬 확률이 25% 증가하고, 매 턴 처음 입히는 능동 피해 또는 촉수 피해량이 2배가 됩니다.",
           "story": "",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -12234,8 +12430,8 @@
         {
           "id": 13742,
           "name": "시계추「명상」",
-          "description": "크리티컬 피해가 50% 증가합니다. 매 3번째 공격이 반드시 크리티컬로 적중합니다.",
-          "battleDescription": "크리티컬 피해가 50% 증가합니다. 매 3번째 공격이 반드시 크리티컬로 적중합니다.",
+          "description": "크리티컬 피해가 50% 증가합니다. 매 3번째 능동 피해 또는 촉수 피해가 반드시 크리티컬로 적중합니다.",
+          "battleDescription": "크리티컬 피해가 50% 증가합니다. 매 3번째 능동 피해 또는 촉수 피해가 반드시 크리티컬로 적중합니다.",
           "story": "",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -12326,8 +12522,8 @@
         {
           "id": 13923,
           "name": "시계추「은밀」",
-          "description": "피해를 입힐 때마다 [Arg1] 실드를 획득합니다. 턴 시작 시, 남은 실드 3마다 1의 임시 힘과 촉수 피해를 획득합니다.",
-          "battleDescription": "피해를 입힐 때마다 [Arg1] 실드를 획득합니다. 턴 시작 시, 남은 실드 3마다 1의 임시 힘과 촉수 피해를 획득합니다.",
+          "description": "능동 피해 또는 촉수 피해를 입힐 때마다 [Arg1] 실드를 획득합니다. 턴 시작 시, 남은 실드 3마다 1의 임시 힘과 촉수 피해를 획득합니다.",
+          "battleDescription": "능동 피해 또는 촉수 피해를 입힐 때마다 [Arg1] 실드를 획득합니다. 턴 시작 시, 남은 실드 3마다 1의 임시 힘과 촉수 피해를 획득합니다.",
           "story": "",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -12560,8 +12756,8 @@
         {
           "id": 20177,
           "name": "시계추 「부활」",
-          "description": "해당 유물 획득 시, 죽음 저항이 2배로 증가합니다. 피해를 입힌 후 목표에게 피해량 50%만큼의 출혈을 부여합니다. 죽음 저항이 1회 발동할 때마다, 모든 적의 출혈을 즉시 1회 발동시킵니다.",
-          "battleDescription": "해당 유물 획득 시, 죽음 저항이 2배로 증가합니다. 피해를 입힌 후 목표에게 피해량 50%만큼의 출혈을 부여합니다. 죽음 저항이 1회 발동할 때마다, 모든 적의 출혈을 즉시 1회 발동시킵니다.",
+          "description": "해당 유물 획득 시, 죽음 저항이 2배로 증가합니다. 능동 피해 또는 촉수 피해를 입힌 후 목표에게 피해량 50%만큼의 출혈을 부여합니다. 죽음 저항이 1회 발동할 때마다, 모든 적의 출혈을 즉시 1회 발동시킵니다.",
+          "battleDescription": "해당 유물 획득 시, 죽음 저항이 2배로 증가합니다. 능동 피해 또는 촉수 피해를 입힌 후 목표에게 피해량 50%만큼의 출혈을 부여합니다. 죽음 저항이 1회 발동할 때마다, 모든 적의 출혈을 즉시 1회 발동시킵니다.",
           "story": "",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -12624,8 +12820,8 @@
         {
           "id": 23691,
           "name": "시계추「조수」",
-          "description": "피해를 5번 입힐 때마다 HP를 [Arg1]회복합니다. HP를 잃을 때마다 촉수 피해가 [Arg2] 증가하고, 한 번에 최대 HP의 10% 이상을 잃었을 경우 모든 촉수가 1번씩 공격합니다.",
-          "battleDescription": "피해를 5번 입힐 때마다 HP를 [Arg1]회복합니다. HP를 잃을 때마다 촉수 피해가 [Arg2] 증가하고, 한 번에 [Arg3] 이상의 HP를 잃었을 경우 모든 촉수가 1번씩 공격합니다.",
+          "description": "능동 피해 또는 촉수 피해를 5번 입힐 때마다 HP를 [Arg1]회복합니다. HP를 잃을 때마다 촉수 피해가 [Arg2] 증가하고, 한 번에 최대 HP의 10% 이상을 잃었을 경우 모든 촉수가 1번씩 공격합니다.",
+          "battleDescription": "능동 피해 또는 촉수 피해를 5번 입힐 때마다 HP를 [Arg1]회복합니다. HP를 잃을 때마다 촉수 피해가 [Arg2] 증가하고, 한 번에 [Arg3] 이상의 HP를 잃었을 경우 모든 촉수가 1번씩 공격합니다.",
           "story": "",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -12744,8 +12940,8 @@
         {
           "id": 35135,
           "name": "시계추「도취」",
-          "description": "피해를 입힐 때마다 임시 힘을 [Arg1]pt 획득하고 임시 촉수 피해가 [Arg2]pt 증가한다. 턴마다 최대 12회 발동한다. 만약 1턴 내에 4회 피해를 입혔다면 모든 적에게 취약을 1스택 부여하고 실드를 [Arg3]pt 획득한다. 만약 8회 피해를 입혔다면 모든 적에게 허약을 1스택 부여하고 HP를 [Arg3]pt 회복한다.",
-          "battleDescription": "피해를 입힐 때마다 임시 힘을 [Arg1]pt 획득하고 임시 촉수 피해가 [Arg2]pt 증가한다. 턴마다 최대 12회 발동한다. 만약 1턴 내에 4회 피해를 입혔다면 모든 적에게 취약을 1스택 부여하고 실드를 [Arg3]pt 획득한다. 만약 8회 피해를 입혔다면 모든 적에게 허약을 1스택 부여하고 HP를 [Arg3]pt 회복한다.",
+          "description": "능동 피해 또는 촉수 피해를 입힐 때마다 임시 힘을 [Arg1]pt 획득하고 임시 촉수 피해가 [Arg2]pt 증가한다. 턴마다 최대 12회 발동한다. 만약 1턴 내에 4회 능동 피해 또는 촉수 피해를 입혔다면 모든 적에게 취약을 1스택 부여하고 실드를 [Arg3]pt 획득한다. 만약 8회 능동 피해 또는 촉수 피해를 입혔다면 모든 적에게 허약을 1스택 부여하고 HP를 [Arg3]pt 회복한다.",
+          "battleDescription": "능동 피해 또는 촉수 피해를 입힐 때마다 임시 힘을 [Arg1]pt 획득하고 임시 촉수 피해가 [Arg2]pt 증가한다. 턴마다 최대 12회 발동한다. 만약 1턴 내에 4회 능동 피해 또는 촉수 피해를 입혔다면 모든 적에게 취약을 1스택 부여하고 실드를 [Arg3]pt 획득한다. 만약 8회 능동 피해 또는 촉수 피해를 입혔다면 모든 적에게 허약을 1스택 부여하고 HP를 [Arg3]pt 회복한다.",
           "story": "",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -12786,8 +12982,8 @@
         {
           "id": 35139,
           "name": "시계추「종결」",
-          "description": "획득 후 파티의 피해 강효가 30% 증가합니다. 4번째 피해는 반드시 크리티컬로 발생하며, 크리티컬 피해가 50% 증가합니다. 만약 해당 공격으로 킬이 발생하면 5개의 검은 인장을 획득합니다.",
-          "battleDescription": "획득 후 파티의 피해 강효가 30% 증가합니다. 4번째 피해는 반드시 크리티컬로 발생하며, 크리티컬 피해가 50% 증가합니다. 만약 해당 공격으로 킬이 발생하면 5개의 검은 인장을 획득합니다.",
+          "description": "획득 후 파티의 피해 강효가 30% 증가합니다. 매 4번째 능동 피해 또는 촉수 피해는 반드시 크리티컬로 발생하며, 크리티컬 피해가 50% 증가합니다. 만약 해당 공격으로 킬이 발생하면 5개의 검은 인장을 획득합니다.",
+          "battleDescription": "획득 후 파티의 피해 강효가 30% 증가합니다. 매 4번째 능동 피해 또는 촉수 피해는 반드시 크리티컬로 발생하며, 크리티컬 피해가 50% 증가합니다. 만약 해당 공격으로 킬이 발생하면 5개의 검은 인장을 획득합니다.",
           "story": "",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -12933,8 +13129,8 @@
         {
           "id": 39302,
           "name": "시계추「미몽」",
-          "description": "매 4번의 피해를 줄 때마다 “영감” 1장을 드로우 덱에 넣습니다. 매 턴 최대 3번까지 발동합니다. 광기 폭발을 방출한 후, 덱에서 모든 “영감”을 사용하고 소모합니다.",
-          "battleDescription": "매 4번의 피해를 줄 때마다 “영감” 1장을 드로우 덱에 넣습니다. 매 턴 최대 3번까지 발동합니다. 광기 폭발을 방출한 후, 덱에서 모든 “영감”을 사용하고 소모합니다.",
+          "description": "매 4번의 능동 피해 또는 촉수 피해를 줄 때마다 “영감” 1장을 드로우 덱에 넣습니다. 매 턴 최대 3번까지 발동합니다. 광기 폭발을 방출한 후, 덱에서 모든 “영감”을 사용하고 소모합니다.",
+          "battleDescription": "매 4번의 능동 피해 또는 촉수 피해를 줄 때마다 “영감” 1장을 드로우 덱에 넣습니다. 매 턴 최대 3번까지 발동합니다. 광기 폭발을 방출한 후, 덱에서 모든 “영감”을 사용하고 소모합니다.",
           "story": "",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -13038,8 +13234,8 @@
         {
           "id": 50489,
           "name": "시계추 「물결」",
-          "description": "크리티컬 확률 및 크리티컬 피해가 100% 증가합니다. 능동 피해 또는 촉수 피해를 입힐 때마다 모든 각성체의 크리티컬 확률과 크리티컬 피해가 10% 감소하며 (최대 50%), 중독과 반격 피해량이 10% 증가합니다 (최대 50%).",
-          "battleDescription": "크리티컬 확률, 치명타 피해 100% 증가. 1회 피해를 줄 때마다, 모든 각성체의 크리티컬과 치명타 피해가 10% 감소, 최대 50%까지 감소. 1회 피해를 줄 때마다, 이번 턴에 발생하는 중독과 반격이 10% 증가, 최대 50%까지 증가.",
+          "description": "크리티컬 확률 및 크리티컬 피해가 100% 증가합니다. 능동 피해 또는 촉수 피해를 입힐 때마다 이번 턴 동안 모든 각성체의 크리티컬 확률과 크리티컬 피해가 10% 감소하고, 중독과 반격 피해량이 10% 증가합니다. 턴마다 최대 5회 중첩됩니다.",
+          "battleDescription": "크리티컬 확률 및 크리티컬 피해가 100% 증가합니다. 능동 피해 또는 촉수 피해를 입힐 때마다 이번 턴 동안 모든 각성체의 크리티컬 확률과 크리티컬 피해가 10% 감소하고, 중독과 반격 피해량이 10% 증가합니다. 턴마다 최대 5회 중첩됩니다.",
           "story": "",
           "chapter": "special",
           "chapterLabel": "기타",
@@ -14381,8 +14577,8 @@
         {
           "id": 96652,
           "name": "검은 불꽃",
-          "description": "열량이 3 미만일 때, 3장의 미연소 명령 카드를 사용할 때마다 손패의 1장의 명령 카드에 번영을 부여합니다. 번영 카드가 사용되면, 1층의 열량이 쌓이거나, 그렇지 않으면 소모하고 1장의 카드를 뽑습니다. 열량이 3층에 도달하면, 3 pt의 행동력을 얻고, 3장의 카드를 뽑으며, 손패의 모든 명령 카드에 번영을 부여하고 즉시 폭발 초과 상태에 들어갑니다.",
-          "battleDescription": "열량이 3 미만일 때, 3장의 미연소 명령 카드를 사용할 때마다 손패의 1장의 명령 카드에 번영을 부여합니다.번영이 부여된 카드가 사용되면 열량 1층을 축적하고, 그렇지 않으면 소모하고 1장의 카드를 뽑습니다.열량이 3층에 도달하면, 3점의 행동력을 획득하고 3장의 카드를 뽑으며, 손패의 모든 명령 카드에 번영을 부여하고 즉시 폭발 초과 상태에 들어갑니다.",
+          "description": "카드 뽑기 단계 후 손패의 무작위 명령 카드 1장에 「연소」를 부여하고 「검은 불꽃」 1스택을 획득합니다. 이번 전투에서 「검은 불꽃」이 처음 3스택에 도달하면 「무한한 화염」 1장을 손패에 추가합니다.",
+          "battleDescription": "카드 뽑기 단계 후 손패의 무작위 명령 카드 1장에 「연소」를 부여하고 「검은 불꽃」 1스택을 획득합니다. 이번 전투에서 「검은 불꽃」이 처음 3스택에 도달하면 「무한한 화염」 1장을 손패에 추가합니다.",
           "story": "검은 불꽃이 그녀의 의지를 관철시키고, 모든 것을 태워 없애버릴 것이다.",
           "chapter": "stars",
           "chapterLabel": "성신편",
@@ -14505,6 +14701,72 @@
           "quality": "Orange",
           "relicGroup": 999,
           "iconSource": "Icon/Relic/Icon_Creation_172.png",
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "id": 118561,
+      "name": "경휘",
+      "story": "천 년이 지나도록 아무도 이해하지 못했다. 혈월 아래 한밤의 숲에서 벌어지는 이야기에 마녀와 선지자가 있는데, 왜 굳이 경찰서장을 뽑는 선거가 필요한지를.",
+      "acquisition": "이벤트 「아무도 살아남지 못한 밤」에서 해금 가능",
+      "iconSource": "Icon/Relic/Icon_Creation_185.png",
+      "image": "images/dzone/relic/icon_creation_185.webp",
+      "chapters": [
+        "stars"
+      ],
+      "tiers": [
+        "gold"
+      ],
+      "variants": [
+        {
+          "id": 151981,
+          "name": "경휘",
+          "description": "손패 상한 +1. 전투 시작 시 <DerivativeCardKeywords_164:「가마술」> 1장을 손패에 넣습니다. 턴 시작 시, 손패에 <DerivativeCardKeywords_164:「가마술」>을 보유하고 있다면, 손패의 카드 1장을 소모하여 <DerivativeCardKeywords_164:「가마술」>에 넣을 수 있습니다. 조제 조건을 충족하면 <DerivativeCardKeywords_164:「가마술」>이 <DerivativeCardKeywords_165:「마법 물약」>으로 변합니다.",
+          "battleDescription": "손패 상한 +1. 전투 시작 시 <DerivativeCardKeywords_164:「가마술」> 1장을 손패에 넣습니다. 턴 시작 시, 손패에 <DerivativeCardKeywords_164:「가마술」>을 보유하고 있다면, 손패의 카드 1장을 소모하여 <DerivativeCardKeywords_164:「가마술」>에 넣을 수 있습니다. 조제 조건을 충족하면 <DerivativeCardKeywords_164:「가마술」>이 <DerivativeCardKeywords_165:「마법 물약」>으로 변합니다.",
+          "story": "천 년이 지나도록 아무도 이해하지 못했다. 혈월 아래 한밤의 숲에서 벌어지는 이야기에 마녀와 선지자가 있는데, 왜 굳이 경찰서장을 뽑는 선거가 필요한지를.",
+          "chapter": "stars",
+          "chapterLabel": "성신편",
+          "source": "standard",
+          "sourceLabel": "",
+          "tier": "gold",
+          "tierLabel": "황금",
+          "quality": "Orange",
+          "relicGroup": 999,
+          "iconSource": "Icon/Relic/Icon_Creation_185.png",
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "id": 118589,
+      "name": "의전용 박차",
+      "story": "금으로 도금한 왕이 친히 하사한 기사의 상징. 그러나 견습 기사인 그가 가질 수 있는 것은 은으로 만든 한 쌍뿐—— 도금의 가능성은, 이미 완전히 사라진 지 오래다.",
+      "acquisition": "이벤트 「영광이 바래진다면」에서 해금할 수 있습니다",
+      "iconSource": "Icon/Relic/Icon_Creation_184.png",
+      "image": "images/dzone/relic/icon_creation_184.webp",
+      "chapters": [
+        "stars"
+      ],
+      "tiers": [
+        "gold"
+      ],
+      "variants": [
+        {
+          "id": 152074,
+          "name": "의전용 박차",
+          "description": "턴 시작 시 및 광기 폭발 전개 후 「<Genesis_Ogier_Tips_1:질주>」 1스택을 획득한다. 열쇠 지령을 2회 전개할 때마다 「<Genesis_Ogier_Tips_1:질주>」를 「<Genesis_Ogier_Tips_2:돌격>」으로 전환한다. 「<Genesis_Ogier_Tips_2:돌격>」이 처음 16스택에 도달하면 「<Genesis_Ogier_Tips_2:돌격>」을 제거하고 「<Genesis_Ogier_Tips_3:영광을 향해 전진하라>」를 획득한다.",
+          "battleDescription": "턴 시작 시 및 광기 폭발 전개 후 「<Genesis_Ogier_Tips_1:질주>」 1스택을 획득한다. 열쇠 지령을 2회 전개할 때마다 「<Genesis_Ogier_Tips_1:질주>」를 「<Genesis_Ogier_Tips_2:돌격>」으로 전환한다. 「<Genesis_Ogier_Tips_2:돌격>」이 처음 16스택에 도달하면 「<Genesis_Ogier_Tips_2:돌격>」을 제거하고 「<Genesis_Ogier_Tips_3:영광을 향해 전진하라>」를 획득한다.",
+          "story": "금으로 도금한 왕이 친히 하사한 기사의 상징. 그러나 견습 기사인 그가 가질 수 있는 것은 은으로 만든 한 쌍뿐—— 도금의 가능성은, 이미 완전히 사라진 지 오래다.",
+          "chapter": "stars",
+          "chapterLabel": "성신편",
+          "source": "standard",
+          "sourceLabel": "",
+          "tier": "gold",
+          "tierLabel": "황금",
+          "quality": "Orange",
+          "relicGroup": 999,
+          "iconSource": "Icon/Relic/Icon_Creation_184.png",
           "parameters": []
         }
       ]

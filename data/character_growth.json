@@ -130759,6 +130759,2141 @@
           ]
         }
       ]
+    },
+    "vivian": {
+      "id": "vivian",
+      "sourceId": 151844,
+      "name": "비비안",
+      "grade": "ssr",
+      "sourceQuality": "Orange",
+      "experienceCurve": "SSREXP",
+      "baseMaxLevel": 60,
+      "maxLevel": 90,
+      "statBasis": {
+        "talentAttrLevel": 0,
+        "ascensionBonusesIncluded": false,
+        "potencyBonusesIncluded": false,
+        "equipmentIncluded": false
+      },
+      "configuredNonLevelAttributes": {
+        "occupation_master": 0,
+        "keeper_energy_eff_2": 15,
+        "crit": 6.6,
+        "crit_damage": 50
+      },
+      "levels": [
+        {
+          "level": 1,
+          "physique": 35,
+          "attack": 23,
+          "defense": 25
+        },
+        {
+          "level": 2,
+          "physique": 37,
+          "attack": 24,
+          "defense": 26
+        },
+        {
+          "level": 3,
+          "physique": 38,
+          "attack": 25,
+          "defense": 27
+        },
+        {
+          "level": 4,
+          "physique": 40,
+          "attack": 26,
+          "defense": 28
+        },
+        {
+          "level": 5,
+          "physique": 42,
+          "attack": 27,
+          "defense": 29
+        },
+        {
+          "level": 6,
+          "physique": 43,
+          "attack": 28,
+          "defense": 30
+        },
+        {
+          "level": 7,
+          "physique": 45,
+          "attack": 29,
+          "defense": 32
+        },
+        {
+          "level": 8,
+          "physique": 47,
+          "attack": 30,
+          "defense": 33
+        },
+        {
+          "level": 9,
+          "physique": 48,
+          "attack": 31,
+          "defense": 34
+        },
+        {
+          "level": 10,
+          "physique": 50,
+          "attack": 32,
+          "defense": 35
+        },
+        {
+          "level": 11,
+          "physique": 52,
+          "attack": 33,
+          "defense": 36
+        },
+        {
+          "level": 12,
+          "physique": 53,
+          "attack": 34,
+          "defense": 37
+        },
+        {
+          "level": 13,
+          "physique": 55,
+          "attack": 35,
+          "defense": 38
+        },
+        {
+          "level": 14,
+          "physique": 57,
+          "attack": 36,
+          "defense": 40
+        },
+        {
+          "level": 15,
+          "physique": 58,
+          "attack": 37,
+          "defense": 41
+        },
+        {
+          "level": 16,
+          "physique": 60,
+          "attack": 38,
+          "defense": 42
+        },
+        {
+          "level": 17,
+          "physique": 62,
+          "attack": 39,
+          "defense": 43
+        },
+        {
+          "level": 18,
+          "physique": 63,
+          "attack": 40,
+          "defense": 44
+        },
+        {
+          "level": 19,
+          "physique": 65,
+          "attack": 41,
+          "defense": 45
+        },
+        {
+          "level": 20,
+          "physique": 66,
+          "attack": 42,
+          "defense": 46
+        },
+        {
+          "level": 21,
+          "physique": 68,
+          "attack": 44,
+          "defense": 48
+        },
+        {
+          "level": 22,
+          "physique": 70,
+          "attack": 45,
+          "defense": 49
+        },
+        {
+          "level": 23,
+          "physique": 71,
+          "attack": 46,
+          "defense": 50
+        },
+        {
+          "level": 24,
+          "physique": 73,
+          "attack": 47,
+          "defense": 51
+        },
+        {
+          "level": 25,
+          "physique": 75,
+          "attack": 48,
+          "defense": 52
+        },
+        {
+          "level": 26,
+          "physique": 76,
+          "attack": 49,
+          "defense": 53
+        },
+        {
+          "level": 27,
+          "physique": 78,
+          "attack": 50,
+          "defense": 55
+        },
+        {
+          "level": 28,
+          "physique": 80,
+          "attack": 51,
+          "defense": 56
+        },
+        {
+          "level": 29,
+          "physique": 81,
+          "attack": 52,
+          "defense": 57
+        },
+        {
+          "level": 30,
+          "physique": 83,
+          "attack": 53,
+          "defense": 58
+        },
+        {
+          "level": 31,
+          "physique": 85,
+          "attack": 54,
+          "defense": 59
+        },
+        {
+          "level": 32,
+          "physique": 86,
+          "attack": 55,
+          "defense": 60
+        },
+        {
+          "level": 33,
+          "physique": 88,
+          "attack": 56,
+          "defense": 61
+        },
+        {
+          "level": 34,
+          "physique": 90,
+          "attack": 57,
+          "defense": 63
+        },
+        {
+          "level": 35,
+          "physique": 91,
+          "attack": 58,
+          "defense": 64
+        },
+        {
+          "level": 36,
+          "physique": 93,
+          "attack": 59,
+          "defense": 65
+        },
+        {
+          "level": 37,
+          "physique": 95,
+          "attack": 60,
+          "defense": 66
+        },
+        {
+          "level": 38,
+          "physique": 96,
+          "attack": 61,
+          "defense": 67
+        },
+        {
+          "level": 39,
+          "physique": 98,
+          "attack": 62,
+          "defense": 68
+        },
+        {
+          "level": 40,
+          "physique": 99,
+          "attack": 63,
+          "defense": 69
+        },
+        {
+          "level": 41,
+          "physique": 101,
+          "attack": 65,
+          "defense": 71
+        },
+        {
+          "level": 42,
+          "physique": 103,
+          "attack": 66,
+          "defense": 72
+        },
+        {
+          "level": 43,
+          "physique": 104,
+          "attack": 67,
+          "defense": 73
+        },
+        {
+          "level": 44,
+          "physique": 106,
+          "attack": 68,
+          "defense": 74
+        },
+        {
+          "level": 45,
+          "physique": 108,
+          "attack": 69,
+          "defense": 75
+        },
+        {
+          "level": 46,
+          "physique": 109,
+          "attack": 70,
+          "defense": 76
+        },
+        {
+          "level": 47,
+          "physique": 111,
+          "attack": 71,
+          "defense": 78
+        },
+        {
+          "level": 48,
+          "physique": 113,
+          "attack": 72,
+          "defense": 79
+        },
+        {
+          "level": 49,
+          "physique": 114,
+          "attack": 73,
+          "defense": 80
+        },
+        {
+          "level": 50,
+          "physique": 116,
+          "attack": 74,
+          "defense": 81
+        },
+        {
+          "level": 51,
+          "physique": 118,
+          "attack": 75,
+          "defense": 82
+        },
+        {
+          "level": 52,
+          "physique": 119,
+          "attack": 76,
+          "defense": 83
+        },
+        {
+          "level": 53,
+          "physique": 121,
+          "attack": 77,
+          "defense": 84
+        },
+        {
+          "level": 54,
+          "physique": 123,
+          "attack": 78,
+          "defense": 86
+        },
+        {
+          "level": 55,
+          "physique": 124,
+          "attack": 79,
+          "defense": 87
+        },
+        {
+          "level": 56,
+          "physique": 126,
+          "attack": 80,
+          "defense": 88
+        },
+        {
+          "level": 57,
+          "physique": 128,
+          "attack": 81,
+          "defense": 89
+        },
+        {
+          "level": 58,
+          "physique": 129,
+          "attack": 82,
+          "defense": 90
+        },
+        {
+          "level": 59,
+          "physique": 131,
+          "attack": 83,
+          "defense": 91
+        },
+        {
+          "level": 60,
+          "physique": 132,
+          "attack": 84,
+          "defense": 92
+        },
+        {
+          "level": 61,
+          "physique": 134,
+          "attack": 86,
+          "defense": 94
+        },
+        {
+          "level": 62,
+          "physique": 136,
+          "attack": 87,
+          "defense": 95
+        },
+        {
+          "level": 63,
+          "physique": 137,
+          "attack": 88,
+          "defense": 96
+        },
+        {
+          "level": 64,
+          "physique": 139,
+          "attack": 89,
+          "defense": 97
+        },
+        {
+          "level": 65,
+          "physique": 141,
+          "attack": 90,
+          "defense": 98
+        },
+        {
+          "level": 66,
+          "physique": 142,
+          "attack": 91,
+          "defense": 99
+        },
+        {
+          "level": 67,
+          "physique": 144,
+          "attack": 92,
+          "defense": 101
+        },
+        {
+          "level": 68,
+          "physique": 146,
+          "attack": 93,
+          "defense": 102
+        },
+        {
+          "level": 69,
+          "physique": 147,
+          "attack": 94,
+          "defense": 103
+        },
+        {
+          "level": 70,
+          "physique": 149,
+          "attack": 95,
+          "defense": 104
+        },
+        {
+          "level": 71,
+          "physique": 151,
+          "attack": 96,
+          "defense": 105
+        },
+        {
+          "level": 72,
+          "physique": 152,
+          "attack": 97,
+          "defense": 106
+        },
+        {
+          "level": 73,
+          "physique": 154,
+          "attack": 98,
+          "defense": 107
+        },
+        {
+          "level": 74,
+          "physique": 156,
+          "attack": 99,
+          "defense": 109
+        },
+        {
+          "level": 75,
+          "physique": 157,
+          "attack": 100,
+          "defense": 110
+        },
+        {
+          "level": 76,
+          "physique": 159,
+          "attack": 101,
+          "defense": 111
+        },
+        {
+          "level": 77,
+          "physique": 161,
+          "attack": 102,
+          "defense": 112
+        },
+        {
+          "level": 78,
+          "physique": 162,
+          "attack": 103,
+          "defense": 113
+        },
+        {
+          "level": 79,
+          "physique": 164,
+          "attack": 104,
+          "defense": 114
+        },
+        {
+          "level": 80,
+          "physique": 165,
+          "attack": 105,
+          "defense": 115
+        },
+        {
+          "level": 81,
+          "physique": 167,
+          "attack": 107,
+          "defense": 117
+        },
+        {
+          "level": 82,
+          "physique": 169,
+          "attack": 108,
+          "defense": 118
+        },
+        {
+          "level": 83,
+          "physique": 170,
+          "attack": 109,
+          "defense": 119
+        },
+        {
+          "level": 84,
+          "physique": 172,
+          "attack": 110,
+          "defense": 120
+        },
+        {
+          "level": 85,
+          "physique": 174,
+          "attack": 111,
+          "defense": 121
+        },
+        {
+          "level": 86,
+          "physique": 175,
+          "attack": 112,
+          "defense": 122
+        },
+        {
+          "level": 87,
+          "physique": 177,
+          "attack": 113,
+          "defense": 124
+        },
+        {
+          "level": 88,
+          "physique": 179,
+          "attack": 114,
+          "defense": 125
+        },
+        {
+          "level": 89,
+          "physique": 180,
+          "attack": 115,
+          "defense": 126
+        },
+        {
+          "level": 90,
+          "physique": 182,
+          "attack": 116,
+          "defense": 127
+        }
+      ],
+      "ascensions": [
+        {
+          "fromRank": 0,
+          "toRank": 1,
+          "fromMaxLevel": 10,
+          "toMaxLevel": 20,
+          "resources": [
+            {
+              "itemId": 9940,
+              "quantity": 9
+            },
+            {
+              "itemId": 10108,
+              "quantity": 1800
+            }
+          ],
+          "attributeBonuses": [
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            },
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            }
+          ]
+        },
+        {
+          "fromRank": 1,
+          "toRank": 2,
+          "fromMaxLevel": 20,
+          "toMaxLevel": 30,
+          "resources": [
+            {
+              "itemId": 9793,
+              "quantity": 9
+            },
+            {
+              "itemId": 10108,
+              "quantity": 8100
+            }
+          ],
+          "attributeBonuses": [
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            },
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            }
+          ]
+        },
+        {
+          "fromRank": 2,
+          "toRank": 3,
+          "fromMaxLevel": 30,
+          "toMaxLevel": 40,
+          "resources": [
+            {
+              "itemId": 9793,
+              "quantity": 18
+            },
+            {
+              "itemId": 10108,
+              "quantity": 21600
+            }
+          ],
+          "attributeBonuses": [
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            },
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            }
+          ]
+        },
+        {
+          "fromRank": 3,
+          "toRank": 4,
+          "fromMaxLevel": 40,
+          "toMaxLevel": 50,
+          "resources": [
+            {
+              "itemId": 9799,
+              "quantity": 15
+            },
+            {
+              "itemId": 10108,
+              "quantity": 67500
+            }
+          ],
+          "attributeBonuses": [
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            },
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            }
+          ]
+        },
+        {
+          "fromRank": 4,
+          "toRank": 5,
+          "fromMaxLevel": 50,
+          "toMaxLevel": 60,
+          "resources": [
+            {
+              "itemId": 9799,
+              "quantity": 24
+            },
+            {
+              "itemId": 10108,
+              "quantity": 129600
+            }
+          ],
+          "attributeBonuses": [
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            },
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            }
+          ]
+        }
+      ],
+      "limitIncreases": [
+        {
+          "step": 1,
+          "additionalMaxLevel": 2,
+          "resources": [
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 36
+            },
+            {
+              "itemId": 10108,
+              "quantity": 194400
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "additionalMaxLevel": 4,
+          "resources": [
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 42
+            },
+            {
+              "itemId": 10108,
+              "quantity": 226800
+            }
+          ]
+        },
+        {
+          "step": 3,
+          "additionalMaxLevel": 6,
+          "resources": [
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 48
+            },
+            {
+              "itemId": 10108,
+              "quantity": 259200
+            }
+          ]
+        },
+        {
+          "step": 4,
+          "additionalMaxLevel": 8,
+          "resources": [
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 54
+            },
+            {
+              "itemId": 10108,
+              "quantity": 291600
+            }
+          ]
+        },
+        {
+          "step": 5,
+          "additionalMaxLevel": 10,
+          "resources": [
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 60
+            },
+            {
+              "itemId": 10108,
+              "quantity": 324000
+            }
+          ]
+        },
+        {
+          "step": 6,
+          "additionalMaxLevel": 12,
+          "resources": [
+            {
+              "itemId": 69985,
+              "quantity": 1
+            },
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 108
+            },
+            {
+              "itemId": 10108,
+              "quantity": 583200
+            }
+          ]
+        },
+        {
+          "step": 7,
+          "additionalMaxLevel": 14,
+          "resources": [
+            {
+              "itemId": 69985,
+              "quantity": 1
+            },
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 126
+            },
+            {
+              "itemId": 10108,
+              "quantity": 680400
+            }
+          ]
+        },
+        {
+          "step": 8,
+          "additionalMaxLevel": 16,
+          "resources": [
+            {
+              "itemId": 69985,
+              "quantity": 1
+            },
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 144
+            },
+            {
+              "itemId": 10108,
+              "quantity": 777600
+            }
+          ]
+        },
+        {
+          "step": 9,
+          "additionalMaxLevel": 18,
+          "resources": [
+            {
+              "itemId": 69985,
+              "quantity": 1
+            },
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 162
+            },
+            {
+              "itemId": 10108,
+              "quantity": 874800
+            }
+          ]
+        },
+        {
+          "step": 10,
+          "additionalMaxLevel": 20,
+          "resources": [
+            {
+              "itemId": 69985,
+              "quantity": 1
+            },
+            {
+              "itemId": 25218,
+              "quantity": 1
+            },
+            {
+              "itemId": 9799,
+              "quantity": 180
+            },
+            {
+              "itemId": 10108,
+              "quantity": 972000
+            }
+          ]
+        }
+      ],
+      "potencyLimits": [
+        {
+          "nodeId": 152492,
+          "step": 11,
+          "additionalMaxLevel": 5
+        },
+        {
+          "nodeId": 152485,
+          "step": 15,
+          "additionalMaxLevel": 5
+        }
+      ],
+      "potencySteps": [
+        {
+          "step": 1,
+          "nodeId": 152491,
+          "attributeBonuses": [],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 2,
+          "nodeId": 152493,
+          "attributeBonuses": [],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 3,
+          "nodeId": 152484,
+          "attributeBonuses": [],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 4,
+          "nodeId": 152496,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 5,
+          "nodeId": 152482,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 6,
+          "nodeId": 152483,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 7,
+          "nodeId": 152486,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 8,
+          "nodeId": 152489,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 9,
+          "nodeId": 152487,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 10,
+          "nodeId": 152490,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 11,
+          "nodeId": 152492,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 5,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 12,
+          "nodeId": 152494,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 13,
+          "nodeId": 152488,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 14,
+          "nodeId": 152495,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 0,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        },
+        {
+          "step": 15,
+          "nodeId": 152485,
+          "attributeBonuses": [
+            {
+              "attributeId": 18159,
+              "attribute": "crit",
+              "quantity": 1.6
+            },
+            {
+              "attributeId": 18155,
+              "attribute": "blackcoin_upgrade_per",
+              "quantity": 0.6
+            }
+          ],
+          "additionalMaxLevel": 5,
+          "resources": [
+            {
+              "itemId": 151754,
+              "quantity": 1
+            }
+          ]
+        }
+      ],
+      "skillUpgrades": [
+        {
+          "slot": "Slot_Strike",
+          "skillId": 152506,
+          "name": "타격",
+          "maxLevel": 6,
+          "steps": [
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9825,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 3150
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9621,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 12150
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9621,
+                  "quantity": 15
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 24750
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 2
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 44550
+                }
+              ]
+            },
+            {
+              "fromLevel": 5,
+              "toLevel": 6,
+              "resources": [
+                {
+                  "itemId": 9543,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9783,
+                  "quantity": 3
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 18
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 89100
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slot": "Slot_Defend",
+          "skillId": 152505,
+          "name": "방어",
+          "maxLevel": 6,
+          "steps": [
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9825,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 3150
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9621,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 12150
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9621,
+                  "quantity": 15
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 24750
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 2
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 44550
+                }
+              ]
+            },
+            {
+              "fromLevel": 5,
+              "toLevel": 6,
+              "resources": [
+                {
+                  "itemId": 9543,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9783,
+                  "quantity": 3
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 18
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 89100
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slot": "Slot_Skill1",
+          "skillId": 152584,
+          "name": "하늘에서 쏟아진 수프",
+          "maxLevel": 6,
+          "steps": [
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9825,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 3150
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9621,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 12150
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9621,
+                  "quantity": 15
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 24750
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 2
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 44550
+                }
+              ]
+            },
+            {
+              "fromLevel": 5,
+              "toLevel": 6,
+              "resources": [
+                {
+                  "itemId": 9543,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9783,
+                  "quantity": 3
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 18
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 89100
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slot": "Slot_Skill2",
+          "skillId": 152503,
+          "name": "있는 거 아무거나",
+          "maxLevel": 6,
+          "steps": [
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9825,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 3150
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9621,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 12150
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9621,
+                  "quantity": 15
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 24750
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 2
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 44550
+                }
+              ]
+            },
+            {
+              "fromLevel": 5,
+              "toLevel": 6,
+              "resources": [
+                {
+                  "itemId": 9543,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9783,
+                  "quantity": 3
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 18
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 89100
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slot": "Slot_Awake",
+          "skillId": 152501,
+          "name": "양피지 두루마리",
+          "maxLevel": 6,
+          "steps": [
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9825,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 3150
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9621,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 12150
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9621,
+                  "quantity": 15
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 24750
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 2
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 9
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 44550
+                }
+              ]
+            },
+            {
+              "fromLevel": 5,
+              "toLevel": 6,
+              "resources": [
+                {
+                  "itemId": 9543,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9783,
+                  "quantity": 3
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 18
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 89100
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "slot": "Slot_Super",
+          "skillId": 152500,
+          "name": "황무지에 잠든 자",
+          "maxLevel": 6,
+          "steps": [
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9825,
+                  "quantity": 18
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 6300
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 2
+                },
+                {
+                  "itemId": 9621,
+                  "quantity": 18
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 24300
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9543,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9783,
+                  "quantity": 3
+                },
+                {
+                  "itemId": 9621,
+                  "quantity": 30
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 49500
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9543,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9783,
+                  "quantity": 4
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 18
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 89100
+                }
+              ]
+            },
+            {
+              "fromLevel": 5,
+              "toLevel": 6,
+              "resources": [
+                {
+                  "itemId": 9543,
+                  "quantity": 1
+                },
+                {
+                  "itemId": 9783,
+                  "quantity": 5
+                },
+                {
+                  "itemId": 9769,
+                  "quantity": 36
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 178200
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "talentUpgrades": [
+        {
+          "type": 1,
+          "talentId": 151846,
+          "name": "광기의 징조",
+          "maxLevel": 12,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 9762,
+                  "quantity": 22
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 108000
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 9799,
+                  "quantity": 48
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 216000
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 9769,
+                  "quantity": 72
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 324000
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 9762,
+                  "quantity": 87
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 432000
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 9799,
+                  "quantity": 120
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 540000
+                }
+              ]
+            },
+            {
+              "fromLevel": 5,
+              "toLevel": 6,
+              "resources": [
+                {
+                  "itemId": 9769,
+                  "quantity": 144
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 648000
+                }
+              ]
+            },
+            {
+              "fromLevel": 6,
+              "toLevel": 7,
+              "resources": [
+                {
+                  "itemId": 9762,
+                  "quantity": 173
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 1036800
+                }
+              ]
+            },
+            {
+              "fromLevel": 7,
+              "toLevel": 8,
+              "resources": [
+                {
+                  "itemId": 9799,
+                  "quantity": 264
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 1663200
+                }
+              ]
+            },
+            {
+              "fromLevel": 8,
+              "toLevel": 9,
+              "resources": [
+                {
+                  "itemId": 9769,
+                  "quantity": 360
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 2754000
+                }
+              ]
+            },
+            {
+              "fromLevel": 9,
+              "toLevel": 10,
+              "resources": [
+                {
+                  "itemId": 9762,
+                  "quantity": 432
+                },
+                {
+                  "itemId": 10108,
+                  "quantity": 4320000
+                }
+              ]
+            },
+            {
+              "fromLevel": 10,
+              "toLevel": 11,
+              "resources": [
+                {
+                  "itemId": 9783,
+                  "quantity": 25
+                }
+              ]
+            },
+            {
+              "fromLevel": 11,
+              "toLevel": 12,
+              "resources": [
+                {
+                  "itemId": 9543,
+                  "quantity": 5
+                },
+                {
+                  "itemId": 9783,
+                  "quantity": 50
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": 2,
+          "talentId": 151847,
+          "name": "영혼 단련",
+          "maxLevel": 10,
+          "steps": [
+            {
+              "fromLevel": 0,
+              "toLevel": 1,
+              "resources": [
+                {
+                  "itemId": 74093,
+                  "quantity": 3
+                }
+              ]
+            },
+            {
+              "fromLevel": 1,
+              "toLevel": 2,
+              "resources": [
+                {
+                  "itemId": 74093,
+                  "quantity": 6
+                }
+              ]
+            },
+            {
+              "fromLevel": 2,
+              "toLevel": 3,
+              "resources": [
+                {
+                  "itemId": 74093,
+                  "quantity": 10
+                }
+              ]
+            },
+            {
+              "fromLevel": 3,
+              "toLevel": 4,
+              "resources": [
+                {
+                  "itemId": 74093,
+                  "quantity": 15
+                }
+              ]
+            },
+            {
+              "fromLevel": 4,
+              "toLevel": 5,
+              "resources": [
+                {
+                  "itemId": 74093,
+                  "quantity": 20
+                }
+              ]
+            },
+            {
+              "fromLevel": 5,
+              "toLevel": 6,
+              "resources": [
+                {
+                  "itemId": 74143,
+                  "quantity": 5
+                },
+                {
+                  "itemId": 74093,
+                  "quantity": 25
+                }
+              ]
+            },
+            {
+              "fromLevel": 6,
+              "toLevel": 7,
+              "resources": [
+                {
+                  "itemId": 74143,
+                  "quantity": 12
+                },
+                {
+                  "itemId": 74093,
+                  "quantity": 30
+                }
+              ]
+            },
+            {
+              "fromLevel": 7,
+              "toLevel": 8,
+              "resources": [
+                {
+                  "itemId": 74143,
+                  "quantity": 20
+                },
+                {
+                  "itemId": 74093,
+                  "quantity": 35
+                }
+              ]
+            },
+            {
+              "fromLevel": 8,
+              "toLevel": 9,
+              "resources": [
+                {
+                  "itemId": 74143,
+                  "quantity": 30
+                },
+                {
+                  "itemId": 74093,
+                  "quantity": 40
+                }
+              ]
+            },
+            {
+              "fromLevel": 9,
+              "toLevel": 10,
+              "resources": [
+                {
+                  "itemId": 74143,
+                  "quantity": 45
+                },
+                {
+                  "itemId": 74093,
+                  "quantity": 45
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "source": {
+        "resourceVersion": 15,
+        "buildVersion": 10,
+        "tables": {
+          "AwakerConfig": "cd70fdf15b643b4e6528fa73dc6134c6386126083b75d7d4a0ffa4e3c6e5ae64",
+          "AwakerUpgrade": "13d559f4427ca28e755d3537edc525b7f83ac26dd4ac66247f064577ae905861",
+          "AwakerBreakThrough": "d1716a1296da3550e849160a219dfe05fbdfb68d7f9a599d1f19da4e10db3bd0",
+          "LevelLimitIncrease": "a006124f1c56e599e887eb62407e55c4763c4c0b297c8a2368f2be1ab69ba0d5",
+          "AwakerPotency": "c8cab7deb1dff9f7634b477a7f862e5a3f622074217635086b887b97b5f7198d",
+          "ActorAttrType": "ae4692217639e95d6cd2c3fd13ce036f27ede9d9410e1f380eba37d4b20fdcb0",
+          "Item": "f83f04a4390756af56b0ca7f337fecaf8bd4afe7fd9df46a737a9a7f25da1a8b",
+          "Constant": "435aaa1b66450d2688b2fd3e68e568b6ad2b17f8f606d9c117fcd6db1390809a",
+          "AwakerSkillUpgrade": "4b6c51e22c13f9464769b206a819450476feecc35c7651c2c2f1dfa722bb9666",
+          "Skill": "04e0c76c484fadcf5997bed860890a87bee49f7a73b5d5003cc23caaf38e38dd",
+          "AwakerTalent": "1013b1fd48c78d154503fff0b63c053d8670cce0b8d01bf86f97f0d47edba6dc"
+        }
+      }
     }
   }
 }

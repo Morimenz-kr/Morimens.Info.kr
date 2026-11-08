@@ -89,8 +89,8 @@ test('시스템용 열쇠 지령 효과는 획득형 은열쇠 도감에서 제�
 test('명륜 상세 dialog는 0강부터 15강까지 강화별 주옵션을 표시한다', () => {
     assert.match(linksSource, /function getWheelMainStatLevels\(/);
     assert.match(linksSource, /Array\.from\(\{ length: 16 \}/);
-    assert.match(linksSource, /level <= 3 \? 1 : 1 \+ \(\(level - 3\) \/ 12\)/);
-    assert.match(linksSource, /appendWheelMainStatSection\(content, item\.main_stat\)/);
+    assert.match(linksSource, /grade === 'R' \? 6 : 12/);
+    assert.match(linksSource, /appendWheelMainStatSection\(content, item\.main_stat, item\.grade\)/);
     assert.match(linksSource, /statValue\.textContent = levels\[0\]\.value/);
     assert.match(linksSource, /dictionary-enhancement-slider/);
     assert.match(linksSource, /전체 강화 수치 표/);
@@ -126,6 +126,53 @@ test('은열쇠는 금기 학식 등급으로 효과 수치를 계산하고 정�
     assert.doesNotMatch(linksSource, /formatDepth\(/);
 });
 
+test('연구 깊이로 은열쇠 수치를 계산한 뒤에도 기존 효과 용어를 보존한다', () => {
+    const context = vm.createContext({ window: { ResearchDepth: {
+        depthAt: () => 2,
+        selectedLevel: () => 1,
+        evaluate: () => 24
+    } } });
+    vm.runInContext(linksSource.slice(
+        linksSource.indexOf('function formatSilverKeyEffect('),
+        linksSource.indexOf('function openDictionaryDialog(')
+    ), context);
+    const text = context.formatSilverKeyEffect({
+        effectFormula: '방어막을 PlayerGrowth*12 획득하고, 피해 증폭이 10% 증가한다.'
+    });
+    assert.match(text, /방어막을 24 획득/);
+    assert.match(text, /피해 증폭이 10%/);
+    assert.doesNotMatch(text, /실드|피해 강효/);
+});
+
+test('활동 유물의 가마술은 비비안 가마술과 서로 다른 안정 태그로 연결된다', () => {
+    const tooltips = JSON.parse(fs.readFileSync(path.join(repositoryRoot, 'data/db_tooltips.json'), 'utf8'));
+    const window = {};
+    new Function('window', characterEffectsSource)(window);
+    window.CharacterEffects.configureTooltips(tooltips);
+    const html = window.CharacterEffects.renderRichText('<DerivativeCardKeywords_164:가마술> <DerivativeCardKeywords_166:가마술>');
+    assert.match(html, /data-keyword="DerivativeCardKeywords_164"/);
+    assert.match(html, /data-keyword="DerivativeCardKeywords_166"/);
+    assert.equal(tooltips.DerivativeCardKeywords_164.sourceId, 152979);
+    assert.equal(tooltips.DerivativeCardKeywords_166.skillId, 152499);
+    assert.doesNotMatch(tooltips.DerivativeCardKeywords_164.description, /카운트다운/);
+    assert.match(tooltips.DerivativeCardKeywords_164.description, /카드 3장/);
+});
+
+test('R 명륜의 강화 주옵은 SSR·SR과 다른 성장 폭을 적용한다', () => {
+    const context = vm.createContext({});
+    vm.runInContext(linksSource.slice(
+        linksSource.indexOf('function parseWheelMainStat('),
+        linksSource.indexOf('function appendWheelEffectSection(')
+    ), context);
+    const rare = context.getWheelMainStatLevels('광기 회복 1.2', 'R');
+    assert.equal(rare[3].value, '1.2');
+    assert.equal(rare[4].value, '1.4');
+    assert.equal(rare[15].value, '3.6');
+    assert.equal(context.getWheelMainStatLevels('영역 숙련 18', 'SR')[15].value, '36');
+    assert.equal(context.getWheelMainStatLevels('영역 숙련 36', 'SSR')[15].value, '72');
+    assert.match(linksSource, /appendWheelMainStatSection\(content, item\.main_stat, item\.grade\)/);
+});
+
 test('#227 모스·무셰트 전용 명륜은 돌파별 효과 수치와 인게임 이름을 표시한다', () => {
     const eden = wheels.find(item => item.english_name === 'wheel_eden');
     const rampage = wheels.find(item => item.english_name === 'wheel_doomsday_rampage');
@@ -133,5 +180,5 @@ test('#227 모스·무셰트 전용 명륜은 돌파별 효과 수치와 인게�
     assert.match(eden.description, /기본 광기의 11\/14\/17\/20%/);
     assert.equal(rampage.korean_name, '광란의 세계 끝에서');
     assert.match(rampage.description, /기본 피해가 30\/40\/50\/60%/);
-    assert.match(rampage.description, /공격력의 13\/17\/21\/24%/);
+    assert.match(rampage.description, /공격력의 13\/17\/21\/25%/);
 });

@@ -217,11 +217,11 @@ function formatWheelMainStatValue(value, suffix = '') {
     return `${rounded.toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1')}${suffix}`;
 }
 
-function getWheelMainStatLevels(mainStat) {
+function getWheelMainStatLevels(mainStat, grade = 'SSR') {
     const stat = parseWheelMainStat(mainStat);
     if (!stat) return [];
     return Array.from({ length: 16 }, (_, level) => {
-        const multiplier = level <= 3 ? 1 : 1 + ((level - 3) / 12);
+        const multiplier = level <= 3 ? 1 : 1 + ((level - 3) / (grade === 'R' ? 6 : 12));
         return {
             level,
             value: formatWheelMainStatValue(stat.baseValue * multiplier, stat.suffix)
@@ -279,8 +279,8 @@ function appendWheelEffectSection(container, description) {
     container.appendChild(section);
 }
 
-function appendWheelMainStatSection(container, mainStat) {
-    const levels = getWheelMainStatLevels(mainStat);
+function appendWheelMainStatSection(container, mainStat, grade) {
+    const levels = getWheelMainStatLevels(mainStat, grade);
     if (levels.length === 0) return;
     const stat = parseWheelMainStat(mainStat);
 
@@ -374,12 +374,12 @@ function formatSilverKeyEffect(item) {
 
     calculated = calculated
         .replace(/\[(?:Block|Heal|Energy|Exhaustion):([^\]]+)\]/g, '$1')
-        .replace(/행동력 소모pt/g, '행동력 소모')
+        .replace(/행동력 소모pt/g, '산출력 소모')
         .replace(/(\d)\s*pt\b/g, '$1점')
         .replace(/(\d)\s*포인트/g, '$1점')
         .replace(/\s+점/g, '점')
-        .replace(/방어막/g, '실드')
-        .replace(/피해 증폭 효과|피해 증폭|피해 강화/g, '피해 강효');
+        .replace(/점를/g, '점을')
+        .replace(/점와/g, '점과');
     return calculated;
 }
 
@@ -409,7 +409,7 @@ function openDictionaryDialog(item, category, trigger, mainStats = [], subStats 
 
     const content = document.getElementById('dictionary-dialog-content');
     content.replaceChildren();
-    if (category === 'myeongryun' && item.main_stat) appendWheelMainStatSection(content, item.main_stat);
+    if (category === 'myeongryun' && item.main_stat) appendWheelMainStatSection(content, item.main_stat, item.grade);
     else if (item.main_stat) appendDictionaryDialogSection(content, '주옵션', item.main_stat);
     if (category === 'myeongryun' && item.description) appendWheelEffectSection(content, item.description);
     else if (category === 'silverkey' && (item.effectFormula || item.description)) {

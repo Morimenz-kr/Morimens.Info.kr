@@ -833,6 +833,14 @@
       "sortOrder": 306,
       "quality": "UR",
       "groupOrder": 306
+    },
+    "151754": {
+      "id": 151754,
+      "name": "파편 · 비비안",
+      "icon": "images/growth/items/151754.png",
+      "sortOrder": 307,
+      "quality": "Orange",
+      "groupOrder": 307
     }
   },
   "experienceItems": [
