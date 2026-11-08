@@ -10,6 +10,7 @@ firestore-debug.log
 ui-debug.log
 
 # Local validation and deployment artifacts
+.playwright-mcp/
 /tmp/
 
 # Private data authoring tools: only reviewed deployment/validation utilities are public.
@@ -22,6 +23,10 @@ ui-debug.log
 !/tools/firebase-firestore.test.cjs
 !/tools/prepare-pages-artifact.mjs
 !/tools/prepare-pages-artifact.test.cjs
+!/tools/prepare-roster-pages.mjs
+!/tools/prepare-roster-wheel-thumbs.py
+!/tools/roster-pages-worker.mjs
+!/tools/roster-pages-worker.test.cjs
 !/tools/validate-character.mjs
 !/tools/migrate-character-identity.mjs
 !/tools/validate-character-identity.mjs

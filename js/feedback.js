@@ -5,8 +5,9 @@
         let modal = document.getElementById(REPORT_MODAL_ID);
         if (modal) return modal;
 
+        const nativeDialog = document.body.hasAttribute('data-roster-only') || document.body.classList.contains('classic-roster');
         document.body.insertAdjacentHTML('beforeend', `
-<div id="report-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
+<${nativeDialog ? 'dialog' : 'div'} id="report-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
     <div class="modal-content report-modal-content">
         <button type="button" class="close-btn report-modal-close" data-report-close aria-label="닫기">
             &times;
@@ -34,7 +35,7 @@
             <p id="modal-form-status" class="report-modal-status">전송 중...</p>
         </form>
     </div>
-</div>`);
+</${nativeDialog ? 'dialog' : 'div'}>`);
 
         modal = document.getElementById(REPORT_MODAL_ID);
         modal.querySelector('[data-report-close]')?.addEventListener('click', closeReportModal);
@@ -63,6 +64,7 @@
 
         resetReportModalStatus();
         if (sourceUrlInput) sourceUrlInput.value = window.location.href;
+        if (typeof modal.showModal === 'function') { if (!modal.open) modal.showModal(); return; }
         modal.style.display = '';
         modal.classList.add('show');
     }
@@ -70,6 +72,7 @@
     function closeReportModal() {
         const modal = document.getElementById(REPORT_MODAL_ID);
         if (!modal) return;
+        if (typeof modal.close === 'function') { modal.close(); return; }
 
         modal.classList.remove('show');
         modal.style.display = '';
@@ -90,7 +93,7 @@
         const form = event.target;
         const formData = new FormData(form);
         const modalStatus = document.getElementById('modal-form-status');
-        const endpoint = (typeof CONFIG !== 'undefined') ? CONFIG.FEEDBACK_ENDPOINT_URL : '';
+        const endpoint = document.body.dataset.feedbackEndpoint || ((typeof CONFIG !== 'undefined') ? CONFIG.FEEDBACK_ENDPOINT_URL : '');
 
         setFeedbackStatus(modalStatus, '제보를 전송 중입니다...', '#ffc107', true);
 
