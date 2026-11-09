@@ -554,18 +554,19 @@
             || stats?.resolvedSkills?.[String(awakeningSkill)];
         const effects = [];
         if (transition.rebirth) effects.push('쓰러지면 부활');
-        if (transition.maxHpMultiplier) effects.push(`최대 HP ${(transition.maxHpMultiplier * 100).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}%로 증가`);
-        if (transition.healsToMax) effects.push('증가한 최대 HP까지 회복');
+        const phaseHp = stats?.phases?.find(phase => phase.bar === transition.phaseIndex)?.hp;
+        if (transition.maxHpMultiplier) effects.push(Number.isFinite(phaseHp) ? `최대 HP ${phaseHp.toLocaleString('ko-KR')}로 증가` : `최대 HP ${(transition.maxHpMultiplier * 100).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}%로 증가`);
+        if (transition.healsToMax) effects.push(Number.isFinite(phaseHp) ? `HP ${phaseHp.toLocaleString('ko-KR')}까지 회복` : '최대 HP까지 회복');
         const stateKeywordMarkup = (state, markup) => {
             if (state.id !== 140728 || /<kw_[a-f0-9]{16}:허기>/.test(markup || '')) return markup;
             const entry = Object.entries(data.keywordGlossary || {}).find(([, item]) =>
                 item.source?.type === 'State' && item.source.id === 140727 && item.name === '허기');
             return entry ? String(markup).replace('허기', `<${entry[0]}:허기>`) : markup;
         };
-        const stateItems = (transition.addedStates || [])
+        const stateItems = (stats?.phaseStateEffects?.[String(transition.phaseIndex)] || transition.addedStates || [])
             .map(state => transition.displayStateReplacements?.[String(state.id)] || state)
             .filter(state => state.visible && (state.name || state.descriptionTemplate))
-            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(stateKeywordMarkup(state, state.richDescriptionTemplate || state.descriptionTemplate))}` : ''}</span></li>`)
+            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(stateKeywordMarkup(state, state.richDescription || state.richDescriptionTemplate || state.descriptionTemplate))}` : ''}</span></li>`)
             .join('');
         const cards = (transition.createdCards || []).map(card => `
             <article class="phase-card">

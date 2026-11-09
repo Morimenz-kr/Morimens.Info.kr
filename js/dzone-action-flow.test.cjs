@@ -77,3 +77,13 @@ test('72기 정직 선생·겸손 여사·수련은 시작 1개와 반복 3개�
         }
     }
 });
+
+test('각성 효과는 공통 비율 템플릿 대신 선택 난이도의 계산된 수치와 회복 HP를 표시한다', () => {
+    const ctx = context();
+    ctx.dynamicMarkup = String;
+    const transition = { phaseIndex:2, maxHpMultiplier:1.5, healsToMax:true, addedStates:[{id:1,visible:true,name:'전장의 통찰',descriptionTemplate:'공격력의 3%의 힘을 획득한다.'}] };
+    const html = ctx.renderPhaseTransition({skills:[]},transition,{phases:[{bar:2,hp:2000}],phaseStateEffects:{2:[{id:1,visible:true,name:'전장의 통찰',descriptionTemplate:'공격력의 3%의 힘을 획득한다.',richDescription:'89의 힘을 획득한다.'}]}});
+    assert.match(html,/89의 힘/);
+    assert.match(html,/HP 2,000까지 회복/);
+    assert.doesNotMatch(html,/공격력의 3%/);
+});

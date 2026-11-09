@@ -75,3 +75,29 @@ test('현재 시즌의 실제 참조 설명과 조건부 행동에는 미해석 
         if (item.icon) assert.ok(fs.existsSync(path.join(__dirname, '..', item.icon)), item.icon);
     }
 });
+
+test('73기 공격·방어막과 각성 효과의 계산 가능한 수치는 숫자로 제공한다', () => {
+    const wave5 = data.waves[4];
+    for (const alert of wave5.alerts) {
+        const boss = alert.monsters.find(monster => monster.tid === 84437);
+        for (const id of [84383,84387,84388]) {
+            const skill = boss.resolvedSkills[id];
+            const damage = skill.args[0].value.display.toLocaleString('ko-KR');
+            assert.ok(skill.description.includes(`${damage}pt의 피해`), `${alert.alert}급 Skill:${id}`);
+        }
+        assert.equal(boss.phaseResolvedSkills['2']['84387'].args[1].value.display, 4);
+    }
+    for (const wave of data.waves) for (const alert of wave.alerts) {
+        for (const summon of alert.summonedMonsters) {
+            assert.ok(Number.isFinite(summon.attack), `${wave.wave}파 ${summon.tid}`);
+            for (const skill of Object.values(summon.resolvedSkills)) {
+                assert.doesNotMatch(skill.description, /공격력의 [\d.]+%pt의 피해/);
+            }
+            const shield = summon.resolvedStates.find(state => state.id === 35971);
+            if (shield) assert.match(shield.description, /[\d,]+pt의 방어막/);
+        }
+        for (const monster of alert.monsters) for (const states of Object.values(monster.phaseStateEffects || {})) {
+            for (const state of states.filter(state => state.visible)) assert.doesNotMatch(state.richDescription || '', /공격력의 [\d.]+%/);
+        }
+    }
+});
