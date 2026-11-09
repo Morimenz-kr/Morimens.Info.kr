@@ -42,6 +42,18 @@ async function pathExists(filePath) {
   return fs.access(filePath).then(() => true, () => false);
 }
 
+export async function validateDzoneSnapshots(dataDirectory) {
+  const files = (await fs.readdir(dataDirectory)).filter(name => /^dzone_(?:current|season\d+)\.json$/.test(name)).sort();
+  for (const name of files) {
+    try {
+      validateDzoneContent(JSON.parse(await fs.readFile(path.join(dataDirectory, name), 'utf8')));
+    } catch (error) {
+      throw new Error(`${name}: ${error.message}`, { cause: error });
+    }
+  }
+  return files;
+}
+
 export async function preparePagesArtifact(options = {}) {
   const rootDirectory = path.resolve(options.rootDirectory ?? path.join(import.meta.dirname, '..'));
   const outputDirectory = path.resolve(options.outputDirectory ?? path.join(rootDirectory, '.generated/site'));
@@ -93,8 +105,7 @@ export async function preparePagesArtifact(options = {}) {
       summary = releaseSummary(createReleaseBundle(source));
     }
 
-    const dzonePath = path.join(tempDirectory, 'data/dzone_current.json');
-    if (await pathExists(dzonePath)) validateDzoneContent(JSON.parse(await fs.readFile(dzonePath, 'utf8')));
+    await validateDzoneSnapshots(path.join(tempDirectory, 'data'));
     const outputData = await readDatasets(path.join(tempDirectory, 'data'));
     const outputBundle = createReleaseBundle(outputData);
     if (outputBundle.checksum !== summary.checksum) {

@@ -57,7 +57,7 @@ test('현재 및 모든 보관 기수의 구간 표시를 바꿔도 300개 이�
 
 test('72기 정직 선생·겸손 여사·수련은 시작 1개와 반복 3개로 렌더링한다', () => {
     const ctx = context();
-    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_current.json')));
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season72.json')));
     const wave = data.waves.find(wave => wave.wave === 5);
     for (const tid of [60009, 60006, 14039]) {
         const monster = wave.monsters.find(monster => monster.tid === tid);

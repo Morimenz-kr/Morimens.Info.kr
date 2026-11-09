@@ -2,6 +2,11 @@
 export function validateDzoneContent(document) {
   if (!document.contentAudit) return; // Archived pre-semantic snapshots keep their existing checks.
   if (document.contentAudit.diagnostics?.length) throw new Error('Unresolved D-Zone content diagnostics');
+  const presentation = document.contentAudit.presentationAudit;
+  if (presentation?.issues?.length) throw new Error('Unresolved D-Zone presentation audit');
+  for (const [key, icon] of Object.entries(presentation?.expectedKeywordIcons || {})) {
+    if (document.keywordGlossary?.[key]?.icon !== icon) throw new Error(`Invalid D-Zone keyword icon ${key}`);
+  }
   for (const match of JSON.stringify(document.waves).matchAll(/<(kw_[a-f0-9]{16}):/g)) {
     if (!document.keywordGlossary?.[match[1]]?.description) throw new Error(`Missing D-Zone reference ${match[1]}`);
   }
