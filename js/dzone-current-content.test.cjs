@@ -21,9 +21,17 @@ test('72기는 160버전 원본의 7개 위험 등급과 35개 독립 스테이�
 
 test('정식 현재 시즌은 검수된 73기이며 35개 스테이지를 포함한다', () => {
     assert.equal(data.period, 73);
-    assert.equal(data.source.resourceVersion, 154);
+    assert.equal(data.source.resourceVersion, 15);
+    assert.equal(data.source.branchName, 'Z1G_2026_11_OB');
     assert.equal(data.difficultyCount, 7);
     assert.equal(new Set(data.waves.flatMap(wave => wave.alerts.map(alert => alert.stageId))).size, 35);
+});
+
+test('73기는 신버전 원본의 실제 파동별 최종 전투를 사용한다', () => {
+    assert.deepEqual(data.waves.map(wave => wave.encounters.filter(encounter => encounter.battleType === 'Boss').map(encounter => encounter.battleId)), [[87355], [87693], [88399], [87879], [87617]]);
+    assert.deepEqual(data.waves.map(wave => wave.monsters.filter(monster => monster.monsterClass === 'Boss').map(monster => monster.tid)), [[149106], [49592], [14061], [131442], [84437]]);
+    assert.deepEqual(data.contentAudit.warnings, []);
+    assert.deepEqual(data, JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season73.json'), 'utf8')));
 });
 
 test('현재 시즌의 모든 단계 의도와 소환체는 단계 컨텍스트로 해석된다', () => {

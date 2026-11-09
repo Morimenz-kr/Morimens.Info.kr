@@ -22,9 +22,8 @@ export function verifyReleaseData(current, maps, archive, season) {
   assert.equal(current.waves.length, 5);
   assert.equal(maps.waves.length, 5);
   for (const wave of current.waves) assert.deepEqual(wave.alerts.map(a => a.alert), [1, 2, 3, 4, 5, 6, 7]);
-  const boss = current.waves.flatMap(w => w.monsters).find(m => m.tid === 44480);
-  assert.ok(boss);
-  assert.deepEqual(boss.intentionCycles.map(c => [...new Set(c.transitions.map(t => t.skillId))]), [[44766, 44765, 44767], [44788, 44787, 44786]]);
+  assert.equal(current.source.branchName, 'Z1G_2026_11_OB');
+  assert.deepEqual(current.waves.map(w => w.monsters.filter(m => m.monsterClass === 'Boss').map(m => m.tid)), [[149106], [49592], [14061], [131442], [84437]]);
   assert.deepEqual(current.contentAudit.diagnostics, []);
   assert.deepEqual(current.contentAudit.presentationAudit.issues, []);
 }
@@ -42,8 +41,8 @@ async function verifyLive() {
       assert.match(js, /CURRENT_SEASON\s*=\s*73\s*;/);
       assert.equal(data.period, 73); assert.equal(maps.period, 73);
       assert.equal(data.waves.length, 5);
-      const boss = data.waves.flatMap(w => w.monsters).find(m => m.tid === 44480);
-      assert.equal(boss.intentionCycles.length, 2);
+      assert.equal(data.source.branchName, 'Z1G_2026_11_OB');
+      assert.deepEqual(data.waves.map(w => w.monsters.filter(m => m.monsterClass === 'Boss').map(m => m.tid)), [[149106], [49592], [14061], [131442], [84437]]);
       console.log(`${root}dzone_info.html#season-73-wave-3-alert-1`);
       return;
     } catch (error) {
