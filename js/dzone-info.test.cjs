@@ -1275,10 +1275,14 @@ test('운영 API에서 기존 범위와 1~7급 35개 집계를 읽고 누락·�
     const stages = Array.from({ length: 5 }, (_, index) => ['nightmare', 'madness'].map((difficulty, offset) => ({
         wave: index + 1, difficulty, stageTid: 100 + index * 2 + offset
     }))).flat();
-    let payload = { data: { stages }, fetchedAt: 1788529507 };
+    let payload = { data: { period: 73, since: 100, stages }, fetchedAt: 1788529507 };
+    const seasonFor = rows => ({ period: 73, usageSince: 100, waves: Array.from({ length: 5 }, (_, index) => ({
+        alerts: rows.filter(row => row.wave === index + 1).map(row => ({ stageId: row.stageTid }))
+    })) });
     const urls = [];
     const cacheModes = [];
     const context = vm.createContext({
+        data: seasonFor(stages),
         window: { location: { hostname: 'morimens.info' } },
         dzoneUsageOverviewCache: null, STAGE_USAGE_REFRESH_INTERVAL: 30000,
         fetch: async (url, options) => {
@@ -1291,25 +1295,56 @@ test('운영 API에서 기존 범위와 1~7급 35개 집계를 읽고 누락·�
     assert.equal((await context.loadDzoneUsageOverview('https://worker.test', true)).stages.length, 10);
     assert.deepEqual(urls, ['https://worker.test/api/dzone/usage']);
     assert.deepEqual(cacheModes, ['no-cache']);
-    payload = { ...payload, data: { stages: [...stages.slice(0, 9), stages[0]] } };
+    payload = { ...payload, data: { period: 73, since: 100, stages: [...stages.slice(0, 9), stages[0]] } };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
-    payload = { ...payload, data: { stages: stages.map(stage => ({ ...stage, stageTid: 100 })) } };
+    payload = { ...payload, data: { period: 73, since: 100, stages: stages.map(stage => ({ ...stage, stageTid: 100 })) } };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
 
     const gradeStages = Array.from({ length: 5 }, (_, index) => ['1', '2', '3', '4', '5', '6', '7'].map((difficulty, offset) => ({
         wave: index + 1, difficulty, stageTid: 1_000 + index * 7 + offset
     }))).flat();
-    payload = { data: { stages: gradeStages }, fetchedAt: 1_788_529_507 };
+    context.data = seasonFor(gradeStages);
+    payload = { data: { period: 73, since: 100, stages: gradeStages }, fetchedAt: 1_788_529_507 };
     assert.equal((await context.loadDzoneUsageOverview('https://worker.test', true)).stages.length, 35);
-    payload = { ...payload, data: { stages: gradeStages.slice(0, 34) } };
+    payload = { ...payload, data: { period: 73, since: 100, stages: gradeStages.slice(0, 34) } };
+    await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+    payload = { data: { period: 72, since: 100, stages: gradeStages }, fetchedAt: 1788529507 };
+    await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+    payload = { data: { period: 73, since: 99, stages: gradeStages }, fetchedAt: 1788529507 };
+    await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+    payload = { data: { period: 73, since: 100, stages }, fetchedAt: 1788529507 };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
     context.window.location.hostname = 'localhost';
-    payload = { data: { stages: gradeStages }, fetchedAt: 1_788_529_507 };
+    context.data = seasonFor(gradeStages);
+    payload = { data: { period: 73, since: 100, stages: gradeStages }, fetchedAt: 1_788_529_507 };
     await context.loadDzoneUsageOverview('https://worker.test', true);
     assert.equal(urls.at(-1), '/private-tools/output/dzone-usage-overview.json');
     assert.equal(cacheModes.at(-1), 'no-store');
 });
 
+
+test('스테이지 API가 아직 없으면 같은 시즌 전체 집계의 채용률과 편성을 사용한다', async () => {
+    const body = { innerHTML: '' };
+    const section = { isConnected: true, dataset: { stageUsage: '123' },
+        querySelector: () => body, querySelectorAll: () => [] };
+    const context = vm.createContext({
+        document: { querySelector: () => section },
+        stageUsageCache: new Map(), STAGE_USAGE_REFRESH_INTERVAL: 30000,
+        fetch: async () => ({ status: 404 }),
+        loadDzoneUsageOverview: async () => ({ period: 73, since: 100, fetchedAt: 200,
+            stages: [{ stageTid: 123, recordCount: 4, usageRecordCount: 4,
+                awakeners: [{ tid: 7, count: 4 }], parties: [{ count: 4, awakeners: [{ tid: 7 }] }] }] }),
+        updateStageUsageMeta: () => {}, renderStageUsage: () => 'rendered'
+    });
+    vm.runInContext(source.slice(source.indexOf('    async function loadStageUsage('),
+        source.indexOf('    function scheduleStageUsageRefresh(')), context);
+    await context.loadStageUsage(123);
+    const usage = JSON.parse(section.dataset.usage);
+    assert.equal(usage.recordCount, 4);
+    assert.equal(usage.awakeners[0].tid, 7);
+    assert.equal(usage.parties[0].count, 4);
+    assert.equal(body.innerHTML, 'rendered');
+});
 
 test('쪼기 전환은 실제 흰색 의도 분기 하나와 보강 50만 표시한다',()=>{
  const monster=currentDzoneData.waves.flatMap(w=>w.monsters).find(m=>m.tid===131884);

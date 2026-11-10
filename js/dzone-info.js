@@ -1128,7 +1128,10 @@
     }
 
     function loadDzoneUsageOverview(usageApiBase, force) {
-        if (!force && dzoneUsageOverviewCache?.expiresAt > Date.now()) return dzoneUsageOverviewCache.request;
+        const requestedPeriod = data.period;
+        const requestedSince = data.usageSince;
+        const expectedStageIds = new Set(data.waves.flatMap(wave => wave.alerts.map(alert => alert.stageId)));
+        if (!force && dzoneUsageOverviewCache?.period === requestedPeriod && dzoneUsageOverviewCache?.expiresAt > Date.now()) return dzoneUsageOverviewCache.request;
         const localHostnames = new Set(['localhost', '127.0.0.1', '[::1]']);
         const urls = localHostnames.has(window.location.hostname)
             ? ['/private-tools/output/dzone-usage-overview.json', `${usageApiBase}/api/dzone/usage`]
@@ -1154,6 +1157,9 @@
                                 ? gradeDifficulties
                                 : null;
                     if (!payload?.data || !difficulties || !Number.isInteger(payload.fetchedAt)) continue;
+                    if (payload.data.period !== requestedPeriod || !Number.isInteger(payload.data.since) || payload.data.since <= 0
+                        || (Number.isInteger(requestedSince) && payload.data.since !== requestedSince)
+                        || stages.some(stage => !expectedStageIds.has(stage.stageTid))) continue;
                     const pairs = new Set(stages.map(stage => `${stage.wave}:${stage.difficulty}`));
                     const stageIds = new Set(stages.map(stage => stage.stageTid));
                     if (stageIds.size !== stages.length || stages.some(stage => !Number.isInteger(stage.stageTid) || stage.stageTid <= 0)
@@ -1168,7 +1174,7 @@
             dzoneUsageOverviewCache = null;
             throw error;
         });
-        dzoneUsageOverviewCache = { request, expiresAt: Date.now() + STAGE_USAGE_REFRESH_INTERVAL };
+        dzoneUsageOverviewCache = { request, period: requestedPeriod, expiresAt: Date.now() + STAGE_USAGE_REFRESH_INTERVAL };
         return request;
     }
 
@@ -1243,7 +1249,7 @@
             request = Promise.all([stageRequest, overviewRequest]).then(([stageUsage, overview]) => {
                 if (!stageUsage && !overview) throw new Error('unavailable');
                 const localStageUsage = overview?.stages?.find(stage => stage.stageTid === stageId);
-                const usage = stageUsage || (localStageUsage ? {
+                const usage = (stageUsage?.empty && localStageUsage ? null : stageUsage) || (localStageUsage ? {
                     ...localStageUsage,
                     since: localStageUsage.usageSince ?? overview.since,
                     recordCount: localStageUsage.usageRecordCount ?? localStageUsage.recordCount,
