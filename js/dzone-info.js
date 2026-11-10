@@ -1440,7 +1440,7 @@
         const waveSelector = document.getElementById('wave-selector');
         const compactGrades = data.period >= 70;
         document.getElementById('zone-filter-label').textContent = compactGrades ? '금지구역' : '파';
-        document.getElementById('grade-filter-label').textContent = compactGrades ? '위험등급' : '난이도';
+        document.getElementById('grade-filter-label').textContent = data.statsOnly ? '통계 구간' : compactGrades ? '위험등급' : '난이도';
         waveSelector.classList.toggle('is-compact', compactGrades);
         waveSelector.innerHTML = data.waves.map(wave => `<button type="button" class="wave-button" data-wave="${wave.wave}" aria-label="${escapeHtml(zoneLabel(wave.wave))}" aria-pressed="${wave.wave === selectedWave}">${compactGrades ? wave.wave : zoneLabel(wave.wave)}</button>`).join('');
         waveSelector.onclick = event => {
@@ -1496,7 +1496,6 @@
     function updateSeasonCopy() {
         document.querySelector('.dzone-research-panel').style.display = data.statsOnly ? 'none' : '';
         document.querySelector('.dzone-mechanic-nav').style.display = data.statsOnly ? 'none' : '';
-        document.getElementById('grade-filter-label').textContent = data.statsOnly ? '통계 구간' : '위험등급';
         const isCurrent = data.period === window.DzoneSeason.CURRENT_SEASON;
         const title = isCurrent ? '진행 중인 융재금구 정보' : `${data.period}기 융재금구 정보`;
         document.title = title;
