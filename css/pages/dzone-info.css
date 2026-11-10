@@ -85,7 +85,7 @@
 }
 
 .season-selector {
-    flex-shrink: 0;
+    flex: 0 0 auto;
     box-sizing: border-box;
     width: min(100%, 16rem);
     min-width: 0;
