@@ -1,6 +1,8 @@
 const assert = require('node:assert/strict');
 const test = require('node:test');
 const seasonModule = require('./dzone-season.js');
+const fs = require('node:fs');
+const vm = require('node:vm');
 
 function metadata(period, start) {
     return { period, activityTid: period * 10, usageSince: start, usageUntil: start + 998,
@@ -54,4 +56,36 @@ test('검증된 현재 시즌 파일이 있으면 기존 몬스터 정보를 유
     const f = fetcher(overview(catalog.seasons[1], 2005), native);
     await api.discover(f, () => 2010_000);
     assert.equal((await api.loadCurrent(f, () => 2010_000)).marker, native.marker);
+});
+
+function refreshContext(selectedPeriod) {
+    const source = fs.readFileSync(require.resolve('./dzone-info.js'), 'utf8');
+    const calls = [];
+    const api = { CURRENT_SEASON: 73, discover: async () => { api.CURRENT_SEASON = 74; } };
+    const context = vm.createContext({ window: { DzoneSeason: api }, refreshingSeason: false,
+        selectedPeriod, loadSeason: async period => calls.push(['load', period]),
+        updateSeasonCopy: () => calls.push(['copy']), buildControls: () => calls.push(['controls']),
+        scheduleSeasonRefresh: () => calls.push(['schedule']) });
+    vm.runInContext(source.slice(source.indexOf('    let checkingSeason = false;'),
+        source.indexOf('    async function loadSeason(')), context);
+    return { context, calls, api };
+}
+
+test('열려 있는 현재 기수 화면은 주기 확인 후 새 기수로 이동한다', async () => {
+    const { context, calls } = refreshContext(73);
+    await context.refreshSeason();
+    assert.deepEqual(calls, [['load', 74], ['schedule']]);
+});
+
+test('새 기수가 시작되어도 사용자가 선택한 과거 기수는 유지한다', async () => {
+    const { context, calls } = refreshContext(72);
+    await context.refreshSeason();
+    assert.deepEqual(calls, [['copy'], ['controls'], ['schedule']]);
+});
+
+test('기수 확인 요청이 실패해도 다음 확인을 예약한다', async () => {
+    const { context, calls, api } = refreshContext(73);
+    api.discover = async () => { throw new Error('offline'); };
+    await assert.rejects(context.refreshSeason(), /offline/);
+    assert.deepEqual(calls, [['schedule']]);
 });
