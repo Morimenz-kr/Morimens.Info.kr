@@ -1335,6 +1335,7 @@
     }
 
     function selectedDifficultyLabel(difficulty) {
+        if (data?.statsOnly) return `통계 구간 ${difficulty?.alert ?? selectedAlert}`;
         if (data?.period >= 70) {
             const grade = gameGrade(difficulty);
             if (!grade) return '위험 등급';
@@ -1344,6 +1345,7 @@
     }
 
     function renderDifficultyBadge(difficulty) {
+        if (data?.statsOnly) return escapeHtml(String(difficulty?.alert ?? selectedAlert));
         if (data?.period < 70) return escapeHtml(selectedDifficultyLabel(difficulty));
         return `<span class="dzone-grade-badge">${renderGameGrade(difficulty)}</span>`;
     }
@@ -1367,6 +1369,7 @@
     function renderWave(wave) {
         const difficulty = wave.alerts.find(item => item.alert === selectedAlert);
         const difficultyLabel = selectedDifficultyLabel(difficulty);
+        if (data.statsOnly) return `<section class="wave-section" id="wave-${wave.wave}"><header class="wave-header"><h2 class="wave-title">${data.period}기 ${zoneLabel(wave.wave)} · ${escapeHtml(difficultyLabel)}</h2></header><p class="stage-usage-message">몬스터 정보는 갱신 준비 중입니다. 최신 기수의 실전 통계를 확인할 수 있습니다.</p>${renderStageUsageShell(difficulty)}</section>`;
         const sortedEncounters = orderedEncounters(wave);
         const typeCounts = sortedEncounters.reduce((counts, encounter) => counts.set(encounter.battleType, (counts.get(encounter.battleType) || 0) + 1), new Map());
         const typeIndexes = new Map();
@@ -1417,7 +1420,9 @@
 
     function buildControls() {
         const seasonSelector = document.getElementById('season-selector');
-        seasonSelector.innerHTML = window.DzoneSeason.availableSeasons()
+        const seasons = window.DzoneSeason.availableSeasons();
+        if (!seasons.some(season => season.period === data.period)) seasons.push({ ...window.DzoneSeason.selectSeason(data.period), current: false });
+        seasonSelector.innerHTML = seasons
             .sort((left, right) => right.period - left.period)
             .map(season => `<option value="${season.period}">${season.period}기${season.current ? ' (현재)' : season.period > window.DzoneSeason.CURRENT_SEASON ? ' (미리보기)' : ''}</option>`)
             .join('');
@@ -1489,11 +1494,14 @@
     let refreshingSeason = false;
 
     function updateSeasonCopy() {
+        document.querySelector('.dzone-research-panel').style.display = data.statsOnly ? 'none' : '';
+        document.querySelector('.dzone-mechanic-nav').style.display = data.statsOnly ? 'none' : '';
+        document.getElementById('grade-filter-label').textContent = data.statsOnly ? '통계 구간' : '위험등급';
         const isCurrent = data.period === window.DzoneSeason.CURRENT_SEASON;
         const title = isCurrent ? '진행 중인 융재금구 정보' : `${data.period}기 융재금구 정보`;
         document.title = title;
         document.getElementById('dzone-title').textContent = title;
-        document.getElementById('dzone-summary').textContent = isCurrent
+        document.getElementById('dzone-summary').textContent = data.statsOnly ? `${data.period}기 공개 클리어 기록의 각성체 채용률과 편성을 확인할 수 있습니다.` : isCurrent
             ? '현재 진행 중인 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.'
             : `${data.period}기 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.`;
         document.getElementById('mechanic-nav-label').textContent = isCurrent ? '이번 융재 기믹' : `${data.period}기 융재 기믹`;
@@ -1505,17 +1513,23 @@
         if (delay !== null) seasonTimer = setTimeout(refreshSeason, delay);
     }
 
+    let checkingSeason = false;
     async function refreshSeason() {
-        if (refreshingSeason) return;
-        if (selectedPeriod !== window.DzoneSeason.CURRENT_SEASON) {
+        if (refreshingSeason || checkingSeason) return;
+        checkingSeason = true;
+        const followsCurrent = selectedPeriod === window.DzoneSeason.CURRENT_SEASON;
+        try {
+            await window.DzoneSeason.discover();
+            if (followsCurrent && selectedPeriod !== window.DzoneSeason.CURRENT_SEASON) {
+                await loadSeason(window.DzoneSeason.CURRENT_SEASON);
+            } else {
+                updateSeasonCopy();
+                buildControls();
+            }
+        } finally {
+            checkingSeason = false;
             scheduleSeasonRefresh();
-            return;
         }
-        if (data?.period === window.DzoneSeason.CURRENT_SEASON) {
-            scheduleSeasonRefresh();
-            return;
-        }
-        await loadSeason(window.DzoneSeason.CURRENT_SEASON);
     }
 
     async function loadSeason(period) {
@@ -1572,6 +1586,8 @@
 
     async function initialize() {
         try {
+            await window.DzoneSeason.discover();
+            selectedPeriod = window.DzoneSeason.CURRENT_SEASON;
             const hashSelection = location.hash.match(/^(?:#season-(\d+)-)?wave-(\d+)(?:-alert-(\d+))?$/);
             if (hashSelection) {
                 if (hashSelection[1]) selectedPeriod = window.DzoneSeason.selectSeason(Number(hashSelection[1])).period;

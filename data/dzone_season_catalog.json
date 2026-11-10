@@ -1,0 +1,5377 @@
+{
+  "schemaVersion": 1,
+  "seasons": [
+    {
+      "period": 70,
+      "activityTid": 83315,
+      "usageSince": 1790557200,
+      "usageUntil": 1791766798,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83444,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82753
+            },
+            {
+              "alert": 2,
+              "stageId": 82474
+            },
+            {
+              "alert": 3,
+              "stageId": 82582
+            },
+            {
+              "alert": 4,
+              "stageId": 82231
+            },
+            {
+              "alert": 5,
+              "stageId": 82349
+            },
+            {
+              "alert": 6,
+              "stageId": 153177
+            },
+            {
+              "alert": 7,
+              "stageId": 153180
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83441,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82755
+            },
+            {
+              "alert": 2,
+              "stageId": 82475
+            },
+            {
+              "alert": 3,
+              "stageId": 82581
+            },
+            {
+              "alert": 4,
+              "stageId": 82229
+            },
+            {
+              "alert": 5,
+              "stageId": 82351
+            },
+            {
+              "alert": 6,
+              "stageId": 153178
+            },
+            {
+              "alert": 7,
+              "stageId": 153176
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83442,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82754
+            },
+            {
+              "alert": 2,
+              "stageId": 82476
+            },
+            {
+              "alert": 3,
+              "stageId": 82580
+            },
+            {
+              "alert": 4,
+              "stageId": 82230
+            },
+            {
+              "alert": 5,
+              "stageId": 82350
+            },
+            {
+              "alert": 6,
+              "stageId": 153185
+            },
+            {
+              "alert": 7,
+              "stageId": 153182
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83439,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82757
+            },
+            {
+              "alert": 2,
+              "stageId": 82477
+            },
+            {
+              "alert": 3,
+              "stageId": 82584
+            },
+            {
+              "alert": 4,
+              "stageId": 82232
+            },
+            {
+              "alert": 5,
+              "stageId": 82348
+            },
+            {
+              "alert": 6,
+              "stageId": 153181
+            },
+            {
+              "alert": 7,
+              "stageId": 153184
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83440,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82756
+            },
+            {
+              "alert": 2,
+              "stageId": 82478
+            },
+            {
+              "alert": 3,
+              "stageId": 82583
+            },
+            {
+              "alert": 4,
+              "stageId": 82233
+            },
+            {
+              "alert": 5,
+              "stageId": 82347
+            },
+            {
+              "alert": 6,
+              "stageId": 153183
+            },
+            {
+              "alert": 7,
+              "stageId": 153179
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 71,
+      "activityTid": 83331,
+      "usageSince": 1791766800,
+      "usageUntil": 1792976398,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83438,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82104
+            },
+            {
+              "alert": 2,
+              "stageId": 81966
+            },
+            {
+              "alert": 3,
+              "stageId": 81869
+            },
+            {
+              "alert": 4,
+              "stageId": 83240
+            },
+            {
+              "alert": 5,
+              "stageId": 83140
+            },
+            {
+              "alert": 6,
+              "stageId": 153432
+            },
+            {
+              "alert": 7,
+              "stageId": 153398
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83437,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82102
+            },
+            {
+              "alert": 2,
+              "stageId": 81965
+            },
+            {
+              "alert": 3,
+              "stageId": 81870
+            },
+            {
+              "alert": 4,
+              "stageId": 83242
+            },
+            {
+              "alert": 5,
+              "stageId": 83138
+            },
+            {
+              "alert": 6,
+              "stageId": 153560
+            },
+            {
+              "alert": 7,
+              "stageId": 153381
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83436,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82103
+            },
+            {
+              "alert": 2,
+              "stageId": 81964
+            },
+            {
+              "alert": 3,
+              "stageId": 81871
+            },
+            {
+              "alert": 4,
+              "stageId": 83241
+            },
+            {
+              "alert": 5,
+              "stageId": 83139
+            },
+            {
+              "alert": 6,
+              "stageId": 153455
+            },
+            {
+              "alert": 7,
+              "stageId": 153505
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83435,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82100
+            },
+            {
+              "alert": 2,
+              "stageId": 81968
+            },
+            {
+              "alert": 3,
+              "stageId": 81872
+            },
+            {
+              "alert": 4,
+              "stageId": 83239
+            },
+            {
+              "alert": 5,
+              "stageId": 83141
+            },
+            {
+              "alert": 6,
+              "stageId": 153372
+            },
+            {
+              "alert": 7,
+              "stageId": 153548
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83434,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82101
+            },
+            {
+              "alert": 2,
+              "stageId": 81967
+            },
+            {
+              "alert": 3,
+              "stageId": 81873
+            },
+            {
+              "alert": 4,
+              "stageId": 83238
+            },
+            {
+              "alert": 5,
+              "stageId": 83142
+            },
+            {
+              "alert": 6,
+              "stageId": 153591
+            },
+            {
+              "alert": 7,
+              "stageId": 153657
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 72,
+      "activityTid": 83314,
+      "usageSince": 1792976400,
+      "usageUntil": 1794185998,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83429,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 81845
+            },
+            {
+              "alert": 2,
+              "stageId": 82149
+            },
+            {
+              "alert": 3,
+              "stageId": 82275
+            },
+            {
+              "alert": 4,
+              "stageId": 82407
+            },
+            {
+              "alert": 5,
+              "stageId": 82519
+            },
+            {
+              "alert": 6,
+              "stageId": 153583
+            },
+            {
+              "alert": 7,
+              "stageId": 153424
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83430,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82014
+            },
+            {
+              "alert": 2,
+              "stageId": 82146
+            },
+            {
+              "alert": 3,
+              "stageId": 82277
+            },
+            {
+              "alert": 4,
+              "stageId": 82035
+            },
+            {
+              "alert": 5,
+              "stageId": 82518
+            },
+            {
+              "alert": 6,
+              "stageId": 153585
+            },
+            {
+              "alert": 7,
+              "stageId": 153538
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83431,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82013
+            },
+            {
+              "alert": 2,
+              "stageId": 82147
+            },
+            {
+              "alert": 3,
+              "stageId": 82916
+            },
+            {
+              "alert": 4,
+              "stageId": 82036
+            },
+            {
+              "alert": 5,
+              "stageId": 82517
+            },
+            {
+              "alert": 6,
+              "stageId": 153379
+            },
+            {
+              "alert": 7,
+              "stageId": 153635
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83432,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82012
+            },
+            {
+              "alert": 2,
+              "stageId": 82334
+            },
+            {
+              "alert": 3,
+              "stageId": 82910
+            },
+            {
+              "alert": 4,
+              "stageId": 82410
+            },
+            {
+              "alert": 5,
+              "stageId": 82521
+            },
+            {
+              "alert": 6,
+              "stageId": 153504
+            },
+            {
+              "alert": 7,
+              "stageId": 153633
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83433,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82011
+            },
+            {
+              "alert": 2,
+              "stageId": 82153
+            },
+            {
+              "alert": 3,
+              "stageId": 82909
+            },
+            {
+              "alert": 4,
+              "stageId": 82041
+            },
+            {
+              "alert": 5,
+              "stageId": 82520
+            },
+            {
+              "alert": 6,
+              "stageId": 153611
+            },
+            {
+              "alert": 7,
+              "stageId": 153607
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 73,
+      "activityTid": 83326,
+      "usageSince": 1794186000,
+      "usageUntil": 1795395598,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83424,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82259
+            },
+            {
+              "alert": 2,
+              "stageId": 82605
+            },
+            {
+              "alert": 3,
+              "stageId": 82661
+            },
+            {
+              "alert": 4,
+              "stageId": 83026
+            },
+            {
+              "alert": 5,
+              "stageId": 82703
+            },
+            {
+              "alert": 6,
+              "stageId": 153628
+            },
+            {
+              "alert": 7,
+              "stageId": 153463
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83426,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82260
+            },
+            {
+              "alert": 2,
+              "stageId": 82607
+            },
+            {
+              "alert": 3,
+              "stageId": 82505
+            },
+            {
+              "alert": 4,
+              "stageId": 82776
+            },
+            {
+              "alert": 5,
+              "stageId": 82704
+            },
+            {
+              "alert": 6,
+              "stageId": 153448
+            },
+            {
+              "alert": 7,
+              "stageId": 153376
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83425,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82261
+            },
+            {
+              "alert": 2,
+              "stageId": 82606
+            },
+            {
+              "alert": 3,
+              "stageId": 82506
+            },
+            {
+              "alert": 4,
+              "stageId": 82775
+            },
+            {
+              "alert": 5,
+              "stageId": 82705
+            },
+            {
+              "alert": 6,
+              "stageId": 153382
+            },
+            {
+              "alert": 7,
+              "stageId": 153520
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83428,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82257
+            },
+            {
+              "alert": 2,
+              "stageId": 82604
+            },
+            {
+              "alert": 3,
+              "stageId": 82511
+            },
+            {
+              "alert": 4,
+              "stageId": 82782
+            },
+            {
+              "alert": 5,
+              "stageId": 82706
+            },
+            {
+              "alert": 6,
+              "stageId": 153626
+            },
+            {
+              "alert": 7,
+              "stageId": 153445
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83427,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82258
+            },
+            {
+              "alert": 2,
+              "stageId": 82603
+            },
+            {
+              "alert": 3,
+              "stageId": 82512
+            },
+            {
+              "alert": 4,
+              "stageId": 82781
+            },
+            {
+              "alert": 5,
+              "stageId": 82707
+            },
+            {
+              "alert": 6,
+              "stageId": 153577
+            },
+            {
+              "alert": 7,
+              "stageId": 153570
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 74,
+      "activityTid": 83305,
+      "usageSince": 1795395600,
+      "usageUntil": 1796605198,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83416,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82851
+            },
+            {
+              "alert": 2,
+              "stageId": 82571
+            },
+            {
+              "alert": 3,
+              "stageId": 82677
+            },
+            {
+              "alert": 4,
+              "stageId": 83105
+            },
+            {
+              "alert": 5,
+              "stageId": 83202
+            },
+            {
+              "alert": 6,
+              "stageId": 153566
+            },
+            {
+              "alert": 7,
+              "stageId": 153437
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83414,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 81863
+            },
+            {
+              "alert": 2,
+              "stageId": 82572
+            },
+            {
+              "alert": 3,
+              "stageId": 82676
+            },
+            {
+              "alert": 4,
+              "stageId": 83103
+            },
+            {
+              "alert": 5,
+              "stageId": 83204
+            },
+            {
+              "alert": 6,
+              "stageId": 153632
+            },
+            {
+              "alert": 7,
+              "stageId": 153553
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83415,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82852
+            },
+            {
+              "alert": 2,
+              "stageId": 82573
+            },
+            {
+              "alert": 3,
+              "stageId": 82675
+            },
+            {
+              "alert": 4,
+              "stageId": 83104
+            },
+            {
+              "alert": 5,
+              "stageId": 83203
+            },
+            {
+              "alert": 6,
+              "stageId": 153369
+            },
+            {
+              "alert": 7,
+              "stageId": 153378
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83417,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82850
+            },
+            {
+              "alert": 2,
+              "stageId": 82569
+            },
+            {
+              "alert": 3,
+              "stageId": 82674
+            },
+            {
+              "alert": 4,
+              "stageId": 83101
+            },
+            {
+              "alert": 5,
+              "stageId": 83206
+            },
+            {
+              "alert": 6,
+              "stageId": 153530
+            },
+            {
+              "alert": 7,
+              "stageId": 153524
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83418,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82849
+            },
+            {
+              "alert": 2,
+              "stageId": 82570
+            },
+            {
+              "alert": 3,
+              "stageId": 82673
+            },
+            {
+              "alert": 4,
+              "stageId": 83102
+            },
+            {
+              "alert": 5,
+              "stageId": 83205
+            },
+            {
+              "alert": 6,
+              "stageId": 153415
+            },
+            {
+              "alert": 7,
+              "stageId": 153456
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 75,
+      "activityTid": 83325,
+      "usageSince": 1796605200,
+      "usageUntil": 1797814798,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83411,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82274
+            },
+            {
+              "alert": 2,
+              "stageId": 82145
+            },
+            {
+              "alert": 3,
+              "stageId": 82006
+            },
+            {
+              "alert": 4,
+              "stageId": 82813
+            },
+            {
+              "alert": 5,
+              "stageId": 82729
+            },
+            {
+              "alert": 6,
+              "stageId": 153385
+            },
+            {
+              "alert": 7,
+              "stageId": 153460
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83410,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82272
+            },
+            {
+              "alert": 2,
+              "stageId": 82144
+            },
+            {
+              "alert": 3,
+              "stageId": 82007
+            },
+            {
+              "alert": 4,
+              "stageId": 82815
+            },
+            {
+              "alert": 5,
+              "stageId": 82727
+            },
+            {
+              "alert": 6,
+              "stageId": 153483
+            },
+            {
+              "alert": 7,
+              "stageId": 153423
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83409,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82273
+            },
+            {
+              "alert": 2,
+              "stageId": 82143
+            },
+            {
+              "alert": 3,
+              "stageId": 82008
+            },
+            {
+              "alert": 4,
+              "stageId": 82814
+            },
+            {
+              "alert": 5,
+              "stageId": 82728
+            },
+            {
+              "alert": 6,
+              "stageId": 153476
+            },
+            {
+              "alert": 7,
+              "stageId": 153388
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83413,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82276
+            },
+            {
+              "alert": 2,
+              "stageId": 82142
+            },
+            {
+              "alert": 3,
+              "stageId": 82004
+            },
+            {
+              "alert": 4,
+              "stageId": 82817
+            },
+            {
+              "alert": 5,
+              "stageId": 82725
+            },
+            {
+              "alert": 6,
+              "stageId": 153509
+            },
+            {
+              "alert": 7,
+              "stageId": 153413
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83412,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82917
+            },
+            {
+              "alert": 2,
+              "stageId": 82141
+            },
+            {
+              "alert": 3,
+              "stageId": 82005
+            },
+            {
+              "alert": 4,
+              "stageId": 82816
+            },
+            {
+              "alert": 5,
+              "stageId": 82726
+            },
+            {
+              "alert": 6,
+              "stageId": 153473
+            },
+            {
+              "alert": 7,
+              "stageId": 153510
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 76,
+      "activityTid": 83310,
+      "usageSince": 1797814800,
+      "usageUntil": 1799024398,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83406,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82236
+            },
+            {
+              "alert": 2,
+              "stageId": 82356
+            },
+            {
+              "alert": 3,
+              "stageId": 82479
+            },
+            {
+              "alert": 4,
+              "stageId": 83134
+            },
+            {
+              "alert": 5,
+              "stageId": 83237
+            },
+            {
+              "alert": 6,
+              "stageId": 153457
+            },
+            {
+              "alert": 7,
+              "stageId": 153490
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83407,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82235
+            },
+            {
+              "alert": 2,
+              "stageId": 82354
+            },
+            {
+              "alert": 3,
+              "stageId": 82481
+            },
+            {
+              "alert": 4,
+              "stageId": 83135
+            },
+            {
+              "alert": 5,
+              "stageId": 83236
+            },
+            {
+              "alert": 6,
+              "stageId": 153550
+            },
+            {
+              "alert": 7,
+              "stageId": 153422
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83408,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82234
+            },
+            {
+              "alert": 2,
+              "stageId": 82355
+            },
+            {
+              "alert": 3,
+              "stageId": 82480
+            },
+            {
+              "alert": 4,
+              "stageId": 83136
+            },
+            {
+              "alert": 5,
+              "stageId": 83235
+            },
+            {
+              "alert": 6,
+              "stageId": 153394
+            },
+            {
+              "alert": 7,
+              "stageId": 153441
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83404,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82241
+            },
+            {
+              "alert": 2,
+              "stageId": 82352
+            },
+            {
+              "alert": 3,
+              "stageId": 82483
+            },
+            {
+              "alert": 4,
+              "stageId": 83132
+            },
+            {
+              "alert": 5,
+              "stageId": 83234
+            },
+            {
+              "alert": 6,
+              "stageId": 153420
+            },
+            {
+              "alert": 7,
+              "stageId": 153472
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83405,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82240
+            },
+            {
+              "alert": 2,
+              "stageId": 82353
+            },
+            {
+              "alert": 3,
+              "stageId": 82482
+            },
+            {
+              "alert": 4,
+              "stageId": 83133
+            },
+            {
+              "alert": 5,
+              "stageId": 83233
+            },
+            {
+              "alert": 6,
+              "stageId": 153515
+            },
+            {
+              "alert": 7,
+              "stageId": 153557
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 77,
+      "activityTid": 83327,
+      "usageSince": 1799024400,
+      "usageUntil": 1800233998,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83401,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82433
+            },
+            {
+              "alert": 2,
+              "stageId": 82736
+            },
+            {
+              "alert": 3,
+              "stageId": 82651
+            },
+            {
+              "alert": 4,
+              "stageId": 82055
+            },
+            {
+              "alert": 5,
+              "stageId": 81930
+            },
+            {
+              "alert": 6,
+              "stageId": 153511
+            },
+            {
+              "alert": 7,
+              "stageId": 153383
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83403,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82434
+            },
+            {
+              "alert": 2,
+              "stageId": 82658
+            },
+            {
+              "alert": 3,
+              "stageId": 82649
+            },
+            {
+              "alert": 4,
+              "stageId": 82054
+            },
+            {
+              "alert": 5,
+              "stageId": 81931
+            },
+            {
+              "alert": 6,
+              "stageId": 153601
+            },
+            {
+              "alert": 7,
+              "stageId": 153638
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83402,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82435
+            },
+            {
+              "alert": 2,
+              "stageId": 82737
+            },
+            {
+              "alert": 3,
+              "stageId": 82650
+            },
+            {
+              "alert": 4,
+              "stageId": 82053
+            },
+            {
+              "alert": 5,
+              "stageId": 81932
+            },
+            {
+              "alert": 6,
+              "stageId": 153620
+            },
+            {
+              "alert": 7,
+              "stageId": 153429
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83400,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82436
+            },
+            {
+              "alert": 2,
+              "stageId": 82740
+            },
+            {
+              "alert": 3,
+              "stageId": 82647
+            },
+            {
+              "alert": 4,
+              "stageId": 82052
+            },
+            {
+              "alert": 5,
+              "stageId": 81928
+            },
+            {
+              "alert": 6,
+              "stageId": 153634
+            },
+            {
+              "alert": 7,
+              "stageId": 153469
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83399,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82437
+            },
+            {
+              "alert": 2,
+              "stageId": 82739
+            },
+            {
+              "alert": 3,
+              "stageId": 82648
+            },
+            {
+              "alert": 4,
+              "stageId": 82051
+            },
+            {
+              "alert": 5,
+              "stageId": 81929
+            },
+            {
+              "alert": 6,
+              "stageId": 153493
+            },
+            {
+              "alert": 7,
+              "stageId": 153521
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 78,
+      "activityTid": 83334,
+      "usageSince": 1800234000,
+      "usageUntil": 1801443598,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83449,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82585
+            },
+            {
+              "alert": 2,
+              "stageId": 83163
+            },
+            {
+              "alert": 3,
+              "stageId": 82359
+            },
+            {
+              "alert": 4,
+              "stageId": 81961
+            },
+            {
+              "alert": 5,
+              "stageId": 82097
+            },
+            {
+              "alert": 6,
+              "stageId": 153647
+            },
+            {
+              "alert": 7,
+              "stageId": 153464
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83447,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82588
+            },
+            {
+              "alert": 2,
+              "stageId": 82719
+            },
+            {
+              "alert": 3,
+              "stageId": 82358
+            },
+            {
+              "alert": 4,
+              "stageId": 81959
+            },
+            {
+              "alert": 5,
+              "stageId": 82099
+            },
+            {
+              "alert": 6,
+              "stageId": 153477
+            },
+            {
+              "alert": 7,
+              "stageId": 153551
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83448,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82587
+            },
+            {
+              "alert": 2,
+              "stageId": 82237
+            },
+            {
+              "alert": 3,
+              "stageId": 82357
+            },
+            {
+              "alert": 4,
+              "stageId": 81960
+            },
+            {
+              "alert": 5,
+              "stageId": 82098
+            },
+            {
+              "alert": 6,
+              "stageId": 153514
+            },
+            {
+              "alert": 7,
+              "stageId": 153549
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83445,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82857
+            },
+            {
+              "alert": 2,
+              "stageId": 82238
+            },
+            {
+              "alert": 3,
+              "stageId": 82361
+            },
+            {
+              "alert": 4,
+              "stageId": 81962
+            },
+            {
+              "alert": 5,
+              "stageId": 82096
+            },
+            {
+              "alert": 6,
+              "stageId": 153645
+            },
+            {
+              "alert": 7,
+              "stageId": 153410
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83446,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82589
+            },
+            {
+              "alert": 2,
+              "stageId": 82239
+            },
+            {
+              "alert": 3,
+              "stageId": 82360
+            },
+            {
+              "alert": 4,
+              "stageId": 81963
+            },
+            {
+              "alert": 5,
+              "stageId": 82095
+            },
+            {
+              "alert": 6,
+              "stageId": 153443
+            },
+            {
+              "alert": 7,
+              "stageId": 153522
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 79,
+      "activityTid": 83323,
+      "usageSince": 1801443600,
+      "usageUntil": 1802653198,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83423,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82741
+            },
+            {
+              "alert": 2,
+              "stageId": 82654
+            },
+            {
+              "alert": 3,
+              "stageId": 82536
+            },
+            {
+              "alert": 4,
+              "stageId": 82228
+            },
+            {
+              "alert": 5,
+              "stageId": 82305
+            },
+            {
+              "alert": 6,
+              "stageId": 153543
+            },
+            {
+              "alert": 7,
+              "stageId": 153565
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83422,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82659
+            },
+            {
+              "alert": 2,
+              "stageId": 82653
+            },
+            {
+              "alert": 3,
+              "stageId": 82537
+            },
+            {
+              "alert": 4,
+              "stageId": 82439
+            },
+            {
+              "alert": 5,
+              "stageId": 82303
+            },
+            {
+              "alert": 6,
+              "stageId": 153414
+            },
+            {
+              "alert": 7,
+              "stageId": 153546
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83421,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82660
+            },
+            {
+              "alert": 2,
+              "stageId": 82652
+            },
+            {
+              "alert": 3,
+              "stageId": 82538
+            },
+            {
+              "alert": 4,
+              "stageId": 82438
+            },
+            {
+              "alert": 5,
+              "stageId": 82304
+            },
+            {
+              "alert": 6,
+              "stageId": 153558
+            },
+            {
+              "alert": 7,
+              "stageId": 153485
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83420,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82655
+            },
+            {
+              "alert": 2,
+              "stageId": 82657
+            },
+            {
+              "alert": 3,
+              "stageId": 82539
+            },
+            {
+              "alert": 4,
+              "stageId": 82222
+            },
+            {
+              "alert": 5,
+              "stageId": 82306
+            },
+            {
+              "alert": 6,
+              "stageId": 153526
+            },
+            {
+              "alert": 7,
+              "stageId": 153370
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83419,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82738
+            },
+            {
+              "alert": 2,
+              "stageId": 82656
+            },
+            {
+              "alert": 3,
+              "stageId": 82540
+            },
+            {
+              "alert": 4,
+              "stageId": 82432
+            },
+            {
+              "alert": 5,
+              "stageId": 82307
+            },
+            {
+              "alert": 6,
+              "stageId": 153609
+            },
+            {
+              "alert": 7,
+              "stageId": 153396
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 80,
+      "activityTid": 83337,
+      "usageSince": 1802653200,
+      "usageUntil": 1803862798,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83464,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82672
+            },
+            {
+              "alert": 2,
+              "stageId": 82566
+            },
+            {
+              "alert": 3,
+              "stageId": 82451
+            },
+            {
+              "alert": 4,
+              "stageId": 82333
+            },
+            {
+              "alert": 5,
+              "stageId": 82209
+            },
+            {
+              "alert": 6,
+              "stageId": 153451
+            },
+            {
+              "alert": 7,
+              "stageId": 153373
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83463,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82670
+            },
+            {
+              "alert": 2,
+              "stageId": 82565
+            },
+            {
+              "alert": 3,
+              "stageId": 82452
+            },
+            {
+              "alert": 4,
+              "stageId": 82336
+            },
+            {
+              "alert": 5,
+              "stageId": 82207
+            },
+            {
+              "alert": 6,
+              "stageId": 153494
+            },
+            {
+              "alert": 7,
+              "stageId": 153391
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83462,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82671
+            },
+            {
+              "alert": 2,
+              "stageId": 82564
+            },
+            {
+              "alert": 3,
+              "stageId": 82453
+            },
+            {
+              "alert": 4,
+              "stageId": 82335
+            },
+            {
+              "alert": 5,
+              "stageId": 82208
+            },
+            {
+              "alert": 6,
+              "stageId": 153450
+            },
+            {
+              "alert": 7,
+              "stageId": 153610
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83461,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82668
+            },
+            {
+              "alert": 2,
+              "stageId": 82568
+            },
+            {
+              "alert": 3,
+              "stageId": 82454
+            },
+            {
+              "alert": 4,
+              "stageId": 82332
+            },
+            {
+              "alert": 5,
+              "stageId": 82210
+            },
+            {
+              "alert": 6,
+              "stageId": 153484
+            },
+            {
+              "alert": 7,
+              "stageId": 153516
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83460,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82669
+            },
+            {
+              "alert": 2,
+              "stageId": 82567
+            },
+            {
+              "alert": 3,
+              "stageId": 82455
+            },
+            {
+              "alert": 4,
+              "stageId": 82331
+            },
+            {
+              "alert": 5,
+              "stageId": 82211
+            },
+            {
+              "alert": 6,
+              "stageId": 153401
+            },
+            {
+              "alert": 7,
+              "stageId": 153615
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 81,
+      "activityTid": 83319,
+      "usageSince": 1803862800,
+      "usageUntil": 1805072398,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83353,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83062
+            },
+            {
+              "alert": 2,
+              "stageId": 83085
+            },
+            {
+              "alert": 3,
+              "stageId": 82290
+            },
+            {
+              "alert": 4,
+              "stageId": 81833
+            },
+            {
+              "alert": 5,
+              "stageId": 82722
+            },
+            {
+              "alert": 6,
+              "stageId": 153374
+            },
+            {
+              "alert": 7,
+              "stageId": 153534
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83351,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83064
+            },
+            {
+              "alert": 2,
+              "stageId": 83086
+            },
+            {
+              "alert": 3,
+              "stageId": 82890
+            },
+            {
+              "alert": 4,
+              "stageId": 82632
+            },
+            {
+              "alert": 5,
+              "stageId": 82545
+            },
+            {
+              "alert": 6,
+              "stageId": 153624
+            },
+            {
+              "alert": 7,
+              "stageId": 153651
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83352,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83063
+            },
+            {
+              "alert": 2,
+              "stageId": 83087
+            },
+            {
+              "alert": 3,
+              "stageId": 82889
+            },
+            {
+              "alert": 4,
+              "stageId": 82633
+            },
+            {
+              "alert": 5,
+              "stageId": 82544
+            },
+            {
+              "alert": 6,
+              "stageId": 153430
+            },
+            {
+              "alert": 7,
+              "stageId": 153602
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83349,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83066
+            },
+            {
+              "alert": 2,
+              "stageId": 83088
+            },
+            {
+              "alert": 3,
+              "stageId": 82295
+            },
+            {
+              "alert": 4,
+              "stageId": 82635
+            },
+            {
+              "alert": 5,
+              "stageId": 82542
+            },
+            {
+              "alert": 6,
+              "stageId": 153639
+            },
+            {
+              "alert": 7,
+              "stageId": 153452
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83350,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83065
+            },
+            {
+              "alert": 2,
+              "stageId": 82801
+            },
+            {
+              "alert": 3,
+              "stageId": 82892
+            },
+            {
+              "alert": 4,
+              "stageId": 82636
+            },
+            {
+              "alert": 5,
+              "stageId": 82720
+            },
+            {
+              "alert": 6,
+              "stageId": 153593
+            },
+            {
+              "alert": 7,
+              "stageId": 153440
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 82,
+      "activityTid": 83311,
+      "usageSince": 1805072400,
+      "usageUntil": 1806281998,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83450,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82700
+            },
+            {
+              "alert": 2,
+              "stageId": 82955
+            },
+            {
+              "alert": 3,
+              "stageId": 82861
+            },
+            {
+              "alert": 4,
+              "stageId": 83129
+            },
+            {
+              "alert": 5,
+              "stageId": 83037
+            },
+            {
+              "alert": 6,
+              "stageId": 153512
+            },
+            {
+              "alert": 7,
+              "stageId": 153442
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83452,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82701
+            },
+            {
+              "alert": 2,
+              "stageId": 82957
+            },
+            {
+              "alert": 3,
+              "stageId": 82859
+            },
+            {
+              "alert": 4,
+              "stageId": 83128
+            },
+            {
+              "alert": 5,
+              "stageId": 83038
+            },
+            {
+              "alert": 6,
+              "stageId": 153507
+            },
+            {
+              "alert": 7,
+              "stageId": 153562
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83451,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82702
+            },
+            {
+              "alert": 2,
+              "stageId": 82956
+            },
+            {
+              "alert": 3,
+              "stageId": 82860
+            },
+            {
+              "alert": 4,
+              "stageId": 83127
+            },
+            {
+              "alert": 5,
+              "stageId": 83039
+            },
+            {
+              "alert": 6,
+              "stageId": 153641
+            },
+            {
+              "alert": 7,
+              "stageId": 153482
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83454,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82698
+            },
+            {
+              "alert": 2,
+              "stageId": 82954
+            },
+            {
+              "alert": 3,
+              "stageId": 82862
+            },
+            {
+              "alert": 4,
+              "stageId": 83131
+            },
+            {
+              "alert": 5,
+              "stageId": 83040
+            },
+            {
+              "alert": 6,
+              "stageId": 153404
+            },
+            {
+              "alert": 7,
+              "stageId": 153411
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83453,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82699
+            },
+            {
+              "alert": 2,
+              "stageId": 82953
+            },
+            {
+              "alert": 3,
+              "stageId": 82863
+            },
+            {
+              "alert": 4,
+              "stageId": 83130
+            },
+            {
+              "alert": 5,
+              "stageId": 83041
+            },
+            {
+              "alert": 6,
+              "stageId": 153636
+            },
+            {
+              "alert": 7,
+              "stageId": 153597
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 83,
+      "activityTid": 83330,
+      "usageSince": 1806282000,
+      "usageUntil": 1807491598,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83455,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83190
+            },
+            {
+              "alert": 2,
+              "stageId": 81798
+            },
+            {
+              "alert": 3,
+              "stageId": 81908
+            },
+            {
+              "alert": 4,
+              "stageId": 82022
+            },
+            {
+              "alert": 5,
+              "stageId": 82161
+            },
+            {
+              "alert": 6,
+              "stageId": 153643
+            },
+            {
+              "alert": 7,
+              "stageId": 153545
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83456,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83189
+            },
+            {
+              "alert": 2,
+              "stageId": 81796
+            },
+            {
+              "alert": 3,
+              "stageId": 81910
+            },
+            {
+              "alert": 4,
+              "stageId": 82023
+            },
+            {
+              "alert": 5,
+              "stageId": 82160
+            },
+            {
+              "alert": 6,
+              "stageId": 153613
+            },
+            {
+              "alert": 7,
+              "stageId": 153528
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83457,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83188
+            },
+            {
+              "alert": 2,
+              "stageId": 81797
+            },
+            {
+              "alert": 3,
+              "stageId": 81909
+            },
+            {
+              "alert": 4,
+              "stageId": 82024
+            },
+            {
+              "alert": 5,
+              "stageId": 82159
+            },
+            {
+              "alert": 6,
+              "stageId": 153481
+            },
+            {
+              "alert": 7,
+              "stageId": 153630
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83458,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83187
+            },
+            {
+              "alert": 2,
+              "stageId": 81799
+            },
+            {
+              "alert": 3,
+              "stageId": 81907
+            },
+            {
+              "alert": 4,
+              "stageId": 82025
+            },
+            {
+              "alert": 5,
+              "stageId": 82163
+            },
+            {
+              "alert": 6,
+              "stageId": 153646
+            },
+            {
+              "alert": 7,
+              "stageId": 153554
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83459,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83186
+            },
+            {
+              "alert": 2,
+              "stageId": 81800
+            },
+            {
+              "alert": 3,
+              "stageId": 81906
+            },
+            {
+              "alert": 4,
+              "stageId": 82026
+            },
+            {
+              "alert": 5,
+              "stageId": 82162
+            },
+            {
+              "alert": 6,
+              "stageId": 153561
+            },
+            {
+              "alert": 7,
+              "stageId": 153606
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 84,
+      "activityTid": 83335,
+      "usageSince": 1807491600,
+      "usageUntil": 1808701198,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83491,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82744
+            },
+            {
+              "alert": 2,
+              "stageId": 82667
+            },
+            {
+              "alert": 3,
+              "stageId": 82548
+            },
+            {
+              "alert": 4,
+              "stageId": 83191
+            },
+            {
+              "alert": 5,
+              "stageId": 83094
+            },
+            {
+              "alert": 6,
+              "stageId": 153486
+            },
+            {
+              "alert": 7,
+              "stageId": 153540
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83490,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82742
+            },
+            {
+              "alert": 2,
+              "stageId": 82666
+            },
+            {
+              "alert": 3,
+              "stageId": 82549
+            },
+            {
+              "alert": 4,
+              "stageId": 83193
+            },
+            {
+              "alert": 5,
+              "stageId": 83092
+            },
+            {
+              "alert": 6,
+              "stageId": 153655
+            },
+            {
+              "alert": 7,
+              "stageId": 153390
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83489,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82743
+            },
+            {
+              "alert": 2,
+              "stageId": 82665
+            },
+            {
+              "alert": 3,
+              "stageId": 82550
+            },
+            {
+              "alert": 4,
+              "stageId": 83192
+            },
+            {
+              "alert": 5,
+              "stageId": 83093
+            },
+            {
+              "alert": 6,
+              "stageId": 153552
+            },
+            {
+              "alert": 7,
+              "stageId": 153462
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83493,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82745
+            },
+            {
+              "alert": 2,
+              "stageId": 82664
+            },
+            {
+              "alert": 3,
+              "stageId": 82546
+            },
+            {
+              "alert": 4,
+              "stageId": 83195
+            },
+            {
+              "alert": 5,
+              "stageId": 83090
+            },
+            {
+              "alert": 6,
+              "stageId": 153599
+            },
+            {
+              "alert": 7,
+              "stageId": 153513
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83492,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82746
+            },
+            {
+              "alert": 2,
+              "stageId": 82663
+            },
+            {
+              "alert": 3,
+              "stageId": 82547
+            },
+            {
+              "alert": 4,
+              "stageId": 83194
+            },
+            {
+              "alert": 5,
+              "stageId": 83091
+            },
+            {
+              "alert": 6,
+              "stageId": 153497
+            },
+            {
+              "alert": 7,
+              "stageId": 153470
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 85,
+      "activityTid": 83317,
+      "usageSince": 1808701200,
+      "usageUntil": 1809910798,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83496,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83150
+            },
+            {
+              "alert": 2,
+              "stageId": 82881
+            },
+            {
+              "alert": 3,
+              "stageId": 82984
+            },
+            {
+              "alert": 4,
+              "stageId": 81978
+            },
+            {
+              "alert": 5,
+              "stageId": 82111
+            },
+            {
+              "alert": 6,
+              "stageId": 153459
+            },
+            {
+              "alert": 7,
+              "stageId": 153495
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83494,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83152
+            },
+            {
+              "alert": 2,
+              "stageId": 82882
+            },
+            {
+              "alert": 3,
+              "stageId": 82858
+            },
+            {
+              "alert": 4,
+              "stageId": 81976
+            },
+            {
+              "alert": 5,
+              "stageId": 82113
+            },
+            {
+              "alert": 6,
+              "stageId": 153487
+            },
+            {
+              "alert": 7,
+              "stageId": 153489
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83495,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83151
+            },
+            {
+              "alert": 2,
+              "stageId": 82883
+            },
+            {
+              "alert": 3,
+              "stageId": 82982
+            },
+            {
+              "alert": 4,
+              "stageId": 81977
+            },
+            {
+              "alert": 5,
+              "stageId": 82112
+            },
+            {
+              "alert": 6,
+              "stageId": 153578
+            },
+            {
+              "alert": 7,
+              "stageId": 153648
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83497,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83149
+            },
+            {
+              "alert": 2,
+              "stageId": 82879
+            },
+            {
+              "alert": 3,
+              "stageId": 82981
+            },
+            {
+              "alert": 4,
+              "stageId": 81974
+            },
+            {
+              "alert": 5,
+              "stageId": 82115
+            },
+            {
+              "alert": 6,
+              "stageId": 153572
+            },
+            {
+              "alert": 7,
+              "stageId": 153467
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83498,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83148
+            },
+            {
+              "alert": 2,
+              "stageId": 82880
+            },
+            {
+              "alert": 3,
+              "stageId": 82980
+            },
+            {
+              "alert": 4,
+              "stageId": 81975
+            },
+            {
+              "alert": 5,
+              "stageId": 82114
+            },
+            {
+              "alert": 6,
+              "stageId": 153386
+            },
+            {
+              "alert": 7,
+              "stageId": 153475
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 86,
+      "activityTid": 83338,
+      "usageSince": 1809910800,
+      "usageUntil": 1811120398,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83356,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82770
+            },
+            {
+              "alert": 2,
+              "stageId": 83027
+            },
+            {
+              "alert": 3,
+              "stageId": 82952
+            },
+            {
+              "alert": 4,
+              "stageId": 82498
+            },
+            {
+              "alert": 5,
+              "stageId": 82375
+            },
+            {
+              "alert": 6,
+              "stageId": 153616
+            },
+            {
+              "alert": 7,
+              "stageId": 153625
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83358,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82771
+            },
+            {
+              "alert": 2,
+              "stageId": 83029
+            },
+            {
+              "alert": 3,
+              "stageId": 82950
+            },
+            {
+              "alert": 4,
+              "stageId": 82497
+            },
+            {
+              "alert": 5,
+              "stageId": 81874
+            },
+            {
+              "alert": 6,
+              "stageId": 153377
+            },
+            {
+              "alert": 7,
+              "stageId": 153438
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83357,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82772
+            },
+            {
+              "alert": 2,
+              "stageId": 83028
+            },
+            {
+              "alert": 3,
+              "stageId": 82951
+            },
+            {
+              "alert": 4,
+              "stageId": 82496
+            },
+            {
+              "alert": 5,
+              "stageId": 81875
+            },
+            {
+              "alert": 6,
+              "stageId": 153434
+            },
+            {
+              "alert": 7,
+              "stageId": 153586
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83355,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82773
+            },
+            {
+              "alert": 2,
+              "stageId": 83031
+            },
+            {
+              "alert": 3,
+              "stageId": 82948
+            },
+            {
+              "alert": 4,
+              "stageId": 82495
+            },
+            {
+              "alert": 5,
+              "stageId": 81867
+            },
+            {
+              "alert": 6,
+              "stageId": 153555
+            },
+            {
+              "alert": 7,
+              "stageId": 153531
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83354,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82774
+            },
+            {
+              "alert": 2,
+              "stageId": 83030
+            },
+            {
+              "alert": 3,
+              "stageId": 82949
+            },
+            {
+              "alert": 4,
+              "stageId": 82494
+            },
+            {
+              "alert": 5,
+              "stageId": 82373
+            },
+            {
+              "alert": 6,
+              "stageId": 153581
+            },
+            {
+              "alert": 7,
+              "stageId": 153389
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 87,
+      "activityTid": 83316,
+      "usageSince": 1811120400,
+      "usageUntil": 1812329998,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83361,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82988
+            },
+            {
+              "alert": 2,
+              "stageId": 81895
+            },
+            {
+              "alert": 3,
+              "stageId": 81999
+            },
+            {
+              "alert": 4,
+              "stageId": 82794
+            },
+            {
+              "alert": 5,
+              "stageId": 82888
+            },
+            {
+              "alert": 6,
+              "stageId": 153573
+            },
+            {
+              "alert": 7,
+              "stageId": 153589
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83362,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83244
+            },
+            {
+              "alert": 2,
+              "stageId": 81893
+            },
+            {
+              "alert": 3,
+              "stageId": 82001
+            },
+            {
+              "alert": 4,
+              "stageId": 82795
+            },
+            {
+              "alert": 5,
+              "stageId": 82887
+            },
+            {
+              "alert": 6,
+              "stageId": 153579
+            },
+            {
+              "alert": 7,
+              "stageId": 153465
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83363,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83243
+            },
+            {
+              "alert": 2,
+              "stageId": 81894
+            },
+            {
+              "alert": 3,
+              "stageId": 82000
+            },
+            {
+              "alert": 4,
+              "stageId": 82796
+            },
+            {
+              "alert": 5,
+              "stageId": 82886
+            },
+            {
+              "alert": 6,
+              "stageId": 153640
+            },
+            {
+              "alert": 7,
+              "stageId": 153637
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83359,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83250
+            },
+            {
+              "alert": 2,
+              "stageId": 81891
+            },
+            {
+              "alert": 3,
+              "stageId": 82003
+            },
+            {
+              "alert": 4,
+              "stageId": 82792
+            },
+            {
+              "alert": 5,
+              "stageId": 82885
+            },
+            {
+              "alert": 6,
+              "stageId": 153461
+            },
+            {
+              "alert": 7,
+              "stageId": 153569
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83360,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83249
+            },
+            {
+              "alert": 2,
+              "stageId": 81892
+            },
+            {
+              "alert": 3,
+              "stageId": 82002
+            },
+            {
+              "alert": 4,
+              "stageId": 82793
+            },
+            {
+              "alert": 5,
+              "stageId": 82884
+            },
+            {
+              "alert": 6,
+              "stageId": 153417
+            },
+            {
+              "alert": 7,
+              "stageId": 153612
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 88,
+      "activityTid": 83306,
+      "usageSince": 1812330000,
+      "usageUntil": 1813539598,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83479,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82426
+            },
+            {
+              "alert": 2,
+              "stageId": 82339
+            },
+            {
+              "alert": 3,
+              "stageId": 82217
+            },
+            {
+              "alert": 4,
+              "stageId": 82087
+            },
+            {
+              "alert": 5,
+              "stageId": 81956
+            },
+            {
+              "alert": 6,
+              "stageId": 153427
+            },
+            {
+              "alert": 7,
+              "stageId": 153412
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83468,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82465
+            },
+            {
+              "alert": 2,
+              "stageId": 82338
+            },
+            {
+              "alert": 3,
+              "stageId": 82218
+            },
+            {
+              "alert": 4,
+              "stageId": 82089
+            },
+            {
+              "alert": 5,
+              "stageId": 81954
+            },
+            {
+              "alert": 6,
+              "stageId": 153627
+            },
+            {
+              "alert": 7,
+              "stageId": 153506
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83467,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82425
+            },
+            {
+              "alert": 2,
+              "stageId": 82337
+            },
+            {
+              "alert": 3,
+              "stageId": 82219
+            },
+            {
+              "alert": 4,
+              "stageId": 82088
+            },
+            {
+              "alert": 5,
+              "stageId": 81955
+            },
+            {
+              "alert": 6,
+              "stageId": 153436
+            },
+            {
+              "alert": 7,
+              "stageId": 153603
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83466,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82463
+            },
+            {
+              "alert": 2,
+              "stageId": 82341
+            },
+            {
+              "alert": 3,
+              "stageId": 82220
+            },
+            {
+              "alert": 4,
+              "stageId": 82086
+            },
+            {
+              "alert": 5,
+              "stageId": 81957
+            },
+            {
+              "alert": 6,
+              "stageId": 153405
+            },
+            {
+              "alert": 7,
+              "stageId": 153658
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83465,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82464
+            },
+            {
+              "alert": 2,
+              "stageId": 82340
+            },
+            {
+              "alert": 3,
+              "stageId": 82221
+            },
+            {
+              "alert": 4,
+              "stageId": 82085
+            },
+            {
+              "alert": 5,
+              "stageId": 81958
+            },
+            {
+              "alert": 6,
+              "stageId": 153596
+            },
+            {
+              "alert": 7,
+              "stageId": 153416
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 89,
+      "activityTid": 83307,
+      "usageSince": 1813539600,
+      "usageUntil": 1814749198,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83485,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82136
+            },
+            {
+              "alert": 2,
+              "stageId": 83201
+            },
+            {
+              "alert": 3,
+              "stageId": 81878
+            },
+            {
+              "alert": 4,
+              "stageId": 83054
+            },
+            {
+              "alert": 5,
+              "stageId": 83155
+            },
+            {
+              "alert": 6,
+              "stageId": 153622
+            },
+            {
+              "alert": 7,
+              "stageId": 153650
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83482,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82138
+            },
+            {
+              "alert": 2,
+              "stageId": 83245
+            },
+            {
+              "alert": 3,
+              "stageId": 81877
+            },
+            {
+              "alert": 4,
+              "stageId": 83052
+            },
+            {
+              "alert": 5,
+              "stageId": 83157
+            },
+            {
+              "alert": 6,
+              "stageId": 153488
+            },
+            {
+              "alert": 7,
+              "stageId": 153574
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83483,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82137
+            },
+            {
+              "alert": 2,
+              "stageId": 83246
+            },
+            {
+              "alert": 3,
+              "stageId": 81876
+            },
+            {
+              "alert": 4,
+              "stageId": 83053
+            },
+            {
+              "alert": 5,
+              "stageId": 83156
+            },
+            {
+              "alert": 6,
+              "stageId": 153400
+            },
+            {
+              "alert": 7,
+              "stageId": 153444
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83480,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82140
+            },
+            {
+              "alert": 2,
+              "stageId": 83247
+            },
+            {
+              "alert": 3,
+              "stageId": 81880
+            },
+            {
+              "alert": 4,
+              "stageId": 83055
+            },
+            {
+              "alert": 5,
+              "stageId": 83154
+            },
+            {
+              "alert": 6,
+              "stageId": 153503
+            },
+            {
+              "alert": 7,
+              "stageId": 153556
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83481,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82139
+            },
+            {
+              "alert": 2,
+              "stageId": 83248
+            },
+            {
+              "alert": 3,
+              "stageId": 81879
+            },
+            {
+              "alert": 4,
+              "stageId": 83056
+            },
+            {
+              "alert": 5,
+              "stageId": 83153
+            },
+            {
+              "alert": 6,
+              "stageId": 153571
+            },
+            {
+              "alert": 7,
+              "stageId": 153501
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 90,
+      "activityTid": 83333,
+      "usageSince": 1814749200,
+      "usageUntil": 1815958798,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83376,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82933
+            },
+            {
+              "alert": 2,
+              "stageId": 83014
+            },
+            {
+              "alert": 3,
+              "stageId": 83106
+            },
+            {
+              "alert": 4,
+              "stageId": 82466
+            },
+            {
+              "alert": 5,
+              "stageId": 82578
+            },
+            {
+              "alert": 6,
+              "stageId": 153594
+            },
+            {
+              "alert": 7,
+              "stageId": 153496
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83377,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82932
+            },
+            {
+              "alert": 2,
+              "stageId": 83012
+            },
+            {
+              "alert": 3,
+              "stageId": 83108
+            },
+            {
+              "alert": 4,
+              "stageId": 82467
+            },
+            {
+              "alert": 5,
+              "stageId": 82577
+            },
+            {
+              "alert": 6,
+              "stageId": 153595
+            },
+            {
+              "alert": 7,
+              "stageId": 153375
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83378,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82931
+            },
+            {
+              "alert": 2,
+              "stageId": 83013
+            },
+            {
+              "alert": 3,
+              "stageId": 83107
+            },
+            {
+              "alert": 4,
+              "stageId": 82468
+            },
+            {
+              "alert": 5,
+              "stageId": 82576
+            },
+            {
+              "alert": 6,
+              "stageId": 153502
+            },
+            {
+              "alert": 7,
+              "stageId": 153447
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83374,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82936
+            },
+            {
+              "alert": 2,
+              "stageId": 83010
+            },
+            {
+              "alert": 3,
+              "stageId": 83110
+            },
+            {
+              "alert": 4,
+              "stageId": 82461
+            },
+            {
+              "alert": 5,
+              "stageId": 82575
+            },
+            {
+              "alert": 6,
+              "stageId": 153527
+            },
+            {
+              "alert": 7,
+              "stageId": 153399
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83375,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82935
+            },
+            {
+              "alert": 2,
+              "stageId": 83011
+            },
+            {
+              "alert": 3,
+              "stageId": 83109
+            },
+            {
+              "alert": 4,
+              "stageId": 82462
+            },
+            {
+              "alert": 5,
+              "stageId": 82574
+            },
+            {
+              "alert": 6,
+              "stageId": 153491
+            },
+            {
+              "alert": 7,
+              "stageId": 153492
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 91,
+      "activityTid": 83321,
+      "usageSince": 1815958800,
+      "usageUntil": 1817168398,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83371,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82034
+            },
+            {
+              "alert": 2,
+              "stageId": 82730
+            },
+            {
+              "alert": 3,
+              "stageId": 82646
+            },
+            {
+              "alert": 4,
+              "stageId": 83125
+            },
+            {
+              "alert": 5,
+              "stageId": 81898
+            },
+            {
+              "alert": 6,
+              "stageId": 153421
+            },
+            {
+              "alert": 7,
+              "stageId": 153466
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83373,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82408
+            },
+            {
+              "alert": 2,
+              "stageId": 82638
+            },
+            {
+              "alert": 3,
+              "stageId": 82644
+            },
+            {
+              "alert": 4,
+              "stageId": 82626
+            },
+            {
+              "alert": 5,
+              "stageId": 81899
+            },
+            {
+              "alert": 6,
+              "stageId": 153478
+            },
+            {
+              "alert": 7,
+              "stageId": 153600
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83372,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82409
+            },
+            {
+              "alert": 2,
+              "stageId": 82731
+            },
+            {
+              "alert": 3,
+              "stageId": 82645
+            },
+            {
+              "alert": 4,
+              "stageId": 83123
+            },
+            {
+              "alert": 5,
+              "stageId": 81900
+            },
+            {
+              "alert": 6,
+              "stageId": 153523
+            },
+            {
+              "alert": 7,
+              "stageId": 153418
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83370,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83126
+            },
+            {
+              "alert": 2,
+              "stageId": 82640
+            },
+            {
+              "alert": 3,
+              "stageId": 82642
+            },
+            {
+              "alert": 4,
+              "stageId": 83119
+            },
+            {
+              "alert": 5,
+              "stageId": 81896
+            },
+            {
+              "alert": 6,
+              "stageId": 153453
+            },
+            {
+              "alert": 7,
+              "stageId": 153535
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83369,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82411
+            },
+            {
+              "alert": 2,
+              "stageId": 82639
+            },
+            {
+              "alert": 3,
+              "stageId": 82643
+            },
+            {
+              "alert": 4,
+              "stageId": 83116
+            },
+            {
+              "alert": 5,
+              "stageId": 81897
+            },
+            {
+              "alert": 6,
+              "stageId": 153409
+            },
+            {
+              "alert": 7,
+              "stageId": 153621
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 92,
+      "activityTid": 83332,
+      "usageSince": 1817168400,
+      "usageUntil": 1818377998,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83346,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82280
+            },
+            {
+              "alert": 2,
+              "stageId": 81903
+            },
+            {
+              "alert": 3,
+              "stageId": 82021
+            },
+            {
+              "alert": 4,
+              "stageId": 82620
+            },
+            {
+              "alert": 5,
+              "stageId": 82713
+            },
+            {
+              "alert": 6,
+              "stageId": 153619
+            },
+            {
+              "alert": 7,
+              "stageId": 153541
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83344,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82282
+            },
+            {
+              "alert": 2,
+              "stageId": 81904
+            },
+            {
+              "alert": 3,
+              "stageId": 82020
+            },
+            {
+              "alert": 4,
+              "stageId": 82617
+            },
+            {
+              "alert": 5,
+              "stageId": 82514
+            },
+            {
+              "alert": 6,
+              "stageId": 153406
+            },
+            {
+              "alert": 7,
+              "stageId": 153519
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83345,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82281
+            },
+            {
+              "alert": 2,
+              "stageId": 81905
+            },
+            {
+              "alert": 3,
+              "stageId": 82019
+            },
+            {
+              "alert": 4,
+              "stageId": 81789
+            },
+            {
+              "alert": 5,
+              "stageId": 82714
+            },
+            {
+              "alert": 6,
+              "stageId": 153425
+            },
+            {
+              "alert": 7,
+              "stageId": 153598
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83347,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82924
+            },
+            {
+              "alert": 2,
+              "stageId": 81901
+            },
+            {
+              "alert": 3,
+              "stageId": 82018
+            },
+            {
+              "alert": 4,
+              "stageId": 82615
+            },
+            {
+              "alert": 5,
+              "stageId": 82717
+            },
+            {
+              "alert": 6,
+              "stageId": 153517
+            },
+            {
+              "alert": 7,
+              "stageId": 153402
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83348,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82278
+            },
+            {
+              "alert": 2,
+              "stageId": 81902
+            },
+            {
+              "alert": 3,
+              "stageId": 82017
+            },
+            {
+              "alert": 4,
+              "stageId": 81787
+            },
+            {
+              "alert": 5,
+              "stageId": 82716
+            },
+            {
+              "alert": 6,
+              "stageId": 153407
+            },
+            {
+              "alert": 7,
+              "stageId": 153536
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 93,
+      "activityTid": 83318,
+      "usageSince": 1818378000,
+      "usageUntil": 1819587598,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83341,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82395
+            },
+            {
+              "alert": 2,
+              "stageId": 82266
+            },
+            {
+              "alert": 3,
+              "stageId": 82123
+            },
+            {
+              "alert": 4,
+              "stageId": 82864
+            },
+            {
+              "alert": 5,
+              "stageId": 82989
+            },
+            {
+              "alert": 6,
+              "stageId": 153532
+            },
+            {
+              "alert": 7,
+              "stageId": 153498
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83340,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82393
+            },
+            {
+              "alert": 2,
+              "stageId": 82265
+            },
+            {
+              "alert": 3,
+              "stageId": 82124
+            },
+            {
+              "alert": 4,
+              "stageId": 82866
+            },
+            {
+              "alert": 5,
+              "stageId": 82986
+            },
+            {
+              "alert": 6,
+              "stageId": 153582
+            },
+            {
+              "alert": 7,
+              "stageId": 153426
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83339,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82394
+            },
+            {
+              "alert": 2,
+              "stageId": 82264
+            },
+            {
+              "alert": 3,
+              "stageId": 82125
+            },
+            {
+              "alert": 4,
+              "stageId": 82865
+            },
+            {
+              "alert": 5,
+              "stageId": 82780
+            },
+            {
+              "alert": 6,
+              "stageId": 153629
+            },
+            {
+              "alert": 7,
+              "stageId": 153508
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83343,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82397
+            },
+            {
+              "alert": 2,
+              "stageId": 82263
+            },
+            {
+              "alert": 3,
+              "stageId": 82121
+            },
+            {
+              "alert": 4,
+              "stageId": 82868
+            },
+            {
+              "alert": 5,
+              "stageId": 82777
+            },
+            {
+              "alert": 6,
+              "stageId": 153623
+            },
+            {
+              "alert": 7,
+              "stageId": 153468
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83342,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82398
+            },
+            {
+              "alert": 2,
+              "stageId": 82262
+            },
+            {
+              "alert": 3,
+              "stageId": 82122
+            },
+            {
+              "alert": 4,
+              "stageId": 82867
+            },
+            {
+              "alert": 5,
+              "stageId": 82778
+            },
+            {
+              "alert": 6,
+              "stageId": 153419
+            },
+            {
+              "alert": 7,
+              "stageId": 153564
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 94,
+      "activityTid": 83312,
+      "usageSince": 1819587600,
+      "usageUntil": 1820797198,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83474,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82873
+            },
+            {
+              "alert": 2,
+              "stageId": 82968
+            },
+            {
+              "alert": 3,
+              "stageId": 83074
+            },
+            {
+              "alert": 4,
+              "stageId": 83170
+            },
+            {
+              "alert": 5,
+              "stageId": 83253
+            },
+            {
+              "alert": 6,
+              "stageId": 153392
+            },
+            {
+              "alert": 7,
+              "stageId": 153590
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83475,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82872
+            },
+            {
+              "alert": 2,
+              "stageId": 82966
+            },
+            {
+              "alert": 3,
+              "stageId": 83076
+            },
+            {
+              "alert": 4,
+              "stageId": 83171
+            },
+            {
+              "alert": 5,
+              "stageId": 83252
+            },
+            {
+              "alert": 6,
+              "stageId": 153393
+            },
+            {
+              "alert": 7,
+              "stageId": 153431
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83476,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82871
+            },
+            {
+              "alert": 2,
+              "stageId": 82967
+            },
+            {
+              "alert": 3,
+              "stageId": 83075
+            },
+            {
+              "alert": 4,
+              "stageId": 83172
+            },
+            {
+              "alert": 5,
+              "stageId": 83251
+            },
+            {
+              "alert": 6,
+              "stageId": 153563
+            },
+            {
+              "alert": 7,
+              "stageId": 153644
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83477,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82870
+            },
+            {
+              "alert": 2,
+              "stageId": 82969
+            },
+            {
+              "alert": 3,
+              "stageId": 83073
+            },
+            {
+              "alert": 4,
+              "stageId": 83173
+            },
+            {
+              "alert": 5,
+              "stageId": 83255
+            },
+            {
+              "alert": 6,
+              "stageId": 153542
+            },
+            {
+              "alert": 7,
+              "stageId": 153454
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83478,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82869
+            },
+            {
+              "alert": 2,
+              "stageId": 82970
+            },
+            {
+              "alert": 3,
+              "stageId": 83072
+            },
+            {
+              "alert": 4,
+              "stageId": 83174
+            },
+            {
+              "alert": 5,
+              "stageId": 83254
+            },
+            {
+              "alert": 6,
+              "stageId": 153435
+            },
+            {
+              "alert": 7,
+              "stageId": 153547
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 95,
+      "activityTid": 83328,
+      "usageSince": 1820797200,
+      "usageUntil": 1822006798,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83469,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83034
+            },
+            {
+              "alert": 2,
+              "stageId": 81853
+            },
+            {
+              "alert": 3,
+              "stageId": 83230
+            },
+            {
+              "alert": 4,
+              "stageId": 82079
+            },
+            {
+              "alert": 5,
+              "stageId": 81947
+            },
+            {
+              "alert": 6,
+              "stageId": 153618
+            },
+            {
+              "alert": 7,
+              "stageId": 153458
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83471,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83035
+            },
+            {
+              "alert": 2,
+              "stageId": 81855
+            },
+            {
+              "alert": 3,
+              "stageId": 83228
+            },
+            {
+              "alert": 4,
+              "stageId": 82078
+            },
+            {
+              "alert": 5,
+              "stageId": 81948
+            },
+            {
+              "alert": 6,
+              "stageId": 153480
+            },
+            {
+              "alert": 7,
+              "stageId": 153559
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83470,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83036
+            },
+            {
+              "alert": 2,
+              "stageId": 81854
+            },
+            {
+              "alert": 3,
+              "stageId": 83229
+            },
+            {
+              "alert": 4,
+              "stageId": 82077
+            },
+            {
+              "alert": 5,
+              "stageId": 81949
+            },
+            {
+              "alert": 6,
+              "stageId": 153403
+            },
+            {
+              "alert": 7,
+              "stageId": 153428
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83473,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83032
+            },
+            {
+              "alert": 2,
+              "stageId": 81852
+            },
+            {
+              "alert": 3,
+              "stageId": 83231
+            },
+            {
+              "alert": 4,
+              "stageId": 82084
+            },
+            {
+              "alert": 5,
+              "stageId": 82856
+            },
+            {
+              "alert": 6,
+              "stageId": 153567
+            },
+            {
+              "alert": 7,
+              "stageId": 153384
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83472,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 83033
+            },
+            {
+              "alert": 2,
+              "stageId": 81851
+            },
+            {
+              "alert": 3,
+              "stageId": 83232
+            },
+            {
+              "alert": 4,
+              "stageId": 82083
+            },
+            {
+              "alert": 5,
+              "stageId": 81951
+            },
+            {
+              "alert": 6,
+              "stageId": 153587
+            },
+            {
+              "alert": 7,
+              "stageId": 153518
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 96,
+      "activityTid": 83336,
+      "usageSince": 1822006800,
+      "usageUntil": 1823216398,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83368,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82105
+            },
+            {
+              "alert": 2,
+              "stageId": 83213
+            },
+            {
+              "alert": 3,
+              "stageId": 81836
+            },
+            {
+              "alert": 4,
+              "stageId": 83022
+            },
+            {
+              "alert": 5,
+              "stageId": 83120
+            },
+            {
+              "alert": 6,
+              "stageId": 153533
+            },
+            {
+              "alert": 7,
+              "stageId": 153584
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83366,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82107
+            },
+            {
+              "alert": 2,
+              "stageId": 83214
+            },
+            {
+              "alert": 3,
+              "stageId": 81835
+            },
+            {
+              "alert": 4,
+              "stageId": 83020
+            },
+            {
+              "alert": 5,
+              "stageId": 83122
+            },
+            {
+              "alert": 6,
+              "stageId": 153529
+            },
+            {
+              "alert": 7,
+              "stageId": 153525
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83367,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82106
+            },
+            {
+              "alert": 2,
+              "stageId": 83215
+            },
+            {
+              "alert": 3,
+              "stageId": 81834
+            },
+            {
+              "alert": 4,
+              "stageId": 83021
+            },
+            {
+              "alert": 5,
+              "stageId": 83121
+            },
+            {
+              "alert": 6,
+              "stageId": 153568
+            },
+            {
+              "alert": 7,
+              "stageId": 153395
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83364,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82109
+            },
+            {
+              "alert": 2,
+              "stageId": 83216
+            },
+            {
+              "alert": 3,
+              "stageId": 81839
+            },
+            {
+              "alert": 4,
+              "stageId": 83023
+            },
+            {
+              "alert": 5,
+              "stageId": 83118
+            },
+            {
+              "alert": 6,
+              "stageId": 153588
+            },
+            {
+              "alert": 7,
+              "stageId": 153499
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83365,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82108
+            },
+            {
+              "alert": 2,
+              "stageId": 83217
+            },
+            {
+              "alert": 3,
+              "stageId": 81838
+            },
+            {
+              "alert": 4,
+              "stageId": 83024
+            },
+            {
+              "alert": 5,
+              "stageId": 83117
+            },
+            {
+              "alert": 6,
+              "stageId": 153617
+            },
+            {
+              "alert": 7,
+              "stageId": 153649
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 97,
+      "activityTid": 83320,
+      "usageSince": 1823216400,
+      "usageUntil": 1824425998,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83484,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82312
+            },
+            {
+              "alert": 2,
+              "stageId": 82181
+            },
+            {
+              "alert": 3,
+              "stageId": 82056
+            },
+            {
+              "alert": 4,
+              "stageId": 81935
+            },
+            {
+              "alert": 5,
+              "stageId": 81818
+            },
+            {
+              "alert": 6,
+              "stageId": 153575
+            },
+            {
+              "alert": 7,
+              "stageId": 153654
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83488,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82310
+            },
+            {
+              "alert": 2,
+              "stageId": 82180
+            },
+            {
+              "alert": 3,
+              "stageId": 82057
+            },
+            {
+              "alert": 4,
+              "stageId": 81937
+            },
+            {
+              "alert": 5,
+              "stageId": 81816
+            },
+            {
+              "alert": 6,
+              "stageId": 153605
+            },
+            {
+              "alert": 7,
+              "stageId": 153471
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83487,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82311
+            },
+            {
+              "alert": 2,
+              "stageId": 82179
+            },
+            {
+              "alert": 3,
+              "stageId": 82058
+            },
+            {
+              "alert": 4,
+              "stageId": 81936
+            },
+            {
+              "alert": 5,
+              "stageId": 81817
+            },
+            {
+              "alert": 6,
+              "stageId": 153500
+            },
+            {
+              "alert": 7,
+              "stageId": 153653
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83486,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82308
+            },
+            {
+              "alert": 2,
+              "stageId": 82183
+            },
+            {
+              "alert": 3,
+              "stageId": 82059
+            },
+            {
+              "alert": 4,
+              "stageId": 81934
+            },
+            {
+              "alert": 5,
+              "stageId": 81819
+            },
+            {
+              "alert": 6,
+              "stageId": 153652
+            },
+            {
+              "alert": 7,
+              "stageId": 153439
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83443,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82309
+            },
+            {
+              "alert": 2,
+              "stageId": 82182
+            },
+            {
+              "alert": 3,
+              "stageId": 82060
+            },
+            {
+              "alert": 4,
+              "stageId": 81933
+            },
+            {
+              "alert": 5,
+              "stageId": 81820
+            },
+            {
+              "alert": 6,
+              "stageId": 153387
+            },
+            {
+              "alert": 7,
+              "stageId": 153539
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 98,
+      "activityTid": 83322,
+      "usageSince": 1824426000,
+      "usageUntil": 1825635598,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83506,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82804
+            },
+            {
+              "alert": 2,
+              "stageId": 82735
+            },
+            {
+              "alert": 3,
+              "stageId": 82818
+            },
+            {
+              "alert": 4,
+              "stageId": 83124
+            },
+            {
+              "alert": 5,
+              "stageId": 82152
+            },
+            {
+              "alert": 6,
+              "stageId": 153544
+            },
+            {
+              "alert": 7,
+              "stageId": 153604
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83507,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82614
+            },
+            {
+              "alert": 2,
+              "stageId": 82733
+            },
+            {
+              "alert": 3,
+              "stageId": 82820
+            },
+            {
+              "alert": 4,
+              "stageId": 82015
+            },
+            {
+              "alert": 5,
+              "stageId": 82151
+            },
+            {
+              "alert": 6,
+              "stageId": 153656
+            },
+            {
+              "alert": 7,
+              "stageId": 153371
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83508,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82613
+            },
+            {
+              "alert": 2,
+              "stageId": 82734
+            },
+            {
+              "alert": 3,
+              "stageId": 82819
+            },
+            {
+              "alert": 4,
+              "stageId": 82016
+            },
+            {
+              "alert": 5,
+              "stageId": 82150
+            },
+            {
+              "alert": 6,
+              "stageId": 153433
+            },
+            {
+              "alert": 7,
+              "stageId": 153397
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83504,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82828
+            },
+            {
+              "alert": 2,
+              "stageId": 82637
+            },
+            {
+              "alert": 3,
+              "stageId": 82822
+            },
+            {
+              "alert": 4,
+              "stageId": 82009
+            },
+            {
+              "alert": 5,
+              "stageId": 82325
+            },
+            {
+              "alert": 6,
+              "stageId": 153474
+            },
+            {
+              "alert": 7,
+              "stageId": 153608
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83505,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82619
+            },
+            {
+              "alert": 2,
+              "stageId": 82732
+            },
+            {
+              "alert": 3,
+              "stageId": 82821
+            },
+            {
+              "alert": 4,
+              "stageId": 82010
+            },
+            {
+              "alert": 5,
+              "stageId": 82148
+            },
+            {
+              "alert": 6,
+              "stageId": 153408
+            },
+            {
+              "alert": 7,
+              "stageId": 153642
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "period": 99,
+      "activityTid": 83313,
+      "usageSince": 1825635600,
+      "usageUntil": 1826845198,
+      "difficultyCount": 7,
+      "waves": [
+        {
+          "wave": 1,
+          "stageGroupId": 83501,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82979
+            },
+            {
+              "alert": 2,
+              "stageId": 83042
+            },
+            {
+              "alert": 3,
+              "stageId": 82962
+            },
+            {
+              "alert": 4,
+              "stageId": 82662
+            },
+            {
+              "alert": 5,
+              "stageId": 82390
+            },
+            {
+              "alert": 6,
+              "stageId": 153537
+            },
+            {
+              "alert": 7,
+              "stageId": 153449
+            }
+          ]
+        },
+        {
+          "wave": 2,
+          "stageGroupId": 83503,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82983
+            },
+            {
+              "alert": 2,
+              "stageId": 83044
+            },
+            {
+              "alert": 3,
+              "stageId": 82960
+            },
+            {
+              "alert": 4,
+              "stageId": 82510
+            },
+            {
+              "alert": 5,
+              "stageId": 82391
+            },
+            {
+              "alert": 6,
+              "stageId": 153380
+            },
+            {
+              "alert": 7,
+              "stageId": 153614
+            }
+          ]
+        },
+        {
+          "wave": 3,
+          "stageGroupId": 83502,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82985
+            },
+            {
+              "alert": 2,
+              "stageId": 83043
+            },
+            {
+              "alert": 3,
+              "stageId": 82961
+            },
+            {
+              "alert": 4,
+              "stageId": 82509
+            },
+            {
+              "alert": 5,
+              "stageId": 82392
+            },
+            {
+              "alert": 6,
+              "stageId": 153446
+            },
+            {
+              "alert": 7,
+              "stageId": 153592
+            }
+          ]
+        },
+        {
+          "wave": 4,
+          "stageGroupId": 83500,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82779
+            },
+            {
+              "alert": 2,
+              "stageId": 83046
+            },
+            {
+              "alert": 3,
+              "stageId": 82958
+            },
+            {
+              "alert": 4,
+              "stageId": 82508
+            },
+            {
+              "alert": 5,
+              "stageId": 82388
+            },
+            {
+              "alert": 6,
+              "stageId": 153479
+            },
+            {
+              "alert": 7,
+              "stageId": 153580
+            }
+          ]
+        },
+        {
+          "wave": 5,
+          "stageGroupId": 83499,
+          "alerts": [
+            {
+              "alert": 1,
+              "stageId": 82987
+            },
+            {
+              "alert": 2,
+              "stageId": 83045
+            },
+            {
+              "alert": 3,
+              "stageId": 82959
+            },
+            {
+              "alert": 4,
+              "stageId": 82507
+            },
+            {
+              "alert": 5,
+              "stageId": 82389
+            },
+            {
+              "alert": 6,
+              "stageId": 153576
+            },
+            {
+              "alert": 7,
+              "stageId": 153631
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceConfigSha256": "28803451df2cdf2b91f9b7b53d482039baca2cd4ef011b5bc2b832d4e4e20335",
+  "capturedAt": 1794312987
+}

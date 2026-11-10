@@ -12,7 +12,7 @@ test('현재 융재금구는 73기 데이터를 선택한다', () => {
         path: 'data/dzone_current.json',
         mapPath: 'data/dzone_maps.json'
     });
-    assert.equal(season.nextCheckDelay(), null);
+    assert.equal(season.nextCheckDelay(), 60000);
 });
 
 test('보관된 융재금구와 현재 융재금구 데이터를 선택한다', () => {
