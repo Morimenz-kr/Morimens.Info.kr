@@ -617,7 +617,8 @@ function getDictionaryFilterMeta(item, category) {
         ].filter(Boolean).join(' ').toLowerCase(),
         grade: category === 'myeongryun' ? String(item.grade || '').trim() : '',
         mainStat: mainStatFilter,
-        effectFilters
+        effectFilters: [...new Set(effectFilters)],
+        strengthActions: tags.map(getDictionaryStrengthAction).filter(Boolean)
     };
 }
 
@@ -643,14 +644,20 @@ function normalizeDictionaryFilterValue(value, type) {
         return mainStat === '검은 인장 획득' ? '검은 인장 드롭' : mainStat;
     }
 
+    // Duration belongs in the effect description, not in separate filter options.
+    normalized = normalized.replace(/^임시\s+(?=(?:힘|크리티컬|피해 증폭))/, '');
     const compact = normalized.replace(/\s+/g, '');
+    if (/^힘(증가|획득|감소|훔침|탈취)?$/.test(compact)) return '힘';
+    if (/^중독(획득|부여|발동)?$/.test(compact)) return '중독';
+    if (/^반격(획득|부여|발동)?$/.test(compact)) return '반격';
+    if (/^(보호막|방어막)(획득|증가)?$/.test(compact)) return '방어막';
+    if (/^(체력|HP)회복(량증가)?$/.test(compact)) return 'HP 회복';
+    if (/^(체력|HP)감소$/.test(compact)) return 'HP 감소';
+    if (/^은열쇠(게이지(획득)?|에너지회복)$/.test(compact)) return '은열쇠 에너지 회복';
     if (/^광기(회복|획득|부여|획득량증가)$/.test(compact)) return '광기';
-    if (/^HP회복(량증가)?$/.test(compact)) return 'HP 회복';
-    if (/^은열쇠게이지(획득)?$/.test(compact)) return '은열쇠 게이지';
     if (/^배아융합(증가)?$/.test(compact)) return '배아 융합';
     if (/^죽음저항(제거)?$/.test(compact)) return '죽음 저항';
     if (/^검은인장드롭$/.test(compact)) return '검은 인장 드롭';
-    if (/^방어막증가$/.test(compact)) return '방어막';
 
     const effectAliases = {
         광기소모량증가: '광기 소모량 증가',
@@ -660,19 +667,41 @@ function normalizeDictionaryFilterValue(value, type) {
         최대은열쇠에너지증가: '최대 은열쇠 에너지 증가',
         최종피해증가: '최종 피해 증가',
         산출력획득: '산출력',
-        힘획득: '힘',
         방어추가: '방어 추가',
         타격추가: '타격 추가',
         명령카드복제: '명령 카드 복제',
         크리티컬피해: '크리티컬 피해',
         크리티컬확률: '크리티컬 확률',
-        강효: '피해 강효',
-        피해강효: '피해 강효',
-        피해증폭: '피해 강효',
-        임시피해증폭: '피해 강효'
+        강효: '피해 증폭',
+        피해강효: '피해 증폭',
+        피해증폭: '피해 증폭',
+        임시피해증폭: '피해 증폭',
+        산출력감소: '카드 비용 감소',
+        약화부여: '허약',
+        취약부여: '취약',
+        경계획득: '경계',
+        터치손상: '촉수 피해 증가',
+        스칼렛용광로: '핏빛 용광로',
+        초월턴: '초차원 턴',
+        타격추가적용: '효과 추가 적용'
     };
 
-    return effectAliases[compact] || raw;
+    return effectAliases[compact] || normalized;
+}
+
+function getDictionaryStrengthAction(tag) {
+    const value = String(tag || '').replace(/^임시\s*/, '').replace(/\s+/g, '');
+    if (/^힘(증가|획득)$/.test(value)) return '획득';
+    if (value === '힘감소') return '감소';
+    if (/^힘(훔침|탈취)$/.test(value)) return '탈취';
+    return '';
+}
+
+function matchesDictionaryEffects(meta, effects, strengthAction = '') {
+    return effects.length === 0 || effects.some(effect =>
+        meta.effectFilters.includes(effect) &&
+        (effect !== '힘' || !strengthAction || meta.strengthActions.includes(strengthAction))
+    );
 }
 
 function uniqueSortedValues(values) {
@@ -689,17 +718,124 @@ function escapeHtml(value) {
         .replace(/'/g, '&#39;');
 }
 
-function buildFilterCheckboxes(name, values) {
+function renderDictionaryFilterIcon(value) {
+    if (value === '효과 추가 적용') {
+        return `<span class="dictionary-filter-icon dictionary-echo-icon" aria-hidden="true">
+            <img src="images/dictionary-icons/ui_rune_7_big.png" alt="">
+        </span>`;
+    }
+    if (value === '핏빛 용광로') {
+        // UIBloodDrop: Image.Type.Filled, Vertical, Bottom, fillAmount = 0.5.
+        return `<span class="dictionary-filter-icon dictionary-furnace-icon" aria-hidden="true">
+            <img class="dictionary-furnace-frame" src="images/dictionary-icons/ui_battle_image_d_blood_10.png" alt="">
+            <img class="dictionary-furnace-fill" src="images/dictionary-icons/ui_battle_image_d_blood_11.png" alt="">
+        </span>`;
+    }
+    // Native client sprites; source links and original sizes are recorded in the manifest.
+    const icons = {
+        "힘": "icons_buff_021.png",
+        "산출력": "ui_comon_icon_awakerskill.png",
+        "드로우": "ui_comon_icon_awakerskill.png",
+        "카드 추가": "ui_comon_icon_awakerskill.png",
+        "카드 회수": "ui_comon_icon_awakerskill.png",
+        "카드 버리기": "ui_comon_icon_awakerskill.png",
+        "카드 비용 감소": "ui_comon_icon_awakerskill.png",
+        "카운트다운 감소": "ui_battle_icon_hourglass.png",
+        "추격": "icons_buff_081.png",
+        "크리티컬 확률 증가": "ui_battle_white_buff_008.png",
+        "크리티컬 확률": "ui_battle_white_buff_008.png",
+        "크리티컬 피해 증가": "ui_battle_white_buff_007.png",
+        "크리티컬 피해": "ui_battle_white_buff_007.png",
+        "피해 증폭": "ui_battle_white_buff_004.png",
+        "영역 숙련": "ui_battle_white_buff_002.png",
+        "방어막": "icons_buff_009.png",
+        "HP 회복": "icons_buff_020.png",
+        "HP 감소": "icons_buff_020.png",
+        "광기": "battle_card_buff_032.png",
+        "은열쇠 에너지 회복": "battle_card_buff_035.png",
+        "은열쇠 충전": "ui_battle_white_buff_005.png",
+        "검은 인장 드롭": "ui_battle_white_buff_001.png",
+        "죽음 저항": "icons_buff_012.png",
+        "중독": "icons_buff_006.png",
+        "반격": "icons_buff_019.png",
+        "촉수 생성": "battle_job_1.png",
+        "경계": "icons_buff_009.png",
+        "희생": "icons_buff_041.png",
+        "허약": "icons_buff_005.png",
+        "취약": "icons_buff_003.png",
+        "강생 의식": "icons_buff_079.png",
+        "도취": "icons_buff_080.png",
+        "옛날 잔재": "icons_buff_025.png",
+        "창의": "icons_buff_077.png",
+        "죄의 낙인": "icons_buff_078.png",
+        "우종": "icons_buff_087.png",
+        "사냥": "icons_buff_090.png",
+        "잔해": "icons_buff_076.png",
+        "암류": "icons_buff_093.png",
+        "활염": "icons_buff_057.png",
+        "인지 착란": "icons_buff_008.png",
+        "광기 감소": "battle_card_buff_032.png",
+        "광기 탈취": "battle_card_buff_032.png",
+        "최대 광기 증가": "battle_card_buff_032.png",
+        "광기 소모량 증가": "battle_card_buff_032.png",
+        "최대 은열쇠 에너지 증가": "battle_card_buff_035.png",
+        "은열쇠 소모량 증가": "battle_card_buff_035.png",
+        "소모": "battle_card_buff_016.png",
+        "허무": "battle_card_buff_016.png",
+        "유지": "battle_card_buff_016.png",
+        "발견": "battle_card_buff_016.png",
+        "배아 융합": "battle_card_buff_016.png",
+        "촉수 피해 증가": "battle_card_buff_016.png",
+        "초차원 공간": "battle_card_buff_016.png",
+        "초차원 턴": "battle_card_buff_016.png",
+        "대가 무효": "battle_card_buff_016.png"
+    };
+    const icon = icons[value];
+    if (!icon) return '<span class="dictionary-filter-icon" aria-hidden="true"></span>';
+    return `<img class="dictionary-filter-icon" src="images/dictionary-icons/${icon}" width="20" height="20" alt="" aria-hidden="true">`;
+}
+
+function buildFilterCheckboxes(name, values, counts = {}) {
     return values.map(value => `
         <label class="dictionary-filter-option">
             <input type="checkbox" name="${escapeHtml(name)}" value="${escapeHtml(value)}">
-            <span>${escapeHtml(value)}</span>
+            ${renderDictionaryFilterIcon(value)}
+            <span class="dictionary-filter-label">${escapeHtml(value)}</span>
+            ${counts[value] === undefined ? '' : `<span class="dictionary-filter-count" aria-label="${counts[value]}개">${counts[value]}</span>`}
         </label>
     `).join('');
 }
 
 function getCheckedFilterValues(panel, name) {
     return [...panel.querySelectorAll(`input[name="${name}"]:checked`)].map(input => input.value);
+}
+
+function renderSilverKeyEffectFilters(effects, counts, metaByItem) {
+    const abilityOrder = ['힘', '크리티컬 확률 증가', '크리티컬 피해 증가', '피해 증폭',
+        '방어막', 'HP 회복', 'HP 감소', '산출력', '광기', '광기 감소', '광기 탈취',
+        '은열쇠 에너지 회복', '영역 숙련', '배아 융합', '중독', '반격', '촉수 생성', '촉수 피해 증가'];
+    const cardOrder = ['드로우', '카드 추가', '카드 회수', '카드 버리기', '카드 비용 감소',
+        '발견', '효과 추가 적용', '소모', '허무', '유지', '초차원 턴'];
+    const group = (title, values) => `<div class="dictionary-filter-field">
+        <span class="dictionary-filter-section-title">${title}</span>
+        <div class="dictionary-filter-options">${buildFilterCheckboxes('dictionary-effect-filter', values, counts)}</div>
+    </div>`;
+    const abilities = abilityOrder.filter(value => effects.includes(value));
+    const cards = cardOrder.filter(value => effects.includes(value));
+    const states = effects.filter(value => !abilityOrder.includes(value) && !cardOrder.includes(value));
+    return `${group('능력·자원', abilities)}
+        <div class="dictionary-filter-field dictionary-strength-field" hidden>
+            <label for="dictionary-strength-action">힘 세부 효과</label>
+            <select id="dictionary-strength-action">
+                <option value="">전체</option>
+                ${['획득', '감소', '탈취'].map(action => `<option value="${action}">${action} (${
+                    [...metaByItem.values()].filter(meta => meta.strengthActions.includes(action)).length
+                })</option>`).join('')}
+            </select>
+        </div>
+        ${group('카드·발동', cards)}
+        ${group('관련 상태', states)}
+        <p class="dictionary-filter-hint">여러 효과 선택 시 하나라도 해당하면 표시합니다. 조건부·파생 카드 효과도 포함하며, 임시 여부와 발동 조건은 상세 설명에서 확인할 수 있습니다.</p>`;
 }
 
 function renderDictionaryFilters(data, category, onFilterChange) {
@@ -709,6 +845,9 @@ function renderDictionaryFilters(data, category, onFilterChange) {
     const metaByItem = new Map(data.map(item => [item, getDictionaryFilterMeta(item, category)]));
     const mainStats = uniqueSortedValues([...metaByItem.values()].map(meta => meta.mainStat));
     const effects = uniqueSortedValues([...metaByItem.values()].flatMap(meta => meta.effectFilters));
+    const effectCounts = Object.fromEntries(effects.map(effect => [effect,
+        [...metaByItem.values()].filter(meta => meta.effectFilters.includes(effect)).length
+    ]));
     const isMyeongryun = category === 'myeongryun';
     const isSilverKey = category === 'silverkey';
     const grades = uniqueSortedValues([...metaByItem.values()].map(meta => meta.grade));
@@ -725,11 +864,11 @@ function renderDictionaryFilters(data, category, onFilterChange) {
                 ${buildFilterCheckboxes('dictionary-main-filter', mainStats)}
             </div>
         </div>
-    ` : `
+    ` : isSilverKey ? renderSilverKeyEffectFilters(effects, effectCounts, metaByItem) : `
         <div class="dictionary-filter-field">
             <span class="dictionary-filter-section-title">효과</span>
             <div class="dictionary-filter-options">
-                ${buildFilterCheckboxes('dictionary-effect-filter', effects)}
+                ${buildFilterCheckboxes('dictionary-effect-filter', effects, effectCounts)}
             </div>
         </div>
     `;
@@ -777,6 +916,10 @@ function renderDictionaryFilters(data, category, onFilterChange) {
         const grades = getCheckedFilterValues(panel, 'dictionary-grade-filter');
         const mainStats = getCheckedFilterValues(panel, 'dictionary-main-filter');
         const effects = getCheckedFilterValues(panel, 'dictionary-effect-filter');
+        const strengthField = panel.querySelector('.dictionary-strength-field');
+        const strengthSelect = panel.querySelector('#dictionary-strength-action');
+        if (strengthField) strengthField.hidden = !effects.includes('힘');
+        if (strengthSelect && !effects.includes('힘')) strengthSelect.value = '';
         const filtered = data.filter(item => {
             const meta = metaByItem.get(item);
             if (query) {
@@ -790,7 +933,7 @@ function renderDictionaryFilters(data, category, onFilterChange) {
             }
             if (grades.length > 0 && !grades.includes(meta.grade)) return false;
             if (mainStats.length > 0 && !mainStats.includes(meta.mainStat)) return false;
-            if (effects.length > 0 && !effects.some(effect => meta.effectFilters.includes(effect))) return false;
+            if (!matchesDictionaryEffects(meta, effects, strengthSelect?.value || '')) return false;
             return true;
         });
         controls.summary.textContent = `${filtered.length} / ${data.length}개 표시`;
@@ -798,11 +941,14 @@ function renderDictionaryFilters(data, category, onFilterChange) {
     };
 
     controls.search.addEventListener('input', applyFilters);
+    panel.querySelector('#dictionary-strength-action')?.addEventListener('change', applyFilters);
     panel.querySelectorAll('input[type="checkbox"]').forEach(control => {
         control.addEventListener('change', applyFilters);
     });
     controls.reset.addEventListener('click', () => {
         controls.search.value = '';
+        const strengthSelect = panel.querySelector('#dictionary-strength-action');
+        if (strengthSelect) strengthSelect.value = '';
         panel.querySelectorAll('input[type="checkbox"]').forEach(input => {
             input.checked = false;
         });

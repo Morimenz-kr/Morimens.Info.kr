@@ -5,8 +5,8 @@
     "description": "보호막 92점을 획득합니다. 현재 체력이 25% 미만일 경우, 체력 92점을 회복합니다.",
     "image_path": "images/client_art/key/key_injection-74e97381d7.webp",
     "tags": [
-      "보호막 획득",
-      "체력 회복"
+      "방어막 획득",
+      "HP 회복"
     ],
     "source": "스토리 - 망각편 4장 클리어",
     "clientItemId": 9518,
@@ -55,7 +55,8 @@
     "description": "손에 든 카드를 모두 버리고, 버린 카드 수 +2만큼 카드를 뽑습니다.",
     "image_path": "images/client_art/key/key_pure_white-f7acdf702e.webp",
     "tags": [
-      "드로우"
+      "드로우",
+      "카드 버리기"
     ],
     "source": "스토리 - 망각편 3장 클리어",
     "clientItemId": 9685,
@@ -101,8 +102,8 @@
     "description": "모든 각성체는 15점의 광기를 얻고, 다음 턴 시작 시 최대 체력의 5%의 희생을 얻습니다.",
     "image_path": "images/client_art/key/key_funeral-40c973d522.webp",
     "tags": [
-      "광기 부여",
-      "체력 감소"
+      "광기 획득",
+      "희생"
     ],
     "source": "스토리 - 망각편 6장 클리어",
     "clientItemId": 9995,
@@ -128,7 +129,7 @@
     "description": "힘이 28점 증가하고, 영구적인 힘의 25%에 해당하는 추가적인 임시 힘을 얻습니다.",
     "image_path": "images/client_art/key/key_eternal_obsession-80c3dd5a6d.webp",
     "tags": [
-      "힘 증가"
+      "힘 획득"
     ],
     "source": "스토리 - 망각편 5장 클리어",
     "clientItemId": 10032,
@@ -153,9 +154,9 @@
     "description": "1턴 동안 모든 적에게 약화 및 취약 상태를 부여하고 일시적으로 힘 10을 훔칩니다.",
     "image_path": "images/client_art/key/key_voice-ce2026fa26.webp",
     "tags": [
-      "약화 부여",
-      "취약 부여",
-      "힘훔침"
+      "허약",
+      "취약",
+      "힘 탈취"
     ],
     "source": "기본 제공",
     "clientItemId": 10052,
@@ -180,7 +181,7 @@
     "description": "각성체 하나에게 광기를 35 부여합니다.",
     "image_path": "images/client_art/key/key_tiny_wish-8ed75d480d.webp",
     "tags": [
-      "광기 부여"
+      "광기 획득"
     ],
     "source": "스토리 - 망각편 1장 클리어",
     "clientItemId": 10065,
@@ -204,7 +205,7 @@
     "image_path": "images/client_art/key/key_aureta-89bd6bfbdd.webp",
     "tags": [
       "드로우",
-      "터치 손상"
+      "촉수 피해 증가"
     ],
     "source": "의식잠항 - 언제나처럼",
     "clientItemId": 36801,
@@ -229,8 +230,10 @@
     "description": "1명의 각성체를 선택하여 20점의 힘을 얻습니다. 현재 경계역이 ‘혈육’인 경우, 배아 융합이 20% 증가하지만, 현재 생명의 10%를 잃습니다.",
     "image_path": "images/client_art/key/key_blood-d6bfe94352.webp",
     "tags": [
-      "힘 증가",
-      "체력 감소"
+      "힘 획득",
+      "광기 획득",
+      "HP 감소",
+      "배아 융합"
     ],
     "source": "의식잠항 - 피와 모래",
     "clientItemId": 36813,
@@ -256,8 +259,9 @@
     "image_path": "images/client_art/key/key_last_pledge-1cd0cccf2f.webp",
     "tags": [
       "크리티컬 확률 증가",
-      "힘 증가",
-      "보호막 획득"
+      "힘 획득",
+      "방어막 획득",
+      "죽음 저항"
     ],
     "source": "의식 잠항 - 기사의 소원",
     "clientItemId": 36814,
@@ -283,8 +287,11 @@
     "image_path": "images/client_art/key/key_moment-9936e5fd08.webp",
     "tags": [
       "카드 추가",
-      "힘 증가",
-      "경계 획득"
+      "힘 획득",
+      "경계",
+      "산출력 획득",
+      "소모",
+      "허무"
     ],
     "source": "의식잠항 - 뒤틀린 핵",
     "clientItemId": 36815,
@@ -309,8 +316,9 @@
     "description": "1점의 산출력을 획득하고, 다음 턴 시작 시 96점의 보호막을 획득합니다. 현재 경계역이 ‘심해’이고 ‘물결’상태일 경우, 효과가 1개의 터치 윌 생성으로 변경됩니다.",
     "image_path": "images/client_art/key/key_born-4bdd2852d7.webp",
     "tags": [
-      "보호막 획득",
-      "촉수 생성"
+      "방어막 획득",
+      "촉수 생성",
+      "산출력 획득"
     ],
     "source": "의식잠항 - 노래처럼 조각된",
     "clientItemId": 36847,
@@ -336,7 +344,8 @@
     "image_path": "images/client_art/key/key_lakeside-a223f8d497.webp",
     "tags": [
       "중독 부여",
-      "보호막 획득"
+      "방어막 획득",
+      "중독 발동"
     ],
     "source": "의식잠항 - 창백한 후예",
     "clientItemId": 36848,
@@ -361,8 +370,8 @@
     "description": "뽑기 더미에서 카드 1장을 선택하여 손에 넣고, 해당 카드의 계산 비용을 1만큼 줄입니다.",
     "image_path": "images/client_art/key/key_return-c54c942f47.webp",
     "tags": [
-      "카드 추가",
-      "산출력 감소"
+      "카드 회수",
+      "카드 비용 감소"
     ],
     "source": "의식 잠항 - 회귀 · 라모나",
     "clientItemId": 36849,
@@ -385,8 +394,10 @@
     "description": "반격 150스택을 획득하고, 모든 적의 힘을 임시로 28점 감소시킵니다. 현재 ‘초월 턴’중이라면, 임시로 힘이 감소된 모든 적에게 반격 만큼의 피해를 입힙니다.",
     "image_path": "images/client_art/key/key_rotten_party-53f4d9a71b.webp",
     "tags": [
-      "초월 턴",
-      "힘 감소"
+      "초차원 턴",
+      "힘 감소",
+      "반격 획득",
+      "반격 발동"
     ],
     "source": "의식잠항 - 불꽃의 항연",
     "clientItemId": 36850,
@@ -411,9 +422,9 @@
     "description": "힘을 18 획득합니다. 적의 공격으로 피해를 입었을 때, 다음 턴 시작 시 입은 피해량의 10%만큼 보호막을 획득합니다. 현재 영역이 ‘혈육’인 경우, 지연 보호막 대신 피해량의 10%를 핓빛 용광로에 축적합니다.",
     "image_path": "images/client_art/key/key_miracle-db59d238f8.webp",
     "tags": [
-      "힘 증가",
-      "보호막 획득",
-      "스칼렛 용광로"
+      "힘 획득",
+      "방어막 획득",
+      "핏빛 용광로"
     ],
     "source": "특파기록 - 피의 색",
     "clientItemId": 36857,
@@ -439,10 +450,11 @@
     "description": "1의 산출력과 15의 힘을 획득하고, 한 명의 각성체를 선택하여 15의 광기를 획득합니다. 현재 경계역이 ‘심해’이고 ‘노도’상태일 경우, 효과가 15%의 임시 크리티컬 확률과 임시 크리티컬 데미지 획득으로 변경됩니다.",
     "image_path": "images/client_art/key/key_giant-271d995464.webp",
     "tags": [
-      "힘 증가",
-      "광기 부여",
+      "힘 획득",
+      "광기 획득",
       "크리티컬 확률 증가",
-      "크리티컬 피해 증가"
+      "크리티컬 피해 증가",
+      "산출력 획득"
     ],
     "source": "의식잠항 - 거인의 몰락",
     "clientItemId": 36858,
@@ -468,7 +480,7 @@
     "image_path": "images/client_art/key/key_all_of_her-b7692630dc.webp",
     "tags": [
       "영역 숙련",
-      "광기 부여"
+      "광기 획득"
     ],
     "source": "특파 기록 - 고요한 분열",
     "clientItemId": 36859,
@@ -491,9 +503,9 @@
     "description": "임시 공격력 42를 얻고 카드 2장을 뽑습니다. 현재 영역이 ‘혈육’이라면 현재 체력의 10%를 잃고 임시 공격력 14를 추가로 얻습니다. 손에 있는 \"배아\" 카드 한 장당 임시 공격력 14를 추가로 얻습니다.",
     "image_path": "images/client_art/key/key_rose-c18dc3b05c.webp",
     "tags": [
-      "힘 증가",
+      "힘 획득",
       "드로우",
-      "체력 감소"
+      "HP 감소"
     ],
     "source": "특파 기록 - 장미의 찬가",
     "clientItemId": 36860,
@@ -518,9 +530,9 @@
     "description": "힘 14를 얻고 손에 \"영감\" 카드 1장을 추가합니다. 초차원 턴인 경우, 효과가 변경되어 손에 \"영감\" 카드 2장을 추가합니다.",
     "image_path": "images/client_art/key/key_grey_fog-2907328350.webp",
     "tags": [
-      "힘 증가",
+      "힘 획득",
       "카드 추가",
-      "초월 턴"
+      "초차원 턴"
     ],
     "source": "특파기록 - 비 내리는 마을의 유령",
     "clientItemId": 36861,
@@ -546,8 +558,9 @@
     "image_path": "images/client_art/key/key_summer_dream-0561876af3.webp",
     "tags": [
       "드로우",
-      "산출력 감소",
-      "광기 부여"
+      "카드 비용 감소",
+      "광기 획득",
+      "카드 버리기"
     ],
     "source": "특파기록 - 이야기의 마법",
     "clientItemId": 36862,
@@ -570,9 +583,9 @@
     "description": "4개의 시편 중 하나를 선택하고, 선택지에서 제거합니다. 모든 시편이 선택되면 초기화 됩니다.",
     "image_path": "images/client_art/key/key_spring-868bc73934.webp",
     "tags": [
-      "체력 회복",
-      "힘 증가",
-      "광기 부여",
+      "HP 회복",
+      "힘 획득",
+      "광기 획득",
       "크리티컬 확률 증가"
     ],
     "source": "특파기록 - 장미의 거처",
@@ -601,8 +614,9 @@
     "tags": [
       "크리티컬 확률 증가",
       "크리티컬 피해 증가",
-      "광기 부여",
-      "카드 추가"
+      "광기 획득",
+      "카드 추가",
+      "소모"
     ],
     "source": "의식잠항 - 열정은 먼지로",
     "clientItemId": 45299,
@@ -630,7 +644,9 @@
     "image_path": "images/client_art/key/key_sea-a6dfb6c461.webp",
     "tags": [
       "드로우",
-      "중독 부여"
+      "중독 부여",
+      "산출력 획득",
+      "광기 감소"
     ],
     "source": "이몽의 세계 - 모독",
     "clientItemId": 45300,
@@ -703,7 +719,8 @@
     "image_path": "images/client_art/key/key_seed-47a8a32e2c.webp",
     "tags": [
       "카드 추가",
-      "광기 부여"
+      "광기 획득",
+      "소모"
     ],
     "source": "스토리 - 망각편 7장 클리어",
     "clientItemId": 49204,
@@ -726,7 +743,8 @@
     "description": "무작위 은열쇠 3개를 발견하고, 그 중 하나를 선택하여 효과를 발동합니다. 은열쇠 에너지를 200 획득합니다.",
     "image_path": "images/client_art/key/key_open_door-603b8cce6a.webp",
     "tags": [
-      "은열쇠 게이지 획득"
+      "은열쇠 에너지 회복",
+      "발견"
     ],
     "source": "스토리 - 망각편 9-3 클리어",
     "clientItemId": 56636,
@@ -750,7 +768,8 @@
     "image_path": "images/client_art/key/key_4th_music-130e09b244.webp",
     "tags": [
       "드로우",
-      "카드 추가"
+      "카드 추가",
+      "산출력 획득"
     ],
     "source": "스토리 - 망각편 8장 클리어",
     "clientItemId": 56638,
@@ -773,7 +792,7 @@
     "description": "각성체 1명을 선택하여 20의 광기를 부여합니다. 모든 적에게 39의 중독을 부여하고, 목표의 잃은 체력 1%마다 1%의 중독을 발동시킵니다. (최대 50%)",
     "image_path": "images/client_art/key/key_void-9ce8caebf3.webp",
     "tags": [
-      "광기 부여",
+      "광기 획득",
       "중독 부여",
       "중독 발동"
     ],
@@ -800,9 +819,10 @@
     "description": "\"잠\" 또는 \"깨어남\"을 선택. 잠: 보호막 58점과 \"별의 보호\" 중첩 1개를 획득하며, 최대 5개까지 누적됩니다. 중첩은 전투 후에도 초기화되지 않습니다. 깨어남: 모든 각성체는 광기 8점을 획득하고, 모든 \"별빛 보호\" 중첩을 소모하며, 소모된 중첩 수만큼 연산 능력을 얻습니다. 현재 영역이 \"심해\"인 경우, 소모된 중첩 수만큼 추가적인 임시 촉수가 생성됩니다.",
     "image_path": "images/client_art/key/key_star_protect-114b9de323.webp",
     "tags": [
-      "보호막 획득",
-      "광기 부여",
-      "촉수 생성"
+      "방어막 획득",
+      "광기 획득",
+      "촉수 생성",
+      "산출력 획득"
     ],
     "source": "의식 잠항 - 대관의 날",
     "clientItemId": 70919,
@@ -827,7 +847,9 @@
     "tags": [
       "카드 추가",
       "산출력 획득",
-      "드로우"
+      "드로우",
+      "소모",
+      "유지"
     ],
     "source": "다차원 연결 - 역전의 턴",
     "clientItemId": 72095,
@@ -850,11 +872,12 @@
     "description": "체력 68을 회복하고 공격력 20을 얻습니다. 클레멘타인이 파티에 있을 경우, 이번 턴에 그녀의 다음 명령 카드가 입히는 피해량, 보호막, 체력 회복, 광기, 은색 열쇠 에너지의 횟수가 1씩 증가합니다.",
     "image_path": "images/client_art/key/key_special-dee3ebdbc8.webp",
     "tags": [
-      "체력 회복",
-      "힘 증가",
-      "보호막 획득",
-      "광기 부여",
-      "은열쇠 게이지"
+      "HP 회복",
+      "힘 획득",
+      "방어막 획득",
+      "광기 획득",
+      "은열쇠 에너지 회복",
+      "효과 추가 적용"
     ],
     "source": "스토리 - 성신편 2장 클리어",
     "clientItemId": 80191,
@@ -883,7 +906,7 @@
     "description": "방어력 58점을 얻고 카드 2장을 뽑습니다. 코퍼산트가 파티에 있다면 \"향로 인도\" 카드 1장을 추가로 손에 넣습니다.",
     "image_path": "images/client_art/key/key_lightning-e6accf6329.webp",
     "tags": [
-      "보호막 획득",
+      "방어막 획득",
       "드로우",
       "카드 추가"
     ],
@@ -914,9 +937,9 @@
     "description": "각성체 하나를 선택하여 광기 15를 부여합니다. 드로우 덱에서 계산 비용이 가장 낮은 카드 2장을 뽑습니다. 팀에 카스토르가 있다면, 카스토르의 강효를 일시적으로 30% 증가시킵니다.",
     "image_path": "images/client_art/key/key_twisted_fate-cca24474ed.webp",
     "tags": [
-      "광기 부여",
+      "광기 획득",
       "드로우",
-      "강효"
+      "피해 증폭"
     ],
     "source": "이몽의 세계 - 하늘의 저편 · 상",
     "clientItemId": 88873,
@@ -944,7 +967,8 @@
     "image_path": "images/client_art/key/key_hungry-a51523eaa3.webp",
     "tags": [
       "카드 추가",
-      "산출력 감소"
+      "카드 비용 감소",
+      "발견"
     ],
     "source": "이몽의 세계 - 주방 정복기",
     "clientItemId": 94559,
@@ -968,8 +992,9 @@
     "image_path": "images/client_art/key/key_never_falling_sun-b1675e3d62.webp",
     "tags": [
       "산출력 획득",
-      "피해 강효",
-      "드로우"
+      "피해 증폭",
+      "드로우",
+      "활염"
     ],
     "source": "의식잠항 - 불멸의 백야",
     "clientItemId": 95548,
@@ -996,8 +1021,8 @@
     "description": "모든 적에게서 일시적으로 힘 39를 훔칩니다. 도어세인이 파티에 있다면 ‘잔해’ 1개를 얻습니다.",
     "image_path": "images/client_art/key/key_keirei-1c4bcb272a.webp",
     "tags": [
-      "힘훔침",
-      "카드 추가"
+      "힘 탈취",
+      "잔해"
     ],
     "source": "스토리 - 성신편 3장 클리어",
     "clientItemId": 95691,
@@ -1050,8 +1075,9 @@
     "description": "한 명의 각성체를 선택하여 20포인트의 광기를 획득시키고, 1장의 ‘영감’을 드로우 덱에 섞습니다. 만약 픽맨이 팀에 있으면, 1층의 ‘창의’를 그에게 획득시킵니다.",
     "image_path": "images/client_art/key/key_paint-c1da162d0c.webp",
     "tags": [
-      "광기 부여",
-      "카드 추가"
+      "광기 획득",
+      "카드 추가",
+      "창의"
     ],
     "source": "의식잠항 - 변이세화",
     "clientItemId": 99102,
@@ -1079,8 +1105,9 @@
     "image_path": "images/client_art/key/key_bloodtear-0cef29a0ce.webp",
     "tags": [
       "드로우",
-      "산출력 감소",
-      "크리티컬 피해 증가"
+      "카드 비용 감소",
+      "크리티컬 피해 증가",
+      "죄의 낙인"
     ],
     "source": "이몽의 세계 - 하늘의 저편 · 하",
     "clientItemId": 99724,
@@ -1107,8 +1134,8 @@
     "description": "121의 보호막 포인트를 얻고 현재 보호막의 10%에 해당하는 일시적인 힘을 얻습니다.",
     "image_path": "images/client_art/key/key_dream_moment-8dfaa53803.webp",
     "tags": [
-      "보호막 획득",
-      "힘 증가"
+      "방어막 획득",
+      "힘 획득"
     ],
     "source": "이몽의 세계 - 안녕, 영원한 고향",
     "clientItemId": 100577,
@@ -1134,7 +1161,8 @@
     "image_path": "images/client_art/key/key_ship-f18956160b.webp",
     "tags": [
       "강생 의식",
-      "드로우"
+      "드로우",
+      "산출력 획득"
     ],
     "source": "스토리 - 성신편 4장 클리어",
     "clientItemId": 118128,
@@ -1161,7 +1189,8 @@
     "description": "버린 카드 더미에서 명령카드 1장을 선택하여 회수합니다. 만약 ‘라모나’가 팀에 있을 경우, 그 팀원이 이번 턴에 사용하는 다음 명령카드가 2번 발동됩니다.",
     "image_path": "images/client_art/key/key_wish_again-c645121564.webp",
     "tags": [
-      "카드 추가"
+      "카드 회수",
+      "효과 추가 적용"
     ],
     "source": "특파기록 - 별빛의 찬가",
     "clientItemId": 119952,
@@ -1188,7 +1217,8 @@
     "description": "「타격」 2장을 드로우합니다. 「무셰트」가 팀에 있을 경우, 그 카드들의 행동력 소모를 1 감소시킵니다.",
     "image_path": "images/client_art/key/key_from_fog-b8e4675194.webp",
     "tags": [
-      "카드 추가"
+      "드로우",
+      "카드 비용 감소"
     ],
     "owner_character_ids": [
       "mouchette"
@@ -1216,7 +1246,9 @@
     "image_path": "images/client_art/key/key_arachne-1498847c3f.webp",
     "tags": [
       "방어막 획득",
-      "임시 피해 증폭"
+      "피해 증폭",
+      "드로우",
+      "카드 비용 감소"
     ],
     "source": "스토리 - 성신편 5장 클리어",
     "clientItemId": 124899,
@@ -1246,7 +1278,8 @@
     "image_path": "images/client_art/key/key_homegirl_story-05bb18c0b5.webp",
     "tags": [
       "힘 감소",
-      "산출력 획득"
+      "산출력 획득",
+      "도취"
     ],
     "source": "의식잠항 - 부채 아래 밤담화",
     "clientItemId": 125190,
@@ -1275,8 +1308,9 @@
     "description": "임시 크리티컬 확률 15% 증가, 산출력 1 획득. 이번 전투에서 처음으로 발동시, 모든 적에게 고대 잔해 1040의 피해를 준다.",
     "image_path": "images/client_art/key/key_fireworks-a3785a94e1.webp",
     "tags": [
-      "임시 크리티컬 확률 증가",
-      "산출력 획득"
+      "크리티컬 확률 증가",
+      "산출력 획득",
+      "옛날 잔재"
     ],
     "source": "특파기록 - 기도의 해를 향한 기차",
     "clientItemId": 129499,
@@ -1302,7 +1336,9 @@
     "image_path": "images/client_art/key/key_saya-0e8cb3f2c6.webp",
     "tags": [
       "방어막 획득",
-      "드로우"
+      "드로우",
+      "인지 착란",
+      "우종"
     ],
     "owner_character_ids": [
       "saya"
@@ -1359,9 +1395,9 @@
     "description": "임시 크리티컬 피해 +30%, 모든 적의 힘을 임시로 35 감소시킨다. 폰토스 : 「사냥」 1스택 획득",
     "image_path": "images/client_art/key/key_pontos-0abb1fb19e.webp",
     "tags": [
-      "임시 크리티컬 피해 증가",
-      "임시 힘 감소",
-      "힘 감소"
+      "크리티컬 피해 증가",
+      "힘 감소",
+      "사냥"
     ],
     "owner_character_ids": [
       "pontos"
@@ -1392,7 +1428,7 @@
     "tags": [
       "힘 획득",
       "광기 탈취",
-      "타격 추가 적용"
+      "효과 추가 적용"
     ],
     "owner_character_ids": [
       "lotan_cetarchon"
@@ -1422,7 +1458,8 @@
     "image_path": "images/client_art/key/key_caraboo-db127b0e0f.webp",
     "tags": [
       "방어막 획득",
-      "영역 숙련"
+      "영역 숙련",
+      "대가 무효"
     ],
     "owner_character_ids": [
       "caraboo"
@@ -1469,8 +1506,8 @@
     "description": "HP를 47pt 회복하고, 각성체 1명을 선택하여 광기를 20pt 획득시킨다. 비비안: 「가마술」의 카운트다운이 1 감소한다.",
     "image_path": "images/client_art/key/key_vivian-4c6ad7ac26.webp",
     "tags": [
-      "체력 회복",
-      "광기 부여",
+      "HP 회복",
+      "광기 획득",
       "카운트다운 감소"
     ],
     "owner_character_ids": [

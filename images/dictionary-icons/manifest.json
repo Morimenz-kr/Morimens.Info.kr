@@ -1,0 +1,683 @@
+{
+  "extractedOn": "2026-11-11",
+  "sourceVersion": {
+    "branchName": "Z1G_2026_11_OB",
+    "resVersion": 18,
+    "buildVersion": 11,
+    "platformCode": "p10020",
+    "downloadPlatformCode": "p10020",
+    "hash": "905b88d071ccf5a8b99b45cd712489aa",
+    "size": 2936250
+  },
+  "processing": "Native Sprite pixels and alpha, no resizing, sharpening, tracing or AI upscaling.",
+  "assets": {
+    "icons_buff_021.png": {
+      "sprite": "IconS_Buff_021",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "힘",
+          "reference": "WordsEffectConfig.PowerIconKeywords → Battle_Card_Buff_021; State 97743.Icon"
+        }
+      ]
+    },
+    "ui_battle_white_buff_008.png": {
+      "sprite": "UI_Battle_White_Buff_008",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        34,
+        34
+      ],
+      "references": [
+        {
+          "effect": "크리티컬 확률 증가",
+          "reference": "ActorAttrType 18159.Icon"
+        },
+        {
+          "effect": "크리티컬 확률",
+          "reference": "ActorAttrType 18159.Icon"
+        }
+      ]
+    },
+    "ui_battle_white_buff_007.png": {
+      "sprite": "UI_Battle_White_Buff_007",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        33,
+        34
+      ],
+      "references": [
+        {
+          "effect": "크리티컬 피해 증가",
+          "reference": "ActorAttrType 18105.Icon"
+        },
+        {
+          "effect": "크리티컬 피해",
+          "reference": "ActorAttrType 18105.Icon"
+        }
+      ]
+    },
+    "ui_battle_white_buff_004.png": {
+      "sprite": "UI_Battle_White_Buff_004",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        25,
+        38
+      ],
+      "references": [
+        {
+          "effect": "피해 증폭",
+          "reference": "ActorAttrType 18142.Icon"
+        }
+      ]
+    },
+    "ui_battle_white_buff_002.png": {
+      "sprite": "UI_Battle_White_Buff_002",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        33,
+        33
+      ],
+      "references": [
+        {
+          "effect": "영역 숙련",
+          "reference": "ActorAttrType 18126.Icon"
+        }
+      ]
+    },
+    "battle_card_buff_032.png": {
+      "sprite": "Battle_Card_Buff_032",
+      "atlas": "battle_card",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_card_atlas.ab",
+      "sourceSha256": "70ddbee5fe191350812c444f9d0a6038f1591eb32cac761c06ac23e51ad07333",
+      "size": [
+        41,
+        41
+      ],
+      "references": [
+        {
+          "effect": "광기",
+          "reference": "WordsEffectConfig.EnergyIconKeywords (狂气)"
+        },
+        {
+          "effect": "광기 감소",
+          "reference": "WordsEffectConfig.EnergyIconKeywords (狂气)"
+        },
+        {
+          "effect": "광기 탈취",
+          "reference": "WordsEffectConfig.EnergyIconKeywords (狂气)"
+        },
+        {
+          "effect": "최대 광기 증가",
+          "reference": "WordsEffectConfig.EnergyIconKeywords (狂气)"
+        },
+        {
+          "effect": "광기 소모량 증가",
+          "reference": "WordsEffectConfig.EnergyIconKeywords (狂气)"
+        }
+      ]
+    },
+    "battle_card_buff_035.png": {
+      "sprite": "Battle_Card_Buff_035",
+      "atlas": "battle_card",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_card_atlas.ab",
+      "sourceSha256": "70ddbee5fe191350812c444f9d0a6038f1591eb32cac761c06ac23e51ad07333",
+      "size": [
+        24,
+        40
+      ],
+      "references": [
+        {
+          "effect": "은열쇠 에너지 회복",
+          "reference": "WordsEffectConfig.SilverKeyIconKeywords"
+        },
+        {
+          "effect": "최대 은열쇠 에너지 증가",
+          "reference": "WordsEffectConfig.SilverKeyIconKeywords"
+        },
+        {
+          "effect": "은열쇠 소모량 증가",
+          "reference": "WordsEffectConfig.SilverKeyIconKeywords"
+        }
+      ]
+    },
+    "ui_battle_white_buff_005.png": {
+      "sprite": "UI_Battle_White_Buff_005",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        21,
+        35
+      ],
+      "references": [
+        {
+          "effect": "은열쇠 충전",
+          "reference": "ActorAttrType 18139.Icon"
+        }
+      ]
+    },
+    "ui_battle_white_buff_001.png": {
+      "sprite": "UI_Battle_White_Buff_001",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        34,
+        34
+      ],
+      "references": [
+        {
+          "effect": "검은 인장 드롭",
+          "reference": "ActorAttrType 18155.Icon"
+        }
+      ]
+    },
+    "icons_buff_006.png": {
+      "sprite": "IconS_Buff_006",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "중독",
+          "reference": "State 3068.Icon"
+        }
+      ]
+    },
+    "icons_buff_019.png": {
+      "sprite": "IconS_Buff_019",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        45
+      ],
+      "references": [
+        {
+          "effect": "반격",
+          "reference": "WordsEffectConfig.RetaliateIconKeywords; State 19998.Icon"
+        }
+      ]
+    },
+    "icons_buff_009.png": {
+      "sprite": "IconS_Buff_009",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        44,
+        46
+      ],
+      "references": [
+        {
+          "effect": "경계",
+          "reference": "State 3510.Icon"
+        },
+        {
+          "effect": "방어막",
+          "reference": "User-selected shared shield symbol with 경계 (State 3510.Icon)"
+        }
+      ]
+    },
+    "icons_buff_041.png": {
+      "sprite": "IconS_Buff_041",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        42,
+        46
+      ],
+      "references": [
+        {
+          "effect": "희생",
+          "reference": "WordsEffectConfig.SacrificeKeyWord; State 36014.Icon"
+        }
+      ]
+    },
+    "icons_buff_005.png": {
+      "sprite": "IconS_Buff_005",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "허약",
+          "reference": "WordsEffectConfig.WeaknessIconKeywords; State 3469.Icon"
+        }
+      ]
+    },
+    "icons_buff_003.png": {
+      "sprite": "IconS_Buff_003",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "취약",
+          "reference": "WordsEffectConfig.VulnerabilityIconKeywords; State 2934.Icon"
+        }
+      ]
+    },
+    "icons_buff_079.png": {
+      "sprite": "IconS_Buff_079",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        44,
+        46
+      ],
+      "references": [
+        {
+          "effect": "강생 의식",
+          "reference": "WordsEffectConfig.BirthRitual; State 119108.Icon"
+        }
+      ]
+    },
+    "icons_buff_080.png": {
+      "sprite": "IconS_Buff_080",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "도취",
+          "reference": "WordsEffectConfig.WitherKeywords"
+        }
+      ]
+    },
+    "icons_buff_025.png": {
+      "sprite": "IconS_Buff_025",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        42,
+        46
+      ],
+      "references": [
+        {
+          "effect": "옛날 잔재",
+          "reference": "State 80575.Icon"
+        }
+      ]
+    },
+    "icons_buff_077.png": {
+      "sprite": "IconS_Buff_077",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        42,
+        46
+      ],
+      "references": [
+        {
+          "effect": "창의",
+          "reference": "State 99640.Icon"
+        }
+      ]
+    },
+    "icons_buff_078.png": {
+      "sprite": "IconS_Buff_078",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "죄의 낙인",
+          "reference": "WordsEffectConfig.ZuiyinKeywords"
+        }
+      ]
+    },
+    "icons_buff_087.png": {
+      "sprite": "IconS_Buff_087",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "우종",
+          "reference": "State 138824.Icon"
+        }
+      ]
+    },
+    "icons_buff_090.png": {
+      "sprite": "IconS_Buff_090",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "사냥",
+          "reference": "WordsEffectConfig.BattueKeywords"
+        }
+      ]
+    },
+    "icons_buff_076.png": {
+      "sprite": "IconS_Buff_076",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        41,
+        46
+      ],
+      "references": [
+        {
+          "effect": "잔해",
+          "reference": "State 91717.Icon"
+        }
+      ]
+    },
+    "icons_buff_093.png": {
+      "sprite": "IconS_Buff_093",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        44,
+        46
+      ],
+      "references": [
+        {
+          "effect": "암류",
+          "reference": "State 149789.Icon / current CharacterEffects mapping"
+        }
+      ]
+    },
+    "icons_buff_057.png": {
+      "sprite": "IconS_Buff_057",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        39,
+        46
+      ],
+      "references": [
+        {
+          "effect": "활염",
+          "reference": "WordsEffectConfig.HuoyanKeywords"
+        }
+      ]
+    },
+    "icons_buff_008.png": {
+      "sprite": "IconS_Buff_008",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        40,
+        46
+      ],
+      "references": [
+        {
+          "effect": "인지 착란",
+          "reference": "State 140673.Icon"
+        }
+      ]
+    },
+    "battle_card_buff_016.png": {
+      "sprite": "Battle_Card_Buff_016",
+      "atlas": "battle_card",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_card_atlas.ab",
+      "sourceSha256": "70ddbee5fe191350812c444f9d0a6038f1591eb32cac761c06ac23e51ad07333",
+      "size": [
+        40,
+        36
+      ],
+      "references": [
+        {
+          "effect": "소모",
+          "reference": "WordsEffectConfig.DepleteIconKeywords (game generic keyword icon)"
+        },
+        {
+          "effect": "허무",
+          "reference": "WordsEffectConfig.NothingnessIconKeywords (game generic keyword icon)"
+        },
+        {
+          "effect": "유지",
+          "reference": "WordsEffectConfig.RetainIconKeywords (game generic keyword icon)"
+        },
+        {
+          "effect": "발견",
+          "reference": "WordsEffectConfig.FaxianKeywords (game generic keyword icon)"
+        },
+        {
+          "effect": "배아 융합",
+          "reference": "WordsEffectConfig.EmbryoFusionIconKeywords (game generic keyword icon)"
+        },
+        {
+          "effect": "촉수 피해 증가",
+          "reference": "WordsEffectConfig.TentacleInjurieIconKeywords (game generic keyword icon)"
+        },
+        {
+          "effect": "초차원 공간",
+          "reference": "WordsEffectConfig.DimensionalSpaceIconKeywords (game generic keyword icon)"
+        },
+        {
+          "effect": "초차원 턴",
+          "reference": "WordsEffectConfig.DimensionalSpaceIconKeywords (game generic keyword icon)"
+        },
+        {
+          "effect": "대가 무효",
+          "reference": "WordsEffectConfig.BlessingNegativeEffect (game generic keyword icon)"
+        }
+      ]
+    },
+    "icons_buff_012.png": {
+      "sprite": "IconS_Buff_012",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "죽음 저항",
+          "reference": "State 23726.Icon / 94600.Icon (green death resistance)"
+        }
+      ]
+    },
+    "icons_buff_020.png": {
+      "sprite": "IconS_Buff_020",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        46,
+        46
+      ],
+      "references": [
+        {
+          "effect": "HP 회복",
+          "reference": "ActorAttrType 18108.Icon / WordsEffectConfig.MaxHPKeywords counterpart (green HP)"
+        },
+        {
+          "effect": "HP 감소",
+          "reference": "ActorAttrType 18108.Icon / WordsEffectConfig.MaxHPKeywords counterpart (green HP)"
+        }
+      ]
+    },
+    "battle_job_1.png": {
+      "sprite": "Battle_Job_1",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        126,
+        128
+      ],
+      "references": [
+        {
+          "effect": "촉수 생성",
+          "reference": "SchoolConfig ID 4 (深海).SchoolBattleTipIcon"
+        }
+      ]
+    },
+    "ui_comon_icon_awakerskill.png": {
+      "sprite": "UI_Comon_Icon_AwakerSkill",
+      "atlas": "common_image",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_common_image_atlas.ab",
+      "sourceSha256": "7a3f8cbf289fc84bc87efa194d34176124b443a2630dd56cb0fca32705ca4326",
+      "size": [
+        41,
+        41
+      ],
+      "references": [
+        {
+          "effect": "산출력",
+          "reference": "UI_Comon_Icon_AwakerSkill; user-selected reuse of game skill symbol for site output filter, not a native output icon"
+        },
+        {
+          "effect": "드로우",
+          "reference": "User-selected reuse of UI_Comon_Icon_AwakerSkill for card manipulation filters"
+        },
+        {
+          "effect": "카드 추가",
+          "reference": "User-selected reuse of UI_Comon_Icon_AwakerSkill for card manipulation filters"
+        },
+        {
+          "effect": "카드 회수",
+          "reference": "User-selected reuse of UI_Comon_Icon_AwakerSkill for card manipulation filters"
+        },
+        {
+          "effect": "카드 버리기",
+          "reference": "User-selected reuse of UI_Comon_Icon_AwakerSkill for card manipulation filters"
+        },
+        {
+          "effect": "카드 비용 감소",
+          "reference": "User-selected reuse of UI_Comon_Icon_AwakerSkill for card manipulation filters"
+        }
+      ]
+    },
+    "ui_battle_image_d_blood_11.png": {
+      "sprite": "UI_Battle_Image_D_Blood_11",
+      "atlas": "standalone furnace UI sprite",
+      "sourceBundle": "artres/uiresources/vx/texture/ui_battle_image_d_blood_11.png.ab",
+      "sourceSha256": "d0c50a0e62be3e35dad04f3af035b678589a57880e0dbbbf317308cc0e93d20a",
+      "size": [
+        122,
+        122
+      ],
+      "references": [
+        {
+          "effect": "핏빛 용광로",
+          "reference": "UIBloodDrop.BindBloodHeal → Group_Heal/Image_Blood; native Type=Filled, FillMethod=Vertical(1), FillOrigin=Bottom(0), fillAmount=0.5; CSS bottom-half clip, no animated waves/material shader"
+        }
+      ]
+    },
+    "ui_battle_image_d_blood_10.png": {
+      "sprite": "UI_Battle_Image_D_Blood_10",
+      "atlas": "battle",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_atlas.ab",
+      "sourceSha256": "c9e528185e1625f4407a96f83ca4351b3b8ced17f83b7d94336d5a1e93fe90e5",
+      "size": [
+        350,
+        234
+      ],
+      "references": [
+        {
+          "effect": "핏빛 용광로",
+          "reference": "UI_Battle_Blood_Drop/Group_Heal.m_Sprite; 150px view centered at native (171.5,117)"
+        }
+      ]
+    },
+    "ui_rune_7_big.png": {
+      "sprite": "UI_Rune_7_Big",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        102,
+        102
+      ],
+      "references": [
+        {
+          "effect": "효과 추가 적용",
+          "reference": "EnchantConfig 18200.Icon; Group 7 回声 (additional application), user-selected reuse of echo engraving symbol"
+        }
+      ]
+    },
+    "ui_battle_icon_hourglass.png": {
+      "sprite": "UI_Battle_Icon_Hourglass",
+      "atlas": "battle",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_atlas.ab",
+      "sourceSha256": "c9e528185e1625f4407a96f83ca4351b3b8ced17f83b7d94336d5a1e93fe90e5",
+      "size": [
+        90,
+        89
+      ],
+      "references": [
+        {
+          "effect": "카운트다운 감소",
+          "reference": "User-selected native UI_Battle_Icon_Hourglass reuse for countdown reduction"
+        }
+      ]
+    },
+    "icons_buff_081.png": {
+      "sprite": "IconS_Buff_081",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        44,
+        46
+      ],
+      "references": [
+        {
+          "effect": "추격",
+          "reference": "State 131351.Icon (Moss vortex loading); user-selected reuse for Moss-specific follow-up filter; does not imply that the key grants the loading state"
+        }
+      ]
+    }
+  }
+}
