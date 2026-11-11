@@ -27,7 +27,7 @@ test('#246 탄피 전용 명륜은 미리암의 의식 대신 강생 의식 툴�
     assert.match(tooltips['의식'], /성례.*집착/);
 });
 
-test('#219 꺼지지 않는 태양은 산출력·피해 강효 필터에 모두 포함된다', () => {
+test('#219 꺼지지 않는 태양은 산출력·피해 증폭 필터에 모두 포함된다', () => {
     const context = vm.createContext({ window: { characterNameSet: new Set(['카티구라']) } });
     vm.runInContext(linksSource.slice(
         linksSource.indexOf('function getDictionaryFilterMeta('),
@@ -36,10 +36,10 @@ test('#219 꺼지지 않는 태양은 산출력·피해 강효 필터에 모두 
     const key = silverKeys.find(item => item.english_name === 'key_never_falling_sun');
     const meta = context.getDictionaryFilterMeta(key, 'silverkey');
     assert.ok(meta.effectFilters.includes('산출력'));
-    assert.ok(meta.effectFilters.includes('피해 강효'));
+    assert.ok(meta.effectFilters.includes('피해 증폭'));
     assert.equal(meta.effectFilters.includes('카티구라'), false);
     for (const alias of ['강효', '피해강효', '피해 강효', '피해 증폭', '임시 피해 증폭']) {
-        assert.equal(context.normalizeDictionaryFilterValue(alias, 'effect'), '피해 강효');
+        assert.equal(context.normalizeDictionaryFilterValue(alias, 'effect'), '피해 증폭');
     }
     assert.equal(context.normalizeDictionaryFilterValue('최종 피해 증가', 'effect'), '최종 피해 증가');
 });

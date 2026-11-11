@@ -3,6 +3,12 @@
    ============================================ */
 
 /* --- 1. 링크 컨테이너 --- */
+/* Keep vertical scrolling on the document, not an implicit body scroll container. */
+body:has(.links-page-shell) {
+    overflow-x: clip;
+    overflow-y: visible;
+}
+
 .link-container {
     max-width: 800px;
     margin: 0 auto;
@@ -1464,6 +1470,10 @@ button.sub-item-vertical:focus-visible {
     display: flex;
     flex-direction: column;
 }
+/* The same report action remains in the footer; keep it off filter controls. */
+body:has(.dictionary-filter-panel.show) .floating-report-btn {
+    display: none;
+}
 .dictionary-filter-field {
     display: flex;
     flex-direction: column;
@@ -1503,14 +1513,14 @@ button.sub-item-vertical:focus-visible {
 }
 .dictionary-filter-options {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
     gap: 8px;
 }
 .dictionary-filter-option {
     display: flex;
     align-items: center;
     gap: 8px;
-    min-height: 36px;
+    min-height: 44px;
     padding: 7px 10px;
     color: #ddd;
     background: #2a2a32;
@@ -1519,21 +1529,97 @@ button.sub-item-vertical:focus-visible {
     font-size: 0.82em;
     cursor: pointer;
     user-select: none;
+    box-sizing: border-box;
+    min-width: 0;
+}
+.dictionary-filter-field .dictionary-filter-option {
+    font-size: 0.875rem;
 }
 .dictionary-filter-option:hover {
     border-color: #777;
     background: #32323c;
 }
 .dictionary-filter-option:has(input:checked) {
-    border-color: #ffc107;
-    background: rgba(255, 193, 7, 0.12);
-    color: #fff;
+    border-color: #8daec7;
+    background: #2c3c4a;
+    color: #edf4fa;
+}
+.dictionary-filter-option:has(input:focus-visible) {
+    outline: 2px solid #b7d7f0;
+    outline-offset: 2px;
 }
 .dictionary-filter-option input {
     flex: 0 0 auto;
     width: auto;
     height: auto;
     margin: 0;
+    accent-color: #8daec7;
+}
+.dictionary-filter-icon {
+    flex: 0 0 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    object-fit: contain;
+}
+.dictionary-echo-icon {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.dictionary-echo-icon img {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    max-width: none;
+    left: -50%;
+    top: -50%;
+    object-fit: contain;
+}
+.dictionary-furnace-icon {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
+.dictionary-furnace-icon img {
+    position: absolute;
+    max-width: none;
+    object-fit: fill;
+}
+/* Crop a 150px window around the native UI orb at (171.5, 117). */
+.dictionary-furnace-frame {
+    width: 233.333333%;
+    height: 156%;
+    left: -64.333333%;
+    top: -28%;
+}
+.dictionary-furnace-fill {
+    width: 85.333333%;
+    height: 85.333333%;
+    left: 7.333333%;
+    top: 7.333333%;
+    clip-path: inset(50% 0 0);
+}
+.dictionary-filter-label {
+    flex: 1;
+}
+.dictionary-filter-option .dictionary-filter-count {
+    color: #b8c4cf;
+    font-size: 0.9em;
+    font-variant-numeric: tabular-nums;
+}
+.dictionary-strength-field[hidden] {
+    display: none;
+}
+.dictionary-strength-field select {
+    max-width: 16rem;
+    min-height: 44px;
+}
+.dictionary-filter-hint {
+    margin: 0;
+    color: #b8b8c1;
+    font-size: 0.8rem;
+    line-height: 1.6;
 }
 .dictionary-filter-option span {
     min-width: 0;
@@ -1590,11 +1676,11 @@ button.sub-item-vertical:focus-visible {
         grid-template-columns: 1fr;
     }
     .dictionary-filter-options {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
         gap: 7px;
     }
     .dictionary-filter-option {
-        min-height: 34px;
+        min-height: 44px;
         font-size: 0.78em;
         padding: 6px 8px;
     }
