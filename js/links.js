@@ -753,6 +753,7 @@ function renderDictionaryFilterIcon(value) {
         "HP 회복": "icons_buff_020.png",
         "HP 감소": "icons_buff_020.png",
         "광기": "battle_card_buff_032.png",
+        "광기 회복": "ui_battle_white_buff_003.png",
         "은열쇠 에너지 회복": "battle_card_buff_035.png",
         "은열쇠 충전": "ui_battle_white_buff_005.png",
         "검은 인장 드롭": "ui_battle_white_buff_001.png",
@@ -800,7 +801,7 @@ function buildFilterCheckboxes(name, values, counts = {}) {
     return values.map(value => `
         <label class="dictionary-filter-option">
             <input type="checkbox" name="${escapeHtml(name)}" value="${escapeHtml(value)}">
-            ${renderDictionaryFilterIcon(value)}
+            ${name === 'dictionary-grade-filter' ? '' : renderDictionaryFilterIcon(value)}
             <span class="dictionary-filter-label">${escapeHtml(value)}</span>
             ${counts[value] === undefined ? '' : `<span class="dictionary-filter-count" aria-label="${counts[value]}개">${counts[value]}</span>`}
         </label>
