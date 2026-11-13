@@ -34,6 +34,14 @@ test('repository 모드는 현재 사이트와 운영 데이터를 안전한 Pag
     assert.equal(await fs.access(path.join(OUTPUT, '.idea')).then(() => true, () => false), false);
     assert.equal(await fs.access(path.join(OUTPUT, 'tools')).then(() => true, () => false), false);
     assert.equal(await fs.access(path.join(OUTPUT, 'js', 'links-dialog.test.cjs')).then(() => true, () => false), false);
+    const current = JSON.parse(await fs.readFile(path.join(ROOT, 'data/dzone_current.json'), 'utf8')).period;
+    const deployedDataFiles = await fs.readdir(path.join(OUTPUT, 'data'));
+    assert.equal(deployedDataFiles.some(name => {
+      const match = name.match(/^dzone_(?:maps_)?season(\d+)\.json$/);
+      return match && Number(match[1]) > current;
+    }), false, '차기 기수의 몬스터·지도 원본은 공개하지 않는다');
+    const seasonCatalog = JSON.parse(await fs.readFile(path.join(OUTPUT, 'data/dzone_season_catalog.json'), 'utf8'));
+    assert.ok(seasonCatalog.seasons.every(season => season.period <= current));
   } finally {
     await fs.rm(OUTPUT, { recursive: true, force: true });
   }

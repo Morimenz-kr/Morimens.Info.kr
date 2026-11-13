@@ -256,7 +256,8 @@ test('확정된 셀레스트 1~3돌은 카드 전문과 레벨별 수치에 반�
     assert.match(pureDream.effect, /HP를 체력의 m% 회복한다/);
     assert.match(immortalBird.effect, /^자신의 중상 상태를 해제하고, HP를 체력의 n% 회복하며/);
     assert.match(immortalBird.effect, /모든 각성체가 25 광기를 획득한다/);
-    assert.match(immortalBird.effect, /부활 후 6턴이 지나면 다시 부활할 수 있다/);
+    assert.match(immortalBird.effect, /부활 후 6턴이 지나면 부활 효과를 다시 부여할 수 있다/);
+    assert.match(immortalBird.effect, /이미 부활 효과가 적용되어 있으면 중복 부여되지 않는다/);
 });
 
 test('확정된 오레타 1~3돌은 필요한 카드에만 전문을 반영한다', () => {

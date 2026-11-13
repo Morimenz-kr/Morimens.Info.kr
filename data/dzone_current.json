@@ -6,9 +6,9 @@
   "source": {
     "kind": "local-config-ab-static-json",
     "usesSkeyDbAsInput": false,
-    "resourceVersion": 15,
+    "resourceVersion": 22,
     "branchName": "Z1G_2026_11_OB",
-    "buildVersion": 10
+    "buildVersion": 11
   },
   "formulaNotes": {
     "normalHp": "ceil(StandardHp*MonsterProportion*MonsterHpPercent - StandardDef*MonsterDefPercent*StandardTurn/20)",
@@ -2110,7 +2110,7 @@
                     }
                   ],
                   "description": "53 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 7 증가.",
-                  "richDescription": "<game-text:<fmt_bb646d:53> 피해를 3회 입히고, <kw_d1b167c8d21b3b57:피의 맹세> 1 스택마다 입히는 피해가 7 증가.>"
+                  "richDescription": "<game-text:<fmt_bb646d:53> 피해를 3회 입히고, <kw_5185ea5bc4e1af95:피의 맹세> 1 스택마다 입히는 피해가 7 증가.>"
                 },
                 "149131": {
                   "args": [
@@ -2184,7 +2184,7 @@
                     }
                   ],
                   "description": "9 스택 힘 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 둔화 부여, 적의 각 카드에 둔화가 1 스택 있을 때마다 자신이 2 스택 피의 맹세 획득.",
-                  "richDescription": "<game-text:9 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_d1b167c8d21b3b57:피의 맹세> 획득.>"
+                  "richDescription": "<game-text:9 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_5185ea5bc4e1af95:피의 맹세> 획득.>"
                 }
               },
               "resolvedStates": [
@@ -2261,7 +2261,7 @@
                       }
                     }
                   ],
-                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_d1b167c8d21b3b57:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
+                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_5185ea5bc4e1af95:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
                 },
                 {
                   "id": 80787,
@@ -3290,7 +3290,7 @@
                     }
                   ],
                   "description": "111 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 13 증가.",
-                  "richDescription": "<game-text:<fmt_bb646d:111> 피해를 3회 입히고, <kw_d1b167c8d21b3b57:피의 맹세> 1 스택마다 입히는 피해가 13 증가.>"
+                  "richDescription": "<game-text:<fmt_bb646d:111> 피해를 3회 입히고, <kw_5185ea5bc4e1af95:피의 맹세> 1 스택마다 입히는 피해가 13 증가.>"
                 },
                 "149131": {
                   "args": [
@@ -3364,7 +3364,7 @@
                     }
                   ],
                   "description": "19 스택 힘 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 둔화 부여, 적의 각 카드에 둔화가 1 스택 있을 때마다 자신이 2 스택 피의 맹세 획득.",
-                  "richDescription": "<game-text:19 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_d1b167c8d21b3b57:피의 맹세> 획득.>"
+                  "richDescription": "<game-text:19 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_5185ea5bc4e1af95:피의 맹세> 획득.>"
                 }
               },
               "resolvedStates": [
@@ -3441,7 +3441,7 @@
                       }
                     }
                   ],
-                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_d1b167c8d21b3b57:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
+                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_5185ea5bc4e1af95:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
                 },
                 {
                   "id": 80787,
@@ -4470,7 +4470,7 @@
                     }
                   ],
                   "description": "201 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 24 증가.",
-                  "richDescription": "<game-text:<fmt_bb646d:201> 피해를 3회 입히고, <kw_d1b167c8d21b3b57:피의 맹세> 1 스택마다 입히는 피해가 24 증가.>"
+                  "richDescription": "<game-text:<fmt_bb646d:201> 피해를 3회 입히고, <kw_5185ea5bc4e1af95:피의 맹세> 1 스택마다 입히는 피해가 24 증가.>"
                 },
                 "149131": {
                   "args": [
@@ -4544,7 +4544,7 @@
                     }
                   ],
                   "description": "34 스택 힘 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 둔화 부여, 적의 각 카드에 둔화가 1 스택 있을 때마다 자신이 2 스택 피의 맹세 획득.",
-                  "richDescription": "<game-text:34 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_d1b167c8d21b3b57:피의 맹세> 획득.>"
+                  "richDescription": "<game-text:34 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_5185ea5bc4e1af95:피의 맹세> 획득.>"
                 }
               },
               "resolvedStates": [
@@ -4621,7 +4621,7 @@
                       }
                     }
                   ],
-                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_d1b167c8d21b3b57:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
+                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_5185ea5bc4e1af95:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
                 },
                 {
                   "id": 80787,
@@ -5650,7 +5650,7 @@
                     }
                   ],
                   "description": "342 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 40 증가.",
-                  "richDescription": "<game-text:<fmt_bb646d:342> 피해를 3회 입히고, <kw_d1b167c8d21b3b57:피의 맹세> 1 스택마다 입히는 피해가 40 증가.>"
+                  "richDescription": "<game-text:<fmt_bb646d:342> 피해를 3회 입히고, <kw_5185ea5bc4e1af95:피의 맹세> 1 스택마다 입히는 피해가 40 증가.>"
                 },
                 "149131": {
                   "args": [
@@ -5724,7 +5724,7 @@
                     }
                   ],
                   "description": "57 스택 힘 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 둔화 부여, 적의 각 카드에 둔화가 1 스택 있을 때마다 자신이 2 스택 피의 맹세 획득.",
-                  "richDescription": "<game-text:57 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_d1b167c8d21b3b57:피의 맹세> 획득.>"
+                  "richDescription": "<game-text:57 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_5185ea5bc4e1af95:피의 맹세> 획득.>"
                 }
               },
               "resolvedStates": [
@@ -5801,7 +5801,7 @@
                       }
                     }
                   ],
-                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_d1b167c8d21b3b57:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
+                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_5185ea5bc4e1af95:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
                 },
                 {
                   "id": 80787,
@@ -6830,7 +6830,7 @@
                     }
                   ],
                   "description": "503 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 59 증가.",
-                  "richDescription": "<game-text:<fmt_bb646d:503> 피해를 3회 입히고, <kw_d1b167c8d21b3b57:피의 맹세> 1 스택마다 입히는 피해가 59 증가.>"
+                  "richDescription": "<game-text:<fmt_bb646d:503> 피해를 3회 입히고, <kw_5185ea5bc4e1af95:피의 맹세> 1 스택마다 입히는 피해가 59 증가.>"
                 },
                 "149131": {
                   "args": [
@@ -6904,7 +6904,7 @@
                     }
                   ],
                   "description": "84 스택 힘 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 둔화 부여, 적의 각 카드에 둔화가 1 스택 있을 때마다 자신이 2 스택 피의 맹세 획득.",
-                  "richDescription": "<game-text:84 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_d1b167c8d21b3b57:피의 맹세> 획득.>"
+                  "richDescription": "<game-text:84 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_5185ea5bc4e1af95:피의 맹세> 획득.>"
                 }
               },
               "resolvedStates": [
@@ -6981,7 +6981,7 @@
                       }
                     }
                   ],
-                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_d1b167c8d21b3b57:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
+                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_5185ea5bc4e1af95:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
                 },
                 {
                   "id": 80787,
@@ -8010,7 +8010,7 @@
                     }
                   ],
                   "description": "647 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 76 증가.",
-                  "richDescription": "<game-text:<fmt_bb646d:647> 피해를 3회 입히고, <kw_d1b167c8d21b3b57:피의 맹세> 1 스택마다 입히는 피해가 76 증가.>"
+                  "richDescription": "<game-text:<fmt_bb646d:647> 피해를 3회 입히고, <kw_5185ea5bc4e1af95:피의 맹세> 1 스택마다 입히는 피해가 76 증가.>"
                 },
                 "149131": {
                   "args": [
@@ -8084,7 +8084,7 @@
                     }
                   ],
                   "description": "108 스택 힘 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 둔화 부여, 적의 각 카드에 둔화가 1 스택 있을 때마다 자신이 2 스택 피의 맹세 획득.",
-                  "richDescription": "<game-text:108 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_d1b167c8d21b3b57:피의 맹세> 획득.>"
+                  "richDescription": "<game-text:108 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_5185ea5bc4e1af95:피의 맹세> 획득.>"
                 }
               },
               "resolvedStates": [
@@ -8161,7 +8161,7 @@
                       }
                     }
                   ],
-                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_d1b167c8d21b3b57:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
+                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_5185ea5bc4e1af95:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
                 },
                 {
                   "id": 80787,
@@ -9190,7 +9190,7 @@
                     }
                   ],
                   "description": "779 피해를 3회 입히고, 피의 맹세 1 스택마다 입히는 피해가 91 증가.",
-                  "richDescription": "<game-text:<fmt_bb646d:779> 피해를 3회 입히고, <kw_d1b167c8d21b3b57:피의 맹세> 1 스택마다 입히는 피해가 91 증가.>"
+                  "richDescription": "<game-text:<fmt_bb646d:779> 피해를 3회 입히고, <kw_5185ea5bc4e1af95:피의 맹세> 1 스택마다 입히는 피해가 91 증가.>"
                 },
                 "149131": {
                   "args": [
@@ -9264,7 +9264,7 @@
                     }
                   ],
                   "description": "130 스택 힘 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 둔화 부여, 적의 각 카드에 둔화가 1 스택 있을 때마다 자신이 2 스택 피의 맹세 획득.",
-                  "richDescription": "<game-text:130 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_d1b167c8d21b3b57:피의 맹세> 획득.>"
+                  "richDescription": "<game-text:130 스택 <kw_440fa9c412a10160:힘> 획득. 드로우 덱 또는 버린 카드 더미의 명령 카드 5장에 1 스택 <kw_912bc5d858aadad1:둔화> 부여, 적의 각 카드에 <kw_912bc5d858aadad1:둔화>가 1 스택 있을 때마다 자신이 2 스택 <kw_5185ea5bc4e1af95:피의 맹세> 획득.>"
                 }
               },
               "resolvedStates": [
@@ -9341,7 +9341,7 @@
                       }
                     }
                   ],
-                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_d1b167c8d21b3b57:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
+                  "richDescription": "<game-text:드로우 단계 종료 후, 적의 손패에 1장의 <kw_fdb660f66f79d31c:둔화> 명령 카드가 있을 때마다 자신이 2 스택의 <kw_5185ea5bc4e1af95:피의 맹세>를 획득합니다. 자신이 막히지 않은 피해를 입힌 후 손패 또는 드로우 덱의 <kw_fdb660f66f79d31c:둔화> 상태가 아닌 명령 카드 1장에 무작위로 3 스택의 <kw_fdb660f66f79d31c:둔화>를 부여합니다.>"
                 },
                 {
                   "id": 80787,
@@ -73319,14 +73319,14 @@
       "icon": "images/keyword-icons/inline/battle_card_buff_005.png",
       "color": "#af6bb0"
     },
-    "kw_d1b167c8d21b3b57": {
+    "kw_5185ea5bc4e1af95": {
       "name": "피의 맹세",
       "description": "상태 효과 | 피의 맹세\n\n적의 스킬을 강화시킨다. 피해를 받을 때마다 1스택을 잃는다.",
       "source": {
         "type": "State",
         "id": 149140
       },
-      "icon": "images/keyword-icons/original/icons_buff_016.png"
+      "icon": "images/keyword-icons/inline/battle_card_buff_016.png"
     },
     "kw_a4105dc593aa5715": {
       "name": "출혈",
@@ -74821,11 +74821,7 @@
   },
   "contentAudit": {
     "schemaVersion": 1,
-    "keywordVersion": {
-      "branchName": "Z1G_2026_11_OB",
-      "resVersion": 18,
-      "buildVersion": 10
-    },
+    "keywordVersion": 22,
     "glossaryCount": 153,
     "diagnostics": [],
     "warnings": [],
@@ -74842,7 +74838,7 @@
       "counts": {
         "richTexts": 1845,
         "inlineReferences": 1537,
-        "verifiedIcons": 879,
+        "verifiedIcons": 900,
         "sourceContexts": 155,
         "unlinkedMentions": 0,
         "colorSpans": 1066,
@@ -74854,6 +74850,7 @@
         "kw_b5bef7369eabc74b": "images/keyword-icons/inline/battle_card_buff_073.png",
         "kw_440fa9c412a10160": "images/keyword-icons/inline/battle_card_buff_021.png",
         "kw_e2cad76836e981c0": "images/keyword-icons/inline/battle_card_buff_005.png",
+        "kw_5185ea5bc4e1af95": "images/keyword-icons/inline/battle_card_buff_016.png",
         "kw_076c2c387c479667": "images/keyword-icons/inline/battle_card_buff_074.png",
         "kw_9b3d545f85bc3985": "images/keyword-icons/inline/battle_card_buff_030.png",
         "kw_d0e59f1a08ff1188": "images/keyword-icons/inline/battle_card_buff_030.png",
@@ -74887,14 +74884,18 @@
       },
       "issues": []
     },
+    "keywordDefinitionSource": {
+      "table": "WordsEffectConfig",
+      "sha256": "02c96bf4c48a7c98b44fb5f296a5e332bbfdbd53619b286d9a3a5210fd498770"
+    },
     "referenceInventory": {
       "rootCount": 59,
-      "nodeCount": 734,
-      "edgeCount": 1689,
+      "nodeCount": 741,
+      "edgeCount": 1717,
       "actionCount": 723,
       "actionTypeCount": 36,
-      "resourceCount": 219,
-      "localizationCount": 702,
+      "resourceCount": 226,
+      "localizationCount": 716,
       "candidateReferenceCount": 14,
       "missingTargetCount": 0,
       "externalTargetCount": 0
@@ -74907,232 +74908,232 @@
       "entries": [
         {
           "tid": 14093,
-          "fingerprint": "d12b4472b8d1fbf24df8462ff22e9beab6350b76cf811aa8f0c1e0515af3211b",
+          "fingerprint": "5de6d0f3c25b2ccbed94f884e424dfbe94bed238bf93c411f871118c19e74a50",
           "status": "hit"
         },
         {
           "tid": 14007,
-          "fingerprint": "91f433ea66a23aa067084a8c55d1a1278e34abb2daa09dde41c2eb70450f3630",
+          "fingerprint": "793529810fcb1fa6f4e7e229a333426552adfd2c854fb86cc97277edc72f8281",
           "status": "hit"
         },
         {
           "tid": 22220,
-          "fingerprint": "70ebc7d209de30aedd22359b1ab8d616ab52aad0a6de377558968ae2be5a682b",
+          "fingerprint": "9543e31951858f57c9ff29a7e7f344a0d10435cd676e3af26859cc3a42f7fec0",
           "status": "hit"
         },
         {
           "tid": 149106,
-          "fingerprint": "0b28e3759e45bb6a99a50d527cbc638d23c2d2b0e4e4c05dd7ce6ca2a0c123bd",
+          "fingerprint": "96820439e3012f5d62b50da601898f57c3be42e804d6467bddea1324dcba382f",
           "status": "hit"
         },
         {
           "tid": 13957,
-          "fingerprint": "8deb329bd73e831bafab83edaf6b2bcfe61341634fa9f6f264569d37e9a55fb4",
+          "fingerprint": "270943c31340b9b2ab38c512d9604dffaff06ab5336a0c43bf8318052f8393db",
           "status": "hit"
         },
         {
           "tid": 34679,
-          "fingerprint": "d9cbe727856f54781c49b95b0bdd44aa6e27c3e0dccf451aec1e743fbd4e0b81",
+          "fingerprint": "e1d909881e12f9d55c4dde76c73410a3b968d6cb9d50d5cce2f1faaefbda98fd",
           "status": "hit"
         },
         {
           "tid": 14111,
-          "fingerprint": "e66a8fdc41f43a34a035e9f186a634148cf75c66cd72f925148a02b985f23cd7",
+          "fingerprint": "c7e99d3372a504bb9c0d2d844467fe17c8286608d766f2e84457259d5d4a9c71",
           "status": "hit"
         },
         {
           "tid": 14049,
-          "fingerprint": "ced0639be6c30571ba84c219431ecbdca3dc6ae86a1e1f87d30a244cd16a5985",
+          "fingerprint": "4f5157db8052e0b0b6895f1c63d30b9b1f1aa28abea74c13e7e14fda014faee8",
           "status": "hit"
         },
         {
           "tid": 43794,
-          "fingerprint": "c307f4ca401b06414364e7dcdfe0863170a0f393deb8dacf89d0e6f31ad19039",
+          "fingerprint": "38450318399cb44cf3e02affc7ab08e117fe7bddb77531a38819bfe5f7f8a00b",
           "status": "hit"
         },
         {
           "tid": 13962,
-          "fingerprint": "4c2b4fe4531a221b372223b4884db2baa7f8a5d528e8336af0c4952293360634",
+          "fingerprint": "b1f1a30041fd7061a52813a1ef398a093413d174e46ad863f2d7ad9c74457335",
           "status": "hit"
         },
         {
           "tid": 59745,
-          "fingerprint": "dd04cb470855cc34b6d175bc8d16ef68413aea4f7590ced166a6c4320eb4ffe2",
+          "fingerprint": "3d1a00286916a8b1f31fdc93269b3543ce14bd24e304453fcbec7ef45fd18838",
           "status": "hit"
         },
         {
           "tid": 56172,
-          "fingerprint": "e986577216d978f1fe2ad970b7b6ee3e444c5037e790756c33a2ba0a827501fd",
+          "fingerprint": "c2b662de58eb3842549c90e5387a532a893d648e3c375e02833729e6801a32ae",
           "status": "hit"
         },
         {
           "tid": 14075,
-          "fingerprint": "0290c5442eb1b9b1140d4798658d4d55b2ae7006e4d258bf140b9205956bdaa1",
+          "fingerprint": "3ed99db388c478628a8edc6d9319def6c69b442c4f1049907e328f22e401679b",
           "status": "hit"
         },
         {
           "tid": 49629,
-          "fingerprint": "f90f9aac1064bd3dc1b786768d9ea609e6c7c1ea0f3c15a16074424751153bae",
+          "fingerprint": "8096d141dd3ccfdb2cbfd815f8218fedf34c880a418f151856d85b578b252379",
           "status": "hit"
         },
         {
           "tid": 49238,
-          "fingerprint": "eed91f818034f7b9abf7d373c68c057333da7e06a47e196519262ece48efc62c",
+          "fingerprint": "317ec4ec4c6ce698f54f5eccb80c778eb67911781df9beafa3a5467a10e7c2f5",
           "status": "hit"
         },
         {
           "tid": 49592,
-          "fingerprint": "039eefcc31316a8479efc70856bc4a3efc3e10f1e70726ec70fd0bad4d657b41",
+          "fingerprint": "e5eefd0b7299185330b6750672907a2cf74901959772c0787bd013550bec4ab3",
           "status": "hit"
         },
         {
           "tid": 44456,
-          "fingerprint": "38700d20acbe356fe04803fbf6a06003f770d2ba0f7655b7d3974c91c08d2a13",
+          "fingerprint": "e1dc9c4cfdf3ab334a53745a0a7a6900d76eccead7513f938c2bc536882c4d8b",
           "status": "hit"
         },
         {
           "tid": 49283,
-          "fingerprint": "ff16c163a12516f258394aacce8e7784805246c4494fd900ae0c508f6a67f4d8",
+          "fingerprint": "80fb97ec5fd61f8e26956be04143bca7305f607f3efe3d4884f24eeceb545215",
           "status": "hit"
         },
         {
           "tid": 49157,
-          "fingerprint": "29311f15ac347306cefb9deb7c27a1660278cce74306c9907260a882f7f490d2",
+          "fingerprint": "0cfea4c5a3d1e0d652ba1cbb64f6d19b813854cb0d6c5bb552f9d5bcbf4ed237",
           "status": "hit"
         },
         {
           "tid": 14061,
-          "fingerprint": "d7911934335b50cc1e61d8c5ec6efc58866e7f4eb69aa90d8298fffbe33a1fc1",
+          "fingerprint": "0865efe4c4232e6dd3f88f9bde97dd6294ca76c7b4d7db135f0b22ba188e8faf",
           "status": "hit"
         },
         {
           "tid": 14110,
-          "fingerprint": "86694968e0a8e33abe707caec891935a33fa0c61087a119e5c7e53fccc89ced1",
+          "fingerprint": "345f50d7e5dade406b19c56f5805bf8c43d921310f476fbfbf18c3bce141daa2",
           "status": "hit"
         },
         {
           "tid": 131442,
-          "fingerprint": "f7c312ea58d5396906794f67771cc1893f69f3602d8a34ae38bb0bfa531a51ac",
+          "fingerprint": "55bad15ea8b13ec7f7a020c0ab4247a94a23dba8f986e9fa3c164fada4df6398",
           "status": "hit"
         },
         {
           "tid": 131431,
-          "fingerprint": "edccf04acd8ea940065f3b5e28d63d8b254a4b288ab7f8a85dd20a6378b4d861",
+          "fingerprint": "f0d13968b1eef9d660f3682ab8c791b32e952b9bf3441a1fbffe996a914351df",
           "status": "hit"
         },
         {
           "tid": 13988,
-          "fingerprint": "9df16c4e88e2114e186b11e28e7bb6e96a6157f97185a89ec6b4667481ae6559",
+          "fingerprint": "42cb2e71767d833150f3ee311760d6100f86338c0fd95f3b410b8f3848685dc5",
           "status": "hit"
         },
         {
           "tid": 131843,
-          "fingerprint": "f762373953c8eed737670d35d8e8c59495ff3b516c2dab069444f6dd52dd96d5",
+          "fingerprint": "82fc9e07e5f9d6fd22da8a451a0b18aa4db97bf437a5fd64b6b4932727325ff2",
           "status": "hit"
         },
         {
           "tid": 131430,
-          "fingerprint": "1a30fdc00729aa60933eab88bcd98087756f5aaf23635c560a9aa30e17c9d9ff",
+          "fingerprint": "3b61b3845ccef54762ff84bccd270fbbeb31d86b4762244b20df23b7fe4c13ed",
           "status": "hit"
         },
         {
           "tid": 131425,
-          "fingerprint": "d0787c8bc087a5647657f12a2f4e340f139c6730f8c2ef56d2c18ed9c6192abf",
+          "fingerprint": "b054847f3568fa56094258dbe94bdf22e1f66847d0671847b5e91ea6674cb581",
           "status": "hit"
         },
         {
           "tid": 131422,
-          "fingerprint": "d1291406e4018769114f5fcdec789d416dfb0d7b1a57ca5e171d53d2dfd0690d",
+          "fingerprint": "de5592bb8ccd7a8181a03ff31a2b93cfee2a50d99b3efd32dcf118952d47a769",
           "status": "hit"
         },
         {
           "tid": 131421,
-          "fingerprint": "b25af6a6e8ed87b6fff5e099d5612622b0b813b8c80e5eb985bb09bb8e8c5745",
+          "fingerprint": "5ad5d7206627e23ddb2b25d4a8d28ab011955160c8be29757e9a87616a2c90ae",
           "status": "hit"
         },
         {
           "tid": 131429,
-          "fingerprint": "e6a63d1bb413042153206907b1d86a24de31630424203c3e25f14e6d70b9d477",
+          "fingerprint": "5e942570fba371cc95b3c5f536787f376f99cb3436edf2c8070331ac5f17d12f",
           "status": "hit"
         },
         {
           "tid": 131423,
-          "fingerprint": "ae8d28d7a1fb3c1f01317594c429e1e347c21994357f01fd61ae9b7e2cdacbc5",
+          "fingerprint": "e6ddcf3698837ca8e214b29ef54926dc33c5141033b216269828fd2860c4646f",
           "status": "hit"
         },
         {
           "tid": 35584,
-          "fingerprint": "17f38f497ec8bd1be25096cb7da4d98ce9ff8fd60b24b15a27e7e1f2b46f07b5",
+          "fingerprint": "e999bd2247a865e477d7a90ed34d23e47227defb8cdb1f7e7bc8bc3117655459",
           "status": "hit"
         },
         {
           "tid": 35581,
-          "fingerprint": "32595e9e5003647337f389ebbab13aca1a46990d8c614574473d325e6aa2ca3d",
+          "fingerprint": "4b3d70dd7a25f98965bbfaf31e0c717283ca885b756c6de5e75d58857a18fd9d",
           "status": "hit"
         },
         {
           "tid": 36007,
-          "fingerprint": "75d70947ac8a9c05fdc428806f998195b99c9bfe97352fef7e34ecf1cd7b1895",
+          "fingerprint": "890f147be6beab590d46308c131a8282a4bdf92c45fd7fa343e25c97541336a2",
           "status": "hit"
         },
         {
           "tid": 13975,
-          "fingerprint": "ccc070932639f1c7d8f59976ccb5b18ace504a819001da9fa4c4eb10c4ff3283",
+          "fingerprint": "077ff9c0df4c84fae2edf5523c29e9572258ef224d5797d6a3ed2d78eb87aa22",
           "status": "hit"
         },
         {
           "tid": 14094,
-          "fingerprint": "f0403af90ec1ffb5bc02f5c3669708ed4f822e2a9e2ee50fc8cd4e774d12da46",
+          "fingerprint": "4a41684223974cc88dd93acb62b894a46fe56f273187c5909f36be09a9e7c651",
           "status": "hit"
         },
         {
           "tid": 13998,
-          "fingerprint": "883cabe87db78ba699ee0ecf0de9f1ddd510f2734d880847b39d0c3573bb4d57",
+          "fingerprint": "dbaebceed15c6642b93e5e30ff0502539c82de9a92b860f28bf3238944cfc6c5",
           "status": "hit"
         },
         {
           "tid": 14055,
-          "fingerprint": "b58706d6032b7f2b08bf02f96fcbb54bad06a0448124ecdfb201bf11476fdffc",
+          "fingerprint": "76b6ed2cb5a2c35d95504cc79e853d8791dbeac77930760d72eb7ad221a2dbbc",
           "status": "hit"
         },
         {
           "tid": 14092,
-          "fingerprint": "220f67bc13e36bfe6a70e00b806d82762f86995cc4615796a5880adac6cd2f1a",
+          "fingerprint": "6ba2a85bd4d65a2953d8a201383e3a89b1f9e10cd92c79d40a117ba70f718768",
           "status": "hit"
         },
         {
           "tid": 36008,
-          "fingerprint": "bd152319593724728aa4e6f0cec29d42d08c1c772168ab3c61fc288d1f5f6483",
+          "fingerprint": "d2088efb0fa74be23da1164a224760b3f305211ea867bf2d47bfbb53a325c2ee",
           "status": "hit"
         },
         {
           "tid": 84437,
-          "fingerprint": "d76cf4633154cf5c020e55feaf8767b75eb0ee1aec52f5134ef2020ddb217ba4",
+          "fingerprint": "e7bbd94ef31a1bc725907a27d73faaa8b6fa04cbfbf4e242366e150bfbd84d22",
           "status": "hit"
         },
         {
           "tid": 44632,
-          "fingerprint": "100efcbfb1520814906107fbee8aea1e09ba6840f9f32d8a4e316224ec19cdd0",
+          "fingerprint": "3c5e788da2f9b9b3e37ab76209ae1acb7f041006328767acb39ef14b5961c10b",
           "status": "hit"
         },
         {
           "tid": 14057,
-          "fingerprint": "dd224ca2eb6f10fd25270792784da027a6ddef6d05117cb95055f2015c8c60d7",
+          "fingerprint": "5e949cca11605960f2fb61a425b35c581f6dcaf49e99bdb1ef11dcc67211ccdd",
           "status": "hit"
         },
         {
           "tid": 36112,
-          "fingerprint": "b6ba13c0c41806d5d15885cdeab6b1dcd8910f33a7fca3fa42f66ed96c15c757",
+          "fingerprint": "1d02ff6ce33d86ba3ba1b2c941e5c98c5f8d7d2ac61f5fa7f60d528227c14a82",
           "status": "hit"
         },
         {
           "tid": 36119,
-          "fingerprint": "3a36b837f7f87f253cd070a320d45ed17e409a2ca7f53620e71e46789ee0e1ba",
+          "fingerprint": "2583bc9be2e5227bdae54fa4e60fcf34832bcc40e453770be1c4c759989dde3f",
           "status": "hit"
         },
         {
           "tid": 14095,
-          "fingerprint": "d604671c8bff8ed45107d0d499635a6eaf1ab7acb1a95029ce67395bd1a7dc3e",
+          "fingerprint": "48138d09c8d4d5c292070d2b2a2b348fffafba31f43b9bec7cbed23fc5eb3393",
           "status": "hit"
         }
       ]
@@ -75140,11 +75141,11 @@
     "generator": {
       "id": "morimens-data-extractor/dzone",
       "files": {
-        "build-dzone-site-data.mjs": "7d29f522246719e03a83e964c9af0c3942acee01d0641a0416165ae912b91644",
-        "dzone-content.mjs": "9998046172fda6b37c430f38bd068b37339eb0fac3e45896cf54ec6941b31a8d",
+        "build-dzone-site-data.mjs": "68f31b2efdfe879aa9c1ac23cc96de8e8d5ca186bc1fb6d7752478c800186712",
+        "dzone-content.mjs": "09c68e80ad091e105456e325056a07fb149762ec42c6dc34b70ba87ebdd0750c",
         "monster-combat-transformer.mjs": "91cfa014da9b1ae9ffd4d532b045ab6d627747d33cef57d1073cb610b3559c2c",
         "game-reference-graph.mjs": "f837d2898bb24a36442d5a8c17cb68cdbf9a1b328a3876eaae5c197dbc14b835",
-        "audit-dzone-presentation.mjs": "efef5fa994b0ce9f318fee98fe54601435ccdb75427f91dd30af87f508a41f6b"
+        "audit-dzone-presentation.mjs": "c68e171b2c85817d9786115a91a0f16fc3dab86a8bc642191cd3ba0efe869a9d"
       }
     }
   },

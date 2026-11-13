@@ -1472,7 +1472,7 @@
     "source": "스토리 - 성신편 6장 클리어",
     "clientItemId": 145970,
     "clientSkillId": 146647,
-    "effectFormula": "방어막을 [Block:PlayerGrowth*0.104*chaostype2_ks_def_per]pt 획득하고, 영역 숙련이 20*chaostype2_ks_def_per 증가한다. 카라부가 파티에 있을 경우, 다음 「축복」 1회는 「대가」를 발동하지 않는다.",
+    "effectFormula": "방어막을 [Block:PlayerGrowth*0.104]pt 획득하고, 영역 숙련이 20*chaostype2_ks_def_per 증가한다. 카라부가 파티에 있을 경우, 다음 「축복」 1회는 「대가」를 발동하지 않는다.",
     "rawEffect": "",
     "sourceIcon": "Icon/KeyToken_Props/KeyToken_Props_56.png",
     "researchDependencies": {
@@ -1480,7 +1480,7 @@
       "spirit": false,
       "vitalIndirect": false,
       "formulas": [
-        "PlayerGrowth*0.104*chaostype2_ks_def_per,20*chaostype2_ks_def_per"
+        "PlayerGrowth*0.104,20*chaostype2_ks_def_per"
       ]
     },
     "related_character_ids": [
