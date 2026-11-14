@@ -215,5 +215,12 @@
     "clientItemId": 145970,
     "clientSkillId": 146647
   },
-  "key_GOgier": {}
+  "key_GOgier": {
+    "clientItemId": 148671,
+    "clientSkillId": 149333
+  },
+  "key_vivian": {
+    "clientItemId": 151695,
+    "clientSkillId": 154015
+  }
 }

@@ -4,6 +4,7 @@ import {tentacleCapacity} from './tentacle-state.mjs';
 import {makeLiveDamageInput} from './live-damage-input.mjs';
 import {sequenceInput,sequenceStep} from './sequence-calculator.mjs';
 import {renderBattleSelection,selectionOptions} from './battle-selection.mjs';
+import {nativeCardDescription} from './card-description.mjs';
 const arr=v=>Array.isArray(v)?v:[];
 export async function createLiveRuntime(){
  const [data,catalog]=await Promise.all(['live-data.json','catalog.json'].map(p=>fetch(p).then(r=>{if(!r.ok)throw Error('계산 데이터를 불러오지 못했습니다.');return r.json();})));
@@ -11,7 +12,7 @@ export async function createLiveRuntime(){
  worker.onmessage=({data:message})=>{const job=pending.get(message.id);if(!job)return;pending.delete(message.id);message.error?job.reject(Error(message.error)):job.resolve(message.result);};
  worker.onerror=()=>{for(const job of pending.values())job.reject(Error('계산 엔진을 다시 불러와 주세요.'));pending.clear();initialization=null;};
  const rawCall=(kind,input)=>new Promise((resolve,reject)=>{const id=++serial;pending.set(id,{resolve,reject});worker.postMessage({id,kind,input:input==null?null:JSON.parse(JSON.stringify(input))});});
- const cache=new Map();
+ const cache=new Map(),descriptionCache=new Map();
  const call=async(kind,input)=>{
   initialization??=rawCall('initialize');await initialization;
   if(!['build','team'].includes(kind))return rawCall(kind,input);
@@ -120,8 +121,19 @@ export async function createLiveRuntime(){
   },
   undoState(){if(!applied.length)return;applied.pop();if(!applied.length)clearSequence();live.invalidate();ui.render();},
   resetState(){clearSequence();live.invalidate();ui.render();},
-  cardDescription(parent,owner,card){
+  async cardDescription(parent,owner,card){
    const renderer=globalThis.CharacterEffects;
+   if(card.nativeDescription){
+    const token={};parent._descriptionToken=token;
+    const render=text=>{if(parent._descriptionToken!==token||!parent.isConnected)return;parent.innerHTML=renderer.renderEffectBody({effect:text},owner.potency??0,card.level??1);renderer.setupTooltips(parent);};
+    const plain=nativeCardDescription(card,owner.potency??0);
+    if(plain){render(plain);return;}
+    parent.textContent='효과 설명을 불러오는 중…';
+    try{const {input:request}=await input();request.actions=[];request.damage.preparing=true;const key=JSON.stringify(request);if(!descriptionCache.has(key)){if(descriptionCache.size>=128)descriptionCache.clear();descriptionCache.set(key,call('calculator',request).catch(error=>{descriptionCache.delete(key);throw error;}));}const result=await descriptionCache.get(key);const text=nativeCardDescription(card,owner.potency??0,result.initial.cardDescription);if(!text)throw Error('원본 설명 인자를 확인하지 못했습니다.');render(text);}
+    catch(error){if(parent._descriptionToken===token&&parent.isConnected)parent.textContent='효과 설명을 불러오지 못했습니다. '+error.message;}
+    return;
+   }
+   parent._descriptionToken=null;
    if(!card.effectRecord||!renderer){parent.textContent='이 카드의 효과 설명은 아직 등록되지 않았습니다.';return;}
    parent.innerHTML=renderer.renderEffectBody(card.effectRecord,owner.potency??0,card.level??1);
    renderer.setupTooltips(parent);

@@ -4,7 +4,7 @@
   "buildVersion": 51,
   "originDeployment": "d25b1986-1b7d-4360-bd81-48fc141c8ebf",
   "files": {
-    "catalog.json": "7f19f189b247a42bd6d57448913aee7ac945cf756458e9c28e81359266158ff3",
+    "catalog.json": "46f4934ba52add164f1a94bdf73e3f336f77e6be405666416d41ff4c85d885a2",
     "data/covenant_parts.json": "f0026317e6e34ce46a9501c6706df39c384892499d975a4e00845b5c4ada45df",
     "engine.scpack.gz": "728a55d44a43eea4c5122d22cfade9434f3d55ab14cc40def17fb4f5155f50e4",
     "gear-contract-18335-1.webp": "bb8741787d4162e69a73a1288269ced6a9e9a035e3a7a75c0d96f52d1ca7f286",
@@ -1660,7 +1660,7 @@
     "keeper-99724.png": "a87dbe98d795f540ceca0d131fa4f73935574a039aabdafa792bc5381ee5a341",
     "keeper-9991.png": "08f6bafcf3b2b0e8800cec5c020e1f64066efffa2bf132284f8e7a36c284ac4c",
     "keeper-9995.png": "e9db07bd26c084362e204da0cbb0bfd88540fe1839bf299c272cc024c98581d4",
-    "live-data.json": "480048ac0fb79aee2fcd375f80f66de2532322cadf033893949fa5d723f1511f",
+    "live-data.json": "f97898e36153dec4f44a0a221d26d12c073e02366f20519532d59f2fae25f062",
     "portrait-125346.png": "4952fe56ff928823fe7424d7294153eadef5e0fc354d0f74547fd70df6a6801e",
     "portrait-130226.png": "27af1bfb1345713a6cdc1314ad6ebd8b082761e78595ba068a0a23bbc011f9a8",
     "portrait-130901.png": "8f530aa7b2468ccf1dcf503777b91f977ba41c9d09ddf24a1b680b153b07fbb1",
@@ -1722,9 +1722,10 @@
     "portrait-77926.png": "d6c6705fbb0d7a436b1fd6d8b8b11fc0b1308f772d897d26ddc69c5e67dbd6fa",
     "portrait-94450.png": "9403c6245fe2a50c5f0b38af3c5550e668a91e6b3c933896f5fe34181ccf74e0",
     "portrait-95786.png": "bc7aac11dc6cf0fa62332ad0ba6f761fa95891c8b7164b46bfa8166b804605d1",
-    "site-equipment-map.json": "2d69ba125fdfb2b6e049f2d39e6e971dfcd366d45f6eebcdf6c453b0a9fc22d7",
-    "site-key-map.json": "ef3111f5041e1c24f884036689b363ec9fa676893e106a648d1742d764ea124f",
-    "site-contract-map.json": "8d0d80e45623f1a5f23e0d07d8acc490d56882833de21dcb9f3d6958e64554e6"
+    "site-equipment-map.json": "3757046f40da9d011f7ff6ae63e19235dd45aa475c288860cd1edb2497c6a4da",
+    "site-key-map.json": "73ce68e1bf74ed387603e7c1d51c65bbd442ee39a703be4b21122e920d1f3f88",
+    "site-contract-map.json": "8d0d80e45623f1a5f23e0d07d8acc490d56882833de21dcb9f3d6958e64554e6",
+    "images/live/151844-sd.webp": "0eb97776023aaf3cf5ffaf42dd500a2d4df066cb036ae89466fc249ed5b3c9f1"
   },
   "engineSource": {
     "branch": "codex/scarecrow-checkpoint",
@@ -1735,5 +1736,6 @@
     "nativeExecutionCases": 2230,
     "nativeExpectedRejections": 65,
     "upstreamBrowserParityCases": 37
-  }
+  },
+  "catalogRevision": "source-id-support-20261114"
 }

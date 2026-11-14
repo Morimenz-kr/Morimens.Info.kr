@@ -1,0 +1,1397 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "runtimeResource": 160,
+    "engineSha256": "728a55d44a43eea4c5122d22cfade9434f3d55ab14cc40def17fb4f5155f50e4",
+    "koreanTextBundleSha256": "d17184abe36c2106125644a3e9efae219d059ecc267c56dfe5a4f43fbb0c3e23",
+    "identity": "Original Skill ID → owner, slot, command and Korean text key; no name matching"
+  },
+  "cards": {
+    "4065": {
+      "skillId": 4065,
+      "ownerId": 15603,
+      "slot": "Slot_Extend1",
+      "commandId": 926,
+      "name": "기계 무장-수축",
+      "description": {
+        "0": "<AlertIconKeywords:임시 경계> [Arg1]pt를 획득한다. 에리카의 은열쇠 충전과 동일한 양의 열쇠 에너지를 획득한다. 자신의 <FragileIconKeywords:손상> 상태를 해제한다. 카드가 <DimensionalSpaceIconKeywords:초차원 공간>에 들어갈 때마다, <DerivativeCardKeywords_13:「기계 무장-전개」>으로 변환된다.",
+        "1": "<AlertIconKeywords:임시 경계> [Arg1]pt를 획득한다. 에리카의 은열쇠 충전과 동일한 양의 열쇠 에너지를 획득한다. 자신의 <FragileIconKeywords:손상> 상태를 해제한다. <DepleteIconKeywords:소모>가 부여된 에리카의 「방어」 1장을 손에 넣는다. 카드가 <DimensionalSpaceIconKeywords:초차원 공간>에 들어갈 때마다, <DerivativeCardKeywords_13:「기계 무장-전개」>으로 변환된다."
+      },
+      "battle": {
+        "0": "임시 <AlertIconKeywords:경계> [Arg1]pt를 획득한다. <Posse:[Arg2]>pt의 열쇠 에너지를 획득한다. 자신의 <FragileIconKeywords:손상> 상태를 해제한다. 카드가 <DimensionalSpaceIconKeywords:초차원 공간>에 들어갈 때마다, <DerivativeCardKeywords_13:「기계 무장-전개」>으로 변환된다.",
+        "1": "임시 <AlertIconKeywords:경계> [Arg1]pt를 획득한다. <Posse:[Arg2]>pt의 열쇠 에너지를 획득한다. 자신의 <FragileIconKeywords:손상> 상태를 해제한다. <DepleteIconKeywords:소모>가 부여된 에리카의 「방어」 1장을 손에 넣는다. 카드가 <DimensionalSpaceIconKeywords:초차원 공간>에 들어갈 때마다, <DerivativeCardKeywords_13:「기계 무장-전개」>으로 변환된다."
+      },
+      "overlimit": null,
+      "texts": {
+        "Skill_4065_Desc_6c42f0cd#1": "<AlertIconKeywords:임시 경계> [Arg1]pt를 획득한다. 에리카의 은열쇠 충전과 동일한 양의 열쇠 에너지를 획득한다. 자신의 <FragileIconKeywords:손상> 상태를 해제한다. 카드가 <DimensionalSpaceIconKeywords:초차원 공간>에 들어갈 때마다, <DerivativeCardKeywords_13:「기계 무장-전개」>으로 변환된다.",
+        "Skill_4065_Desc_a6ebb6f0#1": "<AlertIconKeywords:임시 경계> [Arg1]pt를 획득한다. 에리카의 은열쇠 충전과 동일한 양의 열쇠 에너지를 획득한다. 자신의 <FragileIconKeywords:손상> 상태를 해제한다. <DepleteIconKeywords:소모>가 부여된 에리카의 「방어」 1장을 손에 넣는다. 카드가 <DimensionalSpaceIconKeywords:초차원 공간>에 들어갈 때마다, <DerivativeCardKeywords_13:「기계 무장-전개」>으로 변환된다.",
+        "Skill_4065_BattleDesc_c9fa8aab#1": "임시 <AlertIconKeywords:경계> [Arg1]pt를 획득한다. <Posse:[Arg2]>pt의 열쇠 에너지를 획득한다. 자신의 <FragileIconKeywords:손상> 상태를 해제한다. 카드가 <DimensionalSpaceIconKeywords:초차원 공간>에 들어갈 때마다, <DerivativeCardKeywords_13:「기계 무장-전개」>으로 변환된다.",
+        "Skill_4065_BattleDesc_efd2a352#1": "임시 <AlertIconKeywords:경계> [Arg1]pt를 획득한다. <Posse:[Arg2]>pt의 열쇠 에너지를 획득한다. 자신의 <FragileIconKeywords:손상> 상태를 해제한다. <DepleteIconKeywords:소모>가 부여된 에리카의 「방어」 1장을 손에 넣는다. 카드가 <DimensionalSpaceIconKeywords:초차원 공간>에 들어갈 때마다, <DerivativeCardKeywords_13:「기계 무장-전개」>으로 변환된다."
+      }
+    },
+    "4112": {
+      "skillId": 4112,
+      "ownerId": 15590,
+      "slot": "Slot_Extend20",
+      "commandId": 532,
+      "name": "탐색",
+      "description": "덱에서 카드 1장을 선택하여 손에 넣는다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4112_Desc": "덱에서 카드 1장을 선택하여 손에 넣는다."
+      }
+    },
+    "4185": {
+      "skillId": 4185,
+      "ownerId": 15590,
+      "slot": "Slot_Extend27",
+      "commandId": 693,
+      "name": "저주",
+      "description": "모든 적의 <ExhaustionIconKeywords:<ExhaustionIconKeywords:힘>>이 임시로 [Exhaustion:Arg1]점 감소하고, 1턴 동안 획득하는 방어막과 <ExhaustionIconKeywords:<ExhaustionIconKeywords:힘>>이 50% 감소한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4185_Desc": "모든 적의 <ExhaustionIconKeywords:<ExhaustionIconKeywords:힘>>이 임시로 [Exhaustion:Arg1]점 감소하고, 1턴 동안 획득하는 방어막과 <ExhaustionIconKeywords:<ExhaustionIconKeywords:힘>>이 50% 감소한다."
+      }
+    },
+    "4271": {
+      "skillId": 4271,
+      "ownerId": 15590,
+      "slot": "Slot_Extend19",
+      "commandId": 531,
+      "name": "관통",
+      "description": "<PunctureDamagewords:관통 피해>를 준다. 손에서 행동력 소모가 가장 높은 카드 1장의 행동력 소모를 1 감소시킨다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4271_Desc": "<PunctureDamagewords:관통 피해>를 준다. 손에서 행동력 소모가 가장 높은 카드 1장의 행동력 소모를 1 감소시킨다."
+      }
+    },
+    "4299": {
+      "skillId": 4299,
+      "ownerId": 15590,
+      "slot": "Slot_Extend5",
+      "commandId": 1452,
+      "name": "계산",
+      "description": "행동력 1pt를 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4299_Desc": "행동력 1pt를 획득한다."
+      }
+    },
+    "4300": {
+      "skillId": 4300,
+      "ownerId": 15590,
+      "slot": "Slot_Extend6",
+      "commandId": 2231,
+      "name": "취약",
+      "description": "전체 적에게 1턴간 <VulnerabilityIconKeywords:취약>을 부여한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4300_Desc": "전체 적에게 1턴간 <VulnerabilityIconKeywords:취약>을 부여한다."
+      }
+    },
+    "4301": {
+      "skillId": 4301,
+      "ownerId": 15590,
+      "slot": "Slot_Extend4",
+      "commandId": 1456,
+      "name": "묘수",
+      "description": "카드 1장을 드로우한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4301_Desc": "카드 1장을 드로우한다."
+      }
+    },
+    "4302": {
+      "skillId": 4302,
+      "ownerId": 15590,
+      "slot": "Slot_Extend9",
+      "commandId": 2226,
+      "name": "촉매",
+      "description": "다른 각성체가 <Energy:[Energy:Arg1]>의 광기를 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4302_Desc": "다른 각성체가 <Energy:[Energy:Arg1]>의 광기를 획득한다."
+      }
+    },
+    "4304": {
+      "skillId": 4304,
+      "ownerId": 15590,
+      "slot": "Slot_Extend7",
+      "commandId": 2228,
+      "name": "허약",
+      "description": "전체 적에게 1턴간 <WeaknessIconKeywords:허약>을 부여한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4304_Desc": "전체 적에게 1턴간 <WeaknessIconKeywords:허약>을 부여한다."
+      }
+    },
+    "4305": {
+      "skillId": 4305,
+      "ownerId": 15590,
+      "slot": "Slot_Extend8",
+      "commandId": 2229,
+      "name": "광기",
+      "description": "<Energy:[Energy:Arg1]>의 광기를 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4305_Desc": "<Energy:[Energy:Arg1]>의 광기를 획득한다."
+      }
+    },
+    "4367": {
+      "skillId": 4367,
+      "ownerId": 15562,
+      "slot": "Slot_Extend2",
+      "commandId": 1777,
+      "name": "사멸의 녹색 불꽃",
+      "description": "무작위 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 [Arg1]회 주고, 피해량의 50%만큼 <IntoxicationIconKeywords:중독>을 부여한다. 행동력이 부족할 때 강제로 사용할 수 있으며, 이 경우 효과가 <Energy:[Energy:Arg3]>의 광기를 획득하는 것으로 변경되고, 소모된다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4367_Desc": "무작위 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 [Arg1]회 주고, 피해량의 50%만큼 <IntoxicationIconKeywords:중독>을 부여한다. 행동력이 부족할 때 강제로 사용할 수 있으며, 이 경우 효과가 <Energy:[Energy:Arg3]>의 광기를 획득하는 것으로 변경되고, 소모된다."
+      }
+    },
+    "4415": {
+      "skillId": 4415,
+      "ownerId": 15590,
+      "slot": "Slot_Extend28",
+      "commandId": 696,
+      "name": "축복",
+      "description": "1턴간 <FragileIconKeywords:취약>, <WeaknessIconKeywords:허약>, <VulnerabilityIconKeywords:취약> 상태에 면역이 된다. 실드를 <Block:[Block:Arg1]>pt 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4415_Desc": "1턴간 <FragileIconKeywords:취약>, <WeaknessIconKeywords:허약>, <VulnerabilityIconKeywords:취약> 상태에 면역이 된다. 실드를 <Block:[Block:Arg1]>pt 획득한다."
+      }
+    },
+    "4547": {
+      "skillId": 4547,
+      "ownerId": 15590,
+      "slot": "Slot_Extend16",
+      "commandId": 2292,
+      "name": "고차원 촉매",
+      "description": "다른 각성체가 <Energy:[Energy:Arg1]>의 광기를 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4547_Desc": "다른 각성체가 <Energy:[Energy:Arg1]>의 광기를 획득한다."
+      }
+    },
+    "4548": {
+      "skillId": 4548,
+      "ownerId": 15590,
+      "slot": "Slot_Extend15",
+      "commandId": 2374,
+      "name": "고차원 광기",
+      "description": "<Energy:[Energy:Arg1]>의 광기를 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4548_Desc": "<Energy:[Energy:Arg1]>의 광기를 획득한다."
+      }
+    },
+    "4549": {
+      "skillId": 4549,
+      "ownerId": 15590,
+      "slot": "Slot_Extend14",
+      "commandId": 2375,
+      "name": "고차원 허약",
+      "description": "전체 적에게 2턴간 <WeaknessIconKeywords:허약>을 부여한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4549_Desc": "전체 적에게 2턴간 <WeaknessIconKeywords:허약>을 부여한다."
+      }
+    },
+    "4550": {
+      "skillId": 4550,
+      "ownerId": 15590,
+      "slot": "Slot_Extend13",
+      "commandId": 2369,
+      "name": "고차원 취약",
+      "description": "전체 적에게 2턴간 <VulnerabilityIconKeywords:취약>을 부여한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4550_Desc": "전체 적에게 2턴간 <VulnerabilityIconKeywords:취약>을 부여한다."
+      }
+    },
+    "4551": {
+      "skillId": 4551,
+      "ownerId": 15590,
+      "slot": "Slot_Extend12",
+      "commandId": 2370,
+      "name": "고차원 계산",
+      "description": "행동력 2pt를 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4551_Desc": "행동력 2pt를 획득한다."
+      }
+    },
+    "4552": {
+      "skillId": 4552,
+      "ownerId": 15590,
+      "slot": "Slot_Extend11",
+      "commandId": 2286,
+      "name": "고차원 묘수",
+      "description": "카드 2장을 드로우한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4552_Desc": "카드 2장을 드로우한다."
+      }
+    },
+    "4571": {
+      "skillId": 4571,
+      "ownerId": 15590,
+      "slot": "Slot_Extend22",
+      "commandId": 527,
+      "name": "은열쇠",
+      "description": "<Posse:[Arg1]> 점 은열쇠 에너지를 획득합니다. <Block:[Block:Arg2]> 점 방어막을 획득합니다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4571_Desc": "<Posse:[Arg1]> 점 은열쇠 에너지를 획득합니다. <Block:[Block:Arg2]> 점 방어막을 획득합니다."
+      }
+    },
+    "4775": {
+      "skillId": 4775,
+      "ownerId": 15590,
+      "slot": "Slot_Extend30",
+      "commandId": 698,
+      "name": "고차원 정향 촉매",
+      "description": "각성체 1명을 선택하여 <Energy:[Energy:Arg1]>의 광기를 부여한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4775_Desc": "각성체 1명을 선택하여 <Energy:[Energy:Arg1]>의 광기를 부여한다."
+      }
+    },
+    "4809": {
+      "skillId": 4809,
+      "ownerId": 15590,
+      "slot": "Slot_Extend18",
+      "commandId": 530,
+      "name": "치명타",
+      "description": "치명타율이 [Arg1]% 증가하고, 치명타 피해가 [Arg2]% 증가한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4809_Desc": "치명타율이 [Arg1]% 증가하고, 치명타 피해가 [Arg2]% 증가한다."
+      }
+    },
+    "4812": {
+      "skillId": 4812,
+      "ownerId": 15590,
+      "slot": "Slot_Extend21",
+      "commandId": 526,
+      "name": "완력",
+      "description": "힘이 2배 추가로 적용되며, <PowerIconKeywords:힘> [Power:Arg1]pt를 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4812_Desc": "힘이 2배 추가로 적용되며, <PowerIconKeywords:힘> [Power:Arg1]pt를 획득한다."
+      }
+    },
+    "4814": {
+      "skillId": 4814,
+      "ownerId": 15590,
+      "slot": "Slot_Extend23",
+      "commandId": 528,
+      "name": "정향 촉매",
+      "description": "각성체 1명을 선택하여 <Energy:[Energy:Arg1]>의 광기를 부여한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4814_Desc": "각성체 1명을 선택하여 <Energy:[Energy:Arg1]>의 광기를 부여한다."
+      }
+    },
+    "4815": {
+      "skillId": 4815,
+      "ownerId": 15590,
+      "slot": "Slot_Extend24",
+      "commandId": 529,
+      "name": "치명적 추론",
+      "description": "임시 치명타율이 [Arg1]% 증가한다. 이번 전투 동안 「목을 자르는 일격」과 「천면환상」의 기본 피해가 5% 증가한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4815_Desc": "임시 치명타율이 [Arg1]% 증가한다. 이번 전투 동안 「목을 자르는 일격」과 「천면환상」의 기본 피해가 5% 증가한다."
+      }
+    },
+    "4824": {
+      "skillId": 4824,
+      "ownerId": 15562,
+      "slot": "Slot_Extend1",
+      "commandId": 1973,
+      "name": "부패의 녹색 불꽃",
+      "description": {
+        "0": "무작위 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 [Arg1]회 주고, 피해량의 [Arg3]%만큼 <IntoxicationIconKeywords:중독>을 부여한다. 행동력이 부족할 때 강제로 사용할 수 있으며, 이 경우 효과가 <Energy:[Energy:Arg4]>의 광기를 획득하는 것으로 변경되고, 소모된다.",
+        "1": "무작위 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 [Arg1]회 주고, 피해량의 [Arg3]%만큼 <IntoxicationIconKeywords:중독>을 부여한다. 턴 종료 시 이 카드가 손이나 <DimensionalSpaceIconKeywords:초차원공간>에 있을 경우, 「<DerivativeCardKeywords_20:사멸 녹염>」으로 승급된다. 행동력이 부족할 때 강제로 사용할 수 있으며, 이 경우 효과가 <Energy:[Energy:Arg4]>의 광기를 획득하는 것으로 변경되고, 소모된다."
+      },
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4824_Desc_87d3fdc1#1": "무작위 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 [Arg1]회 주고, 피해량의 [Arg3]%만큼 <IntoxicationIconKeywords:중독>을 부여한다. 행동력이 부족할 때 강제로 사용할 수 있으며, 이 경우 효과가 <Energy:[Energy:Arg4]>의 광기를 획득하는 것으로 변경되고, 소모된다.",
+        "Skill_4824_Desc_ce81a826#1": "무작위 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 [Arg1]회 주고, 피해량의 [Arg3]%만큼 <IntoxicationIconKeywords:중독>을 부여한다. 턴 종료 시 이 카드가 손이나 <DimensionalSpaceIconKeywords:초차원공간>에 있을 경우, 「<DerivativeCardKeywords_20:사멸 녹염>」으로 승급된다. 행동력이 부족할 때 강제로 사용할 수 있으며, 이 경우 효과가 <Energy:[Energy:Arg4]>의 광기를 획득하는 것으로 변경되고, 소모된다."
+      }
+    },
+    "4850": {
+      "skillId": 4850,
+      "ownerId": 15590,
+      "slot": "Slot_Extend29",
+      "commandId": 695,
+      "name": "관통 치명타",
+      "description": "이 카드의 치명타율과 치명타 피해가 50% 증가하고, 관통 피해를 준다.",
+      "battle": "이 카드의 치명타율과 치명타 피해가 50% 증가하고, 관통 피해를 준다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_4850_Desc": "이 카드의 치명타율과 치명타 피해가 50% 증가하고, 관통 피해를 준다.",
+        "Skill_4850_BattleDesc": "이 카드의 치명타율과 치명타 피해가 50% 증가하고, 관통 피해를 준다."
+      }
+    },
+    "4851": {
+      "skillId": 4851,
+      "ownerId": 15590,
+      "slot": "Slot_Extend17",
+      "commandId": 2372,
+      "name": "고차원 영감",
+      "description": "<DerivativeCardKeywords_4:「영감」> 2장을 덱에 넣는다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4851_Desc": "<DerivativeCardKeywords_4:「영감」> 2장을 덱에 넣는다."
+      }
+    },
+    "4852": {
+      "skillId": 4852,
+      "ownerId": 15590,
+      "slot": "Slot_Extend31",
+      "commandId": 697,
+      "name": "고차원 키 에너지",
+      "description": "<Posse:[Arg1]> 점 은열쇠 에너지를 획득합니다. 이번 전투에서 「목을 자르는 일격」과 「천면환상」의 기본 데미지가 10% 증가합니다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4852_Desc": "<Posse:[Arg1]> 점 은열쇠 에너지를 획득합니다. 이번 전투에서 「목을 자르는 일격」과 「천면환상」의 기본 데미지가 10% 증가합니다."
+      }
+    },
+    "4854": {
+      "skillId": 4854,
+      "ownerId": 15590,
+      "slot": "Slot_Extend25",
+      "commandId": 691,
+      "name": "정밀 탐색",
+      "description": "덱에서 카드 1장을 선택하여 손에 넣고, 해당 카드의 행동력 소모를 1 감소시킨다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4854_Desc": "덱에서 카드 1장을 선택하여 손에 넣고, 해당 카드의 행동력 소모를 1 감소시킨다."
+      }
+    },
+    "4857": {
+      "skillId": 4857,
+      "ownerId": 15590,
+      "slot": "Slot_Extend26",
+      "commandId": 694,
+      "name": "고차원 완력",
+      "description": "힘이 4배 추가로 적용되며, <PowerIconKeywords:힘> [Power:Arg1]pt를 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_4857_Desc": "힘이 4배 추가로 적용되며, <PowerIconKeywords:힘> [Power:Arg1]pt를 획득한다."
+      }
+    },
+    "44722": {
+      "skillId": 44722,
+      "ownerId": 15599,
+      "slot": "Slot_Extend1",
+      "commandId": 44718,
+      "name": "헌신",
+      "description": "피를 통해 치유하리. 피해를 입힌 후, 현재 HP의 10%를 잃고, 잃은 HP만큼 핏빛 용광로 회복량을 축적한다.",
+      "battle": "피를 통해 치유하리. 피해를 입힌 후, 현재 HP의 10%([Arg1])를 잃고, 잃은 HP(<Heal:[Heal:Arg2]>)만큼 핏빛 용광로 회복량을 축적한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_44722_Desc": "피를 통해 치유하리. 피해를 입힌 후, 현재 HP의 10%를 잃고, 잃은 HP만큼 핏빛 용광로 회복량을 축적한다.",
+        "Skill_44722_BattleDesc": "피를 통해 치유하리. 피해를 입힌 후, 현재 HP의 10%([Arg1])를 잃고, 잃은 HP(<Heal:[Heal:Arg2]>)만큼 핏빛 용광로 회복량을 축적한다."
+      }
+    },
+    "44723": {
+      "skillId": 44723,
+      "ownerId": 15599,
+      "slot": "Slot_Extend2",
+      "commandId": 44719,
+      "name": "해방",
+      "description": "고통으로 고통을 없애리. 모든 핏빛 용광로 축적량을 소모하여, 소모한 축적량 1당 피해량을 3 증가시킵니다. 보스 전투일 경우, 1당 피해량을 9 증가시킵니다. 최대 HP의 1%에 해당하는 핏빛 용광로를 소모할 때마다 최종 피해량이 [Arg5]% 증가합니다.",
+      "battle": "고통으로 고통을 없애리. 모든 핏빛 용광로 축적량을 소모하여, 소모한 축적량 1당 피해량을 3 증가시킵니다. 보스 전투일 경우, 1당 피해량을 9 증가시킵니다. 최대 HP의 1%에 해당하는 핏빛 용광로를 소모할 때마다 최종 피해량이 [Arg5]% 증가합니다. 총 <Damage:[Damage:Arg4]>의 피해를 입힙니다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_44723_Desc": "고통으로 고통을 없애리. 모든 핏빛 용광로 축적량을 소모하여, 소모한 축적량 1당 피해량을 3 증가시킵니다. 보스 전투일 경우, 1당 피해량을 9 증가시킵니다. 최대 HP의 1%에 해당하는 핏빛 용광로를 소모할 때마다 최종 피해량이 [Arg5]% 증가합니다.",
+        "Skill_44723_BattleDesc": "고통으로 고통을 없애리. 모든 핏빛 용광로 축적량을 소모하여, 소모한 축적량 1당 피해량을 3 증가시킵니다. 보스 전투일 경우, 1당 피해량을 9 증가시킵니다. 최대 HP의 1%에 해당하는 핏빛 용광로를 소모할 때마다 최종 피해량이 [Arg5]% 증가합니다. 총 <Damage:[Damage:Arg4]>의 피해를 입힙니다."
+      }
+    },
+    "45007": {
+      "skillId": 45007,
+      "ownerId": 15599,
+      "slot": "Slot_Extend3",
+      "commandId": 45006,
+      "name": "구원",
+      "description": "신앙으로 세상을 구원하리. 모든 핏빛 용광로 축적량을 소모하여 소모량의 150%에 해당하는 실드를 획득한다. 이 실드는 실드 계수와 디버프의 영향을 받지 않으며, 실드 상한을 무시한다.",
+      "battle": "신앙으로 세상을 구원하리. 모든 핏빛 용광로 축적량을 소모하여 소모량의 150%에 해당하는 실드([Arg1])를 획득한다. 이 실드는 실드 계수와 디버프의 영향을 받지 않으며, 실드 상한을 무시한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_45007_Desc": "신앙으로 세상을 구원하리. 모든 핏빛 용광로 축적량을 소모하여 소모량의 150%에 해당하는 실드를 획득한다. 이 실드는 실드 계수와 디버프의 영향을 받지 않으며, 실드 상한을 무시한다.",
+        "Skill_45007_BattleDesc": "신앙으로 세상을 구원하리. 모든 핏빛 용광로 축적량을 소모하여 소모량의 150%에 해당하는 실드([Arg1])를 획득한다. 이 실드는 실드 계수와 디버프의 영향을 받지 않으며, 실드 상한을 무시한다."
+      }
+    },
+    "49215": {
+      "skillId": 49215,
+      "ownerId": 15571,
+      "slot": "Slot_Extend1",
+      "commandId": 49217,
+      "name": "기묘한 요리",
+      "description": "행동력을 1pt 획득한다, [Arg1]회 사용 가능.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_49215_Desc": "행동력을 1pt 획득한다, [Arg1]회 사용 가능."
+      }
+    },
+    "49216": {
+      "skillId": 49216,
+      "ownerId": 15571,
+      "slot": "Slot_Extend2",
+      "commandId": 49218,
+      "name": "기묘한 요리",
+      "description": "행동력을 1pt 획득한다. [Arg1]회 사용 가능. 50% 확률로 <MysterybuffKeywords:기묘한 버프>가 발동된다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_49216_Desc": "행동력을 1pt 획득한다. [Arg1]회 사용 가능. 50% 확률로 <MysterybuffKeywords:기묘한 버프>가 발동된다."
+      }
+    },
+    "51733": {
+      "skillId": 51733,
+      "ownerId": 15582,
+      "slot": "Slot_Extend1",
+      "commandId": 51727,
+      "name": "신앙의 갈림길",
+      "description": "미리암이 광기를 <Energy:[Energy:Arg3]>pt 획득한다. <ExaltIconKeywords:영지 각성>: 촉수 상한과 촉수 수가 1 증가하고, 전체 적에게 <WeaknessIconKeywords:허약>과 <VulnerabilityIconKeywords:취약>을 1스택 부여한다. <O07CardKeyWord5:「신앙의 종말」> 1장을 손에 넣는다. <CardKeyWord:확고한 자아> 또는 <CardKeyWord:헌신의 계시> 중 하나를 선택한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_51733_Desc": "미리암이 광기를 <Energy:[Energy:Arg3]>pt 획득한다. <ExaltIconKeywords:영지 각성>: 촉수 상한과 촉수 수가 1 증가하고, 전체 적에게 <WeaknessIconKeywords:허약>과 <VulnerabilityIconKeywords:취약>을 1스택 부여한다. <O07CardKeyWord5:「신앙의 종말」> 1장을 손에 넣는다. <CardKeyWord:확고한 자아> 또는 <CardKeyWord:헌신의 계시> 중 하나를 선택한다."
+      }
+    },
+    "51734": {
+      "skillId": 51734,
+      "ownerId": 15582,
+      "slot": "Slot_Extend4",
+      "commandId": 51728,
+      "name": "신앙의 종말",
+      "description": "미리암이 광기를 <Energy:[Energy:Arg1]>pt 획득한다. <ExaltIconKeywords:영지 각성>: 촉수 상한과 촉수 수가 1 증가하고, 전체 적에게 <WeaknessIconKeywords:허약>과 <VulnerabilityIconKeywords:취약>을 1스택 부여한다. 턴 종료 시마다 무작위 「신국의 환영」 1장을 손에 넣는다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_51734_Desc": "미리암이 광기를 <Energy:[Energy:Arg1]>pt 획득한다. <ExaltIconKeywords:영지 각성>: 촉수 상한과 촉수 수가 1 증가하고, 전체 적에게 <WeaknessIconKeywords:허약>과 <VulnerabilityIconKeywords:취약>을 1스택 부여한다. 턴 종료 시마다 무작위 「신국의 환영」 1장을 손에 넣는다."
+      }
+    },
+    "56155": {
+      "skillId": 56155,
+      "ownerId": 15593,
+      "slot": "Slot_Extend2",
+      "commandId": 56154,
+      "name": "슈퍼 대집합!",
+      "description": "<Damage:[Damage:Arg1]>pt의 피해를 X+10회 입히는 <DerivativeCardKeywords_12:「쥐 떼 돌격」> 1장을 덱 맨 위에 넣는다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_56155_Desc": "<Damage:[Damage:Arg1]>pt의 피해를 X+10회 입히는 <DerivativeCardKeywords_12:「쥐 떼 돌격」> 1장을 덱 맨 위에 넣는다."
+      }
+    },
+    "57754": {
+      "skillId": 57754,
+      "ownerId": 15566,
+      "slot": "Slot_Skill3",
+      "commandId": 2117,
+      "name": "순백의 꿈",
+      "description": "HP를 <Heal:[Heal:Arg1]>pt 회복하고, 행동력을 [Arg2]pt 획득하며 손패의 <SlowIconKeywords:둔화> 상태를 해제한다. <RetainIconKeywords:유지> 1턴당, 다음 사용 시 추가로 HP를 <Heal:[Arg3]>pt 회복한다. 촉수 1개가 적을 공격하여 촉수 피해를 [Arg4]% 입힌다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_57754_Desc": "HP를 <Heal:[Heal:Arg1]>pt 회복하고, 행동력을 [Arg2]pt 획득하며 손패의 <SlowIconKeywords:둔화> 상태를 해제한다. <RetainIconKeywords:유지> 1턴당, 다음 사용 시 추가로 HP를 <Heal:[Arg3]>pt 회복한다. 촉수 1개가 적을 공격하여 촉수 피해를 [Arg4]% 입힌다."
+      }
+    },
+    "59490": {
+      "skillId": 59490,
+      "slot": null,
+      "commandId": 59493,
+      "name": "상행음",
+      "description": "다음에 사용하는 비파생 명령 카드의 행동력 소모가 2 증가하고, 2회 발동된다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_59490_Desc": "다음에 사용하는 비파생 명령 카드의 행동력 소모가 2 증가하고, 2회 발동된다."
+      }
+    },
+    "59491": {
+      "skillId": 59491,
+      "slot": null,
+      "commandId": 59494,
+      "name": "하행음",
+      "description": "다음에 사용하는 비파생 명령 카드의 행동력 소모가 2 감소한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_59491_Desc": "다음에 사용하는 비파생 명령 카드의 행동력 소모가 2 감소한다."
+      }
+    },
+    "66351": {
+      "skillId": 66351,
+      "ownerId": 54116,
+      "slot": "Slot_Extend1",
+      "commandId": 66397,
+      "name": "두 날개의 맥동",
+      "description": "행동력이 부족할 때 <Posse:500>pt의 열쇠 에너지를 소모하여 사용할 수 있다. <Damage:[Damage:Arg1]>pt의 피해를 2회 입히고, 타비가 <Energy:[Energy:Arg2]>pt의 광기를 획득한다. 카드 1장을 드로우한다. <DerivativeCardKeywords_76:「네 개의 날개가 자라나다」>를 덱에 넣는다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_66351_Desc": "행동력이 부족할 때 <Posse:500>pt의 열쇠 에너지를 소모하여 사용할 수 있다. <Damage:[Damage:Arg1]>pt의 피해를 2회 입히고, 타비가 <Energy:[Energy:Arg2]>pt의 광기를 획득한다. 카드 1장을 드로우한다. <DerivativeCardKeywords_76:「네 개의 날개가 자라나다」>를 덱에 넣는다."
+      }
+    },
+    "66353": {
+      "skillId": 66353,
+      "ownerId": 54116,
+      "slot": "Slot_Extend3",
+      "commandId": 66398,
+      "name": "여섯 날개의 해방",
+      "description": "행동력이 부족할 때 <Posse:500>의 열쇠 에너지를 소모하여 사용할 수 있다. <Damage:[Damage:Arg1]>의 <PunctureDamagewords:관통 피해>를 6회 준다. 6가지 「추억」 중 하나를 선택하여 효과를 발동할 수 있다. 선택한 「추억」은 이번 스테이지 동안 다시 선택할 수 없다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_66353_Desc": "행동력이 부족할 때 <Posse:500>의 열쇠 에너지를 소모하여 사용할 수 있다. <Damage:[Damage:Arg1]>의 <PunctureDamagewords:관통 피해>를 6회 준다. 6가지 「추억」 중 하나를 선택하여 효과를 발동할 수 있다. 선택한 「추억」은 이번 스테이지 동안 다시 선택할 수 없다."
+      }
+    },
+    "66355": {
+      "skillId": 66355,
+      "ownerId": 54116,
+      "slot": "Slot_Extend2",
+      "commandId": 66394,
+      "name": "네 날개의 성장",
+      "description": "행동력이 부족할 때 <Posse:500>의 열쇠 에너지를 소모하여 사용할 수 있다. <Damage:[Damage:Arg1]>의 피해를 4회 주고, 카드 1장을 드로우한다. 피해를 줄 때마다 대상의 임시 <PowerIconKeywords:힘>을 [Arg2]pt <TouquKeywords:탈취>한다. <DerivativeCardKeywords_77:「여섯 날개의 해방」>을 덱에 넣는다.",
+      "battle": "행동력이 부족할 때 <Posse:500>의 열쇠 에너지를 소모하여 사용할 수 있다. <Damage:[Damage:Arg1]>의 피해를 4회 주고, 카드 1장을 드로우한다. 피해를 줄 때마다 대상의 임시 <ExhaustionIconKeywords:힘>을 [Exhaustion:Arg2]pt 감소시키고 <PowerIconKeywords:임시 힘> [Power:Arg2]pt를 획득한다. <DerivativeCardKeywords_77:「여섯 날개의 해방」>을 덱에 넣는다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_66355_Desc": "행동력이 부족할 때 <Posse:500>의 열쇠 에너지를 소모하여 사용할 수 있다. <Damage:[Damage:Arg1]>의 피해를 4회 주고, 카드 1장을 드로우한다. 피해를 줄 때마다 대상의 임시 <PowerIconKeywords:힘>을 [Arg2]pt <TouquKeywords:탈취>한다. <DerivativeCardKeywords_77:「여섯 날개의 해방」>을 덱에 넣는다.",
+        "Skill_66355_BattleDesc": "행동력이 부족할 때 <Posse:500>의 열쇠 에너지를 소모하여 사용할 수 있다. <Damage:[Damage:Arg1]>의 피해를 4회 주고, 카드 1장을 드로우한다. 피해를 줄 때마다 대상의 임시 <ExhaustionIconKeywords:힘>을 [Exhaustion:Arg2]pt 감소시키고 <PowerIconKeywords:임시 힘> [Power:Arg2]pt를 획득한다. <DerivativeCardKeywords_77:「여섯 날개의 해방」>을 덱에 넣는다."
+      }
+    },
+    "70332": {
+      "skillId": 70332,
+      "ownerId": 15602,
+      "slot": "Slot_Extend3",
+      "commandId": 70348,
+      "name": "저주",
+      "description": {
+        "0": "모든 적의 <ExhaustionIconKeywords:힘>을 임시로 [Exhaustion:Arg2]pt 감소시킨다.",
+        "1": "전체 적에게 <WeaknessIconKeywords:허약>을 [Arg1]턴간 부여하고, <ExhaustionIconKeywords:힘>을 임시로 [Exhaustion:Arg2]pt 감소시킨다."
+      },
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_70332_Desc_da4fad7e#1": "모든 적의 <ExhaustionIconKeywords:힘>을 임시로 [Exhaustion:Arg2]pt 감소시킨다.",
+        "Skill_70332_Desc_32d86925#1": "전체 적에게 <WeaknessIconKeywords:허약>을 [Arg1]턴간 부여하고, <ExhaustionIconKeywords:힘>을 임시로 [Exhaustion:Arg2]pt 감소시킨다."
+      }
+    },
+    "70333": {
+      "skillId": 70333,
+      "ownerId": 15602,
+      "slot": "Slot_Extend2",
+      "commandId": 70349,
+      "name": "흥분",
+      "description": {
+        "0": "1턴간 「흥분」 상태를 획득한다: 피해 증폭 +[Arg2]%.",
+        "1": "1턴간 「흥분」 상태를 획득한다: 피해 증폭 +[Arg2]%. 모든 적에게 [Arg1] 턴의 <VulnerabilityIconKeywords:취약>을 부여한다."
+      },
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_70333_Desc_8bfcce40#1": "1턴간 「흥분」 상태를 획득한다: 피해 증폭 +[Arg2]%.",
+        "Skill_70333_Desc_8d0fd928#1": "1턴간 「흥분」 상태를 획득한다: 피해 증폭 +[Arg2]%. 모든 적에게 [Arg1] 턴의 <VulnerabilityIconKeywords:취약>을 부여한다."
+      }
+    },
+    "71522": {
+      "skillId": 71522,
+      "ownerId": 15602,
+      "slot": "Slot_Extend4",
+      "commandId": 71524,
+      "name": "자폭 개조·종말",
+      "description": "HP의 상한이 10% 감소하고, 「흥분」과 「저주」 효과가 동시에 발동한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_71522_Desc": "HP의 상한이 10% 감소하고, 「흥분」과 「저주」 효과가 동시에 발동한다."
+      }
+    },
+    "71523": {
+      "skillId": 71523,
+      "ownerId": 15602,
+      "slot": "Slot_Extend5",
+      "commandId": 71526,
+      "name": "운명의 붕괴·종말",
+      "description": "<Energy:[Energy:Arg1]>의 광기를 획득하고, 전체 적에게 <IntoxicationIconKeywords:중독>을 [Poison:Arg2]pt 부여한다. 자신의 현재 광기 50pt마다 중독을 1회 추가로 부여한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_71523_Desc": "<Energy:[Energy:Arg1]>의 광기를 획득하고, 전체 적에게 <IntoxicationIconKeywords:중독>을 [Poison:Arg2]pt 부여한다. 자신의 현재 광기 50pt마다 중독을 1회 추가로 부여한다."
+      }
+    },
+    "78784": {
+      "skillId": 78784,
+      "ownerId": 77925,
+      "slot": "Slot_Extend1",
+      "commandId": 78796,
+      "name": "전환·각인된 공포",
+      "description": "제거한 「공감」 1스택당, 전체 적에게 「공포에 사로잡힘」 1스택을 부여한다. 「공포에 사로잡힘」 1스택당 대상이 입히는 피해가 3% 감소한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_78784_Desc": "제거한 「공감」 1스택당, 전체 적에게 「공포에 사로잡힘」 1스택을 부여한다. 「공포에 사로잡힘」 1스택당 대상이 입히는 피해가 3% 감소한다."
+      }
+    },
+    "78788": {
+      "skillId": 78788,
+      "ownerId": 77925,
+      "slot": "Slot_Extend2",
+      "commandId": 78797,
+      "name": "전환·정신적 상처",
+      "description": "제거한 「공감」 1스택당, 전체 적에게 「심리적 트라우마」 1스택을 부여한다. 「심리적 트라우마」 1스택당 대상이 받는 피해가 3% 증가한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_78788_Desc": "제거한 「공감」 1스택당, 전체 적에게 「심리적 트라우마」 1스택을 부여한다. 「심리적 트라우마」 1스택당 대상이 받는 피해가 3% 증가한다."
+      }
+    },
+    "84357": {
+      "skillId": 84357,
+      "ownerId": 77922,
+      "slot": "Slot_Extend1",
+      "commandId": 84369,
+      "name": "항로 개척",
+      "description": {
+        "0": "방어막을 <Block:[Block:Arg1]>pt 획득한다. <RippleKeywords:여파>: <PowerIconKeywords:힘>을 [Power:Arg2]pt 획득하고, 촉수 피해가 [TentaclePower:Arg2] 증가한다.",
+        "2": "방어막을 <Block:[Block:Arg1]>pt 획득한다. <RippleKeywords:여파>: <PowerIconKeywords:힘>을 [Power:Arg2]pt 획득하고, 촉수 피해가 [TentaclePower:Arg2] 증가한다."
+      },
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_84357_Desc_e8b43b87#1": "방어막을 <Block:[Block:Arg1]>pt 획득한다. <RippleKeywords:여파>: <PowerIconKeywords:힘>을 [Power:Arg2]pt 획득하고, 촉수 피해가 [TentaclePower:Arg2] 증가한다.",
+        "Skill_84357_Desc_e8b43b87#2": "방어막을 <Block:[Block:Arg1]>pt 획득한다. <RippleKeywords:여파>: <PowerIconKeywords:힘>을 [Power:Arg2]pt 획득하고, 촉수 피해가 [TentaclePower:Arg2] 증가한다."
+      }
+    },
+    "89779": {
+      "skillId": 89779,
+      "ownerId": 77923,
+      "slot": "Slot_Extend1",
+      "commandId": 89791,
+      "name": "검은 깃털",
+      "description": {
+        "0": "<Damage:[Damage:Arg2]>pt의 피해를 입히고, 카드 [Arg1]장을 드로우한다. 유지: <Block:[Block:Arg3]>pt의 실드를 획득한다. 소모됨.",
+        "3": "<Damage:[Damage:Arg2]>pt의 피해를 입히고, 카드 [Arg1]장을 드로우한다. 카드 3장을 사용할 때마다 행동력 1pt를 획득하고, 카스토르가 주는 최종 피해가 10% 증가한다. 유지: <Block:[Block:Arg3]>pt의 실드를 획득한다. 소모됨."
+      },
+      "battle": {
+        "0": "<Damage:[Damage:Arg2]>pt의 피해를 입히고, 카드 [Arg1]장을 드로우한다. 유지: <Block:[Block:Arg3]>pt의 실드를 획득한다. 소모됨.",
+        "3": "<Damage:[Damage:Arg2]>pt의 피해를 입히고, 카드 [Arg1]장을 드로우한다. 카드 3장을 사용할 때마다 행동력 1pt를 획득하고, 카스토르가 주는 최종 피해가 10% 증가한다([Arg4]/3). 유지: <Block:[Block:Arg3]>pt의 실드를 획득한다. 소모됨."
+      },
+      "overlimit": null,
+      "texts": {
+        "Skill_89779_Desc_cb918822#1": "<Damage:[Damage:Arg2]>pt의 피해를 입히고, 카드 [Arg1]장을 드로우한다. 유지: <Block:[Block:Arg3]>pt의 실드를 획득한다. 소모됨.",
+        "Skill_89779_Desc_85120852#1": "<Damage:[Damage:Arg2]>pt의 피해를 입히고, 카드 [Arg1]장을 드로우한다. 카드 3장을 사용할 때마다 행동력 1pt를 획득하고, 카스토르가 주는 최종 피해가 10% 증가한다. 유지: <Block:[Block:Arg3]>pt의 실드를 획득한다. 소모됨.",
+        "Skill_89779_BattleDesc_cb918822#1": "<Damage:[Damage:Arg2]>pt의 피해를 입히고, 카드 [Arg1]장을 드로우한다. 유지: <Block:[Block:Arg3]>pt의 실드를 획득한다. 소모됨.",
+        "Skill_89779_BattleDesc_51fb16db#1": "<Damage:[Damage:Arg2]>pt의 피해를 입히고, 카드 [Arg1]장을 드로우한다. 카드 3장을 사용할 때마다 행동력 1pt를 획득하고, 카스토르가 주는 최종 피해가 10% 증가한다([Arg4]/3). 유지: <Block:[Block:Arg3]>pt의 실드를 획득한다. 소모됨."
+      }
+    },
+    "96188": {
+      "skillId": 96188,
+      "ownerId": 95786,
+      "slot": "Slot_Extend1",
+      "commandId": 96189,
+      "name": "영야의 향연",
+      "description": {
+        "0": "전체 적에게 <Damage:[Damage:Arg1]>의 <PunctureDamagewords:관통 피해>를 준다.",
+        "3": "전체 적에게 <Damage:[Damage:Arg1]>의 <PunctureDamagewords:관통 피해>를 준다. 사용 후 이번 턴에 이후 사용하는 「영원한 밤의 향연」의 힘 보너스가 100% 추가로 적용된다."
+      },
+      "battle": {
+        "0": "전체 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 준다.",
+        "3": "전체 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 준다. 사용 후 이번 턴에 이후 사용하는 「영원한 밤의 향연」의 힘 보너스가 100% 추가로 적용된다."
+      },
+      "overlimit": null,
+      "texts": {
+        "Skill_96188_Desc_f0acf2a1#1": "전체 적에게 <Damage:[Damage:Arg1]>의 <PunctureDamagewords:관통 피해>를 준다.",
+        "Skill_96188_Desc_f11239ae#1": "전체 적에게 <Damage:[Damage:Arg1]>의 <PunctureDamagewords:관통 피해>를 준다. 사용 후 이번 턴에 이후 사용하는 「영원한 밤의 향연」의 힘 보너스가 100% 추가로 적용된다.",
+        "Skill_96188_BattleDesc_5e54e872#1": "전체 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 준다.",
+        "Skill_96188_BattleDesc_1c358248#1": "전체 적에게 <Damage:[Damage:Arg2]>의 <PunctureDamagewords:관통 피해>를 준다. 사용 후 이번 턴에 이후 사용하는 「영원한 밤의 향연」의 힘 보너스가 100% 추가로 적용된다."
+      }
+    },
+    "98987": {
+      "skillId": 98987,
+      "ownerId": 77926,
+      "slot": "Slot_Extend1",
+      "commandId": 757,
+      "name": "영감 폭발!",
+      "description": "「<Kuangxiang:광상>」 1스택을 소모하여, 모든 <FaxianKeywords:발견> 효과를 선택하여 발동한다. <Chuangyi:창의> 1스택을 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_98987_Desc": "「<Kuangxiang:광상>」 1스택을 소모하여, 모든 <FaxianKeywords:발견> 효과를 선택하여 발동한다. <Chuangyi:창의> 1스택을 획득한다."
+      }
+    },
+    "99016": {
+      "skillId": 99016,
+      "ownerId": 77926,
+      "slot": "Slot_Extend2",
+      "commandId": 99025,
+      "name": "영감 폭발!",
+      "description": "「<Kuangxiang:광상>」 1스택을 소모하여, 모든 <FaxianKeywords:발견> 효과를 선택하여 발동한다. <Chuangyi:창의> 1스택을 획득한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_99016_Desc": "「<Kuangxiang:광상>」 1스택을 소모하여, 모든 <FaxianKeywords:발견> 효과를 선택하여 발동한다. <Chuangyi:창의> 1스택을 획득한다."
+      }
+    },
+    "123159": {
+      "skillId": 123159,
+      "ownerId": 94450,
+      "slot": "Slot_Extend1",
+      "commandId": 123163,
+      "name": "극적인 만남",
+      "description": {
+        "0": "무작위 적에게 <Damage:[Damage:Arg1]>pt의 피해를 [Arg2]회 입힌다."
+      },
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_123159_Desc_6e32db02#1": "무작위 적에게 <Damage:[Damage:Arg1]>pt의 피해를 [Arg2]회 입힌다."
+      }
+    },
+    "126488": {
+      "skillId": 126488,
+      "ownerId": 77918,
+      "slot": "Slot_Extend3",
+      "commandId": 133383,
+      "name": "운명을 이끄는 실",
+      "description": {
+        "0": "최대 HP의 [Arg1]%를 잃고, <SilkKeywords:직명> 1층을 얻습니다. 이번 전투에서 「<DerivativeCardKeywords_138:운명을 이끄는 실>」로 잃은 HP와 아라크네가 가하는 <CutKeywords:운명 재단>이 [Arg2]% 증가합니다. 허무: 아라크네가 무작위로 <Energy:[Energy:Arg7]>-<Energy:[Energy:Arg8]> 점의 광기를 얻습니다."
+      },
+      "battle": {
+        "0": "최대 HP의 [Float:Arg3]%를 잃고( [Arg4] ), <SilkKeywords:직명> 1층을 얻습니다. 이번 전투에서 「<DerivativeCardKeywords_138:운명을 이끄는 실>」로 잃은 HP와 아라크네가 가하는 <CutKeywords:운명 재단>이 [Arg2]% 증가합니다. 허무: 아라크네가 무작위로 <Energy:[Energy:Arg7]>-<Energy:[Energy:Arg8]> 점의 광기를 얻습니다."
+      },
+      "overlimit": null,
+      "texts": {
+        "Skill_126488_Desc_f6a64d06#1": "최대 HP의 [Arg1]%를 잃고, <SilkKeywords:직명> 1층을 얻습니다. 이번 전투에서 「<DerivativeCardKeywords_138:운명을 이끄는 실>」로 잃은 HP와 아라크네가 가하는 <CutKeywords:운명 재단>이 [Arg2]% 증가합니다. 허무: 아라크네가 무작위로 <Energy:[Energy:Arg7]>-<Energy:[Energy:Arg8]> 점의 광기를 얻습니다.",
+        "Skill_126488_BattleDesc_e86069c4#1": "최대 HP의 [Float:Arg3]%를 잃고( [Arg4] ), <SilkKeywords:직명> 1층을 얻습니다. 이번 전투에서 「<DerivativeCardKeywords_138:운명을 이끄는 실>」로 잃은 HP와 아라크네가 가하는 <CutKeywords:운명 재단>이 [Arg2]% 증가합니다. 허무: 아라크네가 무작위로 <Energy:[Energy:Arg7]>-<Energy:[Energy:Arg8]> 점의 광기를 얻습니다."
+      }
+    },
+    "126767": {
+      "skillId": 126767,
+      "ownerId": 125346,
+      "slot": "Slot_Extend1",
+      "commandId": 126774,
+      "name": "정혼",
+      "description": {
+        "0": "전체 적에게 <WitherKeywords:도취> [Arg1]스택을 부여한다.",
+        "3": "전체 적에게 <WitherKeywords0:도취> [Arg1]스택을 부여한다."
+      },
+      "battle": "전체 적에게 <WitherKeywords:도취> [Arg1]스택을 부여한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_126767_Desc_9c88b363#1": "전체 적에게 <WitherKeywords:도취> [Arg1]스택을 부여한다.",
+        "Skill_126767_Desc_9c84a7fe#1": "전체 적에게 <WitherKeywords0:도취> [Arg1]스택을 부여한다.",
+        "Skill_126767_BattleDesc": "전체 적에게 <WitherKeywords:도취> [Arg1]스택을 부여한다."
+      }
+    },
+    "126768": {
+      "skillId": 126768,
+      "ownerId": 125346,
+      "slot": "Slot_Extend2",
+      "commandId": 126770,
+      "name": "탐혼",
+      "description": {
+        "0": "전체 적의 <WitherKeywords:도취>를 제거하고, 1스택을 제거할 때마다 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주며 중독 [Arg2]%를 발동시킨다.",
+        "3": "전체 적의 <WitherKeywords0:도취>를 제거하고, 1스택을 제거할 때마다 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주며 중독 [Arg2]%를 발동시킨다."
+      },
+      "battle": "전체 적의 <WitherKeywords:도취>를 제거하고, 1스택을 제거할 때마다 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주며 중독 [Arg2]%를 발동시킨다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_126768_Desc_15bf6192#1": "전체 적의 <WitherKeywords:도취>를 제거하고, 1스택을 제거할 때마다 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주며 중독 [Arg2]%를 발동시킨다.",
+        "Skill_126768_Desc_fa2e9be3#1": "전체 적의 <WitherKeywords0:도취>를 제거하고, 1스택을 제거할 때마다 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주며 중독 [Arg2]%를 발동시킨다.",
+        "Skill_126768_BattleDesc": "전체 적의 <WitherKeywords:도취>를 제거하고, 1스택을 제거할 때마다 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주며 중독 [Arg2]%를 발동시킨다."
+      }
+    },
+    "126880": {
+      "skillId": 126880,
+      "ownerId": 125346,
+      "slot": "Slot_Extend3",
+      "commandId": 126774,
+      "name": "정혼",
+      "description": {
+        "0": "전체 적에게 <WitherKeywords:도취> [Arg1]스택을 부여하며, 부여하는 중독량이 200% 증가한다.",
+        "3": "전체 적에게 <WitherKeywords0:도취 [Arg1]스택을 부여하며, 부여하는 중독량이 200% 증가한다.>"
+      },
+      "battle": "전체 적에게 <WitherKeywords:도취> [Arg1]스택을 부여하며, 부여하는 중독량이 200% 증가한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_126880_Desc_ac5702b6#1": "전체 적에게 <WitherKeywords:도취> [Arg1]스택을 부여하며, 부여하는 중독량이 200% 증가한다.",
+        "Skill_126880_Desc_dbf7c2f5#1": "전체 적에게 <WitherKeywords0:도취 [Arg1]스택을 부여하며, 부여하는 중독량이 200% 증가한다.>",
+        "Skill_126880_BattleDesc": "전체 적에게 <WitherKeywords:도취> [Arg1]스택을 부여하며, 부여하는 중독량이 200% 증가한다."
+      }
+    },
+    "126881": {
+      "skillId": 126881,
+      "ownerId": 125346,
+      "slot": "Slot_Extend4",
+      "commandId": 126770,
+      "name": "탐혼",
+      "description": {
+        "0": "모든 적의 <WitherKeywords:도취>를 제거하고, 1스택을 제거할 때마다 진홍빛 용광로를 [Arg3]pt 축적하며, 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주고 중독 [Arg2]%를 발동시킨다.",
+        "3": "모든 적의 <WitherKeywords0:도취>를 제거하고, 1스택을 제거할 때마다 진홍빛 용광로를 [Arg3]pt 축적하며, 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주고 중독 [Arg2]%를 발동시킨다."
+      },
+      "battle": "모든 적의 <WitherKeywords:도취>를 제거하고, 1스택을 제거할 때마다 진홍빛 용광로를 [Arg3]pt 축적하며, 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주고 중독 [Arg2]%를 발동시킨다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_126881_Desc_f97b86b8#1": "모든 적의 <WitherKeywords:도취>를 제거하고, 1스택을 제거할 때마다 진홍빛 용광로를 [Arg3]pt 축적하며, 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주고 중독 [Arg2]%를 발동시킨다.",
+        "Skill_126881_Desc_319019be#1": "모든 적의 <WitherKeywords0:도취>를 제거하고, 1스택을 제거할 때마다 진홍빛 용광로를 [Arg3]pt 축적하며, 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주고 중독 [Arg2]%를 발동시킨다.",
+        "Skill_126881_BattleDesc": "모든 적의 <WitherKeywords:도취>를 제거하고, 1스택을 제거할 때마다 진홍빛 용광로를 [Arg3]pt 축적하며, 대상 최대 HP의 [Arg1]%에 해당하는 <FixedDamage:순수 피해>를 주고 중독 [Arg2]%를 발동시킨다."
+      }
+    },
+    "130934": {
+      "skillId": 130934,
+      "ownerId": 130901,
+      "slot": "Slot_Extend1",
+      "commandId": 131041,
+      "name": "소용돌이! 발사!",
+      "description": {
+        "0": "HP가 가장 높은 적에게 <Damage:[FixedDamage:Arg1]> 점의 <RealDamage:고정 피해>를 입히고, <TentacleInjurieIconKeywords:촉수 피해> +[TentaclePower:Arg2].",
+        "1": "HP가 가장 높은 적에게 <Damage:[FixedDamage:Arg1]> 점의 <RealDamage:고정 피해>와 대상 최대 HP의 [Float:Arg3]% 만큼의 <FixedDamage:순수 피해>를 입힙니다. <TentacleInjurieIconKeywords:촉수 피해> +[TentaclePower:Arg2]."
+      },
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_130934_Desc_35c422d3#1": "HP가 가장 높은 적에게 <Damage:[FixedDamage:Arg1]> 점의 <RealDamage:고정 피해>를 입히고, <TentacleInjurieIconKeywords:촉수 피해> +[TentaclePower:Arg2].",
+        "Skill_130934_Desc_811e06f8#1": "HP가 가장 높은 적에게 <Damage:[FixedDamage:Arg1]> 점의 <RealDamage:고정 피해>와 대상 최대 HP의 [Float:Arg3]% 만큼의 <FixedDamage:순수 피해>를 입힙니다. <TentacleInjurieIconKeywords:촉수 피해> +[TentaclePower:Arg2]."
+      }
+    },
+    "133381": {
+      "skillId": 133381,
+      "ownerId": 77918,
+      "slot": "Slot_Extend1",
+      "commandId": 133382,
+      "name": "끝없는 실타래",
+      "description": {
+        "0": "임시 <SingularityKeywords2:특이점 프리즘> 5스택을 획득하고, HP가 가장 낮은 적에게 <CutKeywords:운명 재단> [FateCut:Arg2]pt를 준다.",
+        "3": "임시 <SingularityKeywords2:특이점 프리즘> 10스택을 획득하고, HP가 가장 낮은 적에게 <CutKeywords:운명 재단> [FateCut:Arg2]pt를 준다."
+      },
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_133381_Desc_eecfa19f#1": "임시 <SingularityKeywords2:특이점 프리즘> 5스택을 획득하고, HP가 가장 낮은 적에게 <CutKeywords:운명 재단> [FateCut:Arg2]pt를 준다.",
+        "Skill_133381_Desc_674b5478#1": "임시 <SingularityKeywords2:특이점 프리즘> 10스택을 획득하고, HP가 가장 낮은 적에게 <CutKeywords:운명 재단> [FateCut:Arg2]pt를 준다."
+      }
+    },
+    "144489": {
+      "skillId": 144489,
+      "ownerId": 77921,
+      "slot": "Slot_Extend1",
+      "commandId": 144500,
+      "name": "바로 내려지는 축복·행동력",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "행동력을 [Arg1]pt 획득한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_144489_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_144489_BattleDesc": "행동력을 [Arg1]pt 획득한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "145536": {
+      "skillId": 145536,
+      "ownerId": 77921,
+      "slot": "Slot_Extend3",
+      "commandId": 145546,
+      "name": "바로 내려지는 축복·은열쇠 에너지",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "은열쇠 에너지를 <Posse:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_145536_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_145536_BattleDesc": "은열쇠 에너지를 <Posse:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "145537": {
+      "skillId": 145537,
+      "ownerId": 77921,
+      "slot": "Slot_Extend5",
+      "commandId": 145547,
+      "name": "바로 내려지는 축복·광기",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "고정 광기를 <Yellow:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_145537_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_145537_BattleDesc": "고정 광기를 <Yellow:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "145538": {
+      "skillId": 145538,
+      "ownerId": 77921,
+      "slot": "Slot_Extend7",
+      "commandId": 145545,
+      "name": "바로 내려지는 축복·피해 증폭",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "임시 피해 증폭 효과가 [Arg1]% 증가한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_145538_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_145538_BattleDesc": "임시 피해 증폭 효과가 [Arg1]% 증가한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "145539": {
+      "skillId": 145539,
+      "ownerId": 77921,
+      "slot": "Slot_Extend6",
+      "commandId": 145543,
+      "name": "바로 내려지는 축복·드로우",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "카드를 [Arg1]장 드로우한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_145539_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_145539_BattleDesc": "카드를 [Arg1]장 드로우한다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "145540": {
+      "skillId": 145540,
+      "ownerId": 77921,
+      "slot": "Slot_Extend2",
+      "commandId": 145542,
+      "name": "바로 내려지는 축복·힘",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "[Power:Arg1] 점의 <PowerIconKeywords:힘>을 얻습니다. 주의! <Bleesing_Exaggerate:허풍> 또는 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있습니다. <SacrificialMark1:봉헌> 1층을 얻습니다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_145540_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_145540_BattleDesc": "[Power:Arg1] 점의 <PowerIconKeywords:힘>을 얻습니다. 주의! <Bleesing_Exaggerate:허풍> 또는 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있습니다. <SacrificialMark1:봉헌> 1층을 얻습니다."
+      }
+    },
+    "145541": {
+      "skillId": 145541,
+      "ownerId": 77921,
+      "slot": "Slot_Extend4",
+      "commandId": 145544,
+      "name": "바로 내려지는 축복·고갈",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "전체 적의 임시 <ExhaustionIconKeywords:힘>을 [Exhaustion:Arg1]pt 감소시킨다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_145541_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_145541_BattleDesc": "전체 적의 임시 <ExhaustionIconKeywords:힘>을 [Exhaustion:Arg1]pt 감소시킨다. 주의할 것! <Bleesing_Exaggerate:허풍> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148042": {
+      "skillId": 148042,
+      "ownerId": 77921,
+      "slot": "Slot_Extend13",
+      "commandId": 148057,
+      "name": "호화로운 축복·드로우",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "카드를 [Arg1]장 드로우한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148042_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148042_BattleDesc": "카드를 [Arg1]장 드로우한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148043": {
+      "skillId": 148043,
+      "ownerId": 77921,
+      "slot": "Slot_Extend8",
+      "commandId": 148064,
+      "name": "호화로운 축복·행동력",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "행동력을 [Arg1]pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148043_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148043_BattleDesc": "행동력을 [Arg1]pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148044": {
+      "skillId": 148044,
+      "ownerId": 77921,
+      "slot": "Slot_Extend19",
+      "commandId": 148062,
+      "name": "따뜻한 축복·광기",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "고정 광기를 <Yellow:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148044_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148044_BattleDesc": "고정 광기를 <Yellow:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148045": {
+      "skillId": 148045,
+      "ownerId": 77921,
+      "slot": "Slot_Extend15",
+      "commandId": 148066,
+      "name": "따뜻한 축복·행동력",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "행동력을 [Arg1]pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148045_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148045_BattleDesc": "행동력을 [Arg1]pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148046": {
+      "skillId": 148046,
+      "ownerId": 77921,
+      "slot": "Slot_Extend12",
+      "commandId": 148061,
+      "name": "호화로운 축복·광기",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "고정 광기를 <Yellow:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148046_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148046_BattleDesc": "고정 광기를 <Yellow:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148047": {
+      "skillId": 148047,
+      "ownerId": 77921,
+      "slot": "Slot_Extend17",
+      "commandId": 148070,
+      "name": "따뜻한 축복·은열쇠 에너지",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "은열쇠 에너지를 <Posse:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148047_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148047_BattleDesc": "은열쇠 에너지를 <Posse:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148048": {
+      "skillId": 148048,
+      "ownerId": 77921,
+      "slot": "Slot_Extend14",
+      "commandId": 148058,
+      "name": "호화로운 축복·피해 증폭",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "임시 피해 증폭 효과가 [Arg1]% 증가한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148048_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148048_BattleDesc": "임시 피해 증폭 효과가 [Arg1]% 증가한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148049": {
+      "skillId": 148049,
+      "ownerId": 77921,
+      "slot": "Slot_Extend11",
+      "commandId": 148065,
+      "name": "호화로운 축복·고갈",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "전체 적의 임시 <ExhaustionIconKeywords:힘>을 [Exhaustion:Arg1]pt 감소시킨다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148049_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148049_BattleDesc": "전체 적의 임시 <ExhaustionIconKeywords:힘>을 [Exhaustion:Arg1]pt 감소시킨다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148050": {
+      "skillId": 148050,
+      "ownerId": 77921,
+      "slot": "Slot_Extend9",
+      "commandId": 148060,
+      "name": "호화로운 축복·힘",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "[Power:Arg1] 점의 <PowerIconKeywords:힘>을 얻습니다. 주의! <Bleesing_Delay:놓쳐진 기회> 또는 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있습니다. <SacrificialMark1:봉헌> 1층을 얻습니다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148050_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148050_BattleDesc": "[Power:Arg1] 점의 <PowerIconKeywords:힘>을 얻습니다. 주의! <Bleesing_Delay:놓쳐진 기회> 또는 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있습니다. <SacrificialMark1:봉헌> 1층을 얻습니다."
+      }
+    },
+    "148051": {
+      "skillId": 148051,
+      "ownerId": 77921,
+      "slot": "Slot_Extend16",
+      "commandId": 148067,
+      "name": "따뜻한 축복·힘",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "[Power:Arg1] 점의 <PowerIconKeywords:힘>을 얻습니다. 주의! <Bleesing_Delay:놓쳐진 기회> 또는 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있습니다. <SacrificialMark1:봉헌> 1층을 얻습니다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148051_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148051_BattleDesc": "[Power:Arg1] 점의 <PowerIconKeywords:힘>을 얻습니다. 주의! <Bleesing_Delay:놓쳐진 기회> 또는 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있습니다. <SacrificialMark1:봉헌> 1층을 얻습니다."
+      }
+    },
+    "148052": {
+      "skillId": 148052,
+      "ownerId": 77921,
+      "slot": "Slot_Extend18",
+      "commandId": 148069,
+      "name": "따뜻한 축복·고갈",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "전체 적의 임시 <ExhaustionIconKeywords:힘>을 [Exhaustion:Arg1]pt 감소시킨다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148052_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148052_BattleDesc": "전체 적의 임시 <ExhaustionIconKeywords:힘>을 [Exhaustion:Arg1]pt 감소시킨다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148053": {
+      "skillId": 148053,
+      "ownerId": 77921,
+      "slot": "Slot_Extend20",
+      "commandId": 148059,
+      "name": "따뜻한 축복·드로우",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "카드를 [Arg1]장 드로우한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148053_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148053_BattleDesc": "카드를 [Arg1]장 드로우한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148054": {
+      "skillId": 148054,
+      "ownerId": 77921,
+      "slot": "Slot_Extend10",
+      "commandId": 148068,
+      "name": "호화로운 축복·은열쇠 에너지",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "은열쇠 에너지를 <Posse:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.",
+      "overlimit": null,
+      "texts": {
+        "Skill_148054_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148054_BattleDesc": "은열쇠 에너지를 <Posse:[Arg1]>pt 획득한다. 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Negative:은폐된 살의> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다."
+      }
+    },
+    "148055": {
+      "skillId": 148055,
+      "ownerId": 77921,
+      "slot": "Slot_Extend21",
+      "commandId": 148063,
+      "name": "따뜻한 축복·피해 증폭",
+      "description": {
+        "0": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다."
+      },
+      "battle": "임시 피해 증폭 효과가 [Arg1]% 증가한다 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다..",
+      "overlimit": null,
+      "texts": {
+        "Skill_148055_Desc_fa9b9d43#1": "<BlessingNegativeEffect:대가>가 있는 <Blessing:선물> 1개와 <SacrificialMark1:봉헌>을 1스택 획득한다.",
+        "Skill_148055_BattleDesc": "임시 피해 증폭 효과가 [Arg1]% 증가한다 주의할 것! <Bleesing_Delay:놓쳐진 기회> 혹은 <Bleesing_Exaggerate:허풍> 효과가 포함되어 있다. <SacrificialMark1:봉헌>을 1스택 획득한다.."
+      }
+    },
+    "152499": {
+      "skillId": 152499,
+      "ownerId": 151844,
+      "slot": "Slot_Extend1",
+      "commandId": 152513,
+      "name": "가마솥",
+      "description": "카운트다운이 0일 때만 사용할 수 있다. 마법 물약 효과를 발동하고 <EmptinessKeywords:공허> 상태를 해제하며, 이번 턴에는 <LianyaoKeywords:마법 물약 조제>를 진행할 수 없다. 턴 시작 시 카운트다운이 1 감소된다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_152499_Desc": "카운트다운이 0일 때만 사용할 수 있다. 마법 물약 효과를 발동하고 <EmptinessKeywords:공허> 상태를 해제하며, 이번 턴에는 <LianyaoKeywords:마법 물약 조제>를 진행할 수 없다. 턴 시작 시 카운트다운이 1 감소된다."
+      }
+    },
+    "152500": {
+      "skillId": 152500,
+      "ownerId": 151844,
+      "slot": "Slot_Super",
+      "commandId": 152512,
+      "name": "황무지에 잠든 자",
+      "description": {
+        "0": "HP를 <Heal:[Heal:Arg1]>pt 회복하고 5% 확률로 회복량이 50% 증가하며, 크리티컬률 1%당 해당 확률이 1%씩 증가한다. <PowerIconKeywords:힘> [Power:Arg2]pt와 영구 힘의 [Arg3]%에 해당하는 임시 <PowerIconKeywords:힘>을 획득한다. <SleepKeywords:완벽한 수면>."
+      },
+      "battle": {
+        "0": "HP를 <Heal:[Heal:Arg1]>pt 회복하고 [Arg4]% 확률로 회복량이 50% 증가하며, 크리티컬률 1%당 해당 확률이 1%씩 증가한다. <PowerIconKeywords:힘> [Power:Arg2]pt와 영구 힘의 [Arg3]%에 해당하는 임시 <PowerIconKeywords:힘>을 획득한다. <SleepKeywords:완벽한 수면>."
+      },
+      "overlimit": {
+        "0": "<Heal:[Heal:Arg5]>pt의 HP를 회복하고, [Arg4]% 확률로 회복량이 50% 증가한다. [Power:Arg2]pt의 <PowerIconKeywords:힘>과 영구 힘의 [Arg3]%에 해당하는 임시 <PowerIconKeywords:힘>을 획득한다. <SleepKeywords:완벽한 수면>."
+      },
+      "texts": {
+        "Skill_152500_Desc_c33aef42#1": "HP를 <Heal:[Heal:Arg1]>pt 회복하고 5% 확률로 회복량이 50% 증가하며, 크리티컬률 1%당 해당 확률이 1%씩 증가한다. <PowerIconKeywords:힘> [Power:Arg2]pt와 영구 힘의 [Arg3]%에 해당하는 임시 <PowerIconKeywords:힘>을 획득한다. <SleepKeywords:완벽한 수면>.",
+        "Skill_152500_BattleDesc_776bc8e3#1": "HP를 <Heal:[Heal:Arg1]>pt 회복하고 [Arg4]% 확률로 회복량이 50% 증가하며, 크리티컬률 1%당 해당 확률이 1%씩 증가한다. <PowerIconKeywords:힘> [Power:Arg2]pt와 영구 힘의 [Arg3]%에 해당하는 임시 <PowerIconKeywords:힘>을 획득한다. <SleepKeywords:완벽한 수면>.",
+        "Skill_152500_OverLimitUtlSkillDesc_583671af#1": "<Heal:[Heal:Arg5]>pt의 HP를 회복하고, [Arg4]% 확률로 회복량이 50% 증가한다. [Power:Arg2]pt의 <PowerIconKeywords:힘>과 영구 힘의 [Arg3]%에 해당하는 임시 <PowerIconKeywords:힘>을 획득한다. <SleepKeywords:완벽한 수면>."
+      }
+    },
+    "152501": {
+      "skillId": 152501,
+      "ownerId": 151844,
+      "slot": "Slot_Awake",
+      "commandId": 152510,
+      "name": "양피지 두루마리",
+      "description": {
+        "0": "비비안이 기초 광기의 [Arg2]%를 획득한다. <ExaltIconKeywords:영지 각성>: 비비안의 「스킬」을 각 1장씩 생성하여 드로우 덱에 넣는다. <TurnUniqueKeywords:턴 유일>: 「완벽한 수면」 적용 시 비비안은 광기를 <Energy:[Energy:Arg3]>pt 획득하고 자신의 모든 명령 카드를 버리며, 카드 1장당 <PowerIconKeywords:힘>을 [Power:Arg4]pt 획득한다.",
+        "15": "비비안이 기초 광기의 [Arg2]%를 획득한다. <ExaltIconKeywords:영지 각성>: 비비안의 「스킬」 행동력 소비가 1 감소하고, 비비안의 「스킬」을 각 1장씩 생성하여 드로우 덱에 넣는다. <TurnUniqueKeywords:턴 유일>: 「완벽한 수면」 적용 시 비비안은 광기를 <Energy:[Energy:Arg3]>pt 획득하고 자신의 모든 명령 카드를 버리며, 카드 1장당 <PowerIconKeywords:힘>을 [Power:Arg4]pt 획득한다."
+      },
+      "battle": {
+        "0": "비비안이 광기를 <Energy:[Energy:Arg1]>pt 획득한다. <ExaltIconKeywords:영지 각성>: 비비안의 「스킬」을 각 1장씩 생성하여 드로우 덱에 넣는다. <TurnUniqueKeywords:턴 유일>: 「완벽한 수면」 적용 시 비비안은 광기를 <Energy:[Energy:Arg3]>pt 획득하고 자신의 모든 명령 카드를 버리며, 카드 1장당 <PowerIconKeywords:힘>을 [Power:Arg4]pt 획득한다.",
+        "15": "비비안이 광기를 <Energy:[Energy:Arg1]>pt 획득한다. <ExaltIconKeywords:영지 각성>: 비비안의 「스킬」 행동력 소비가 1 감소하고, 비비안의 「스킬」을 각 1장씩 생성하여 드로우 덱에 넣는다. <TurnUniqueKeywords:턴 유일>: 「완벽한 수면」 적용 시 비비안은 광기를 <Energy:[Energy:Arg3]>pt 획득하고 자신의 모든 명령 카드를 버리며, 카드 1장당 <PowerIconKeywords:힘>을 [Power:Arg4]pt 획득한다."
+      },
+      "overlimit": null,
+      "texts": {
+        "Skill_152501_Desc_ed7a5159#1": "비비안이 기초 광기의 [Arg2]%를 획득한다. <ExaltIconKeywords:영지 각성>: 비비안의 「스킬」을 각 1장씩 생성하여 드로우 덱에 넣는다. <TurnUniqueKeywords:턴 유일>: 「완벽한 수면」 적용 시 비비안은 광기를 <Energy:[Energy:Arg3]>pt 획득하고 자신의 모든 명령 카드를 버리며, 카드 1장당 <PowerIconKeywords:힘>을 [Power:Arg4]pt 획득한다.",
+        "Skill_152501_Desc_e167ab0b#1": "비비안이 기초 광기의 [Arg2]%를 획득한다. <ExaltIconKeywords:영지 각성>: 비비안의 「스킬」 행동력 소비가 1 감소하고, 비비안의 「스킬」을 각 1장씩 생성하여 드로우 덱에 넣는다. <TurnUniqueKeywords:턴 유일>: 「완벽한 수면」 적용 시 비비안은 광기를 <Energy:[Energy:Arg3]>pt 획득하고 자신의 모든 명령 카드를 버리며, 카드 1장당 <PowerIconKeywords:힘>을 [Power:Arg4]pt 획득한다.",
+        "Skill_152501_BattleDesc_28bcbba8#1": "비비안이 광기를 <Energy:[Energy:Arg1]>pt 획득한다. <ExaltIconKeywords:영지 각성>: 비비안의 「스킬」을 각 1장씩 생성하여 드로우 덱에 넣는다. <TurnUniqueKeywords:턴 유일>: 「완벽한 수면」 적용 시 비비안은 광기를 <Energy:[Energy:Arg3]>pt 획득하고 자신의 모든 명령 카드를 버리며, 카드 1장당 <PowerIconKeywords:힘>을 [Power:Arg4]pt 획득한다.",
+        "Skill_152501_BattleDesc_7616e15a#1": "비비안이 광기를 <Energy:[Energy:Arg1]>pt 획득한다. <ExaltIconKeywords:영지 각성>: 비비안의 「스킬」 행동력 소비가 1 감소하고, 비비안의 「스킬」을 각 1장씩 생성하여 드로우 덱에 넣는다. <TurnUniqueKeywords:턴 유일>: 「완벽한 수면」 적용 시 비비안은 광기를 <Energy:[Energy:Arg3]>pt 획득하고 자신의 모든 명령 카드를 버리며, 카드 1장당 <PowerIconKeywords:힘>을 [Power:Arg4]pt 획득한다."
+      }
+    },
+    "152503": {
+      "skillId": 152503,
+      "ownerId": 151844,
+      "slot": "Slot_Skill2",
+      "commandId": 152519,
+      "name": "있는 거 아무거나",
+      "description": {
+        "0": "다른 각성체 1명을 선택하여 <Energy:[Energy:Arg1]>pt의 광기를 획득시킨다. <TurnUniqueKeywords:턴 유일>: <LianyaoKeywords:마법 물약 조제>를 1회 진행한다. <MatterKeywords:><DerivativeCardKeywords_166:>",
+        "1": "다른 각성체 1명을 선택하여 광기를 <Energy:[Energy:Arg1]>pt 부여하고, 해당 각성체의 임시 크리티컬률을 [Arg2]% 증가시킨다. <TurnUniqueKeywords:턴 유일>: <LianyaoKeywords:마법 물약 조제>를 1회 진행한다. <MatterKeywords:><DerivativeCardKeywords_166:><WrathKeywords1:>",
+        "3": "다른 각성체 1명을 선택하여 광기를 <Energy:[Energy:Arg1]>pt 부여하고, 해당 각성체의 임시 크리티컬률을 [Arg2]% 증가시킨다. <TurnUniqueKeywords:턴 유일>: <LianyaoKeywords:마법 물약 조제>를 1회 진행한다. <MatterKeywords:1><DerivativeCardKeywords_166:><WrathKeywords1:>"
+      },
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_152503_Desc_0064659e#1": "다른 각성체 1명을 선택하여 <Energy:[Energy:Arg1]>pt의 광기를 획득시킨다. <TurnUniqueKeywords:턴 유일>: <LianyaoKeywords:마법 물약 조제>를 1회 진행한다. <MatterKeywords:><DerivativeCardKeywords_166:>",
+        "Skill_152503_Desc_f4c320f5#1": "다른 각성체 1명을 선택하여 광기를 <Energy:[Energy:Arg1]>pt 부여하고, 해당 각성체의 임시 크리티컬률을 [Arg2]% 증가시킨다. <TurnUniqueKeywords:턴 유일>: <LianyaoKeywords:마법 물약 조제>를 1회 진행한다. <MatterKeywords:><DerivativeCardKeywords_166:><WrathKeywords1:>",
+        "Skill_152503_Desc_32871b8b#1": "다른 각성체 1명을 선택하여 광기를 <Energy:[Energy:Arg1]>pt 부여하고, 해당 각성체의 임시 크리티컬률을 [Arg2]% 증가시킨다. <TurnUniqueKeywords:턴 유일>: <LianyaoKeywords:마법 물약 조제>를 1회 진행한다. <MatterKeywords:1><DerivativeCardKeywords_166:><WrathKeywords1:>"
+      }
+    },
+    "152505": {
+      "skillId": 152505,
+      "ownerId": 151844,
+      "slot": "Slot_Defend",
+      "commandId": 152517,
+      "name": "방어",
+      "description": {
+        "0": "방어막을 <Block:[Block:Arg1]>pt 획득하고, 비비안이 광기를 <Energy:[Energy:Arg2]>pt 획득한다."
+      },
+      "battle": {
+        "0": "방어막을 <Block:[Block:Arg1]>pt 획득하고, 광기를 <Energy:[Energy:Arg2]>pt 획득한다."
+      },
+      "overlimit": null,
+      "texts": {
+        "Skill_152505_Desc_1eef391e#1": "방어막을 <Block:[Block:Arg1]>pt 획득하고, 비비안이 광기를 <Energy:[Energy:Arg2]>pt 획득한다.",
+        "Skill_152505_BattleDesc_de6f43d8#1": "방어막을 <Block:[Block:Arg1]>pt 획득하고, 광기를 <Energy:[Energy:Arg2]>pt 획득한다."
+      }
+    },
+    "152506": {
+      "skillId": 152506,
+      "ownerId": 151844,
+      "slot": "Slot_Strike",
+      "commandId": 152516,
+      "name": "타격",
+      "description": {
+        "0": "피해를 <Damage:[Damage:Arg1]> 입히고, 비비안이 광기를 <Energy:[Energy:Arg2]>pt 획득한다."
+      },
+      "battle": {
+        "0": "피해를 <Damage:[Damage:Arg1]> 입히고, 광기를 <Energy:[Energy:Arg2]>pt 획득한다."
+      },
+      "overlimit": null,
+      "texts": {
+        "Skill_152506_Desc_362c70af#1": "피해를 <Damage:[Damage:Arg1]> 입히고, 비비안이 광기를 <Energy:[Energy:Arg2]>pt 획득한다.",
+        "Skill_152506_BattleDesc_ecf5ed4c#1": "피해를 <Damage:[Damage:Arg1]> 입히고, 광기를 <Energy:[Energy:Arg2]>pt 획득한다."
+      }
+    },
+    "152584": {
+      "skillId": 152584,
+      "ownerId": 151844,
+      "slot": "Slot_Skill1",
+      "commandId": 152518,
+      "name": "하늘에서 쏟아진 수프",
+      "description": "전체 적에게 [Corrosion:Arg1]pt의 <Corrosion:침식>을 입히며, 힘 보너스를 [Arg2]% 받는다. <TurnUniqueKeywords:턴 유일>: <DerivativeCardKeywords_166:가마솥>의 카운트다운이 1 감소한다.",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_152584_Desc": "전체 적에게 [Corrosion:Arg1]pt의 <Corrosion:침식>을 입히며, 힘 보너스를 [Arg2]% 받는다. <TurnUniqueKeywords:턴 유일>: <DerivativeCardKeywords_166:가마솥>의 카운트다운이 1 감소한다."
+      }
+    },
+    "154029": {
+      "skillId": 154029,
+      "ownerId": 151844,
+      "slot": "Slot_Extend3",
+      "commandId": 757,
+      "name": "비비안 깨어나기",
+      "description": "TL 연출 중 깨어나는 장면만 담당",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_154029_Desc": "TL 연출 중 깨어나는 장면만 담당"
+      }
+    },
+    "154030": {
+      "skillId": 154030,
+      "ownerId": 151844,
+      "slot": "Slot_Extend2",
+      "commandId": 757,
+      "name": "비비안 잠자기",
+      "description": "TL 연출 중 잠자는 장면만 담당",
+      "battle": null,
+      "overlimit": null,
+      "texts": {
+        "Skill_154030_Desc": "TL 연출 중 잠자는 장면만 담당"
+      }
+    }
+  }
+}

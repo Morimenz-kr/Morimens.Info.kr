@@ -51,6 +51,7 @@ for (const k of data.silverkey_list) Object.assign(k, keyMap[k.english_name] || 
 const catalog = await json('scarecrow/runtime/catalog.json');
 const live = await json('scarecrow/runtime/live-data.json');
 const characterEffects = await json('data/character_effects.json');
+const nativeDescriptions = await json('data/scarecrow_card_descriptions.json');
 // Bind translated descriptions once to native skill IDs, including renamed skills.
 const coreCommandSlots = ['Slot_Strike','Slot_Defend','Slot_Skill1','Slot_Skill2'];
 for (const person of live.people) {
@@ -59,13 +60,19 @@ for (const person of live.people) {
     const skills = effects?.skills || [];
     const commands = skills.filter(s => s.type === '명령');
     for (const card of [...person.cards, ...person.generated]) {
+        const native = nativeDescriptions.cards[card.id];
+        if (native) {
+            if ((native.ownerId != null && native.ownerId !== person.id) || native.skillId !== card.id) throw Error('Native card owner mismatch: '+card.id);
+            card.nativeDescription = native;
+            card.name = native.name;
+        }
         const slot = catalog.skills[card.id]?.slot;
         const candidates = [...skills, ...(effects?.derivedCards || [])].filter(s => s.name === card.name);
         card.effectRecord = candidates.length === 1 ? candidates[0]
             : slot === 'Slot_Super' ? skills.find(s => s.type === '광기 폭발')
             : slot === 'Slot_Awake' ? skills.find(s => s.type === '영지 각성')
             : coreCommandSlots.includes(slot) ? commands[coreCommandSlots.indexOf(slot)] : undefined;
-        if (!card.effectRecord) console.warn(`No translated card effect: ${person.id}/${card.id} (${card.name})`);
+        if (!card.effectRecord && !card.nativeDescription) throw Error(`Missing translated card effect: ${person.id}/${card.id} (${card.name})`);
     }
 }
 for(const contract of data.covenant_list){const match=catalog.suits.find(s=>s.id===contract.clientSuitId);if(match)match.name=contract.korean_name;}
