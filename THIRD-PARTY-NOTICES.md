@@ -4,6 +4,10 @@
 
 이 프로젝트가 사용하는 외부 패키지와 라이브러리는 각 패키지의 개별 라이선스를 따릅니다. `package-lock.json`에 기록된 라이선스 정보와 각 패키지에 동봉된 라이선스 문서가 우선합니다.
 
+## Pretendard 글꼴
+
+ScareCrow UI는 [Pretendard](https://github.com/orioncactus/pretendard)의 가변 웹 글꼴을 사용합니다. Copyright (c) 2021, Kil Hyung-jin. SIL Open Font License 1.1에 따라 배포하며, 원문은 `js/scarecrow/fonts/Pretendard-LICENSE.txt`에 동봉합니다.
+
 ## 외부 링크
 
 사이트나 데이터 파일에 포함된 외부 링크는 출처 안내를 위한 것입니다. 링크를 제공하는 것만으로 해당 외부 콘텐츠의 소유권을 주장하거나 재사용 권한을 부여하지 않습니다.

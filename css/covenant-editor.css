@@ -1,0 +1,141 @@
+@font-face{font-family:Pretendard;src:url('../js/scarecrow/fonts/PretendardVariable.woff2') format('woff2');font-style:normal;font-weight:100 900;font-display:swap}
+.covenant-editor{font-family:Pretendard,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:#e0e4eb;min-width:0;container-type:inline-size;color-scheme:dark}
+.covenant-editor *{box-sizing:border-box;font-family:inherit}
+.covenant-editor [hidden]{display:none!important}
+.covenant-editor button,.covenant-editor input,.covenant-editor select{font:inherit;color:inherit;max-width:100%;min-width:0}
+.covenant-editor button{cursor:pointer;min-height:44px;padding:.5rem .75rem;border:1px solid #6d5e46;border-radius:.25rem;background:#302c28}
+.covenant-editor button:focus-visible,.covenant-editor input:focus-visible{outline:2px solid #b9e6e9;outline-offset:2px}
+.covenant-editor :disabled{opacity:.4;cursor:default}
+.covenant-editor input,.covenant-editor select{background:#19191d;border:1px solid #514a50;border-radius:.3rem;min-height:44px;padding:.5rem}
+.covenant-editor img{display:block;max-width:100%}
+.covenant-editor .member-section-head{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem}
+.covenant-editor .member-set-change{min-height:44px}
+.covenant-editor .member-toggle{display:flex;align-items:center;gap:.5rem;min-height:44px}
+.covenant-editor .member-toggle input{width:1.3rem;height:1.3rem;min-height:1.3rem;accent-color:#c8ad74}
+.covenant-editor .member-slider{display:grid;grid-template-columns:minmax(0,1fr) auto 3rem;align-items:center;gap:.4rem}
+.covenant-editor .member-slider input{width:100%;text-align:center}
+.covenant-editor .member-slider input[type=range]{accent-color:#d5bd84;background:transparent;border:0;padding:0}
+.covenant-editor .member-input-warning{color:#e1b5a2;font-size:.875rem;line-height:1.6;overflow-wrap:anywhere}
+.covenant-editor{position:relative}
+.covenant-editor .member-set-summary{font-size:.88rem;line-height:1.7;margin:.8rem 0 .35rem;color:#dcd5c9;overflow-wrap:anywhere}
+.covenant-editor .member-completion{display:block;font-size:.8rem;color:#b9aa89;margin-bottom:1rem}
+.covenant-editor .member-parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,17rem),1fr));gap:.65rem;align-items:start}
+.covenant-editor .member-parts .fields{grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:.65rem}
+.covenant-editor .member-parts output{display:block;color:#bdb19b;font-size:.78rem;line-height:1.6;padding:.8rem 0;overflow-wrap:anywhere}
+.covenant-editor .member-set-change{margin-left:auto}
+.covenant-editor>.member-set-summary{grid-column:1/-1;margin:0}
+.covenant-editor>.member-completion{margin:.35rem 0 .9rem}
+.covenant-editor>.member-parts{grid-column:1/-1}
+.covenant-editor .member-hex{position:relative;width:min(100%,22rem);padding:55.43px 48px;margin:0 auto;box-sizing:border-box;isolation:isolate}
+.covenant-editor .covenant-hex-surface{position:relative;width:100%;aspect-ratio:.8660254;overflow:clip;background:#111114;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+.covenant-editor .member-hex .part-button{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;border-radius:0;background:#49433a;color:#fff;cursor:pointer}
+.covenant-editor .member-hex .part-button img{position:absolute;left:-38.65%;top:-11.6%;width:177.3%;height:122.3%;max-width:none;object-fit:fill;pointer-events:none}
+.covenant-editor .member-hex .part-completion{display:none}
+.covenant-editor .member-hex .part-button:is(.active,:focus-visible){outline:0}
+.covenant-editor .member-hex .part-index-button{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;min-width:44px;min-height:44px;width:auto;height:auto;padding:.125rem;margin:0;border:0;border-radius:.2rem;background:transparent;font-size:1rem;line-height:1.2;font-family:Georgia,serif;color:#b2aa9a}
+.covenant-editor .member-hex .part-index-button[aria-pressed=true]{color:#eee0bd;text-decoration:underline;text-underline-offset:.3em}
+.covenant-editor .member-hex .part-index-button:is(:hover,:focus-visible){background:transparent;outline:0;color:#f0d69a}
+.covenant-editor .member-hex .part-index-button:focus-visible{text-decoration:underline;text-underline-offset:.3em;text-decoration-thickness:2px}
+.covenant-editor .member-hex .part-index-button.is-empty{color:#858891}
+.covenant-editor .member-hex .part-index-button.is-empty[aria-pressed=true]{color:#c0c3cb}
+.covenant-editor .member-parts{display:block}
+.covenant-editor .member-parts>section{min-width:0;padding-top:1rem;border-top:1px solid #514a42}
+.covenant-editor .member-parts>section[hidden]{display:none}
+.covenant-editor .member-parts h4{font-size:.9rem;line-height:1.6;margin:0 0 .75rem;color:#e0d5bd;overflow-wrap:anywhere}
+.covenant-editor .member-parts>section>button{min-height:2.75rem;margin-bottom:.75rem;border:1px solid #6d5e46;color:#e4d6b6;background:#302c28;border-radius:.25rem;font-size:.8rem}
+.covenant-editor .member-covenant-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.5rem;align-items:start}
+.covenant-editor .member-covenant-body .member-hex{margin-top:0}
+.covenant-editor .member-hex .part-button.is-empty{background:#303137;color:#a4a5ac}
+.covenant-editor .member-hex .part-button img.part-art{width:50%;height:50%;object-fit:fill}
+.covenant-editor .member-hex .part-empty-border{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.covenant-editor .member-hex .part-empty-border polygon{fill:none;stroke:#666973;stroke-width:.35}
+.covenant-editor .member-hex .covenant-set-emblem{position:absolute;left:50%;top:50%;width:60%;height:auto;aspect-ratio:1;transform:translate(-50%,-50%);object-fit:contain;pointer-events:none}
+.covenant-editor .member-contract-binding{display:flex;align-items:center;justify-content:flex-end;gap:.6rem;min-height:44px;margin-block:.4rem .8rem}
+.covenant-editor{padding:0;border:0;background:transparent}
+.covenant-editor .member-section-head{margin:0;gap:.75rem;align-items:center}
+.covenant-editor .member-section-head h3{margin:0;margin-right:auto}
+.covenant-editor .member-set-change{margin:0}
+.covenant-editor label.member-contract-binding{margin:0;min-height:44px;gap:.5rem;align-self:center}
+.covenant-editor .member-contract-summary{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.35rem 1rem;margin:.75rem 0;padding:0 0 .75rem;border-bottom:1px solid #3d3a42}
+.covenant-editor .member-contract-summary .member-set-summary{margin:0;font-size:.9rem}
+.covenant-editor .member-contract-summary .member-completion{margin:0;font-size:.8rem;color:#c6b892}
+.covenant-editor .member-covenant-body{gap:1rem;align-items:start}
+.covenant-editor .member-covenant-body .member-hex{width:min(100%,18rem);margin:0 auto}
+.covenant-editor .member-parts>section{border:1px solid #3d3a42;border-radius:.5rem;background:#222126;padding:.9rem}
+.covenant-editor .member-input-warning:empty{display:none}
+.covenant-editor .member-hex.has-inside-labels{padding:1rem}
+.covenant-editor .member-hex.has-inside-labels .part-index-button{z-index:3;color:#eee6d4;text-shadow:0 1px 3px #000,0 0 5px #000;min-width:44px;min-height:44px;font-size:1.1rem}
+.covenant-editor .member-hex.has-inside-labels .part-index-button.is-empty{color:#afb0b8;text-shadow:none}
+.covenant-editor .member-hex.has-inside-labels .part-index-button[aria-pressed=true]{color:#f0d69a}
+.covenant-editor .member-contract-detail,.covenant-editor .member-contract-diagram{min-width:0}
+.covenant-editor .member-contract-overview{border:1px solid #3d3a42;border-radius:.5rem;background:#222126;padding:1rem}
+.covenant-editor .member-contract-overview[hidden],.covenant-editor .member-parts[hidden]{display:none}
+.covenant-editor .member-contract-overview h4{font-size:.95rem;line-height:1.5;color:#e0d5bd;margin:0 0 .75rem}
+.covenant-editor .contract-attribute-totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr));gap:0 1rem;margin:0}
+.covenant-editor .contract-attribute-totals>div{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.55rem 0;border-bottom:1px solid #ffffff0b;min-width:0}
+.covenant-editor .contract-attribute-totals dt{display:flex;align-items:center;gap:.4rem;color:#c4c0b8;font-size:.8rem;min-width:0;overflow-wrap:anywhere}
+.covenant-editor .contract-attribute-totals img,.covenant-editor .contract-option-value img{width:1.2rem;height:1.2rem;object-fit:contain;flex-shrink:0}
+.covenant-editor .contract-attribute-totals dd{margin:0;font-size:.95rem;font-variant-numeric:tabular-nums;color:#eee5cf;white-space:nowrap}
+.covenant-editor .contract-totals-note{font-size:.72rem;color:#9d978d;line-height:1.5;margin:.65rem 0 1rem}
+.covenant-editor .contract-set-effects{border-top:1px solid #424047;padding-top:1rem}
+.covenant-editor .contract-set-effects h5{font-size:.85rem;color:#d1c4a8;margin:.75rem 0 .4rem}
+.covenant-editor .contract-set-effects p{font-size:.78rem;line-height:1.7;margin:.4rem 0;overflow-wrap:anywhere}
+.covenant-editor .contract-set-effects p>span{display:inline-block;margin-right:.5rem;font-variant-numeric:tabular-nums}
+.covenant-editor .contract-set-effects .is-active{color:#ddd3bc}
+.covenant-editor .contract-set-effects .is-inactive{color:#85838a}
+.covenant-editor .member-hex-hint{font-size:.78rem;text-align:center;color:#aaa297;line-height:1.6;margin:.6rem auto 0;max-width:19rem}
+.covenant-editor .member-parts .covenant-fields{display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem}
+.covenant-editor .contract-option-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));gap:.4rem .75rem;padding:.7rem;background:#19191d;border:1px solid #3f3a40;border-radius:.35rem;min-width:0;align-items:end}
+.covenant-editor .contract-option-head{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem .6rem;min-width:0}
+.covenant-editor .contract-option-head>span{font-size:.78rem;color:#b8b1a4}
+.covenant-editor .member-parts output.contract-option-value{display:flex;align-items:center;gap:.3rem;padding:0;font-size:1rem;line-height:1.4;color:#e4ce9b;font-variant-numeric:tabular-nums;min-width:0}
+.covenant-editor .contract-option-row>label{display:grid;gap:.25rem;min-width:0;font-size:.72rem}
+.covenant-editor .member-parts output.contract-part-completion{font-size:.75rem;padding:.6rem 0 0;text-align:right}
+.covenant-editor .member-parts button.member-part-set{min-height:44px;margin:0 0 .75rem;padding:.45rem .75rem;background:transparent;border:1px solid #625641;border-radius:.3rem;color:#dacba9;font-size:.8rem}
+.covenant-editor .member-section-head h3{font-size:.95rem}
+.covenant-editor .member-contract-summary{margin:.35rem 0 .6rem;padding-bottom:.4rem}
+.covenant-editor .member-covenant-body .member-hex{width:min(100%,22rem)}
+.covenant-editor .member-contract-diagram{align-self:center}
+.covenant-editor .member-parts button.member-part-set{margin:0;padding:.35rem .5rem;font-size:.72rem}
+.covenant-editor .member-parts{--contract-air:clamp(0px,calc((100dvh - 600px)/30),5px);--contract-inset:clamp(2px,calc((100dvh - 560px)/20),10px)}
+.covenant-editor .member-parts .covenant-fields{gap:calc(.25rem + var(--contract-air))}
+.covenant-editor .member-parts>section{padding:.5rem}
+.covenant-editor .member-parts output.contract-part-completion{padding:.25rem 0 0;font-size:.7rem}
+.covenant-editor .contract-option-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding:var(--contract-inset) .65rem;gap:var(--contract-air) .65rem;align-items:center}
+.covenant-editor .contract-option-head{grid-column:1/-1;gap:0 .4rem;line-height:1.2}
+.covenant-editor .contract-option-head>span{font-size:.78rem}
+.covenant-editor .member-parts output.contract-option-value{font-size:.8rem;line-height:1.2}
+.covenant-editor .contract-option-value img{width:1rem;height:1rem}
+.covenant-editor .contract-option-row>label[hidden]{display:none}
+.covenant-editor .contract-option-row>label{align-self:center}
+.covenant-editor .contract-option-row .member-slider{grid-template-columns:minmax(0,1fr) auto 2.5rem;gap:.25rem}
+.covenant-editor .contract-level-unit{font-size:.65rem;color:#aaa398}
+.covenant-editor .contract-option-row .member-slider input{min-height:44px;padding:.25rem}
+.covenant-editor .contract-option-icons{position:relative;display:grid;grid-template-columns:repeat(4,24px);gap:var(--contract-air) 4px;min-width:0;width:max-content;max-width:100%}
+.covenant-editor .contract-option-icons button{position:static;display:grid;place-items:center;width:24px;height:24px;min-width:24px;min-height:24px;margin:0;padding:2px;background:transparent;color:#c5c0b4;border:1px solid transparent;border-radius:.2rem}
+.covenant-editor .contract-option-icons button[aria-pressed=true]{border-color:#d5bd84;background:#d5bd841c}
+.covenant-editor .contract-option-icons button:disabled{opacity:.25}
+.covenant-editor .contract-option-icons button:not(:disabled):hover{background:#ffffff0d;border-color:#756c59}
+.covenant-editor .contract-option-icons img{width:18px;height:18px;object-fit:contain;pointer-events:none}
+.covenant-editor .contract-option-icons button:focus-visible::after{content:attr(aria-label);position:absolute;left:0;bottom:calc(100% + .3rem);width:max-content;max-width:100%;box-sizing:border-box;overflow-wrap:anywhere;padding:.25rem .4rem;background:#101013;border:1px solid #756c59;color:#eee5cf;font-size:.75rem;line-height:1.4;z-index:10;pointer-events:none}
+.covenant-editor .member-contract-detail{container-type:inline-size}
+.covenant-editor{font-size:.9375rem;line-height:1.65;letter-spacing:0}
+.covenant-editor :is(.member-section-head h3,.member-contract-overview h4,.member-part-head h4){font-size:1rem;font-weight:600;line-height:1.5;letter-spacing:-.015em;color:#e7e9ee}
+.covenant-editor .member-set-summary{font-size:.875rem;line-height:1.7;color:#d4d7de;word-break:keep-all;overflow-wrap:anywhere}
+.covenant-editor .member-completion{font-size:.875rem;font-weight:600;line-height:1.5;font-variant-numeric:tabular-nums;color:#dec995}
+.covenant-editor .contract-attribute-totals dt{font-size:.875rem;line-height:1.6;color:#c5cbd5}
+.covenant-editor .contract-attribute-totals dd{font-size:1rem;font-weight:600;line-height:1.5;font-variant-numeric:tabular-nums;color:#f0e7d3}
+.covenant-editor :is(.contract-totals-note,.member-hex-hint){font-size:.8125rem;line-height:1.65;color:#aeb5c1;word-break:keep-all;overflow-wrap:anywhere}
+.covenant-editor .contract-set-effects h5{font-size:.9375rem;font-weight:600;line-height:1.6;color:#dec995;margin:1rem 0 .5rem}
+.covenant-editor .contract-set-effects p{font-size:.875rem;line-height:1.8;word-break:keep-all;overflow-wrap:anywhere}
+.covenant-editor .contract-set-effects .is-inactive{color:#aeb5c1}
+.covenant-editor .contract-set-effects .is-active{color:#e0e4eb}
+.covenant-editor :is(.member-section-head button,.member-contract-binding,.member-part-set){font-size:.875rem;line-height:1.5}
+.covenant-editor :is(.contract-option-head>span,.contract-option-value,.contract-part-completion){font-size:.875rem;line-height:1.5}
+.covenant-editor .contract-level-unit{font-size:.8125rem;line-height:1.5}
+.covenant-editor :is(.contract-option-value,.contract-part-completion){font-variant-numeric:tabular-nums}
+@container (max-width:17rem){.covenant-editor .contract-option-row{grid-template-columns:minmax(0,1fr)}}
+.covenant-editor .member-part-head{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0 0 .75rem;padding-bottom:.75rem;border-bottom:1px solid #ffffff12}
+.covenant-editor .member-part-head h4{flex:1 1 10rem;margin:0}
+.covenant-editor .member-part-head button{margin:0;min-height:44px}
+.covenant-editor .member-part-editor{min-width:0}

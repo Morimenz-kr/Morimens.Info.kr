@@ -43,3 +43,5 @@ ui-debug.log
 !/tools/test-scarecrow-enemy.mjs
 !/tools/test-scarecrow-flame.mjs
 !/tools/test-scarecrow-tentacle.mjs
+!/tools/test-scarecrow-effects.mjs
+!/tools/test-scarecrow-sequence.mjs

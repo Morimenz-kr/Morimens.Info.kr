@@ -1,4 +1,5 @@
 import {enemySpawnInputLua} from './enemy-initialization.mjs';
+import {sequenceCalculatorLua} from './sequence-calculator.mjs';
 import { LuaFactory } from 'wasmoon';
 
 const utf8=new TextEncoder();
@@ -29,6 +30,7 @@ export class ScarecrowEngine {
     }
     const wasm=await this.factory.getLuaModule();
     for(const file of this.manifest.files)this.factory.mountFileSync(wasm,file.path,data.subarray(offset+file.offset,offset+file.offset+file.length));
+    this.factory.mountFileSync(wasm,'/sequence-calculator.lua',utf8.encode(sequenceCalculatorLua));
     const digest=await crypto.subtle.digest('SHA-256',data);
     this.identity={packageSha256:[...new Uint8Array(digest)].map(v=>v.toString(16).padStart(2,'0')).join(''),runtime:'Lua 5.4 WebAssembly',randomProfile:'original client Rand'};
     this.ready=true;return {...this.manifest.client,engineIdentity:this.identity};
@@ -68,7 +70,7 @@ export class ScarecrowEngine {
       if(kind==='calculator'&&input.init?.enemySnapshots?.length)await lua.doString(enemySpawnInputLua);
       if(kind==='passiveLifecycle')await lua.doFile('/passive-lifecycle.lua');
       if(kind==='passiveEvents')await lua.doFile('/passive-events.lua');
-      await lua.doString('local result=assert(loadfile('+luaLiteral(paths[kind])+'))();if scarecrow_enemy_input_trace then result.enemyInitialization=scarecrow_enemy_input_trace end;assert(#scarecrow_errors==0,table.concat(scarecrow_errors,"\\n"));scarecrow_result_json=scarecrow_json(result)');
+      await lua.doString('local result=assert(loadfile('+luaLiteral(kind==='calculator'&&input.sequence?'/sequence-calculator.lua':paths[kind])+'))();if scarecrow_enemy_input_trace then result.enemyInitialization=scarecrow_enemy_input_trace end;assert(#scarecrow_errors==0,table.concat(scarecrow_errors,"\\n"));scarecrow_result_json=scarecrow_json(result)');
       return JSON.parse(lua.global.get('scarecrow_result_json'));
     }finally{lua.global.close();}
   }

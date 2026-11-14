@@ -1,8 +1,8 @@
-import {renderCovenantParts} from '../covenant-parts.mjs';
+import {renderCovenantEditor} from '../covenant-editor.mjs';
+import {effectPresentation,effectSnapshot} from './effect-presentation.mjs';
 import {tentacleCapacity} from './tentacle-state.mjs';
-import {covenantSlots,covenantSets,equippedCovenantParts,covenantBound,covenantAttributeTotals} from './covenant-equipment.mjs';
-import {covenantCompletion,covenantMainValue,covenantSubCount,covenantSubLevel,covenantSubValue,validateCovenantParts} from './covenant-stats.mjs';
 import {makeLiveDamageInput} from './live-damage-input.mjs';
+import {sequenceInput,sequenceStep} from './sequence-calculator.mjs';
 import {renderBattleSelection,selectionOptions} from './battle-selection.mjs';
 const arr=v=>Array.isArray(v)?v:[];
 export async function createLiveRuntime(){
@@ -18,7 +18,28 @@ export async function createLiveRuntime(){
   const key=kind+JSON.stringify(input);if(!cache.has(key))cache.set(key,rawCall(kind,input));
   return structuredClone(await cache.get(key));
  };
- let ui,version=0,timer,lastInput,lastResult,lastPreparation;
+ let ui,version=0,timer,lastInput,lastResult;
+ let sequenceBase=null,initialSetup=null,applied=[],lastBase,lastStep,lastCompletedVersion=-1,setupIdentity='';
+ const previews=new Map();
+ const identity=()=>JSON.stringify({party:ui.state.partyIds,keeper:ui.state.keeperId,relics:ui.state.relics,chapter:ui.state.chapter,account:ui.state.accountLevel,enemies:ui.state.enemies.map(e=>({tid:e.tid,level:e.level,source:e.source,base:e.base})),people:ui.people().map(p=>({id:p.id,level:p.level,potency:p.potency,sign:p.sign,training:p.training,inherent:p.inherent,gear1:p.gearId1,gear2:p.gearId2,stack1:p.stack1,stack2:p.stack2,refine1:p.refine1,refine2:p.refine2,trinkets:p.trinkets,contractId:p.contractId,contractSlots:p.contractSlots,contractName:p.contract,contract:p.contractBound,levels:p.cards.filter(c=>!c.generated).map(c=>[c.id,c.level])}))});
+ async function runCalculator(request){
+  const key=JSON.stringify(request);if(previews.has(key))return structuredClone(previews.get(key));
+  const result=await call('calculator',request);
+  if(!result.current.waiting&&arr(result.steps).every(s=>s.accepted)){previews.set(key,structuredClone(result));if(previews.size>48)previews.delete(previews.keys().next().value);}
+  return result;
+ }
+ function restoreSetup(){if(!initialSetup)return;const person=ui.state.person,card=ui.state.card;Object.assign(ui.state,structuredClone(initialSetup.state),{person,card,result:false,calculation:null});for(const saved of initialSetup.people){const p=data.people.find(p=>p.id===saved.id);if(p)Object.assign(p,structuredClone(saved));}if(!ui.person().cards[ui.state.card])ui.state.card=0;}
+ function clearSequence(restore=true){if(restore)restoreSetup();sequenceBase=null;initialSetup=null;applied=[];lastCompletedVersion=-1;}
+ function syncSequence(){
+  if(!ui)return;const root=ui.root,active=applied.length>0;
+  root.dataset.appliedCards=JSON.stringify(applied.map(a=>a.label));
+  const history=root.querySelector('[data-applied-cards]');if(history){history.hidden=!active;history.textContent=applied.map((a,i)=>(i+1)+'. '+a.label).join(' → ');}
+  for(const [selector,disabled] of [['[data-commit-state]',applied.length>=100||lastCompletedVersion!==version||!ui.state.result||ui.state.calculating],['[data-undo-state]',!active||ui.state.calculating],['[data-reset-state]',!active||ui.state.calculating]]){const b=root.querySelector(selector);if(b)b.disabled=!!disabled;}
+  const note=root.querySelector('[data-sequence-note]');if(note){note.hidden=!active;note.textContent='카드를 고르면 이 상태에서 미리 계산합니다. 공통 설정을 수정하려면 처음 설정으로 돌아가세요.';}
+  root.querySelectorAll('.enemy-edit,.relics button,[data-open=key]').forEach(b=>b.disabled=active);
+  const editor=root.querySelector('.editor');if(editor){let locked=editor.querySelector('.sequence-lock-note');if(!locked){locked=document.createElement('p');locked.className='sequence-lock-note readout';editor.querySelector('.editor-head').after(locked);}locked.hidden=!active||editor.dataset.kind==='card';locked.textContent='적용한 효과를 확인하는 화면입니다. 직접 바꾸려면 ‘처음 설정으로’를 눌러 주세요.';}if(active&&editor?.dataset.kind!=='card')editor?.querySelectorAll('input,select,[data-body] button').forEach(n=>n.disabled=true);
+  if(active&&editor?.dataset.kind==='card')editor.querySelectorAll('details input,details select,details button').forEach(n=>n.disabled=true);
+ }
  const status=text=>{if(ui)ui.root.querySelector('footer').textContent=text;};
  const readState=()=>{
   const source=ui.state,copy=structuredClone(source);
@@ -40,33 +61,28 @@ export async function createLiveRuntime(){
  }
  function acceptAutomatic(result){
   const state=ui.state,initial=result.initial,team=arr(initial.roles).find(r=>r.roleType===3),props=initial.realmProperties||{};
-  const auto=(key,value)=>{if(!state.explicit.includes(key)&&value!=null)state[key]=value;};
+  if(applied.length){state.stance={OceanModel1:'조수',OceanModel2:'정해',OceanModel3:'노도'}[initial.oceanModel]||state.stance;if(result.sequenceStatistics?.used!=null)state.used=result.sequenceStatistics.used;if(result.sequenceStatistics?.ulti!=null)state.ultiCount=result.sequenceStatistics.ulti;}
+  const auto=(key,value)=>{if((applied.length||!state.explicit.includes(key))&&value!=null)state[key]=value;};
   if(team){state.teamHp=team.properties.hp;state.teamMaxHp=team.properties.max_hp;state.teamShield=team.properties.block;}
   auto('key',100*(props.keeper_energy||0)/(props.max_keeper_energy||1000));
   auto('tentacleLimit',tentacleCapacity(props));auto('tentacles',(props.permanent_tentacle_count||0)+(props.battle_tentacle_count||0));auto('tempTentacles',props.bout_tentacle_count||0);auto('spaceCapacity',props.dimension_slot||5);
   auto('tentacleDamage',initial.tentacleDamage);auto('furnace',props.scarlet_blood_count||0);auto('furnaceMax',props.max_scarlet_blood_count||200);auto('amp',props.enhance_per||0);
-  const teamStates=arr(team?.states);auto('power',teamStates.filter(s=>s.stateId===2900).reduce((n,s)=>n+s.layer,0));auto('weakness',teamStates.filter(s=>s.stateId===3469).reduce((n,s)=>n+s.layer,0));auto('furnaceHeal',teamStates.filter(s=>s.stateId===35501).reduce((n,s)=>n+s.layer,0));
+  const teamStates=arr(team?.states);state.temporaryPower=teamStates.filter(s=>s.stateId===3130).reduce((n,s)=>n+s.layer,0);auto('power',teamStates.filter(s=>s.stateId===2900).reduce((n,s)=>n+s.layer,0));auto('weakness',teamStates.filter(s=>s.stateId===3469).reduce((n,s)=>n+s.layer,0));auto('furnaceHeal',teamStates.filter(s=>s.stateId===35501).reduce((n,s)=>n+s.layer,0));
   for(const [key,id] of [['tentacleGathering',22067],['oceanDefenceCooldown',120351],['oceanFuryCooldown',120354],['dimensionCooldown',80398],['furnaceCooldown',80399]])auto(key,teamStates.filter(s=>s.stateId===id).reduce((n,s)=>n+s.layer,0));
   for(const [i,enemy] of arr(initial.roles).filter(r=>r.camp===2).entries()){
    const current=state.enemies[i];if(!current)continue;
    for(const [key,prop] of [['hp','hp'],['maxHp','max_hp'],['defense','def'],['attack','atk'],['shield','block']])current[key]=enemy.properties[prop]||0;
-   for(const [key,id] of [['vulnerable',2934],['weakness',3469]])if(!state.explicit.includes('enemy.'+i+'.'+key))current[key]=arr(enemy.states).filter(s=>s.stateId===id).reduce((n,s)=>n+s.layer,0);
+   for(const [key,id] of [['vulnerable',2934],['weakness',3469]])if(applied.length||!state.explicit.includes('enemy.'+i+'.'+key))current[key]=arr(enemy.states).filter(s=>s.stateId===id).reduce((n,s)=>n+s.layer,0);
   }
   for(const owner of ui.people())for(const field of ui.mechanicFields(owner.id)){
-   if(state.mechanicEdited?.includes(owner.id+':'+field.stateId))continue;
+   if(!applied.length&&state.mechanicEdited?.includes(owner.id+':'+field.stateId))continue;
    const role=field.scope==='team'?team:arr(initial.roles).find(r=>r.tid===owner.id);
    state.mechanics[owner.id][field.key]=arr(role?.states).filter(s=>s.stateId===field.stateId).reduce((n,s)=>n+s.layer,0);
   }
-  const current=arr(initial.cards).find(c=>c.uid===1000000);if(current&&!ui.card().costEdited)ui.card().calculatedCost=current.cost;
- }
- function actionTargets(input,preview){
-  const roles=arr(preview.initial.roles),enemies=roles.filter(r=>r.camp===2&&r.properties.hp>0),p=ui.person(),card=ui.card();
-  const target=card.target,actor=roles.find(r=>r.tid===p.id),team=roles.find(r=>r.roleType===3);
-  let targets=target==='FrontEnemy'?[enemies[0]?.uid]:['AllEnemy','AllEnemy2'].includes(target)?enemies.map(r=>r.uid):target==='CmdCaster'?[actor?.uid]:target==='PlayerRole'?[team?.uid]:null;
-  for(const action of input.actions){if(action.op==='ulti'){action.roleUid=actor?.uid;if(p.rage==null){const property=input.damage.properties.find(v=>v.owner==='actor'&&v.key==='ulti_energy');if(property)property.value=preview.initial.ultimateCosts[String(actor.uid)];}}if(['ulti','card'].includes(action.op)&&targets)action.targetUids=targets.filter(Boolean);}
+  const current=arr(initial.cards).find(c=>c.uid===(result.selectedCardUid??1000000));if(current&&!ui.card().costEdited)ui.card().calculatedCost=current.cost;
  }
  async function prepare(){
-  if(!ui)return;const revision=version;status('파티 능력치 계산 중…');
+  if(!ui)return;if(document.body.dataset.view==='damage')return live.calculate();const revision=version;status('파티 능력치 계산 중…');
   try{const built=await input(),preview=await call('calculator',{...built.input,actions:[]});if(revision!==version)return;acceptAutomatic(preview);ui.render();status('카드를 고른 뒤 피해를 계산하세요.');}
   catch(error){if(revision===version)status('준비 실패 · '+friendly(error));}
  }
@@ -78,22 +94,38 @@ export async function createLiveRuntime(){
    // Original selection command accepts an empty result when no candidate exists.
    // This invokes the card's original fallback (e.g. Hamelin's extra hits).
    input.actions.push({op:'select',effectUid:request.effectUid,selectType:request.targetSelectType,targetUids:[]});
-   result=await call('calculator',input);
+   result=await runCalculator(input);
   }
   return result;
  }
  function outcome(result,input){
-  lastInput=input;lastResult=result;acceptAutomatic(lastPreparation??result);
+  lastInput=input;lastResult=result;acceptAutomatic(result);
   if(result.current.waiting){ui.state.calculation=null;ui.state.result=false;ui.render();ui.open('live-selection');status('효과의 선택을 마치면 계산합니다.');return;}
   const rejected=arr(result.steps).find(step=>!step.accepted);if(rejected)throw Error('카드 사용 조건을 확인하세요. 산출력·광기·봉인 상태에 따라 사용할 수 없는 카드가 있습니다.');
   const enemies=arr(result.initial.roles).filter(r=>r.camp===2),current=arr(result.current.roles);
   const targets=enemies.map(r=>{const after=current.find(x=>x.uid===r.uid);return{uid:r.uid,damage:r.properties.hp-(after?.properties.hp??r.properties.hp)};});
   ui.state.calculation={total:result.damage.total,targets,critical:arr(result.damage.hits).some(h=>h.critical),body:result.damage.body,additional:result.damage.additional,blocked:result.damage.blocked};
-  ui.state.result=true;delete ui.root.dataset.calculationError;ui.root.dataset.lastDamageInput=JSON.stringify(input);ui.root.dataset.lastDamage=JSON.stringify(result.damage);if(document.body.dataset.view==='damage')ui.open('card');else ui.close();ui.render();status('계산 완료');
+  ui.state.result=true;lastCompletedVersion=version;delete ui.root.dataset.calculationError;ui.root.dataset.lastDamageInput=JSON.stringify(input);ui.root.dataset.lastDamage=JSON.stringify(result.damage);if(document.body.dataset.view==='damage')ui.open('card');else ui.close();ui.render();status('계산 완료');
  }
  const siteContracts=await fetch('data/covenant_list.json').then(r=>r.json()),siteParts=await fetch('data/covenant_parts.json').then(r=>r.json());
  const siteWheels=await fetch('data/wheel_list.json').then(r=>r.json()),siteKeys=await fetch('data/silverkey_list.json').then(r=>r.json());
+ globalThis.CharacterEffects?.configureTooltips(await fetch('data/db_tooltips.json').then(r=>r.json()));
  const live={data,catalog,call,siteWheels,siteKeys,
+  syncSequence,
+  commitState(){if(applied.length>=100||lastCompletedVersion!==version||!ui.state.result||ui.state.calculating)return;
+   if(!sequenceBase){sequenceBase=structuredClone(lastBase);initialSetup={state:structuredClone(ui.state),people:structuredClone(ui.people())};setupIdentity=identity();}
+   const index=lastInput.actions.findLastIndex(a=>a.sequenceStep);
+   applied.push({step:structuredClone(lastStep),replies:structuredClone(lastInput.actions.slice(index+1)),label:ui.person().name+' · '+ui.card().name});
+   live.invalidate();ui.render();
+  },
+  undoState(){if(!applied.length)return;applied.pop();if(!applied.length)clearSequence();live.invalidate();ui.render();},
+  resetState(){clearSequence();live.invalidate();ui.render();},
+  cardDescription(parent,owner,card){
+   const renderer=globalThis.CharacterEffects;
+   if(!card.effectRecord||!renderer){parent.textContent='이 카드의 효과 설명은 아직 등록되지 않았습니다.';return;}
+   parent.innerHTML=renderer.renderEffectBody(card.effectRecord,owner.potency??0,card.level??1);
+   renderer.setupTooltips(parent);
+  },
   removeEnemy(index){if(ui.state.enemies.length<=1)return;ui.state.enemies.splice(index,1);ui.state.explicit=ui.state.explicit.flatMap(k=>{const match=k.match(/^enemy\.(\d+)\.(.+)$/);if(!match)return [k];const i=Number(match[1]);return i===index?[]:['enemy.'+(i>index?i-1:i)+'.'+match[2]];});ui.state.customStates=ui.state.customStates.flatMap(s=>s.owner!=='target'?[s]:(s.targetIndex??0)===index?[]:[{...s,targetIndex:(s.targetIndex??0)>index?s.targetIndex-1:s.targetIndex??0}]);live.persistEnemies?.();ui.invalidate();ui.close();ui.render();ui.root.querySelector('[data-enemy-index="'+Math.min(index,ui.state.enemies.length-1)+'"]')?.focus();},
   async preparedInput(){return (await input()).input;},
   snapshot(){return structuredClone({state:ui.state,people:ui.people(),card:ui.card()});},
@@ -101,13 +133,14 @@ export async function createLiveRuntime(){
    ui.state.spaceEntries=[];ui.state.otherCards=[];ui.state.spaceCards=0;for(const p of data.people)for(const c of p.cards)c.level=1;
    ui.state.keeperName='장착 안 함';for(const [i,e] of ui.state.enemies.entries())Object.assign(e,{tid:[149116,22308][i],name:data.enemies[i].name,image:data.enemies[i].image});ui.render();timer=setTimeout(prepare,0);
   },
-  invalidate(){version++;clearTimeout(timer);if(ui){const ids=ui.state.partyIds;ui.state.customStates=ui.state.customStates.filter(s=>ids.includes(s.sourceTid)&&(!s.ownerTid||ids.includes(s.ownerTid)));ui.state.otherCards=(ui.state.otherCards||[]).filter(s=>ids.includes(s.ownerTid));ui.state.mechanicEdited=ui.state.mechanicEdited.filter(k=>ids.includes(Number(k.split(':')[0])));ui.state.spaceEntries=(ui.state.spaceEntries||[]).map(s=>s&&ids.includes(s.ownerTid)?s:null);ui.state.spaceCards=ui.state.spaceEntries.filter(Boolean).length;ui.state.calculation=null;delete ui.root.dataset.calculationError;timer=setTimeout(prepare,250);}},
-  async calculate(){clearTimeout(timer);const revision=++version;status('카드 피해 계산 중…');
-   try{const built=await input(),preview=await call('calculator',{...built.input,actions:[]});if(revision!==version)return;lastPreparation=preview;actionTargets(built.input,preview);const result=await finishEmptySelections(await call('calculator',built.input),built.input);if(revision!==version)return;outcome(result,built.input);}
+  invalidate(){version++;clearTimeout(timer);lastCompletedVersion=-1;if(ui){ui.state.calculating=false;ui.state.result=false;if(applied.length&&identity()!==setupIdentity)clearSequence(false);const ids=ui.state.partyIds;for(const item of ui.state.customStates){const normalized=effectSnapshot(item);for(const key of Object.keys(item))if(!(key in normalized))delete item[key];Object.assign(item,normalized);}ui.state.customStates=ui.state.customStates.filter(s=>ids.includes(s.sourceTid)&&(!s.ownerTid||ids.includes(s.ownerTid)));ui.state.otherCards=(ui.state.otherCards||[]).filter(s=>ids.includes(s.ownerTid));ui.state.mechanicEdited=ui.state.mechanicEdited.filter(k=>ids.includes(Number(k.split(':')[0])));ui.state.spaceEntries=(ui.state.spaceEntries||[]).map(s=>s&&ids.includes(s.ownerTid)?s:null);ui.state.spaceCards=ui.state.spaceEntries.filter(Boolean).length;ui.state.calculation=null;delete ui.root.dataset.calculationError;timer=setTimeout(prepare,100);syncSequence();}},
+  async calculate(){clearTimeout(timer);const revision=++version,started=performance.now();ui.state.calculating=true;ui.state.result=false;ui.render();status('카드 피해 계산 중…');
+   try{const base=sequenceBase??(await input()).input;if(revision!==version)return;lastBase=base;lastStep=sequenceStep(ui.person(),ui.card(),ui.state);const request=sequenceInput(base,applied,lastStep),result=await finishEmptySelections(await runCalculator(request),request);if(revision!==version)return;ui.root.dataset.previewMs=String(Math.round(performance.now()-started));outcome(result,request);}
    catch(error){if(revision!==version)return;ui.state.result=false;ui.render();status(friendly(error));ui.root.dataset.calculationError=String(error.message||error);}
+   finally{if(revision===version){ui.state.calculating=false;ui.render();syncSequence();}}
   },
   selection(parent){renderBattleSelection({parent,state:lastResult.current,working:false,skillName:id=>catalog.skills[String(id)]?.name||'카드',roleName:r=>catalog.characters.find(c=>c.id===r.tid)?.name||'대상',act:async reply=>{
-   const revision=version;try{const count=arr(lastResult.steps).length,input={...lastInput,actions:[...lastInput.actions.slice(0,count),reply,...lastInput.actions.slice(count)]};const result=await finishEmptySelections(await call('calculator',input),input);if(revision===version)outcome(result,input);}catch(error){status(friendly(error));}
+   const revision=version;try{const count=arr(lastResult.steps).length,input={...lastInput,actions:[...lastInput.actions.slice(0,count),reply,...lastInput.actions.slice(count)]};const result=await finishEmptySelections(await runCalculator(input),input);if(revision===version)outcome(result,input);}catch(error){status(friendly(error));}
   }});},
   changed(key,ownerId){
    if(!ui)return;
@@ -142,117 +175,38 @@ export async function createLiveRuntime(){
     for(const number of growth.querySelectorAll('input[type=number]'))addSlider(number,number.dataset.field==='person.level'||number.dataset.field?.startsWith('skill.')?1:0,Number(number.max));
     return;
    }
-   let slots;try{slots=covenantSlots(catalog,owner);}catch{const error=document.createElement('p');error.textContent='비밀계약 부위 저장값을 확인하세요. 비밀계약 선택에서 다시 장착할 수 있습니다.';const reset=document.createElement('button');reset.textContent='비밀계약 다시 선택';reset.onclick=()=>live.requestPicker('contract');parent.append(error,reset);return;}
-   const labels={crit:'크리티컬 확률',crit_damage:'크리티컬 피해',occupation_master:'영역 숙련',death_resist:'죽음 저항',basic_damage_per:'피해 증폭',blackcoin_upgrade_per:'검은 인장 획득률',keeper_energy_eff_2:'은열쇠 충전',ulti_energy_plus_3:'광기 충전'};
-   const ids=[18159,18105,18126,18142,22207,18139,18155,18151],iconIds={18159:'008',18105:'007',18126:'002',18142:'004',22207:'003',18139:'005',18155:'001',18151:'006'};
-   const attrName=id=>labels[data.equipmentMetadata.attributes[id]?.name]||'추가 속성',unit=id=>data.equipmentMetadata.attributes[id]?.percentage?'%':'';
-   const attrIcon=id=>{const image=document.createElement('img');image.src='images/keyword-icons/original/ui_battle_white_buff_'+iconIds[id]+'.png';image.alt='';image.width=24;image.height=24;return image;};
-   const options=document.createElement('section'),head=document.createElement('div');head.className='member-section-head';options.dataset.covenantEditor='';options.className='member-section member-covenants';const covenantTitle=document.createElement('h3');covenantTitle.textContent='비밀계약';head.append(covenantTitle);options.append(head);parent.append(options);
-   const changeSet=document.createElement('button');changeSet.type='button';changeSet.className='member-set-change';changeSet.textContent='전체 세트 변경';changeSet.onclick=event=>{event.preventDefault();event.stopPropagation();live.requestPicker('contract');};head.append(changeSet);
-   const reset=document.createElement('button');reset.type='button';reset.className='member-set-change';reset.textContent='전체 초기화';reset.setAttribute('aria-label','비밀계약 전체 초기화');reset.title='6부위 장착, 주옵션, 부옵션, 귀속을 모두 초기화합니다.';reset.disabled=!slots.some(Boolean)&&!owner.trinkets?.length&&!owner.contractBound;reset.onclick=()=>{owner.contractId=0;owner.contractSlots=Array(6).fill(0);owner.trinkets=[];owner.contractBound=false;owner.contract='미장착';ui.invalidate();ui.open('covenant');ui.root.querySelector('.member-covenants .member-set-change')?.focus({preventScroll:true});};head.append(reset);
-   const sets=document.createElement('p');sets.className='member-set-summary';sets.textContent=covenantSets(catalog,owner).map(s=>catalog.suits.find(c=>c.id===s.id).name+' '+s.count+'개').join(' · ')||'장착 안 함';const summary=document.createElement('div');summary.className='member-contract-summary';summary.append(sets);options.append(summary);
-   const completion=document.createElement('output');completion.setAttribute('aria-live','polite');completion.className='member-completion';summary.append(completion);
-   const hex=document.createElement('div');hex.className='member-hex';const diagram=document.createElement('div');diagram.className='member-contract-diagram';const hint=document.createElement('p');const defaultHint='부위를 눌러 비밀계약을 선택한 뒤 주옵션과 부옵션을 설정하세요.';hint.textContent=defaultHint;hint.className='member-hex-hint';hint.setAttribute('role','status');diagram.append(hex,hint);
-   const partGrid=document.createElement('div');partGrid.className='member-parts';partGrid.hidden=true;
-   const overview=document.createElement('section');overview.className='member-contract-overview';const overviewTitle=document.createElement('h4');overviewTitle.textContent='비밀계약 능력치';const totals=document.createElement('dl');totals.className='contract-attribute-totals';const totalCells=new Map();
-   for(const id of ids){const row=document.createElement('div'),name=document.createElement('dt'),value=document.createElement('dd');name.append(attrIcon(id),attrName(id));row.append(name,value);totals.append(row);totalCells.set(id,value);}
-   const totalsNote=document.createElement('p');totalsNote.className='contract-totals-note';totalsNote.textContent='주옵션 · 부옵션 · 3세트 효과 합계';
-   const effects=document.createElement('section');effects.className='contract-set-effects';const effectsTitle=document.createElement('h4');effectsTitle.textContent='세트 효과';effects.append(effectsTitle);
-   const activeSets=covenantSets(catalog,owner);for(const set of activeSets){const record=siteContracts.find(s=>s.clientSuitId===set.id),group=document.createElement('section'),name=document.createElement('h5');name.textContent=catalog.suits.find(s=>s.id===set.id).name+' · '+set.count+'개';group.append(name);
-    for(const count of [3,6]){const line=document.createElement('p'),threshold=document.createElement('span');line.className=set.count>=count?'is-active':'is-inactive';threshold.textContent=count+'세트';line.append(threshold,record?.['set_effect_'+count]||'효과 설명을 불러오지 못했습니다.');group.append(line);}effects.append(group);
-   }
-   if(!activeSets.length){const empty=document.createElement('p');empty.textContent='장착한 비밀계약이 없습니다.';effects.append(empty);}
-   overview.append(overviewTitle,totals,totalsNote,effects);
-   const detail=document.createElement('div');detail.className='member-contract-detail';detail.append(overview,partGrid);
-   const contractLayout=document.createElement('div');contractLayout.className='member-covenant-body';contractLayout.append(diagram,detail);options.append(contractLayout);
-   const refreshCompletion=()=>{try{completion.textContent='전체 완성도 '+covenantCompletion(equippedCovenantParts(catalog,owner))+'%';const values=covenantAttributeTotals(catalog,owner);for(const [id,cell]of totalCells)cell.textContent=Number((values[id]||0).toFixed(6))+unit(id);}catch{completion.textContent='옵션 수치를 확인하세요.';for(const cell of totalCells.values())cell.textContent='—';}};refreshCompletion();
-   owner.contractBound=covenantBound(owner)&&slots.some(Boolean);
-   const bindingLabel=document.createElement('label');bindingLabel.className='member-toggle member-contract-binding';bindingLabel.append('귀속');const binding=document.createElement('input');binding.type='checkbox';binding.checked=owner.contractBound;binding.disabled=!slots.some(Boolean);binding.setAttribute('aria-label','비밀계약 전체 귀속');bindingLabel.append(binding);head.insertBefore(bindingLabel,changeSet);
-   const partRefresh=[];
-   const optionTargets=new Map();
-   const refreshOptionIcons=()=>{for(const targets of optionTargets.values())for(const entry of targets){
-    const id=Number(entry.select.value);entry.caption.textContent=entry.name+(id?' · '+attrName(id):'');
-    for(const [optionId,button]of entry.buttons)button.setAttribute('aria-pressed',String(id===optionId));
-   }};
-   let selectedPosition=-1;
-   const backToOverview=()=>{const last=selectedPosition;drawHex(-1);hex.querySelector('[data-part-label="'+last+'"]')?.focus({preventScroll:true});};
-   for(let position=1;position<=6;position++){
-    const row=document.createElement('section'),title=document.createElement('h4');row.hidden=true;row.dataset.covenantPosition=position;row.dataset.covenantEquipped=String(!!slots[position-1]);title.tabIndex=-1;title.textContent=['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][position-1]+' · '+(catalog.suits.find(s=>s.id===slots[position-1])?.name||'미장착');const partHead=document.createElement('div');partHead.className='member-part-head';partHead.append(title);row.append(partHead);partGrid.append(row);
-    const back=document.createElement('button');back.type='button';back.className='member-overview-back';back.textContent='전체 보기';back.onclick=backToOverview;partHead.append(back);
-    const choose=document.createElement('button');choose.type='button';choose.className='member-part-set';choose.textContent=slots[position-1]?'세트 변경':'비밀계약 선택';choose.setAttribute('aria-label',position+'번 비밀계약 선택');choose.onclick=()=>live.requestPicker('contract',position);partHead.append(choose);
-    if(!slots[position-1]){const empty=document.createElement('p');empty.className='member-part-empty';empty.textContent='비밀계약을 먼저 장착하세요.';row.append(empty);continue;}
-    const fields=document.createElement('div');fields.className='fields covenant-fields';row.append(fields);
-    const current=owner.trinkets?.find(p=>p.position===position)||{position,main:0,quality:'Orange',level:0,bound:owner.contractBound,sub:[]};current.sub??=[];
-    const control=(name,choices,value)=>{const label=document.createElement('label');label.textContent=name;const n=document.createElement(choices?'select':'input');if(choices)for(const [id,text]of choices)n.add(new Option(text,String(id)));else{n.type='number';n.min='0';n.step='any';}n.value=value??'';n.setAttribute('aria-label',position+'번 '+name);label.append(n);return n;};
-    const attrs=ids=>ids.map(id=>[id,attrName(id)]);
-    const main=control('주옵션',[[0,'미설정'],...attrs(data.equipmentMetadata.slots[position-1].main)],current.main),level=control('강화 레벨',null,current.level),levelSlider=addSlider(level,0,12);
-    const mainSection=document.createElement('section');mainSection.className='contract-option-row is-main';const mainValue=document.createElement('output');mainValue.className='contract-option-value';const mainTop=document.createElement('div');mainTop.className='contract-option-head';const mainLabel=document.createElement('span');mainLabel.textContent='주옵션';mainTop.append(mainLabel,mainValue);main.closest('label').firstChild.remove();mainSection.append(mainTop,main.closest('label'),level.closest('label'));fields.append(mainSection);
-    const readout=document.createElement('output');readout.className='contract-part-completion';row.append(readout);
-    const warning=document.createElement('p');warning.className='member-input-warning';warning.setAttribute('role','status');row.append(warning);
-    const refresh=()=>{current.bound=owner.contractBound;try{validateCovenantParts([current]);warning.textContent='';}catch(error){warning.textContent=error.message;}
-     mainValue.replaceChildren();if(current.main){mainValue.append(attrIcon(current.main),Number(covenantMainValue(current).toFixed(6))+unit(current.main));mainValue.setAttribute('aria-label',attrName(current.main)+' '+Number(covenantMainValue(current).toFixed(6))+unit(current.main));}else mainValue.textContent='미설정';
-     try{readout.textContent='이 부위 완성도 '+covenantCompletion([current])+'%';}catch{readout.textContent='강화 레벨을 확인하세요.';}
-    };partRefresh.push(refresh);refresh();
-    const sub=[];
-    for(let i=0;i<covenantSubCount;i++){
-     const select=control('부옵션 '+(i+1),[[0,'없음'],...attrs(data.equipmentMetadata.slots[position-1].sub)],current.sub[i]?.id||0),n=control('부옵션 '+(i+1)+' 레벨',null,covenantSubLevel(current.sub[i])??1),slider=addSlider(n,1,8),value=document.createElement('output');value.className='contract-option-value';
-     const option=document.createElement('section');option.className='contract-option-row';const top=document.createElement('div');top.className='contract-option-head';const caption=document.createElement('span');caption.textContent='부옵션 '+(i+1);top.append(caption,value);select.closest('label').firstChild.remove();n.closest('label').firstChild.textContent='레벨';option.append(top,select.closest('label'),n.closest('label'));fields.append(option);sub.push({select,n,slider,value});
-    }
-    const refreshSub=()=>{for(const [index,{select,n,slider,value}]of sub.entries()){const id=Number(select.value);n.disabled=slider.disabled=!id;value.replaceChildren();if(id){const old=current.sub[index],invalid=old?.id===id&&covenantSubLevel(old)==null;value.append(attrIcon(id),(invalid?old.value:covenantSubValue(id,Math.max(1,Math.min(8,Number(n.value)||1))))+unit(id));value.setAttribute('aria-label',attrName(id)+' '+value.textContent+(invalid?' · 레벨 재설정 필요':''));}else{value.textContent='없음';value.removeAttribute('aria-label');}
-      for(const option of select.options)option.disabled=false;
-    }};refreshSub();
-    const update=event=>{const subChanged=sub.some(s=>event.target===s.select||event.target===s.n);current.main=Number(main.value);current.quality='Orange';level.max=levelSlider.max='12';current.level=Math.max(0,Math.min(Math.round(Number(level.value)||0),12));level.value=levelSlider.value=String(current.level);current.bound=owner.contractBound;
-     current.sub=current.sub.length>3&&!subChanged?current.sub:sub.filter(({select})=>Number(select.value)).map(({select,n,slider})=>{const old=current.sub[sub.findIndex(s=>s.select===select)];if(old?.id===Number(select.value)&&covenantSubLevel(old)==null&&event.target!==select&&event.target!==n)return old;const lv=Math.max(1,Math.min(8,Math.round(Number(n.value)||1)));n.value=slider.value=String(lv);return{id:Number(select.value),value:covenantSubValue(Number(select.value),lv)};});
-     owner.trinkets=(owner.trinkets||[]).filter(p=>p.position!==position);owner.trinkets.push(current);refreshSub();refresh();refreshCompletion();drawHex(selectedPosition);ui.invalidate();
-    };
-    [main,level,...sub.flatMap(s=>[s.select,s.n])].forEach(n=>n.onchange=n.oninput=update);
-    for(const number of [level,...sub.map(s=>s.n)]){const label=number.closest('label');if(label.firstChild.nodeType===3)label.firstChild.remove();const unit=document.createElement('span');unit.className='contract-level-unit';unit.textContent='Lv.';number.before(unit);}
-    const targets=[];for(const [index,select]of [main,...sub.map(s=>s.select)].entries()){
-     const label=select.closest('label');label.hidden=true;const section=label.parentElement,name=index===0?'주옵션':'부옵션 '+index;
-     const icons=document.createElement('div');icons.className='contract-option-icons';icons.setAttribute('role','group');icons.setAttribute('aria-label',position+'번 '+name+' 선택');
-     const buttons=new Map();for(const id of ids){const button=document.createElement('button');button.type='button';button.append(attrIcon(id));button.title=attrName(id);button.setAttribute('aria-label',attrName(id));const allowed=[...select.options].some(o=>Number(o.value)===id);button.disabled=!allowed;
-      button.onclick=()=>{select.value=String(Number(select.value)===id?0:id);select.dispatchEvent(new Event('input',{bubbles:true}));};icons.append(button);buttons.set(id,button);
-     }
-     label.after(icons);targets.push({select,buttons,name,caption:section.querySelector('.contract-option-head>span')});
-    }optionTargets.set(position,targets);
-   }
-   const drawHex=(index,focus=false)=>{selectedPosition=index;options.dataset.partEditing=index>=0?'true':'false';overview.hidden=index>=0;partGrid.hidden=index<0;for(const row of partGrid.children)row.hidden=Number(row.dataset.covenantPosition)!==index+1;
-    const parts=slots.map((id,i)=>{const suit=catalog.suits.find(s=>s.id===id),record=siteContracts.find(s=>s.clientSuitId===id);return{suitId:id,setIcon:id?'images/covenant-set/'+id+'.png':null,name:suit?.name||'미장착',image:siteParts.find(s=>s.suitId===id)?.parts[i]?.imagePath||record?.image_path,pieceArt:!!siteParts.find(s=>s.suitId===id)?.parts[i],empty:!id,bound:!!id&&owner.contractBound,caption:id?(owner.contractBound?'귀속':'장착'):'비어 있음'};});
-    renderCovenantParts(hex,{hex:true,labelsInside:true,selected:index,parts,onSelect:index=>live.requestPicker('contract',index+1)});
-    hint.textContent=defaultHint;hint.hidden=index>=0;refreshOptionIcons();
-    if(focus&&index>=0){const row=partGrid.querySelector('[data-covenant-position="'+(index+1)+'"]');row.querySelector('h4').focus({preventScroll:true});row.scrollIntoView({block:'nearest'});}
-   };
-   binding.onchange=()=>{owner.contractBound=binding.checked;for(const part of owner.trinkets||[])part.bound=owner.contractBound;for(const refresh of partRefresh)refresh();refreshCompletion();drawHex(selectedPosition);ui.invalidate();};
-   live.editCovenantPart=position=>drawHex(position-1,true);
-   drawHex(-1);
+   const editor=renderCovenantEditor(parent,{owner,catalog,metadata:data.equipmentMetadata,contracts:siteContracts,parts:siteParts,
+    onChange:()=>ui.invalidate(),onPick:position=>live.requestPicker('contract',position),onReset:()=>ui.open('covenant')});
+   live.editCovenantPart=position=>editor?.editPart(position);
   },
-  settings(parent,owner){
-   const options=data.stateSchemas[owner.id]?.options||[];
-   const group=document.createElement('details'),title=document.createElement('summary');title.textContent='현재 효과';group.append(title);
+  settings(parent,owner,{placement='actor',targetIndex=0}={}){
+   const options=(data.stateSchemas[owner.id]?.options||[]).map(effectPresentation).filter(o=>o.placement===placement);if(!options.length)return;
+   const group=document.createElement('section'),title=document.createElement('h3');group.className='battle-effects';title.textContent=owner.name+'의 효과';group.append(title);
    const selected=document.createElement('div');selected.className='fields';group.append(selected);
    const add=document.createElement('select');add.setAttribute('aria-label',owner.name+' 효과 추가');add.add(new Option('효과 추가',''));
-   for(const option of options)add.add(new Option(option.name+(option.internal?' · 누적':''),String(option.id)));
-   group.append(add);parent.append(group);
+   for(const option of options)add.add(new Option(option.name,String(option.id)));
+   group.append(add);const receiver=document.createElement('p');receiver.className='readout';receiver.textContent='적용 대상: '+(placement==='target'?(ui.state.enemies[targetIndex]?.name||'선택한 적'):['team','tentacle'].includes(placement)?'아군 공용':placement==='card'?'선택한 카드':options.some(o=>o.scope==='context')?'효과별로 선택':owner.name);group.prepend(receiver);parent.append(group);
    const draw=item=>{
     const definition=options.find(o=>o.id===item.id);if(!definition)return;
-    const box=document.createElement('fieldset'),legend=document.createElement('legend');legend.textContent=definition.name;box.append(legend);box.className='live-state';
+    const box=document.createElement('fieldset'),legend=document.createElement('legend');legend.textContent=owner.name+' · '+(definition.source||definition.name);box.append(legend);box.className='live-state';if(definition.description){const note=document.createElement('p');note.className='readout';note.textContent=definition.description;box.append(note);}
     const scope=document.createElement('select');scope.setAttribute('aria-label',definition.name+' 적용 대상');
     const scopes=definition.scope==='context'?['actor','team','card','target']: [definition.scope];
     for(const name of scopes){if(name==='target'){for(let i=0;i<ui.state.enemies.length;i++)scope.add(new Option(ui.state.enemies[i].name||data.enemies[i]?.name||'적','target:'+i));}else scope.add(new Option({actor:owner.name,team:'아군 공용',card:'선택 카드'}[name],name));}
     scope.value=item.owner==='target'?'target:'+(item.targetIndex||0):item.ownerTid?'actor':item.owner||scopes[0];
-    const label=document.createElement('label');label.textContent='현재 값';const value=document.createElement('input');value.type='number';value.min='0';value.step='1';if(definition.max!=null)value.max=String(definition.max);value.value=item.layers??'';value.placeholder='자동';value.setAttribute('aria-label',definition.name+' 현재 값');label.append(value);
-    box.append(scope,label);
+    const label=document.createElement('label');label.textContent=definition.valueLabel||'현재 값';const value=document.createElement('input');value.type='number';value.min='0';value.step='1';if(definition.max!=null)value.max=String(definition.max);value.value=item.layers??'';value.placeholder='자동';value.setAttribute('aria-label',definition.name+' 현재 값');label.append(value);
+    if(definition.scope==='context')box.append(scope);box.append(label);
     const params=[];for(let i=0;i<definition.params;i++){const l=document.createElement('label');l.textContent='효과량 '+(i+1);const n=document.createElement('input');n.type='number';n.step='any';n.value=item.params?.[i]??'';n.placeholder='자동';n.setAttribute('aria-label',definition.name+' 효과량 '+(i+1));l.append(n);box.append(l);params.push(n);}
     const update=()=>{item.layers=value.value===''?null:Number(value.value);item.partialParams=params.some(n=>n.value!=='')&&!params.every(n=>n.value!=='');item.params=params.every(n=>n.value!=='')?params.map(n=>Number(n.value)):undefined;delete item.owner;delete item.ownerTid;const choice=scope.value;if(choice==='actor')item.ownerTid=owner.id;else if(choice.startsWith('target:')){item.owner='target';item.targetIndex=Number(choice.split(':')[1]);}else item.owner=choice;if(item.owner==='card')item.cardTid=ui.card().id;ui.invalidate();};
     value.oninput=scope.onchange=update;params.forEach(n=>n.oninput=update);
     const remove=document.createElement('button');remove.type='button';remove.textContent='삭제';remove.onclick=()=>{ui.state.customStates=ui.state.customStates.filter(s=>s!==item);box.remove();ui.invalidate();};box.append(remove);selected.append(box);
    };
-   for(const item of ui.state.customStates.filter(s=>s.sourceTid===owner.id))draw(item);
-   add.onchange=()=>{const id=Number(add.value);if(!id)return;if(ui.state.customStates.some(s=>s.sourceTid===owner.id&&s.id===id))return;const d=options.find(d=>d.id===id);const item={sourceTid:owner.id,casterTid:owner.id,id,layers:null,...d.scope==='team'?{owner:'team'}:d.scope==='card'?{owner:'card',cardTid:ui.card().id}:d.scope==='target'?{owner:'target',targetIndex:0}:{ownerTid:owner.id}};ui.state.customStates.push(item);draw(item);add.value='';};
+   const matches=item=>item.sourceTid===owner.id&&options.some(o=>o.id===item.id)&&(placement!=='target'||item.owner==='target'&&(item.targetIndex??0)===targetIndex);
+   for(const item of ui.state.customStates.filter(matches))draw(item);
+   add.onchange=()=>{const id=Number(add.value);if(!id)return;if(ui.state.customStates.some(s=>matches(s)&&s.id===id))return;const d=options.find(d=>d.id===id);const item={sourceTid:owner.id,casterTid:owner.id,id,layers:null,...d.scope==='team'?{owner:'team'}:d.scope==='card'?{owner:'card',cardTid:ui.card().id}:d.scope==='target'?{owner:'target',targetIndex}:{ownerTid:owner.id}};ui.state.customStates.push(item);draw(item);add.value='';ui.invalidate();};
   },
   realmSettings(parent,kind){
    if(kind==='card'){
-    const group=document.createElement('details'),title=document.createElement('summary');title.textContent='다른 카드';group.append(title);parent.append(group);
+    const group=document.createElement('details'),title=document.createElement('summary');title.textContent='손패·카드 더미';group.append(title);parent.append(group);
     const list=document.createElement('div');list.className='fields';group.append(list);
     const add=document.createElement('select');add.setAttribute('aria-label','다른 카드 추가');add.add(new Option('카드 추가',''));
     for(const p of ui.people())for(const card of [...p.cards,...p.generated].filter(c=>!c.ulti))add.add(new Option(p.name+' · '+card.name,p.id+':'+card.id));group.append(add);

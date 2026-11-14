@@ -358,10 +358,10 @@
             .trim();
     }
 
-    function renderEffectBody(effect, selectedBreakthrough = 0) {
+    function renderEffectBody(effect, selectedBreakthrough = 0, selectedLevel) {
         const displayedEffect = getBreakthroughVariant(effect, selectedBreakthrough);
         const levels = displayedEffect.levels || effect.levels;
-        const defaultLevel = getDefaultLevel(levels);
+        const defaultLevel = selectedLevel ?? getDefaultLevel(levels);
         const interpolatedEffect = sanitizeDisplayedEffect(
             interpolateEffect(displayedEffect.effect, levels, defaultLevel)
         );
@@ -850,6 +850,7 @@
         interpolateEffect,
         sanitizeDisplayedEffect,
         renderBreakthroughBadges,
+        renderEffectBody,
         render
     };
 })();

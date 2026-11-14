@@ -1,0 +1,1452 @@
+{
+  "schemaVersion": 1,
+  "sourceProfile": "existing ScareCrow res160 equipment metadata",
+  "suits": [
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18105,
+            7.2
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2505
+          ]
+        }
+      ],
+      "id": 18335,
+      "name": "4월의 찬가",
+      "parts": [
+        {
+          "name": "4월의 찬가 Ⅰ",
+          "image": "gear-contract-18335-1.webp"
+        },
+        {
+          "name": "4월의 찬가 Ⅱ",
+          "image": "gear-contract-18335-2.webp"
+        },
+        {
+          "name": "4월의 찬가 Ⅲ",
+          "image": "gear-contract-18335-3.webp"
+        },
+        {
+          "name": "4월의 찬가 Ⅳ",
+          "image": "gear-contract-18335-4.webp"
+        },
+        {
+          "name": "4월의 찬가 Ⅴ",
+          "image": "gear-contract-18335-5.webp"
+        },
+        {
+          "name": "4월의 찬가 Ⅵ",
+          "image": "gear-contract-18335-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18151,
+            16.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3108
+          ]
+        }
+      ],
+      "id": 18336,
+      "name": "환형의 시편",
+      "parts": [
+        {
+          "name": "환형의 시편 Ⅰ",
+          "image": "gear-contract-18336-1.webp"
+        },
+        {
+          "name": "환형의 시편 Ⅱ",
+          "image": "gear-contract-18336-2.webp"
+        },
+        {
+          "name": "환형의 시편 Ⅲ",
+          "image": "gear-contract-18336-3.webp"
+        },
+        {
+          "name": "환형의 시편 Ⅳ",
+          "image": "gear-contract-18336-4.webp"
+        },
+        {
+          "name": "환형의 시편 Ⅴ",
+          "image": "gear-contract-18336-5.webp"
+        },
+        {
+          "name": "환형의 시편 Ⅵ",
+          "image": "gear-contract-18336-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18126,
+            12
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3942
+          ]
+        }
+      ],
+      "id": 18337,
+      "name": "바다에서 돌아오는 길",
+      "parts": [
+        {
+          "name": "바다에서 돌아오는 길 Ⅰ",
+          "image": "gear-contract-18337-1.webp"
+        },
+        {
+          "name": "바다에서 돌아오는 길 Ⅱ",
+          "image": "gear-contract-18337-2.webp"
+        },
+        {
+          "name": "바다에서 돌아오는 길 Ⅲ",
+          "image": "gear-contract-18337-3.webp"
+        },
+        {
+          "name": "바다에서 돌아오는 길 Ⅳ",
+          "image": "gear-contract-18337-4.webp"
+        },
+        {
+          "name": "바다에서 돌아오는 길 Ⅴ",
+          "image": "gear-contract-18337-5.webp"
+        },
+        {
+          "name": "바다에서 돌아오는 길 Ⅵ",
+          "image": "gear-contract-18337-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18126,
+            12
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2498
+          ]
+        }
+      ],
+      "id": 18338,
+      "name": "저주받은 토끼",
+      "parts": [
+        {
+          "name": "저주받은 토끼 Ⅰ",
+          "image": "gear-contract-18338-1.webp"
+        },
+        {
+          "name": "저주받은 토끼 Ⅱ",
+          "image": "gear-contract-18338-2.webp"
+        },
+        {
+          "name": "저주받은 토끼 Ⅲ",
+          "image": "gear-contract-18338-3.webp"
+        },
+        {
+          "name": "저주받은 토끼 Ⅳ",
+          "image": "gear-contract-18338-4.webp"
+        },
+        {
+          "name": "저주받은 토끼 Ⅴ",
+          "image": "gear-contract-18338-5.webp"
+        },
+        {
+          "name": "저주받은 토끼 Ⅵ",
+          "image": "gear-contract-18338-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18139,
+            7.2
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3138
+          ]
+        }
+      ],
+      "id": 18339,
+      "name": "이율 배반",
+      "parts": [
+        {
+          "name": "이율배반 Ⅰ",
+          "image": "gear-contract-18339-1.webp"
+        },
+        {
+          "name": "이율배반 Ⅱ",
+          "image": "gear-contract-18339-2.webp"
+        },
+        {
+          "name": "이율배반 Ⅲ",
+          "image": "gear-contract-18339-3.webp"
+        },
+        {
+          "name": "이율배반 Ⅳ",
+          "image": "gear-contract-18339-4.webp"
+        },
+        {
+          "name": "이율배반 Ⅴ",
+          "image": "gear-contract-18339-5.webp"
+        },
+        {
+          "name": "이율배반 Ⅵ",
+          "image": "gear-contract-18339-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18155,
+            3.6
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3507
+          ]
+        }
+      ],
+      "id": 18340,
+      "name": "유기 형태",
+      "parts": [
+        {
+          "name": "유기 형태 Ⅰ",
+          "image": "gear-contract-18340-1.webp"
+        },
+        {
+          "name": "유기 형태 Ⅱ",
+          "image": "gear-contract-18340-2.webp"
+        },
+        {
+          "name": "유기 형태 Ⅲ",
+          "image": "gear-contract-18340-3.webp"
+        },
+        {
+          "name": "유기 형태 Ⅳ",
+          "image": "gear-contract-18340-4.webp"
+        },
+        {
+          "name": "유기 형태 Ⅴ",
+          "image": "gear-contract-18340-5.webp"
+        },
+        {
+          "name": "유기 형태 Ⅵ",
+          "image": "gear-contract-18340-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18105,
+            7.2
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2676
+          ]
+        }
+      ],
+      "id": 18341,
+      "name": "진홍빛 심동",
+      "parts": [
+        {
+          "name": "진홍빛 심동 Ⅰ",
+          "image": "gear-contract-18341-1.webp"
+        },
+        {
+          "name": "진홍빛 심동 Ⅱ",
+          "image": "gear-contract-18341-2.webp"
+        },
+        {
+          "name": "진홍빛 심동 Ⅲ",
+          "image": "gear-contract-18341-3.webp"
+        },
+        {
+          "name": "진홍빛 심동 Ⅳ",
+          "image": "gear-contract-18341-4.webp"
+        },
+        {
+          "name": "진홍빛 심동 Ⅴ",
+          "image": "gear-contract-18341-5.webp"
+        },
+        {
+          "name": "진홍빛 심동 Ⅵ",
+          "image": "gear-contract-18341-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18151,
+            16.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3478
+          ]
+        }
+      ],
+      "id": 18342,
+      "name": "표준 밀체 SSR",
+      "parts": [
+        {
+          "name": "표준 밀체 SSR",
+          "image": "gear-contract-18342-1.webp"
+        },
+        {
+          "name": "표준 밀체 SSR",
+          "image": "gear-contract-18342-2.webp"
+        },
+        {
+          "name": "표준 밀체 SSR",
+          "image": "gear-contract-18342-3.webp"
+        },
+        {
+          "name": "표준 밀체 SSR",
+          "image": "gear-contract-18342-4.webp"
+        },
+        {
+          "name": "표준 밀체 SSR",
+          "image": "gear-contract-18342-5.webp"
+        },
+        {
+          "name": "표준 밀체 SSR",
+          "image": "gear-contract-18342-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18126,
+            12
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3069
+          ]
+        }
+      ],
+      "id": 18344,
+      "name": "기계장치의 신",
+      "parts": [
+        {
+          "name": "기계장치의 신 Ⅰ",
+          "image": "gear-contract-18344-1.webp"
+        },
+        {
+          "name": "기계장치의 신 Ⅱ",
+          "image": "gear-contract-18344-2.webp"
+        },
+        {
+          "name": "기계장치의 신 Ⅲ",
+          "image": "gear-contract-18344-3.webp"
+        },
+        {
+          "name": "기계장치의 신 Ⅳ",
+          "image": "gear-contract-18344-4.webp"
+        },
+        {
+          "name": "기계장치의 신 Ⅴ",
+          "image": "gear-contract-18344-5.webp"
+        },
+        {
+          "name": "기계장치의 신 Ⅵ",
+          "image": "gear-contract-18344-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18142,
+            7.2
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2453
+          ]
+        }
+      ],
+      "id": 18345,
+      "name": "광합성 제례",
+      "parts": [
+        {
+          "name": "광합성 제례 Ⅰ",
+          "image": "gear-contract-18345-1.webp"
+        },
+        {
+          "name": "광합성 제례 Ⅱ",
+          "image": "gear-contract-18345-2.webp"
+        },
+        {
+          "name": "광합성 제례 Ⅲ",
+          "image": "gear-contract-18345-3.webp"
+        },
+        {
+          "name": "광합성 제례 Ⅳ",
+          "image": "gear-contract-18345-4.webp"
+        },
+        {
+          "name": "광합성 제례 Ⅴ",
+          "image": "gear-contract-18345-5.webp"
+        },
+        {
+          "name": "광합성 제례 Ⅵ",
+          "image": "gear-contract-18345-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            22207,
+            2.4
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3152
+          ]
+        }
+      ],
+      "id": 18346,
+      "name": "재진화",
+      "parts": [
+        {
+          "name": "재진화 Ⅰ",
+          "image": "gear-contract-18346-1.webp"
+        },
+        {
+          "name": "재진화 Ⅱ",
+          "image": "gear-contract-18346-2.webp"
+        },
+        {
+          "name": "재진화 Ⅲ",
+          "image": "gear-contract-18346-3.webp"
+        },
+        {
+          "name": "재진화 Ⅳ",
+          "image": "gear-contract-18346-4.webp"
+        },
+        {
+          "name": "재진화 Ⅴ",
+          "image": "gear-contract-18346-5.webp"
+        },
+        {
+          "name": "재진화 Ⅵ",
+          "image": "gear-contract-18346-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18139,
+            7.2
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3209
+          ]
+        }
+      ],
+      "id": 18347,
+      "name": "생명력 착취",
+      "parts": [
+        {
+          "name": "생명력 착취 Ⅰ",
+          "image": "gear-contract-18347-1.webp"
+        },
+        {
+          "name": "생명력 착취 Ⅱ",
+          "image": "gear-contract-18347-2.webp"
+        },
+        {
+          "name": "생명력 착취 Ⅲ",
+          "image": "gear-contract-18347-3.webp"
+        },
+        {
+          "name": "생명력 착취 Ⅳ",
+          "image": "gear-contract-18347-4.webp"
+        },
+        {
+          "name": "생명력 착취 Ⅴ",
+          "image": "gear-contract-18347-5.webp"
+        },
+        {
+          "name": "생명력 착취 Ⅵ",
+          "image": "gear-contract-18347-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18142,
+            4.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3807
+          ]
+        }
+      ],
+      "id": 18348,
+      "name": "약재의 꿈",
+      "parts": [
+        {
+          "name": "약재의 꿈 Ⅰ",
+          "image": "gear-contract-18348-1.webp"
+        },
+        {
+          "name": "약재의 꿈 Ⅱ",
+          "image": "gear-contract-18348-2.webp"
+        },
+        {
+          "name": "약재의 꿈 Ⅲ",
+          "image": "gear-contract-18348-3.webp"
+        },
+        {
+          "name": "약재의 꿈 Ⅳ",
+          "image": "gear-contract-18348-4.webp"
+        },
+        {
+          "name": "약재의 꿈 Ⅴ",
+          "image": "gear-contract-18348-5.webp"
+        },
+        {
+          "name": "약재의 꿈 Ⅵ",
+          "image": "gear-contract-18348-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18151,
+            25.2
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2879
+          ]
+        }
+      ],
+      "id": 18349,
+      "name": "달콤한 점액동물",
+      "parts": [
+        {
+          "name": "달콤한 달팽이 Ⅰ",
+          "image": "gear-contract-18349-1.webp"
+        },
+        {
+          "name": "달콤한 달팽이 Ⅱ",
+          "image": "gear-contract-18349-2.webp"
+        },
+        {
+          "name": "달콤한 달팽이 Ⅲ",
+          "image": "gear-contract-18349-3.webp"
+        },
+        {
+          "name": "달콤한 달팽이 Ⅳ",
+          "image": "gear-contract-18349-4.webp"
+        },
+        {
+          "name": "달콤한 달팽이 Ⅴ",
+          "image": "gear-contract-18349-5.webp"
+        },
+        {
+          "name": "달콤한 달팽이 Ⅵ",
+          "image": "gear-contract-18349-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18151,
+            16.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3851
+          ]
+        }
+      ],
+      "id": 18350,
+      "name": "극장의 고양이",
+      "parts": [
+        {
+          "name": "극장의 고양이 Ⅰ",
+          "image": "gear-contract-18350-1.webp"
+        },
+        {
+          "name": "극장의 고양이 Ⅱ",
+          "image": "gear-contract-18350-2.webp"
+        },
+        {
+          "name": "극장의 고양이 Ⅲ",
+          "image": "gear-contract-18350-3.webp"
+        },
+        {
+          "name": "극장의 고양이 Ⅳ",
+          "image": "gear-contract-18350-4.webp"
+        },
+        {
+          "name": "극장의 고양이 Ⅴ",
+          "image": "gear-contract-18350-5.webp"
+        },
+        {
+          "name": "극장의 고양이 Ⅵ",
+          "image": "gear-contract-18350-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            22207,
+            2.4
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2434
+          ]
+        }
+      ],
+      "id": 18351,
+      "name": "36호실의 고리",
+      "parts": [
+        {
+          "name": "36호실의 고리 Ⅰ",
+          "image": "gear-contract-18351-1.webp"
+        },
+        {
+          "name": "36호실의 고리 Ⅱ",
+          "image": "gear-contract-18351-2.webp"
+        },
+        {
+          "name": "36호실의 고리 Ⅲ",
+          "image": "gear-contract-18351-3.webp"
+        },
+        {
+          "name": "36호실의 고리 Ⅳ",
+          "image": "gear-contract-18351-4.webp"
+        },
+        {
+          "name": "36호실의 고리 Ⅴ",
+          "image": "gear-contract-18351-5.webp"
+        },
+        {
+          "name": "36호실의 고리 Ⅵ",
+          "image": "gear-contract-18351-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18151,
+            16.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2933
+          ]
+        }
+      ],
+      "id": 18352,
+      "name": "뒤틀린 쌍둥이 · 백",
+      "parts": [
+        {
+          "name": "뒤틀린 쌍둥이·백 Ⅰ",
+          "image": "gear-contract-18352-1.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·백 Ⅱ",
+          "image": "gear-contract-18352-2.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·백 Ⅲ",
+          "image": "gear-contract-18352-3.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·백 Ⅳ",
+          "image": "gear-contract-18352-4.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·백 Ⅴ",
+          "image": "gear-contract-18352-5.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·백 Ⅵ",
+          "image": "gear-contract-18352-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18159,
+            4.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2565
+          ]
+        }
+      ],
+      "id": 18353,
+      "name": "핏빛의 포옹",
+      "parts": [
+        {
+          "name": "핏빛의 포옹 Ⅰ",
+          "image": "gear-contract-18353-1.webp"
+        },
+        {
+          "name": "핏빛의 포옹 Ⅱ",
+          "image": "gear-contract-18353-2.webp"
+        },
+        {
+          "name": "핏빛의 포옹 Ⅲ",
+          "image": "gear-contract-18353-3.webp"
+        },
+        {
+          "name": "핏빛의 포옹 Ⅳ",
+          "image": "gear-contract-18353-4.webp"
+        },
+        {
+          "name": "핏빛의 포옹 Ⅴ",
+          "image": "gear-contract-18353-5.webp"
+        },
+        {
+          "name": "핏빛의 포옹 Ⅵ",
+          "image": "gear-contract-18353-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18139,
+            7.2
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3422
+          ]
+        }
+      ],
+      "id": 18355,
+      "name": "무구의 계시록",
+      "parts": [
+        {
+          "name": "무구의 계시록 Ⅰ",
+          "image": "gear-contract-18355-1.webp"
+        },
+        {
+          "name": "무구의 계시록 Ⅱ",
+          "image": "gear-contract-18355-2.webp"
+        },
+        {
+          "name": "무구의 계시록 Ⅲ",
+          "image": "gear-contract-18355-3.webp"
+        },
+        {
+          "name": "무구의 계시록 Ⅳ",
+          "image": "gear-contract-18355-4.webp"
+        },
+        {
+          "name": "무구의 계시록 Ⅴ",
+          "image": "gear-contract-18355-5.webp"
+        },
+        {
+          "name": "무구의 계시록 Ⅵ",
+          "image": "gear-contract-18355-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18142,
+            4.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3549
+          ]
+        }
+      ],
+      "id": 18356,
+      "name": "황야의 늑대",
+      "parts": [
+        {
+          "name": "황야의 늑대 Ⅰ",
+          "image": "gear-contract-18356-1.webp"
+        },
+        {
+          "name": "황야의 늑대 Ⅱ",
+          "image": "gear-contract-18356-2.webp"
+        },
+        {
+          "name": "황야의 늑대 Ⅲ",
+          "image": "gear-contract-18356-3.webp"
+        },
+        {
+          "name": "황야의 늑대 Ⅳ",
+          "image": "gear-contract-18356-4.webp"
+        },
+        {
+          "name": "황야의 늑대 Ⅴ",
+          "image": "gear-contract-18356-5.webp"
+        },
+        {
+          "name": "황야의 늑대 Ⅵ",
+          "image": "gear-contract-18356-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18155,
+            3.6
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2395
+          ]
+        }
+      ],
+      "id": 18357,
+      "name": "먼 곳의 잔치",
+      "parts": [
+        {
+          "name": "먼 곳의 잔치 Ⅰ",
+          "image": "gear-contract-18357-1.webp"
+        },
+        {
+          "name": "먼 곳의 잔치 Ⅱ",
+          "image": "gear-contract-18357-2.webp"
+        },
+        {
+          "name": "먼 곳의 잔치 Ⅲ",
+          "image": "gear-contract-18357-3.webp"
+        },
+        {
+          "name": "먼 곳의 잔치 Ⅳ",
+          "image": "gear-contract-18357-4.webp"
+        },
+        {
+          "name": "먼 곳의 잔치 Ⅴ",
+          "image": "gear-contract-18357-5.webp"
+        },
+        {
+          "name": "먼 곳의 잔치 Ⅵ",
+          "image": "gear-contract-18357-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18159,
+            4.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2589
+          ]
+        }
+      ],
+      "id": 18358,
+      "name": "뒤틀린 쌍둥이 · 흑",
+      "parts": [
+        {
+          "name": "뒤틀린 쌍둥이·흑 Ⅰ",
+          "image": "gear-contract-18358-1.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·흑 Ⅱ",
+          "image": "gear-contract-18358-2.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·흑 Ⅲ",
+          "image": "gear-contract-18358-3.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·흑 Ⅳ",
+          "image": "gear-contract-18358-4.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·흑 Ⅴ",
+          "image": "gear-contract-18358-5.webp"
+        },
+        {
+          "name": "뒤틀린 쌍둥이·흑 Ⅵ",
+          "image": "gear-contract-18358-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18159,
+            7.2
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            3508
+          ]
+        }
+      ],
+      "id": 18359,
+      "name": "소녀의 꽃등이",
+      "parts": [
+        {
+          "name": "소녀의 번데기 Ⅰ",
+          "image": "gear-contract-18359-1.webp"
+        },
+        {
+          "name": "소녀의 번데기 Ⅱ",
+          "image": "gear-contract-18359-2.webp"
+        },
+        {
+          "name": "소녀의 번데기 Ⅲ",
+          "image": "gear-contract-18359-3.webp"
+        },
+        {
+          "name": "소녀의 번데기 Ⅳ",
+          "image": "gear-contract-18359-4.webp"
+        },
+        {
+          "name": "소녀의 번데기 Ⅴ",
+          "image": "gear-contract-18359-5.webp"
+        },
+        {
+          "name": "소녀의 번데기 Ⅵ",
+          "image": "gear-contract-18359-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18151,
+            16.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            2845
+          ]
+        }
+      ],
+      "id": 18360,
+      "name": "묘지의 속삭임",
+      "parts": [
+        {
+          "name": "무덤의 속삭임 Ⅰ",
+          "image": "gear-contract-18360-1.webp"
+        },
+        {
+          "name": "무덤의 속삭임 Ⅱ",
+          "image": "gear-contract-18360-2.webp"
+        },
+        {
+          "name": "무덤의 속삭임 Ⅲ",
+          "image": "gear-contract-18360-3.webp"
+        },
+        {
+          "name": "무덤의 속삭임 Ⅳ",
+          "image": "gear-contract-18360-4.webp"
+        },
+        {
+          "name": "무덤의 속삭임 Ⅴ",
+          "image": "gear-contract-18360-5.webp"
+        },
+        {
+          "name": "무덤의 속삭임 Ⅵ",
+          "image": "gear-contract-18360-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18142,
+            4.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            99238
+          ]
+        }
+      ],
+      "id": 99234,
+      "name": "부패질",
+      "parts": [
+        {
+          "name": "부패질Ⅰ",
+          "image": "gear-contract-99234-1.webp"
+        },
+        {
+          "name": "부패질Ⅱ",
+          "image": "gear-contract-99234-2.webp"
+        },
+        {
+          "name": "부패질Ⅲ",
+          "image": "gear-contract-99234-3.webp"
+        },
+        {
+          "name": "부패질Ⅳ",
+          "image": "gear-contract-99234-4.webp"
+        },
+        {
+          "name": "부패질Ⅴ",
+          "image": "gear-contract-99234-5.webp"
+        },
+        {
+          "name": "부패질Ⅵ",
+          "image": "gear-contract-99234-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18142,
+            4.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            99237
+          ]
+        }
+      ],
+      "id": 99235,
+      "name": "비상",
+      "parts": [
+        {
+          "name": "비상Ⅰ",
+          "image": "gear-contract-99235-1.webp"
+        },
+        {
+          "name": "비상Ⅱ",
+          "image": "gear-contract-99235-2.webp"
+        },
+        {
+          "name": "비상Ⅲ",
+          "image": "gear-contract-99235-3.webp"
+        },
+        {
+          "name": "비상Ⅳ",
+          "image": "gear-contract-99235-4.webp"
+        },
+        {
+          "name": "비상Ⅴ",
+          "image": "gear-contract-99235-5.webp"
+        },
+        {
+          "name": "비상Ⅵ",
+          "image": "gear-contract-99235-6.webp"
+        }
+      ]
+    },
+    {
+      "effects": [
+        {
+          "num": 3,
+          "type": "CommonAttr",
+          "params": [
+            18142,
+            4.8
+          ]
+        },
+        {
+          "num": 6,
+          "type": "Add_State",
+          "params": [
+            99239
+          ]
+        }
+      ],
+      "id": 99236,
+      "name": "스틱스",
+      "parts": [
+        {
+          "name": "스틱스Ⅰ",
+          "image": "gear-contract-99236-1.webp"
+        },
+        {
+          "name": "스틱스Ⅱ",
+          "image": "gear-contract-99236-2.webp"
+        },
+        {
+          "name": "스틱스Ⅲ",
+          "image": "gear-contract-99236-3.webp"
+        },
+        {
+          "name": "스틱스Ⅳ",
+          "image": "gear-contract-99236-4.webp"
+        },
+        {
+          "name": "스틱스Ⅴ",
+          "image": "gear-contract-99236-5.webp"
+        },
+        {
+          "name": "스틱스Ⅵ",
+          "image": "gear-contract-99236-6.webp"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "slots": [
+      {
+        "sub": [
+          18159,
+          18105,
+          22207,
+          18151,
+          18126,
+          18139,
+          18155,
+          18142
+        ],
+        "main": [
+          18159,
+          18105,
+          18139,
+          22207
+        ]
+      },
+      {
+        "sub": [
+          18159,
+          18105,
+          22207,
+          18151,
+          18126,
+          18139,
+          18155,
+          18142
+        ],
+        "main": [
+          18159,
+          18105,
+          18126,
+          18155
+        ]
+      },
+      {
+        "sub": [
+          18159,
+          18105,
+          22207,
+          18151,
+          18126,
+          18139,
+          18155,
+          18142
+        ],
+        "main": [
+          18159,
+          18105,
+          18151,
+          18142
+        ]
+      },
+      {
+        "sub": [
+          18159,
+          18105,
+          22207,
+          18151,
+          18126,
+          18139,
+          18155,
+          18142
+        ],
+        "main": [
+          18126,
+          22207,
+          18155,
+          18139
+        ]
+      },
+      {
+        "sub": [
+          18159,
+          18105,
+          22207,
+          18151,
+          18126,
+          18139,
+          18155,
+          18142
+        ],
+        "main": [
+          22207,
+          18151,
+          18139,
+          18142
+        ]
+      },
+      {
+        "sub": [
+          18159,
+          18105,
+          22207,
+          18151,
+          18126,
+          18139,
+          18155,
+          18142
+        ],
+        "main": [
+          18126,
+          18155,
+          18151,
+          18142
+        ]
+      }
+    ],
+    "attributes": {
+      "18105": {
+        "percentage": true,
+        "id": 18105,
+        "name": "crit_damage"
+      },
+      "18126": {
+        "percentage": false,
+        "id": 18126,
+        "name": "occupation_master"
+      },
+      "18139": {
+        "percentage": false,
+        "id": 18139,
+        "name": "keeper_energy_eff_2"
+      },
+      "18142": {
+        "percentage": true,
+        "id": 18142,
+        "name": "basic_damage_per"
+      },
+      "18151": {
+        "percentage": true,
+        "id": 18151,
+        "name": "death_resist"
+      },
+      "18155": {
+        "percentage": true,
+        "id": 18155,
+        "name": "blackcoin_upgrade_per"
+      },
+      "18159": {
+        "percentage": true,
+        "id": 18159,
+        "name": "crit"
+      },
+      "22207": {
+        "percentage": false,
+        "id": 22207,
+        "name": "ulti_energy_plus_3"
+      }
+    }
+  },
+  "setIds": {
+    "covenant_April": 18335,
+    "covenant_vampire": 18347,
+    "covenant_medicine": 18348,
+    "covenant_party": 18357,
+    "covenant_deus": 18344,
+    "covenant_reEvolve": 18346,
+    "covenant_wolf": 18356,
+    "covenant_rabbit": 18338,
+    "covenant_blood": 18353,
+    "covenant_scarlet": 18341,
+    "covenant_twins_black": 18358,
+    "covenant_twins_white": 18352,
+    "covenant_butterfly": 18340,
+    "covenant_betray": 18339,
+    "covenant_sungood": 18345,
+    "covenant_36rings": 18351,
+    "covenant_virgin": 18359,
+    "covenant_snail": 18349,
+    "covenant_grave": 18360,
+    "covenant_revelation": 18355,
+    "covenant_ocean": 18337
+  }
+}

@@ -9,9 +9,9 @@
         { id: 'critDamage', name: '크리티컬 피해', step: 0.3, unit: '%' },
         { id: 'domainMastery', name: '영역 숙련', step: 0.5, unit: '' },
         { id: 'damageAmp', name: '피해 증폭', step: 0.2, unit: '%' },
-        { id: 'madnessRegen', name: '광기 회복', step: 0.1, unit: '' },
+        { id: 'madnessRegen', name: '광기 충전', step: 0.1, unit: '' },
         { id: 'silverCharge', name: '은열쇠 충전', step: 0.3, unit: '' },
-        { id: 'blackSealDrop', name: '검은 인장 드롭율', step: 0.15, unit: '%' },
+        { id: 'blackSealDrop', name: '검은 인장 획득률', step: 0.15, unit: '%' },
         { id: 'deathResist', name: '죽음 저항', step: 0.7, unit: '%' }
     ];
     const MAIN_OPTIONS = [
@@ -22,19 +22,14 @@
         ['damageAmp', 'madnessRegen', 'silverCharge', 'deathResist'],
         ['domainMastery', 'damageAmp', 'blackSealDrop', 'deathResist']
     ];
-    const MAIN_COMPLETION = [3, 3.4, 3.7, 4.1, 4.5, 4.9, 5.3, 5.6, 6, 6.4, 6.8, 7.2, 7.5];
-    const SUB_COMPLETION = {
-        3: 1.1, 4: 1.5, 5: 1.9, 6: 2.3, 7: 2.6, 8: 3, 9: 3.4, 10: 3.8, 11: 4.1,
-        12: 4.5, 13: 4.9, 14: 5.3, 15: 5.7, 16: 6, 17: 6.4, 18: 6.8, 19: 7.2,
-        20: 7.6, 21: 7.9, 22: 8.3, 23: 8.7, 24: 9.1
-    };
+    const MAX_MAIN_LEVEL = 12;
     const optionById = Object.fromEntries(OPTIONS.map(option => [option.id, option]));
     const els = {};
     const state = {
         contracts: [],
         selectedContract: null,
         selectedPart: 0,
-        mode: 'manual',
+        mode: 'editor',
         manualPreview: null,
         manualResult: null,
         targetResult: null,
@@ -51,9 +46,11 @@
 
     document.addEventListener('DOMContentLoaded', init);
 
-    let renderPartButtons;
+    let renderSharedCovenantEditor, sharedModel, editorDefinition, editorParts, sharedEditor, pickPosition=null;
+    let sharedOwner;
     async function init() {
-        ({renderCovenantParts:renderPartButtons}=await import('./covenant-parts.mjs'));
+        ({renderCovenantEditor:renderSharedCovenantEditor}=await import('./covenant-editor.mjs'));
+        sharedModel=await import('./covenant-simulator-model.mjs');
         cacheElements();
         bindEvents();
         await loadContracts();
@@ -62,10 +59,9 @@
 
     function cacheElements() {
         [
-            'contract-grid', 'selected-contract-name', 'left-part-grid', 'right-part-grid', 'manual-panel', 'target-panel',
-            'manual-part-title', 'manual-before-completion', 'manual-after-completion', 'manual-main-option', 'manual-main-level',
+            'contract-grid', 'selected-contract-name', 'editor-panel', 'manual-panel', 'target-panel',
+            'manual-part-title', 'manual-before-completion', 'manual-after-completion',
             'manual-cost', 'manual-status', 'manual-result', 'manual-reroll-btn', 'manual-apply-btn',
-            'manual-focus-image', 'manual-focus-name', 'manual-total-completion', 'manual-current-result',
             'target-scope-buttons', 'target-lock-cost', 'target-current-parts', 'target-parts',
             'run-target-btn', 'result-summary', 'result-status',
             'target-preset-name-input', 'target-preset-select', 'save-target-preset-btn', 'load-target-preset-btn', 'delete-target-preset-btn',
@@ -80,24 +76,19 @@
     }
 
     function bindEvents() {
+        document.getElementById('close-covenant-set-picker').onclick=()=>document.getElementById('covenant-set-dialog').close();
         els.modeTabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 state.mode = tab.dataset.modeTab;
                 renderMode();
                 saveCurrentState();
             });
-        });
-        els.manualMainOption.addEventListener('change', () => {
-            getSelectedPart().mainOption = els.manualMainOption.value;
-            renderParts();
-            renderManual();
-            markSettingsChanged();
-        });
-        els.manualMainLevel.addEventListener('change', () => {
-            getSelectedPart().mainLevel = Number(els.manualMainLevel.value);
-            renderParts();
-            renderManual();
-            markSettingsChanged();
+            tab.addEventListener('keydown',event=>{
+                if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;
+                event.preventDefault();const index=els.modeTabs.indexOf(tab),count=els.modeTabs.length;
+                const next=event.key==='Home'?0:event.key==='End'?count-1:(index+(event.key==='ArrowRight'?1:-1)+count)%count;
+                els.modeTabs[next].focus();els.modeTabs[next].click();
+            });
         });
         document.querySelectorAll('input[name="manual-lock-cost"]').forEach(input => {
             input.addEventListener('change', () => {
@@ -106,9 +97,14 @@
             });
         });
         els.targetLockCost.addEventListener('change', markTargetSettingsChanged);
+        document.getElementById('edit-transcription-part').onclick=()=>{state.mode='editor';state.editorPart=state.selectedPart;renderParts();renderMode();saveCurrentState();};
         els.manualRerollBtn.addEventListener('click', manualReroll);
         els.manualApplyBtn.addEventListener('click', applyManualPreview);
         els.runTargetBtn.addEventListener('click', runTargetSimulation);
+        document.getElementById('use-edited-covenants').onclick=()=>{
+            state.targetSimParts=state.parts.map((part,index)=>({...structuredClone(part),goals:structuredClone(state.targetSimParts[index].goals)}));
+            renderTargetCurrentParts();renderTargetParts();markTargetSettingsChanged();
+        };
         els.savePresetBtn.addEventListener('click', savePreset);
         els.loadPresetBtn.addEventListener('click', loadSelectedPreset);
         els.deletePresetBtn.addEventListener('click', deleteSelectedPreset);
@@ -127,6 +123,9 @@
         const response = await fetch('data/covenant_list.json');
         if (!response.ok) throw new Error('비밀계약 데이터를 불러오지 못했습니다.');
         state.contracts = await response.json();
+        [editorDefinition,editorParts]=await Promise.all(['data/covenant_editor.json','data/covenant_parts.json'].map(async url=>{const r=await fetch(url);if(!r.ok)throw Error('비밀계약 편집 자료를 불러오지 못했습니다.');return r.json();}));
+        for(const c of state.contracts)c.clientSuitId=editorDefinition.setIds[c.english_name];
+        for(const suit of editorDefinition.suits){const c=state.contracts.find(c=>c.clientSuitId===suit.id);if(c)suit.name=c.korean_name;}
         state.selectedContract = state.contracts[0];
         loadPresets();
         loadTargetPresets();
@@ -175,18 +174,17 @@
     function renderContract() {
         if (!state.selectedContract) return;
         els.selectedContractName.textContent = state.selectedContract.korean_name;
-        if (els.manualFocusImage) {
-            els.manualFocusImage.src = state.selectedContract.image_path;
-            els.manualFocusImage.alt = state.selectedContract.korean_name;
-        }
-        if (els.manualFocusName) {
-            els.manualFocusName.textContent = state.selectedContract.korean_name;
-        }
         window.CovenantPicker.render({grid: els.contractGrid, contracts: state.contracts,
             selected: state.selectedContract.english_name, onSelect: requestContractChange});
     }
 
     function requestContractChange(contractName) {
+        const picker=document.getElementById('covenant-set-dialog');
+        if(picker.open){
+            const selected=state.contracts.find(c=>c.english_name===contractName);if(!selected)return;
+            for(const [i,part] of state.parts.entries())if(pickPosition==null||i===pickPosition-1)part.setId=selected.clientSuitId;
+            state.selectedContract=selected;state.manualPreview=null;state.manualResult=null;picker.close();renderParts();renderManual();if(pickPosition!=null)sharedEditor?.editPart(pickPosition);else document.querySelector('#shared-covenant-editor .member-set-change')?.focus();markSettingsChanged();return;
+        }
         if (!state.selectedContract || contractName === state.selectedContract.english_name) return;
         const nextContract = state.contracts.find(contract => contract.english_name === contractName);
         if (!nextContract) return;
@@ -270,7 +268,7 @@
 
     function resetSettingsForContract() {
         state.selectedPart = 0;
-        state.mode = 'manual';
+        state.mode = 'editor';
         state.targetParts = [0, 1, 2, 3, 4, 5];
         state.parts = Array.from({ length: 6 }, (_, index) => createDefaultPart(index));
         state.targetSimParts = Array.from({ length: 6 }, (_, index) => createDefaultPart(index));
@@ -284,12 +282,20 @@
         if (els.targetLockCost) els.targetLockCost.value = 'fragment';
     }
 
-    function renderParts() {
-        const parts=state.parts.map(part=>({lastTouched:part.lastTouched,caption:`완성도 ${formatNumber(getPartCompletion(part), 1)}%`}));
-        const onSelect=index=>{state.selectedPart=index;state.manualPreview=null;renderParts();renderManual();};
-        renderPartButtons(els.leftPartGrid,{indexes:[3,4,5],selected:state.selectedPart,parts,onSelect});
-        renderPartButtons(els.rightPartGrid,{indexes:[0,1,2],selected:state.selectedPart,parts,onSelect});
-        renderManualMainOption();
+    function renderParts() { renderSharedEditor(); }
+
+    function renderSharedEditor(){
+        const mount=document.getElementById('shared-covenant-editor');if(!mount||!editorDefinition)return;
+        mount.replaceChildren();
+        sharedOwner=sharedModel.simulatorEquipment(state.parts,{fallbackSetId:state.selectedContract?.clientSuitId||0,bound:!!state.contractBound});
+        state.parts.forEach((part,index)=>part.setId=sharedOwner.contractSlots[index]);
+        sharedEditor=renderSharedCovenantEditor(mount,{owner:sharedOwner,catalog:editorDefinition,metadata:editorDefinition.metadata,contracts:state.contracts,parts:editorParts,
+            initialPart:state.editorPart??-1,pickOnPartSelect:false,allowEmptyOptions:false,
+            onPick:position=>{pickPosition=position;renderContract();document.getElementById('covenant-set-dialog').showModal();},
+            onPartChange:index=>{state.editorPart=index;if(index<0||state.mode!=='editor')return;state.selectedPart=index;state.manualPreview=null;renderManual();saveCurrentState();},
+            onChange:owner=>{state.parts=sharedModel.applyEditorEquipment(owner,state.parts);state.contractBound=owner.contractBound;state.manualPreview=null;state.manualResult=null;renderManual();markSettingsChanged();},
+            onReset:()=>{renderSharedEditor();renderManual();}
+        });
     }
 
     function renderMode() {
@@ -297,9 +303,13 @@
             const isActive = tab.dataset.modeTab === state.mode;
             tab.classList.toggle('active', isActive);
             tab.setAttribute('aria-selected', String(isActive));
+            tab.tabIndex=isActive?0:-1;
             applyModeTabVisualState(tab, isActive);
         });
+        els.editorPanel.classList.toggle('hidden', state.mode !== 'editor');
         els.manualPanel.classList.toggle('hidden', state.mode !== 'manual');
+        document.querySelector('.capture-panel').hidden=state.mode==='editor';
+        document.querySelector('.covenant-page').dataset.workspaceMode=state.mode;
         els.targetPanel.classList.toggle('hidden', state.mode !== 'target');
         if (state.mode === 'manual') renderManual();
         if (state.mode === 'target') {
@@ -319,69 +329,36 @@
 
     function renderManual() {
         const part = getSelectedPart();
-        els.manualPartTitle.textContent = getContractPartName(state.selectedPart);
-        els.manualFocusName.textContent = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
-        els.manualTotalCompletion.textContent = `전체 완성도 ${formatTotalCompletion(getTotalCompletion())}%`;
-        if (state.selectedContract) {
-            els.manualFocusImage.src = state.selectedContract.image_path;
-            els.manualFocusImage.alt = state.selectedContract.korean_name;
-        }
+        const set=state.contracts.find(c=>c.clientSuitId===(part.setId??state.selectedContract?.clientSuitId));
+        els.manualRerollBtn.disabled=!set;
+        els.manualPartTitle.textContent = '전사';
+        renderTranscriptionCurrent(part,set);
         els.manualBeforeCompletion.textContent = `${formatNumber(getPartCompletion(part), 1)}%`;
         els.manualAfterCompletion.textContent = state.manualPreview
             ? `${formatNumber(getPartCompletion(part, state.manualPreview), 1)}%`
             : '-';
-        renderManualMainOption();
         els.manualCost.textContent = formatCost(getRerollCost(countLocked(part.substats), getManualLockCostMode()));
-        renderManualCurrentResult(part);
         renderManualPreview();
         renderResultSummary();
     }
 
-    function renderManualCurrentResult(part) {
-        els.manualCurrentResult.innerHTML = part.substats.map((substat, index) => `
-            <div class="substat-row current-stat-row" data-substat-index="${index}">
-                <button type="button" class="lock-toggle ${substat.locked ? 'active' : ''}" aria-label="${index + 1}번 부옵 잠금">${substat.locked ? '🔒' : '🔓'}</button>
-                <select class="sim-select substat-option">
-                    ${OPTIONS.map(option => `<option value="${option.id}" ${option.id === substat.option ? 'selected' : ''}>${escapeHtml(option.name)}</option>`).join('')}
-                </select>
-                <select class="sim-select substat-level">
-                    ${range(1, 8).map(level => `<option value="${level}" ${level === substat.level ? 'selected' : ''}>Lv ${level}</option>`).join('')}
-                </select>
-            </div>
-        `).join('');
-        els.manualCurrentResult.querySelectorAll('[data-substat-index]').forEach(row => {
-            const index = Number(row.dataset.substatIndex);
-            row.querySelector('.lock-toggle').addEventListener('click', () => toggleManualLock(index));
-            row.querySelector('.substat-option').addEventListener('change', event => {
-                part.substats[index].option = event.target.value;
-                state.manualPreview = null;
-                renderParts();
-                renderManual();
-                markSettingsChanged();
-            });
-            row.querySelector('.substat-level').addEventListener('change', event => {
-                part.substats[index].level = Number(event.target.value);
-                state.manualPreview = null;
-                renderParts();
-                renderManual();
-                markSettingsChanged();
-            });
+    function renderTranscriptionCurrent(part,set) {
+        const buttons=document.getElementById('manual-part-buttons');
+        buttons.innerHTML=state.parts.map((item,index)=>{
+            const contract=state.contracts.find(c=>c.clientSuitId===(item.setId??state.selectedContract?.clientSuitId));
+            return `<button type="button" data-transcription-part="${index}" aria-pressed="${index===state.selectedPart}"><strong>${ROMANS[index]}</strong><span>${escapeHtml(contract?.korean_name||'미장착')}</span></button>`;
+        }).join('');
+        buttons.querySelectorAll('button').forEach(button=>button.onclick=()=>{
+            state.selectedPart=Number(button.dataset.transcriptionPart);state.manualPreview=null;state.manualResult=null;setManualStatus('','');renderManual();saveCurrentState();
+            buttons.querySelector(`[data-transcription-part="${state.selectedPart}"]`)?.focus({preventScroll:true});
         });
-    }
-
-    function renderManualMainOption() {
-        if (!els.manualMainOption) return;
-        const part = getSelectedPart();
-        els.manualMainOption.innerHTML = MAIN_OPTIONS[state.selectedPart]
-            .map(optionId => `<option value="${optionId}">${escapeHtml(getOptionName(optionId))}</option>`)
-            .join('');
-        els.manualMainOption.value = part.mainOption;
-        if (els.manualMainLevel) {
-            els.manualMainLevel.innerHTML = MAIN_COMPLETION
-                .map((_, level) => `<option value="${level}">+ ${level}</option>`)
-                .join('');
-            els.manualMainLevel.value = String(part.mainLevel);
-        }
+        document.getElementById('transcription-current-title').textContent=ROMANS[state.selectedPart]+' · '+(set?.korean_name||'미장착');
+        document.getElementById('transcription-current-main').textContent=set?'주옵션 · '+getOptionName(part.mainOption)+' / Lv. '+part.mainLevel:'세팅·프리셋에서 비밀계약을 먼저 장착하세요.';
+        const rows=document.getElementById('transcription-current-stats');
+        rows.innerHTML=part.substats.map((substat,index)=>`<div class="transcription-stat"><div><span class="workspace-help">부옵션 ${index+1}</span><p>${escapeHtml(getSubstatText(substat))}</p></div><button type="button" class="contract-substat-lock" data-substat-lock="${index}" aria-label="${index+1}번 부옵 잠금" aria-pressed="${substat.locked}" ${!set||substat.option==='none'?'disabled':''}><img src="images/covenant-ui/UI_Common_D_Image_Unlock${substat.locked?'06':'05'}.png" width="78" height="42" alt=""></button></div>`).join('');
+        rows.querySelectorAll('button').forEach(button=>button.onclick=()=>{
+            const index=Number(button.dataset.substatLock);toggleManualLock(index);rows.querySelector(`[data-substat-lock="${index}"]`)?.focus({preventScroll:true});
+        });
     }
 
     function renderManualPreview() {
@@ -822,43 +799,12 @@
 
     function renderCovenantStatGrid(parts = getAllPartSnapshots()) {
         const totals = getCovenantStatTotals(parts);
-        const rows = range(0, 3).map(rowIndex => {
-            const left = totals[rowIndex * 2];
-            const right = totals[rowIndex * 2 + 1];
-            return `
-                <tr>
-                    <th scope="row">${escapeHtml(left.name)}</th>
-                    <td>${escapeHtml(formatStatValue(left.value, left.unit))}</td>
-                    <th scope="row">${escapeHtml(right.name)}</th>
-                    <td>${escapeHtml(formatStatValue(right.value, right.unit))}</td>
-                </tr>
-            `;
-        }).join('');
-        return `
-            <div class="covenant-stat-summary">
-                <div class="stat-table-title">현재 비밀계약 스탯</div>
-                <table class="covenant-stat-table">
-                    <tbody>${rows}</tbody>
-                </table>
-            </div>
-        `;
+        return `<section class="covenant-stat-summary"><h4 class="stat-table-title">세팅 능력치</h4><dl class="covenant-result-totals">${totals.map(option=>`<div><dt>${escapeHtml(option.name)}</dt><dd>${escapeHtml(formatStatValue(option.value,option.unit))}</dd></div>`).join('')}</dl></section>`;
     }
 
     function getCovenantStatTotals(parts = getAllPartSnapshots()) {
-        const totals = Object.fromEntries(OPTIONS.map(option => [option.id, {
-            name: option.name,
-            unit: option.unit,
-            value: 0
-        }]));
-        parts.forEach(part => {
-            const mainOption = optionById[part.mainOption];
-            if (mainOption) totals[part.mainOption].value += mainOption.step * (part.mainLevel || 0);
-            part.substats.forEach(substat => {
-                const option = optionById[substat.option];
-                if (option) totals[substat.option].value += option.step * substat.level;
-            });
-        });
-        return OPTIONS.map(option => totals[option.id]);
+        const values=sharedModel.simulatorTotals(parts,editorDefinition,{fallbackSetId:state.selectedContract?.clientSuitId||0,bound:!!state.contractBound});
+        return OPTIONS.map(option=>({...option,value:values[sharedModel.simulatorAttributeIds[option.id]]||0}));
     }
 
     function showResultMessage(message) {
@@ -881,6 +827,7 @@
     }
 
     function setManualStatus(message, type) {
+        if(state.mode==='editor')document.getElementById('preset-status').textContent=message;
         if (!els.manualStatus) return;
         els.manualStatus.textContent = message;
         els.manualStatus.className = `manual-status ${type || ''}`.trim();
@@ -916,7 +863,8 @@
 
     function createStateSnapshot() {
         return {
-            version: 1,
+            version: 2,
+            contractBound:!!state.contractBound,
             selectedContract: state.selectedContract ? state.selectedContract.english_name : '',
             selectedPart: state.selectedPart,
             mode: state.mode,
@@ -925,6 +873,7 @@
             hasUnsavedPresetChanges: state.hasUnsavedPresetChanges,
             targetParts: [...state.targetParts],
             parts: state.parts.map(part => ({
+                setId:part.setId,
                 mainOption: part.mainOption,
                 mainLevel: part.mainLevel,
                 substats: part.substats.map(substat => ({ ...substat })),
@@ -932,6 +881,7 @@
                 lastTouched: !!part.lastTouched
             })),
             targetSimParts: state.targetSimParts.map(part => ({
+                setId:part.setId,
                 mainOption: part.mainOption,
                 mainLevel: part.mainLevel,
                 substats: part.substats.map(substat => ({ ...substat })),
@@ -944,8 +894,10 @@
     function applyStateSnapshot(snapshot) {
         const contract = state.contracts.find(item => item.english_name === snapshot.selectedContract);
         if (contract) state.selectedContract = contract;
+        state.editorPart=-1;
+        state.contractBound=!!snapshot.contractBound;
         state.selectedPart = clampIndex(snapshot.selectedPart, 0, 5, 0);
-        state.mode = snapshot.mode === 'target' ? 'target' : 'manual';
+        state.mode = ['editor','manual','target'].includes(snapshot.mode)?snapshot.mode:'editor';
         state.targetParts = normalizeTargetParts(snapshot.targetParts);
         state.parts = Array.from({ length: 6 }, (_, index) => normalizePartSnapshot(snapshot.parts && snapshot.parts[index], index));
         const storedTargetParts = snapshot.targetSimParts || snapshot.parts;
@@ -1050,6 +1002,7 @@
             return;
         }
         applyStateSnapshot(preset.snapshot);
+        state.mode='editor';
         state.hasUnsavedPresetChanges = false;
         renderContract();
         renderParts();
@@ -1060,6 +1013,7 @@
         renderTotals();
         saveCurrentState();
         showResultMessage(`프리셋 "${preset.name}"을 불러왔습니다.`);
+        setManualStatus(`프리셋 "${preset.name}"을 불러왔습니다.`, '');
     }
 
     function deleteSelectedPreset() {
@@ -1137,12 +1091,12 @@
     }
 
     function getDefaultPresetName() {
-        const contractName = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
+        const contractName = state.contracts.find(c=>c.clientSuitId===(state.parts[partIndex].setId??state.selectedContract?.clientSuitId))?.korean_name||'미장착';
         return `${contractName} ${formatTotalCompletion(getTotalCompletion())}%`;
     }
 
     function getDefaultTargetPresetName() {
-        const contractName = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
+        const contractName = state.contracts.find(c=>c.clientSuitId===(state.parts[partIndex].setId??state.selectedContract?.clientSuitId))?.korean_name||'미장착';
         return `${contractName} 목표 ${state.targetParts.map(index => ROMANS[index]).join('')}`;
     }
 
@@ -1152,6 +1106,7 @@
             targetParts: [...state.targetParts],
             targetLockCostMode: els.targetLockCost ? els.targetLockCost.value : 'fragment',
             targets: state.targetSimParts.map(part => ({
+                setId:part.setId,
                 mainOption: part.mainOption,
                 goals: part.goals.map(goal => ({ ...goal }))
             }))
@@ -1183,8 +1138,9 @@
         const substats = Array.from({ length: 3 }, (_, substatIndex) => normalizeSubstat(part.substats && part.substats[substatIndex], base.substats[substatIndex]));
         const goals = Array.from({ length: 3 }, (_, goalIndex) => normalizeGoal(part.goals && part.goals[goalIndex], base.goals[goalIndex]));
         return {
-            mainOption: MAIN_OPTIONS[index].includes(part.mainOption) ? part.mainOption : base.mainOption,
-            mainLevel: clampIndex(part.mainLevel, 0, MAIN_COMPLETION.length - 1, base.mainLevel),
+            setId:part.setId===0||Object.values(editorDefinition.setIds).includes(part.setId)?part.setId:undefined,
+            mainOption: part.mainOption==='none'?'none':MAIN_OPTIONS[index].includes(part.mainOption) ? part.mainOption : base.mainOption,
+            mainLevel: clampIndex(part.mainLevel, 0, MAX_MAIN_LEVEL, base.mainLevel),
             substats,
             goals,
             lastTouched: !!part.lastTouched
@@ -1194,7 +1150,7 @@
     function normalizeSubstat(substat, fallback) {
         if (!substat || typeof substat !== 'object') return { ...fallback };
         return {
-            option: optionById[substat.option] ? substat.option : fallback.option,
+            option: substat.option==='none'?'none':optionById[substat.option] ? substat.option : fallback.option,
             level: clampIndex(substat.level, 1, 8, fallback.level),
             locked: !!substat.locked
         };
@@ -1232,6 +1188,7 @@
     }
 
     function resetSimulation() {
+        state.editorPart=-1;state.contractBound=false;
         state.parts = Array.from({ length: 6 }, (_, index) => createDefaultPart(index));
         state.targetSimParts = Array.from({ length: 6 }, (_, index) => createDefaultPart(index));
         state.selectedPart = 0;
@@ -1272,6 +1229,7 @@
     function getAllPartSnapshots(previewPartIndex, previewSubstats) {
         return state.parts.map((part, index) => ({
             partIndex: index,
+            setId:part.setId,
             mainOption: part.mainOption,
             mainLevel: part.mainLevel,
             substats: cloneSubstats(index === previewPartIndex && previewSubstats ? previewSubstats : part.substats)
@@ -1281,6 +1239,7 @@
     function getAllTargetPartSnapshots() {
         return state.targetSimParts.map((part, index) => ({
             partIndex: index,
+            setId:part.setId,
             mainOption: part.mainOption,
             mainLevel: part.mainLevel,
             substats: cloneSubstats(part.substats)
@@ -1293,6 +1252,7 @@
             const partResult = resultByPart.get(index);
             return {
                 partIndex: index,
+                setId:part.setId,
                 mainOption: part.mainOption,
                 mainLevel: part.mainLevel,
                 substats: cloneSubstats(partResult ? partResult.finalSubstats : part.substats)
@@ -1311,16 +1271,15 @@
     }
 
     function getPartCompletion(part, substats = part.substats) {
-        const totalLevel = substats.reduce((sum, substat) => sum + substat.level, 0);
-        return MAIN_COMPLETION[part.mainLevel] + SUB_COMPLETION[totalLevel];
+        return sharedModel.simulatorCompletion([{...part,substats}],!!state.contractBound);
     }
 
     function getTotalCompletion() {
-        return state.parts.reduce((sum, part) => sum + getPartCompletion(part), 0);
+        return sharedModel.simulatorCompletion(state.parts,!!state.contractBound);
     }
 
     function formatTotalCompletion(value) {
-        return value >= 99.5 ? '100' : formatNumber(value, 1);
+        return formatNumber(value, 1);
     }
 
     function getSelectedPart() {
@@ -1371,22 +1330,23 @@
     }
 
     function getContractPartName(partIndex) {
-        const contractName = state.selectedContract ? state.selectedContract.korean_name : '비밀계약';
+        const contractName = state.contracts.find(c=>c.clientSuitId===(state.parts[partIndex].setId??state.selectedContract?.clientSuitId))?.korean_name||'미장착';
         return `${contractName} ${ROMANS[partIndex]}`;
     }
 
     function getSubstatText(substat) {
         const option = optionById[substat.option];
+        if(!option)return '없음';
         return `${option.name} ${formatNumber(option.step * substat.level, 2)}${option.unit} (Lv ${substat.level})`;
     }
 
     function renderStatLine(substat) {
-        const optionName = getOptionName(substat.option);
+        const optionName = substat.option==='none'?'':getOptionName(substat.option);
         return `<div class="stat-line"><span class="stat-name">${escapeHtml(optionName)}</span><span class="stat-value">${escapeHtml(getSubstatText(substat).replace(`${optionName} `, ''))}</span></div>`;
     }
 
     function renderCompactStatLine(substat) {
-        const optionName = getOptionName(substat.option);
+        const optionName = substat.option==='none'?'':getOptionName(substat.option);
         return `<div class="compact-stat-line"><span class="stat-name">${escapeHtml(optionName)}</span><span class="stat-value">${escapeHtml(getSubstatText(substat).replace(`${optionName} `, ''))}</span></div>`;
     }
 

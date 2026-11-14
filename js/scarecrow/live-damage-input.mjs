@@ -1,3 +1,4 @@
+import {effectSnapshot} from './effect-presentation.mjs';
 import {validateCovenantParts} from './covenant-stats.mjs';
 import {flameOverride} from './character-conditions.mjs';
 import {validateEnemies} from './enemy-loadout.mjs';
@@ -93,7 +94,7 @@ export async function makeLiveDamageInput({catalog,call,state,people,person,card
   const {stateId,...value}=effect;d.states.push({id:stateId,...value,casterTid:source});
  }
  // Explicit zeros clear a state; a blank field preserves original preparation.
- for(const item of state.customStates||[]){if(!provided(item.layers)||item.owner==='card'&&item.cardTid&&item.cardTid!==card.id)continue;const layers=finite(item.layers,'현재 상태');if(!Number.isInteger(layers))throw Error('상태 중첩은 정수로 입력하세요.');if(!people.some(p=>p.id===item.sourceTid)||item.ownerTid&&!people.some(p=>p.id===item.ownerTid))throw Error('현재 편성의 상태 소유자를 확인하세요.');d.states.push({...item,id:Number(item.id),layers,casterTid:item.casterTid??item.sourceTid});}
+ for(const item of (state.customStates||[]).map(effectSnapshot)){if(!provided(item.layers)||item.owner==='card'&&item.cardTid&&item.cardTid!==card.id)continue;const layers=finite(item.layers,'현재 상태');if(!Number.isInteger(layers))throw Error('상태 중첩은 정수로 입력하세요.');if(!people.some(p=>p.id===item.sourceTid)||item.ownerTid&&!people.some(p=>p.id===item.ownerTid))throw Error('현재 편성의 상태 소유자를 확인하세요.');d.states.push({...item,id:Number(item.id),layers,casterTid:item.casterTid??item.sourceTid});}
  // A custom snapshot replaces the compact editor for the same concrete owner.
  d.states=[...new Map(d.states.map(s=>[[s.owner??'actor',s.ownerTid??'',s.targetIndex??'',s.id].join(':'),s])).values()];
  for(const p of people){

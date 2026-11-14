@@ -1,0 +1,31 @@
+{
+  "source": "installed game atlas Sprite extraction and prefab m_Sprite reference match",
+  "sprites": [
+    {
+      "role": "locked",
+      "sprite": "UI_Common_D_Image_Unlock06",
+      "pathId": "-22072243195788885",
+      "atlas": "artres/ui/ui_altas/uiresources_atlassource_ui_common_image_atlas.ab",
+      "prefab": "artres/ui/ui_awaker/ui_awaker_prefab/trinket/ui_awaker_item_trinket_refinement.prefab.ab",
+      "prefabNode": "Image_Lock_Icon",
+      "sha256": "46803706b1a0584e028d6484bee6343debbdf99e678dd2d9fe9660335a85d0fe",
+      "size": [
+        78,
+        42
+      ]
+    },
+    {
+      "role": "unlocked",
+      "sprite": "UI_Common_D_Image_Unlock05",
+      "pathId": "-3626457288430482134",
+      "atlas": "artres/ui/ui_altas/uiresources_atlassource_ui_common_image_atlas.ab",
+      "prefab": "artres/ui/ui_awaker/ui_awaker_prefab/trinket/ui_awaker_item_trinket_refinement.prefab.ab",
+      "prefabNode": "Image_Unlock_Icon",
+      "sha256": "d22a67116e13f26c69fbbe18a69ea682a0695a810dbaf0d05ad8b20de5ef0a72",
+      "size": [
+        78,
+        42
+      ]
+    }
+  ]
+}

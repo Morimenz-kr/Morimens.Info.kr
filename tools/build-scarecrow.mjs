@@ -36,7 +36,7 @@ if (process.env.SCARECROW_ENGINE_PACK) {
 
 // These are the site's actual shared renderers. Do not freeze copied pickers.
 for (const relative of ['css/common.css','css/components.css','css/party_builder.css','css/character-effects.css','css/responsive.css','css/pages/info_tools.css','css/pages/relic-info.css','css/pages/covenant_simulator.css','js/party_builder.js','js/covenant-picker.js','js/covenant-parts.mjs','js/covenant-bound-material.mjs','js/relic-info.js','js/research-depth.js','js/search_utils.js','js/character-effects.js','js/character-identity.js','css/pages/dzone-info.css','js/dzone-info.js','js/dzone-season.js','js/dzone-richtext.js']) await copy(path.join(root,relative),path.join(output,relative));
-const dataFiles = ['character_manifest', 'wheel_list', 'silverkey_list', 'party_builder_rules', 'db_tooltips', 'relic_catalog', 'research_depth_levels', 'covenant_list','covenant_bound_material','dzone_current','dzone_season68','dzone_season69','dzone_season70','dzone_season71','dzone_season72','dzone_maps','dzone_maps_season68','dzone_maps_season69','dzone_maps_season70','dzone_maps_season71','dzone_maps_season72'];
+const dataFiles = ['character_manifest', 'wheel_list', 'silverkey_list', 'party_builder_rules', 'db_tooltips', 'relic_catalog', 'research_depth_levels', 'covenant_list','covenant_editor','covenant_bound_material','dzone_current','dzone_season68','dzone_season69','dzone_season70','dzone_season71','dzone_season72','dzone_maps','dzone_maps_season68','dzone_maps_season69','dzone_maps_season70','dzone_maps_season71','dzone_maps_season72'];
 const data = {};
 for (const name of dataFiles) { data[name] = await json(`data/${name}.json`); }
 const wheelMap = await json('scarecrow/runtime/site-equipment-map.json');
@@ -50,6 +50,24 @@ for (const w of data.wheel_list) w.clientItemId = wheelMap[w.english_name] ?? nu
 for (const k of data.silverkey_list) Object.assign(k, keyMap[k.english_name] || {});
 const catalog = await json('scarecrow/runtime/catalog.json');
 const live = await json('scarecrow/runtime/live-data.json');
+const characterEffects = await json('data/character_effects.json');
+// Bind translated descriptions once to native skill IDs, including renamed skills.
+const coreCommandSlots = ['Slot_Strike','Slot_Defend','Slot_Skill1','Slot_Skill2'];
+for (const person of live.people) {
+    const identity = catalog.characters.find(c => c.id === person.id);
+    const effects = characterEffects[identity?.manifestId];
+    const skills = effects?.skills || [];
+    const commands = skills.filter(s => s.type === '명령');
+    for (const card of [...person.cards, ...person.generated]) {
+        const slot = catalog.skills[card.id]?.slot;
+        const candidates = [...skills, ...(effects?.derivedCards || [])].filter(s => s.name === card.name);
+        card.effectRecord = candidates.length === 1 ? candidates[0]
+            : slot === 'Slot_Super' ? skills.find(s => s.type === '광기 폭발')
+            : slot === 'Slot_Awake' ? skills.find(s => s.type === '영지 각성')
+            : coreCommandSlots.includes(slot) ? commands[coreCommandSlots.indexOf(slot)] : undefined;
+        if (!card.effectRecord) console.warn(`No translated card effect: ${person.id}/${card.id} (${card.name})`);
+    }
+}
 for(const contract of data.covenant_list){const match=catalog.suits.find(s=>s.id===contract.clientSuitId);if(match)match.name=contract.korean_name;}
 const unsupported = { characters: [], wheels: [], keys: [] };
 for (const c of data.character_manifest) {
@@ -96,7 +114,16 @@ const ignoreNode = { name: 'node-runtime-fallbacks', setup(b) {
 for (const [entry, name] of [['damage-screen.mjs','live-app.js'], ['worker.mjs','worker.js']]) {
     await build({ entryPoints: [path.join(source, entry)], outfile: path.join(output, name), bundle: true, format: 'esm', platform: 'browser', target: 'es2022', plugins: [ignoreNode], logLevel: 'warning' });
 }
-for (const name of ['original-ui-adapter.js','original-ui.css','growth-presentation.js','prefab-party-card.js','contract-picker.js','covenant-stats.mjs','covenant-equipment.mjs','enemy-loadout.mjs','enemy-picker.js','live.css']) await copy(path.join(source, name), path.join(output, name));
+for (const name of ['original-ui-adapter.js','original-ui.css','typography.css','battle-workspace.css','growth-presentation.js','prefab-party-card.js','contract-picker.js','enemy-loadout.mjs','enemy-picker.js','live.css']) await copy(path.join(source, name), path.join(output, name));
+await copy(path.join(source, 'fonts'), path.join(output, 'fonts'));
+for(const name of ['covenant-stats.mjs','covenant-equipment.mjs']) await copy(path.join(root,'js',name),path.join(output,name));
+for(const name of ['covenant-editor.mjs','covenant-stats.mjs','covenant-equipment.mjs','covenant-simulator-model.mjs','covenant_simulator.js','feedback.js']) await copy(path.join(root,'js',name),path.join(output,'js',name));
+for(const name of ['covenant-editor.css','pages/covenant-workspace.css']) await copy(path.join(root,'css',name),path.join(output,'css',name));
+await copy(path.join(root,'config'),path.join(output,'config'));
+await copy(path.join(source,'fonts'),path.join(output,'js/scarecrow/fonts'));
+await copy(path.join(root,'covenant_simulator.html'),path.join(output,'covenant_simulator.html'));
+await copy(path.join(root,'data/covenant_parts.json'),path.join(output,'data/covenant_parts.json'));
+await copy(path.join(root,'images/covenant-ui'),path.join(output,'images/covenant-ui'));
 await copy(path.join(source, 'damage-screen.html'), path.join(output, 'battle.html'));
 let html = await read('party_builder.html');
 html = html.replace(/<script src="config\/config.js[^>]*><\/script>[\s\S]*?<\/script>/, ['css/common.css','css/components.css','css/character-effects.css','css/party_builder.css'].map(p => `<link rel="stylesheet" href="${p}">`).join('') + '<script defer src="js/search_utils.js"></script><script defer src="js/character-effects.js"></script>');
@@ -119,6 +146,10 @@ enemyHtml=enemyHtml.replace(/<script src="config\/config.js[^>]*><\/script>[\s\S
 enemyHtml=enemyHtml.replace(/<script>\s*loadJS\('js\/character-effects.js'\);[\s\S]*?<\/script>/,['js/character-effects.js','js/research-depth.js','js/dzone-season.js','js/dzone-richtext.js','js/dzone-info.js','enemy-picker.js'].map(p=>`<script src="${p}"></script>`).join(''));
 enemyHtml=enemyHtml.replace('</head>',`<style>body{margin:0}.bg-image,.background-overlay{display:none}.dzone-page-shell{padding:1rem;max-width:none}.dzone-page-shell>nav,.dzone-hero,.floating-report-btn,.dzone-research-panel,.dzone-mechanic-nav,.dzone-toolbar-heading{display:none}.dzone-shell{margin:0}.monster-heading{flex-wrap:wrap}.monster-select{min-height:44px;white-space:normal;overflow-wrap:anywhere}.dzone-picker-note{padding:0 1rem;line-height:1.6;color:#e4e4ed}</style></head>`).replace('<main class="container info-page dzone-page-shell">','<p class="dzone-picker-note">적의 전투 시작 상태를 사용합니다. 구역 유물과 별도 전투 조건은 허수아비에서 설정하세요.</p><main class="container info-page dzone-page-shell">');
 await writeFile(path.join(output,'enemy-picker.html'),enemyHtml);
+for (const name of (await readdir(output)).filter(name => name.endsWith('.html'))) {
+    const file = path.join(output,name);
+    await writeFile(file,(await readFile(file,'utf8')).replace('</head>','<link rel="stylesheet" href="typography.css"></head>'));
+}
 await writeFile(path.join(output, '_headers'), '/*\n  Cache-Control: no-cache\n  X-Content-Type-Options: nosniff\n');
 const proof = { resourceVersion: lock.resourceVersion, originDeployment: lock.originDeployment, candidateEngine, sharedRenderers: ['js/party_builder.js','js/covenant-picker.js','js/covenant-parts.mjs','js/covenant-bound-material.mjs','js/relic-info.js'], characters: data.character_manifest.length, wheels: data.wheel_list.length, unsupported };
 await writeFile(path.join(output, 'build-info.json'), JSON.stringify(proof, null, 2));
