@@ -1014,7 +1014,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'dzone-season72-res160-20261024-cycle2'/);
+    assert.match(html, /CONFIG\.VERSION = 'dzone-auto-current-usage-20261110'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));
@@ -1198,6 +1198,38 @@ test('카드 버린 직후 방어막 기록값을 내부 상태명 없이 설명
     assert.doesNotMatch(descriptions.join('\n'), /실드값 스택 수|max\(플레이어 방어막/);
 });
 
+test('#245 현재와 보관 기수의 4파만 지도 진행 순서로 배열한다', () => {
+    const orderingSource = source.slice(source.indexOf('    function orderedEncounters('), source.indexOf('    function renderWave('));
+    for (const period of [68, 69, 70, 71, 72]) {
+        const load = name => JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', name), 'utf8'));
+        const season = load(`dzone_season${period}.json`);
+        const maps = load(`dzone_maps_season${period}.json`);
+        const context = vm.createContext({ mapData: maps, TYPE_ORDER: { Common: 0, Elite: 1, Boss: 2 } });
+        vm.runInContext(orderingSource, context);
+        for (const wave of season.waves) {
+            const before = JSON.stringify(wave.encounters);
+            const expected = wave.wave === 4
+                ? maps.waves.find(item => item.wave === 4).nodes.filter(node => node.battleId)
+                    .sort((a, b) => a.column - b.column).map(node => node.battleId)
+                : [...wave.encounters].sort((a, b) => context.TYPE_ORDER[a.battleType] - context.TYPE_ORDER[b.battleType]).map(item => item.battleId);
+            assert.deepEqual(Array.from(context.orderedEncounters(wave), item => item.battleId), expected, `${period}기 ${wave.wave}파`);
+            assert.equal(JSON.stringify(wave.encounters), before);
+        }
+    }
+    assert.match(source, /const sortedEncounters = orderedEncounters\(wave\)/);
+});
+
+test('#245 지도가 없거나 전투 연결이 누락되면 기존 유형 정렬을 유지한다', () => {
+    const orderingSource = source.slice(source.indexOf('    function orderedEncounters('), source.indexOf('    function renderWave('));
+    const season = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season72.json'), 'utf8'));
+    const wave = season.waves.find(item => item.wave === 4);
+    for (const mapData of [null, { waves: [{ wave: 4, nodes: [{ column: 1, row: 4, battleId: wave.encounters[0].battleId }] }] }]) {
+        const context = vm.createContext({ mapData, TYPE_ORDER: { Common: 0, Elite: 1, Boss: 2 } });
+        vm.runInContext(orderingSource, context);
+        assert.deepEqual(Array.from(context.orderedEncounters(wave), item => item.battleId), [88643, 88573, 88618]);
+    }
+});
+
 test('노드 지도는 전투 버튼만 상세 카드에 연결하고 실전 통계와 맨 위로 이동을 제공한다', () => {
     assert.match(source, /function renderMap\(wave\)/);
     assert.match(source, /const visualLabel = node\.texture \? '' :/);
@@ -1243,10 +1275,14 @@ test('운영 API에서 기존 범위와 1~7급 35개 집계를 읽고 누락·�
     const stages = Array.from({ length: 5 }, (_, index) => ['nightmare', 'madness'].map((difficulty, offset) => ({
         wave: index + 1, difficulty, stageTid: 100 + index * 2 + offset
     }))).flat();
-    let payload = { data: { stages }, fetchedAt: 1788529507 };
+    let payload = { data: { period: 73, since: 100, stages }, fetchedAt: 1788529507 };
+    const seasonFor = rows => ({ period: 73, usageSince: 100, waves: Array.from({ length: 5 }, (_, index) => ({
+        alerts: rows.filter(row => row.wave === index + 1).map(row => ({ stageId: row.stageTid }))
+    })) });
     const urls = [];
     const cacheModes = [];
     const context = vm.createContext({
+        data: seasonFor(stages),
         window: { location: { hostname: 'morimens.info' } },
         dzoneUsageOverviewCache: null, STAGE_USAGE_REFRESH_INTERVAL: 30000,
         fetch: async (url, options) => {
@@ -1259,25 +1295,56 @@ test('운영 API에서 기존 범위와 1~7급 35개 집계를 읽고 누락·�
     assert.equal((await context.loadDzoneUsageOverview('https://worker.test', true)).stages.length, 10);
     assert.deepEqual(urls, ['https://worker.test/api/dzone/usage']);
     assert.deepEqual(cacheModes, ['no-cache']);
-    payload = { ...payload, data: { stages: [...stages.slice(0, 9), stages[0]] } };
+    payload = { ...payload, data: { period: 73, since: 100, stages: [...stages.slice(0, 9), stages[0]] } };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
-    payload = { ...payload, data: { stages: stages.map(stage => ({ ...stage, stageTid: 100 })) } };
+    payload = { ...payload, data: { period: 73, since: 100, stages: stages.map(stage => ({ ...stage, stageTid: 100 })) } };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
 
     const gradeStages = Array.from({ length: 5 }, (_, index) => ['1', '2', '3', '4', '5', '6', '7'].map((difficulty, offset) => ({
         wave: index + 1, difficulty, stageTid: 1_000 + index * 7 + offset
     }))).flat();
-    payload = { data: { stages: gradeStages }, fetchedAt: 1_788_529_507 };
+    context.data = seasonFor(gradeStages);
+    payload = { data: { period: 73, since: 100, stages: gradeStages }, fetchedAt: 1_788_529_507 };
     assert.equal((await context.loadDzoneUsageOverview('https://worker.test', true)).stages.length, 35);
-    payload = { ...payload, data: { stages: gradeStages.slice(0, 34) } };
+    payload = { ...payload, data: { period: 73, since: 100, stages: gradeStages.slice(0, 34) } };
+    await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+    payload = { data: { period: 72, since: 100, stages: gradeStages }, fetchedAt: 1788529507 };
+    await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+    payload = { data: { period: 73, since: 99, stages: gradeStages }, fetchedAt: 1788529507 };
+    await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
+    payload = { data: { period: 73, since: 100, stages }, fetchedAt: 1788529507 };
     await assert.rejects(context.loadDzoneUsageOverview('https://worker.test', true), /unavailable/);
     context.window.location.hostname = 'localhost';
-    payload = { data: { stages: gradeStages }, fetchedAt: 1_788_529_507 };
+    context.data = seasonFor(gradeStages);
+    payload = { data: { period: 73, since: 100, stages: gradeStages }, fetchedAt: 1_788_529_507 };
     await context.loadDzoneUsageOverview('https://worker.test', true);
     assert.equal(urls.at(-1), '/private-tools/output/dzone-usage-overview.json');
     assert.equal(cacheModes.at(-1), 'no-store');
 });
 
+
+test('스테이지 API가 아직 없으면 같은 시즌 전체 집계의 채용률과 편성을 사용한다', async () => {
+    const body = { innerHTML: '' };
+    const section = { isConnected: true, dataset: { stageUsage: '123' },
+        querySelector: () => body, querySelectorAll: () => [] };
+    const context = vm.createContext({
+        document: { querySelector: () => section },
+        stageUsageCache: new Map(), STAGE_USAGE_REFRESH_INTERVAL: 30000,
+        fetch: async () => ({ status: 404 }),
+        loadDzoneUsageOverview: async () => ({ period: 73, since: 100, fetchedAt: 200,
+            stages: [{ stageTid: 123, recordCount: 4, usageRecordCount: 4,
+                awakeners: [{ tid: 7, count: 4 }], parties: [{ count: 4, awakeners: [{ tid: 7 }] }] }] }),
+        updateStageUsageMeta: () => {}, renderStageUsage: () => 'rendered'
+    });
+    vm.runInContext(source.slice(source.indexOf('    async function loadStageUsage('),
+        source.indexOf('    function scheduleStageUsageRefresh(')), context);
+    await context.loadStageUsage(123);
+    const usage = JSON.parse(section.dataset.usage);
+    assert.equal(usage.recordCount, 4);
+    assert.equal(usage.awakeners[0].tid, 7);
+    assert.equal(usage.parties[0].count, 4);
+    assert.equal(body.innerHTML, 'rendered');
+});
 
 test('쪼기 전환은 실제 흰색 의도 분기 하나와 보강 50만 표시한다',()=>{
  const monster=currentDzoneData.waves.flatMap(w=>w.monsters).find(m=>m.tid===131884);
@@ -1286,4 +1353,21 @@ test('쪼기 전환은 실제 흰색 의도 분기 하나와 보강 50만 표시
  assert.deepEqual(actions[0].transitionEffects.map(e=>[e.stateId,e.valueExpression]),[[60083,'50']]);
  assert.match(actions[0].conditionText,/한 번에 스택 수 이상의 피해/);
  assert.doesNotMatch(JSON.stringify(actions),/발동 표식|상태@/);
+});
+
+test('몬스터 이름의 특수 문자 코드는 난이도와 같은 아틀라스 문양으로 표시한다', () => {
+    const context = vm.createContext({ escapeHtml: value => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;') });
+    vm.runInContext(source.slice(source.indexOf('    const CONFUSE_SPRITES ='), source.indexOf('    const CONFUSE_GRADE_BY_SEASON =')), context);
+    vm.runInContext(source.slice(source.indexOf('    function gameGrade('), source.indexOf('    function selectedDifficultyLabel(')), context);
+    vm.runInContext(source.slice(source.indexOf('    function renderGameName('), source.indexOf('    function renderMonsterCard(')), context);
+    const current = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'dzone_season72.json'), 'utf8'));
+    const boss = current.waves.find(wave => wave.wave === 3).monsters.find(monster => monster.tid === 60096);
+    assert.equal(boss.nameKo, '「@2주자」');
+    assert.match(context.renderGameName(boss.nameKo), /ui_story_confuse_2\.png/);
+    assert.match(context.renderGameName(boss.nameKo), /주자」/);
+    assert.doesNotMatch(context.renderGameName(boss.nameKo), /@2/);
+    for (let index = 1; index <= 7; index++) assert.match(context.renderGameName(`@${index}주자`), new RegExp(`ui_story_confuse_${index}\\.png`));
+    assert.equal(context.renderGameName('일반 이름 @12 @8'), '일반 이름 @12 @8');
+    assert.doesNotMatch(context.renderGameName('<script>@2</script>'), /<script>/);
+    assert.match(context.renderGameName('@2'), /role="img" aria-label="특수 문양"/);
 });

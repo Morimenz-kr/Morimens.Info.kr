@@ -5,6 +5,7 @@ const test = require('node:test');
 const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_current.json'), 'utf8'));
 
 test('72기는 160버전 원본의 7개 위험 등급과 35개 독립 스테이지를 포함한다', () => {
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season72.json'), 'utf8'));
     assert.equal(data.period, 72);
     assert.equal(data.source.resourceVersion, 160);
     assert.equal(data.difficultyCount, 7);
@@ -16,6 +17,21 @@ test('72기는 160버전 원본의 7개 위험 등급과 35개 독립 스테이�
         ids.push(...wave.alerts.map(alert => alert.stageId));
     }
     assert.equal(new Set(ids).size, 35);
+});
+
+test('정식 현재 시즌은 검수된 73기이며 35개 스테이지를 포함한다', () => {
+    assert.equal(data.period, 73);
+    assert.equal(data.source.resourceVersion, 22);
+    assert.equal(data.source.branchName, 'Z1G_2026_11_OB');
+    assert.equal(data.difficultyCount, 7);
+    assert.equal(new Set(data.waves.flatMap(wave => wave.alerts.map(alert => alert.stageId))).size, 35);
+});
+
+test('73기는 신버전 원본의 실제 파동별 최종 전투를 사용한다', () => {
+    assert.deepEqual(data.waves.map(wave => wave.encounters.filter(encounter => encounter.battleType === 'Boss').map(encounter => encounter.battleId)), [[87355], [87693], [88399], [87879], [87617]]);
+    assert.deepEqual(data.waves.map(wave => wave.monsters.filter(monster => monster.monsterClass === 'Boss').map(monster => monster.tid)), [[149106], [49592], [14061], [131442], [84437]]);
+    assert.deepEqual(data.contentAudit.warnings, []);
+    assert.deepEqual(data, JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season73.json'), 'utf8')));
 });
 
 test('현재 시즌의 모든 단계 의도와 소환체는 단계 컨텍스트로 해석된다', () => {
@@ -57,5 +73,31 @@ test('현재 시즌의 실제 참조 설명과 조건부 행동에는 미해석 
     for (const item of Object.values(data.keywordGlossary)) {
         assert.doesNotMatch(item.description, /\[(?:\w+:)?(?:Arg|StateArg|DescArg)\d+\]|NaN|undefined/);
         if (item.icon) assert.ok(fs.existsSync(path.join(__dirname, '..', item.icon)), item.icon);
+    }
+});
+
+test('73기 공격·방어막과 각성 효과의 계산 가능한 수치는 숫자로 제공한다', () => {
+    const wave5 = data.waves[4];
+    for (const alert of wave5.alerts) {
+        const boss = alert.monsters.find(monster => monster.tid === 84437);
+        for (const id of [84383,84387,84388]) {
+            const skill = boss.resolvedSkills[id];
+            const damage = skill.args[0].value.display.toLocaleString('ko-KR');
+            assert.ok(skill.description.includes(`${damage}pt의 피해`), `${alert.alert}급 Skill:${id}`);
+        }
+        assert.equal(boss.phaseResolvedSkills['2']['84387'].args[1].value.display, 4);
+    }
+    for (const wave of data.waves) for (const alert of wave.alerts) {
+        for (const summon of alert.summonedMonsters) {
+            assert.ok(Number.isFinite(summon.attack), `${wave.wave}파 ${summon.tid}`);
+            for (const skill of Object.values(summon.resolvedSkills)) {
+                assert.doesNotMatch(skill.description, /공격력의 [\d.]+%pt의 피해/);
+            }
+            const shield = summon.resolvedStates.find(state => state.id === 35971);
+            if (shield) assert.match(shield.description, /[\d,]+pt의 방어막/);
+        }
+        for (const monster of alert.monsters) for (const states of Object.values(monster.phaseStateEffects || {})) {
+            for (const state of states.filter(state => state.visible)) assert.doesNotMatch(state.richDescription || '', /공격력의 [\d.]+%/);
+        }
     }
 });

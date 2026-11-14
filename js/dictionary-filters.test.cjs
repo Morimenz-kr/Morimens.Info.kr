@@ -68,6 +68,9 @@ test('필터 아이콘과 개수는 접근 가능한 체크박스 레이블에 �
     assert.match(markup, /aria-hidden="true"/);
     assert.match(markup, /aria-label="18개"/);
     assert.match(markup, /value="힘"/);
+    const grades = context.buildFilterCheckboxes('dictionary-grade-filter', ['SSR', 'SR', 'R']);
+    assert.doesNotMatch(grades, /dictionary-filter-icon|<img|<svg/);
+    assert.match(context.buildFilterCheckboxes('dictionary-main-filter', ['광기 회복']), /ui_battle_white_buff_003.png/);
     const options = [...new Set(keys.flatMap(key => Array.from(meta(key).effectFilters)))];
     for (const effect of options) {
         const icon = context.renderDictionaryFilterIcon(effect);

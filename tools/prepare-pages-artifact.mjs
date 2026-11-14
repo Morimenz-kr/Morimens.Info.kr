@@ -42,6 +42,18 @@ async function pathExists(filePath) {
   return fs.access(filePath).then(() => true, () => false);
 }
 
+export async function validateDzoneSnapshots(dataDirectory) {
+  const files = (await fs.readdir(dataDirectory)).filter(name => /^dzone_(?:current|season\d+)\.json$/.test(name)).sort();
+  for (const name of files) {
+    try {
+      validateDzoneContent(JSON.parse(await fs.readFile(path.join(dataDirectory, name), 'utf8')));
+    } catch (error) {
+      throw new Error(`${name}: ${error.message}`, { cause: error });
+    }
+  }
+  return files;
+}
+
 export async function preparePagesArtifact(options = {}) {
   const rootDirectory = path.resolve(options.rootDirectory ?? path.join(import.meta.dirname, '..'));
   const outputDirectory = path.resolve(options.outputDirectory ?? path.join(rootDirectory, '.generated/site'));
@@ -50,6 +62,11 @@ export async function preparePagesArtifact(options = {}) {
     throw new Error(`지원하지 않는 SITE_DATA_SOURCE입니다: ${dataSource}`);
   }
   assertGeneratedPath(rootDirectory, outputDirectory);
+  const sourceDataDirectory = path.join(rootDirectory, 'data');
+  // Preview sources are validated locally but must not become public files.
+  await validateDzoneSnapshots(sourceDataDirectory);
+  const publishedPeriod = Number(JSON.parse(await fs.readFile(path.join(sourceDataDirectory, 'dzone_current.json'), 'utf8')).period);
+  if (!Number.isSafeInteger(publishedPeriod) || publishedPeriod <= 0) throw new Error('현재 공개 융재금구 기수를 확인할 수 없습니다.');
 
   const tempDirectory = path.join(
     path.dirname(outputDirectory),
@@ -69,7 +86,12 @@ export async function preparePagesArtifact(options = {}) {
         path.join(tempDirectory, directory),
         {
           recursive: true,
-          filter: source => !source.endsWith('.test.cjs') && !DEPLOY_EXCLUDED_EXTENSIONS.has(path.extname(source).toLowerCase())
+          filter: source => {
+            const relative = path.relative(rootDirectory, source).split(path.sep).join('/');
+            const season = relative.match(/^data\/dzone_(?:maps_)?season(\d+)\.json$/);
+            return !(season && Number(season[1]) > publishedPeriod)
+              && !source.endsWith('.test.cjs') && !DEPLOY_EXCLUDED_EXTENSIONS.has(path.extname(source).toLowerCase());
+          }
         }
       );
     }
@@ -93,8 +115,13 @@ export async function preparePagesArtifact(options = {}) {
       summary = releaseSummary(createReleaseBundle(source));
     }
 
-    const dzonePath = path.join(tempDirectory, 'data/dzone_current.json');
-    if (await pathExists(dzonePath)) validateDzoneContent(JSON.parse(await fs.readFile(dzonePath, 'utf8')));
+    const catalogPath = path.join(tempDirectory, 'data/dzone_season_catalog.json');
+    if (await pathExists(catalogPath)) {
+      const catalog = JSON.parse(await fs.readFile(catalogPath, 'utf8'));
+      if (Array.isArray(catalog.seasons)) catalog.seasons = catalog.seasons.filter(season => Number(season.period) <= publishedPeriod);
+      await fs.writeFile(catalogPath, JSON.stringify(catalog, null, 2) + '\n');
+    }
+    await validateDzoneSnapshots(path.join(tempDirectory, 'data'));
     const outputData = await readDatasets(path.join(tempDirectory, 'data'));
     const outputBundle = createReleaseBundle(outputData);
     if (outputBundle.checksum !== summary.checksum) {

@@ -15,6 +15,25 @@ const { classifyCharacterEffects } = characterEffects;
 const effectsData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'character_effects.json'), 'utf8'));
 const cardsData = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'db_cards.json'), 'utf8'));
 
+test('노틸라는 일반 3돌의 150%와 초한의 500%를 별도로 적용하고 면역을 보존한다', () => {
+    const character = effectsData.nautila;
+    const normal = character.skills.find(skill => skill.type === '광기 폭발');
+    const over = character.enlighten.find(skill => skill.type === '초월 폭발');
+    const cases = [[normal, 0, 100, false], [normal, 3, 150, true],
+        [over, 0, 500, false], [over, 3, 500, true]];
+    for (const [skill, stage, ratio, immune] of cases) {
+        const variant = characterEffects.getBreakthroughVariant(skill, stage);
+        for (const level of [1, 6]) {
+            const text = characterEffects.interpolateEffect(variant.effect, variant.levels, level);
+            assert.match(text, new RegExp(`현재 반격 수치의 ${ratio}%`));
+            assert.equal(text.includes('손상, 허약, 취약에 1턴 동안 면역'), immune);
+            assert.doesNotMatch(text, /고정 피해가 50% 증가|550%|750%|\bn%/);
+        }
+    }
+    assert.match(characterEffects.interpolateEffect(over.effect, over.levels, 6), /방어력 30%.*공격력 50%/);
+    assert.match(over.effect, /방어막 상한을 무시/);
+});
+
 test('각성체 스킬 펼침 표시는 공통 꺾쇠 하나만 사용한다', () => {
     const pageCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'character-effects.css'), 'utf8');
     const componentCss = fs.readFileSync(path.join(__dirname, '..', 'css', 'components.css'), 'utf8');
@@ -237,7 +256,8 @@ test('확정된 셀레스트 1~3돌은 카드 전문과 레벨별 수치에 반�
     assert.match(pureDream.effect, /HP를 체력의 m% 회복한다/);
     assert.match(immortalBird.effect, /^자신의 중상 상태를 해제하고, HP를 체력의 n% 회복하며/);
     assert.match(immortalBird.effect, /모든 각성체가 25 광기를 획득한다/);
-    assert.match(immortalBird.effect, /부활 후 6턴이 지나면 다시 부활할 수 있다/);
+    assert.match(immortalBird.effect, /부활 후 6턴이 지나면 부활 효과를 다시 부여할 수 있다/);
+    assert.match(immortalBird.effect, /이미 부활 효과가 적용되어 있으면 중복 부여되지 않는다/);
 });
 
 test('확정된 오레타 1~3돌은 필요한 카드에만 전문을 반영한다', () => {
@@ -459,7 +479,7 @@ test('도어세인 1·2돌은 계령에만 표시하고 3돌 파생 카드의 �
     const feast = doresain.derivedCards.find(card => card.name === '영원한 밤의 향연');
     const feastAtThree = characterEffects.getBreakthroughVariant(feast, 3);
 
-    assert.equal(doresain.skills.some(skill => skill.breakthroughs), false);
+    assert.equal(doresain.skills.some(skill => skill.breakthroughs?.some(item => item.stage <= 3)), false);
     assert.match(doresain.enlighten[0].effect, /도어세인의 크리티컬 확률이 0\.1% 증가한다/);
     assert.match(doresain.enlighten[1].effect, /방어막 획득량 및 광기 획득량/);
     assert.match(feast.effect, /공격력의 40%에 해당하는 관통 피해/);
@@ -493,7 +513,7 @@ test('확정된 살바도르 1~3돌과 고통의 해소 명칭을 반영한다',
     assert.match(attack.effect, /용광로 축적량 2마다 피해량이 1 증가/);
     assert.match(defense.effect, /체력의 m%만큼 축적/);
     assert.equal(bones.levels[0]['배아 융합'], '40');
-    assert.equal(bones.levels[5]['추가 용광로 축적량 (돌파2)'], '1.5%');
+    assert.equal(bones.levels[5]['용광로 턴당 증가량'], '1.5%');
     assert.match(relief.effect, /크리티컬 확률이 25% 증가한다\. 준비1\.$/);
     assert.match(grace.effect, /임시 크리티컬 피해가 35% 증가/);
     assert.doesNotMatch(JSON.stringify(salvador), /마땅한 고통의 소멸/);
@@ -609,7 +629,7 @@ test('확정된 픽맨 1돌은 기본 카드에 표시하고 2·3돌은 계령�
 
     assert.match(attack.effect, /출전 각성체의 「스킬」 1장을 뽑는다/);
     assert.match(defense.effect, /이 효과는 매 턴 최대 1회 발동한다/);
-    assert.equal(pickman.skills.some(skill => skill.breakthroughs?.some(item => item.stage >= 2)), false);
+    assert.equal(pickman.skills.some(skill => skill.breakthroughs?.some(item => item.stage >= 2 && item.stage <= 3)), false);
     assert.match(pickman.enlighten[1].effect, /「고급 각인」.*「황금 유물」/);
     assert.match(pickman.enlighten[2].effect, /광기 폭발을 최대 2회 사용할 수 있다/);
 });
@@ -669,7 +689,7 @@ test('확정된 다포딜 1돌은 기본 카드에 표시하고 2·3돌은 계�
 
     assert.match(attack.effect, /200%의 힘 계수.*워프: 산출력 1/s);
     assert.match(defense.effect, /공격력의 1%에 해당하는 힘.*워프: 산출력 1/s);
-    assert.equal(dafoodil.skills.some(skill => skill.breakthroughs?.some(item => item.stage >= 2)), false);
+    assert.equal(dafoodil.skills.some(skill => skill.breakthroughs?.some(item => item.stage >= 2 && item.stage <= 3)), false);
     assert.match(dafoodil.enlighten[1].effect, /모든 각성체의 크리티컬 확률이 영구적으로 5% 증가/);
     assert.match(dafoodil.enlighten[2].effect, /매 턴 최대 5회 발동/);
 });
@@ -701,8 +721,8 @@ test('확정된 윙클 1~3돌은 반격 계수와 추가 드로우 및 광기 �
     assert.match(attack.effect, /50%의 반격 계수/);
     assert.match(beam.effect, /워프:.*광기를 획득한다\. 이 피해에는 50%의 반격 계수가 적용된다/s);
     assert.match(rebuild.effect, /워프: 손패를 버리지 않고 카드 2장을 뽑으며/);
-    assert.equal(rebuild.levels[0]['추가 방어막 (돌파2)'], '5%');
-    assert.equal(rebuild.levels[5]['추가 방어막 (돌파2)'], '10%');
+    assert.equal(rebuild.levels[0]['지연 방어막'], '5%');
+    assert.equal(rebuild.levels[5]['지연 방어막'], '10%');
     assert.equal(transfer.levels[0].방어막, '40%');
     assert.equal(transfer.levels[5].반격, '100%');
     assert.match(transfer.effect, /광기 폭발을 최대 2회 사용할 수 있다/);
@@ -757,9 +777,9 @@ test('확정된 완다 1·2돌은 크리티컬과 몽인 소모 강화를 카드
     const chain = characterEffects.getBreakthroughVariant(wanda.skills.find(skill => skill.name === '가시 사슬'), 2);
     const city = characterEffects.getBreakthroughVariant(wanda.skills.find(skill => skill.name === '꿈속 죽음의 도시'), 2);
 
-    assert.equal(guardian.levels[0].반격, '30%');
-    assert.equal(guardian.levels[5]['추가 반격'], '100%');
-    assert.match(guardian.effect, /기본 반격이 20% 증가/);
+    assert.equal(guardian.levels[0].반격, '36%');
+    assert.equal(guardian.levels[5]['추가 반격'], '144%');
+    assert.doesNotMatch(guardian.effect, /기본 반격이 20% 증가/);
     assert.match(chain.effect, /크리티컬 확률이 25% 증가/);
     assert.equal(chain.levels[0]['힘 감소'], '2.5%');
     assert.equal(chain.levels[5]['힘 감소'], '5%');
@@ -950,7 +970,7 @@ test('확정된 라모나 1~3돌은 여왕의 검 기본 효과와 계령 효과
     const analysis = characterEffects.getBreakthroughVariant(ramona.skills.find(skill => skill.name === '공격 분석'), 2);
     const deduction = characterEffects.getBreakthroughVariant(ramona.skills.find(skill => skill.name === '세계 연역법'), 3);
 
-    assert.equal(queen.effect, '공격력의 n%에 해당하는 피해를 3회 입힌다.');
+    assert.match(queen.effect, /피해를 2회.*최대 5회.*충전 등급의 75%/s);
     assert.match(stage1.effect, /피해 횟수가 1회 증가하며, 최대 6회/);
     assert.match(stage1.effect, /여파: 카드를 사용했을 때와 같은 양의 은열쇠 에너지/);
     assert.equal(stage1.levels[0]['임시 힘'], '2.5%');
@@ -993,7 +1013,7 @@ test('확정된 오지에 1~3돌과 기본 카드명·비용을 인게임 전문
     assert.match(virtues.effect, /손상 상태.*방어막을 추가로 획득/s);
     assert.match(virtues.effect, /취약 상태라면.*추가로 33%/s);
     assert.match(ogier.enlighten[0].effect, /힘 배수가 1 증가한다/);
-    assert.match(characterEffects.interpolateEffect(stage3.effect, stage3.levels, 6), /방어력의 28\.6%.*공격력의 8%/s);
+    assert.match(characterEffects.interpolateEffect(stage3.effect, stage3.levels, 6), /방어력의 20%.*공격력의 8%/s);
     assert.match(characterEffects.interpolateEffect(virtues.effect, virtues.levels, 6), /방어력의 72%.*공격력의 36%.*방어력의 24%/s);
 });
 
@@ -1042,7 +1062,7 @@ test('침식 로탄 스킬은 문서의 공격력·방어력 계수와 레벨 �
     assert.equal(burst.levels[5].피해, '800%');
     assert.equal(burst.levels[5]['추가 힘 계수'], '1500%');
     assert.match(annihilation.effect, /첫 번째로 발동할 경우 산출력을 소모하지 않는다/);
-    assert.match(cetarchon.enlighten[0].effect, /「타격」 크리티컬률이 \+10% 증가하고, 기초 피해가 \+20% 증가한다/);
+    assert.match(cetarchon.enlighten[0].effect, /「타격」 크리티컬 확률이 \+10% 증가하고, 기초 피해가 \+20% 증가한다/);
     assert.match(characterEffects.interpolateEffect(attack.effect, attack.levels, 6), /공격력의 20%.*10 광기/s);
     assert.match(characterEffects.interpolateEffect(defense.effect, defense.levels, 6), /방어력의 20%.*10 광기/s);
     assert.match(characterEffects.interpolateEffect(greatsword.effect, greatsword.levels, 6), /공격력의 300%/);
@@ -1393,7 +1413,9 @@ test('카라부 스킬과 계령은 소개 이미지의 카드 유형과 키워�
     assert.equal(miracleBlessing.type, '명령');
     assert.equal(miracleBlessing.cost.value, 3);
     assert.equal(curse.type, '명령');
-    assert.match(curse.effect, /10800pt/);
+    assert.match(curse.effect, /공격력의 n%에 해당하는 고정 피해/);
+    assert.equal(curse.levels[0].고정피해, '5000%');
+    assert.equal(curse.levels[5].고정피해, '10000%');
     assert.deepEqual(data.skills.map(skill => skill.name), [
         '타격', '방어', '기적의 축복', '흩날리는 눈의 저주', '유혹하는 달콤한 열매', '짜잔☆요정님 등장!'
     ]);

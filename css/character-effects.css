@@ -160,6 +160,9 @@
 
 .character-effect-header-controls {
     display: inline-flex;
+    flex-wrap: wrap;
+    min-width: 0;
+    max-width: 100%;
     align-items: center;
     gap: 8px;
     margin-left: auto;
@@ -302,6 +305,11 @@
     vertical-align: baseline;
 }
 
+.keyword-text,
+.tooltip-trigger[style*="--keyword-color"] {
+    color: var(--keyword-color);
+}
+
 .tooltip-trigger .keyword-icon {
     width: 1em;
     height: 1em;
@@ -439,7 +447,7 @@
 @media (max-width: 600px) {
     .character-effect-breakthrough-badge {
         min-width: 44px;
-        min-height: 32px;
+        min-height: 44px;
         padding-inline: 10px;
     }
 
@@ -483,6 +491,7 @@
 
     .character-effect-level-select {
         margin-left: auto;
+        min-height: 44px;
     }
 
     .character-effect-variant-header {

@@ -202,7 +202,7 @@
         '증상: 광기': '증상 카드 | 광기\n\n최대 HP의 10%를 잃고 모든 각성체가 광기 10을 획득합니다.',
         '증상: 흥분': '증상 카드 | 흥분\n\n드로우한 턴의 종료 시 남은 산출력이 2 이상이면 다음 턴 시작 시 카드를 2장 추가로 드로우합니다.'
     });
-    const number = new Intl.NumberFormat('ko-KR');
+    const number = new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 0, roundingMode: 'ceil' });
     const dateTime = new Intl.DateTimeFormat('ko-KR', {
         month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false,
         timeZone: 'Asia/Seoul'
@@ -476,6 +476,22 @@
         return { ...opening, skillIds: opening.skillIds.slice(0, end) };
     }
 
+    function renderCardUseVariants(monster, stats, skillId) {
+        const cycle = (monster.intentionCycles || []).find(item => item.sourceSkillId === skillId);
+        if (!cycle) return '';
+        const variants = cycle.transitions.filter((item, index, all) => all.findIndex(other => other.skillId === item.skillId) === index);
+        const repeatIndex = variants.findIndex(item => item.skillId === cycle.repeatFromSkillId);
+        return `<section class="intention-cycle" aria-label="카드 사용에 따른 의도 변경">
+            <p>이 의도에서 카드를 사용하지 않으면 위의 기본 행동을 유지합니다. 카드를 1장 사용할 때마다 아래 순서로 바뀝니다.</p>
+            <ol>${variants.map((transition, index) => {
+                const variant = skillById(monster, transition.skillId);
+                const resolved = stats.resolvedSkills?.[String(transition.skillId)];
+                return `<li data-variant-skill="${transition.skillId}"><strong>${index + 1}장 사용 — ${escapeHtml(variant.name)}</strong><p>${dynamicMarkup(resolved?.richDescription || resolved?.description || variant.descriptionTemplate)}</p></li>`;
+            }).join('')}</ol>
+            <p>이후 ${repeatIndex + 1}장째 효과부터 순서대로 반복합니다. 카드 사용은 의도를 바꾸며, 효과는 변경된 의도를 실행할 때 적용됩니다.</p>
+        </section>`;
+    }
+
     function renderSequence(monster, stats, pattern, repeats = false, { loopLabel = '이후 1번부터 반복', stepLabels = [] } = {}) {
         const displayedSkills = repeats && !stepLabels.length ? (pattern.repeatSkillIds || shortestRepeatingSequence(pattern.skillIds)) : pattern.skillIds;
         const sequence = displayedSkills.map((skillId, index) => {
@@ -495,6 +511,7 @@
                 <div class="action-copy">
                     <strong>${escapeHtml(skill?.name || `행동 ${index + 1}`)}</strong>
                     <p>${dynamicMarkup(description)}</p>
+                    ${renderCardUseVariants(monster, stats, skillId)}
                 </div>
             </li>`;
         }).join('');
@@ -540,18 +557,19 @@
             || stats?.resolvedSkills?.[String(awakeningSkill)];
         const effects = [];
         if (transition.rebirth) effects.push('쓰러지면 부활');
-        if (transition.maxHpMultiplier) effects.push(`최대 HP ${transition.maxHpMultiplier}배로 증가`);
-        if (transition.healsToMax) effects.push('증가한 최대 HP까지 회복');
+        const phaseHp = stats?.phases?.find(phase => phase.bar === transition.phaseIndex)?.hp;
+        if (transition.maxHpMultiplier) effects.push(Number.isFinite(phaseHp) ? `최대 HP ${phaseHp.toLocaleString('ko-KR')}로 증가` : `최대 HP ${(transition.maxHpMultiplier * 100).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}%로 증가`);
+        if (transition.healsToMax) effects.push(Number.isFinite(phaseHp) ? `HP ${phaseHp.toLocaleString('ko-KR')}까지 회복` : '최대 HP까지 회복');
         const stateKeywordMarkup = (state, markup) => {
             if (state.id !== 140728 || /<kw_[a-f0-9]{16}:허기>/.test(markup || '')) return markup;
             const entry = Object.entries(data.keywordGlossary || {}).find(([, item]) =>
                 item.source?.type === 'State' && item.source.id === 140727 && item.name === '허기');
             return entry ? String(markup).replace('허기', `<${entry[0]}:허기>`) : markup;
         };
-        const stateItems = (transition.addedStates || [])
+        const stateItems = (stats?.phaseStateEffects?.[String(transition.phaseIndex)] || transition.addedStates || [])
             .map(state => transition.displayStateReplacements?.[String(state.id)] || state)
             .filter(state => state.visible && (state.name || state.descriptionTemplate))
-            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(stateKeywordMarkup(state, state.richDescriptionTemplate || state.descriptionTemplate))}` : ''}</span></li>`)
+            .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(stateKeywordMarkup(state, state.richDescription || state.richDescriptionTemplate || state.descriptionTemplate))}` : ''}</span></li>`)
             .join('');
         const cards = (transition.createdCards || []).map(card => `
             <article class="phase-card">
@@ -769,7 +787,7 @@
         if (!summons.length) return '';
         const groups = new Map();
         for (const summon of summons) {
-            const key = summon.rule?.sourceSkillId || 0;
+            const key = summon.rule?.sourceSkillId || (summon.rule?.sourceStateId ? `state-${summon.rule.sourceStateId}` : 0);
             if (!groups.has(key)) groups.set(key, []);
             groups.get(key).push(summon);
         }
@@ -796,7 +814,9 @@
             }).join('');
         };
         return [...groups].map(([skillId, items]) => {
-            const label = skillId ? `「${items[0].rule.sourceSkillName}」로 소환` : '소환 개체';
+            const rule = items[0].rule || {};
+            const sourceName = rule.sourceSkillName || rule.sourceStateName;
+            const label = skillId && sourceName ? `「${sourceName}」로 소환` : '소환 개체';
             return `<section class="summon-section" aria-label="${escapeHtml(label)}"><h5 class="section-label">${escapeHtml(label)}</h5><div class="summon-list">${renderCards(items)}</div></section>`;
         }).join('');
     }
@@ -929,6 +949,11 @@
         </section>`;
     }
 
+    function renderGameName(value) {
+        return escapeHtml(value).replace(/@([1-7])(?!\d)/g, (_, index) =>
+            `<span class="dzone-name-symbol" role="img" aria-label="특수 문양">${renderGameGrade({ gameGrade: { type: 'sprite', value: Number(index) } })}</span>`);
+    }
+
     function renderMonsterCard(monster, stats, { badgeLabel = '', badgeType = '', extraClass = '', after = '' } = {}) {
         const badge = badgeLabel
             ? `<span class="monster-badge" data-type="${escapeHtml(badgeType)}">${escapeHtml(badgeLabel)}</span>`
@@ -953,7 +978,7 @@
             <details class="monster-card site-disclosure ${escapeHtml(extraClass)}" data-monster-id="${monster.tid}" ${monsterPicker?'':'open'}>
                 <summary class="monster-heading">
                     ${portrait}
-                     <div class="monster-heading-copy"><h4>${escapeHtml(monster.nameKo)}</h4>${badge}${renderMonsterTags(monster)}${hpBarBadge}</div>${selection}
+                     <div class="monster-heading-copy"><h4>${renderGameName(monster.nameKo)}</h4>${badge}${renderMonsterTags(monster)}${hpBarBadge}</div>${selection}
                 </summary>
                 <div class="monster-body">
                     <div class="monster-overview">
@@ -1110,7 +1135,10 @@
     }
 
     function loadDzoneUsageOverview(usageApiBase, force) {
-        if (!force && dzoneUsageOverviewCache?.expiresAt > Date.now()) return dzoneUsageOverviewCache.request;
+        const requestedPeriod = data.period;
+        const requestedSince = data.usageSince;
+        const expectedStageIds = new Set(data.waves.flatMap(wave => wave.alerts.map(alert => alert.stageId)));
+        if (!force && dzoneUsageOverviewCache?.period === requestedPeriod && dzoneUsageOverviewCache?.expiresAt > Date.now()) return dzoneUsageOverviewCache.request;
         const localHostnames = new Set(['localhost', '127.0.0.1', '[::1]']);
         const urls = localHostnames.has(window.location.hostname)
             ? ['/private-tools/output/dzone-usage-overview.json', `${usageApiBase}/api/dzone/usage`]
@@ -1136,6 +1164,9 @@
                                 ? gradeDifficulties
                                 : null;
                     if (!payload?.data || !difficulties || !Number.isInteger(payload.fetchedAt)) continue;
+                    if (payload.data.period !== requestedPeriod || !Number.isInteger(payload.data.since) || payload.data.since <= 0
+                        || (Number.isInteger(requestedSince) && payload.data.since !== requestedSince)
+                        || stages.some(stage => !expectedStageIds.has(stage.stageTid))) continue;
                     const pairs = new Set(stages.map(stage => `${stage.wave}:${stage.difficulty}`));
                     const stageIds = new Set(stages.map(stage => stage.stageTid));
                     if (stageIds.size !== stages.length || stages.some(stage => !Number.isInteger(stage.stageTid) || stage.stageTid <= 0)
@@ -1150,7 +1181,7 @@
             dzoneUsageOverviewCache = null;
             throw error;
         });
-        dzoneUsageOverviewCache = { request, expiresAt: Date.now() + STAGE_USAGE_REFRESH_INTERVAL };
+        dzoneUsageOverviewCache = { request, period: requestedPeriod, expiresAt: Date.now() + STAGE_USAGE_REFRESH_INTERVAL };
         return request;
     }
 
@@ -1225,7 +1256,7 @@
             request = Promise.all([stageRequest, overviewRequest]).then(([stageUsage, overview]) => {
                 if (!stageUsage && !overview) throw new Error('unavailable');
                 const localStageUsage = overview?.stages?.find(stage => stage.stageTid === stageId);
-                const usage = stageUsage || (localStageUsage ? {
+                const usage = (stageUsage?.empty && localStageUsage ? null : stageUsage) || (localStageUsage ? {
                     ...localStageUsage,
                     since: localStageUsage.usageSince ?? overview.since,
                     recordCount: localStageUsage.usageRecordCount ?? localStageUsage.recordCount,
@@ -1311,6 +1342,7 @@
     }
 
     function selectedDifficultyLabel(difficulty) {
+        if (data?.statsOnly) return `통계 구간 ${difficulty?.alert ?? selectedAlert}`;
         if (data?.period >= 70) {
             const grade = gameGrade(difficulty);
             if (!grade) return '위험 등급';
@@ -1320,15 +1352,32 @@
     }
 
     function renderDifficultyBadge(difficulty) {
+        if (data?.statsOnly) return escapeHtml(String(difficulty?.alert ?? selectedAlert));
         if (data?.period < 70) return escapeHtml(selectedDifficultyLabel(difficulty));
         return `<span class="dzone-grade-badge">${renderGameGrade(difficulty)}</span>`;
+    }
+
+    function orderedEncounters(wave) {
+        const encounters = [...wave.encounters]
+            .sort((left, right) => (TYPE_ORDER[left.battleType] ?? 99) - (TYPE_ORDER[right.battleType] ?? 99));
+        if (wave.wave !== 4) return encounters;
+        const nodes = mapData?.waves?.find(item => item.wave === wave.wave)?.nodes;
+        if (!nodes?.length) return encounters;
+        const battleOrder = new Map();
+        [...nodes].filter(node => node.battleId)
+            .sort((left, right) => left.column - right.column || left.row - right.row)
+            .forEach(node => {
+                if (!battleOrder.has(node.battleId)) battleOrder.set(node.battleId, battleOrder.size);
+            });
+        if (!encounters.every(encounter => battleOrder.has(encounter.battleId))) return encounters;
+        return encounters.sort((left, right) => battleOrder.get(left.battleId) - battleOrder.get(right.battleId));
     }
 
     function renderWave(wave) {
         const difficulty = wave.alerts.find(item => item.alert === selectedAlert);
         const difficultyLabel = selectedDifficultyLabel(difficulty);
-        const sortedEncounters = [...wave.encounters]
-            .sort((left, right) => (TYPE_ORDER[left.battleType] ?? 99) - (TYPE_ORDER[right.battleType] ?? 99));
+        if (data.statsOnly) return `<section class="wave-section" id="wave-${wave.wave}"><header class="wave-header"><h2 class="wave-title">${data.period}기 ${zoneLabel(wave.wave)} · ${escapeHtml(difficultyLabel)}</h2></header><p class="stage-usage-message">몬스터 정보는 갱신 준비 중입니다. 최신 기수의 실전 통계를 확인할 수 있습니다.</p>${renderStageUsageShell(difficulty)}</section>`;
+        const sortedEncounters = orderedEncounters(wave);
         const typeCounts = sortedEncounters.reduce((counts, encounter) => counts.set(encounter.battleType, (counts.get(encounter.battleType) || 0) + 1), new Map());
         const typeIndexes = new Map();
         const encounters = sortedEncounters.map(encounter => {
@@ -1380,9 +1429,11 @@
 
     function buildControls() {
         const seasonSelector = document.getElementById('season-selector');
-        seasonSelector.innerHTML = window.DzoneSeason.availableSeasons()
+        const seasons = window.DzoneSeason.availableSeasons();
+        if (!seasons.some(season => season.period === data.period)) seasons.push({ ...window.DzoneSeason.selectSeason(data.period), current: false });
+        seasonSelector.innerHTML = seasons
             .sort((left, right) => right.period - left.period)
-            .map(season => `<option value="${season.period}">${season.period}기${season.current ? ' (현재)' : ''}</option>`)
+            .map(season => `<option value="${season.period}">${season.period}기${season.current ? ' (현재)' : season.period > window.DzoneSeason.CURRENT_SEASON ? ' (미리보기)' : ''}</option>`)
             .join('');
         seasonSelector.value = String(data.period);
         seasonSelector.onchange = () => {
@@ -1398,7 +1449,7 @@
         const waveSelector = document.getElementById('wave-selector');
         const compactGrades = data.period >= 70;
         document.getElementById('zone-filter-label').textContent = compactGrades ? '금지구역' : '파';
-        document.getElementById('grade-filter-label').textContent = compactGrades ? '위험등급' : '난이도';
+        document.getElementById('grade-filter-label').textContent = data.statsOnly ? '통계 구간' : compactGrades ? '위험등급' : '난이도';
         waveSelector.classList.toggle('is-compact', compactGrades);
         waveSelector.innerHTML = data.waves.map(wave => `<button type="button" class="wave-button" data-wave="${wave.wave}" aria-label="${escapeHtml(zoneLabel(wave.wave))}" aria-pressed="${wave.wave === selectedWave}">${compactGrades ? wave.wave : zoneLabel(wave.wave)}</button>`).join('');
         waveSelector.onclick = event => {
@@ -1452,13 +1503,15 @@
     let refreshingSeason = false;
 
     function updateSeasonCopy() {
+        document.querySelector('.dzone-research-panel').style.display = data.statsOnly ? 'none' : '';
+        document.querySelector('.dzone-mechanic-nav').style.display = data.statsOnly ? 'none' : '';
         const isCurrent = data.period === window.DzoneSeason.CURRENT_SEASON;
         const title = isCurrent ? '진행 중인 융재금구 정보' : `${data.period}기 융재금구 정보`;
         document.title = title;
         document.getElementById('dzone-title').textContent = title;
-        document.getElementById('dzone-summary').textContent = isCurrent
+        document.getElementById('dzone-summary').textContent = data.statsOnly ? `${data.period}기 공개 클리어 기록의 각성체 채용률과 편성을 확인할 수 있습니다.` : isCurrent
             ? '현재 진행 중인 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.'
-            : `바로 이전 ${data.period}기 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.`;
+            : `${data.period}기 융재금구의 전투 구성과 몬스터 행동을 확인할 수 있습니다.`;
         document.getElementById('mechanic-nav-label').textContent = isCurrent ? '이번 융재 기믹' : `${data.period}기 융재 기믹`;
     }
 
@@ -1468,17 +1521,23 @@
         if (delay !== null) seasonTimer = setTimeout(refreshSeason, delay);
     }
 
+    let checkingSeason = false;
     async function refreshSeason() {
-        if (refreshingSeason) return;
-        if (selectedPeriod !== window.DzoneSeason.CURRENT_SEASON) {
+        if (refreshingSeason || checkingSeason) return;
+        checkingSeason = true;
+        const followsCurrent = selectedPeriod === window.DzoneSeason.CURRENT_SEASON;
+        try {
+            await window.DzoneSeason.discover();
+            if (followsCurrent && selectedPeriod !== window.DzoneSeason.CURRENT_SEASON) {
+                await loadSeason(window.DzoneSeason.CURRENT_SEASON);
+            } else {
+                updateSeasonCopy();
+                buildControls();
+            }
+        } finally {
+            checkingSeason = false;
             scheduleSeasonRefresh();
-            return;
         }
-        if (data?.period === window.DzoneSeason.CURRENT_SEASON) {
-            scheduleSeasonRefresh();
-            return;
-        }
-        await loadSeason(window.DzoneSeason.CURRENT_SEASON);
     }
 
     async function loadSeason(period) {
@@ -1535,6 +1594,8 @@
 
     async function initialize() {
         try {
+            await window.DzoneSeason.discover();
+            selectedPeriod = window.DzoneSeason.CURRENT_SEASON;
             const hashSelection = location.hash.match(/^(?:#season-(\d+)-)?wave-(\d+)(?:-alert-(\d+))?$/);
             if (hashSelection) {
                 if (hashSelection[1]) selectedPeriod = window.DzoneSeason.selectSeason(Number(hashSelection[1])).period;

@@ -85,10 +85,13 @@
 }
 
 .season-selector {
-    min-width: min(100%, 11rem);
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    width: min(100%, 16rem);
+    min-width: 0;
     min-height: 44px;
-    max-width: 16rem;
-    padding: 0.55rem 2.4rem 0.55rem 0.8rem;
+    max-width: 100%;
+    padding: 0.55rem 1.2rem 0.55rem 0.4rem;
     border: 1px solid var(--color-border-light);
     border-radius: 0.65rem;
     background: rgba(15, 15, 18, 0.42);
@@ -211,6 +214,20 @@
     align-items: center;
     justify-content: center;
     min-width: 0;
+}
+
+.dzone-name-symbol {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+.dzone-name-symbol .dzone-grade-mark--sprite {
+    display: inline-block;
+    height: 1em;
+    width: auto;
+    max-width: none;
+    vertical-align: -0.1em;
+    transform: none;
 }
 
 .dzone-grade-mark {
@@ -1072,6 +1089,10 @@ details:not([open]) > summary .collapse-indicator { transform: rotate(-45deg); }
     vertical-align: baseline;
 }
 .action-copy .dynamic { color: #e6b961; font-weight: 700; }
+
+.intention-cycle { margin-top: 0.65rem; padding-inline-start: 0.75rem; border-inline-start: 2px solid #696044; }
+.intention-cycle ol { margin: 0.65rem 0; padding: 0; list-style: none; }
+.intention-cycle li + li { margin-top: 0.65rem; }
 
 .action-replacements {
     margin-top: 0.8rem;

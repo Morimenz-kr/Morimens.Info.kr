@@ -8,6 +8,7 @@
     const MAX_SHARE_CANVAS_PIXELS = 16000000;
     const MAX_SHARE_CANVAS_DIMENSION = 8192;
     const GROUP_LABELS = {
+        limited: '한정',
         standard: '통상',
         forgotten: '망각편',
         celestial: '성신편'
@@ -56,6 +57,14 @@
     document.addEventListener('DOMContentLoaded', initialize);
 
     async function initialize() {
+        const ui = window.CharacterFilterUI;
+        document.getElementById('character-filters').innerHTML = ui.renderFilterOptions([
+            ['all', '전체'], ['standard', '통상'], ['forgotten', '망각편'], ['celestial', '성신편']
+        ], 'data-character-filter');
+        document.getElementById('character-class-filters').innerHTML = ui.renderFilterOptions(ui.CLASS_OPTIONS, 'data-character-class-filter');
+        document.getElementById('wheel-filters').innerHTML = ui.renderFilterOptions([
+            ['all', '전체'], ['SSR', 'SSR'], ['SR', 'SR'], ['R', 'R']
+        ], 'data-wheel-filter');
         cacheElements();
         bindEvents();
         loadSavedState();
@@ -85,9 +94,6 @@
 
     function cacheElements() {
         els.tabButtons = document.querySelectorAll('[data-tab-button]');
-        els.characterFilters = document.querySelectorAll('[data-character-filter]');
-        els.characterClassFilters = document.querySelectorAll('[data-character-class-filter]');
-        els.wheelFilters = document.querySelectorAll('[data-wheel-filter]');
         els.search = document.getElementById('inventory-search');
         els.characterGrid = document.getElementById('character-grid');
         els.wheelGrid = document.getElementById('wheel-grid');
@@ -117,25 +123,17 @@
             });
         });
 
-        els.characterFilters.forEach(button => {
-            button.addEventListener('click', () => {
-                state.characterFilter = button.dataset.characterFilter;
-                renderAll();
-            });
+        window.CharacterFilterUI.bindFilterGroup(els.characterFiltersBox, 'data-character-filter', value => {
+            state.characterFilter = value;
+            renderAll();
         });
-
-        els.characterClassFilters.forEach(button => {
-            button.addEventListener('click', () => {
-                state.characterClassFilter = button.dataset.characterClassFilter;
-                renderAll();
-            });
+        window.CharacterFilterUI.bindFilterGroup(els.characterClassFiltersBox, 'data-character-class-filter', value => {
+            state.characterClassFilter = value;
+            renderAll();
         });
-
-        els.wheelFilters.forEach(button => {
-            button.addEventListener('click', () => {
-                state.wheelFilter = button.dataset.wheelFilter;
-                renderAll();
-            });
+        window.CharacterFilterUI.bindFilterGroup(els.wheelFiltersBox, 'data-wheel-filter', value => {
+            state.wheelFilter = value;
+            renderAll();
         });
 
         els.search.addEventListener('input', event => {
@@ -244,15 +242,10 @@
     }
 
     function renderFilters() {
-        els.characterFilters.forEach(button => {
-            button.classList.toggle('active', button.dataset.characterFilter === state.characterFilter);
-        });
-        els.characterClassFilters.forEach(button => {
-            button.classList.toggle('active', button.dataset.characterClassFilter === state.characterClassFilter);
-        });
-        els.wheelFilters.forEach(button => {
-            button.classList.toggle('active', button.dataset.wheelFilter === state.wheelFilter);
-        });
+        const ui = window.CharacterFilterUI;
+        ui.setActiveFilter(els.characterFiltersBox, 'data-character-filter', state.characterFilter);
+        ui.setActiveFilter(els.characterClassFiltersBox, 'data-character-class-filter', state.characterClassFilter);
+        ui.setActiveFilter(els.wheelFiltersBox, 'data-wheel-filter', state.wheelFilter);
     }
 
     function renderCharacters() {

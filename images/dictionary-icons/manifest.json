@@ -678,6 +678,22 @@
           "reference": "State 131351.Icon (Moss vortex loading); user-selected reuse for Moss-specific follow-up filter; does not imply that the key grants the loading state"
         }
       ]
+    },
+    "ui_battle_white_buff_003.png": {
+      "sprite": "UI_Battle_White_Buff_003",
+      "atlas": "battle_icon",
+      "sourceBundle": "artres/ui/ui_altas/uiresources_atlassource_ui_battle_icon_atlas.ab",
+      "sourceSha256": "3ebbb35192705e889a3f690a5ed9895fc38a418eac00e8701fa77f8d711bec89",
+      "size": [
+        35,
+        36
+      ],
+      "references": [
+        {
+          "effect": "광기 회복",
+          "reference": "ActorAttrType 22207.Icon (ulti_energy_plus_3, wheel main stat)"
+        }
+      ]
     }
   }
 }

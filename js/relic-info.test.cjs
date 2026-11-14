@@ -8,6 +8,10 @@ const root = path.resolve(__dirname, '..');
 const relicSource = fs.readFileSync(path.join(root, 'js/relic-info.js'), 'utf8');
 const relicCatalog = JSON.parse(fs.readFileSync(path.join(root, 'data/relic_catalog.json'), 'utf8'));
 
+test('공개 유물 카탈로그에는 보류한 세트 효과가 포함되지 않는다', () => {
+    assert.equal(relicCatalog.relics.flatMap(relic => relic.variants).some(variant => variant.setBonuses?.length), false);
+});
+
 async function createRelicDescriptionContext() {
     const levels = JSON.parse(fs.readFileSync(path.join(root, 'data/research_depth_levels.json'), 'utf8'));
     const context = vm.createContext({

@@ -85,12 +85,19 @@
     }
 
     function renderKeywordTrigger(keyword, tooltipKeyword = keyword) {
-        const icon = keywordIcons[tooltipKeyword];
-        const iconMarkup = icon
-            ? `<img class="keyword-icon" src="${keywordIconBasePath}${icon[0]}" alt="" aria-hidden="true">`
+        const entry = tooltipDictionary[tooltipKeyword];
+        const metadata = entry && typeof entry === 'object' ? entry : {};
+        const icon = metadata.clientTag ? null : keywordIcons[tooltipKeyword];
+        const iconPath = metadata.icon || (icon ? `${keywordIconBasePath}${icon[0]}` : '');
+        const color = metadata.color || icon?.[1];
+        const iconMarkup = iconPath
+            ? `<img class="keyword-icon" src="${escapeHtml(iconPath)}" alt="" aria-hidden="true">`
             : '';
-        const iconClass = icon ? ' keyword-iconized' : '';
-        const colorStyle = icon ? ` style="--keyword-color:${icon[1]}"` : '';
+        const iconClass = iconPath ? ' keyword-iconized' : '';
+        const colorStyle = color ? ` style="--keyword-color:${escapeHtml(color)}"` : '';
+        if (metadata.clientTag && !metadata.description) {
+            return `<strong class="keyword-text"${colorStyle}>${iconMarkup}<span>${escapeHtml(keyword)}</span></strong>`;
+        }
         return `<strong class="tooltip-trigger${iconClass}" data-keyword="${escapeHtml(tooltipKeyword)}" tabindex="0"${colorStyle}>${iconMarkup}<span>${escapeHtml(keyword)}</span></strong>`;
     }
 
@@ -111,6 +118,7 @@
             Object.entries(tooltipAliases).filter(([, tooltipKeyword]) => tooltipDictionary[tooltipKeyword])
         );
         const keywords = [...Object.keys(tooltipDictionary), ...Object.keys(activeAliases)]
+            .filter(keyword => !tooltipDictionary[keyword]?.clientTag)
             .filter(keyword => !plainKeywords.has(activeAliases[keyword] || keyword))
             .sort((left, right) => right.length - left.length || left.localeCompare(right, 'ko'));
         const keywordPattern = keywords.length
@@ -194,8 +202,17 @@
 
         const parts = [];
         let lastIndex = 0;
-        text.replace(/\[([^\]]+)\]/g, (match, keyword, offset) => {
+        text.replace(/<([A-Za-z][A-Za-z0-9_]*):([^<>]*)>|\[([^\]]+)\]/g, (match, clientTag, label, bracketKeyword, offset) => {
             parts.push(renderBareText(text.slice(lastIndex, offset)));
+            if (clientTag) {
+                const entry = tooltipDictionary[clientTag];
+                parts.push(entry?.clientTag
+                    ? `${label.trim() ? '' : ' '}${renderKeywordTrigger(label.trim() || entry.name, clientTag)}${label.trim() ? '' : ' '}`
+                    : escapeHtml(label));
+                lastIndex = offset + match.length;
+                return match;
+            }
+            const keyword = bracketKeyword;
             const followingText = text.slice(offset + match.length);
             const labeledKeyword = keywords.find(baseKeyword => keyword.startsWith(`${baseKeyword}:`));
             const numericBaseKeyword = keywords.find(baseKeyword =>
@@ -322,6 +339,7 @@
         if (!levels?.length) return effect;
 
         const level = levels.find(item => String(item.level) === String(selectedLevel)) || levels[levels.length - 1];
+        if (typeof level.description === 'string') return level.description;
         const entries = Object.entries(level)
             .filter(([key]) => (
                 key !== 'level' &&
@@ -330,6 +348,9 @@
             .map(([key, value]) => ({ key, value: String(value) }));
         let nextIndex = 0;
         let text = String(effect || '');
+
+        text = text.replace(/\{([A-Za-z][A-Za-z0-9_]*)\}/g, (match, key) =>
+            Object.hasOwn(level, key) ? String(level[key]) : match);
 
         text = replaceCompoundPlaceholders(text, entries, true);
         text = replaceCompoundPlaceholders(text, entries, false);
@@ -377,7 +398,7 @@
         return (effect.breakthroughs || []).map(variant => `
             <button type="button" class="character-effect-breakthrough-badge${Number(variant.stage) <= Number(selectedBreakthrough) ? ' active' : ''}"
                 data-breakthrough-stage="${escapeHtml(variant.stage)}" aria-pressed="${Number(variant.stage) <= Number(selectedBreakthrough)}"
-                aria-label="${escapeHtml(variant.stage)}돌 효과 보기">${escapeHtml(variant.stage)}돌</button>
+                aria-label="${escapeHtml(variant.label || `${variant.stage}돌`)} 효과 보기">${escapeHtml(variant.label || `${variant.stage}돌`)}</button>
         `).join('');
     }
 
@@ -386,7 +407,7 @@
         return `
             <span class="character-effect-header-controls">
                 ${renderBreakthroughBadges(effect, selectedBreakthrough)}
-                ${renderCost(effect.cost)}
+                ${renderCost(displayedEffect.cost)}
                 ${renderLevelSelect(displayedEffect.levels || effect.levels)}
             </span>
         `;
@@ -514,6 +535,7 @@
             if (!tooltip) return;
 
             tooltipPinned = pinned;
+            const rect = trigger.getBoundingClientRect();
             tooltipBox.replaceChildren();
             const description = typeof tooltip === 'object' ? tooltip.description : tooltip;
             const lines = String(description).split('\n');
@@ -548,11 +570,14 @@
                 }
                 tooltipBox.appendChild(heading);
 
-                const body = String(description).split(/\n{2,}/).slice(1).join('\n\n').trim();
+                const body = tooltip.clientTag ? String(description)
+                    : String(description).split(/\n{2,}/).slice(1).join('\n\n').trim();
                 if (body) {
                     const bodyElement = document.createElement('p');
                     bodyElement.className = 'character-effect-tooltip-body';
-                    bodyElement.textContent = body;
+                    if (typeof tooltip.richDescription === 'string' && window.DzoneRichText) bodyElement.innerHTML = window.DzoneRichText.render(tooltip.richDescription, tooltipDictionary);
+                    else if (tooltip.clientTag) bodyElement.innerHTML = renderRichText(body);
+                    else bodyElement.textContent = body;
                     tooltipBox.appendChild(bodyElement);
                 }
             } else if (hasListItems) {
@@ -591,7 +616,6 @@
             }
             tooltipBox.classList.add('visible');
 
-            const rect = trigger.getBoundingClientRect();
             const margin = 10;
             const gap = 7;
             const belowSpace = window.innerHeight - rect.bottom - gap - margin;
@@ -660,6 +684,14 @@
                 hideTooltip(true);
             }
         });
+        container.addEventListener('keydown', event => {
+            if (event.key === 'Escape') hideTooltip(true);
+            const trigger = event.target.closest('.tooltip-trigger');
+            if (trigger && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                showTooltip(trigger, true);
+            }
+        });
         document.addEventListener('click', event => {
             if (
                 event.target.closest('.tooltip-trigger') ||
@@ -671,6 +703,16 @@
         });
         tooltipBox.addEventListener('click', event => {
             event.stopPropagation();
+            const trigger = event.target.closest('.tooltip-trigger');
+            if (trigger) showTooltip(trigger, true);
+        });
+        tooltipBox.addEventListener('keydown', event => {
+            if (event.key === 'Escape') hideTooltip(true);
+            const trigger = event.target.closest('.tooltip-trigger');
+            if (trigger && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                showTooltip(trigger, true);
+            }
         });
         tooltipBox.addEventListener('mouseleave', () => hideTooltip());
         container.addEventListener('scroll', () => hideTooltip(true), { capture: true, passive: true });
@@ -704,6 +746,10 @@
                 const description = scope.querySelector('.character-effect-description');
 
                 scope.dataset.selectedBreakthrough = String(nextStage);
+                const cost = scope.querySelector('.character-effect-cost');
+                if (cost && displayedEffect.cost) {
+                    cost.textContent = `${displayedEffect.cost.type} ${displayedEffect.cost.value}`;
+                }
                 scope.querySelectorAll('.character-effect-breakthrough-badge').forEach(button => {
                     const active = Number(button.dataset.breakthroughStage) <= nextStage;
                     button.classList.toggle('active', active);

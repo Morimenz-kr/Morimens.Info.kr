@@ -217,11 +217,11 @@ function formatWheelMainStatValue(value, suffix = '') {
     return `${rounded.toFixed(2).replace(/\.00$/, '').replace(/(\.\d)0$/, '$1')}${suffix}`;
 }
 
-function getWheelMainStatLevels(mainStat) {
+function getWheelMainStatLevels(mainStat, grade = 'SSR') {
     const stat = parseWheelMainStat(mainStat);
     if (!stat) return [];
     return Array.from({ length: 16 }, (_, level) => {
-        const multiplier = level <= 3 ? 1 : 1 + ((level - 3) / 12);
+        const multiplier = level <= 3 ? 1 : 1 + ((level - 3) / (grade === 'R' ? 6 : 12));
         return {
             level,
             value: formatWheelMainStatValue(stat.baseValue * multiplier, stat.suffix)
@@ -279,8 +279,8 @@ function appendWheelEffectSection(container, description) {
     container.appendChild(section);
 }
 
-function appendWheelMainStatSection(container, mainStat) {
-    const levels = getWheelMainStatLevels(mainStat);
+function appendWheelMainStatSection(container, mainStat, grade) {
+    const levels = getWheelMainStatLevels(mainStat, grade);
     if (levels.length === 0) return;
     const stat = parseWheelMainStat(mainStat);
 
@@ -374,12 +374,12 @@ function formatSilverKeyEffect(item) {
 
     calculated = calculated
         .replace(/\[(?:Block|Heal|Energy|Exhaustion):([^\]]+)\]/g, '$1')
-        .replace(/행동력 소모pt/g, '행동력 소모')
+        .replace(/행동력 소모pt/g, '산출력 소모')
         .replace(/(\d)\s*pt\b/g, '$1점')
         .replace(/(\d)\s*포인트/g, '$1점')
         .replace(/\s+점/g, '점')
-        .replace(/방어막/g, '실드')
-        .replace(/피해 증폭 효과|피해 증폭|피해 강화/g, '피해 강효');
+        .replace(/점를/g, '점을')
+        .replace(/점와/g, '점과');
     return calculated;
 }
 
@@ -409,7 +409,7 @@ function openDictionaryDialog(item, category, trigger, mainStats = [], subStats 
 
     const content = document.getElementById('dictionary-dialog-content');
     content.replaceChildren();
-    if (category === 'myeongryun' && item.main_stat) appendWheelMainStatSection(content, item.main_stat);
+    if (category === 'myeongryun' && item.main_stat) appendWheelMainStatSection(content, item.main_stat, item.grade);
     else if (item.main_stat) appendDictionaryDialogSection(content, '주옵션', item.main_stat);
     if (category === 'myeongryun' && item.description) appendWheelEffectSection(content, item.description);
     else if (category === 'silverkey' && (item.effectFormula || item.description)) {
@@ -616,6 +616,7 @@ function getDictionaryFilterMeta(item, category) {
             tags.join(' ')
         ].filter(Boolean).join(' ').toLowerCase(),
         grade: category === 'myeongryun' ? String(item.grade || '').trim() : '',
+        releaseGrade: category === 'myeongryun' ? window.summonClassification?.wheelGrade(item) || '' : '',
         mainStat: mainStatFilter,
         effectFilters: [...new Set(effectFilters)],
         strengthActions: tags.map(getDictionaryStrengthAction).filter(Boolean)
@@ -752,6 +753,7 @@ function renderDictionaryFilterIcon(value) {
         "HP 회복": "icons_buff_020.png",
         "HP 감소": "icons_buff_020.png",
         "광기": "battle_card_buff_032.png",
+        "광기 회복": "ui_battle_white_buff_003.png",
         "은열쇠 에너지 회복": "battle_card_buff_035.png",
         "은열쇠 충전": "ui_battle_white_buff_005.png",
         "검은 인장 드롭": "ui_battle_white_buff_001.png",
@@ -799,7 +801,7 @@ function buildFilterCheckboxes(name, values, counts = {}) {
     return values.map(value => `
         <label class="dictionary-filter-option">
             <input type="checkbox" name="${escapeHtml(name)}" value="${escapeHtml(value)}">
-            ${renderDictionaryFilterIcon(value)}
+            ${name === 'dictionary-grade-filter' ? '' : renderDictionaryFilterIcon(value)}
             <span class="dictionary-filter-label">${escapeHtml(value)}</span>
             ${counts[value] === undefined ? '' : `<span class="dictionary-filter-count" aria-label="${counts[value]}개">${counts[value]}</span>`}
         </label>
@@ -850,7 +852,9 @@ function renderDictionaryFilters(data, category, onFilterChange) {
     ]));
     const isMyeongryun = category === 'myeongryun';
     const isSilverKey = category === 'silverkey';
-    const grades = uniqueSortedValues([...metaByItem.values()].map(meta => meta.grade));
+    const gradeOrder = ['SSR', '상시 SSR', '한정 SSR', 'SR', 'R'];
+    const grades = uniqueSortedValues([...metaByItem.values()].flatMap(meta => [meta.grade, meta.releaseGrade]))
+        .sort((left, right) => gradeOrder.indexOf(left) - gradeOrder.indexOf(right));
     const optionFieldHtml = isMyeongryun ? `
         <div class="dictionary-filter-field">
             <span class="dictionary-filter-section-title">등급</span>
@@ -931,7 +935,7 @@ function renderDictionaryFilters(data, category, onFilterChange) {
                     : searchText.includes(query.toLowerCase());
                 if (!matches) return false;
             }
-            if (grades.length > 0 && !grades.includes(meta.grade)) return false;
+            if (grades.length > 0 && !grades.includes(meta.grade) && !grades.includes(meta.releaseGrade)) return false;
             if (mainStats.length > 0 && !mainStats.includes(meta.mainStat)) return false;
             if (!matchesDictionaryEffects(meta, effects, strengthSelect?.value || '')) return false;
             return true;
@@ -1073,7 +1077,7 @@ const initializeLinksPage = async () => {
 
     try {
         const ts = new Date().getTime();
-        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB] = await Promise.all([
+        const [manifest, linksDB, wheelList, covList, settingsDB, keyList, characterEffectsDB, tooltipDB, wheelRecommendationsDB, gachaTypes] = await Promise.all([
             fetch(`data/character_manifest.json?t=${ts}`).then(res => res.json()),
             fetch(`data/resource_links.json?t=${ts}`).then(res => res.json()),
             fetch(`data/wheel_list.json?t=${ts}`).then(res => res.json()),
@@ -1082,8 +1086,11 @@ const initializeLinksPage = async () => {
             fetch(`data/silverkey_list.json?t=${ts}`).then(res => res.json()).catch(() => []),
             fetch(`data/character_effects.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
             fetch(`data/db_tooltips.json?t=${ts}`).then(res => res.json()).catch(() => ({})),
-            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] }))
+            fetch(`data/latest_wheel_recommendations.json?t=${ts}`).then(res => res.json()).catch(() => ({ records: [] })),
+            fetch(`data/gachatype.json?t=${ts}`).then(res => res.json())
         ]);
+
+        window.summonClassification = window.SummonClassification.create(gachaTypes);
 
         if (isDictionaryPage) await window.ResearchDepth?.load();
 

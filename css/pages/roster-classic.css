@@ -1,0 +1,933 @@
+/* Keep the main inventory shell, portrait density and realm sections. */
+html:has(.classic-roster),body.classic-roster {
+    background:var(--color-bg-dark);
+}
+.classic-overlay {
+    position:fixed;
+    inset:0;
+    background:#000b;
+    z-index:0;
+    pointer-events:none;
+}
+.classic-roster .bg-image {
+    z-index:0;
+}
+.classic-roster .roster-shell {
+    position:relative;
+    z-index:1;
+    max-width:1220px;
+    padding:20px 30px 40px;
+}
+.classic-back {
+    margin-bottom:20px;
+}
+.classic-roster .back-link {
+    display:inline-flex;
+    min-height:40px;
+    align-items:center;
+    padding:8px 14px;
+    border:1px solid var(--color-border);
+    border-radius:var(--radius-sm);
+    background:#333;
+    color:#ccc;
+    font-size:.9rem;
+    font-weight:600;
+}
+.classic-roster .inventory-shell {
+    padding:20px;
+    background:rgba(30,30,34,.94);
+}
+.classic-roster .inventory-summary {
+    align-items:center;
+}
+.classic-roster h1 {
+    font-size:1.35rem;
+    letter-spacing:normal;
+    line-height:1.3;
+}
+.classic-roster .summary-counts span {
+    font-size:.85rem;
+}
+.classic-tabs-row {
+    display:flex;
+    justify-content:space-between;
+    align-items:end;
+    gap:12px;
+    border-bottom:1px solid #444;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+}
+.classic-roster .page-tabs {
+    border:0;
+    margin:0;
+    padding-left:10px;
+    gap:0;
+    max-width:100%;
+}
+.classic-roster .page-tabs button {
+    min-width:100px;
+    border:1px solid #444;
+    border-bottom:0;
+    border-radius:8px 8px 0 0;
+    padding:10px 16px;
+    color:#888;
+    background:#2a2a2e;
+    font-size:.95rem;
+    min-height:44px;
+}
+.classic-roster .page-tabs button[aria-current] {
+    background:#38383e;
+    color:var(--color-accent);
+    box-shadow:none;
+    font-weight:600;
+}
+.classic-roster .capture-actions {
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    padding-bottom:8px;
+}
+.classic-roster .capture-actions button {
+    font-size:.85rem;
+}
+.classic-roster .capture-actions { align-items:center; max-width:100%; }
+.classic-roster .share-scope-control { display:flex; align-items:center; flex-wrap:wrap; gap:.375rem; max-width:100%; font-size:.8125rem; }
+.classic-roster .share-scope-control select { width:auto; max-width:100%; min-height:2.75rem; font-size:inherit; }
+.classic-roster .capture-actions .primary-action {
+    background:var(--color-link-blue);
+    border-color:var(--color-link-blue);
+    color:#fff;
+}
+.classic-roster .search-wrap {
+    width:100%;
+    min-width:0;
+}
+.classic-filters {
+    display:flex;
+    gap:12px;
+    align-items:center;
+    flex-wrap:wrap;
+    margin:12px 0;
+}
+.classic-roster .catalog-filter-toolbar { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr)); align-items:start; gap:8px; min-width:0; flex:1 1 100%; }
+.classic-roster .catalog-filter-toolbar select { width:100%; min-width:0; min-height:44px; padding:10px; font-size:.85rem; }
+.classic-roster .catalog-filter-toolbar[hidden] { display:none; }
+.classic-filters .segmented {
+    gap:8px;
+}
+.classic-roster .classic-filters .segmented button {
+    border-radius:6px;
+    margin:0;
+    padding:.45rem .65rem;
+    background:#2a2a2a;
+    min-height:40px;
+    font-size:.85rem;
+}
+.classic-roster .segmented button[aria-pressed=true] {
+    border-color:var(--color-accent);
+    background:#2a2a2a;
+    color:var(--color-accent);
+}
+.classic-bulk {
+    display:flex;
+    gap:8px;
+    margin-left:auto;
+    flex-wrap:wrap;
+}
+.classic-bulk button {
+    font-size:.8rem;
+}
+.classic-tools {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    padding:8px 0;
+    border-top:1px solid #38383d;
+}
+.classic-tools .check-line {
+    margin:0;
+    min-height:40px;
+}
+.classic-tools>button {
+    font-size:.8rem;
+}
+.inventory-extra-filters {
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    flex-basis:100%;
+    min-width:0;
+    gap:.5rem 1rem;
+}
+.inventory-extra-filters label {
+    display:flex;
+    gap:.5rem;
+    align-items:center;
+    flex-wrap:wrap;
+    min-width:0;
+    min-height:2.75rem;
+    font-size:.85rem;
+}
+.classic-preview-note {
+    color:#999;
+    font-size:.75rem;
+    margin-left:auto;
+}
+.classic-roster .list-meta {
+    margin:4px 0 12px;
+    font-size:.75rem;
+}
+.classic-roster .page-footer {
+    margin-top:20px;
+}
+.classic-roster #inventory-grid.classic-groups {
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+}
+.classic-roster .relems-character-grid,.classic-roster #inventory-grid.classic-wheels {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(112px,1fr));
+    align-items:start;
+    gap:12px;
+}
+.classic-roster .relems-section-title {
+    font-size:.95rem;
+    line-height:1.4;
+}
+.classic-roster .character-card {
+    background:var(--color-bg-card);
+    border:1px solid var(--color-border);
+    border-radius:var(--radius-md);
+    padding:9px;
+    gap:8px;
+    overflow:visible;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+}
+.classic-roster .character-card.selected {
+    border-color:var(--color-accent);
+    box-shadow:0 0 0 1px #ffc10735;
+}
+.classic-roster .character-card.is-selected {
+    outline:2px solid #eee;
+    outline-offset:2px;
+    box-shadow:none;
+}
+.classic-roster .character-card .compact-select {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    position:relative;
+    background:transparent;
+    border:0;
+    border-radius:0;
+    padding:0;
+    width:100%;
+    min-width:0;
+    min-height:44px;
+    line-height:1.4;
+}
+.classic-roster .compact-select:hover {
+    background:transparent;
+}
+.classic-roster .compact-select img {
+    display:block;
+    width:100%;
+    height:auto;
+    aspect-ratio:1/1.08;
+    object-fit:cover;
+    border:1px solid #3f3f3f;
+    border-radius:6px;
+    filter:none;
+    opacity:1;
+    background:#111;
+}
+.classic-roster .not-owned .compact-select img {
+    filter:none;
+    opacity:1;
+}
+.classic-roster .wheel-card .compact-select img {
+    object-fit:contain;
+}
+.classic-roster .inventory-card-name {
+    width:100%;
+    color:#eee;
+    font-weight:600;
+    font-size:.85rem;
+    text-align:center;
+    overflow-wrap:anywhere;
+}
+.classic-roster .check-mark {
+    position:absolute;
+    right:-3px;
+    top:-3px;
+    background:var(--color-accent);
+    color:#151515;
+    width:24px;
+    height:24px;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    z-index:1;
+    display:none;
+}
+.classic-roster .compact-select[aria-pressed=true] .check-mark {
+    display:flex;
+}
+.classic-roster .compact-level {
+    font-size:.75rem;
+    color:#aaa;
+    text-align:center;
+    margin:0;
+    margin-block:-4px;
+    min-height:24px;
+    width:100%;
+    padding:0;
+    border:0;
+    background:transparent;
+    line-height:1.4;
+    cursor:pointer;
+}
+.classic-roster .compact-level:hover { color:var(--color-text-primary); background:var(--color-bg-elevated); }
+.classic-roster .growth-entry {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:1px;
+    width:100%;
+    font-size:.78rem;
+    line-height:1.3;
+    padding:5px 2px;
+    min-height:44px;
+    background:transparent;
+    border-color:#444;
+}
+.growth-entry small {
+    font-size:.7rem;
+    color:#aaa;
+}
+.classic-roster .classic-stepper {
+    display:grid;
+    grid-template-columns:24px minmax(0,1fr) 24px;
+    align-items:center;
+    width:100%;
+    border:1px solid #555;
+    border-radius:16px;
+    background:#252525;
+}
+.classic-roster .classic-stepper button {
+    min-width:24px;
+    min-height:32px;
+    border:0;
+    background:transparent;
+    padding:0;
+    font-size:.8rem;
+    border-radius:16px;
+}
+.classic-stepper span {
+    text-align:center;
+    font-size:.8rem;
+    overflow-wrap:anywhere;
+}
+.classic-roster .card-growth {
+    margin:0;
+    padding:8px 0 0;
+    border-top:1px solid #444;
+    width:100%;
+}
+.classic-roster .stat-line {
+    display:flex;
+    font-size:.75rem;
+    gap:4px;
+    flex-wrap:wrap;
+}
+.classic-roster .stat-line strong {
+    font-size:.8rem;
+}
+.classic-roster .card-skill {
+    margin-top:8px;
+    padding-top:8px;
+}
+.classic-roster .card-skill summary {
+    min-height:40px;
+    font-size:.75rem;
+    display:flex;
+    gap:4px;
+    align-items:center;
+    cursor:pointer;
+    list-style:none;
+}
+.classic-roster .card-skill summary:before {
+    content:'›';
+    font-size:1rem;
+}
+.classic-roster .card-skill[open] summary:before {
+    transform:rotate(90deg);
+}
+.classic-roster .card-skill summary::-webkit-details-marker {
+    display:none;
+}
+.classic-roster .card-skill .stat-line {
+    display:block;
+    overflow-wrap:anywhere;
+}
+.classic-roster .card-skill dd {
+    color:#ddd;
+}
+.classic-roster .card-skill dt {
+    color:#aaa;
+}
+.classic-roster .missing-data {
+    font-size:.75rem;
+}
+.classic-roster .team-intro {
+    margin:16px 0;
+}
+.classic-roster .team-member img {
+    border:1px solid #444;
+}
+.classic-roster .team-card {
+    background:var(--color-bg-card);
+    border-color:var(--color-border);
+}
+.classic-roster .team-filters {
+    background:#252529;
+}
+.classic-roster .team-view-switch button {
+    font-size:.85rem;
+}
+.classic-roster .dialog-heading h2 {
+    margin:0;
+}
+.classic-roster #share-preview {
+    display:block;
+    width:100%;
+    height:auto;
+}
+.classic-roster #utility.share-preview-dialog { width:min(76rem,calc(100% - 1.5rem)); max-width:calc(100% - 1.5rem); margin:auto; max-height:calc(100dvh - 1.5rem); }
+.classic-roster :is(.share-preview-dialog,.share-copy-dialog) .dialog-heading { padding:.625rem 1rem; }
+.classic-roster :is(.share-preview-dialog,.share-copy-dialog) .dialog-heading button { width:2rem; min-width:2rem; height:2rem; min-height:2rem; padding:0; font-size:1.125rem; line-height:1; }
+.classic-roster .share-image-stage { overflow:auto; max-width:100%; max-height:calc(100dvh - 16rem); min-height:4rem; background:#1e1e22; border:1px solid var(--color-border); border-radius:6px; }
+.classic-roster .share-image-stage:focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
+.classic-roster .share-image-stage { height:min(40rem,calc(100dvh - 16rem)); }
+.classic-roster .share-loading { min-height:100%; display:flex; flex-direction:column; justify-content:center; gap:1rem; padding:1.5rem; box-sizing:border-box; }
+.classic-roster .share-loading span { display:flex; flex-wrap:wrap; justify-content:space-between; gap:.5rem; font-size:.875rem; }
+.classic-roster .share-loading strong { color:var(--color-accent); font-variant-numeric:tabular-nums; }
+.classic-roster .share-loading progress { width:100%; height:.5rem; accent-color:var(--color-accent); }
+.classic-roster #utility.share-copy-dialog { width:min(28rem,calc(100% - 1.5rem)); margin:auto; max-height:calc(100dvh - 1.5rem); }
+.classic-roster .share-copy-dialog .share-loading { min-height:8rem; padding:0; }
+.classic-roster #utility.preset-dialog { width:min(33rem,calc(100% - 1.5rem)); max-width:calc(100% - 1.5rem); max-height:calc(100dvh - 1.5rem); margin:auto; border-radius:10px; }
+.classic-roster .preset-dialog .dialog-heading { padding:.75rem 1rem; }
+.classic-roster .preset-dialog .dialog-heading h2 { font-size:1rem; }
+.classic-roster .preset-dialog .dialog-heading>button { width:2rem; min-width:2rem; height:2rem; min-height:2rem; padding:0; border-color:transparent; font-size:1.25rem; line-height:1; }
+.classic-roster .preset-dialog .dialog-body { padding:1rem; container-type:inline-size; }
+.classic-roster .preset-section+.preset-section { border-top:1px solid var(--color-border); margin-top:1.25rem; padding-top:1rem; }
+.classic-roster .preset-section h3 { margin:0 0 .625rem; color:var(--color-text-secondary); font-size:.75rem; font-weight:500; }
+.classic-roster .builtin-preset-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,13rem),1fr)); gap:.5rem; }
+.classic-roster .builtin-preset { display:flex; align-items:center; gap:.625rem; min-width:0; min-height:4rem; padding:.75rem; background:var(--color-bg-dark); border-color:var(--color-border); border-radius:6px; text-align:left; font-size:.8125rem; line-height:1.5; }
+.classic-roster .builtin-preset>span:nth-child(2) { min-width:0; overflow-wrap:anywhere; }
+.classic-roster .preset-icon { flex:0 0 1.75rem; width:1.75rem; height:1.75rem; display:grid; place-items:center; color:var(--color-text-secondary); font-size:1.5rem; font-weight:400; }
+.classic-roster .preset-icon img { width:100%; height:100%; object-fit:contain; }
+.classic-roster .preset-arrow { margin-left:auto; color:var(--color-text-secondary); font-size:1.25rem; font-weight:400; }
+.classic-roster .preset-section-heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; margin-bottom:.625rem; }
+.classic-roster .preset-section-heading h3 { margin:0; }
+.classic-roster .preset-count { margin-left:.25rem; color:var(--color-text-secondary); font-variant-numeric:tabular-nums; }
+.classic-roster #new-preset { min-height:2rem; padding:.375rem .625rem; font-size:.75rem; background:transparent; }
+.classic-roster .preset-empty { margin:0; padding:1.25rem .75rem; border:1px dashed var(--color-border); border-radius:6px; color:var(--color-text-secondary); text-align:center; font-size:.8125rem; }
+.classic-roster .user-preset-row { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:.5rem; align-items:start; padding:.5rem 0; }
+.classic-roster .user-preset-row+.user-preset-row { border-top:1px solid var(--color-border); }
+.classic-roster .user-preset-apply { display:flex; align-items:center; gap:.5rem; min-width:0; min-height:2.25rem; padding:.375rem .5rem; border-color:transparent; background:transparent; text-align:left; font-size:.8125rem; }
+.classic-roster .user-preset-apply>span:first-child { overflow-wrap:anywhere; min-width:0; }
+.classic-roster .preset-menu { min-width:2rem; }
+.classic-roster .preset-menu summary { display:flex; align-items:center; justify-content:center; cursor:pointer; width:2rem; min-height:2.25rem; margin-left:auto; list-style:none; border:1px solid var(--color-border); border-radius:6px; font-size:1.125rem; }
+.classic-roster .preset-menu summary::-webkit-details-marker { display:none; }
+.classic-roster .preset-menu[open]>div { display:grid; gap:.25rem; margin-top:.375rem; }
+.classic-roster .preset-menu button { min-height:2rem; padding:.375rem .5rem; font-size:.75rem; }
+.classic-roster .preset-dialog :is(button,summary):focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
+@container(max-width:14rem) {
+    .classic-roster .builtin-preset { display:grid; grid-template-columns:minmax(0,1fr) auto; }
+    .classic-roster .builtin-preset .preset-icon { grid-column:1; grid-row:1; }
+    .classic-roster .builtin-preset>span:nth-child(2) { grid-column:1 / -1; grid-row:2; }
+    .classic-roster .builtin-preset .preset-arrow { grid-column:2; grid-row:1; }
+}
+@media(hover:hover) {
+    .classic-roster .preset-dialog :is(.builtin-preset,.user-preset-apply):hover { border-color:var(--color-accent); background:var(--color-bg-card); }
+}
+.classic-roster .share-image-stage.is-expanded #share-preview { width:var(--share-image-width); max-width:none; }
+.classic-roster .inventory-toast { width:max-content; box-sizing:border-box; white-space:normal; overflow-wrap:anywhere; line-height:1.5; }
+@media(prefers-reduced-motion:reduce) {
+    .classic-roster .inventory-toast { animation:none; transform:translateX(-50%); }
+}
+.classic-roster dialog {
+    z-index:30;
+}
+.classic-roster #bulk-bar {
+    z-index:5;
+}
+.classic-roster:has(#bulk-bar:not([hidden])) .roster-shell {
+    padding-bottom:2rem;
+}
+@media(max-width:767px) {
+    .classic-roster .roster-shell {
+        padding:16px 15px 30px;
+    }
+    .classic-roster .inventory-shell {
+        padding:14px;
+    }
+    .classic-roster .inventory-summary {
+        gap:12px;
+        align-items:start;
+        flex-direction:column;
+    }
+    .classic-roster .summary-counts {
+        justify-content:start;
+    }
+    .classic-roster h1 {
+        font-size:1.2rem;
+    }
+    .classic-roster .classic-tabs-row {
+        gap:8px;
+    }
+    .classic-roster .page-tabs {
+        padding-left:0;
+        width:100%;
+    }
+    .classic-roster .page-tabs button {
+        min-width:0;
+        flex:1;
+        font-size:.85rem;
+        padding:10px 12px;
+    }
+    .classic-roster .capture-actions {
+        gap:6px;
+    }
+    .classic-roster .capture-actions button {
+        padding:8px 10px;
+        font-size:.8rem;
+    }
+    .classic-filters {
+        gap:8px;
+    }
+    .classic-bulk {
+        margin-left:0;
+    }
+    .classic-tools {
+        gap:8px;
+    }
+    .classic-preview-note {
+        width:100%;
+        margin-left:0;
+        font-size:.7rem;
+    }
+    .classic-roster .character-card {
+        padding:9px;
+    }
+    .classic-roster .card-growth .stat-line {
+        display:flex;
+    }
+    .classic-roster .team-members {
+        grid-template-columns:repeat(4,minmax(0,1fr));
+    }
+    .classic-roster .team-member img {
+        aspect-ratio:1/1.08;
+        width:100%;
+        max-width:80px;
+    }
+    .classic-roster .team-filters label {
+        width:100%;
+    }
+    .classic-roster .team-filters select {
+        flex:1;
+        max-width:100%;
+    }
+    .classic-roster #bulk-bar {
+        padding:12px;
+    }
+    .classic-roster .team-intro h2 {
+        font-size:1rem;
+    }
+}
+@media(max-width:379px) {
+    .classic-roster .roster-shell {
+        padding:12px 10px 24px;
+    }
+    .classic-roster .inventory-shell {
+        padding:10px;
+    }
+    .classic-roster .relems-character-grid,.classic-roster #inventory-grid.classic-wheels {
+        grid-template-columns:repeat(auto-fill,minmax(112px,1fr));
+        gap:10px;
+    }
+    .classic-roster .page-tabs button {
+        padding:10px 8px;
+    }
+    .classic-roster .team-members {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+}
+.classic-roster #preview-image-button {
+    width:auto;
+    max-width:none;
+    max-height:none;
+}
+.classic-roster .character-card .compact-select[aria-pressed=false] .check-mark {
+    display:flex;
+    background:#222b;
+    border:1px solid #666;
+    color:transparent;
+}
+
+.classic-roster .back-link {
+    margin-bottom: 0;
+}
+/* Growth values are always visible; the thumbnail and realm grouping stay intact. */
+.classic-roster .classic-stepper {
+    grid-template-columns:24px minmax(0,1fr) 24px;
+    border:0;
+    border-radius:0;
+    background:transparent;
+    gap:0;
+}
+.classic-roster .potency-badge {
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:center;
+    gap:0;
+    min-height:28px;
+    min-width:0;
+}
+.classic-roster .potency-diamond {
+    display:block;
+    width:16px;
+    height:16px;
+    object-fit:contain;
+}
+.classic-roster .potency-diamond.unlit { opacity:.22; filter:grayscale(1); }
+.classic-roster .potency-number { position:relative; display:inline-grid; place-items:center; width:22px; height:22px; flex-shrink:0; }
+.classic-roster .potency-number>img:first-child { width:100%; height:100%; object-fit:contain; }
+.classic-roster .potency-number>span { position:absolute; color:#242424; font-size:.75rem; font-weight:700; line-height:1; }
+.classic-roster .potency-number .potency-max { position:absolute; width:16px; height:16px; object-fit:contain; }
+.classic-roster .potency-unknown { color:var(--color-text-muted); font-size:.75rem; }
+.classic-roster .unowned-potency { min-height:32px; display:flex; align-items:center; justify-content:center; }
+.classic-roster .card-growth { padding-top:8px; }
+.classic-roster .potency-number>span {
+    color:#fff8d3;
+    font-family:Georgia,'Times New Roman',serif;
+    font-weight:600;
+    text-shadow:0 1px 2px #000;
+}
+
+/* Two numeric lines on owned cards; unowned cards remain thumbnail-only. */
+.classic-roster .classic-stepper:has(.potency-badge) {
+    grid-template-columns:24px minmax(0,1fr) 24px;
+    align-items:center;
+    min-height:32px;
+}
+.classic-roster .classic-stepper .potency-badge { flex-wrap:nowrap; min-height:24px; }
+.classic-roster .classic-stepper .potency-diamond { width:11px; height:15px; flex:0 0 11px; }
+.classic-roster .classic-stepper .potency-number { width:14px; height:18px; }
+.classic-roster .classic-stepper .potency-number>span { font-size:.65rem; }
+.classic-roster .classic-stepper .potency-number .potency-max { width:12px; height:14px; }
+.classic-roster .growth-entry.compact-growth {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:3px;
+    min-height:44px;
+    margin:0;
+    border:0;
+    border-radius:4px;
+    background:transparent;
+    padding:2px 0;
+    color:var(--color-text-secondary);
+    font-size:.75rem;
+    line-height:1.4;
+    font-variant-numeric:tabular-nums;
+    font-weight:400;
+}
+.classic-roster .compact-growth:hover { background:var(--color-bg-elevated); }
+.classic-roster .growth-values { max-width:100%; text-align:center; overflow-wrap:anywhere; }
+.classic-roster .compact-talents { color:inherit; }
+
+.classic-roster .relems-character-grid,
+.classic-roster #inventory-grid.classic-wheels {
+    grid-template-columns:repeat(auto-fill,minmax(min(100%,max(112px,7rem)),1fr));
+}
+.classic-roster .classic-stepper .potency-diamond {
+    display:grid;
+    place-items:center;
+    width:.9375rem;
+    height:1.375rem;
+    flex-basis:.9375rem;
+}
+.classic-roster .classic-stepper .potency-number { width:.875rem; height:1.125rem; }
+.classic-roster .classic-stepper .potency-number .potency-max { width:.75rem; height:.875rem; }
+/* ScareCrow artwork identifies the two compact numeric rows. */
+.classic-roster .growth-icon-row {
+    position:relative;
+    left:.25rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:.25rem;
+    width:calc(100% + 18px);
+    margin-inline:-9px;
+    min-width:0;
+}
+.classic-roster .growth-icon-row>img { width:.875rem; height:.875rem; object-fit:contain; flex:0 0 .875rem; }
+/* The empty right rail balances the icon so only the values determine the center. */
+.classic-roster .growth-icon-row::after { content:""; flex:0 0 .875rem; }
+.classic-roster .growth-icon-row .growth-values { min-width:0; max-width:calc(100% - 2.25rem); }
+/* Centered modal, with a scrolling body and persistent header/footer. */
+.classic-roster #editor {
+    --editor-max-height:calc(100dvh - 1.5rem);
+    position:fixed;
+    inset:0;
+    margin:auto;
+    width:min(42rem,calc(100% - 1.5rem));
+    max-width:calc(100% - 1.5rem);
+    height:fit-content;
+    max-height:var(--editor-max-height);
+    border-radius:12px;
+    border:1px solid var(--color-border);
+    overflow:hidden;
+}
+.classic-roster #editor-form { height:auto; max-height:calc(var(--editor-max-height) - 2px); display:flex; flex-direction:column; min-height:0; }
+.classic-roster #editor .dialog-heading { flex-shrink:0; flex-direction:row-reverse; flex-wrap:wrap; padding:.625rem 1rem; background:#252729; }
+.classic-roster #editor .dialog-heading>button { order:-1; width:2rem; min-width:2rem; height:2rem; min-height:2rem; padding:0; font-size:1.125rem; line-height:1; }
+.classic-roster #editor #editor-title { flex:1 0 min(100%,10rem); }
+.classic-roster #editor .dialog-body { flex:1; min-height:0; overflow:auto; overscroll-behavior:contain; display:flex; flex-direction:column; gap:.625rem; padding:clamp(.5rem,2.5vw,1rem); background:#222426; }
+.classic-roster #editor .dialog-footer { flex-shrink:0; padding:.625rem 1rem; padding-bottom:max(.625rem,env(safe-area-inset-bottom)); background:#252729; }
+.classic-roster #editor .field-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr)); gap:.875rem 1.25rem; }
+.classic-roster #editor .editor-talents .field-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr)); }
+.classic-roster #editor:has([data-kind="wheel"]) { width:min(29rem,calc(100% - 1.5rem)); }
+.classic-roster #editor .editor-options { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:.5rem 1rem; }
+.classic-roster #editor .editor-preset-field { display:flex; align-items:center; flex-wrap:wrap; gap:.5rem; min-width:0; font-size:.8125rem; color:var(--color-text-secondary); }
+.classic-roster #editor .editor-preset-field select { min-height:2.25rem; max-width:100%; padding:.375rem .625rem; font-size:.8125rem; }
+.classic-roster #editor .check-line { margin:0; min-height:2rem; font-size:.8125rem; }
+.classic-roster #editor .editor-section { padding:.75rem 0 0; border:0; border-top:1px solid #3a3d40; border-radius:0; background:transparent; }
+.classic-roster #editor .editor-section .field-heading { margin:0 0 .5rem; color:var(--color-text-primary); font-size:.875rem; font-weight:600; }
+.classic-roster #editor .editor-section-heading { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; margin-bottom:.5rem; }
+.classic-roster #editor .editor-section-heading .field-heading { margin:0; }
+.classic-roster #editor .quick-actions { margin:0; gap:.375rem; }
+.classic-roster #editor .quick-actions button { min-height:1.875rem; padding:.25rem .5rem; font-size:.75rem; background:transparent; border-color:#424649; }
+.classic-roster #editor .editor-followup { display:grid; gap:.75rem; }
+.classic-roster #editor .editor-options,
+.classic-roster #editor .editor-section,
+.classic-roster #editor .editor-followup { flex-shrink:0; }
+.classic-roster #editor .slider-field>label { font-size:.8125rem; }
+.classic-roster #editor .slider-controls { grid-template-columns:minmax(0,1fr) min(3.75rem,35%); gap:.625rem; }
+.classic-roster #editor .slider-controls input[type=number] { min-height:2.25rem; padding:.25rem; font-size:.875rem; font-variant-numeric:tabular-nums; border-color:#45494c; background:#292c2f; }
+.classic-roster #editor .slider-controls input[type=range] { appearance:none; height:2.25rem; min-height:2.25rem; margin:0; padding:0; background:transparent; }
+.classic-roster #editor input[type=range]::-webkit-slider-runnable-track { height:3px; border-radius:3px; background:linear-gradient(to right,var(--color-accent) var(--range-fill,0%),#484c50 var(--range-fill,0%)); }
+.classic-roster #editor input[type=range]::-webkit-slider-thumb { appearance:none; width:14px; height:14px; margin-top:-5.5px; border:0; border-radius:50%; background:var(--color-accent); }
+.classic-roster #editor input[type=range]::-moz-range-track { height:3px; border-radius:3px; background:#484c50; }
+.classic-roster #editor input[type=range]::-moz-range-progress { height:3px; background:var(--color-accent); }
+.classic-roster #editor input[type=range]::-moz-range-thumb { width:14px; height:14px; border:0; border-radius:50%; background:var(--color-accent); }
+.classic-roster #editor .slider-controls input[type=range]:disabled { cursor:not-allowed; opacity:.45; filter:grayscale(1); }
+.classic-roster .slider-field>label { font-size:.85rem; color:var(--color-text-secondary); }
+.classic-roster .slider-controls { display:grid; grid-template-columns:minmax(0,1fr) min(5rem,40%); gap:1rem; align-items:center; }
+.classic-roster .slider-controls input[type=range] { min-width:0; width:100%; min-height:44px; accent-color:var(--color-accent); cursor:pointer; }
+.classic-roster .slider-controls input[type=number] { text-align:center; padding:.5rem .3rem; }
+.classic-roster .fixed-field input[type=number] { opacity:1; color:var(--color-text-primary); background:var(--color-bg-dark); }
+.classic-roster .slider-field small { line-height:1.4; }
+@media(max-width:767px) {
+    .classic-roster .slider-controls { gap:.75rem; }
+}
+.classic-roster #editor .dialog-heading>div,
+.classic-roster #editor .editor-person>div { min-width:0; }
+.classic-roster #editor .editor-person img { flex-shrink:0; width:36px; height:44px; }
+.classic-roster #editor .editor-person { flex-wrap:wrap; }
+.classic-roster #editor .dialog-heading h2 { overflow-wrap:anywhere; }
+
+.classic-roster .madness-skill-value { color:var(--color-accent); }
+
+.classic-roster .classic-stepper:has(.potency-badge) {
+    width:calc(100% + 16px);
+    margin-inline:-8px;
+}
+
+/* Use upright serif digits to visually match the original maximum-stage sprite. */
+@font-face {
+    font-family:PotencyMaxStyle;
+    src:url('../../images/growth/game-potency-max-style.woff2') format('woff2');
+    font-weight:600;
+    font-style:normal;
+    font-display:swap;
+}
+.classic-roster .classic-stepper:has(.potency-badge) {
+    width:calc(100% + 18px);
+    margin-inline:-9px;
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    min-height:32px;
+    background:transparent;
+    border:0;
+    border-radius:0;
+}
+.classic-roster .classic-stepper:has(.potency-badge)>button { justify-self:center; width:24px; }
+.classic-roster .classic-stepper:has(.potency-badge)>button:first-child { padding-inline:0 2px; }
+.classic-roster .classic-stepper:has(.potency-badge)>button:last-child { padding-inline:2px 0; }
+.classic-roster .classic-stepper .potency-badge { width:5.5625rem; gap:.0625rem; }
+.classic-roster .classic-stepper .potency-diamond {
+    width:1.375rem;
+    height:1.375rem;
+    flex:0 0 1.375rem;
+    margin:0;
+}
+/* Bring only the diamond artwork together; keep the number and arrow spacing. */
+.classic-roster .classic-stepper .potency-diamond+.potency-diamond { margin-inline-start:-.1875rem; }
+.classic-roster .classic-stepper .potency-diamond>img {
+    grid-area:1 / 1;
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+.classic-roster .classic-stepper .potency-diamond.lit { filter:none; }
+.classic-roster .classic-stepper .potency-diamond.unlit { opacity:1; filter:none; }
+.classic-roster .classic-stepper .potency-number {
+    /* One game unit in CSS: keep the current 18px-wide maximum number.
+       Its source width is 54, inside Image_Max's 1.22 parent scale. */
+    --potency-game-unit:calc(1.125rem / 65.88);
+    width:1.25rem;
+    height:1.375rem;
+}
+.classic-roster .classic-stepper .potency-number .potency-game-parent {
+    --potency-parent-scale:1.22;
+    position:absolute;
+    left:50%;
+    top:50%;
+    display:grid;
+    place-items:center;
+    font:inherit;
+    color:inherit;
+    text-shadow:none;
+    transform:translate(-50%,-50%) scale(var(--potency-parent-scale));
+    width:calc(100 * var(--potency-game-unit));
+    height:calc(90 * var(--potency-game-unit));
+}
+.classic-roster .potency-number .potency-game-background {
+    display:block;
+    width:100%;
+    height:100%;
+    max-width:none;
+    object-fit:contain;
+}
+/* Image_Number's original 84x72 decoration and 1.5312 scale, independent of
+   the visually matched digits. Only 12 uses the 100x90 maximum decoration. */
+.classic-roster .potency-number .potency-game-background.potency-background-regular {
+    position:absolute;
+    left:50%;
+    top:calc(50% + 5.2 * var(--potency-game-unit) / 1.22);
+    transform:translate(-50%,-50%);
+    width:calc(84 * 1.5312 * var(--potency-game-unit) / 1.22);
+    height:calc(72 * 1.5312 * var(--potency-game-unit) / 1.22);
+}
+.classic-roster .classic-stepper .potency-game-parent .potency-game-text {
+    position:absolute;
+    left:calc(50% - 1.7 * var(--potency-game-unit));
+    top:calc(50% - 3.1 * var(--potency-game-unit));
+    transform:translate(-50%,-50%);
+    font-family:PotencyMaxStyle,serif;
+    font-size:calc(45 * var(--potency-game-unit));
+    font-weight:600;
+    line-height:1;
+    color:#f4f2f8;
+    font-synthesis:none;
+    text-shadow:none;
+    white-space:nowrap;
+}
+.classic-roster .classic-stepper .potency-number .potency-max {
+    position:absolute;
+    left:calc(50% - 1.7 * var(--potency-game-unit));
+    top:calc(50% - 3.1 * var(--potency-game-unit));
+    transform:translate(-50%,-50%);
+    width:calc(54 * var(--potency-game-unit));
+    height:calc(50 * var(--potency-game-unit));
+    max-width:none;
+    object-fit:contain;
+}
+.classic-roster .madness-skill-value { color:#ddd976; }
+
+/* Game artwork anchors each editable value; the track stays below its label. */
+.classic-roster #editor .slider-field {
+    display:grid;
+    grid-template-columns:2.25rem minmax(0,1fr) auto;
+    align-items:center;
+    gap:.125rem .625rem;
+    padding:.25rem 0;
+}
+.classic-roster #editor .slider-field>.field-art { grid-column:1; grid-row:1 / 3; display:grid; place-items:center; width:2.25rem; height:2.25rem; }
+.classic-roster #editor .field-art img { width:100%; height:100%; object-fit:contain; }
+.classic-roster #editor .field-art .level-mark { font-family:Georgia,serif; font-size:1.125rem; color:var(--color-text-secondary); }
+.classic-roster #editor .slider-field>label { grid-column:2; grid-row:1; color:var(--color-text-primary); line-height:1.5; overflow-wrap:anywhere; }
+.classic-roster #editor .slider-controls:not([hidden]) { display:contents; }
+.classic-roster #editor .field-value { grid-column:3; grid-row:1; display:flex; align-items:center; gap:.25rem; min-width:0; }
+.classic-roster #editor .field-value input[type=number] { width:2.5rem; min-width:0; min-height:2rem; padding:.25rem 0; border:1px solid transparent; border-bottom-color:#555a5d; border-radius:0; background:transparent; color:var(--color-text-primary); font-size:1.0625rem; font-weight:600; appearance:textfield; }
+.classic-roster #editor .field-value input::-webkit-inner-spin-button,
+.classic-roster #editor .field-value input::-webkit-outer-spin-button { appearance:none; margin:0; }
+.classic-roster #editor .field-value input:hover { border-bottom-color:var(--color-accent); }
+.classic-roster #editor .field-value .field-maximum { color:var(--color-text-secondary); font-size:.75rem; white-space:nowrap; }
+.classic-roster #editor .slider-controls input[type=range] { grid-column:2 / 4; grid-row:2; height:1.75rem; min-height:1.75rem; }
+.classic-roster #editor .slider-field>select { grid-column:2 / 4; min-width:0; min-height:2.25rem; }
+.classic-roster #editor .slider-field:has(>select) .field-value { grid-row:3; }
+.classic-roster #editor .slider-field:has(>select) .slider-controls input[type=range] { grid-row:4; }
+.classic-roster #editor .field-potency-preview.classic-stepper { grid-column:2 / 4; display:flex; width:auto; min-height:1.5rem; margin:0; justify-content:flex-start; }
+.classic-roster #editor .field-potency-preview[hidden] { display:none; }
+.classic-roster #editor .madness-field>label,
+.classic-roster #editor .madness-field .field-value input { color:#ddd976; }
+.classic-roster #editor .editor-talents .field-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr)); }
+.classic-roster #editor .fixed-field .field-art { opacity:.55; }
+.classic-roster #editor .field-grid { align-items:start; gap:.5rem 1.25rem; container-type:inline-size; }
+@container (max-width:16rem) {
+    .classic-roster #editor .slider-field { grid-template-columns:2.25rem minmax(0,1fr); }
+    .classic-roster #editor .field-value { grid-column:2; grid-row:2; justify-content:flex-end; }
+    .classic-roster #editor .slider-controls input[type=range] { grid-column:2; grid-row:3; }
+    .classic-roster #editor .slider-field>select { grid-column:2; }
+    .classic-roster #editor .slider-field:has(>select) .field-value { grid-row:3; }
+    .classic-roster #editor .slider-field:has(>select) .slider-controls input[type=range] { grid-row:4; }
+    .classic-roster #editor .field-potency-preview.classic-stepper { grid-column:1 / -1; justify-content:center; }
+}
+
+.classic-roster .inventory-heading { display:flex; align-items:center; gap:.625rem; min-width:0; }
+.classic-roster #report-modal { display:none; inset:0; width:100%; max-width:none; height:100dvh; max-height:100dvh; margin:0; padding:1rem; border:0; border-radius:0; box-sizing:border-box; background:transparent; }
+.classic-roster #report-modal[open] { display:flex; align-items:center; justify-content:center; }
+.classic-roster #report-modal::backdrop { background:#000b; backdrop-filter:blur(3px); }
+.classic-roster #report-modal .modal-content { position:relative; display:flex; flex-direction:column; width:min(100%,32rem); min-width:0; max-width:100%; max-height:calc(100dvh - 2rem); padding:20px; border:1px solid var(--color-border); border-radius:var(--radius-lg); background:#222; text-align:left; box-sizing:border-box; overflow:auto; }
+.classic-roster #report-modal .form-title { margin:0; padding:0 2.5rem 10px 0; border-bottom:2px solid #444; color:var(--color-accent); font-size:1.125rem; line-height:1.5; }
+.classic-roster #report-modal .close-btn { position:absolute; top:15px; right:15px; min-width:2rem; min-height:2rem; width:2rem; height:2rem; padding:0; border:0; background:none; color:#aaa; font-size:1.25rem; }
+.classic-roster #report-modal .report-modal-description { color:#aaa; font-size:.9em; }
+.classic-roster #report-modal .form-field-label { display:block; margin:15px 0 5px; color:#ccc; font-weight:700; }
+.classic-roster #report-modal :is(.form-input,.form-textarea) { width:100%; padding:12px; border:1px solid var(--color-border-light); border-radius:var(--radius-sm); background:var(--color-bg-form); color:#eee; font-size:1em; font-family:inherit; box-sizing:border-box; }
+.classic-roster #report-modal :is(.form-input,.form-textarea):focus { border-color:var(--color-accent); }
+.classic-roster #report-modal .form-textarea { min-height:120px; max-height:400px; resize:vertical; }
+.classic-roster #report-modal .report-modal-help { display:block; margin-top:5px; color:#ff9f43; font-size:.9em; font-weight:400; }
+.classic-roster #report-modal .form-submit-btn { display:block; width:100%; padding:12px; margin-top:20px; border:0; border-radius:6px; background:var(--color-link-blue); color:#fff; font-weight:700; }
+.classic-roster #report-modal .form-submit-btn:hover { background:var(--color-link-blue-hover); }
+.classic-roster #report-modal .report-modal-status { display:none; margin-top:15px; text-align:center; }
+.classic-roster #report-modal :is(input,textarea) { min-width:0; max-width:100%; }
+.classic-roster #report-modal :is(button,input,textarea):focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
+.classic-roster .inventory-heading h1 { min-width:0; }
+.classic-roster #roster-help { flex:0 0 auto; min-width:2rem; min-height:2rem; padding:.25rem .625rem; border-radius:6px; }
+.classic-roster .compact-level:is(:hover,:focus-visible),
+.classic-roster .compact-growth:is(:hover,:focus-visible) { outline:1px solid var(--color-accent); outline-offset:0; background:var(--color-bg-elevated); color:var(--color-text-primary); }
+.classic-roster #roster-tour { position:fixed; inset:0; width:100%; max-width:none; height:100dvh; max-height:100dvh; margin:0; padding:0; border:0; border-radius:0; overflow:hidden; background:transparent; }
+.classic-roster #roster-tour::backdrop { background:transparent; backdrop-filter:none; }
+.classic-roster #tour-spotlight { position:fixed; border:2px solid #ddd976; border-radius:8px; box-shadow:0 0 0 100vmax #000b; pointer-events:none; }
+.classic-roster #tour-card { position:fixed; z-index:1; box-sizing:border-box; width:min(22rem,calc(100% - 1.5rem)); max-height:65dvh; overflow:auto; overscroll-behavior:contain; padding:1rem; border:1px solid #57594e; border-radius:10px; background:#252729; box-shadow:0 8px 32px #0008; }
+.classic-roster .tour-top { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
+.classic-roster #tour-progress { color:#ddd976; font-size:.8125rem; }
+.classic-roster #tour-skip { padding:.25rem .5rem; min-height:2rem; font-size:.8125rem; border:0; background:transparent; color:var(--color-text-secondary); }
+.classic-roster #tour-title { margin:.75rem 0 .5rem; font-size:1.0625rem; line-height:1.5; overflow-wrap:anywhere; }
+.classic-roster #tour-description { margin:0; font-size:.875rem; color:var(--color-text-secondary); line-height:1.7; }
+.classic-roster .tour-actions { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:.5rem; margin-top:1rem; }
+.classic-roster .tour-actions button { min-height:2.5rem; padding:.375rem .875rem; }
+.classic-roster #tour-example:not([hidden]) { display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.75rem; }
+.classic-roster #tour-example span { padding:.375rem .5rem; border:1px solid #555; border-radius:4px; font-size:.8125rem; color:#ddd976; }
+.classic-roster .backup-storage-note { padding:.75rem; margin:0 0 1rem; border-inline-start:2px solid #ddd976; background:#30322d; color:var(--color-text-primary); font-size:.875rem; line-height:1.7; }

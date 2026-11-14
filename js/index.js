@@ -1,22 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     // DOM 요소 캐시 (GetComponent 캐싱)
     const searchBar = document.getElementById('search-bar');
-    const relemsFilter = document.getElementById('relems-filter');
-    const gradeFilter = document.getElementById('grade-filter');
-    const classFilter = document.getElementById('class-filter');
     const characterGrid = document.getElementById('character-grid');
 
     let allCardLinks = []; // 필터링 최적화를 위한 오브젝트 풀링 역할
-    let currentFilters = { relems: 'all', grade: 'all', class: 'all', search: '' };
+    let currentFilters = { availability: 'all', chapter: 'all', relems: 'all', grade: 'all', class: 'all', search: '' };
 
     // --- 1. JSON에서 캐릭터 카드를 생성하는 함수 (Instantiate) ---
     async function buildCharacterGrid() {
         try {
-            const response = await fetch(`data/character_manifest.json?t=${Date.now()}`, { cache: 'no-store' });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const characters = await response.json();
+            const [characters, gachaTypes] = await Promise.all(['character_manifest', 'gachatype'].map(async name => {
+                const response = await fetch(`data/${name}.json?t=${Date.now()}`, { cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.json();
+            }));
+            const classification = window.SummonClassification.create(gachaTypes);
 
             let gridHTML = '';
             for (const char of characters) {
@@ -39,7 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
             characterGrid.innerHTML = gridHTML;
             // 생성된 모든 <a> 태그를 배열에 저장 (참조 유지)
             allCardLinks = characterGrid.querySelectorAll('a.card-link');
-            allCardLinks.forEach(link => { const c = characters.find(c => c.id === link.dataset.characterId); link.dataset.searchNames = [c.name, ...(c.name_aliases || [])].join(' '); });
+            allCardLinks.forEach(link => {
+                const character = characters.find(item => item.id === link.dataset.characterId);
+                link.dataset.searchNames = [character.name, ...(character.name_aliases || [])].join(' ');
+                link.dataset.grade = character.grade;
+                link.dataset.releaseType = classification.characterAvailability(character);
+                link.dataset.chapter = classification.characterChapter(character);
+            });
 
         } catch (error) {
             console.error("캐릭터 목록 로드 실패:", error);
@@ -56,7 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 필터 조건 검사
             const relemsMatch = currentFilters.relems === 'all' || card.classList.contains(currentFilters.relems);
-            const gradeMatch = currentFilters.grade === 'all' || card.classList.contains(currentFilters.grade);
+            const gradeMatch = currentFilters.grade === 'all' || link.dataset.grade === currentFilters.grade;
+            const availabilityMatch = currentFilters.availability === 'all' || link.dataset.releaseType === currentFilters.availability;
+            const chapterMatch = currentFilters.chapter === 'all' || link.dataset.chapter === currentFilters.chapter;
             const classMatch = currentFilters.class === 'all' || card.classList.contains(currentFilters.class);
 
             // 검색어 검사
@@ -66,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : name.toLowerCase().includes(searchTerm);
 
             // 모든 조건이 맞으면 보이게, 아니면 숨김
-            if (relemsMatch && gradeMatch && classMatch && searchMatch) {
+            if (relemsMatch && gradeMatch && availabilityMatch && chapterMatch && classMatch && searchMatch) {
                 link.classList.remove('hidden');
             } else {
                 link.classList.add('hidden');
@@ -80,18 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
         await buildCharacterGrid();
 
         // 2. 필터 이벤트 리스너 등록
-        relemsFilter.addEventListener('change', (e) => {
-            currentFilters.relems = e.target.value;
-            applyFilters();
-        });
-        gradeFilter.addEventListener('change', (e) => {
-            currentFilters.grade = e.target.value;
-            applyFilters();
-        });
-        classFilter.addEventListener('change', (e) => {
-            currentFilters.class = e.target.value;
-            applyFilters();
-        });
+        for (const key of ['availability', 'chapter', 'grade', 'relems', 'class']) {
+            document.getElementById(key + '-filter').addEventListener('change', event => {
+                currentFilters[key] = event.target.value;
+                applyFilters();
+            });
+        }
         searchBar.addEventListener('input', (e) => {
             currentFilters.search = e.target.value.trim();
             applyFilters();
