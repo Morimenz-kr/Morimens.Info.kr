@@ -9,7 +9,7 @@
 | 원래 계획 | 현재 판정 | 확인한 내용 | 남은 작업 |
 |---|---|---|---|
 | 1. 각성체·명륜 보유 현황 | 계획의 입력 기능은 메인 반영 | 레벨·돌파·6개 스킬·영혼 단련·광기의 징조·내재영격, 프리셋·일괄 편집·공유 이미지·튜토리얼이 구현돼 있다. 운영 페이지가 새 로스터 스크립트를 로드한다. | 저장된 보유·성장 정보를 파티와 딜미터기가 직접 소비하도록 연결. 새 각성체 성장 자료의 지속 갱신. |
-| 2. 비밀계약 시뮬레이터 | 기존 기능 운영, 공용화는 로컬 개발 중 | 운영판은 전사·목표·프리셋을 제공한다. 별도 작업본에는 시뮬레이터와 ScareCrow가 함께 쓰는 6부위 편집기 및 변환 모델이 있다. | 공용 편집기 변경을 분리 커밋하고 최신 메인에 통합. 양쪽 호스트 간 세팅 전달과 기존 저장 호환성 검증. |
+| 2. 비밀계약 시뮬레이터 | 기존 기능 운영, 공용화는 브랜치 커밋·푸시 완료 | 운영판은 전사·목표·프리셋을 제공한다. 별도 작업본에는 시뮬레이터와 ScareCrow가 함께 쓰는 6부위 편집기 및 변환 모델이 있다. | 공용 편집기 체크포인트를 최신 메인에 통합. 양쪽 호스트 간 세팅 전달과 기존 저장 호환성 검증. |
 | 3. 융재금구 파티 시뮬레이터 | 기존 편성 운영, 확장은 분산 구현 | 메인 편성기는 각성체·명륜·은열쇠 중심이다. ScareCrow에는 성장·계약 입력이, 사용 현황 브랜치에는 실제 기록을 구역별 편성으로 보내는 기능이 있다. | 보유 정보·성장·계약의 공통 데이터 연결. 일반 편성기와 계산기 사이의 전달·저장 복원. |
 | 4. 추천 세팅을 통계로 전환 | 별도 브랜치 구현, 메인 미반영 | 메인은 여전히 `character_settings.json`을 읽는다. `codex/character-usage`에는 팀·명륜·계약·옵션 분포와 실제 클리어 세팅 조회가 구현돼 있다. | 캐릭터별 통계 API 활성화, 현행 기수 수집·공개 검증, 메인 사용 현황 진입 및 기존 수동 추천의 전환 정책 적용. |
 | 5. 추천 조합 | 기초 통계 운영, 확장 브랜치 미반영 | 융재의 구역별 채용률·자주 쓰인 편성은 운영 중이다. 별도 브랜치에는 장비가 공개된 기록 탐색, 구역별 담기, 중복 제외, 기존 편성기로 보내기가 있다. | 현행 기수 실데이터로 메인 통합. 보유 조건으로 후보를 찾는 흐름 및 대체 각성체 표시 범위를 확정·구현. |
@@ -22,7 +22,7 @@
 
 - 로컬 main: `25b8359`. 조회한 원격 main: `4b7081b`. 최신 Pages 실행 `43550997450`은 성공이다. 로컬 작업 폴더를 전환하거나 다른 작업본의 변경을 수정하지 않았다.
 - 원격 사용 현황 브랜치: `fa9aede`. 원격 스토리 브랜치: `eb699aa`. 원격 ScareCrow 브랜치: `a5d3b22`. 각각의 브랜치는 최신 main과 분기돼 있어 그대로 합치면 완료라고 볼 수 없다.
-- `codex/shared-covenant-editor` 작업본은 추적 파일 수정과 새 파일이 미커밋 상태다. 공용 편집기와 카드 순서 적용은 해당 작업본의 내용이며 공개 배포로 판정하지 않았다.
+- 최초 점검에서 미커밋이었던 `codex/shared-covenant-editor`의 공용 편집기·카드 순서 적용 등 61개 파일을 `9885771`로 커밋하고 원격 브랜치에 푸시했다. main 병합과 공개 배포는 하지 않았다.
 - 운영 보유 현황 HTTP 200 및 `roster-preview.js` 연결, 메인 사용 현황 스크립트 404, 스토리 페이지 404를 확인했다. 스토리의 첫 요청은 503이어서 재조회 후 404를 확인했다.
 - 공개 ScareCrow의 홈·`battle.html`·카탈로그는 응답한다. 존재하지 않는 자산도 HTML로 응답할 수 있으므로 HTTP 200만으로 개별 모듈 배포 여부를 판정하지 않았다.
 - 공개 73기 융재 집계 API는 35개 스테이지·36,039건을 반환했다. 이는 조회 시점의 표본 수이며 전체 유저 수나 승률이 아니다.
@@ -44,7 +44,7 @@
 |---|---|---|---|
 | `main` | 사이트 기본 체크아웃 | 재점검 시작 `a98b692`, `origin/main`과 일치 | 운영 보유 현황·기본 편성기·기존 계약 시뮬레이터·융재 통계. 이 개발 계획 문서의 관리 위치. |
 | [`codex/scarecrow`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/scarecrow) | 이 브랜치를 직접 체크아웃한 작업 폴더 없음 | 로컬·원격 `a5d3b22` | 딜미터기의 커밋된 기반: 런타임·파티/성장·장비·카드/상태 입력·계약 부위 선택. 최신 로컬 후속 작업은 아래 브랜치에 있음. |
-| `codex/shared-covenant-editor` | `scarecrow-checkpoint/Morimens.Info.kr` | HEAD `a5d3b22`, 전용 원격 브랜치 없음. 추적 파일 14개 수정 및 새 파일·디렉터리 미커밋 | M1 공용 계약 편집기와 M4 카드 연속 적용·효과 표시·전투 화면 후속 변경이 함께 있음. 폴더 이름과 실제 체크아웃 브랜치가 다름. |
+| [`codex/shared-covenant-editor`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/shared-covenant-editor) | `scarecrow-checkpoint/Morimens.Info.kr` | 로컬·원격 `9885771` 일치, 작업 트리 깨끗함 | M1 공용 계약 편집기와 M4 카드 연속 적용·효과 표시·전투 화면 후속 변경을 함께 보존. 폴더 이름과 실제 체크아웃 브랜치가 다름. |
 | [`codex/story-viewer-flow`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/story-viewer-flow) | `story-viewer-flow/Morimens.Info.kr` | 로컬·원격 `eb699aa`, 작업 트리 깨끗함 | M3 스토리 전투 정보·행동 흐름·조건 분기·지도·공명 노드. 계산기로 전투를 전달하는 통합 작업은 별도 남음. |
 | [`codex/character-usage`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/character-usage) | `character-usage/Morimens.Info.kr` | 로컬·원격 `fa9aede`, 작업 트리 깨끗함 | M5 캐릭터별 클리어 세팅·장비/옵션 통계, 5구역 편성 보관·중복 제외·기존 편성기 전달, 조회/수신 Worker. |
 
@@ -63,9 +63,9 @@ M2의 보유 정보 가져오기와 M6의 환몽 심잠 기능에는 현재 전�
 
 원문 2·3·6에 해당한다. 이미 있는 로컬 변경을 완성·통합하는 단계다.
 
-작업 브랜치: **`codex/shared-covenant-editor`**. 작업 폴더: `scarecrow-checkpoint/Morimens.Info.kr`. 커밋 기준 `a5d3b22`이며 이 마일스톤의 변경은 **로컬 미커밋·미푸시** 상태다. `codex/scarecrow` 원격에서 공용 편집기 신규 파일을 받을 수는 없다.
+작업 브랜치: **[`codex/shared-covenant-editor`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/shared-covenant-editor)**. 작업 폴더: `scarecrow-checkpoint/Morimens.Info.kr`. 공용 편집기와 M4 후속 변경을 `9885771`로 **커밋·푸시 완료**했으며 로컬·원격 HEAD가 일치하고 작업 트리는 깨끗하다. main 통합·배포는 남아 있다.
 
-현재 작업본에 있는 내용:
+브랜치에 커밋·푸시된 내용:
 
 - `js/covenant-editor.mjs`, `css/covenant-editor.css`: 두 화면이 공유하는 6부위 선택·강화·주옵·부옵·귀속·합계·세트 효과 편집.
 - `js/covenant-stats.mjs`, `js/covenant-equipment.mjs`, `data/covenant_editor.json`: 완성도·옵션 수치와 세트 구성. 기존 `js/scarecrow/` 경로는 공용 모듈을 다시 내보냄.
@@ -74,7 +74,7 @@ M2의 보유 정보 가져오기와 M6의 환몽 심잠 기능에는 현재 전�
 
 아직 없는 연결은 **시뮬레이터에서 편집한 세팅을 다른 호스트의 파티에 전송하는 기능**이다. 공용 편집기를 두 화면이 사용하는 것과 세팅을 서로 전달하는 것은 별개다. 이 작업본에는 M4 변경도 섞여 있으므로 커밋·통합할 때 소유 범위와 의존 파일을 확인한다.
 
-- [ ] 미커밋 공용 편집기·계약 모델 변경을 관련 없는 ScareCrow 변경과 구분해 보존하고 커밋한다.
+- [x] 공용 편집기·계약 모델과 상호 참조하는 ScareCrow 후속 변경을 체크포인트 `9885771`로 커밋·푸시한다. main 통합 시 범위·의존성을 다시 확인한다.
 - [ ] 최신 main과 호환되는 공통 6부위 모델, 강화·주옵·부옵·귀속·완성도 계산을 양쪽 화면에 적용한다.
 - [ ] 기존 시뮬레이터 저장값·프리셋을 읽고, 편집·전사·결과 교체·새로고침 후 같은 값을 유지한다.
 - [ ] 계약 세팅을 시뮬레이터에서 파티/ScareCrow로 보내고 다시 편집할 때 수치와 부위가 유지된다.
@@ -128,14 +128,15 @@ M2의 보유 정보 가져오기와 M6의 환몽 심잠 기능에는 현재 전�
 
 원문 6의 제품 완료 단계다. M1·M2·M3을 선행한다. 전투 전체 자동 진행이나 클리어 가능 판정은 이 마일스톤에 포함하지 않는다.
 
-작업 브랜치는 **커밋된 기반 `codex/scarecrow`와 로컬 후속 `codex/shared-covenant-editor`** 두 가지다. 실제 최신 편집 폴더는 `scarecrow-checkpoint/Morimens.Info.kr`이며 체크아웃된 브랜치는 후자다.
+작업 브랜치는 **기반 `codex/scarecrow`와 후속 `codex/shared-covenant-editor`** 두 가지이며 둘 다 원격에 있다. 실제 최신 편집 폴더는 `scarecrow-checkpoint/Morimens.Info.kr`이며 체크아웃된 브랜치는 후자다.
 
 - `codex/scarecrow` 로컬·원격 HEAD는 `a5d3b22`. `9474cf1`은 UI·런타임 체크포인트, `8e04231`은 검증된 res160 런타임 반영, `dc7efca`는 전투 화면·장비 편집, `fc3e1aa`는 계약 부위 선택 흐름 수정이다. HEAD의 은열쇠 필터 커밋만 보고 딜미터기 구현 범위를 판단하지 않는다.
 - 커밋된 주요 코드: `js/scarecrow/engine.mjs`, `live-party-bridge.mjs`, `live-damage-input.mjs`, `original-ui-adapter.js`, `damage-screen.mjs`와 `tools/build-scarecrow.mjs`. 파티·성장·명륜·계약·카드·현재 상태에서 피해 계산까지의 기반이다.
-- `codex/shared-covenant-editor`의 **미커밋 후속 코드**: `js/scarecrow/sequence-calculator.mjs`의 카드 적용 이력·상태 유지·되돌리기, `effect-presentation.mjs`의 효과 표시, `battle-workspace.css`·`typography.css`·폰트, `live-runtime.mjs`·`damage-screen.mjs`·`engine.mjs`의 연결 변경. M1 공용 계약 편집기 수정도 같은 작업본에 있다.
-- 공개 프리뷰 `https://ui-preview.morimens-scarecrow.pages.dev/`의 접근은 확인했으나 **현재 배포와 브랜치 HEAD/미커밋 파일의 동일성은 미확인**이다. 브랜치의 res160 커밋은 최신 게임 버전 전체의 호환성 확인을 의미하지 않는다.
+- `codex/shared-covenant-editor`의 **`9885771` 커밋·푸시된 후속 코드**: `js/scarecrow/sequence-calculator.mjs`의 카드 적용 이력·상태 유지·되돌리기, `effect-presentation.mjs`의 효과 표시, `battle-workspace.css`·`typography.css`·폰트, `live-runtime.mjs`·`damage-screen.mjs`·`engine.mjs`의 연결 변경. M1 공용 계약 편집기 수정도 같은 작업본에 있다.
+- 공개 프리뷰 `https://ui-preview.morimens-scarecrow.pages.dev/`의 접근은 확인했으나 **현재 배포와 브랜치 HEAD의 동일성은 미확인**이다. 브랜치의 res160 커밋은 최신 게임 버전 전체의 호환성 확인을 의미하지 않는다.
+- `9885771` 푸시 전 기본 테스트 399개, 계약·연속 적용·효과 검사 12개, 빌드 통과. 번역 카드 설명 연결 경고 84건과 빌드의 미지원 콘텐츠는 남아 있으며 신규 브라우저·게임 실측 검증은 수행하지 않았다.
 
-남은 작업은 로컬 후속 변경의 분리·커밋, M1 공용 계약/M2 보유 입력/M3 실제 전투 연결, 버전·실측·전체 여정 검증과 정식 공개다. 별도 브랜치를 새로 만든 상태로 기록하지 않는다.
+남은 작업은 커밋된 후속 변경의 main 통합, M1 공용 계약/M2 보유 입력/M3 실제 전투 연결, 버전·실측·전체 여정 검증과 정식 공개다. 별도 브랜치를 새로 만든 상태로 기록하지 않는다.
 
 - [ ] 공개 계산기의 런타임·카탈로그·성장·장비 데이터 버전을 맞추고 지원 범위를 기록한다.
 - [ ] 카드 선택·현재 상태·대상·치명 조건·사용 이력·추가 효과의 입력과 결과 표시를 정리한다.
@@ -192,3 +193,7 @@ M2의 보유 정보 가져오기와 M6의 환몽 심잠 기능에는 현재 전�
 각 마일스톤은 관련 코드가 공개 main 또는 명시된 제품 배포 경로에 반영되고, 실제 배포에서 핵심 흐름을 확인한 뒤 닫는다. UI 변경 시 320·390·768·1024·1280px, 바뀐 분기점 앞뒤, 필요한 가로 화면·200% 글자 확대와 키보드 동작을 `docs/responsive-design.md`에 따라 검증한다. 데이터 변경은 최신 원천·stable ID 관계·생성 진단·회귀 검사와 함께 검토한다.
 
 구현/단위 테스트/로컬 UI/공개 배포/실제 게임 대조는 각각 별도 증거로 기록한다. 원본 번들·추출물·인증 정보·개인 클리어 식별자는 공개 문서·이슈·커밋에 넣지 않는다.
+
+## 브랜치 푸시 확인 (2026-11-14)
+
+`codex/shared-covenant-editor`의 원격 HEAD와 로컬 HEAD가 `9885771`로 일치함을 확인했다. 기본 테스트 399개와 계약·연속 적용·효과 테스트 12개 및 빌드가 통과했다. 번역 카드 설명 연결 경고 84건과 res160 기준 미지원 콘텐츠는 남아 있다. 이번 푸시는 개발 체크포인트 보존이며, 신규 반응형 검사·게임 실측·main 병합·공개 배포 완료로 판정하지 않는다.
