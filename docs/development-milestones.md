@@ -36,6 +36,20 @@
 
 아래 번호는 남은 작업의 관리 단위다. 원문 7개 항목의 번호와 다르다. 날짜는 확정하지 않으며, 구현 범위가 커지는 경우 완료 조건과 변경 이유를 먼저 갱신한다.
 
+### 작업 브랜치와 작업본 위치
+
+2026-11-14 재조회 기준이다. 아래의 작업 폴더는 로컬 `.codex/worktrees/` 아래의 경로다. 브랜치에 코드가 있다는 의미이며 현재 작업자가 실행 중이라는 뜻은 아니다. 원격 커밋과 로컬 미커밋 변경은 별도로 관리한다.
+
+| 브랜치 | 작업 폴더 | 커밋·원격 상태 | 담당 범위 |
+|---|---|---|---|
+| `main` | 사이트 기본 체크아웃 | 재점검 시작 `a98b692`, `origin/main`과 일치 | 운영 보유 현황·기본 편성기·기존 계약 시뮬레이터·융재 통계. 이 개발 계획 문서의 관리 위치. |
+| [`codex/scarecrow`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/scarecrow) | 이 브랜치를 직접 체크아웃한 작업 폴더 없음 | 로컬·원격 `a5d3b22` | 딜미터기의 커밋된 기반: 런타임·파티/성장·장비·카드/상태 입력·계약 부위 선택. 최신 로컬 후속 작업은 아래 브랜치에 있음. |
+| `codex/shared-covenant-editor` | `scarecrow-checkpoint/Morimens.Info.kr` | HEAD `a5d3b22`, 전용 원격 브랜치 없음. 추적 파일 14개 수정 및 새 파일·디렉터리 미커밋 | M1 공용 계약 편집기와 M4 카드 연속 적용·효과 표시·전투 화면 후속 변경이 함께 있음. 폴더 이름과 실제 체크아웃 브랜치가 다름. |
+| [`codex/story-viewer-flow`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/story-viewer-flow) | `story-viewer-flow/Morimens.Info.kr` | 로컬·원격 `eb699aa`, 작업 트리 깨끗함 | M3 스토리 전투 정보·행동 흐름·조건 분기·지도·공명 노드. 계산기로 전투를 전달하는 통합 작업은 별도 남음. |
+| [`codex/character-usage`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/character-usage) | `character-usage/Morimens.Info.kr` | 로컬·원격 `fa9aede`, 작업 트리 깨끗함 | M5 캐릭터별 클리어 세팅·장비/옵션 통계, 5구역 편성 보관·중복 제외·기존 편성기 전달, 조회/수신 Worker. |
+
+M2의 보유 정보 가져오기와 M6의 환몽 심잠 기능에는 현재 전용 구현 브랜치가 없다. 기존 코드의 위치를 새 작업이 진행 중인 브랜치로 오인하지 않도록 미착수 연결 작업으로 표시한다. 브랜치 이름만 예약하거나 새 브랜치를 생성하지 않았다.
+
 | 마일스톤 | 작업 추적 이슈 |
 |---|---|
 | [M1. 비밀계약 공용 편집기 통합](https://github.com/Morimenz-kr/Morimens.Info.kr/milestone/1) | [#252](https://github.com/Morimenz-kr/Morimens.Info.kr/issues/252) |
@@ -49,6 +63,17 @@
 
 원문 2·3·6에 해당한다. 이미 있는 로컬 변경을 완성·통합하는 단계다.
 
+작업 브랜치: **`codex/shared-covenant-editor`**. 작업 폴더: `scarecrow-checkpoint/Morimens.Info.kr`. 커밋 기준 `a5d3b22`이며 이 마일스톤의 변경은 **로컬 미커밋·미푸시** 상태다. `codex/scarecrow` 원격에서 공용 편집기 신규 파일을 받을 수는 없다.
+
+현재 작업본에 있는 내용:
+
+- `js/covenant-editor.mjs`, `css/covenant-editor.css`: 두 화면이 공유하는 6부위 선택·강화·주옵·부옵·귀속·합계·세트 효과 편집.
+- `js/covenant-stats.mjs`, `js/covenant-equipment.mjs`, `data/covenant_editor.json`: 완성도·옵션 수치와 세트 구성. 기존 `js/scarecrow/` 경로는 공용 모듈을 다시 내보냄.
+- `js/covenant-simulator-model.mjs`, `js/covenant_simulator.js`, `covenant_simulator.html`: 기존 저장 형식 변환, 세팅/프리셋·전사 화면, 잠금·결과 교체·목표 계산 연결.
+- `js/scarecrow/live-runtime.mjs`: 같은 편집기를 ScareCrow 계약 설정에서 사용. `images/covenant-set/`, `images/covenant-ui/`의 표시 자산도 새 파일 상태.
+
+아직 없는 연결은 **시뮬레이터에서 편집한 세팅을 다른 호스트의 파티에 전송하는 기능**이다. 공용 편집기를 두 화면이 사용하는 것과 세팅을 서로 전달하는 것은 별개다. 이 작업본에는 M4 변경도 섞여 있으므로 커밋·통합할 때 소유 범위와 의존 파일을 확인한다.
+
 - [ ] 미커밋 공용 편집기·계약 모델 변경을 관련 없는 ScareCrow 변경과 구분해 보존하고 커밋한다.
 - [ ] 최신 main과 호환되는 공통 6부위 모델, 강화·주옵·부옵·귀속·완성도 계산을 양쪽 화면에 적용한다.
 - [ ] 기존 시뮬레이터 저장값·프리셋을 읽고, 편집·전사·결과 교체·새로고침 후 같은 값을 유지한다.
@@ -61,6 +86,14 @@
 
 원문 1의 후속 연결과 원문 3·6에 해당한다. M1의 계약 모델에 맞춘다.
 
+작업 브랜치: **전용 브랜치 없음. 보유 정보 가져오기 연결은 미착수**다. 다음 기존 구현을 연결해야 한다.
+
+- 출발점 `main`: `js/roster-model.js`, `js/roster-preview.js`의 보유·레벨·돌파·6개 스킬·특성과 명륜 보유값. `js/party_builder.js`는 기존 편성·저장 담당.
+- 도착점 `codex/scarecrow`와 그 후속 `codex/shared-covenant-editor`: `js/scarecrow/original-ui-adapter.js`, `js/scarecrow/live-party-bridge.mjs`, `js/scarecrow/live-damage-input.mjs`의 편성·성장·계산 입력 연결.
+- 관련되지만 다른 기능 `codex/character-usage`: `js/usage-plan-builder.mjs`는 **실제 클리어 기록**을 가져오는 어댑터다. 내 보유 성장값을 가져오는 기능으로 완료 처리하지 않는다.
+
+남은 구현은 보유 모델 → 계산기 모델의 ID·스킬 슬롯·특성 매핑, 교체/보존 정책, 일반 편성기와 계산기 저장 복원이다. M1·M4 브랜치의 후속 작업과 충돌하지 않도록 연결 작업의 분리 범위를 확정한 뒤 착수한다.
+
 - [ ] 보유 모델의 stable ID·레벨·돌파·스킬 슬롯·특성을 파티/ScareCrow 입력으로 변환한다.
 - [ ] 명륜 두 슬롯과 성장값, 은열쇠, 6부위 계약을 저장·복원 가능한 파티 데이터로 연결한다.
 - [ ] 기존 보유값·기존 편성 페이지를 보존하며, 사용자가 수정한 값의 교체 범위를 분명히 한다.
@@ -71,6 +104,17 @@
 ### M3. 스토리 공개와 스테이지 전투 불러오기
 
 원문 7의 스토리 범위와 원문 6의 적 설정에 해당한다. 스토리 공개와 계산기 연결을 모두 포함한다.
+
+작업 브랜치: **[`codex/story-viewer-flow`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/story-viewer-flow)**. 작업 폴더: `story-viewer-flow/Morimens.Info.kr`. 로컬·원격 `eb699aa` 일치, 미커밋 변경 없음, main 미반영.
+
+브랜치에 커밋·푸시된 내용:
+
+- `story_info.html`, `js/story-info.js`, `js/story-flow.js`: 편·장·난이도·스테이지·전투 구성 선택, 몬스터 행동과 반복·전환·조건 분기 표시.
+- `js/battle-map.js`, `js/story-resonance.js`, `data/story/maps.json`, `data/story/resonance-ui.json`: 지도와 공명 노드의 위치·연결·설명 표시.
+- `data/story/index.json`, `data/story/stages/`: 조사된 스토리 388개 스테이지의 공개 데이터. `js/battle-view.js`는 스토리/융재가 공유하는 전투 표시 코드이므로 최신 융재 변경과 통합 검토 필요.
+- 브랜치 고유 커밋: `68d93c0` 전투 정보, `49e0d8a` 스테이지 능력치 곡선 수정, `5c11902` 조건 분기, `82f8766` 행동 반복·효과 참조, `eb699aa` 흐름·지도·공명 표시 개선.
+
+**전투 정보 뷰어는 구현돼 있지만 융재/스토리에서 ScareCrow로 전투 구성을 전달하는 연결은 아직 별도 작업**이다. M3의 통합 대상은 스토리 브랜치이며 계산기 쪽 수신부는 M4의 ScareCrow 기반에 연결한다. 현재 서비스 범위·데이터 버전 재검증과 공개 배포도 남아 있다.
 
 - [ ] 스토리 브랜치의 전투·지도·공명·조건 분기를 최신 main에 통합한다.
 - [ ] 현재 서비스 범위와 최신 클라이언트 차이를 확인하고, 수집되지 않은 범위와 동적 전투를 표시한다.
@@ -83,6 +127,15 @@
 ### M4. 딜미터기 베타 공개
 
 원문 6의 제품 완료 단계다. M1·M2·M3을 선행한다. 전투 전체 자동 진행이나 클리어 가능 판정은 이 마일스톤에 포함하지 않는다.
+
+작업 브랜치는 **커밋된 기반 `codex/scarecrow`와 로컬 후속 `codex/shared-covenant-editor`** 두 가지다. 실제 최신 편집 폴더는 `scarecrow-checkpoint/Morimens.Info.kr`이며 체크아웃된 브랜치는 후자다.
+
+- `codex/scarecrow` 로컬·원격 HEAD는 `a5d3b22`. `9474cf1`은 UI·런타임 체크포인트, `8e04231`은 검증된 res160 런타임 반영, `dc7efca`는 전투 화면·장비 편집, `fc3e1aa`는 계약 부위 선택 흐름 수정이다. HEAD의 은열쇠 필터 커밋만 보고 딜미터기 구현 범위를 판단하지 않는다.
+- 커밋된 주요 코드: `js/scarecrow/engine.mjs`, `live-party-bridge.mjs`, `live-damage-input.mjs`, `original-ui-adapter.js`, `damage-screen.mjs`와 `tools/build-scarecrow.mjs`. 파티·성장·명륜·계약·카드·현재 상태에서 피해 계산까지의 기반이다.
+- `codex/shared-covenant-editor`의 **미커밋 후속 코드**: `js/scarecrow/sequence-calculator.mjs`의 카드 적용 이력·상태 유지·되돌리기, `effect-presentation.mjs`의 효과 표시, `battle-workspace.css`·`typography.css`·폰트, `live-runtime.mjs`·`damage-screen.mjs`·`engine.mjs`의 연결 변경. M1 공용 계약 편집기 수정도 같은 작업본에 있다.
+- 공개 프리뷰 `https://ui-preview.morimens-scarecrow.pages.dev/`의 접근은 확인했으나 **현재 배포와 브랜치 HEAD/미커밋 파일의 동일성은 미확인**이다. 브랜치의 res160 커밋은 최신 게임 버전 전체의 호환성 확인을 의미하지 않는다.
+
+남은 작업은 로컬 후속 변경의 분리·커밋, M1 공용 계약/M2 보유 입력/M3 실제 전투 연결, 버전·실측·전체 여정 검증과 정식 공개다. 별도 브랜치를 새로 만든 상태로 기록하지 않는다.
 
 - [ ] 공개 계산기의 런타임·카탈로그·성장·장비 데이터 버전을 맞추고 지원 범위를 기록한다.
 - [ ] 카드 선택·현재 상태·대상·치명 조건·사용 이력·추가 효과의 입력과 결과 표시를 정리한다.
@@ -97,6 +150,15 @@
 
 원문 4·5와 원문 3의 기록 탐색 확장에 해당한다. M1~M4와 병행할 수 있으며 딜미터기 베타의 필수 선행 조건은 아니다.
 
+작업 브랜치: **[`codex/character-usage`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/character-usage)**. 작업 폴더: `character-usage/Morimens.Info.kr`. 로컬·원격 `fa9aede` 일치, 미커밋 변경 없음, main 미반영. 고유 커밋 `fa9aede`에 아래 기능이 함께 있다.
+
+- `js/character-usage.js`, `character-usage-model.mjs`, `character-usage-view.mjs`, `character-usage-equipment.mjs`: 캐릭터별 사용 현황, 팀·명륜·계약·옵션 분포, 실제 클리어 구성 네 명의 상세 정보와 필터.
+- `js/usage-plan.mjs`: 기수별 5구역 편성 보관, 각성체·명륜 중복 검사, 원본 세팅 링크. `js/usage-plan-builder.mjs`와 `js/party_builder.js`: 기존 편성기로 구성 전달 및 원래 편성 보존.
+- `js/dzone-info.js`, `js/links.js`, `links.html`: 융재의 세팅 보기 → 캐릭터 사용 현황 → 구역별 담기 진입 연결.
+- `workers/character-usage.mjs`, `workers/feedback-worker.js`, `.github/workflows/worker-deploy.yml`: 익명 구성 수신·검증·조회 API와 배포 연결. `tools/validate-character-usage.mjs`는 공개 후보 검증. `character-usage-demo.mjs`는 명시적으로 선택하는 예시이며 운영 실데이터와 구분한다.
+
+**사이트 브랜치의 구현과 운영 Worker/API 활성화는 별개**다. 현재 공개 캐릭터 API의 통계 스키마 불일치를 해결하고 현행 기수 데이터로 확인해야 한다. 원본 수집·익명화는 별도 비공개 `morimens-data-extractor`의 책임이며, 그 저장소의 현재 작업 브랜치는 이번 점검에서 확인하지 않았다. 보유 기반 후보와 대체 각성체, 수동 추천의 기본 진입 전환도 이 마일스톤의 남은 범위다.
+
 - [ ] 사용 현황 브랜치와 조회 API를 최신 main/Worker에 통합한다. 성공 응답이 실제 통계 스키마인지 검증한다.
 - [ ] 현행 기수의 익명 클리어 구성·명륜·계약·옵션·완성도 연결과 집계 분모를 검증한다.
 - [ ] 수집 시각·표본 범위·미공개/미수집 장비·실패/빈 결과를 구분해 표시한다.
@@ -109,6 +171,12 @@
 ### M6. 환몽 심잠 지도·적 정보 확장
 
 원문 7의 후속 확장에 해당한다. M3의 콘텐츠 구조를 재사용한다. 딜미터기 베타를 지연시키지 않는 후속 단계다.
+
+작업 브랜치: **전용 구현 브랜치 없음. 사이트 기능 미착수**다. 환몽을 작업 중인 브랜치가 있는 것처럼 표시하지 않는다.
+
+- 재사용할 기반은 `codex/story-viewer-flow`의 `js/battle-map.js`, `js/battle-view.js`, 스테이지별 전투 데이터 구조다. 이 브랜치는 현재 스토리를 담당하며 환몽 지도·진행 규칙의 구현 완료를 뜻하지 않는다.
+- 로컬 콘텐츠 범위 조사에서 환몽 관련 설정 후보를 확인한 단계다. 실제 서비스 모드·스타일·난이도와 무작위 노드·이벤트 전투·능력치 보정은 별도 검증·구현 대상이다.
+- M3 이후 전용 작업 범위를 확정하고 브랜치를 만들 때 이 항목의 브랜치·HEAD·주요 파일을 갱신한다. 현재 새 브랜치는 생성하지 않았다.
 
 - [ ] 실제 서비스 모드·스타일·난이도와 내부/과거 설정을 분리한다.
 - [ ] 지도·노드 연결, 무작위 묶음과 조건 분기, 강화 효과와 적 능력치 보정을 원본 참조로 연결한다.
