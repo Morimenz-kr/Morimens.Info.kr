@@ -33,7 +33,18 @@ export function renderCovenantEditor(parent,{owner,catalog,metadata,contracts:si
    }
    if(!activeSets.length){const empty=document.createElement('p');empty.textContent='장착한 비밀계약이 없습니다.';effects.append(empty);}
    overview.append(overviewTitle,totals,totalsNote,effects);
-   const detail=document.createElement('div');detail.className='member-contract-detail';detail.append(overview,partGrid);
+   const detail=document.createElement('div');detail.className='member-contract-detail';
+   const panel=document.createElement('section');panel.className='member-contract-panel';
+   const toolbar=document.createElement('div');toolbar.className='member-part-head member-contract-toolbar';
+   const panelTitle=document.createElement('h4');panelTitle.tabIndex=-1;
+   const toggle=document.createElement('button');toggle.type='button';toggle.className='member-overview-back';
+   const choose=document.createElement('button');choose.type='button';choose.className='member-part-set';
+   choose.onclick=()=>{if(lastPosition>=0)onPick(lastPosition+1);};
+   toggle.onclick=()=>{drawHex(selectedPosition>=0?-1:lastPosition);toggle.focus({preventScroll:true});};
+   toolbar.append(panelTitle,toggle,choose);panel.append(toolbar,overview,partGrid);detail.append(panel);
+   let panelWidth=0;
+   const panelResize=new ResizeObserver(entries=>{if(!options.isConnected){panelResize.disconnect();return;}const width=entries[0].contentRect.width;if(panelWidth&&Math.abs(panelWidth-width)>1)panel.style.minHeight='';panelWidth=width;});
+   panelResize.observe(panel);
    const contractLayout=document.createElement('div');contractLayout.className='member-covenant-body';contractLayout.append(diagram,detail);options.append(contractLayout);
    const refreshCompletion=()=>{try{completion.textContent='전체 완성도 '+covenantCompletion(equippedCovenantParts(catalog,owner))+'%';const values=covenantAttributeTotals(catalog,owner);for(const [id,cell]of totalCells)cell.textContent=Number((values[id]||0).toFixed(6))+unit(id);}catch{completion.textContent='옵션 수치를 확인하세요.';for(const cell of totalCells.values())cell.textContent='—';}};refreshCompletion();
    owner.contractBound=covenantBound(owner)&&slots.some(Boolean);
@@ -44,13 +55,10 @@ export function renderCovenantEditor(parent,{owner,catalog,metadata,contracts:si
     const id=Number(entry.select.value);entry.caption.textContent=entry.name+(id?' · '+attrName(id):'');
     for(const [optionId,button]of entry.buttons)button.setAttribute('aria-pressed',String(id===optionId));
    }};
-   let selectedPosition=-1;
-   const backToOverview=()=>{const last=selectedPosition;drawHex(-1);hex.querySelector('[data-part-label="'+last+'"]')?.focus({preventScroll:true});};
+   let selectedPosition=-1,lastPosition=-1;
    for(let position=1;position<=6;position++){
-    const row=document.createElement('section'),title=document.createElement('h4');row.hidden=true;row.dataset.covenantPosition=position;row.dataset.covenantEquipped=String(!!slots[position-1]);title.tabIndex=-1;title.textContent=(catalog.suits.find(s=>s.id===slots[position-1])?.name||'미장착')+' '+['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][position-1];const partHead=document.createElement('div');partHead.className='member-part-head';partHead.append(title);row.append(partHead);partGrid.append(row);
-    const editor=document.createElement('div');editor.className='member-part-editor';editor.append(partHead);row.append(editor);
-    const back=document.createElement('button');back.type='button';back.className='member-overview-back';back.textContent='전체 보기';back.onclick=backToOverview;partHead.append(back);
-    const choose=document.createElement('button');choose.type='button';choose.className='member-part-set';choose.textContent=slots[position-1]?'비밀계약 변경':'비밀계약 선택';choose.setAttribute('aria-label',position+'번 비밀계약 선택');choose.onclick=()=>onPick(position);partHead.append(choose);
+    const row=document.createElement('section');row.hidden=true;row.dataset.covenantPosition=position;row.dataset.covenantEquipped=String(!!slots[position-1]);partGrid.append(row);
+    const editor=document.createElement('div');editor.className='member-part-editor';row.append(editor);
     if(!slots[position-1]){const empty=document.createElement('p');empty.className='member-part-empty';empty.textContent='비밀계약을 먼저 장착하세요.';editor.append(empty);continue;}
     const fields=document.createElement('div');fields.className='fields covenant-fields';editor.append(fields);
     const current=owner.trinkets?.find(p=>p.position===position)||{position,main:0,quality:'Orange',level:0,bound:owner.contractBound,sub:[]};current.sub??=[];
@@ -87,11 +95,14 @@ export function renderCovenantEditor(parent,{owner,catalog,metadata,contracts:si
      label.after(icons);targets.push({select,buttons,name,caption:section.querySelector('.contract-option-head>span')});
     }optionTargets.set(position,targets);
    }
-   const drawHex=(index,focus=false)=>{selectedPosition=index;onPartChange(index);options.dataset.partEditing=index>=0?'true':'false';overview.hidden=index>=0;partGrid.hidden=index<0;for(const row of partGrid.children)row.hidden=Number(row.dataset.covenantPosition)!==index+1;onPartPanel(index>=0?partGrid.children[index]:null,index);
+   const drawHex=(index,focus=false)=>{if(lastPosition>=0&&index!==selectedPosition)panel.style.minHeight=Math.ceil(panel.getBoundingClientRect().height)+'px';selectedPosition=index;if(index>=0)lastPosition=index;
+    options.dataset.hasPart=String(lastPosition>=0);toolbar.hidden=lastPosition<0;
+    if(lastPosition>=0){panelTitle.textContent=(catalog.suits.find(s=>s.id===slots[lastPosition])?.name||'미장착')+' '+['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'][lastPosition];toggle.textContent=index>=0?'전체 보기':'부위 편집';choose.textContent=slots[lastPosition]?'비밀계약 변경':'비밀계약 선택';choose.setAttribute('aria-label',(lastPosition+1)+'번 비밀계약 선택');}
+    onPartChange(index);options.dataset.partEditing=index>=0?'true':'false';overview.hidden=index>=0;partGrid.hidden=index<0;for(const row of partGrid.children)row.hidden=Number(row.dataset.covenantPosition)!==index+1;onPartPanel(index>=0?partGrid.children[index]:null,index);
     const parts=slots.map((id,i)=>{const suit=catalog.suits.find(s=>s.id===id),record=siteContracts.find(s=>s.clientSuitId===id);return{suitId:id,setIcon:id?'images/covenant-set/'+id+'.png':null,name:suit?.name||'미장착',image:siteParts.find(s=>s.suitId===id)?.parts[i]?.imagePath||record?.image_path,pieceArt:!!siteParts.find(s=>s.suitId===id)?.parts[i],empty:!id,bound:!!id&&owner.contractBound,caption:id?(owner.contractBound?'귀속':'장착'):'비어 있음'};});
     renderCovenantParts(hex,{hex:true,labelsInside:true,selected:index,parts,onSelect:index=>{if(pickOnPartSelect)onPick(index+1);else drawHex(index,true)}});
-    hint.textContent=defaultHint;hint.hidden=index>=0;refreshOptionIcons();
-    if(focus&&index>=0){const row=partGrid.querySelector('[data-covenant-position="'+(index+1)+'"]');row.querySelector('h4').focus({preventScroll:true});row.scrollIntoView({block:'nearest'});}
+    hint.textContent=defaultHint;hint.hidden=lastPosition>=0;refreshOptionIcons();
+    if(focus&&index>=0){const row=partGrid.querySelector('[data-covenant-position="'+(index+1)+'"]');panelTitle.focus({preventScroll:true});toolbar.scrollIntoView({block:'nearest'});}
    };
    binding.onchange=()=>{owner.contractBound=binding.checked;for(const part of owner.trinkets||[])part.bound=owner.contractBound;for(const refresh of partRefresh)refresh();refreshCompletion();drawHex(selectedPosition);onChange(owner);};
    const transferCatalog={...catalog,suits:catalog.suits.filter(s=>siteContracts.some(c=>c.clientSuitId===s.id))};

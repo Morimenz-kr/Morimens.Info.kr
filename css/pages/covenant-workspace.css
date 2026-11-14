@@ -57,9 +57,9 @@
 .covenant-page .contract-transcription .action-row button{font:inherit;min-height:44px;padding:.6rem 1rem;border:1px solid #6d5e46;border-radius:.25rem}
 .covenant-page .contract-transcription .radio-option{font-size:.875rem;line-height:1.5;min-height:44px}
 .covenant-page .contract-transcription .manual-status:empty{display:none}
-.covenant-page .covenant-editor[data-part-editing=true] .member-covenant-body{grid-template-columns:minmax(0,1fr);gap:1rem}
-.covenant-page .covenant-editor[data-part-editing=true] :is(.member-contract-detail,.member-parts,.member-parts>section:not([hidden])){display:contents}
-.covenant-page .covenant-editor[data-part-editing=true] .member-contract-diagram{position:static;align-self:center}
+.covenant-page .covenant-editor[data-has-part=true] .member-covenant-body{grid-template-columns:minmax(0,1fr);gap:1rem}
+.covenant-page .covenant-editor[data-has-part=true] :is(.member-contract-detail,.member-parts,.member-parts>section:not([hidden])){display:contents}
+.covenant-page .covenant-editor[data-has-part=true] .member-contract-diagram{position:static;align-self:center}
 .covenant-page .member-part-editor{padding:clamp(.5rem,2cqi,1rem);background:#222126;border:1px solid #3d3a42;border-radius:.5rem;container-type:inline-size}
 .covenant-page .contract-transcription{grid-column:1/-1;margin:0;padding:clamp(.5rem,2cqi,1rem);background:#222126;border:1px solid #3d3a42;border-radius:.5rem}
 .covenant-page .contract-transcription .completion-panel{flex-wrap:wrap;gap:.5rem}
@@ -69,7 +69,7 @@
 .covenant-page .contract-transcription :is(.stat-name,.stat-value){min-width:0;white-space:normal;overflow-wrap:anywhere}
 .covenant-page .contract-transcription .action-row{margin-top:.75rem}
 @container (min-width:40rem){
- .covenant-page .covenant-editor[data-part-editing=true] .member-covenant-body{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+ .covenant-page .covenant-editor[data-has-part=true] .member-covenant-body{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 }
 @container (max-width:17rem){
  .covenant-page .contract-option-row{padding-inline:.35rem}

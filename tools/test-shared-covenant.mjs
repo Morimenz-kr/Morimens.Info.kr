@@ -13,7 +13,28 @@ const context = await browser.newContext({viewport: {width: 1280, height: 900}})
 context.setDefaultTimeout(20000);
 const sim = await context.newPage(), party = await context.newPage(), errors = [];
 for (const p of [sim, party]) p.on('pageerror', e => errors.push(e.message));
-const proof = {functional: [], responsive: [], partControls: []};
+const proof = {functional: [], responsive: [], partControls: [], overviewToggle: []};
+const verifyOverviewToggle=async(name,host,page,root,part)=>{
+    const input=host.getByRole('spinbutton',{name:part+'번 강화 레벨',exact:true});
+    const value=await input.inputValue();
+    for(const [width,height,zoom] of [[320,900,1],[390,900,1],[768,900,1],[1024,900,1],[1280,900,1],[844,390,1],[390,900,2]]){
+        await page.setViewportSize({width,height});
+        await root.evaluate(zoom=>{document.documentElement.style.fontSize=zoom===2?'200%':'16px';},zoom);
+        const button=host.locator('.member-contract-toolbar .member-overview-back');
+        await button.scrollIntoViewIfNeeded();
+        const before=await button.boundingBox(),node=await button.elementHandle();
+        await button.click();
+        await host.locator('.member-contract-overview').waitFor({state:'visible'});
+        const after=await button.boundingBox();
+        assert.ok(Math.abs(before.x-after.x)<=1&&Math.abs(before.y-after.y)<=1,'전환 버튼 위치 '+name+'/'+width);
+        assert.equal(await node.evaluate(n=>n.isConnected&&n===document.activeElement&&n.textContent==='부위 편집'),true);
+        await button.press('Enter');
+        assert.equal(await input.inputValue(),value,'같은 부위·수치 복원');
+        proof.overviewToggle.push({host:name,width,height,textZoom:zoom,before,after});
+    }
+    await root.evaluate(()=>{document.documentElement.style.fontSize='16px';});
+    await page.setViewportSize({width:1280,height:900});
+};
 const copy = async host => {
     await host.getByRole('button', {name: '세팅 복사', exact: true}).click();
     const value = await host.getByRole('textbox', {name: '비밀계약 세팅', exact: true}).inputValue();
@@ -79,6 +100,9 @@ try {
     await sim.locator('#preset-select').selectOption({label: '왕복 세팅'});
     await sim.locator('#load-preset-btn').click();
     assert.deepEqual(await copy(sim), setting);
+    await sim.locator('[data-part-label="5"]').click();
+    await verifyOverviewToggle('simulator',sim,sim,sim,6);
+    await sim.getByRole('button',{name:'전체 보기',exact:true}).click();
     proof.functional.push('v1 저장·프리셋, 목표·잠금 유지, 혼합 세트 저장·새로고침, 전사·교체 후 프리셋 복원');
     console.log('시뮬레이터 저장·전사·프리셋 검사 통과');
 
@@ -113,6 +137,7 @@ try {
     await picker.locator('#equip-contract').click();
     await frame.getByRole('spinbutton', {name: '1번 강화 레벨', exact: true}).fill('12');
     const battleFrame=party.frames().find(f=>f.url().includes('battle.html'));
+    await verifyOverviewToggle('scarecrow',frame,party,battleFrame,1);
     for(const [width,height,zoom] of [[320,900,1],[367,900,1],[369,900,1],[390,900,1],[768,900,1],[1024,900,1],[1280,900,1],[844,390,1],[390,900,2]]){
         await party.setViewportSize({width,height});
         if(zoom===2)await battleFrame.evaluate(()=>{document.documentElement.style.fontSize='200%';});
