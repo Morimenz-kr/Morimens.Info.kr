@@ -44,7 +44,7 @@
 |---|---|---|---|
 | `main` | 사이트 기본 체크아웃 | 재점검 시작 `a98b692`, `origin/main`과 일치 | 운영 보유 현황·기본 편성기·기존 계약 시뮬레이터·융재 통계. 이 개발 계획 문서의 관리 위치. |
 | [`codex/scarecrow`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/scarecrow) | 이 브랜치를 직접 체크아웃한 작업 폴더 없음 | 로컬·원격 `a5d3b22` | 딜미터기의 커밋된 기반: 런타임·파티/성장·장비·카드/상태 입력·계약 부위 선택. 최신 로컬 후속 작업은 아래 브랜치에 있음. |
-| [`codex/shared-covenant-editor`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/shared-covenant-editor) | `scarecrow-checkpoint/Morimens.Info.kr` | 로컬·원격 `9885771` 일치, 작업 트리 깨끗함 | M1 공용 계약 편집기와 M4 카드 연속 적용·효과 표시·전투 화면 후속 변경을 함께 보존. 폴더 이름과 실제 체크아웃 브랜치가 다름. |
+| [`codex/shared-covenant-editor`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/shared-covenant-editor) | `scarecrow-checkpoint/Morimens.Info.kr` | 로컬·원격 `22157e3` 일치, 작업 트리 깨끗함 | M1 공용 계약 편집기, M4 카드 연속 적용·효과 표시·전투 화면, 원본 설명 84건과 미지원 6개 수정. 폴더 이름과 실제 체크아웃 브랜치가 다름. |
 | [`codex/story-viewer-flow`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/story-viewer-flow) | `story-viewer-flow/Morimens.Info.kr` | 로컬·원격 `eb699aa`, 작업 트리 깨끗함 | M3 스토리 전투 정보·행동 흐름·조건 분기·지도·공명 노드. 계산기로 전투를 전달하는 통합 작업은 별도 남음. |
 | [`codex/character-usage`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/character-usage) | `character-usage/Morimens.Info.kr` | 로컬·원격 `fa9aede`, 작업 트리 깨끗함 | M5 캐릭터별 클리어 세팅·장비/옵션 통계, 5구역 편성 보관·중복 제외·기존 편성기 전달, 조회/수신 Worker. |
 
@@ -64,6 +64,8 @@ M2의 보유 정보 가져오기와 M6의 환몽 심잠 기능에는 현재 전�
 원문 2·3·6에 해당한다. 이미 있는 로컬 변경을 완성·통합하는 단계다.
 
 작업 브랜치: **[`codex/shared-covenant-editor`](https://github.com/Morimenz-kr/Morimens.Info.kr/tree/codex/shared-covenant-editor)**. 작업 폴더: `scarecrow-checkpoint/Morimens.Info.kr`. 공용 편집기와 M4 후속 변경을 `9885771`로 **커밋·푸시 완료**했으며 로컬·원격 HEAD가 일치하고 작업 트리는 깨끗하다. main 통합·배포는 남아 있다.
+
+현재 HEAD는 후속 설명·콘텐츠 지원 수정까지 포함한 `22157e3`이며 원격과 일치한다. 공용 편집기 자체의 main 통합 완료를 뜻하지 않는다.
 
 브랜치에 커밋·푸시된 내용:
 
@@ -134,7 +136,18 @@ M2의 보유 정보 가져오기와 M6의 환몽 심잠 기능에는 현재 전�
 - 커밋된 주요 코드: `js/scarecrow/engine.mjs`, `live-party-bridge.mjs`, `live-damage-input.mjs`, `original-ui-adapter.js`, `damage-screen.mjs`와 `tools/build-scarecrow.mjs`. 파티·성장·명륜·계약·카드·현재 상태에서 피해 계산까지의 기반이다.
 - `codex/shared-covenant-editor`의 **`9885771` 커밋·푸시된 후속 코드**: `js/scarecrow/sequence-calculator.mjs`의 카드 적용 이력·상태 유지·되돌리기, `effect-presentation.mjs`의 효과 표시, `battle-workspace.css`·`typography.css`·폰트, `live-runtime.mjs`·`damage-screen.mjs`·`engine.mjs`의 연결 변경. M1 공용 계약 편집기 수정도 같은 작업본에 있다.
 - 공개 프리뷰 `https://ui-preview.morimens-scarecrow.pages.dev/`의 접근은 확인했으나 **현재 배포와 브랜치 HEAD의 동일성은 미확인**이다. 브랜치의 res160 커밋은 최신 게임 버전 전체의 호환성 확인을 의미하지 않는다.
-- `9885771` 푸시 전 기본 테스트 399개, 계약·연속 적용·효과 검사 12개, 빌드 통과. 번역 카드 설명 연결 경고 84건과 빌드의 미지원 콘텐츠는 남아 있으며 신규 브라우저·게임 실측 검증은 수행하지 않았다.
+- 현재 HEAD `22157e3`: 기존 설명 연결 경고 84건과 미지원 콘텐츠 6개를 수정·커밋·푸시했다. [원천·수정·검증 기록](https://github.com/Morimenz-kr/Morimens.Info.kr/blob/codex/shared-covenant-editor/docs/scarecrow-card-support.md).
+
+이번에 완료한 범위:
+
+- [x] 원본 Skill ID·소유자·슬롯·Cmd·한국어 텍스트 키로 84개 설명을 연결하고 비비안 9개를 추가한다. 임시 카드명 23개를 실제 이름으로 변경한다.
+- [x] `js/scarecrow/card-description.mjs`에서 원본 `GetSkillArgs`의 현재 표시 인자를 사용한다. 인자를 임의로 0으로 대체하지 않고 비동기 설명 교체·입력별 캐시를 처리한다.
+- [x] 비비안(151844), 명륜 이마고의 진료실(152952)·예언자의 수수께끼(151737)·그녀와 그녀의 나무 구멍(151763), 은열쇠 끝없이 쓰여지는 새 장(148671)·밤에서 태어난 알(151695)을 카탈로그·성장·장착·계산에 연결한다.
+- [x] 설명 연결 경고 0건 및 미지원 3개 분류 모두 빈 배열을 빌드에서 확인한다. 재누락 시 설명 빌드가 실패하도록 한다.
+- [x] 기본 테스트 399개, 기존 계산 회귀 23개와 신규 지원 검사 4개, 데이터 검사·Pages 생성·ScareCrow 빌드를 통과한다. 93개 원본 설명, 새 명륜 0·3·15강과 지령 발동, 비비안 Lv.90/돌파 0·3·15/스킬 1·6을 검사한다.
+- [x] 320·390·519·520·521·767·768·769·1024·1280px, 가로 844×390 및 글자 200%에서 가로 넘침·JavaScript 오류가 없음을 확인한다. 비비안은 게임 Spine의 SD 표시를 사용한다.
+
+공식 1.0.22 설정과 대상 93개 스킬·5개 Item·비비안의 비교 필드 차이는 0건이며 한국어 원천 번들은 설치본과 해시가 같다. 원본 엔진 패키지는 res160을 유지했다. 최신 전투 모듈 전체 호환성, 실제 게임 화면 피해 대조, main 통합·공개 배포는 여전히 남아 있다.
 
 남은 작업은 커밋된 후속 변경의 main 통합, M1 공용 계약/M2 보유 입력/M3 실제 전투 연결, 버전·실측·전체 여정 검증과 정식 공개다. 별도 브랜치를 새로 만든 상태로 기록하지 않는다.
 
@@ -194,6 +207,6 @@ M2의 보유 정보 가져오기와 M6의 환몽 심잠 기능에는 현재 전�
 
 구현/단위 테스트/로컬 UI/공개 배포/실제 게임 대조는 각각 별도 증거로 기록한다. 원본 번들·추출물·인증 정보·개인 클리어 식별자는 공개 문서·이슈·커밋에 넣지 않는다.
 
-## 브랜치 푸시 확인 (2026-11-14)
+## 최초 브랜치 보존 기록 (2026-11-14)
 
-`codex/shared-covenant-editor`의 원격 HEAD와 로컬 HEAD가 `9885771`로 일치함을 확인했다. 기본 테스트 399개와 계약·연속 적용·효과 테스트 12개 및 빌드가 통과했다. 번역 카드 설명 연결 경고 84건과 res160 기준 미지원 콘텐츠는 남아 있다. 이번 푸시는 개발 체크포인트 보존이며, 신규 반응형 검사·게임 실측·main 병합·공개 배포 완료로 판정하지 않는다.
+최초 체크포인트 `9885771`에서는 기본 테스트 399개와 계약·연속 적용·효과 테스트 12개 및 빌드가 통과했지만 설명 연결 경고 84건과 미지원 콘텐츠가 남아 있었다. 이후 `22157e3`에서 해당 경고·미지원을 해결했다. 현재 상태와 검증 근거는 위 M4를 따른다. main 병합·공개 배포는 수행하지 않았다.
