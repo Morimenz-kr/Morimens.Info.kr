@@ -12,6 +12,12 @@ export function covenantSets(catalog,person){
  const counts=new Map();for(const id of covenantSlots(catalog,person))if(id)counts.set(id,(counts.get(id)||0)+1);
  return [...counts].map(([id,count])=>({id,count}));
 }
+// The first choice initializes an empty contract; later choices replace one slot.
+export function selectCovenantSet(slots,setId,position=null){
+ if(!Array.isArray(slots)||slots.length!==6||!Number.isSafeInteger(setId)||setId<0||position!=null&&(!Number.isInteger(position)||position<1||position>6))throw Error('비밀계약 부위 선택을 확인하세요.');
+ if(position==null||setId&&slots.every(id=>id===0))return Array(6).fill(setId);
+ return slots.map((id,i)=>i===position-1?setId:id);
+}
 // Legacy part flags migrate once to the contract-wide binding state.
 export function covenantBound(person){
  return typeof person.contractBound==='boolean'?person.contractBound:!!person.trinkets?.some(p=>p.bound);

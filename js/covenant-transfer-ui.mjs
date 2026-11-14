@@ -23,7 +23,7 @@ export function renderCovenantTransfer(parent, {owner, catalog, metadata, onImpo
     const open = exporting => {
         trigger = exporting ? copy : paste;
         heading.textContent = exporting ? '비밀계약 세팅 복사' : '비밀계약 세팅 가져오기';
-        help.textContent = exporting ? '이 세팅을 다른 비밀계약 편집기의 ‘세팅 가져오기’에 붙여넣으세요.' : '복사한 세팅을 붙여넣으세요. 현재 6부위의 세트·옵션·귀속만 교체하며 다른 파티 정보는 유지합니다.';
+        help.textContent = exporting ? '이 세팅을 다른 비밀계약 편집기의 ‘세팅 가져오기’에 붙여넣으세요.' : '복사한 세팅을 붙여넣으세요. 현재 6부위의 비밀계약·옵션·귀속만 교체하며 다른 파티 정보는 유지합니다.';
         input.readOnly = exporting; apply.hidden = exporting; select.hidden = !exporting; status.textContent = ''; input.value = '';
         try { if (exporting) input.value = encodeCovenantSetting(owner, catalog, metadata); }
         catch (error) { status.textContent = error.message; }

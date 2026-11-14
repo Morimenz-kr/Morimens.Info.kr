@@ -31,8 +31,8 @@ export function renderCovenantParts(parent, {indexes=[0,1,2,3,4,5], selected=0, 
             button.style.clipPath=`polygon(50% 50%,${a[0]}% ${a[1]}%,${b[0]}% ${b[1]}%)`;
             roman.remove();
             if(part.image){const art=document.createElement('img');art.src=part.image;art.alt='';if(part.pieceArt){art.classList.add('part-art');art.style.left=index<3?'50%':'0%';art.style.top=[0,25,50,50,25,0][index]+'%';}button.prepend(art);if(part.bound)applyCovenantBoundMaterial(art,part.image);}
-            button.setAttribute('aria-label',`${index+1}번 부위 · ${part.name} · ${part.caption}`);
-            button.title = `${ROMANS[index]} · ${part.name}`;
+            button.setAttribute('aria-label',`${part.name} ${ROMANS[index]} · ${part.caption}`);
+            button.title = `${part.name} ${ROMANS[index]}`;
             if(part.empty){const edge=document.createElementNS('http://www.w3.org/2000/svg','svg');edge.classList.add('part-empty-border');edge.setAttribute('viewBox','0 0 100 100');edge.setAttribute('preserveAspectRatio','none');const path=document.createElementNS('http://www.w3.org/2000/svg','polygon');path.setAttribute('points',`50,50 ${a[0]},${a[1]} ${b[0]},${b[1]}`);edge.append(path);button.append(edge);}
         }
         button.onclick=()=>onSelect(index);

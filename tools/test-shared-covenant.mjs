@@ -13,7 +13,7 @@ const context = await browser.newContext({viewport: {width: 1280, height: 900}})
 context.setDefaultTimeout(20000);
 const sim = await context.newPage(), party = await context.newPage(), errors = [];
 for (const p of [sim, party]) p.on('pageerror', e => errors.push(e.message));
-const proof = {functional: [], responsive: []};
+const proof = {functional: [], responsive: [], partControls: []};
 const copy = async host => {
     await host.getByRole('button', {name: '세팅 복사', exact: true}).click();
     const value = await host.getByRole('textbox', {name: '비밀계약 세팅', exact: true}).inputValue();
@@ -86,7 +86,18 @@ try {
     await party.getByRole('button', {name: '빠른 편성', exact: true}).click();
     for (const id of ['pollux', 'kathigu-ra', 'ogier', 'pandia']) await party.locator(`#grid-char [data-character-id="${id}"]`).click();
     await party.getByRole('button', {name: '배치 확정', exact: true}).click();
+    assert.ok((await party.locator('.char-top-name').evaluateAll(nodes=>nodes.map(n=>getComputedStyle(n).fontFamily))).every(font=>font.includes('ScarecrowCardKR')));
     let frame = await openParty();
+    // First equipment choice from any empty part initializes all six slots.
+    await frame.locator('[data-part-label="5"]').click();
+    const firstPicker = party.frameLocator('#modal-contract iframe');
+    await firstPicker.locator('[data-contract="covenant_April"]').click();
+    await firstPicker.locator('#equip-contract').click();
+    await frame.getByRole('spinbutton', {name: '6번 강화 레벨', exact: true}).waitFor({state:'visible'});
+    assert.deepEqual((await copy(frame)).equipment.contractSlots, Array(6).fill(ids[0]));
+    await party.getByRole('button', {name:'← 뒤로가기',exact:true}).click();
+    await frame.locator('.member-contract-overview').waitFor({state:'visible'});
+    assert.equal(await party.getByRole('button',{name:'← 파티 편성',exact:true}).count(),1);
     await paste(frame, setting);
     assert.deepEqual(await copy(frame), setting);
     assert.equal(await frame.locator('.member-contract-overview').innerText(), await sim.locator('.member-contract-overview').innerText());
@@ -101,6 +112,27 @@ try {
     const picker = party.frameLocator('#modal-contract iframe');
     await picker.locator('#equip-contract').click();
     await frame.getByRole('spinbutton', {name: '1번 강화 레벨', exact: true}).fill('12');
+    const battleFrame=party.frames().find(f=>f.url().includes('battle.html'));
+    for(const [width,height,zoom] of [[320,900,1],[367,900,1],[369,900,1],[390,900,1],[768,900,1],[1024,900,1],[1280,900,1],[844,390,1],[390,900,2]]){
+        await party.setViewportSize({width,height});
+        if(zoom===2)await battleFrame.evaluate(()=>{document.documentElement.style.fontSize='200%';});
+        const metrics=await battleFrame.evaluate(()=>{
+            const part=document.querySelector('[data-covenant-position="1"]');
+            return {width:innerWidth,scroll:document.documentElement.scrollWidth,controls:[...part.querySelectorAll('.contract-option-row')].map(row=>{
+                const range=row.querySelector('input[type=range]'),number=row.querySelector('input[type=number]');
+                return {range:range.getBoundingClientRect().width,number:number.getBoundingClientRect().width,value:number.value,icons:[...row.querySelectorAll('.contract-option-icons img')].map(n=>({width:n.getBoundingClientRect().width,loaded:n.naturalWidth>0}))};
+            })};
+        });
+        assert.ok(metrics.scroll<=metrics.width+1,'부위 편집 가로 넘침 '+width);
+        for(const row of metrics.controls){assert.ok(row.range>=48,'슬라이더 축소 '+width);assert.ok(row.number>=40,'숫자 입력 축소 '+width);assert.ok(row.icons.every(i=>i.width>=18&&i.loaded),'아이콘 축소·누락 '+width);}
+        assert.equal(metrics.controls[0].value,'12');
+        proof.partControls.push({width,height,textZoom:zoom,metrics});
+        if(width===320||width===1280||zoom===2)await party.screenshot({path:`${out}/part-controls-${width}-${zoom}x.png`,fullPage:true});
+    }
+    await battleFrame.evaluate(()=>{document.documentElement.style.fontSize='16px';});
+    await party.setViewportSize({width:1280,height:900});
+    await party.getByRole('button',{name:'← 뒤로가기',exact:true}).click();
+    await frame.locator('.member-contract-overview').waitFor({state:'visible'});
     const edited = await copy(frame); assert.equal(edited.equipment.trinkets[0].level, 12);
     await frame.locator('[data-apply]').click();
     await party.locator('#modal-damage.show').waitFor({state: 'hidden'});

@@ -1,5 +1,6 @@
 import {covenantSubValue,covenantSubLevel,covenantCompletion} from './covenant-stats.mjs';
 import {covenantAttributeTotals} from './covenant-equipment.mjs';
+export {selectCovenantSet} from './covenant-equipment.mjs';
 
 export const simulatorAttributeIds={critRate:18159,critDamage:18105,domainMastery:18126,damageAmp:18142,madnessRegen:22207,silverCharge:18139,blackSealDrop:18155,deathResist:18151};
 const keys=Object.fromEntries(Object.entries(simulatorAttributeIds).map(([key,id])=>[id,key]));

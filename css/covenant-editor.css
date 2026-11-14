@@ -134,7 +134,12 @@
 .covenant-editor :is(.contract-option-head>span,.contract-option-value,.contract-part-completion){font-size:.875rem;line-height:1.5}
 .covenant-editor .contract-level-unit{font-size:.8125rem;line-height:1.5}
 .covenant-editor :is(.contract-option-value,.contract-part-completion){font-variant-numeric:tabular-nums}
-@container (max-width:17rem){.covenant-editor .contract-option-row{grid-template-columns:minmax(0,1fr)}}
+@container (max-width:17rem){
+ .covenant-editor .contract-option-row{grid-template-columns:minmax(0,1fr)}
+ .covenant-editor .contract-option-row .member-slider{grid-template-columns:auto minmax(2.5rem,1fr)}
+ .covenant-editor .contract-option-row .member-slider input[type=range]{grid-column:1/-1}
+ .covenant-editor .contract-level-unit{justify-self:end}
+}
 .covenant-editor .member-part-head{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0 0 .75rem;padding-bottom:.75rem;border-bottom:1px solid #ffffff12}
 .covenant-editor .member-part-head h4{flex:1 1 10rem;margin:0}
 .covenant-editor .member-part-head button{margin:0;min-height:44px}

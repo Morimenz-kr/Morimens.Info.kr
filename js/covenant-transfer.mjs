@@ -7,10 +7,10 @@ export const covenantTransferLimit = 32768;
 // Only equipment crosses hosts. Account, party, simulation history and goals stay local.
 export function normalizeCovenantSetting(value, catalog, metadata) {
     if (!value || typeof value !== 'object' || Array.isArray(value)) throw Error('비밀계약 세팅 형식을 확인하세요.');
-    if (!Array.isArray(value.contractSlots) || value.contractSlots.length !== 6) throw Error('비밀계약 6부위의 세트 정보를 확인하세요.');
+    if (!Array.isArray(value.contractSlots) || value.contractSlots.length !== 6) throw Error('비밀계약 6부위의 장착 정보를 확인하세요.');
     const publishedIds = catalog.setIds ? new Set(Object.values(catalog.setIds)) : null;
     const contractSlots = covenantSlots(catalog, value);
-    if (publishedIds && contractSlots.some(id => id && !publishedIds.has(id))) throw Error('현재 공개된 비밀계약 세트만 가져올 수 있습니다.');
+    if (publishedIds && contractSlots.some(id => id && !publishedIds.has(id))) throw Error('현재 공개된 비밀계약만 가져올 수 있습니다.');
     if (typeof value.contractBound !== 'boolean') throw Error('비밀계약 귀속 정보를 확인하세요.');
     if (!Array.isArray(value.trinkets) || value.trinkets.length > 6) throw Error('비밀계약 부위는 최대 6개입니다.');
     const positions = new Set();

@@ -73,7 +73,6 @@
 }
 @container (max-width:17rem){
  .covenant-page .contract-option-row{padding-inline:.35rem}
- .covenant-page .contract-option-row .member-slider{grid-template-columns:minmax(24px,1fr) auto 2rem}
  .covenant-page .contract-option-head.has-substat-lock{grid-template-columns:minmax(0,1fr) auto}
  .covenant-page .contract-option-head.has-substat-lock>span{grid-column:1/-1}
 }

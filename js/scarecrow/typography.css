@@ -1,6 +1,9 @@
 /* Keep Korean UI text consistent across the editor and its embedded pickers. */
 @font-face{font-family:Pretendard;src:url('fonts/PretendardVariable.woff2') format('woff2');font-style:normal;font-weight:100 900;font-display:swap}
 :root{--scarecrow-font:Pretendard,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif}
-body,body :where(*):not(.fa,.fas,.far,.fab,.material-icons){font-family:var(--scarecrow-font)!important}
+/* Party cards retain their original game-card/game-number typography. */
+body,body :where(*):not(.fa,.fas,.far,.fab,.material-icons,.char-card,.char-card *){font-family:var(--scarecrow-font)!important}
+.char-card .char-top-name{font-family:ScarecrowCardKR,serif;white-space:normal;overflow-wrap:anywhere}
+.char-card .scarecrow-edit-growth{top:max(3rem,var(--scarecrow-name-bottom,0px))}
 
 /* Contract descriptions need a reading size, distinct from compact card labels. */

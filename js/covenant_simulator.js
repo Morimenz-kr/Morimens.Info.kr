@@ -182,7 +182,8 @@
         const picker=document.getElementById('covenant-set-dialog');
         if(picker.open){
             const selected=state.contracts.find(c=>c.english_name===contractName);if(!selected)return;
-            for(const [i,part] of state.parts.entries())if(pickPosition==null||i===pickPosition-1)part.setId=selected.clientSuitId;
+            const slots=sharedModel.selectCovenantSet(state.parts.map(part=>part.setId??state.selectedContract?.clientSuitId??0),selected.clientSuitId,pickPosition);
+            for(const [i,part] of state.parts.entries())part.setId=slots[i];
             state.selectedContract=selected;state.manualPreview=null;state.manualResult=null;picker.close();renderParts();renderManual();if(pickPosition!=null)sharedEditor?.editPart(pickPosition);else document.querySelector('#shared-covenant-editor .member-set-change')?.focus();markSettingsChanged();return;
         }
         if (!state.selectedContract || contractName === state.selectedContract.english_name) return;

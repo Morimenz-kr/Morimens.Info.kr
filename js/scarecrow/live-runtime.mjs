@@ -188,8 +188,10 @@ export async function createLiveRuntime(){
     return;
    }
    const editor=renderCovenantEditor(parent,{owner,catalog,metadata:data.equipmentMetadata,contracts:siteContracts,parts:siteParts,
-    onChange:()=>ui.invalidate(),onPick:position=>live.requestPicker('contract',position),onReset:()=>ui.open('covenant')});
+    onChange:()=>ui.invalidate(),onPick:position=>live.requestPicker('contract',position),onReset:()=>ui.open('covenant'),
+    onPartChange:index=>{if(window.parent!==window)window.parent.postMessage({type:'scarecrow:covenant-view',position:index+1},location.origin);}});
    live.editCovenantPart=position=>editor?.editPart(position);
+   live.showCovenantOverview=()=>editor?.showOverview();
   },
   settings(parent,owner,{placement='actor',targetIndex=0}={}){
    const options=(data.stateSchemas[owner.id]?.options||[]).map(effectPresentation).filter(o=>o.placement===placement);if(!options.length)return;
