@@ -1,6 +1,7 @@
 import {renderCovenantParts} from './covenant-parts.mjs';
 import {covenantSlots,covenantSets,equippedCovenantParts,covenantBound,covenantAttributeTotals} from './covenant-equipment.mjs';
 import {covenantCompletion,covenantMainValue,covenantSubCount,covenantSubLevel,covenantSubValue,validateCovenantParts} from './covenant-stats.mjs';
+import {renderCovenantTransfer} from './covenant-transfer-ui.mjs';
 
 // Shared equipment editor. Hosts own persistence, set picking and simulation.
 export function renderCovenantEditor(parent,{owner,catalog,metadata,contracts:siteContracts,parts:siteParts=[],onChange=()=>{},onPick=()=>{},onReset=()=>{},onPartChange=()=>{},initialPart=-1,pickOnPartSelect=true,allowEmptyOptions=true,renderSubstatActions=()=>{},onPartPanel=()=>{}}) {
@@ -93,6 +94,14 @@ export function renderCovenantEditor(parent,{owner,catalog,metadata,contracts:si
     if(focus&&index>=0){const row=partGrid.querySelector('[data-covenant-position="'+(index+1)+'"]');row.querySelector('h4').focus({preventScroll:true});row.scrollIntoView({block:'nearest'});}
    };
    binding.onchange=()=>{owner.contractBound=binding.checked;for(const part of owner.trinkets||[])part.bound=owner.contractBound;for(const refresh of partRefresh)refresh();refreshCompletion();drawHex(selectedPosition);onChange(owner);};
+   const transferCatalog={...catalog,suits:catalog.suits.filter(s=>siteContracts.some(c=>c.clientSuitId===s.id))};
+   renderCovenantTransfer(options,{owner,catalog:transferCatalog,metadata,onImport:equipment=>{
+    Object.assign(owner,equipment);
+    owner.contractId=equipment.contractSlots.find(Boolean)||0;
+    owner.contract=catalog.suits.find(s=>s.id===owner.contractId)?.name||'미장착';
+    onChange(owner);onReset();
+    parent.querySelector('[data-covenant-import]')?.focus({preventScroll:true});
+   }});
    drawHex(initialPart);
    return {editPart:position=>drawHex(position-1,true),showOverview:()=>drawHex(-1)};
 }

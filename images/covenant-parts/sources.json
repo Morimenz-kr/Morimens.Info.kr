@@ -1,0 +1,1140 @@
+{
+  "source": "Verified equipment-assets fixtures; original Item.Icon mapping retained in data/covenant_parts.json",
+  "quality": "Orange",
+  "records": [
+    {
+      "suitId": 18335,
+      "clientItemId": 9836,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_1.png",
+      "imagePath": "images/covenant-parts/18335/i.webp",
+      "sha256": "bb8741787d4162e69a73a1288269ced6a9e9a035e3a7a75c0d96f52d1ca7f286"
+    },
+    {
+      "suitId": 18335,
+      "clientItemId": 9723,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_2.png",
+      "imagePath": "images/covenant-parts/18335/ii.webp",
+      "sha256": "8400602ae0368909d62137d57b55e0a9a7efa3e640e1b8e6fad6c6d705b2baa1"
+    },
+    {
+      "suitId": 18335,
+      "clientItemId": 9520,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_3.png",
+      "imagePath": "images/covenant-parts/18335/iii.webp",
+      "sha256": "b37d8766d174a314eb692f42c7529a3da54af232553997a98df8b0d53a439d66"
+    },
+    {
+      "suitId": 18335,
+      "clientItemId": 9652,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_4.png",
+      "imagePath": "images/covenant-parts/18335/iv.webp",
+      "sha256": "6bc7868a1942b2b62697deaff7e0e64b6f92126b242895bbfe89eb49272c8e9c"
+    },
+    {
+      "suitId": 18335,
+      "clientItemId": 9645,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_5.png",
+      "imagePath": "images/covenant-parts/18335/v.webp",
+      "sha256": "8e2a77b2567acd08fc8298268c8785d95c8ec2ac7d26fbc018ebd1681618e17e"
+    },
+    {
+      "suitId": 18335,
+      "clientItemId": 9868,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_016_Orange_6.png",
+      "imagePath": "images/covenant-parts/18335/vi.webp",
+      "sha256": "c9d4ec00c638d600c5500731ad9474ce3d7533cdbefe0ecb3532406749954196"
+    },
+    {
+      "suitId": 18336,
+      "clientItemId": 9961,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_1.png",
+      "imagePath": "images/covenant-parts/18336/i.webp",
+      "sha256": "64741144ecb81e464dbe70c7f2d0aa80ce7bca2bf59f4ec6ae29758a3190f1b0"
+    },
+    {
+      "suitId": 18336,
+      "clientItemId": 10091,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_2.png",
+      "imagePath": "images/covenant-parts/18336/ii.webp",
+      "sha256": "3a707fe65271a8a428bb66cbf94f63c6d02c95b72283b0841c02dcabc428e6dd"
+    },
+    {
+      "suitId": 18336,
+      "clientItemId": 9747,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_3.png",
+      "imagePath": "images/covenant-parts/18336/iii.webp",
+      "sha256": "9d36f3866cab1575dbfa9f333f57a2705d6577280a9b5732960f180eb1d04e87"
+    },
+    {
+      "suitId": 18336,
+      "clientItemId": 9990,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_4.png",
+      "imagePath": "images/covenant-parts/18336/iv.webp",
+      "sha256": "65c83d5423a27dab913dc467b16bd270713a22cf603de75647c884e80c32112b"
+    },
+    {
+      "suitId": 18336,
+      "clientItemId": 9507,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_5.png",
+      "imagePath": "images/covenant-parts/18336/v.webp",
+      "sha256": "0cc4d177f5721e41725e347390c4e2f0e6ac0af3d4987907e83957c9d0f57709"
+    },
+    {
+      "suitId": 18336,
+      "clientItemId": 9564,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_003_Orange_6.png",
+      "imagePath": "images/covenant-parts/18336/vi.webp",
+      "sha256": "1ffec1f6490b441c3b8eb3bcec9a173e2dd61a884a3b8ed804b35d1d259a5698"
+    },
+    {
+      "suitId": 18337,
+      "clientItemId": 9640,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_1.png",
+      "imagePath": "images/covenant-parts/18337/i.webp",
+      "sha256": "c831bcbdfa35889b55194593739d73aa75628981609fe3c6d8d98f7b1189f859"
+    },
+    {
+      "suitId": 18337,
+      "clientItemId": 9922,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_2.png",
+      "imagePath": "images/covenant-parts/18337/ii.webp",
+      "sha256": "4b4ebbaaf73f6fca2e15879f96b486c2fa50c07e5b6b445fa45cfcc7cdacf1cf"
+    },
+    {
+      "suitId": 18337,
+      "clientItemId": 9931,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_3.png",
+      "imagePath": "images/covenant-parts/18337/iii.webp",
+      "sha256": "c36a5552e5cbad4c54a162703fd0c9e152f5e130587b233ae4831ef8b50eb782"
+    },
+    {
+      "suitId": 18337,
+      "clientItemId": 9831,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_4.png",
+      "imagePath": "images/covenant-parts/18337/iv.webp",
+      "sha256": "8829998ee301d97777d859d7319002c2f565b3866d00b1814562b3030fb916ec"
+    },
+    {
+      "suitId": 18337,
+      "clientItemId": 9587,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_5.png",
+      "imagePath": "images/covenant-parts/18337/v.webp",
+      "sha256": "0ccc105770afb820e04ee7ce27f5292e35bfefae17e660956cdadc5e6ae2e456"
+    },
+    {
+      "suitId": 18337,
+      "clientItemId": 9996,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_013_Orange_6.png",
+      "imagePath": "images/covenant-parts/18337/vi.webp",
+      "sha256": "a60648798cdeec8b895d3cb8cc51b1395381adaeddf870d4f01f6afde523bace"
+    },
+    {
+      "suitId": 18338,
+      "clientItemId": 9682,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_1.png",
+      "imagePath": "images/covenant-parts/18338/i.webp",
+      "sha256": "603ac6d91463692f692f68d0927904889d1e7f52d1663aeaa5bf502fcecbfa9e"
+    },
+    {
+      "suitId": 18338,
+      "clientItemId": 9978,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_2.png",
+      "imagePath": "images/covenant-parts/18338/ii.webp",
+      "sha256": "cfe583d92bc9c003112aa6c6398b40de22ff41e86824fd9d2816164b54c2f5e4"
+    },
+    {
+      "suitId": 18338,
+      "clientItemId": 9891,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_3.png",
+      "imagePath": "images/covenant-parts/18338/iii.webp",
+      "sha256": "a2cbb0d2fbfa150c65ad0ed3b6f557fe6010294310a78e7e72e591366be32ef6"
+    },
+    {
+      "suitId": 18338,
+      "clientItemId": 9582,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_4.png",
+      "imagePath": "images/covenant-parts/18338/iv.webp",
+      "sha256": "06cebca0861c2cc07a5170dca5f955011d1cc08be1eb4305407d6e4c6ec693f9"
+    },
+    {
+      "suitId": 18338,
+      "clientItemId": 10016,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_5.png",
+      "imagePath": "images/covenant-parts/18338/v.webp",
+      "sha256": "594c95ab93fc26b0d159a45ffa44f871eeb8653223b47a9a97fb43f5f81e4c5d"
+    },
+    {
+      "suitId": 18338,
+      "clientItemId": 9706,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_010_Orange_6.png",
+      "imagePath": "images/covenant-parts/18338/vi.webp",
+      "sha256": "13ed8eee23f45109450360d10d46a0682406b1ea8b5a5a2fe6d91d7c95de7e2d"
+    },
+    {
+      "suitId": 18339,
+      "clientItemId": 9742,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_1.png",
+      "imagePath": "images/covenant-parts/18339/i.webp",
+      "sha256": "375a581dee4846023279a72577e0263dcb95b1970dfaec663c403ecdbc7f9588"
+    },
+    {
+      "suitId": 18339,
+      "clientItemId": 9705,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_2.png",
+      "imagePath": "images/covenant-parts/18339/ii.webp",
+      "sha256": "88caeeabffd848cfb383355838a3b902103b11c44b1cda55e193de524556d5d9"
+    },
+    {
+      "suitId": 18339,
+      "clientItemId": 9759,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_3.png",
+      "imagePath": "images/covenant-parts/18339/iii.webp",
+      "sha256": "276dfa9d97364bb31d39fe635fce8faa349a63adc852bd8b91d9b41652ecab73"
+    },
+    {
+      "suitId": 18339,
+      "clientItemId": 9942,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_4.png",
+      "imagePath": "images/covenant-parts/18339/iv.webp",
+      "sha256": "65e59564f21e7b99190d3557e0ab6b717561d8169afefaa701181a673122d2f4"
+    },
+    {
+      "suitId": 18339,
+      "clientItemId": 9994,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_5.png",
+      "imagePath": "images/covenant-parts/18339/v.webp",
+      "sha256": "5914b368e81f440f86671f2877a8684c1636a41136fbbc75c4f83fd541bf2aa7"
+    },
+    {
+      "suitId": 18339,
+      "clientItemId": 9752,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_011_Orange_6.png",
+      "imagePath": "images/covenant-parts/18339/vi.webp",
+      "sha256": "9c773e82905e24e43b2abd9c4c4dec452ea9f50cf74173b2850928deedf5cf89"
+    },
+    {
+      "suitId": 18340,
+      "clientItemId": 9634,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_1.png",
+      "imagePath": "images/covenant-parts/18340/i.webp",
+      "sha256": "788547a4d2f269bb782988e2cc95156ab6bda7c5f8b8e84afcc155350a2c4405"
+    },
+    {
+      "suitId": 18340,
+      "clientItemId": 9517,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_2.png",
+      "imagePath": "images/covenant-parts/18340/ii.webp",
+      "sha256": "42215d337c3b88137ebdac9ea57ecdf28be2b76f85d23d1fc7e8bf4e0ee83f10"
+    },
+    {
+      "suitId": 18340,
+      "clientItemId": 9860,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_3.png",
+      "imagePath": "images/covenant-parts/18340/iii.webp",
+      "sha256": "b462a8ce0db060e137657e5522dd940ebcb0e12941ba7128e2df5de9fb6f90da"
+    },
+    {
+      "suitId": 18340,
+      "clientItemId": 9871,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_4.png",
+      "imagePath": "images/covenant-parts/18340/iv.webp",
+      "sha256": "f07dff5bace09e7462589ab60961934cf59e7c41df4446168c6f948fd9efd89b"
+    },
+    {
+      "suitId": 18340,
+      "clientItemId": 9853,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_5.png",
+      "imagePath": "images/covenant-parts/18340/v.webp",
+      "sha256": "33c7d6a737c7899c6bbb8f7a9da5b555d2cbae052648f26447432a07266e7745"
+    },
+    {
+      "suitId": 18340,
+      "clientItemId": 9626,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_017_Orange_6.png",
+      "imagePath": "images/covenant-parts/18340/vi.webp",
+      "sha256": "eec2f1fa5096ee2a9a6f0b29f11dabbb6417239cf6254e71dbeb95a6a9e26353"
+    },
+    {
+      "suitId": 18341,
+      "clientItemId": 10103,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_1.png",
+      "imagePath": "images/covenant-parts/18341/i.webp",
+      "sha256": "0ae2ef9c1739bb686e1f277e337d9efe7700c06d6e80fd9b99a4e04b3bfd7d6d"
+    },
+    {
+      "suitId": 18341,
+      "clientItemId": 10115,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_2.png",
+      "imagePath": "images/covenant-parts/18341/ii.webp",
+      "sha256": "c19f32e2ab8f86a687086c6a47c7fe471a3250c1ca1ba7c30917f732cd8c469b"
+    },
+    {
+      "suitId": 18341,
+      "clientItemId": 9655,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_3.png",
+      "imagePath": "images/covenant-parts/18341/iii.webp",
+      "sha256": "514b5b616fe19fc389cad63ea5de29ec6bef7e853167f592af6cbb6684ea9231"
+    },
+    {
+      "suitId": 18341,
+      "clientItemId": 9554,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_4.png",
+      "imagePath": "images/covenant-parts/18341/iv.webp",
+      "sha256": "39e7ffc1ed46c1cea7de1bbeca16f268b3728529645d816a4e8a0e0e8245b712"
+    },
+    {
+      "suitId": 18341,
+      "clientItemId": 10102,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_5.png",
+      "imagePath": "images/covenant-parts/18341/v.webp",
+      "sha256": "7536dfe59f03ce788b937b0b991054abe4289d13773794973d3a50bea7344536"
+    },
+    {
+      "suitId": 18341,
+      "clientItemId": 9627,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_005_Orange_6.png",
+      "imagePath": "images/covenant-parts/18341/vi.webp",
+      "sha256": "af791121faa2fc25fd86e1a70d41a23f52bc055a59e4f4448fe24500ea58ba2f"
+    },
+    {
+      "suitId": 18342,
+      "clientItemId": 9552,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_1.png",
+      "imagePath": "images/covenant-parts/18342/i.webp",
+      "sha256": "3c541b616a0945da3d64d38523e1dc06a4320b261014a85798dc5a58dcd3e061"
+    },
+    {
+      "suitId": 18342,
+      "clientItemId": 9882,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_2.png",
+      "imagePath": "images/covenant-parts/18342/ii.webp",
+      "sha256": "7eb01fada2e20526ce00ac166549837e4ab14686f8a3b2924695625314ca720e"
+    },
+    {
+      "suitId": 18342,
+      "clientItemId": 9948,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_3.png",
+      "imagePath": "images/covenant-parts/18342/iii.webp",
+      "sha256": "9448370ee64b445837a287bc7466be01c4769c2fed03dfd05a2ae5e36271c125"
+    },
+    {
+      "suitId": 18342,
+      "clientItemId": 9547,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_4.png",
+      "imagePath": "images/covenant-parts/18342/iv.webp",
+      "sha256": "222fa2096d31480f636e4f5304bd5f062fdbfaf59e7b1aad091d09564663cbd9"
+    },
+    {
+      "suitId": 18342,
+      "clientItemId": 9887,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_5.png",
+      "imagePath": "images/covenant-parts/18342/v.webp",
+      "sha256": "dc34cf8409f08a5d00690e97169771212c01f9ec1fa6a82aca030dff1f279f80"
+    },
+    {
+      "suitId": 18342,
+      "clientItemId": 9808,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_6.png",
+      "imagePath": "images/covenant-parts/18342/vi.webp",
+      "sha256": "b7d8a8ee1414fb7f5d94c6de64b23463dad5dd8da89193390ce162dde41eed0a"
+    },
+    {
+      "suitId": 18344,
+      "clientItemId": 9867,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_1.png",
+      "imagePath": "images/covenant-parts/18344/i.webp",
+      "sha256": "cb256d3d06f470eb2ad94b2a3774bcb3d749266ae1bb2b81e31035addf1c99aa"
+    },
+    {
+      "suitId": 18344,
+      "clientItemId": 10059,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_2.png",
+      "imagePath": "images/covenant-parts/18344/ii.webp",
+      "sha256": "f2b11c8898dc0664dcf7937ae5d7de58b8da4b98e1e4bb77217256bb6c2d043e"
+    },
+    {
+      "suitId": 18344,
+      "clientItemId": 10029,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_3.png",
+      "imagePath": "images/covenant-parts/18344/iii.webp",
+      "sha256": "b9384fa36a862907d39d550811440847cc28c3f12d497f58fff4c8dfe5da88a3"
+    },
+    {
+      "suitId": 18344,
+      "clientItemId": 9872,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_4.png",
+      "imagePath": "images/covenant-parts/18344/iv.webp",
+      "sha256": "4cd49f4161ff7c6075de1eb4c3bfe24a042c7978a8ba3d198ffcc1f43aa45dea"
+    },
+    {
+      "suitId": 18344,
+      "clientItemId": 9893,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_5.png",
+      "imagePath": "images/covenant-parts/18344/v.webp",
+      "sha256": "df03bb7297c5ca2d82db21c8b8680bf5fc422ccb0feea0cc7aa7d7a662d93392"
+    },
+    {
+      "suitId": 18344,
+      "clientItemId": 10110,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_001_Orange_6.png",
+      "imagePath": "images/covenant-parts/18344/vi.webp",
+      "sha256": "7f5e089f8ead777f5bc244e43faa552174b600e0b61a37f81a814569e20f903a"
+    },
+    {
+      "suitId": 18345,
+      "clientItemId": 9917,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_1.png",
+      "imagePath": "images/covenant-parts/18345/i.webp",
+      "sha256": "fe39aeaaaaae652f67d6d6a8256e700fc4f42f2467161cd83b79d89e32755baf"
+    },
+    {
+      "suitId": 18345,
+      "clientItemId": 9599,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_2.png",
+      "imagePath": "images/covenant-parts/18345/ii.webp",
+      "sha256": "689761e3d5f82b75f9cb8d4c462393eed8152ae93d31bd9401220ebcc732e6c2"
+    },
+    {
+      "suitId": 18345,
+      "clientItemId": 9526,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_3.png",
+      "imagePath": "images/covenant-parts/18345/iii.webp",
+      "sha256": "92d53badb81f3e3fde39fe032ab4efc620b678cda7cab6d596da8418454665f1"
+    },
+    {
+      "suitId": 18345,
+      "clientItemId": 9666,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_4.png",
+      "imagePath": "images/covenant-parts/18345/iv.webp",
+      "sha256": "4a248c4da80a3a1d599d1c19f2a6eaa634ab3a2080614f8aa6dbeb6b371a895c"
+    },
+    {
+      "suitId": 18345,
+      "clientItemId": 9824,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_5.png",
+      "imagePath": "images/covenant-parts/18345/v.webp",
+      "sha256": "43bf258ec85a99fa113263a3d15a8148ec518296de3c2c7fa1eecab8e5667b98"
+    },
+    {
+      "suitId": 18345,
+      "clientItemId": 9760,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_012_Orange_6.png",
+      "imagePath": "images/covenant-parts/18345/vi.webp",
+      "sha256": "b71e45419b76d1bfa1363ff86575c3d7e92087b47e143babd7b57b311e8f805d"
+    },
+    {
+      "suitId": 18346,
+      "clientItemId": 9813,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_1.png",
+      "imagePath": "images/covenant-parts/18346/i.webp",
+      "sha256": "ecb915b3d657f1b3d167dfd9a0155175dccec00ecdea4375f3f06242c2700efe"
+    },
+    {
+      "suitId": 18346,
+      "clientItemId": 9662,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_2.png",
+      "imagePath": "images/covenant-parts/18346/ii.webp",
+      "sha256": "77ebb285607ebbd1a5e608624389af9afd67b4023c1657d649e29b01a088e6e4"
+    },
+    {
+      "suitId": 18346,
+      "clientItemId": 9968,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_3.png",
+      "imagePath": "images/covenant-parts/18346/iii.webp",
+      "sha256": "c7d5db48b572a7c75c04602150bb342cf4b3f28ace731bf1de4615b720fd6ee4"
+    },
+    {
+      "suitId": 18346,
+      "clientItemId": 9953,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_4.png",
+      "imagePath": "images/covenant-parts/18346/iv.webp",
+      "sha256": "839a44575c968696f7d2f1f536d39518743bb4d324c040934f19abcd0c7a6ff2"
+    },
+    {
+      "suitId": 18346,
+      "clientItemId": 9923,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_5.png",
+      "imagePath": "images/covenant-parts/18346/v.webp",
+      "sha256": "f6f74d2b5a1186445717a64534184da2fab7cbded1b0e12b219c3ba8a1e59887"
+    },
+    {
+      "suitId": 18346,
+      "clientItemId": 9724,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_002_Orange_6.png",
+      "imagePath": "images/covenant-parts/18346/vi.webp",
+      "sha256": "3dfa86fda0ddba130caa31e0b7c832f524d337d1189712cdff264f8c6245af8f"
+    },
+    {
+      "suitId": 18347,
+      "clientItemId": 10099,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_1.png",
+      "imagePath": "images/covenant-parts/18347/i.webp",
+      "sha256": "9c70f5f051d348ad03604dd3e1500f39b4f6e595a2226e352048a1e03fc6157a"
+    },
+    {
+      "suitId": 18347,
+      "clientItemId": 9535,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_2.png",
+      "imagePath": "images/covenant-parts/18347/ii.webp",
+      "sha256": "4273c5180f2ec99e95c3b2fd28e3573c7459a8d35c15bcfa8826fffb9a22f24b"
+    },
+    {
+      "suitId": 18347,
+      "clientItemId": 10094,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_3.png",
+      "imagePath": "images/covenant-parts/18347/iii.webp",
+      "sha256": "503d4208454c8d7465925f4dcb9bbd9309ef78dab84baf9297c25511793b7447"
+    },
+    {
+      "suitId": 18347,
+      "clientItemId": 10116,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_4.png",
+      "imagePath": "images/covenant-parts/18347/iv.webp",
+      "sha256": "a91f76f454eb92e6b73fef04e705ade97e033223a8de1a96493211643c73cb8f"
+    },
+    {
+      "suitId": 18347,
+      "clientItemId": 9635,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_5.png",
+      "imagePath": "images/covenant-parts/18347/v.webp",
+      "sha256": "7f01efa88a3df82fbf87ce9de9f13d71aa9fc5f1d29cd75b4a1cd57a6b356975"
+    },
+    {
+      "suitId": 18347,
+      "clientItemId": 9815,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_015_Orange_6.png",
+      "imagePath": "images/covenant-parts/18347/vi.webp",
+      "sha256": "31c01a424e8f7f7b751a736654c6f5052804a5d2225567e0bb471ff62bbbcbf0"
+    },
+    {
+      "suitId": 18348,
+      "clientItemId": 9683,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_1.png",
+      "imagePath": "images/covenant-parts/18348/i.webp",
+      "sha256": "4f9727c4101391bdded9fad6a27695ef6ae2e6a967bb3db7b55494ade1df61ef"
+    },
+    {
+      "suitId": 18348,
+      "clientItemId": 9900,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_2.png",
+      "imagePath": "images/covenant-parts/18348/ii.webp",
+      "sha256": "577180f2f21f13f41983e080c45b88d33fd3b04a8ed905f3ba9b596d59be7099"
+    },
+    {
+      "suitId": 18348,
+      "clientItemId": 9525,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_3.png",
+      "imagePath": "images/covenant-parts/18348/iii.webp",
+      "sha256": "3721294f39fd90891071c89cc408de9603eb5ecef06a891e9d8720ae03d2f0bb"
+    },
+    {
+      "suitId": 18348,
+      "clientItemId": 9889,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_4.png",
+      "imagePath": "images/covenant-parts/18348/iv.webp",
+      "sha256": "56a88616c0c72656143c41e4119a81527c62bfb843cce56315f246e56aa826fd"
+    },
+    {
+      "suitId": 18348,
+      "clientItemId": 9573,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_5.png",
+      "imagePath": "images/covenant-parts/18348/v.webp",
+      "sha256": "898149655bbcec806b320ff4e9752de8c846b25e078819d173520133b1dc9276"
+    },
+    {
+      "suitId": 18348,
+      "clientItemId": 9788,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_019_Orange_6.png",
+      "imagePath": "images/covenant-parts/18348/vi.webp",
+      "sha256": "0cfd2d94ab90a825d6bd09edb0153968651e106b159fecf61a6fb45cee6e8682"
+    },
+    {
+      "suitId": 18349,
+      "clientItemId": 9718,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_1.png",
+      "imagePath": "images/covenant-parts/18349/i.webp",
+      "sha256": "545c0fd4e4334dcd4f1308e1e5855bb82d90a21bd3ca231324f54faa7e8ca56b"
+    },
+    {
+      "suitId": 18349,
+      "clientItemId": 10003,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_2.png",
+      "imagePath": "images/covenant-parts/18349/ii.webp",
+      "sha256": "ef36e7df1796de1130188cada1bdbf4c47831b0500045d9735588cf4ca835324"
+    },
+    {
+      "suitId": 18349,
+      "clientItemId": 9796,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_3.png",
+      "imagePath": "images/covenant-parts/18349/iii.webp",
+      "sha256": "394796abacf8ff0d6d63c4d7d72482b9d6a15ac78763f07d7483a97381a9cb32"
+    },
+    {
+      "suitId": 18349,
+      "clientItemId": 9620,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_4.png",
+      "imagePath": "images/covenant-parts/18349/iv.webp",
+      "sha256": "5746ff805adbfb42f0506b06e3a724f69d82673806e3944ed6e25e085640fb83"
+    },
+    {
+      "suitId": 18349,
+      "clientItemId": 10021,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_5.png",
+      "imagePath": "images/covenant-parts/18349/v.webp",
+      "sha256": "aef272c438a0a59ba005f10db55dd87b048b9cbaff0d20b46d33da144d7b34ee"
+    },
+    {
+      "suitId": 18349,
+      "clientItemId": 9988,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_018_Orange_6.png",
+      "imagePath": "images/covenant-parts/18349/vi.webp",
+      "sha256": "e45454110094ea569c435dfa293353ad66d95882925a2541c235bfd9a3d441bf"
+    },
+    {
+      "suitId": 18350,
+      "clientItemId": 9883,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_1.png",
+      "imagePath": "images/covenant-parts/18350/i.webp",
+      "sha256": "9922df1a5de93e6e9af7170afea8d2d70b8bea976e0da9c5a6ba7192f432e86f"
+    },
+    {
+      "suitId": 18350,
+      "clientItemId": 9992,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_2.png",
+      "imagePath": "images/covenant-parts/18350/ii.webp",
+      "sha256": "16c3fbe47e4426f3686f96cc1774992919dbd7855018801307b1ef25297fd197"
+    },
+    {
+      "suitId": 18350,
+      "clientItemId": 9700,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_3.png",
+      "imagePath": "images/covenant-parts/18350/iii.webp",
+      "sha256": "c0b5a7aa30d82455ee5398ad2049ca694b27141031cb16a57ac91fa9b5a6300f"
+    },
+    {
+      "suitId": 18350,
+      "clientItemId": 9956,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_4.png",
+      "imagePath": "images/covenant-parts/18350/iv.webp",
+      "sha256": "12be2f0af5d7b9f2887916d363a6b4a8418aeb0d5f99f3144a6810ce8f807148"
+    },
+    {
+      "suitId": 18350,
+      "clientItemId": 9841,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_5.png",
+      "imagePath": "images/covenant-parts/18350/v.webp",
+      "sha256": "923260b59ad3a3faf5fcb0969a668ada1b17069a32428a68c4d7bea6790640d0"
+    },
+    {
+      "suitId": 18350,
+      "clientItemId": 9906,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_007_Orange_6.png",
+      "imagePath": "images/covenant-parts/18350/vi.webp",
+      "sha256": "ca489e4c348b5b5d3f199feea37630b7f89da848b97cc8cd58ee49837da03902"
+    },
+    {
+      "suitId": 18351,
+      "clientItemId": 10111,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_1.png",
+      "imagePath": "images/covenant-parts/18351/i.webp",
+      "sha256": "42bfb71f46c49cfcece7bc33f727c01f11dc7fbb921d85122096ca03127f7807"
+    },
+    {
+      "suitId": 18351,
+      "clientItemId": 10045,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_2.png",
+      "imagePath": "images/covenant-parts/18351/ii.webp",
+      "sha256": "bfb95a7cd0cc33b594e654572f6410c8277f3e99c493a24c6a6a761b8ff41ba8"
+    },
+    {
+      "suitId": 18351,
+      "clientItemId": 9722,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_3.png",
+      "imagePath": "images/covenant-parts/18351/iii.webp",
+      "sha256": "81dc3219b755bbc67c5bf486dd1ecd6e3124315470a03ea53e6dad904a054036"
+    },
+    {
+      "suitId": 18351,
+      "clientItemId": 9569,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_4.png",
+      "imagePath": "images/covenant-parts/18351/iv.webp",
+      "sha256": "70a5bf2f2154a617ff5c05c5451b99f52f564c4f665fa72c621c56fed756e964"
+    },
+    {
+      "suitId": 18351,
+      "clientItemId": 9852,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_5.png",
+      "imagePath": "images/covenant-parts/18351/v.webp",
+      "sha256": "2e47a94e449383260e34ceeca88f86f83ec68cc10cf7f79c3a00c9b14efcd56e"
+    },
+    {
+      "suitId": 18351,
+      "clientItemId": 10055,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_014_Orange_6.png",
+      "imagePath": "images/covenant-parts/18351/vi.webp",
+      "sha256": "3e392837d339aba390e7ac43382759452958bbf6cc0615c27233a07a7c4136b5"
+    },
+    {
+      "suitId": 18352,
+      "clientItemId": 9576,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_1.png",
+      "imagePath": "images/covenant-parts/18352/i.webp",
+      "sha256": "a293a01f90fed85c1dbd1b0cace4f5fa78446152ec43f3811c4d410387226ab2"
+    },
+    {
+      "suitId": 18352,
+      "clientItemId": 9731,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_2.png",
+      "imagePath": "images/covenant-parts/18352/ii.webp",
+      "sha256": "4e212cfed3be87b84fde3dc980bf1d3978138a174410874d11ee3b3d8beba5ec"
+    },
+    {
+      "suitId": 18352,
+      "clientItemId": 9648,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_3.png",
+      "imagePath": "images/covenant-parts/18352/iii.webp",
+      "sha256": "d931553f8b4305f0d4d96b4f20eb3ecce27582880a7ff951e040742de3f7c5ea"
+    },
+    {
+      "suitId": 18352,
+      "clientItemId": 9952,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_4.png",
+      "imagePath": "images/covenant-parts/18352/iv.webp",
+      "sha256": "ed47849cbd4604bceb9643bb371170654ffce753fdf099c37fbc558d9886cf89"
+    },
+    {
+      "suitId": 18352,
+      "clientItemId": 9665,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_5.png",
+      "imagePath": "images/covenant-parts/18352/v.webp",
+      "sha256": "ea0175377373631250a3f078825bab3e978c81d693a040ad0b4799f433bd59fa"
+    },
+    {
+      "suitId": 18352,
+      "clientItemId": 9509,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_009_Orange_6.png",
+      "imagePath": "images/covenant-parts/18352/vi.webp",
+      "sha256": "500fd40fd2186cc7f07f139202b38a944f9ebc5b9e7c0e7fd916080788411089"
+    },
+    {
+      "suitId": 18353,
+      "clientItemId": 9980,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_1.png",
+      "imagePath": "images/covenant-parts/18353/i.webp",
+      "sha256": "fbcf9c74f0b6f296eea617b153d55b0866231004238efeed1ecd46e2be1bc0bd"
+    },
+    {
+      "suitId": 18353,
+      "clientItemId": 10051,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_2.png",
+      "imagePath": "images/covenant-parts/18353/ii.webp",
+      "sha256": "b81d8d61587204e3dc3a917c61cc5e4cfa6cca25af4420a8665b1ce0ed6e5d5c"
+    },
+    {
+      "suitId": 18353,
+      "clientItemId": 9631,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_3.png",
+      "imagePath": "images/covenant-parts/18353/iii.webp",
+      "sha256": "7a73a05eadd8e6dda1791e3e3f3b8fd5e986b6bc3faa3edd14f886cf72988182"
+    },
+    {
+      "suitId": 18353,
+      "clientItemId": 9659,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_4.png",
+      "imagePath": "images/covenant-parts/18353/iv.webp",
+      "sha256": "c50316b8b6c1fee1858fa5809b34f4b0ed39a10a107eae4a2ec78230257cc596"
+    },
+    {
+      "suitId": 18353,
+      "clientItemId": 9854,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_5.png",
+      "imagePath": "images/covenant-parts/18353/v.webp",
+      "sha256": "e818b3743b054d14a8582446c69e986f64573780e33a6ebc1b8007f9b7eec6c4"
+    },
+    {
+      "suitId": 18353,
+      "clientItemId": 9519,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_004_Orange_6.png",
+      "imagePath": "images/covenant-parts/18353/vi.webp",
+      "sha256": "46a74d07e905ed2df32e21f0cb287ccc121cb3b6c17f5ae63b03379f41078498"
+    },
+    {
+      "suitId": 18355,
+      "clientItemId": 9513,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_1.png",
+      "imagePath": "images/covenant-parts/18355/i.webp",
+      "sha256": "464e6104bae13f471abbf831900920f57b14db3cd57c75b9f00c1ea7bb376f72"
+    },
+    {
+      "suitId": 18355,
+      "clientItemId": 9565,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_2.png",
+      "imagePath": "images/covenant-parts/18355/ii.webp",
+      "sha256": "6cefd1f3cb361d323133f0a46d24d09d3e79f59ecebe13fbeb934576a9078d7d"
+    },
+    {
+      "suitId": 18355,
+      "clientItemId": 9596,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_3.png",
+      "imagePath": "images/covenant-parts/18355/iii.webp",
+      "sha256": "fe86ef201bc04c96cbfa9d8be8854dcb4675bd421c6e5a26fd35a8e2f743a01c"
+    },
+    {
+      "suitId": 18355,
+      "clientItemId": 9656,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_4.png",
+      "imagePath": "images/covenant-parts/18355/iv.webp",
+      "sha256": "8c8c0879f15cff9c1c40862997d08831e80e24a2a297bcecb0cbfc9f1b5a54b6"
+    },
+    {
+      "suitId": 18355,
+      "clientItemId": 9960,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_5.png",
+      "imagePath": "images/covenant-parts/18355/v.webp",
+      "sha256": "9ac199c73cd861d2508afdf540855be25ac623b651598dd59d013f3367222a19"
+    },
+    {
+      "suitId": 18355,
+      "clientItemId": 10090,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_021_Orange_6.png",
+      "imagePath": "images/covenant-parts/18355/vi.webp",
+      "sha256": "f664d2f5a747c123367013227f0fbdc6cac17b07f41021cfc0618d9da98f1221"
+    },
+    {
+      "suitId": 18356,
+      "clientItemId": 9774,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_1.png",
+      "imagePath": "images/covenant-parts/18356/i.webp",
+      "sha256": "551b341e2bc6725b18fd0ed713175787873eb07de20849db8bb1f49114cf9d03"
+    },
+    {
+      "suitId": 18356,
+      "clientItemId": 9524,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_2.png",
+      "imagePath": "images/covenant-parts/18356/ii.webp",
+      "sha256": "d01402e785c09702911f50a541ac0e143844e89a86a3e207cd3c9333e880d719"
+    },
+    {
+      "suitId": 18356,
+      "clientItemId": 9657,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_3.png",
+      "imagePath": "images/covenant-parts/18356/iii.webp",
+      "sha256": "2cc9d408e7fb403f40191206f67541dd468dd7f45001cbe8033b9e75927da02e"
+    },
+    {
+      "suitId": 18356,
+      "clientItemId": 9585,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_4.png",
+      "imagePath": "images/covenant-parts/18356/iv.webp",
+      "sha256": "2fbd200448f43b8419eb97d2a84a92392a78d092244a92032e139426c26d8513"
+    },
+    {
+      "suitId": 18356,
+      "clientItemId": 9628,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_5.png",
+      "imagePath": "images/covenant-parts/18356/v.webp",
+      "sha256": "9bab95544bc7a7d4977431c81fc5920ffb21f0fb3f7d446f615485436235fc7c"
+    },
+    {
+      "suitId": 18356,
+      "clientItemId": 9918,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_6.png",
+      "imagePath": "images/covenant-parts/18356/vi.webp",
+      "sha256": "4c5d0bcce270b5f115386e760c9ef13915b69f4f9113a666c6f2c838fb37a791"
+    },
+    {
+      "suitId": 18357,
+      "clientItemId": 10057,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_1.png",
+      "imagePath": "images/covenant-parts/18357/i.webp",
+      "sha256": "b2efabf3b60430d7a8c969a1471c67eb33bb9d634816cd956bbd4c278905555d"
+    },
+    {
+      "suitId": 18357,
+      "clientItemId": 9790,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_2.png",
+      "imagePath": "images/covenant-parts/18357/ii.webp",
+      "sha256": "7beff46a3a7ab76dabd2685787b940850f03b3743726a1cbb842bd730514d406"
+    },
+    {
+      "suitId": 18357,
+      "clientItemId": 10119,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_3.png",
+      "imagePath": "images/covenant-parts/18357/iii.webp",
+      "sha256": "d3b75d4e4b913db914de073f27ba6623918d8601d7d318a63670f0abe2bc0c8c"
+    },
+    {
+      "suitId": 18357,
+      "clientItemId": 9969,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_4.png",
+      "imagePath": "images/covenant-parts/18357/iv.webp",
+      "sha256": "d946f03d6aa53f5e5fd04bb9ac0dc0bf8588505db6c196c48dd9721919fc767c"
+    },
+    {
+      "suitId": 18357,
+      "clientItemId": 9663,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_5.png",
+      "imagePath": "images/covenant-parts/18357/v.webp",
+      "sha256": "2da1a729df701d978f518ec8a4890986cf156c5f6d28464737685d99713d3e0c"
+    },
+    {
+      "suitId": 18357,
+      "clientItemId": 9869,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_020_Orange_6.png",
+      "imagePath": "images/covenant-parts/18357/vi.webp",
+      "sha256": "dfc09807d01810cdc7f05fbbb6deeeb1b616bfc55ccee62a7b4bde0ddd2e31e5"
+    },
+    {
+      "suitId": 18358,
+      "clientItemId": 9962,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_1.png",
+      "imagePath": "images/covenant-parts/18358/i.webp",
+      "sha256": "395f18bc817e9fcd997a0816e8cb43c1b2091a206bfd7be84d10e301114137c4"
+    },
+    {
+      "suitId": 18358,
+      "clientItemId": 10041,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_2.png",
+      "imagePath": "images/covenant-parts/18358/ii.webp",
+      "sha256": "98ebd20ec3d5248120c68cf02cd9ce1034b719affd6ecbfd5ce70ebb9ee33889"
+    },
+    {
+      "suitId": 18358,
+      "clientItemId": 9894,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_3.png",
+      "imagePath": "images/covenant-parts/18358/iii.webp",
+      "sha256": "7ae22bb9eafa62f654b06d5184e4da98a2ded1b333cc38ffc534aee32f647d83"
+    },
+    {
+      "suitId": 18358,
+      "clientItemId": 9879,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_4.png",
+      "imagePath": "images/covenant-parts/18358/iv.webp",
+      "sha256": "04881397919934cae401b56c356241f8934851dd646c04f91c63b3cada986327"
+    },
+    {
+      "suitId": 18358,
+      "clientItemId": 9650,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_5.png",
+      "imagePath": "images/covenant-parts/18358/v.webp",
+      "sha256": "719441850e43f5b01ceb08d99675fbdc738c30543a75076a961b51fee7d0271a"
+    },
+    {
+      "suitId": 18358,
+      "clientItemId": 9797,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_006_Orange_6.png",
+      "imagePath": "images/covenant-parts/18358/vi.webp",
+      "sha256": "d2329c32729a2144a83fa8e8604f3964e7568261c4f1b872642066e59cde58fe"
+    },
+    {
+      "suitId": 18359,
+      "clientItemId": 10105,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_1.png",
+      "imagePath": "images/covenant-parts/18359/i.webp",
+      "sha256": "3c541b616a0945da3d64d38523e1dc06a4320b261014a85798dc5a58dcd3e061"
+    },
+    {
+      "suitId": 18359,
+      "clientItemId": 9679,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_2.png",
+      "imagePath": "images/covenant-parts/18359/ii.webp",
+      "sha256": "7eb01fada2e20526ce00ac166549837e4ab14686f8a3b2924695625314ca720e"
+    },
+    {
+      "suitId": 18359,
+      "clientItemId": 10087,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_3.png",
+      "imagePath": "images/covenant-parts/18359/iii.webp",
+      "sha256": "9448370ee64b445837a287bc7466be01c4769c2fed03dfd05a2ae5e36271c125"
+    },
+    {
+      "suitId": 18359,
+      "clientItemId": 10071,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_4.png",
+      "imagePath": "images/covenant-parts/18359/iv.webp",
+      "sha256": "222fa2096d31480f636e4f5304bd5f062fdbfaf59e7b1aad091d09564663cbd9"
+    },
+    {
+      "suitId": 18359,
+      "clientItemId": 9858,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_5.png",
+      "imagePath": "images/covenant-parts/18359/v.webp",
+      "sha256": "dc34cf8409f08a5d00690e97169771212c01f9ec1fa6a82aca030dff1f279f80"
+    },
+    {
+      "suitId": 18359,
+      "clientItemId": 9976,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_023_Orange_6.png",
+      "imagePath": "images/covenant-parts/18359/vi.webp",
+      "sha256": "b7d8a8ee1414fb7f5d94c6de64b23463dad5dd8da89193390ce162dde41eed0a"
+    },
+    {
+      "suitId": 18360,
+      "clientItemId": 9865,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_1.png",
+      "imagePath": "images/covenant-parts/18360/i.webp",
+      "sha256": "356bd408703e1a650ee984fc67301b6f20c0cb7e461d07e51973255e2b738bf0"
+    },
+    {
+      "suitId": 18360,
+      "clientItemId": 9951,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_2.png",
+      "imagePath": "images/covenant-parts/18360/ii.webp",
+      "sha256": "af3c387d1dc58b02ff3a8349ab4646bfda8fe4a403a649756a6de43ede551cfa"
+    },
+    {
+      "suitId": 18360,
+      "clientItemId": 9636,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_3.png",
+      "imagePath": "images/covenant-parts/18360/iii.webp",
+      "sha256": "a15a147f691db141ebdd02c7fd6b3444cb82312a1d98e980218fc339d4f05f63"
+    },
+    {
+      "suitId": 18360,
+      "clientItemId": 9672,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_4.png",
+      "imagePath": "images/covenant-parts/18360/iv.webp",
+      "sha256": "a800f700d8b3bc9dd6bd3facb03dad2b631f911e84ed8e6e44af0ca58b8acbff"
+    },
+    {
+      "suitId": 18360,
+      "clientItemId": 9861,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_5.png",
+      "imagePath": "images/covenant-parts/18360/v.webp",
+      "sha256": "1f6c623667e2d5d2db0fdde3a78eb25c9124eecfa319b3ae8bbb95a97e800daa"
+    },
+    {
+      "suitId": 18360,
+      "clientItemId": 9749,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_008_Orange_6.png",
+      "imagePath": "images/covenant-parts/18360/vi.webp",
+      "sha256": "6ba4d171143b0f2cd45b8f92b0f34b866c3d978d8f304cb930e6271caa57f1f4"
+    },
+    {
+      "suitId": 99234,
+      "clientItemId": 99217,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_1.png",
+      "imagePath": "images/covenant-parts/99234/i.webp",
+      "sha256": "551b341e2bc6725b18fd0ed713175787873eb07de20849db8bb1f49114cf9d03"
+    },
+    {
+      "suitId": 99234,
+      "clientItemId": 99231,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_2.png",
+      "imagePath": "images/covenant-parts/99234/ii.webp",
+      "sha256": "d01402e785c09702911f50a541ac0e143844e89a86a3e207cd3c9333e880d719"
+    },
+    {
+      "suitId": 99234,
+      "clientItemId": 99220,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_3.png",
+      "imagePath": "images/covenant-parts/99234/iii.webp",
+      "sha256": "2cc9d408e7fb403f40191206f67541dd468dd7f45001cbe8033b9e75927da02e"
+    },
+    {
+      "suitId": 99234,
+      "clientItemId": 99219,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_4.png",
+      "imagePath": "images/covenant-parts/99234/iv.webp",
+      "sha256": "2fbd200448f43b8419eb97d2a84a92392a78d092244a92032e139426c26d8513"
+    },
+    {
+      "suitId": 99234,
+      "clientItemId": 99215,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_5.png",
+      "imagePath": "images/covenant-parts/99234/v.webp",
+      "sha256": "9bab95544bc7a7d4977431c81fc5920ffb21f0fb3f7d446f615485436235fc7c"
+    },
+    {
+      "suitId": 99234,
+      "clientItemId": 99214,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_6.png",
+      "imagePath": "images/covenant-parts/99234/vi.webp",
+      "sha256": "4c5d0bcce270b5f115386e760c9ef13915b69f4f9113a666c6f2c838fb37a791"
+    },
+    {
+      "suitId": 99235,
+      "clientItemId": 99230,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_1.png",
+      "imagePath": "images/covenant-parts/99235/i.webp",
+      "sha256": "551b341e2bc6725b18fd0ed713175787873eb07de20849db8bb1f49114cf9d03"
+    },
+    {
+      "suitId": 99235,
+      "clientItemId": 99222,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_2.png",
+      "imagePath": "images/covenant-parts/99235/ii.webp",
+      "sha256": "d01402e785c09702911f50a541ac0e143844e89a86a3e207cd3c9333e880d719"
+    },
+    {
+      "suitId": 99235,
+      "clientItemId": 99226,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_3.png",
+      "imagePath": "images/covenant-parts/99235/iii.webp",
+      "sha256": "2cc9d408e7fb403f40191206f67541dd468dd7f45001cbe8033b9e75927da02e"
+    },
+    {
+      "suitId": 99235,
+      "clientItemId": 99229,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_4.png",
+      "imagePath": "images/covenant-parts/99235/iv.webp",
+      "sha256": "2fbd200448f43b8419eb97d2a84a92392a78d092244a92032e139426c26d8513"
+    },
+    {
+      "suitId": 99235,
+      "clientItemId": 99227,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_5.png",
+      "imagePath": "images/covenant-parts/99235/v.webp",
+      "sha256": "9bab95544bc7a7d4977431c81fc5920ffb21f0fb3f7d446f615485436235fc7c"
+    },
+    {
+      "suitId": 99235,
+      "clientItemId": 99232,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_6.png",
+      "imagePath": "images/covenant-parts/99235/vi.webp",
+      "sha256": "4c5d0bcce270b5f115386e760c9ef13915b69f4f9113a666c6f2c838fb37a791"
+    },
+    {
+      "suitId": 99236,
+      "clientItemId": 99213,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_1.png",
+      "imagePath": "images/covenant-parts/99236/i.webp",
+      "sha256": "551b341e2bc6725b18fd0ed713175787873eb07de20849db8bb1f49114cf9d03"
+    },
+    {
+      "suitId": 99236,
+      "clientItemId": 99216,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_2.png",
+      "imagePath": "images/covenant-parts/99236/ii.webp",
+      "sha256": "d01402e785c09702911f50a541ac0e143844e89a86a3e207cd3c9333e880d719"
+    },
+    {
+      "suitId": 99236,
+      "clientItemId": 99223,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_3.png",
+      "imagePath": "images/covenant-parts/99236/iii.webp",
+      "sha256": "2cc9d408e7fb403f40191206f67541dd468dd7f45001cbe8033b9e75927da02e"
+    },
+    {
+      "suitId": 99236,
+      "clientItemId": 99224,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_4.png",
+      "imagePath": "images/covenant-parts/99236/iv.webp",
+      "sha256": "2fbd200448f43b8419eb97d2a84a92392a78d092244a92032e139426c26d8513"
+    },
+    {
+      "suitId": 99236,
+      "clientItemId": 99233,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_5.png",
+      "imagePath": "images/covenant-parts/99236/v.webp",
+      "sha256": "9bab95544bc7a7d4977431c81fc5920ffb21f0fb3f7d446f615485436235fc7c"
+    },
+    {
+      "suitId": 99236,
+      "clientItemId": 99225,
+      "sourceIcon": "Icon/Trinket/Icon_Trinket_022_Orange_6.png",
+      "imagePath": "images/covenant-parts/99236/vi.webp",
+      "sha256": "4c5d0bcce270b5f115386e760c9ef13915b69f4f9113a666c6f2c838fb37a791"
+    }
+  ]
+}

@@ -53,3 +53,4 @@ ui-debug.log
 !/tools/test-scarecrow-effects.mjs
 !/tools/test-scarecrow-sequence.mjs
 !/tools/test-scarecrow-support.mjs
+!/tools/test-shared-covenant.mjs

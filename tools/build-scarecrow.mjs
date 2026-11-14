@@ -108,6 +108,14 @@ function collect(value) {
     else if (value && typeof value === 'object') Object.values(value).forEach(collect);
 }
 Object.values(data).forEach(collect);
+const covenantParts = await json('data/covenant_parts.json');
+// A valid editor must ship every configured piece, rather than silently render blanks.
+for (const suit of covenantParts) for (const part of suit.parts) {
+    const relative = part.imagePath;
+    if (!/^images\/covenant-parts\/\d+\/[iv]+\.webp$/.test(relative)) throw new Error('Invalid covenant part image path');
+    await stat(path.join(root, relative));
+    art.add(relative);
+}
 for (const relative of art) {
     const full = path.resolve(root, relative);
     if (!full.startsWith(path.join(root, 'images') + path.sep)) throw new Error('Invalid art path');
@@ -124,7 +132,7 @@ for (const [entry, name] of [['damage-screen.mjs','live-app.js'], ['worker.mjs',
 for (const name of ['original-ui-adapter.js','original-ui.css','typography.css','battle-workspace.css','growth-presentation.js','prefab-party-card.js','contract-picker.js','enemy-loadout.mjs','enemy-picker.js','live.css']) await copy(path.join(source, name), path.join(output, name));
 await copy(path.join(source, 'fonts'), path.join(output, 'fonts'));
 for(const name of ['covenant-stats.mjs','covenant-equipment.mjs']) await copy(path.join(root,'js',name),path.join(output,name));
-for(const name of ['covenant-editor.mjs','covenant-stats.mjs','covenant-equipment.mjs','covenant-simulator-model.mjs','covenant_simulator.js','feedback.js']) await copy(path.join(root,'js',name),path.join(output,'js',name));
+for(const name of ['covenant-editor.mjs','covenant-stats.mjs','covenant-equipment.mjs','covenant-simulator-model.mjs','covenant-transfer.mjs','covenant-transfer-ui.mjs','covenant_simulator.js','feedback.js']) await copy(path.join(root,'js',name),path.join(output,'js',name));
 for(const name of ['covenant-editor.css','pages/covenant-workspace.css']) await copy(path.join(root,'css',name),path.join(output,'css',name));
 await copy(path.join(root,'config'),path.join(output,'config'));
 await copy(path.join(source,'fonts'),path.join(output,'js/scarecrow/fonts'));

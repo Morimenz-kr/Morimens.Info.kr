@@ -139,3 +139,14 @@
 .covenant-editor .member-part-head h4{flex:1 1 10rem;margin:0}
 .covenant-editor .member-part-head button{margin:0;min-height:44px}
 .covenant-editor .member-part-editor{min-width:0}
+.covenant-editor>.covenant-transfer-actions { margin-top: 16px; }
+.covenant-transfer-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.covenant-editor .covenant-transfer-dialog { width: min(36rem, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 16px; border: 1px solid #645b50; border-radius: 12px; background: #24242a; color: #e0e4eb; overflow: auto; }
+.covenant-editor .covenant-transfer-dialog[open] { display: flex; flex-direction: column; gap: 12px; }
+.covenant-transfer-dialog::backdrop { background: rgb(0 0 0 / 80%); }
+.covenant-editor .covenant-transfer-dialog :is(h3,p) { margin: 0; overflow-wrap: anywhere; }
+.covenant-editor .covenant-transfer-dialog h3 { font-size: 1.125rem; line-height: 1.5; }
+.covenant-editor .covenant-transfer-dialog p { font-size: .875rem; line-height: 1.6; }
+.covenant-editor .covenant-transfer-dialog textarea { width: 100%; max-width: 100%; min-width: 0; min-height: 6rem; max-height: 40dvh; flex: 0 0 auto; padding: 12px; border: 1px solid #645b50; border-radius: 8px; background: #19191d; color: #e0e4eb; font: inherit; font-size: .875rem; line-height: 1.5; resize: vertical; overflow-wrap: anywhere; }
+.covenant-editor .covenant-transfer-dialog textarea:focus-visible { outline: 2px solid #b9e6e9; outline-offset: 2px; }
+.covenant-editor .covenant-transfer-status { color: #e1c791; }
