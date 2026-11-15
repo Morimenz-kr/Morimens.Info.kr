@@ -498,14 +498,7 @@
                         <div class="character-effect-rich-text character-effect-description" data-effect-template="${escapeHtml(item.effect)}">${renderRichText(sanitizeDisplayedEffect(
                             interpolateEffect(item.effect, item.levels, getDefaultLevel(item.levels))
                         ), { plainKeywords: item.plainKeywords })}</div>
-                        ${item.details?.effect ? `
-                            <details class="character-trait-details site-disclosure">
-                                <summary>${escapeHtml(item.details.title || '특성 상세')}</summary>
-                                <div class="character-effect-rich-text">${renderRichText(sanitizeDisplayedEffect(item.details.effect), {
-                                    plainKeywords: item.details.plainKeywords || item.plainKeywords
-                                })}</div>
-                            </details>
-                        ` : ''}
+
                     </article>
                 `).join('')}
             </div>

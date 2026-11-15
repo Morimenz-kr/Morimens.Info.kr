@@ -311,24 +311,6 @@
     font-size: 1rem;
 }
 
-.character-trait-details {
-    margin-top: 0.75rem;
-    border-top: 1px solid #444;
-}
-
-.character-trait-details > summary {
-    display: flex;
-    align-items: center;
-    padding-block: 0.625rem;
-    color: #72d1c0;
-    overflow-wrap: anywhere;
-}
-
-.character-trait-details > .character-effect-rich-text {
-    padding-block: 0.25rem 0.5rem;
-    overflow-wrap: anywhere;
-}
-
 .tooltip-trigger {
     color: inherit;
     font-weight: 700;

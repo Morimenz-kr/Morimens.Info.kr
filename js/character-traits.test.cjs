@@ -20,12 +20,11 @@ function renderTraits(traits) {
     return { api: window.CharacterEffects, container, listeners };
 }
 
-test('비비안 특성은 영역 상세와 각 레벨 설명을 따로 보존한다', () => {
+test('비비안 영역 설명은 서약 오지에와 같은 툴팁을 사용한다', () => {
     const [realm, omen, training] = effects.vivian.traits;
     assert.match(realm.effect, /혼돈.*원초·혼돈/);
     assert.doesNotMatch(realm.effect, /만열의 근원|기억의 파편/);
-    assert.match(realm.details.effect, /만열의 근원/);
-    assert.match(realm.details.effect, /기억의 파편/);
+    assert.equal(realm.details, undefined);
     assert.deepEqual(omen.levels.map(row => row.level), Array.from({ length: 12 }, (_, i) => i + 1));
     assert.deepEqual(training.levels.map(row => row.level), Array.from({ length: 10 }, (_, i) => i + 1));
     for (const trait of [omen, training]) {
@@ -36,7 +35,8 @@ test('비비안 특성은 영역 상세와 각 레벨 설명을 따로 보존한
     const { container } = renderTraits(effects.vivian.traits);
     assert.match(container.innerHTML, /aria-label="광기의 징조 특성 레벨 선택"/);
     assert.match(container.innerHTML, /aria-label="영혼 단련 특성 레벨 선택"/);
-    assert.match(container.innerHTML, /<details class="character-trait-details site-disclosure">/);
+    assert.doesNotMatch(container.innerHTML, /character-trait-details|<details/);
+    assert.match(container.innerHTML, /data-keyword="원초·혼돈"/);
     assert.doesNotMatch(container.innerHTML, /<details[^>]*\bopen\b/);
 });
 
@@ -64,16 +64,6 @@ test('특성 레벨을 바꾸면 선택한 단계의 수치로 설명을 갱신�
             plainKeywords: trait.plainKeywords
         }));
     }
-});
-
-test('영역 상세의 일상 단어에는 상태 툴팁을 붙이지 않는다', () => {
-    const trait = effects.vivian.traits[0];
-    const { api } = renderTraits([trait]);
-    const html = api.renderRichText(trait.details.effect, tooltips, {
-        plainKeywords: trait.details.plainKeywords
-    });
-    assert.doesNotMatch(html, /data-keyword="(?:경계|보유)"/);
-    assert.match(html, /나뉘지 않은 경계/);
 });
 
 test('레벨 정보가 없는 기존 특성은 범위 표시와 본문을 유지한다', () => {
