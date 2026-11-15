@@ -290,6 +290,45 @@
     margin-top: 8px;
 }
 
+.character-trait-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.625rem;
+}
+
+.character-trait-heading h3 {
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.character-trait-heading .character-effect-level-select {
+    min-height: 44px;
+    max-width: 100%;
+    font-size: 1rem;
+}
+
+.character-trait-details {
+    margin-top: 0.75rem;
+    border-top: 1px solid #444;
+}
+
+.character-trait-details > summary {
+    display: flex;
+    align-items: center;
+    padding-block: 0.625rem;
+    color: #72d1c0;
+    overflow-wrap: anywhere;
+}
+
+.character-trait-details > .character-effect-rich-text {
+    padding-block: 0.25rem 0.5rem;
+    overflow-wrap: anywhere;
+}
+
 .tooltip-trigger {
     color: inherit;
     font-weight: 700;
