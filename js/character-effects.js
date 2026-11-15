@@ -298,7 +298,7 @@
         }, effect);
     }
 
-    function renderLevelSelect(levels, selectedLevel = getDefaultLevel(levels)) {
+    function renderLevelSelect(levels, selectedLevel = getDefaultLevel(levels), label = '스킬 레벨 선택') {
         if (!levels?.length) return '';
 
         const options = levels.map(level => `
@@ -307,7 +307,7 @@
         const levelsJson = escapeHtml(JSON.stringify(levels));
 
         return `
-            <select class="character-effect-level-select" aria-label="스킬 레벨 선택" data-levels="${levelsJson}">
+            <select class="character-effect-level-select" aria-label="${escapeHtml(label)}" data-levels="${levelsJson}">
                 ${options}
             </select>
         `;
@@ -489,10 +489,16 @@
         return `
             <div class="character-trait-list">
                 ${items.map(item => `
-                    <article class="character-trait-card">
-                        ${item.level_range ? `<span class="character-trait-level">${escapeHtml(item.level_range)}</span>` : ''}
-                        <h3>${escapeHtml(item.name)}</h3>
-                        <div class="character-effect-rich-text">${renderRichText(sanitizeDisplayedEffect(item.effect))}</div>
+                    <article class="character-trait-card" data-effect-definition="${escapeHtml(JSON.stringify(item))}">
+                        ${!item.levels?.length && item.level_range ? `<span class="character-trait-level">${escapeHtml(item.level_range)}</span>` : ''}
+                        <div class="character-trait-heading">
+                            <h3>${escapeHtml(item.name)}</h3>
+                            ${renderLevelSelect(item.levels, getDefaultLevel(item.levels), `${item.name} 특성 레벨 선택`)}
+                        </div>
+                        <div class="character-effect-rich-text character-effect-description" data-effect-template="${escapeHtml(item.effect)}">${renderRichText(sanitizeDisplayedEffect(
+                            interpolateEffect(item.effect, item.levels, getDefaultLevel(item.levels))
+                        ), { plainKeywords: item.plainKeywords })}</div>
+
                     </article>
                 `).join('')}
             </div>
@@ -787,7 +793,7 @@
 
         container.addEventListener('change', event => {
             if (!event.target.matches('.character-effect-level-select')) return;
-            const scope = event.target.closest('.character-effect-variant, .character-effect-card');
+            const scope = event.target.closest('.character-effect-variant, .character-effect-card, .character-trait-card');
             if (!scope) return;
 
             const description = scope.querySelector('.character-effect-description');

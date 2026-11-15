@@ -290,6 +290,27 @@
     margin-top: 8px;
 }
 
+.character-trait-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.625rem;
+}
+
+.character-trait-heading h3 {
+    min-width: 0;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.character-trait-heading .character-effect-level-select {
+    min-height: 44px;
+    max-width: 100%;
+    font-size: 1rem;
+}
+
 .tooltip-trigger {
     color: inherit;
     font-weight: 700;
