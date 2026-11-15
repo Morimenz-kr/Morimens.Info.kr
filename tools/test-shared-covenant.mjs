@@ -1,6 +1,8 @@
 import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
-import {mkdir, writeFile} from 'node:fs/promises';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
+import {decodeCovenantShareCode} from '../js/covenant-transfer.mjs';
+const definition=JSON.parse(await readFile(new URL('../data/covenant_editor.json',import.meta.url)));
 
 // Run after scarecrow:build, with the repository and ScareCrow servers running.
 const simulatorUrl = process.env.COVENANT_SIMULATOR_URL || 'http://127.0.0.1:8766/covenant_simulator.html';
@@ -35,33 +37,30 @@ const verifyOverviewToggle=async(name,host,page,root,part)=>{
     await root.evaluate(()=>{document.documentElement.style.fontSize='16px';});
     await page.setViewportSize({width:1280,height:900});
 };
-const copy = async host => {
-    await host.getByRole('button', {name: '세팅 복사', exact: true}).click();
-    const value = await host.getByRole('textbox', {name: '비밀계약 세팅', exact: true}).inputValue();
-    await host.getByRole('button', {name: '닫기', exact: true}).click();
-    return JSON.parse(value);
+const backups=async host=>host.getByRole('button',{name:'공유·백업',exact:true}).click();
+const copy=async host=>{
+ await backups(host);const code=await host.getByRole('textbox',{name:'내 공유 코드',exact:true}).inputValue();await host.locator('.covenant-transfer-dialog[open]').getByRole('button',{name:'닫기',exact:true}).click();
+ return{schema:'morimens.covenant-setting',version:1,equipment:decodeCovenantShareCode(code,definition,definition.metadata)};
 };
-const paste = async (host, value) => {
-    await host.getByRole('button', {name: '세팅 가져오기', exact: true}).click();
-    await host.getByRole('textbox', {name: '비밀계약 세팅', exact: true}).fill(JSON.stringify(value));
-    await host.getByRole('button', {name: '세팅 적용', exact: true}).click();
+const paste=async(host,value)=>{
+ await backups(host);await host.getByRole('textbox',{name:'받은 공유 코드',exact:true}).fill(JSON.stringify(value));await host.getByRole('button',{name:'세팅 확인',exact:true}).click();await host.getByRole('button',{name:'이 세팅 가져오기',exact:true}).click();
 };
 const openParty = async () => {
     await party.waitForFunction(() => window.scarecrowOriginalReady);
     await party.getByRole('button', {name: '폴룩스 비밀계약 선택', exact: true}).click();
-    await party.frameLocator('#modal-damage iframe').getByRole('button', {name: '세팅 가져오기', exact: true}).waitFor();
+    await party.frameLocator('#modal-damage iframe').locator('.covenant-sharing').waitFor();
     return party.frameLocator('#modal-damage iframe');
 };
 try {
     console.log('시뮬레이터 시작');
-    await sim.goto(simulatorUrl);
+    await sim.goto(simulatorUrl);await sim.locator('.simulator-panel[aria-busy="false"]').waitFor();
     const initial = await copy(sim);
     console.log('초기 세팅 복사');
     await sim.locator('.member-contract-binding input').check();
     await sim.locator('.member-contract-binding input').uncheck();
     // An actual v1 snapshot/preset lacks per-slot IDs and global binding.
     const legacy = await sim.evaluate(() => JSON.parse(localStorage.getItem('morimens_covenant_simulator_state_v1')));
-    legacy.version = 1; delete legacy.contractBound;
+    legacy.version = 1; delete legacy.contractBound;delete legacy.editorParts;delete legacy.editorBound;delete legacy.targetBound;
     for (const p of legacy.parts) delete p.setId;
     legacy.parts[0].substats[0].locked = true;
     await sim.evaluate(snapshot => {
@@ -86,7 +85,8 @@ try {
     await paste(sim, setting);
     console.log('혼합 세팅 적용');
     const imported = await sim.evaluate(() => JSON.parse(localStorage.getItem('morimens_covenant_simulator_state_v1')));
-    assert.deepEqual(imported.parts[0].goals, before.parts[0].goals);
+    assert.deepEqual(imported.parts,before.parts,'preset editor import must not alter transcription');
+    assert.deepEqual(imported.editorParts[0].goals, before.editorParts[0].goals);
     assert.equal(imported.parts[0].substats[0].locked, true);
     await sim.locator('#preset-select').selectOption('');
     await sim.locator('#preset-name-input').fill('왕복 세팅');
@@ -124,17 +124,15 @@ try {
     assert.equal(await party.getByRole('button',{name:'← 파티 편성',exact:true}).count(),1);
     await paste(frame, setting);
     assert.deepEqual(await copy(frame), setting);
-    assert.equal(await frame.locator('.member-contract-overview').innerText(), await sim.locator('.member-contract-overview').innerText());
+    for(const selector of ['.contract-attribute-totals','.contract-totals-note','.contract-set-effects'])assert.equal(await frame.locator(selector).textContent(),await sim.locator('#shared-covenant-editor').locator(selector).textContent());
     await frame.locator('[data-apply]').click();
     await party.locator('#modal-damage.show').waitFor({state: 'hidden'});
     const growth = await party.evaluate(() => allPages[0].teams[0].scarecrowGrowth.pollux);
     await party.reload(); frame = await openParty();
     assert.deepEqual(await copy(frame), setting);
     assert.equal((await party.evaluate(() => allPages[0].teams[0].scarecrowGrowth.pollux)).level, growth.level);
-    // Re-enter a part through the real set picker, then edit its level.
+    // Equipped parts open directly; changing equipment uses the explicit picker.
     await frame.locator('[data-part-label="0"]').click();
-    const picker = party.frameLocator('#modal-contract iframe');
-    await picker.locator('#equip-contract').click();
     await frame.getByRole('spinbutton', {name: '1번 강화 레벨', exact: true}).fill('12');
     const battleFrame=party.frames().find(f=>f.url().includes('battle.html'));
     await verifyOverviewToggle('scarecrow',frame,party,battleFrame,1);
@@ -167,12 +165,12 @@ try {
     console.log('ScareCrow 왕복·저장·재편집 검사 통과');
     for (const [name, host, p] of [['simulator', sim, sim], ['scarecrow', frame, party]]) {
         const unchanged = await copy(host);
-        await host.getByRole('button', {name: '세팅 가져오기', exact: true}).click();
-        await host.getByRole('textbox', {name: '비밀계약 세팅', exact: true}).fill('{bad');
-        await host.getByRole('button', {name: '세팅 적용', exact: true}).click();
-        assert.match(await host.locator('.covenant-transfer-status').innerText(), /끝까지 복사/);
-        await host.getByRole('textbox', {name: '비밀계약 세팅', exact: true}).press('Escape');
-        assert.equal(await host.locator('[data-covenant-import]').evaluate(n => n === document.activeElement), true);
+        await backups(host);
+        await host.getByRole('textbox', {name: '받은 공유 코드', exact: true}).fill('{bad');
+        await host.getByRole('button', {name: '세팅 확인', exact: true}).click();
+        assert.match(await host.locator('.covenant-transfer-dialog[open] .covenant-transfer-status').innerText(), /끝까지 복사/);
+        await host.getByRole('textbox', {name: '받은 공유 코드', exact: true}).press('Escape');
+        assert.equal(await host.locator('[data-covenant-import]:visible').evaluate(n => n === document.activeElement), true);
         assert.deepEqual(await copy(host), unchanged);
         for (const [width, height, zoom] of [[320,900,1],[390,900,1],[607,900,1],[609,900,1],[768,900,1],[1024,900,1],[1280,900,1],[844,390,1],[390,900,2]]) {
             await p.setViewportSize({width, height});
@@ -181,7 +179,7 @@ try {
                 const sizes = [...document.querySelectorAll('body, body *')].map(n => [n, parseFloat(getComputedStyle(n).fontSize)]);
                 for (const [node, size] of sizes) node.style.fontSize = size * 2 + 'px';
             });
-            await host.getByRole('button', {name: '세팅 가져오기', exact: true}).click();
+            await backups(host);
             const metrics = await root.evaluate(() => {
                 const d = document.querySelector('.covenant-transfer-dialog[open]'), b = d.getBoundingClientRect();
                 const buttons = [...d.querySelectorAll('button')].filter(n => !n.hidden).map(n => {const r=n.getBoundingClientRect();return {w:r.width,h:r.height};});
@@ -191,9 +189,9 @@ try {
             assert.ok(metrics.dialog.x >= -1 && metrics.dialog.right <= metrics.viewport + 1, name+' dialog bounds '+width);
             assert.ok(metrics.dialog.scroll <= metrics.dialog.client + 1, name+' dialog overflow '+width);
             assert.ok(metrics.buttons.every(b => b.w >= 24 && b.h >= 24), name+' targets '+width);
-            await host.getByRole('button', {name: '세팅 적용', exact: true}).scrollIntoViewIfNeeded();
+            await host.getByRole('button', {name: '세팅 확인', exact: true}).scrollIntoViewIfNeeded();
             if ([320,1280,844].includes(width) || zoom === 2) await p.screenshot({path:`${out}/${name}-${width}-${height}-${zoom}x.png`,fullPage:true});
-            await host.getByRole('textbox', {name: '비밀계약 세팅', exact: true}).press('Escape');
+            await host.getByRole('textbox', {name: '받은 공유 코드', exact: true}).press('Escape');
             proof.responsive.push({host:name,width,height,textZoom:zoom,metrics});
             console.log(`${name} ${width}×${height} 글자 ${zoom*100}% 통과`);
         }

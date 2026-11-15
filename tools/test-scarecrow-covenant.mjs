@@ -43,6 +43,9 @@ test('Original res160 build applies the persisted bound flag through the real ad
  const repeated=await run();
  assert.ok(Math.abs(repeated.builds[0].attributes.crit_damage-bound.builds[0].attributes.crit_damage-7.2)<1e-8,'Repeated substats must all reach the original engine');
  assert.equal(covenantAttributeTotals(catalog,people[0])[18105],23.4,'Overview adds repeated substats, bound main value and set bonus');
+ piece.main=0;
+ assert.equal(covenantAttributeTotals(catalog,people[0])[18105],14.4,'Partial inputs retain substats and the set bonus in preview totals');
+ await assert.rejects(run,/1번 부위의 주옵션을 선택하세요/,'Incomplete equipment must block calculation instead of silently omitting its substats');
 });
 import {covenantSlots,covenantSets,equippedCovenantParts,covenantAttributeTotals} from '../js/scarecrow/covenant-equipment.mjs';
 test('Six per-part IDs override legacy sets, including empty slots',async()=>{

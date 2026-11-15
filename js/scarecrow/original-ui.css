@@ -200,7 +200,7 @@ body:not(:has(.modal-overlay.show)) #global-tooltip{pointer-events:none!importan
 
 
 .char-card[data-growth-flow=anchored] .char-top-icon{width:calc(var(--card-unit)*68);height:calc(var(--card-unit)*68)}
-.char-card[data-growth-flow=anchored] .char-top-name{font-size:calc(var(--card-unit)*46)}
+.char-card[data-growth-flow=anchored] .char-top-name{font-size:calc(var(--card-unit)*36)}
 .scarecrow-card-info[data-prefab-layout] .slot-covenant.has-contract{position:relative}
 
 .scarecrow-card-info[data-prefab-layout=anchored] .scarecrow-skill-row>span{letter-spacing:-.035em;transform:scaleX(.9);transform-origin:left center}

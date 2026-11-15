@@ -20,18 +20,19 @@ export function selectCovenantSet(slots,setId,position=null){
 }
 // Legacy part flags migrate once to the contract-wide binding state.
 export function covenantBound(person){
+ if(Array.isArray(person.contractSlots)&&person.contractSlots.every(id=>id===0))return false;
  return typeof person.contractBound==='boolean'?person.contractBound:!!person.trinkets?.some(p=>p.bound);
 }
 export function equippedCovenantParts(catalog,person){
  const slots=covenantSlots(catalog,person);
- return (person.trinkets||[]).filter(p=>slots[p.position-1]&&p.main).map(p=>({...p,bound:covenantBound(person)}));
+ return (person.trinkets||[]).filter(p=>slots[p.position-1]&&(p.main||p.sub?.length)).map(p=>({...p,bound:covenantBound(person)}));
 }
 
 // Static equipment totals; triggered six-piece states remain in the battle engine.
 export function covenantAttributeTotals(catalog,person){
  const totals={};const add=(id,value)=>{if(!Number.isFinite(value))throw Error('비밀계약 옵션 수치를 확인하세요.');totals[id]=Number(((totals[id]||0)+value).toFixed(8));};
  for(const part of equippedCovenantParts(catalog,person)){
-  add(part.main,covenantMainValue(part));
+  if(part.main)add(part.main,covenantMainValue(part));
   for(const sub of part.sub||[])add(sub.id,Number(sub.value));
  }
  for(const set of covenantSets(catalog,person))for(const effect of catalog.suits.find(s=>s.id===set.id).effects||[]){

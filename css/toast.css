@@ -1,0 +1,37 @@
+/* Shared ownership/party toast presentation. */
+.morimens-toast {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--toast-offset, 34px) + env(safe-area-inset-bottom));
+    z-index: 9999;
+    transform: translateX(-50%);
+    box-sizing: border-box;
+    width: max-content;
+    max-width: min(calc(100% - 2rem), 520px);
+    padding: 10px 24px;
+    border: 1px solid #555;
+    border-radius: 999px;
+    background: rgba(50, 50, 55, .96);
+    color: #eee;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+    font-family: Pretendard, 'Malgun Gothic', sans-serif;
+    font-size: .9rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    pointer-events: none;
+    animation: morimensToastFade var(--toast-duration, 2600ms) ease forwards;
+}
+.morimens-toast.success { border-color: rgba(46, 204, 113, .65); color: #dfffea; }
+.morimens-toast.error { border-color: rgba(231, 76, 60, .7); color: #ffe1dd; }
+.morimens-toast.at-top { top: calc(1rem + env(safe-area-inset-top)); bottom: auto; }
+@keyframes morimensToastFade {
+    0% { opacity: 0; transform: translateX(-50%) translateY(12px); }
+    14%, 72% { opacity: 1; transform: translateX(-50%); }
+    100% { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .morimens-toast { animation: none; }
+}

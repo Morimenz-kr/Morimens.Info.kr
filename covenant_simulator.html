@@ -10,9 +10,11 @@
 
     <script src="config/config.js?v=design-system-20260831-10"></script>
     <script>
-        CONFIG.VERSION = 'covenant-transfer-20261114';
+        CONFIG.VERSION = 'covenant-layout-20261115-49';
         loadCSS('css/common.css');
         loadCSS('css/components.css');
+        loadCSS('css/toast.css');
+        loadJS('js/toast.js');
         loadCSS('css/pages/covenant_simulator.css');
         loadCSS('css/covenant-editor.css');
         loadCSS('css/pages/covenant-workspace.css');
@@ -32,7 +34,7 @@
 
     <section class="covenant-shell" aria-label="비밀계약 시뮬레이터">
         <div class="covenant-summary">
-            <h2>비밀계약 시뮬레이터</h2>
+            <h2>비밀계약 시뮬레이터</h2><button type="button" id="covenant-help" aria-label="사용 방법 다시 보기" title="사용 방법" disabled>?</button>
         </div>
 
         <section class="simulator-panel" aria-label="시뮬레이션 모드">
@@ -43,13 +45,15 @@
                     <button type="button" class="chrome-tab" data-mode-tab="target" role="tab" aria-selected="false" aria-controls="target-panel">목표 시뮬레이션</button>
                 </div>
                 <div class="capture-actions">
-                    <button type="button" id="reset-sim-btn" class="ghost-action">초기화</button>
+                    <button type="button" id="reset-sim-btn" class="ghost-action">시뮬레이션 초기화</button>
+                    <button type="button" class="floating-report-btn simulator-report ghost-action" aria-label="버그 제보하기">버그 제보</button>
                 </div>
             </div>
 
+            <p id="storage-status" class="workspace-help" role="status" aria-live="polite"></p>
             <div id="editor-panel" class="mode-panel" role="tabpanel" aria-label="세팅·프리셋">
                     <div class="preset-controls" aria-label="프리셋 관리">
-                        <input type="text" id="preset-name-input" class="preset-name-input" placeholder="프리셋 이름">
+                        <input type="text" id="preset-name-input" class="preset-name-input" placeholder="프리셋 이름" aria-label="프리셋 이름">
                         <select id="preset-select" class="sim-select preset-select" aria-label="저장된 프리셋"></select>
                         <button type="button" id="save-preset-btn" class="ghost-action">프리셋 저장</button>
                         <button type="button" id="load-preset-btn" class="ghost-action">불러오기</button>
@@ -60,109 +64,71 @@
                 <div id="shared-covenant-editor" aria-label="비밀계약 6부위 편집"></div>
             </div>
             <div id="manual-panel" class="mode-panel hidden" role="tabpanel" aria-label="전사">
-                <p class="workspace-help">세팅·프리셋에서 편집한 부위를 전사합니다. 교체한 결과는 세팅에도 반영됩니다.</p>
-                <div id="manual-part-buttons" class="manual-part-buttons" role="group" aria-label="전사할 부위"></div>
-                <section class="transcription-current" aria-label="현재 부위 옵션">
-                    <div class="transcription-current-head"><h3 id="transcription-current-title"></h3><button type="button" id="edit-transcription-part" class="ghost-action">세팅 편집으로</button></div>
-                    <p id="transcription-current-main" class="workspace-help"></p>
-                    <div id="transcription-current-stats" class="transcription-current-stats"></div>
-                </section>
-                <div>
-
-
-                    <section id="manual-transcription" class="contract-transcription" aria-label="선택한 부위 전사">
-                        <div class="section-heading">
-                            <h4 id="manual-part-title">전사</h4>
-                        </div>
-                        <div class="manual-controls">
-                            <div>
-                                <div class="section-heading">
-                                    <span id="manual-cost" class="muted-text"></span>
-                                </div>
-                                <div class="lock-cost-row">
-                                    <label class="radio-option">
-                                        <input type="radio" name="manual-lock-cost" value="fragment" checked>
-                                        잔본 우선
-                                    </label>
-                                    <label class="radio-option">
-                                        <input type="radio" name="manual-lock-cost" value="quill">
-                                        깃펜 우선
-                                    </label>
-                                </div>
-                                <div class="reroll-completion-row" aria-live="polite">
-                                    <div class="completion-panel">
-                                        <span class="completion-label">전사 전</span>
-                                        <strong id="manual-before-completion">0%</strong>
-                                    </div>
-                                    <div class="completion-panel">
-                                        <span class="completion-label">전사 후</span>
-                                        <strong id="manual-after-completion">-</strong>
-                                    </div>
-                                </div>
-                                <div class="reroll-compare">
-                                    <div class="compare-column">
-                                        <div id="manual-result" class="result-list empty-result">전사 결과가 여기에 표시됩니다.</div>
-                                    </div>
-                                </div>
-                                <div class="action-row">
-                                    <span id="manual-status" class="manual-status" role="status" aria-live="polite"></span>
-                                    <button type="button" id="manual-reroll-btn" class="primary-action">전사</button>
-                                    <button type="button" id="manual-apply-btn" class="ghost-action" disabled>교체</button>
-                                </div>
+                <div class="transcription-workspace">
+                    <div id="manual-part-buttons" class="simulator-contract-visual" role="group" aria-label="전사할 비밀계약 부위"></div>
+                    <div class="simulator-side-panel">
+                    <div class="transcription-detail" role="region" aria-label="선택한 부위 전사">
+                        <div class="transcription-detail-scroll">
+                            <div class="transcription-current-head"><h3 id="transcription-current-title"></h3><label class="simulator-binding">귀속<input type="checkbox" role="switch" class="member-binding-switch" data-simulator-bound="manual" aria-label="비밀계약 전체 귀속"></label><button type="button" id="edit-transcription-part" class="ghost-action">세팅 편집</button></div>
+                            <section class="simulator-preset-import" aria-label="비밀계약 세팅 불러오기"><h3>비밀계약 세팅 불러오기</h3><div class="preset-import-controls"><select class="sim-select" data-equipment-preset="manual" aria-label="전사에 불러올 비밀계약 세팅"></select><button type="button" class="ghost-action" data-import-preset="manual">불러오기</button></div><p data-import-status="manual" role="status"></p></section>
+                            <p id="transcription-current-main" class="workspace-help"></p>
+                            <div class="transcription-comparison">
+                                <section aria-label="현재 부위 옵션"><div id="transcription-current-stats" class="transcription-current-stats"></div></section>
+                                <div id="manual-result" class="result-list empty-result" hidden>—</div>
+                            </div>
+                            <div class="reroll-completion-row" aria-live="polite">
+                                <div class="completion-panel"><span class="completion-label">전사 전</span><strong id="manual-before-completion">0%</strong></div>
+                                <div class="completion-panel"><span class="completion-label">전사 후</span><strong id="manual-after-completion">-</strong></div>
+                            </div>
+                            <div id="manual-transcription" class="transcription-cost-controls">
+                                <h4 id="manual-part-title" hidden>전사</h4>
+                                <span id="manual-cost" class="workspace-help"></span>
+                                <input type="radio" name="manual-lock-cost" value="fragment" checked hidden><input type="radio" name="manual-lock-cost" value="quill" hidden><div class="resource-priority"><span data-priority-label="fragment">잔본</span><button type="button" role="switch" aria-checked="false" aria-label="전사 깃펜 우선" data-resource-switch="manual"><span aria-hidden="true"></span></button><span data-priority-label="quill">깃펜</span></div>
                             </div>
                         </div>
-                    </section>
+                        <div class="action-row workspace-footer">
+                            <span id="manual-status" class="manual-status" role="status" aria-live="polite"></span>
+                            <button type="button" id="manual-reroll-btn" class="primary-action">전사</button>
+                            <button type="button" id="manual-apply-btn" class="ghost-action" disabled>교체</button>
+                        </div>
+                    </div>
+                    </div>
                 </div>
             </div>
 
-            <div id="target-panel" class="mode-panel hidden">
-                <div class="target-toolbar">
-                    <div class="contract-picker target-scope-picker">
-                        <label class="field-label">대상 파츠</label>
-                        <div id="target-scope-buttons" class="target-scope-buttons" aria-label="대상 파츠 선택"></div>
-                    </div>
-                    <div class="contract-picker">
-                        <label class="field-label" for="target-lock-cost">잠금 1개 비용</label>
-                        <select id="target-lock-cost" class="sim-select">
-                            <option value="fragment" selected>잔본 우선</option>
-                            <option value="quill">깃펜 우선</option>
-                        </select>
-                    </div>
-                </div>
+            <div id="target-panel" class="mode-panel hidden" role="tabpanel" aria-label="목표 시뮬레이션">
+                <div class="target-toolbar target-contract-toolbar">
+                    <div id="target-scope-buttons" class="simulator-contract-visual" role="group" aria-label="목표 시뮬레이션 대상 부위"></div>
+                    <div class="simulator-side-panel">
+                    <div class="target-contract-controls" role="region" aria-label="목표 편집">
+                        <section id="target-setting-import" class="simulator-preset-import" aria-labelledby="target-setting-import-title">
+                            <h3 id="target-setting-import-title">비밀계약 세팅 불러오기</h3>
+                            <div class="preset-import-controls"><select class="sim-select" data-equipment-preset="target" aria-label="목표에 불러올 비밀계약 세팅"></select><button type="button" class="ghost-action" data-import-preset="target">불러오기</button></div>
+                            <p data-import-status="target" role="status"></p>
+                        </section>
+                        <div class="target-editor-heading">
+                        <div id="target-editor-part-buttons" class="target-editor-part-buttons" role="group" aria-label="편집할 대상 부위"></div>
+                        <label class="simulator-binding">귀속<input type="checkbox" role="switch" class="member-binding-switch" data-simulator-bound="target" aria-label="비밀계약 전체 귀속"></label>
+                        <div class="target-editor-tabs" role="tablist" aria-label="목표 편집 항목">
+                            <button type="button" id="target-current-tab" data-target-editor-view="current" role="tab" aria-label="현재 부옵" aria-controls="target-current-section" aria-selected="false">현재</button>
+                            <button type="button" id="target-goals-tab" data-target-editor-view="goals" role="tab" aria-label="목표 조건" aria-controls="target-goals-section" aria-selected="true">목표</button>
+                        </div>
+                        </div>
 
-                <div class="target-preset-bar" aria-label="목표 프리셋 관리">
-                    <div class="target-preset-heading">
-                        <span class="target-preset-title">목표 프리셋</span>
-                        <span class="target-preset-desc">대상 파츠와 목표 조건만 저장합니다.</span>
+                        <div class="target-controls-scroll">
+                            <section id="target-current-section" role="tabpanel" aria-labelledby="target-current-tab" hidden>
+                                <button type="button" id="target-change-covenant" class="ghost-action">비밀계약 변경</button>
+                                <div id="target-current-parts" class="target-parts"></div>
+                            </section>
+                            <section id="target-goals-section" role="tabpanel" aria-labelledby="target-goals-tab"><div id="target-parts" class="target-parts"></div></section>
+
+                        </div>
+                        <div class="target-actions workspace-footer">
+                            <select id="target-lock-cost" hidden aria-label="잠금 비용"><option value="fragment" selected>잔본 우선</option><option value="quill">깃펜 우선</option></select><div class="resource-priority"><span data-priority-label="fragment">잔본</span><button type="button" role="switch" aria-checked="false" aria-label="목표 깃펜 우선" data-resource-switch="target"><span aria-hidden="true"></span></button><span data-priority-label="quill">깃펜</span></div>
+                            <button type="button" id="run-target-btn" class="primary-action">시뮬레이션</button><button type="button" id="stop-target-btn" class="ghost-action" hidden>중단</button>
+                        </div>
                     </div>
-                    <div class="target-preset-controls">
-                        <input type="text" id="target-preset-name-input" class="preset-name-input" placeholder="목표 프리셋 이름">
-                        <select id="target-preset-select" class="sim-select preset-select" aria-label="저장된 목표 프리셋"></select>
-                        <button type="button" id="save-target-preset-btn" class="ghost-action">저장</button>
-                        <button type="button" id="load-target-preset-btn" class="ghost-action">불러오기</button>
-                        <button type="button" id="delete-target-preset-btn" class="ghost-action">삭제</button>
                     </div>
-                </div>
-
-                <details class="target-fold-section site-disclosure" open>
-                    <summary class="target-fold-summary">
-                        <span>현재 세팅</span>
-                        <small>목표 계산을 시작할 현재 부옵 상태입니다.</small>
-                    </summary>
-                    <button type="button" id="use-edited-covenants" class="ghost-action">편집한 세팅 가져오기</button>
-                    <div id="target-current-parts" class="target-parts"></div>
-                </details>
-
-                <details class="target-fold-section site-disclosure" open>
-                    <summary class="target-fold-summary">
-                        <span>목표 세팅</span>
-                        <small>달성할 목표 옵션과 레벨을 설정합니다.</small>
-                    </summary>
-                    <div id="target-parts" class="target-parts"></div>
-                </details>
-
-                <div class="target-actions">
-                    <button type="button" id="run-target-btn" class="primary-action">목표까지 시뮬레이션</button>
                 </div>
             </div>
         </section>
@@ -170,15 +136,19 @@
         <section class="capture-panel" aria-label="시뮬레이션 결과">
             <div class="result-summary-card">
                 <div class="section-heading">
-                    <h3>결과</h3>
+                    <h3 id="result-title">능력치</h3>
                     <span id="result-status" class="result-status" role="status" aria-live="polite"></span>
                 </div>
                 <div id="result-summary" class="summary-output"></div>
             </div>
         </section>
+        <section id="simulator-ability-panel" class="simulator-ability-panel" aria-label="비밀계약 능력치" hidden>
+            <h3 id="ability-title">비밀계약 능력치</h3><div id="ability-summary"></div>
+        </section>
     </section>
 </main>
 
+        <dialog id="manual-setting-dialog" aria-labelledby="manual-setting-title"><div class="section-heading"><h2 id="manual-setting-title">전사 세팅</h2><button type="button" id="close-manual-settings">닫기</button></div><div id="manual-covenant-editor"></div></dialog>
         <dialog id="covenant-set-dialog" aria-labelledby="covenant-picker-title"><div class="section-heading"><h2 id="covenant-picker-title">비밀계약 선택</h2><button type="button" id="close-covenant-set-picker" aria-label="비밀계약 선택 닫기">닫기</button></div>
             <div class="section-heading">
                 <span id="selected-contract-name" class="muted-text"></span>
@@ -201,12 +171,18 @@
 </div>
 
 
-<button class="floating-report-btn" title="버그 신고" aria-label="버그 제보하기">
-    <span aria-hidden="true">🚨</span>
-</button>
 
+<dialog id="covenant-tour" aria-labelledby="covenant-tour-title" aria-describedby="covenant-tour-description">
+    <div id="covenant-tour-spotlight" aria-hidden="true"></div>
+    <section id="covenant-tour-card">
+        <div class="tour-top"><span id="covenant-tour-progress"></span><button type="button" id="covenant-tour-skip">건너뛰기</button></div>
+        <h2 id="covenant-tour-title"></h2><p id="covenant-tour-description"></p>
+        <div class="tour-actions"><button type="button" id="covenant-tour-previous">이전</button><button type="button" id="covenant-tour-next" class="primary-action">다음</button></div>
+    </section>
+</dialog>
 <script src="js/covenant-picker.js"></script>
 <script>
+    loadJS('js/covenant-onboarding.js');
     loadJS('js/covenant_simulator.js');
 </script>
 </body>

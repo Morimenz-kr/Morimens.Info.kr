@@ -4,7 +4,7 @@ import path from 'node:path';
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.join(root, '.generated/roster-pages');
 const files = new Set([
-  'css/common.css', 'config/config.js', 'js/feedback.js', 'css/pages/inventory_checker.css', 'css/pages/roster-preview.css',
+  'css/toast.css', 'js/toast.js', 'css/common.css', 'config/config.js', 'js/feedback.js', 'css/pages/inventory_checker.css', 'css/pages/roster-preview.css',
   'css/pages/roster-classic.css', 'js/character-identity.js', 'js/search_utils.js',
   'js/summon-classification.js', 'js/roster-model.js', 'js/roster-preview.js', 'js/roster-onboarding.js', 'js/roster-share-image.js', 'images/background.webp', 'images/smile_Ramona.webp',
   'data/character_manifest.json', 'data/wheel_list.json', 'data/character_growth.json', 'data/gachatype.json'

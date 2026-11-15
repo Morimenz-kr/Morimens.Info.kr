@@ -1279,29 +1279,6 @@ body {
 /* =========================================
    저장 토스트 알림
    ========================================= */
-.save-toast {
-    position: fixed;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%) translateY(0);
-    background: rgba(50, 50, 55, 0.95);
-    color: #eee;
-    padding: 8px 22px;
-    border-radius: 20px;
-    font-size: 0.88em;
-    font-family: 'Pretendard', sans-serif;
-    z-index: 9999;
-    pointer-events: none;
-    border: 1px solid #555;
-    animation: toastFade 2s forwards;
-    white-space: nowrap;
-}
-@keyframes toastFade {
-    0%   { opacity: 0; transform: translateX(-50%) translateY(8px); }
-    15%  { opacity: 1; transform: translateX(-50%) translateY(0); }
-    75%  { opacity: 1; }
-    100% { opacity: 0; transform: translateX(-50%) translateY(-4px); }
-}
 
 /* ============================================================
    Mobile polish pass: party builder should feel like a native tool,
@@ -1898,13 +1875,6 @@ body {
         border-top-color: rgba(255, 255, 255, 0.08);
     }
 
-    .save-toast {
-        bottom: calc(106px + env(safe-area-inset-bottom));
-        border-radius: 999px;
-        background: rgba(24, 24, 32, 0.92);
-        border-color: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(12px);
-    }
 }
 
 @media (max-width: 380px) {
@@ -2435,13 +2405,6 @@ body {
         border-top: 1px solid #444;
     }
 
-    .save-toast {
-        bottom: 80px;
-        border: 1px solid #555;
-        border-radius: 20px;
-        background: rgba(50, 50, 55, 0.95);
-        backdrop-filter: none;
-    }
 }
 
 @media (max-width: 380px) {

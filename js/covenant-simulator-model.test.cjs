@@ -1,6 +1,18 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
 const model=import('./covenant-simulator-model.mjs');
+test('주옵션 미설정이어도 장착 부위의 부옵션과 완성도는 누락하지 않는다',async()=>{
+ const m=await model,stats=await import('./covenant-stats.mjs'),equipment=await import('./covenant-equipment.mjs');
+ const old=parts();old.forEach(p=>{p.mainOption='none';p.setId=11;});
+ const catalog={suits:[{id:11,effects:[]}]},owner=m.simulatorEquipment(old);
+ assert.deepEqual(m.simulatorTotals(old,catalog),{18159:9.6,18105:14.4,18126:24});
+ assert.equal(m.simulatorCompletion(old),54.5);
+ const equipped=equipment.equippedCovenantParts(catalog,owner);
+ assert.throws(()=>stats.validateCovenantParts(equipped,{requireMain:true}),/1번 부위의 주옵션/);
+ owner.contractSlots[0]=0;
+ assert.equal(equipment.covenantAttributeTotals(catalog,owner)[18159],8);
+ assert.equal(stats.covenantCompletion(equipment.equippedCovenantParts(catalog,owner)),45.4);
+});
 test('빈 계약의 첫 부위 선택은 6부위를 채우고 이후 선택·해제는 해당 부위만 바꾼다',async()=>{
  const {selectCovenantSet}=await model,empty=Array(6).fill(0);
  const first=selectCovenantSet(empty,18335,6);
@@ -23,9 +35,14 @@ test('완성도는 6부위 합산 후 계산하며 귀속 여부로 바뀌지 �
  const m=await model;assert.equal(m.simulatorCompletion(parts()),100);assert.equal(m.simulatorCompletion(parts(),true),100);
  const p=parts();p.forEach(x=>{x.mainLevel=0;x.substats.forEach(s=>s.level=1)});assert.equal(m.simulatorCompletion(p),25);
 });
-test('전체 초기화는 세트와 옵션을 모두 비우고 목표·잠금을 보존한다',async()=>{
+test('미장착 부위에 보존된 옵션은 전사 완성도에 포함하지 않는다',async()=>{
+ const m=await model,p=parts();p[0].setId=0;
+ assert.equal(m.simulatorCompletion(p),83.3);assert.equal(m.simulatorCompletion([p[0]]),0);
+ assert.equal(m.simulatorCompletion([parts()[0]]),16.6,'구형 저장값의 기본 세트는 유지한다');
+});
+test('전체 초기화는 세트와 옵션·잠금을 비우고 목표를 보존한다',async()=>{
  const m=await model,old=parts(),owner={contractSlots:Array(6).fill(0),trinkets:[],contractBound:false};
- const value=m.applyEditorEquipment(owner,old);assert.equal(value[0].mainOption,'none');assert.equal(value[0].setId,0);assert.equal(m.simulatorCompletion(value),0);assert.deepEqual(value[0].goals,old[0].goals);assert.equal(value[0].substats[0].locked,true);
+ const value=m.applyEditorEquipment(owner,old);assert.equal(value[0].mainOption,'none');assert.equal(value[0].setId,0);assert.equal(m.simulatorCompletion(value),0);assert.deepEqual(value[0].goals,old[0].goals);assert.equal(value[0].substats[0].locked,false);
 });
 test('주옵·부옵과 활성 3세트 효과가 같은 합계 계산을 사용한다',async()=>{
  const m=await model,catalog={suits:[{id:11,effects:[{num:3,type:'CommonAttr',params:[18159,4.8]}]}]};

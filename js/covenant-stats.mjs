@@ -14,8 +14,9 @@ export function covenantSubLevel(sub){
  const level=Number(sub?.value)*2/covenantEquivalency[sub?.id];
  return Number.isFinite(level)&&Math.abs(level-Math.round(level))<1e-7&&level>=1&&level<=8?Math.round(level):null;
 }
-export function validateCovenantParts(parts){
+export function validateCovenantParts(parts,{requireMain=false}={}){
  for(const part of parts){
+  if(requireMain&&!part.main)throw Error(part.position+'번 부위의 주옵션을 선택하세요.');
   const sub=part.sub||[];
   if(sub.length>covenantSubCount)throw Error('비밀계약 부옵션은 3개입니다. 이전 저장값을 비밀계약 설정에서 수정하세요.');
   if(sub.some(s=>covenantSubLevel(s)==null))throw Error('비밀계약 부옵션을 Lv.1~8로 다시 설정하세요.');
@@ -23,9 +24,9 @@ export function validateCovenantParts(parts){
  return parts;
 }
 export function covenantNumber(piece){
- if(!piece?.main)return 0;
+ if(!piece)return 0;
  if(!Number.isInteger(piece.level)||MAIN[piece.level]==null)throw Error('비밀계약 강화 단계를 확인하세요.');
- return MAIN[piece.level]+(piece.sub||[]).reduce((sum,s)=>sum+(covenantEquivalency[s.id]?Number(s.value)/covenantEquivalency[s.id]:0),0);
+ return (piece.main?MAIN[piece.level]:0)+(piece.sub||[]).reduce((sum,s)=>sum+(covenantEquivalency[s.id]?Number(s.value)/covenantEquivalency[s.id]:0),0);
 }
 export function covenantCompletion(pieces){
  // Round only after aggregating all six pieces, exactly as the original helper.

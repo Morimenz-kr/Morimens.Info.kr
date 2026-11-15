@@ -212,7 +212,7 @@ body:is([data-view=member],[data-view=covenant]) #sc-previsual :is(input,select,
 #sc-previsual .member-input-warning{color:#e1b5a2;font-size:.8rem;line-height:1.6;overflow-wrap:anywhere}
 #sc-previsual .member-input-warning:empty{display:none}
 #sc-previsual .member-settings label:not(.covenant-editor *).member-toggle{display:flex;align-items:center;gap:.65rem;min-height:2.8rem;align-self:end}
-#sc-previsual .member-settings .member-toggle input{width:1.3rem;height:1.3rem;min-height:1.3rem;accent-color:#c8ad74}
+#sc-previsual .member-settings .member-toggle input:not(.member-binding-switch){width:1.3rem;height:1.3rem;min-height:1.3rem;accent-color:#c8ad74}
 
 
 

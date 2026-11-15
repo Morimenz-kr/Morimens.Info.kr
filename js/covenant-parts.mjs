@@ -1,6 +1,5 @@
 import {applyCovenantBoundMaterial} from './covenant-bound-material.mjs';
-// Shared part buttons: the simulator keeps its original two-column layout;
-// equipment editors can opt into the six sectors of the in-game hexagon.
+// Shared part buttons and the six sectors of the in-game hexagon.
 const ROMANS = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
 const vertices = [[50,0],[100,25],[100,75],[50,100],[0,75],[0,25]];
 const innerLabelPositions=[['66.6667%','25%'],['83.3333%','50%'],['66.6667%','75%'],['33.3333%','75%'],['16.6667%','50%'],['33.3333%','25%']];
@@ -10,15 +9,16 @@ export function renderCovenantParts(parent, {indexes=[0,1,2,3,4,5], selected=0, 
     parent.classList.toggle('covenant-part-hex', hex);
     parent.classList.toggle('has-inside-labels',hex&&labelsInside);
     const surface=hex?document.createElement('div'):parent;
+    const selectedIndexes=new Set(Array.isArray(selected)?selected:[selected]);
     if(hex){surface.className='covenant-hex-surface';parent.append(surface);}
     for (const index of indexes) {
         const part = parts[index], button = document.createElement('button');
         button.type = 'button';
-        button.className = `part-button ${index === selected ? 'active' : ''} ${part.lastTouched ? 'has-result' : ''}`;
+        button.className = `part-button ${selectedIndexes.has(index) ? 'active' : ''} ${part.lastTouched ? 'has-result' : ''}`;
         button.classList.toggle('is-empty',!!part.empty);
         button.classList.toggle('is-bound',!!part.bound);
         button.dataset.partIndex = index;
-        button.setAttribute('aria-pressed', String(index === selected));
+        button.setAttribute('aria-pressed', String(selectedIndexes.has(index)));
         const roman = document.createElement('span');
         roman.className = 'part-roman'; roman.textContent = ROMANS[index];
         const completion = document.createElement('span');
@@ -38,7 +38,7 @@ export function renderCovenantParts(parent, {indexes=[0,1,2,3,4,5], selected=0, 
         button.onclick=()=>onSelect(index);
         surface.append(button);
         if(hex){
-            const label=document.createElement('button');label.type='button';label.className='part-index-button';label.textContent=ROMANS[index];label.dataset.partLabel=index;label.setAttribute('aria-label',button.getAttribute('aria-label'));label.setAttribute('aria-pressed',String(index===selected));label.classList.toggle('is-empty',!!part.empty);label.classList.toggle('is-bound',!!part.bound);const positions=labelsInside?innerLabelPositions:labelPositions;label.style.left=positions[index][0];label.style.top=positions[index][1];label.onclick=()=>onSelect(index);(labelsInside?surface:parent).append(label);
+            const label=document.createElement('button');label.type='button';label.className='part-index-button';label.textContent=ROMANS[index];label.dataset.partLabel=index;label.setAttribute('aria-label',button.getAttribute('aria-label'));label.setAttribute('aria-pressed',String(selectedIndexes.has(index)));label.classList.toggle('is-empty',!!part.empty);label.classList.toggle('is-bound',!!part.bound);const positions=labelsInside?innerLabelPositions:labelPositions;label.style.left=positions[index][0];label.style.top=positions[index][1];label.onclick=()=>onSelect(index);(labelsInside?surface:parent).append(label);
         }
     }
     // The client shows Image_Finish/GetSuitIcon only for a complete matching set.

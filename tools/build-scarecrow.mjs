@@ -35,7 +35,7 @@ if (process.env.SCARECROW_ENGINE_PACK) {
 }
 
 // These are the site's actual shared renderers. Do not freeze copied pickers.
-for (const relative of ['css/common.css','css/components.css','css/party_builder.css','css/character-effects.css','css/responsive.css','css/pages/info_tools.css','css/pages/relic-info.css','css/pages/covenant_simulator.css','js/party_builder.js','js/covenant-picker.js','js/covenant-parts.mjs','js/covenant-bound-material.mjs','js/relic-info.js','js/research-depth.js','js/search_utils.js','js/character-effects.js','js/character-identity.js','css/pages/dzone-info.css','js/dzone-info.js','js/dzone-season.js','js/dzone-richtext.js']) await copy(path.join(root,relative),path.join(output,relative));
+for (const relative of ['css/common.css','css/toast.css','js/toast.js','css/components.css','css/party_builder.css','css/character-effects.css','css/responsive.css','css/pages/info_tools.css','css/pages/relic-info.css','css/pages/covenant_simulator.css','js/party_builder.js','js/covenant-picker.js','js/covenant-parts.mjs','js/covenant-bound-material.mjs','js/relic-info.js','js/research-depth.js','js/search_utils.js','js/character-effects.js','js/character-identity.js','css/pages/dzone-info.css','js/dzone-info.js','js/dzone-season.js','js/dzone-richtext.js']) await copy(path.join(root,relative),path.join(output,relative));
 const dataFiles = ['character_manifest', 'wheel_list', 'silverkey_list', 'party_builder_rules', 'db_tooltips', 'relic_catalog', 'research_depth_levels', 'covenant_list','covenant_editor','covenant_bound_material','dzone_current','dzone_season68','dzone_season69','dzone_season70','dzone_season71','dzone_season72','dzone_maps','dzone_maps_season68','dzone_maps_season69','dzone_maps_season70','dzone_maps_season71','dzone_maps_season72'];
 const data = {};
 for (const name of dataFiles) { data[name] = await json(`data/${name}.json`); }
@@ -102,6 +102,7 @@ await writeFile(path.join(output, 'live-data.json'), JSON.stringify(live));
 
 // Copy current catalog art by its real path. Calculations remain locked to the manifest client version.
 const art = new Set(['images/growth/UI_Commpn_Image_TrinketBindCircle.png','images/growth/UI_Battle_Image_Gradient.png','images/smile_Ramona.webp', ...['chaos','aequor','caro','ultra'].map(k => `images/character_${k}.png`)]);
+for(const id of ['001','002','003','004','005','006','007','008'])art.add(`images/keyword-icons/original/ui_battle_white_buff_${id}.png`);
 function collect(value) {
     if (typeof value === 'string') for (const match of value.matchAll(/images\/[A-Za-z0-9_./% -]+\.(?:png|webp|jpe?g|gif)/g)) art.add(match[0]);
     else if (Array.isArray(value)) value.forEach(collect);
@@ -132,12 +133,13 @@ for (const [entry, name] of [['damage-screen.mjs','live-app.js'], ['worker.mjs',
 for (const name of ['original-ui-adapter.js','original-ui.css','typography.css','battle-workspace.css','growth-presentation.js','prefab-party-card.js','contract-picker.js','enemy-loadout.mjs','enemy-picker.js','live.css']) await copy(path.join(source, name), path.join(output, name));
 await copy(path.join(source, 'fonts'), path.join(output, 'fonts'));
 for(const name of ['covenant-stats.mjs','covenant-equipment.mjs']) await copy(path.join(root,'js',name),path.join(output,name));
-for(const name of ['covenant-editor.mjs','covenant-stats.mjs','covenant-equipment.mjs','covenant-simulator-model.mjs','covenant-transfer.mjs','covenant-transfer-ui.mjs','covenant_simulator.js','feedback.js']) await copy(path.join(root,'js',name),path.join(output,'js',name));
+for(const name of ['covenant-editor.mjs','covenant-stats.mjs','covenant-equipment.mjs','covenant-simulator-model.mjs','covenant-target.mjs','covenant-transfer.mjs','covenant-transfer-ui.mjs','covenant-share-preview.mjs','covenant_simulator.js','covenant-onboarding.js','feedback.js']) await copy(path.join(root,'js',name),path.join(output,'js',name));
 for(const name of ['covenant-editor.css','pages/covenant-workspace.css']) await copy(path.join(root,'css',name),path.join(output,'css',name));
 await copy(path.join(root,'config'),path.join(output,'config'));
 await copy(path.join(source,'fonts'),path.join(output,'js/scarecrow/fonts'));
 await copy(path.join(root,'covenant_simulator.html'),path.join(output,'covenant_simulator.html'));
 await copy(path.join(root,'data/covenant_parts.json'),path.join(output,'data/covenant_parts.json'));
+await copy(path.join(root,'data/covenant_roll_rates.json'),path.join(output,'data/covenant_roll_rates.json'));
 await copy(path.join(root,'images/covenant-ui'),path.join(output,'images/covenant-ui'));
 await copy(path.join(source, 'damage-screen.html'), path.join(output, 'battle.html'));
 let html = await read('party_builder.html');

@@ -66,7 +66,7 @@ try {
     }
     await fixture('tulu');
     for(const c of await read(site+'/data/covenant_list.json')){
-        await page.getByRole('button',{name:'툴루 비밀계약 선택',exact:true}).click();await page.frameLocator('#modal-damage iframe').getByRole('button',{name:'전체 세트 변경',exact:true}).click();const frame=page.frameLocator('#modal-contract iframe');
+        await page.getByRole('button',{name:'툴루 비밀계약 선택',exact:true}).click();await page.frameLocator('#modal-damage iframe').getByRole('button',{name:'비밀계약 변경',exact:true}).click();const frame=page.frameLocator('#modal-contract iframe');
         await frame.locator('[data-contract="'+c.english_name+'"]').click();await frame.locator('#equip-contract').click();await page.locator('#modal-contract').waitFor({state:'hidden'});await page.locator('#modal-damage .modal-header button').click();
         assert.equal(await page.evaluate(()=>allPages[0].teams[0].scarecrowContracts.tulu),c.clientSuitId);proof.contracts.push(c.english_name);
     }
@@ -87,7 +87,7 @@ try {
     await page.getByText('배치 확정',{exact:true}).click();
     await page.getByRole('button',{name:'툴루 명륜 1 선택',exact:true}).click(); await page.locator('#btn-equip-ssr').click();
     await page.locator('#scarecrow-wheel-refinement').press('End'); await page.locator('#scarecrow-wheel-enhancement').press('End'); await page.locator('#btn-wheel-done').click();
-    await page.getByRole('button',{name:'툴루 비밀계약 선택',exact:true}).click();await page.frameLocator('#modal-damage iframe').getByRole('button',{name:'전체 세트 변경',exact:true}).click(); const contract=page.frameLocator('#modal-contract iframe');
+    await page.getByRole('button',{name:'툴루 비밀계약 선택',exact:true}).click();await page.frameLocator('#modal-damage iframe').getByRole('button',{name:'비밀계약 변경',exact:true}).click(); const contract=page.frameLocator('#modal-contract iframe');
     await contract.locator('[data-contract]').first().click();await contract.locator('#equip-contract').click();await page.locator('#modal-contract').waitFor({state:'hidden'});await page.locator('#modal-damage .modal-header button').click();
     await page.locator('#scarecrow-relics').click(); const relic=page.frameLocator('#modal-relic iframe');
     await relic.locator('[data-toggle-relic]').first().click(); await page.locator('#modal-relic .modal-header button').click();

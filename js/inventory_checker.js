@@ -955,20 +955,9 @@
     function setStatus(message, type) {
         els.copyStatus.textContent = '';
         els.copyStatus.className = 'copy-status';
-        if (!message) return;
-
-        const existing = document.querySelector('.inventory-toast');
-        if (existing) existing.remove();
-
-        const toast = document.createElement('div');
-        toast.className = `inventory-toast ${type || ''}`.trim();
-        toast.textContent = message;
-        document.body.appendChild(toast);
-
-        setTimeout(() => {
-            if (toast.parentNode) toast.remove();
-        }, 2600);
+        window.MorimensToast.show(message, {type});
     }
+
 
     function escapeHtml(value) {
         return String(value)

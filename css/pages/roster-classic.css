@@ -459,10 +459,6 @@ html:has(.classic-roster),body.classic-roster {
     .classic-roster .preset-dialog :is(.builtin-preset,.user-preset-apply):hover { border-color:var(--color-accent); background:var(--color-bg-card); }
 }
 .classic-roster .share-image-stage.is-expanded #share-preview { width:var(--share-image-width); max-width:none; }
-.classic-roster .inventory-toast { width:max-content; box-sizing:border-box; white-space:normal; overflow-wrap:anywhere; line-height:1.5; }
-@media(prefers-reduced-motion:reduce) {
-    .classic-roster .inventory-toast { animation:none; transform:translateX(-50%); }
-}
 .classic-roster dialog {
     z-index:30;
 }

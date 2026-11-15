@@ -10,7 +10,7 @@ export function liveParty(catalog,people){
  return people.map(p=>{
   const c=catalog.characters.find(c=>c.id===p.id);if(!c)throw Error('각성체 데이터가 없습니다.');
   // Keep the three editable rows in saves; the build boundary expects one entry per attribute.
-  const trinkets=validateCovenantParts(equippedCovenantParts(catalog,p)).map(piece=>{
+  const trinkets=validateCovenantParts(equippedCovenantParts(catalog,p),{requireMain:true}).map(piece=>{
    const sums=new Map();for(const sub of piece.sub||[])sums.set(sub.id,Number(((sums.get(sub.id)||0)+sub.value).toFixed(8)));
    return {...piece,sub:[...sums].map(([id,value])=>({id,value}))};
   });

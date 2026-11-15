@@ -26,18 +26,18 @@
 .covenant-editor>.member-set-summary{grid-column:1/-1;margin:0}
 .covenant-editor>.member-completion{margin:.35rem 0 .9rem}
 .covenant-editor>.member-parts{grid-column:1/-1}
-.covenant-editor .member-hex{position:relative;width:min(100%,22rem);padding:55.43px 48px;margin:0 auto;box-sizing:border-box;isolation:isolate}
-.covenant-editor .covenant-hex-surface{position:relative;width:100%;aspect-ratio:.8660254;overflow:clip;background:#111114;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
-.covenant-editor .member-hex .part-button{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;border-radius:0;background:#49433a;color:#fff;cursor:pointer}
-.covenant-editor .member-hex .part-button img{position:absolute;left:-38.65%;top:-11.6%;width:177.3%;height:122.3%;max-width:none;object-fit:fill;pointer-events:none}
-.covenant-editor .member-hex .part-completion{display:none}
-.covenant-editor .member-hex .part-button:is(.active,:focus-visible){outline:0}
-.covenant-editor .member-hex .part-index-button{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;min-width:44px;min-height:44px;width:auto;height:auto;padding:.125rem;margin:0;border:0;border-radius:.2rem;background:transparent;font-size:1rem;line-height:1.2;font-family:Georgia,serif;color:#b2aa9a}
-.covenant-editor .member-hex .part-index-button[aria-pressed=true]{color:#eee0bd;text-decoration:underline;text-underline-offset:.3em}
-.covenant-editor .member-hex .part-index-button:is(:hover,:focus-visible){background:transparent;outline:0;color:#f0d69a}
-.covenant-editor .member-hex .part-index-button:focus-visible{text-decoration:underline;text-underline-offset:.3em;text-decoration-thickness:2px}
-.covenant-editor .member-hex .part-index-button.is-empty{color:#858891}
-.covenant-editor .member-hex .part-index-button.is-empty[aria-pressed=true]{color:#c0c3cb}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex{position:relative;width:min(100%,22rem);padding:55.43px 48px;margin:0 auto;box-sizing:border-box;isolation:isolate}
+:is(.covenant-editor,.simulator-contract-visual) .covenant-hex-surface{position:relative;width:100%;aspect-ratio:.8660254;overflow:clip;background:#111114;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%)}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-button{position:absolute;inset:0;width:100%;height:100%;margin:0;padding:0;border:0;border-radius:0;background:#49433a;color:#fff;cursor:pointer}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-button img{position:absolute;left:-38.65%;top:-11.6%;width:177.3%;height:122.3%;max-width:none;object-fit:fill;pointer-events:none}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-completion{display:none}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-button:is(.active,:focus-visible){outline:0}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-index-button{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;min-width:44px;min-height:44px;width:auto;height:auto;padding:.125rem;margin:0;border:0;border-radius:.2rem;background:transparent;font-size:1rem;line-height:1.2;font-family:Georgia,serif;color:#b2aa9a}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-index-button[aria-pressed=true]{color:#eee0bd;text-decoration:underline;text-underline-offset:.3em}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-index-button:is(:hover,:focus-visible){background:transparent;outline:0;color:#f0d69a}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-index-button:focus-visible{text-decoration:underline;text-underline-offset:.3em;text-decoration-thickness:2px}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-index-button.is-empty{color:#858891}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-index-button.is-empty[aria-pressed=true]{color:#c0c3cb}
 .covenant-editor .member-parts{display:block}
 .covenant-editor .member-parts>section{min-width:0;padding-top:1rem;border-top:1px solid #514a42}
 .covenant-editor .member-parts>section[hidden]{display:none}
@@ -45,17 +45,24 @@
 .covenant-editor .member-parts>section>button{min-height:2.75rem;margin-bottom:.75rem;border:1px solid #6d5e46;color:#e4d6b6;background:#302c28;border-radius:.25rem;font-size:.8rem}
 .covenant-editor .member-covenant-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,19rem),1fr));gap:1.5rem;align-items:start}
 .covenant-editor .member-covenant-body .member-hex{margin-top:0}
-.covenant-editor .member-hex .part-button.is-empty{background:#303137;color:#a4a5ac}
-.covenant-editor .member-hex .part-button img.part-art{width:50%;height:50%;object-fit:fill}
-.covenant-editor .member-hex .part-empty-border{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.covenant-editor .member-hex .part-empty-border polygon{fill:none;stroke:#666973;stroke-width:.35}
-.covenant-editor .member-hex .covenant-set-emblem{position:absolute;left:50%;top:50%;width:60%;height:auto;aspect-ratio:1;transform:translate(-50%,-50%);object-fit:contain;pointer-events:none}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-button.is-empty{background:#303137;color:#a4a5ac}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-button img.part-art{width:50%;height:50%;object-fit:fill}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-empty-border{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .part-empty-border polygon{fill:none;stroke:#666973;stroke-width:.35}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex .covenant-set-emblem{position:absolute;left:50%;top:50%;width:60%;height:auto;aspect-ratio:1;transform:translate(-50%,-50%);object-fit:contain;pointer-events:none}
 .covenant-editor .member-contract-binding{display:flex;align-items:center;justify-content:flex-end;gap:.6rem;min-height:44px;margin-block:.4rem .8rem}
 .covenant-editor{padding:0;border:0;background:transparent}
 .covenant-editor .member-section-head{margin:0;gap:.75rem;align-items:center}
 .covenant-editor .member-section-head h3{margin:0;margin-right:auto}
 .covenant-editor .member-set-change{margin:0}
 .covenant-editor label.member-contract-binding{margin:0;min-height:44px;gap:.5rem;align-self:center}
+.covenant-editor .member-contract-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:.5rem .75rem;max-inline-size:100%;margin-inline-start:auto}
+.covenant-editor label.member-contract-binding{cursor:pointer;user-select:none;touch-action:manipulation}
+.covenant-editor .member-toggle input.member-binding-switch{appearance:none;position:relative;flex:none;width:2.75rem;height:1.5rem;min-height:0;padding:0;border:1px solid #77716b;border-radius:999px;background:#45434a;cursor:pointer}
+.covenant-editor .member-binding-switch::before{content:'';position:absolute;top:50%;left:.1875rem;transform:translateY(-50%);width:1rem;height:1rem;border-radius:50%;background:#f4efe4}
+.covenant-editor .member-toggle input.member-binding-switch:checked{background:#b39a63;border-color:#d8c28d}
+.covenant-editor .member-binding-switch:checked::before{left:calc(100% - 1.1875rem);background:#19191d}
+.covenant-editor .member-binding-switch:disabled{cursor:default}
 .covenant-editor .member-contract-summary{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.35rem 1rem;margin:.75rem 0;padding:0 0 .75rem;border-bottom:1px solid #3d3a42}
 .covenant-editor .member-contract-summary .member-set-summary{margin:0;font-size:.9rem}
 .covenant-editor .member-contract-summary .member-completion{margin:0;font-size:.8rem;color:#c6b892}
@@ -63,10 +70,10 @@
 .covenant-editor .member-covenant-body .member-hex{width:min(100%,18rem);margin:0 auto}
 .covenant-editor .member-parts>section{border:1px solid #3d3a42;border-radius:.5rem;background:#222126;padding:.9rem}
 .covenant-editor .member-input-warning:empty{display:none}
-.covenant-editor .member-hex.has-inside-labels{padding:1rem}
-.covenant-editor .member-hex.has-inside-labels .part-index-button{z-index:3;color:#eee6d4;text-shadow:0 1px 3px #000,0 0 5px #000;min-width:44px;min-height:44px;font-size:1.1rem}
-.covenant-editor .member-hex.has-inside-labels .part-index-button.is-empty{color:#afb0b8;text-shadow:none}
-.covenant-editor .member-hex.has-inside-labels .part-index-button[aria-pressed=true]{color:#f0d69a}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex.has-inside-labels{padding:1rem}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex.has-inside-labels .part-index-button{z-index:3;color:#eee6d4;text-shadow:0 1px 3px #000,0 0 5px #000;min-width:44px;min-height:44px;font-size:1.1rem}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex.has-inside-labels .part-index-button.is-empty{color:#afb0b8;text-shadow:none}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex.has-inside-labels .part-index-button[aria-pressed=true]{color:#f0d69a}
 .covenant-editor .member-contract-detail,.covenant-editor .member-contract-diagram{min-width:0}
 .covenant-editor .member-contract-overview{border:1px solid #3d3a42;border-radius:.5rem;background:#222126;padding:1rem}
 .covenant-editor .member-contract-overview[hidden],.covenant-editor .member-parts[hidden]{display:none}
@@ -83,7 +90,7 @@
 .covenant-editor .contract-set-effects p>span{display:inline-block;margin-right:.5rem;font-variant-numeric:tabular-nums}
 .covenant-editor .contract-set-effects .is-active{color:#ddd3bc}
 .covenant-editor .contract-set-effects .is-inactive{color:#85838a}
-.covenant-editor .member-hex-hint{font-size:.78rem;text-align:center;color:#aaa297;line-height:1.6;margin:.6rem auto 0;max-width:19rem}
+:is(.covenant-editor,.simulator-contract-visual) .member-hex-hint{font-size:.78rem;text-align:center;color:#aaa297;line-height:1.6;margin:.6rem auto 0;max-width:19rem}
 .covenant-editor .member-parts .covenant-fields{display:grid;grid-template-columns:minmax(0,1fr);gap:.6rem}
 .covenant-editor .contract-option-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr));gap:.4rem .75rem;padding:.7rem;background:#19191d;border:1px solid #3f3a40;border-radius:.35rem;min-width:0;align-items:end}
 .covenant-editor .contract-option-head{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.3rem .6rem;min-width:0}
@@ -152,12 +159,48 @@
 html:has(.covenant-editor[data-has-part=true]){overflow-anchor:none}
 .covenant-editor>.covenant-transfer-actions { margin-top: 16px; }
 .covenant-transfer-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.covenant-editor .covenant-transfer-dialog { width: min(36rem, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 16px; border: 1px solid #645b50; border-radius: 12px; background: #24242a; color: #e0e4eb; overflow: auto; }
-.covenant-editor .covenant-transfer-dialog[open] { display: flex; flex-direction: column; gap: 12px; }
+.covenant-transfer-dialog { width: min(36rem, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 16px; border: 1px solid #645b50; border-radius: 12px; background: #24242a; color: #e0e4eb; overflow: auto; }
+.covenant-transfer-dialog[open] { display: flex; flex-direction: column; gap: 12px; }
 .covenant-transfer-dialog::backdrop { background: rgb(0 0 0 / 80%); }
-.covenant-editor .covenant-transfer-dialog :is(h3,p) { margin: 0; overflow-wrap: anywhere; }
-.covenant-editor .covenant-transfer-dialog h3 { font-size: 1.125rem; line-height: 1.5; }
-.covenant-editor .covenant-transfer-dialog p { font-size: .875rem; line-height: 1.6; }
-.covenant-editor .covenant-transfer-dialog textarea { width: 100%; max-width: 100%; min-width: 0; min-height: 6rem; max-height: 40dvh; flex: 0 0 auto; padding: 12px; border: 1px solid #645b50; border-radius: 8px; background: #19191d; color: #e0e4eb; font: inherit; font-size: .875rem; line-height: 1.5; resize: vertical; overflow-wrap: anywhere; }
-.covenant-editor .covenant-transfer-dialog textarea:focus-visible { outline: 2px solid #b9e6e9; outline-offset: 2px; }
+.covenant-transfer-dialog :is(h3,p) { margin: 0; overflow-wrap: anywhere; }
+.covenant-transfer-dialog h3 { font-size: 1.125rem; line-height: 1.5; }
+.covenant-transfer-dialog p { font-size: .875rem; line-height: 1.6; }
+.covenant-transfer-dialog textarea { width: 100%; max-width: 100%; min-width: 0; min-height: 6rem; max-height: 40dvh; flex: 0 0 auto; padding: 12px; border: 1px solid #645b50; border-radius: 8px; background: #19191d; color: #e0e4eb; font: inherit; font-size: .875rem; line-height: 1.5; resize: vertical; overflow-wrap: anywhere; }
+.covenant-transfer-dialog textarea:focus-visible { outline: 2px solid #b9e6e9; outline-offset: 2px; }
 .covenant-editor .covenant-transfer-status { color: #e1c791; }
+
+.covenant-transfer-dialog button{min-height:44px;max-width:100%;font:inherit;font-size:.875rem;white-space:normal;padding:.5rem .75rem;background:#302c28;color:#eee1c8;border:1px solid #6d5e46;border-radius:.25rem}
+.covenant-transfer-dialog button:focus-visible{outline:2px solid #b9e6e9;outline-offset:2px}
+
+.covenant-share-preview-dialog{box-sizing:border-box;width:min(72rem,calc(100% - 2rem));max-height:calc(100dvh - 2rem);margin:auto;padding:clamp(.5rem,2vw,1rem);background:#222126;color:#e0e4eb;border:1px solid #5b5351;border-radius:.5rem;overflow:auto;font-family:Pretendard,'Malgun Gothic',system-ui,sans-serif}
+.covenant-share-preview-dialog::backdrop{background:#000c}
+.covenant-share-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem}
+.covenant-share-heading h2{margin:0;min-width:0;overflow-wrap:anywhere;font-size:1.125rem;line-height:1.5}
+.covenant-share-preview-dialog button{min-height:44px;max-width:100%;font:inherit;font-size:.875rem;white-space:normal;padding:.5rem .75rem;background:#302c28;color:#eee1c8;border:1px solid #6d5e46;border-radius:.25rem}
+.covenant-share-preview-dialog :is(button,input):focus-visible{outline:2px solid #b9e6e9;outline-offset:2px}
+.covenant-share-body{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,24rem),1fr));align-items:start;gap:1rem;margin-block:1rem}
+.covenant-share-art{box-sizing:border-box;width:min(100%,386px);justify-self:center;min-width:0}
+.covenant-share-parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));gap:.75rem;min-width:0}
+.covenant-share-part{min-width:0;padding:.75rem;background:#19191d;border-radius:.375rem}
+.covenant-share-part h3{font-size:.875rem;line-height:1.6;margin:0 0 .5rem;overflow-wrap:anywhere}
+.covenant-share-stat{display:flex;align-items:center;flex-wrap:wrap;gap:.375rem;font-size:.8125rem;line-height:1.6;margin:.25rem 0;min-width:0;overflow-wrap:anywhere}
+.covenant-share-stat img{width:1.2rem;height:1.2rem;object-fit:contain;flex:none}
+.covenant-share-stat strong{margin-inline-start:auto;font-variant-numeric:tabular-nums;color:#f0e7d3}
+.covenant-share-level{color:#b9bec9}
+.covenant-share-actions{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;border-top:1px solid #ffffff15;padding-top:.75rem}
+.covenant-share-actions input{box-sizing:border-box;flex:1 1 12rem;min-width:0;max-width:100%;min-height:44px;padding:.5rem;font:inherit;font-size:.875rem;background:#19191d;color:#e0e4eb;border:1px solid #645b50;border-radius:.25rem}
+.covenant-share-status,.covenant-share-binding{font-size:.875rem;line-height:1.6;overflow-wrap:anywhere}
+.covenant-share-status:empty{display:none}
+
+.covenant-share-art button:disabled{opacity:1;cursor:default}
+
+.covenant-share-art{padding:16px;border:1px solid transparent;background:transparent}
+.covenant-share-art .member-hex.has-inside-labels{width:min(100%,352px);padding:16px}
+.covenant-sharing{min-height:44px;font:inherit;font-size:.875rem;padding:.5rem .75rem;background:#302c28;color:#eee1c8;border:1px solid #6d5e46;border-radius:.25rem}
+.covenant-code-dialog label{display:grid;gap:.375rem;font-size:.875rem;line-height:1.6;min-width:0}
+.covenant-code-dialog textarea{min-height:4.5rem;font-family:ui-monospace,Consolas,monospace}
+.covenant-code-dialog textarea[readonly]{color:#f0dfb7}
+
+.covenant-editor>.covenant-sharing{margin-block-start:1rem}
+
+.contract-totals-note.is-spacer{visibility:hidden}

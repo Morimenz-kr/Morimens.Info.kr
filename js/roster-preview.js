@@ -13,22 +13,14 @@ const entry = id => M.characterDefaults(state.account.characters[id],state.limit
 const wheel = id => state.account.wheels[id] || {owned:false,potency:0};
 const char = id => state.chars.find(c=>c.id===id);
 function notice(message,type='') {
-    document.querySelector('.inventory-toast')?.remove();
-    if(!message)return;
-    const toast=document.createElement('div');
-    toast.className=`inventory-toast ${type}`.trim();toast.textContent=message;toast.setAttribute('role',type==='error'?'alert':'status');
-    const host=document.querySelector('dialog[open]')||document.body;
-    const footer=host.querySelector('.dialog-footer');
-    if(host!==document.body&&footer)toast.style.bottom=`${innerHeight-footer.getBoundingClientRect().top+12}px`;
-    host.appendChild(toast);
-    setTimeout(()=>toast.remove(),2600);
+    window.MorimensToast.show(message,{type});
 }
 function commit(account,message) {
     account=M.normalizeDefaults(account,state.limitedIds);
     const linked=['ramona','ramona_timeworn'];const changed=linked.find(id=>account.characters[id]?.owned&&account.characters[id].potency!==state.account.characters[id]?.potency);if(changed)for(const id of linked)if(account.characters[id]?.owned)account.characters[id].potency=account.characters[changed].potency;
     try { localStorage.setItem(M.KEY,JSON.stringify(account)); }
     catch { notice('저장 공간이 부족하거나 저장이 차단됐습니다. 변경을 적용하지 않았습니다.'); return false; }
-    state.account=account; render(); document.querySelector('.inventory-toast')?.remove(); return true;
+    state.account=account; render(); window.MorimensToast.clear(); return true;
 }
 function mutate(fn,message) {const next=M.clone(state.account);fn(next);return commit(next,message);}
 async function load() {

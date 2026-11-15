@@ -106,7 +106,7 @@ test('사이트의 details 접기 UI는 공통 disclosure 스타일을 사용한
     const componentsCss = fs.readFileSync(path.join(repositoryRoot, 'css', 'components.css'), 'utf8');
     assert.match(componentsCss, /\.site-disclosure > summary/);
     assert.match(linksSource, /dictionary-enhancement-details site-disclosure/);
-    assert.match(fs.readFileSync(path.join(repositoryRoot, 'covenant_simulator.html'), 'utf8'), /target-fold-section site-disclosure/g);
+    assert.doesNotMatch(fs.readFileSync(path.join(repositoryRoot, 'covenant_simulator.html'), 'utf8'), /target-preset-disclosure|id="target-preset-select"/);
     assert.match(fs.readFileSync(path.join(repositoryRoot, 'rerun_schedule.html'), 'utf8'), /history-disclosure site-disclosure/);
     assert.match(fs.readFileSync(path.join(__dirname, 'dzone-info.js'), 'utf8'), /site-disclosure/g);
     assert.match(fs.readFileSync(path.join(__dirname, 'character-effects.js'), 'utf8'), /character-effect-card site-disclosure/);

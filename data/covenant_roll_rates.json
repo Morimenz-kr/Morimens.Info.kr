@@ -1,0 +1,350 @@
+{
+  "schema": 1,
+  "source": {
+    "branch": "Z1G_2026_11_OB",
+    "resourceVersion": 22,
+    "buildVersion": 11,
+    "configBundleSha256": "3d8194ccff69dc710e162a26cdd463aa636589c0aecc37b9e1a0ca02a3f7c5d1",
+    "gamescriptBundleSha256": "d7e809281b2237d66b33f053bbcea6e17d43de146aa093c58dfcaea39fa4f531",
+    "constantModuleSha256": "ec7170148d95525974fb13c53ffa6a44f400dd7183bec22ee1128abc0ab1e96e",
+    "constantTableSha256": "c89bad4a9844ecf6c220678150b2ed17e74324925816873f82e2c876a53effb6",
+    "utilsModuleSha256": "9bd6e198d1997b73a7ef0e80b45a400842db3947fe4c569c6f38b1facdc188ce",
+    "constantKeys": [
+      "TrinketSubAttrTypeWeight_1",
+      "TrinketSubAttrTypeWeight_2",
+      "TrinketSubAttrTypeWeight_3",
+      "TrinketSubAttrTypeWeight_4",
+      "TrinketSubAttrTypeWeight_5",
+      "TrinketSubAttrTypeWeight_6",
+      "TrinketSubAttrValueLevel",
+      "TrinketSubAttrValueWeight",
+      "TrinketRefineCost",
+      "TrinketRefineCostLock2",
+      "TrinketRefineCostLock1Substitute",
+      "TrinketRefineCostLock1",
+      "TrinketRefineLockMaxNum"
+    ]
+  },
+  "positions": [
+    {
+      "position": 1,
+      "attributes": [
+        {
+          "id": 18159,
+          "option": "critRate",
+          "weight": 1
+        },
+        {
+          "id": 18105,
+          "option": "critDamage",
+          "weight": 1
+        },
+        {
+          "id": 22207,
+          "option": "madnessRegen",
+          "weight": 1
+        },
+        {
+          "id": 18151,
+          "option": "deathResist",
+          "weight": 1
+        },
+        {
+          "id": 18126,
+          "option": "domainMastery",
+          "weight": 1
+        },
+        {
+          "id": 18139,
+          "option": "silverCharge",
+          "weight": 1
+        },
+        {
+          "id": 18155,
+          "option": "blackSealDrop",
+          "weight": 1
+        },
+        {
+          "id": 18142,
+          "option": "damageAmp",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "position": 2,
+      "attributes": [
+        {
+          "id": 18159,
+          "option": "critRate",
+          "weight": 1
+        },
+        {
+          "id": 18105,
+          "option": "critDamage",
+          "weight": 1
+        },
+        {
+          "id": 22207,
+          "option": "madnessRegen",
+          "weight": 1
+        },
+        {
+          "id": 18151,
+          "option": "deathResist",
+          "weight": 1
+        },
+        {
+          "id": 18126,
+          "option": "domainMastery",
+          "weight": 1
+        },
+        {
+          "id": 18139,
+          "option": "silverCharge",
+          "weight": 1
+        },
+        {
+          "id": 18155,
+          "option": "blackSealDrop",
+          "weight": 1
+        },
+        {
+          "id": 18142,
+          "option": "damageAmp",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "position": 3,
+      "attributes": [
+        {
+          "id": 18159,
+          "option": "critRate",
+          "weight": 1
+        },
+        {
+          "id": 18105,
+          "option": "critDamage",
+          "weight": 1
+        },
+        {
+          "id": 22207,
+          "option": "madnessRegen",
+          "weight": 1
+        },
+        {
+          "id": 18151,
+          "option": "deathResist",
+          "weight": 1
+        },
+        {
+          "id": 18126,
+          "option": "domainMastery",
+          "weight": 1
+        },
+        {
+          "id": 18139,
+          "option": "silverCharge",
+          "weight": 1
+        },
+        {
+          "id": 18155,
+          "option": "blackSealDrop",
+          "weight": 1
+        },
+        {
+          "id": 18142,
+          "option": "damageAmp",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "position": 4,
+      "attributes": [
+        {
+          "id": 18159,
+          "option": "critRate",
+          "weight": 1
+        },
+        {
+          "id": 18105,
+          "option": "critDamage",
+          "weight": 1
+        },
+        {
+          "id": 22207,
+          "option": "madnessRegen",
+          "weight": 1
+        },
+        {
+          "id": 18151,
+          "option": "deathResist",
+          "weight": 1
+        },
+        {
+          "id": 18126,
+          "option": "domainMastery",
+          "weight": 1
+        },
+        {
+          "id": 18139,
+          "option": "silverCharge",
+          "weight": 1
+        },
+        {
+          "id": 18155,
+          "option": "blackSealDrop",
+          "weight": 1
+        },
+        {
+          "id": 18142,
+          "option": "damageAmp",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "position": 5,
+      "attributes": [
+        {
+          "id": 18159,
+          "option": "critRate",
+          "weight": 1
+        },
+        {
+          "id": 18105,
+          "option": "critDamage",
+          "weight": 1
+        },
+        {
+          "id": 22207,
+          "option": "madnessRegen",
+          "weight": 1
+        },
+        {
+          "id": 18151,
+          "option": "deathResist",
+          "weight": 1
+        },
+        {
+          "id": 18126,
+          "option": "domainMastery",
+          "weight": 1
+        },
+        {
+          "id": 18139,
+          "option": "silverCharge",
+          "weight": 1
+        },
+        {
+          "id": 18155,
+          "option": "blackSealDrop",
+          "weight": 1
+        },
+        {
+          "id": 18142,
+          "option": "damageAmp",
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "position": 6,
+      "attributes": [
+        {
+          "id": 18159,
+          "option": "critRate",
+          "weight": 1
+        },
+        {
+          "id": 18105,
+          "option": "critDamage",
+          "weight": 1
+        },
+        {
+          "id": 22207,
+          "option": "madnessRegen",
+          "weight": 1
+        },
+        {
+          "id": 18151,
+          "option": "deathResist",
+          "weight": 1
+        },
+        {
+          "id": 18126,
+          "option": "domainMastery",
+          "weight": 1
+        },
+        {
+          "id": 18139,
+          "option": "silverCharge",
+          "weight": 1
+        },
+        {
+          "id": 18155,
+          "option": "blackSealDrop",
+          "weight": 1
+        },
+        {
+          "id": 18142,
+          "option": "damageAmp",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "levels": [
+    {
+      "level": 1,
+      "multiplier": 0.5,
+      "weight": 23
+    },
+    {
+      "level": 2,
+      "multiplier": 1,
+      "weight": 20
+    },
+    {
+      "level": 3,
+      "multiplier": 1.5,
+      "weight": 17
+    },
+    {
+      "level": 4,
+      "multiplier": 2,
+      "weight": 14
+    },
+    {
+      "level": 5,
+      "multiplier": 2.5,
+      "weight": 11
+    },
+    {
+      "level": 6,
+      "multiplier": 3,
+      "weight": 8
+    },
+    {
+      "level": 7,
+      "multiplier": 3.5,
+      "weight": 5
+    },
+    {
+      "level": 8,
+      "multiplier": 4,
+      "weight": 2
+    }
+  ],
+  "costs": {
+    "gold": 7500,
+    "seals": 3,
+    "lock1Fragments": 20,
+    "lock1Quills": 1,
+    "lock2Quills": 10,
+    "maxLocks": 2
+  }
+}

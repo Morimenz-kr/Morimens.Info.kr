@@ -87,7 +87,7 @@ export async function createLiveRuntime(){
   try{const built=await input(),preview=await call('calculator',{...built.input,actions:[]});if(revision!==version)return;acceptAutomatic(preview);ui.render();status('카드를 고른 뒤 피해를 계산하세요.');}
   catch(error){if(revision===version)status('준비 실패 · '+friendly(error));}
  }
- function friendly(error){const text=String(error?.message||error);console.warn('ScareCrow calculator:',text);return text.includes('장비')||text.includes('명륜')||text.includes('확인')?text:'현재 카드·상태 조건을 확인해 주세요.';}
+ function friendly(error){const text=String(error?.message||error);console.warn('ScareCrow calculator:',text);return text.includes('장비')||text.includes('명륜')||text.includes('확인')||text.includes('주옵션')?text:'현재 카드·상태 조건을 확인해 주세요.';}
  async function finishEmptySelections(result,input){
   for(let count=0;result.current.waiting;count++){
    const request=result.current.waitingData;if(request.isReliveChoose||selectionOptions(request,result.current).options.length)return result;
@@ -188,10 +188,12 @@ export async function createLiveRuntime(){
     return;
    }
    const editor=renderCovenantEditor(parent,{owner,catalog,metadata:data.equipmentMetadata,contracts:siteContracts,parts:siteParts,
-    onChange:()=>ui.invalidate(),onPick:position=>live.requestPicker('contract',position),onReset:()=>ui.open('covenant'),
+    onChange:()=>{ui.invalidate();live.persistCovenant?.();},onPick:position=>live.requestPicker('contract',position),onReset:()=>ui.open('covenant'),
     onPartChange:index=>{if(window.parent!==window)window.parent.postMessage({type:'scarecrow:covenant-view',position:index+1},location.origin);}});
    live.editCovenantPart=position=>editor?.editPart(position);
    live.showCovenantOverview=()=>editor?.showOverview();
+   live.getCovenantView=()=>editor?.getView();
+   live.restoreCovenantView=view=>editor?.restoreView(view);
   },
   settings(parent,owner,{placement='actor',targetIndex=0}={}){
    const options=(data.stateSchemas[owner.id]?.options||[]).map(effectPresentation).filter(o=>o.placement===placement);if(!options.length)return;

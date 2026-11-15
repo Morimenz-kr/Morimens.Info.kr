@@ -362,13 +362,7 @@ function saveAllData(silent = false) {
 }
 
 function showToast(msg) {
-    const existing = document.querySelector('.save-toast');
-    if (existing) existing.remove();
-    const t = document.createElement('div');
-    t.className = 'save-toast';
-    t.textContent = msg;
-    document.body.appendChild(t);
-    setTimeout(() => { if (t.parentNode) t.remove(); }, 2000);
+    window.MorimensToast.show(msg, { duration: 2000, offset: 80 });
 }
 
 // [7] 페이지 및 팀 관리 기능
