@@ -383,7 +383,7 @@ async function relicDisplayContext() {
     const levels = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/research_depth_levels.json'), 'utf8'));
     const context = vm.createContext({
         window: {}, fetch: async () => ({ ok: true, json: async () => levels }),
-        number: new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 2 }),
+        number: new Intl.NumberFormat('ko-KR'),
         researchLevel: 81, dynamicMarkup: text => text
     });
     vm.runInContext(fs.readFileSync(path.join(__dirname, 'research-depth.js'), 'utf8'), context);
@@ -443,6 +443,39 @@ test('67·68기 초기 유물의 모든 수치 인자는 금기 학식 등급으
         }
     }
     assert.equal(context.relicParameterText({ expression: 'UnknownDepth*0.06', coefficient: 0.06, label: '영식 연구 깊이' }), '확인되지 않은 수치');
+});
+
+test('73기 의식용 단검은 최대 HP와 영식 보정을 비율로 표시하며 런타임 HP를 가정하지 않는다', async () => {
+    const context = await relicDisplayContext();
+    const season = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season73.json'), 'utf8'));
+    const relic = season.waves.flatMap(wave => wave.initialRelics).find(item => item.id === 70731);
+    assert.equal(relic.parameters[0].expression, 'math.ceil(PlayerRole.max_hp*0.50*SpiritResearchDepthMultiplier)');
+    const levels = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/research_depth_levels.json'), 'utf8')).levels;
+    for (const depth of levels) {
+        context.researchLevel = depth.level;
+        const text = context.relicDescriptionMarkup(relic);
+        assert.ok(text.includes(`최대 HP의 ${depth.spiritRate / 2}%만큼`), text);
+        assert.match(text, /반격 보너스를 200%/);
+        assert.match(text, /각 적마다 매 턴 최대 1번/);
+        assert.doesNotMatch(text, /확인되지|\[Arg|%pt|SpiritResearchDepthMultiplier/);
+    }
+    assert.equal(context.relicParameterText({ expression: 'math.ceil(PlayerRole.max_hp*0.50*SpiritResearchDepthMultiplier+UnknownValue)' }), '확인되지 않은 수치');
+});
+
+test('현재 시즌과 73기 보관본의 유물 전체가 모든 금기 학식 등급에서 미해결 수치 없이 표시된다', async () => {
+    const context = await relicDisplayContext();
+    const levels = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/research_depth_levels.json'), 'utf8')).levels;
+    for (const filename of ['dzone_current.json', 'dzone_season73.json']) {
+        const season = JSON.parse(fs.readFileSync(path.join(__dirname, '../data', filename), 'utf8'));
+        for (const depth of levels) {
+            context.researchLevel = depth.level;
+            for (const wave of season.waves) for (const relic of wave.initialRelics) {
+                const indices = [...relic.battleDescription.matchAll(/\[(?:[A-Za-z]+:)?Arg(\d+)\]/g)].map(match => Number(match[1]));
+                for (const index of indices) assert.ok(relic.parameters.some(parameter => parameter.index === index), `${filename} ${relic.id} Arg${index}`);
+                assert.doesNotMatch(context.relicDescriptionMarkup(relic), /확인되지|\[Arg|NaN|undefined|SpiritResearchDepthMultiplier|%pt/, `${filename} ${wave.wave}파 ${relic.id}, ${depth.level}등급`);
+            }
+        }
+    }
 });
 
 test('융재금구 화면은 사용자용 제목과 초기 유물 용어를 사용한다', () => {
@@ -1014,7 +1047,7 @@ test('전투 선택 UI는 금지구역과 급수를 간결한 별도 그룹으�
 });
 
 test('70기 급수는 숫자 급수 없이 인게임 위험 등급과 특수 문양만 표시한다', () => {
-    assert.match(html, /CONFIG\.VERSION = 'dzone-auto-current-usage-20261110'/);
+    assert.match(html, /CONFIG\.VERSION = 'dzone-relic-hp-ratio-20261116'/);
     for (let index = 1; index <= 7; index += 1) {
         assert.ok(fs.existsSync(path.join(__dirname, '..', 'images', 'dzone', 'grades', `ui_story_confuse_${index}.png`)));
         assert.match(source, new RegExp(`${index}: \\{ src: 'images/dzone/grades/ui_story_confuse_${index}\\.png'`));

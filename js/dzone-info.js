@@ -833,6 +833,17 @@
         if (value !== null && value !== undefined) {
             return number.format(value);
         }
+        // The party's battle HP is not an input on this page. Resolve the
+        // research multiplier, while preserving the exact HP proportion.
+        // Match the whole expression so additional runtime terms are not lost.
+        const hpRatio = expression.match(/^math\.ceil\(PlayerRole\.max_hp\*(\d+(?:\.\d+)?)(\*SpiritResearchDepthMultiplier)?\)$/);
+        if (hpRatio) {
+            const ratio = window.ResearchDepth?.evaluate(
+                `100*${hpRatio[1]}${hpRatio[2] || ''}`,
+                window.ResearchDepth.depthAt(researchLevel)
+            );
+            if (Number.isFinite(ratio)) return `최대 HP의 ${new Intl.NumberFormat('ko-KR', { maximumFractionDigits: 2 }).format(ratio)}%`;
+        }
         return '확인되지 않은 수치';
     }
 
@@ -842,7 +853,8 @@
             .replace(/\[(?:[A-Za-z]+:)?Arg(\d+)\]/g, (match, index) => {
                 const parameter = parameters.get(Number(index));
                 return parameter ? relicParameterText(parameter) : '';
-            });
+            })
+            .replace(/(최대 HP의 [\d,.]+%)pt/g, '$1만큼');
         return dynamicMarkup(description);
     }
 
