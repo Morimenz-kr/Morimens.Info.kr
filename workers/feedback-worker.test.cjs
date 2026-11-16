@@ -447,6 +447,33 @@ test('융재금구 편성 통계 API는 인증된 집계만 저장하고 공개 
     assert.equal(payload.data.constraints.combinations.none.count, 10);
 });
 
+test('서버 전용 수집 토큰은 기존 토큰과 독립적으로 두 통계 게시 경로에서만 인증한다', async () => {
+    for (const token of ['legacy-token', 'server-token']) {
+        const env = { RESOURCE_LINK_STATE: createJsonKv(), DZONE_INGEST_TOKEN: 'legacy-token', DZONE_SERVER_INGEST_TOKEN: 'server-token' };
+        const stage = { stageTid: 82810, since: 1, recordCount: 0, awakeners: [], parties: [] };
+        for (const [path, body] of [['/api/dzone/usage', createSevenGradeOverviewInput()], ['/api/dzone/stage/82810/usage', stage]]) {
+            const response = await worker.fetch(new Request(`https://worker.test${path}`, {
+                method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+            }), env, {});
+            assert.equal(response.status, 200);
+        }
+    }
+    for (const token of ['', 'wrong-token']) {
+        const response = await worker.fetch(new Request('https://worker.test/api/dzone/usage', {
+            method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: '{}'
+        }), { RESOURCE_LINK_STATE: createJsonKv(), DZONE_SERVER_INGEST_TOKEN: 'server-token' }, {});
+        assert.equal(response.status, 401);
+    }
+});
+
+test('서버 재게시 시 통계 수집 시각을 게시 시각으로 바꾸지 않는다', () => {
+    const overview = { ...createSevenGradeOverviewInput(), fetchedAt: 1_700_000_000 };
+    assert.equal(normalizeDzoneUsageOverview(overview, 1_800_000_000_000).fetchedAt, 1_700_000_000);
+    const stage = { stageTid: 82810, since: 1, recordCount: 0, awakeners: [], parties: [], fetchedAt: 1_700_000_000 };
+    assert.equal(normalizeDzoneUsagePayload(stage, 82810, 1_800_000_000_000).fetchedAt, 1_700_000_000);
+    assert.throws(() => normalizeDzoneUsageOverview({ ...overview, fetchedAt: 1_900_000_000 }, 1_800_000_000_000), /fetchedAt/);
+});
+
 function installDzoneTestCache(t) {
     const previous = globalThis.caches;
     let now = 0;

@@ -4295,6 +4295,13 @@ function buildDzoneConstraintStats(buckets, recordCount) {
     };
 }
 
+function normalizeDzoneUsageFetchedAt(value, now) {
+    if (value === undefined) return Math.floor(now / 1000);
+    const stamp = normalizeDzoneUsageCount(value, 'fetchedAt');
+    if (stamp <= 0 || stamp > Math.floor(now / 1000) + 300) throw new Error('fetchedAt is outside the allowed range');
+    return stamp;
+}
+
 function normalizeDzoneUsageOverview(body, now = Date.now()) {
     const input = body?.data || body;
     const period = normalizeDzoneUsageCount(input?.period, 'period');
@@ -4345,7 +4352,7 @@ function normalizeDzoneUsageOverview(body, now = Date.now()) {
     if (!Number.isSafeInteger(recordCount)) throw new Error('overview recordCount exceeds safe integer range');
     return {
         data: { period, since, recordCount, stages: normalizedStages },
-        fetchedAt: Math.floor(now / 1000)
+        fetchedAt: normalizeDzoneUsageFetchedAt(input.fetchedAt, now)
     };
 }
 
@@ -4381,7 +4388,7 @@ function normalizeDzoneUsagePayload(body, stageId, now = Date.now()) {
             parties: normalizedParties,
             constraints: buildDzoneConstraintStats(constraintBuckets, recordCount)
         },
-        fetchedAt: Math.floor(now / 1000)
+        fetchedAt: normalizeDzoneUsageFetchedAt(input.fetchedAt, now)
     };
 }
 
@@ -4396,10 +4403,14 @@ async function handleGetDzoneUsage(stageId, env, corsHeaders) {
     return jsonResponse(payload, 200, corsHeaders);
 }
 
-async function handlePutDzoneUsage(request, stageId, env, corsHeaders) {
-    const expectedToken = String(env.DZONE_INGEST_TOKEN || '');
+function isAuthorizedDzoneIngest(request, env) {
     const suppliedToken = String(request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
-    if (!expectedToken || !suppliedToken || suppliedToken !== expectedToken) {
+    return Boolean(suppliedToken) && [env.DZONE_INGEST_TOKEN, env.DZONE_SERVER_INGEST_TOKEN]
+        .some(token => typeof token === 'string' && token.length > 0 && suppliedToken === token);
+}
+
+async function handlePutDzoneUsage(request, stageId, env, corsHeaders) {
+    if (!isAuthorizedDzoneIngest(request, env)) {
         return jsonResponse({ error: 'Unauthorized' }, 401, corsHeaders);
     }
     if (!env.RESOURCE_LINK_STATE) {
@@ -4451,9 +4462,7 @@ function buildDzoneSeason70Preview() {
 }
 
 async function handlePutDzoneUsageOverview(request, env, corsHeaders) {
-    const expectedToken = String(env.DZONE_INGEST_TOKEN || '');
-    const suppliedToken = String(request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
-    if (!expectedToken || !suppliedToken || suppliedToken !== expectedToken) {
+    if (!isAuthorizedDzoneIngest(request, env)) {
         return jsonResponse({ error: 'Unauthorized' }, 401, corsHeaders);
     }
     if (!env.RESOURCE_LINK_STATE) {
