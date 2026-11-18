@@ -1,0 +1,17 @@
+.clear-shell { overflow-wrap: anywhere; }
+.clear-shell .info-header p { max-width: 44em; }
+.clear-shell [hidden] { display: none; }
+.clear-picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19em), 1fr)); gap: .75rem; margin-block: .75rem; }
+.clear-picks section { min-width: 0; padding: .85rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); }
+.clear-picks label { display: block; margin-bottom: .5rem; }
+.clear-select { width: 100%; min-height: 44px; padding: .5rem; border: 1px solid var(--color-border-light); border-radius: var(--radius-sm); color: inherit; background: var(--color-bg-card); font: inherit; }
+.clear-picks .usage-chips { margin: .65rem 0 0; }
+.clear-picks .usage-chips:empty { margin: 0; }
+#clear-matches h2 { font-size: 1.25rem; margin-bottom: .75rem; }
+#clear-results .usage-card > a, .usage-header > a.usage-select { display: inline-flex; justify-content: center; align-items: center; text-align: center; }
+#clear-more { margin-top: .85rem; }
+.clear-shell a:focus-visible, .character-usage a.usage-select:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+.usage-build-list { display: grid; gap: .75rem; list-style: none; padding: 0; }
+.usage-build-list li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; }
+.usage-build-list li > div { min-width: 0; overflow-wrap: anywhere; }
+.usage-build-list .usage-muted { display: block; }

@@ -1033,6 +1033,10 @@
 
     function renderStageUsageShell(difficulty) {
         if (!Number.isInteger(difficulty?.stageId)) return '';
+        const searchLink = document.getElementById('dzone-clear-link');
+        if (searchLink) {
+            searchLink.href = 'dzone_clears.html?' + new URLSearchParams({ period: selectedPeriod, wave: selectedWave, difficulty: selectedAlert });
+        }
         return `
             <details class="stage-usage" data-stage-usage="${difficulty.stageId}" open>
                 <summary class="stage-usage-header">

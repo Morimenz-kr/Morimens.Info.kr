@@ -9,6 +9,7 @@ const ROOT_FILES = Object.freeze([
   'covenant_simulator.html',
   'detail.html',
   'dzone_info.html',
+  'dzone_clears.html',
   'index.html',
   'inventory_checker.html',
   'links.html',
