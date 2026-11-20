@@ -59,6 +59,6 @@ export function settingsHref(row, period) {
 }
 export function builderTeam(saved) {
     const row = saved.row;
-    return { name: `${row.wave}구역`, chars: row.members.map(m => m.characterId), wheels: row.members.map(m => m.wheels.map(w => w.id)), key: null,
+    return { name: `${row.wave}구역`, chars: row.members.map(m => m.characterId), wheels: row.members.map(m => [m.wheels[0]?.id || null, m.wheels[1]?.id || null]), key: null,
         supportIdx: row.members.findIndex(m => m.borrowed), usageSource: saved };
 }

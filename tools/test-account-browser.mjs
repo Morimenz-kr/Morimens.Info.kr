@@ -1,4 +1,4 @@
-import http from 'node:http';
+import { createPreviewServer } from './serve-dzone-preview.mjs';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import assert from 'node:assert/strict';
@@ -6,23 +6,15 @@ import { chromium, expect } from '@playwright/test';
 
 const root = path.resolve(import.meta.dirname, '..'), output = path.join(root, '.generated/account-browser');
 await fs.mkdir(output, { recursive: true });
-const mime = { '.html': 'text/html', '.js': 'application/javascript', '.mjs': 'application/javascript', '.css': 'text/css', '.json': 'application/json', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.woff2': 'font/woff2' };
-const server = http.createServer(async (request, response) => {
-    try {
-        const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname).replace(/^\/Morimens\.Info\.kr\//, '/');
-        const relative = pathname.replace(/^\//, '') || 'index.html', filename = path.resolve(root, relative);
-        if (!filename.startsWith(root + path.sep) || relative.split(/[\\/]/).some(p => p.startsWith('.')) || !(relative.endsWith('.html') && !relative.includes('/') || /^(config|css|data|images|js)\//.test(relative)) || /\.test\.|\.cjs$/.test(relative)) throw Error('not public');
-        const bytes = await fs.readFile(filename); response.writeHead(200, { 'Content-Type': (mime[path.extname(filename)] || 'application/octet-stream') + (/\.(html|m?js|css|json|svg)$/.test(filename) ? '; charset=utf-8' : ''), 'Cache-Control': 'no-store' }); response.end(bytes);
-    } catch { response.writeHead(404); response.end('Not found'); }
-});
-await new Promise(resolve => server.listen(9357, '127.0.0.1', resolve));
+const server = createPreviewServer(root);
+await new Promise(resolve => server.listen(process.argv.includes('--serve') ? 9357 : 0, '127.0.0.1', resolve));
 if (process.argv.includes('--serve')) {
     console.log('Local preview: http://127.0.0.1:9357/inventory_checker.html?accountEmulator=1');
 } else {
     const browser = await chromium.launch({ channel: 'chrome', headless: true });
     const failures = [], checks = [], contexts = [];
     let workerRequests = 0;
-    const base = 'http://127.0.0.1:9357/Morimens.Info.kr';
+    const base = `http://127.0.0.1:${server.address().port}/Morimens.Info.kr`;
     const guest = { version: 1, characters: { '24': { owned: true, potency: 0, level: 42, talents: {}, skills: {} } }, wheels: {}, presets: [] };
     const parties = [{ id: 'guest-page', pageName: '내 파티', teams: [{ id: 'guest-team', name: '내 파티', chars: ['24', null, null, null], wheels: Array.from({ length: 4 }, () => [null, null]), key: null, supportIdx: -1 }] }];
     const email = `browser-${Date.now()}@example.test`, password = 'local-browser-test';

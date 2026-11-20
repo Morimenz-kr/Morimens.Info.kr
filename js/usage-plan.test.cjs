@@ -30,8 +30,12 @@ test('편성기 전달과 원본 링크는 네 명의 명륜·계약·옵션과 
     const original = row(4, 'a'); const saved = { row: original, collectedAt: 1234 };
     const team = builderTeam(saved);
     assert.deepEqual(team.chars, original.members.map(m => m.characterId));
-    assert.deepEqual(team.wheels, original.members.map(m => m.wheels.map(w => w.id)));
+    assert.deepEqual(team.wheels, original.members.map(m => [m.wheels[0].id, null]));
+    const account = require('./account-store.js');
+    assert.doesNotThrow(() => account.validateParties([{ pageName: '융재', teams: [team] }]));
     assert.deepEqual(team.usageSource, saved);
+    const unequipped = structuredClone(saved); unequipped.row.members[0].wheels = [];
+    assert.deepEqual(builderTeam(unequipped).wheels[0], [null, null]);
     const url = new URL(settingsHref(original, 71), 'https://example.com');
     assert.equal(url.searchParams.get('wave'), '4'); assert.equal(url.searchParams.get('difficulty'), '7');
     assert.equal(url.searchParams.get('period'), '71'); assert.equal(url.searchParams.get('team'), 'a1|a2|a3|a4');

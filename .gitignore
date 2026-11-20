@@ -27,6 +27,9 @@ ui-debug.log
 !/tools/account-cleanup.mjs
 !/tools/build-account-client.mjs
 !/tools/test-account-browser.mjs
+!/tools/serve-dzone-preview.mjs
+!/tools/dzone-preview.test.cjs
+!/tools/test-dzone-recommendations.mjs
 !/tools/prepare-pages-artifact.mjs
 !/tools/prepare-pages-artifact.test.cjs
 !/tools/prepare-roster-pages.mjs

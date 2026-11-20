@@ -28,6 +28,7 @@ export async function connectUsagePlan(adapter) {
                 // Only replace explicitly imported zone slots. Other pages stay intact.
                 for (const saved of entries) {
                     const old = page.teams[saved.row.wave - 1], incoming = builderTeam(saved);
+                    incoming.id = old.id || crypto.randomUUID();
                     if (old.chars[0] === incoming.chars[0]) incoming.key = old.key;
                     page.teams[saved.row.wave - 1] = incoming;
                 }
@@ -40,7 +41,8 @@ export async function connectUsagePlan(adapter) {
                 const page = adapter.pages[pageIndex];
                 const changed = entries.some(saved => {
                     const old = page.teams[saved.row.wave - 1];
-                    return old.chars.some(Boolean) && JSON.stringify([old.chars, old.wheels]) !== JSON.stringify([saved.row.members.map(m => m.characterId), saved.row.members.map(m => m.wheels.map(w => w.id))]);
+                    const incoming = builderTeam(saved);
+                    return old.chars.some(Boolean) && JSON.stringify([old.chars, old.wheels]) !== JSON.stringify([incoming.chars, incoming.wheels]);
                 });
                 if (changed) adapter.confirm('담은 파티 가져오기', '편성기에서 바꾼 각성체·명륜이 있습니다. 담은 파티의 세팅으로 교체할까요?', apply);
                 else apply();
@@ -60,7 +62,8 @@ export async function connectUsagePlan(adapter) {
         const team = adapter.currentTeam();
         const source = team.usageSource;
         if (!source) { root.innerHTML = ''; return; }
-        const changed = JSON.stringify([team.chars, team.wheels]) !== JSON.stringify([source.row.members.map(m => m.characterId), source.row.members.map(m => m.wheels.map(w => w.id))]);
+        const original = builderTeam(source);
+        const changed = JSON.stringify([team.chars, team.wheels]) !== JSON.stringify([original.chars, original.wheels]);
         root.innerHTML = `<details class="site-disclosure usage-options"><summary>가져온 클리어 세팅 · ${source.row.wave}구역</summary>${changed ? '<p class="usage-conflict">편성기의 각성체·명륜이 원본과 다릅니다. 아래 비밀계약·옵션은 가져올 당시의 기록입니다.</p>' : ''}<p class="usage-caption">비밀계약·옵션은 이 기록에 보관됩니다. 은열쇠는 수집하지 않았으므로 별도로 선택해주세요.</p><div class="usage-record-members">${source.row.members.map(m => memberDetails(m, { name, covName, equipment, open: false })).join('')}</div><a class="usage-select" href="${esc(settingsHref(source.row, adapter.currentPage().usagePeriod))}">다른 클리어 세팅 찾기</a></details>`;
     });
 }

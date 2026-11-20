@@ -70,6 +70,35 @@ Rules 테스트는 타인 접근, 목록 조회, 잘못된 필드/시간/revisio
 
 ## 운영 활성화에 필요한 변경 — 이번 작업에서는 실행하지 않음
 
+### 실제 Google 계정으로 로컬에서 테스트하려면
+
+가상 계정 화면을 실제 Google 로그인으로 바꾸려면 아래 설정을 먼저 해야 한다.
+등록/인증 제공자 활성화/승인 도메인/Rules 게시 자체가 Firebase 운영 설정 변경이므로 이번에는 실행하지 않았다.
+
+1. `khj613401@gmail.com`으로 [mythag-kr 프로젝트 설정](https://console.firebase.google.com/project/mythag-kr/settings/general)에
+   들어가 **내 앱 → 웹 앱 추가(</>)**를 선택한다. Firebase Hosting 연결은 선택하지 않아도 된다.
+2. [Authentication 로그인 방법](https://console.firebase.google.com/project/mythag-kr/authentication/providers)에서
+   **Google**을 켜고 공개 앱 이름·지원 이메일을 지정해 저장한다.
+3. Authentication → Settings → Authorized domains에 **localhost**를 추가/확인한다.
+   신규 프로젝트는 기본 승인 목록에 localhost가 없을 수 있다. 호스트만 입력하며 포트·전체 URL은 넣지 않는다.
+4. 웹 앱의 **공개 firebaseConfig**를 `config/firebase-client.js`의 `config`에 넣고 `enabled: true`로 설정한다.
+   이 설정을 공개 배포하지 않은 상태로 로컬에서만 실행한다. URL은
+   `http://localhost:9357/inventory_checker.html`을 사용하고 **accountEmulator=1을 제거**한다.
+   팝업 제한이 있는 내장 브라우저에서는 일반 Chrome에서 같은 URL을 연다.
+5. 현재 Firestore 운영 Rules는 전체 거부이므로 Google 인증 성공과 기록 동기화 성공은 다르다.
+   전체 동기화 테스트에는 아래 후보 Rules/색인 검토·게시가 먼저 필요하다. DB 테스트 모드나 전체 공개 Rules는 사용하지 않는다.
+6. 실제 테스트 계정으로 로그인→가져오기→저장→다른 브라우저에서 같은 계정 조회→탈퇴를 확인한다.
+   실제 사용자/개인 문서가 프로젝트에 만들어지고 기존 무료 사용량과 합산된다.
+
+프로젝트 관리 설정을 하는 운영자 계정과 사이트 로그인 테스트용 Google 계정은 구분한다.
+서비스 계정 키나 OAuth client secret은 필요하지 않으며, 결제 연결·Identity Platform 전환도 하지 않는다.
+현재는 공개 config와 제공자 설정이 없어 실제 Google 인증 성공은 검증하지 않았다.
+근거: [웹 앱 등록](https://firebase.google.com/docs/web/setup),
+[Google 제공자 설정](https://firebase.google.com/docs/auth/web/google-signin),
+[localhost 승인 도메인](https://firebase.google.com/docs/auth/faq-and-troubleshooting).
+
+### 사이트 전체 공개 시 추가 절차
+
 1. 운영자 `khj613401@gmail.com`으로 Firebase `mythag-kr`에 웹 앱 등록, Authentication 초기화와 Google 제공자 활성화.
    결제 연결과 Identity Platform 업그레이드는 필요하지 않다. 등록한 웹 앱의 공개 Firebase config만 사용한다.
 2. 승인 도메인에 `morimenz-kr.github.io`, `morimens-roster.pages.dev` 등 실제 제공 호스트를 등록한다.
