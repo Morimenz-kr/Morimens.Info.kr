@@ -1,8 +1,10 @@
 .wrangler/
 node_modules/
 .generated/
+/js/firebase-sdk.generated.mjs
 
 # Firebase / Google Cloud local credentials
+auth-debug.log
 .firebaserc
 service-account*.json
 firebase-debug.log
@@ -21,6 +23,10 @@ ui-debug.log
 !/tools/firebase-data-core.test.cjs
 !/tools/firebase-data.mjs
 !/tools/firebase-firestore.test.cjs
+!/tools/firebase-account.test.cjs
+!/tools/account-cleanup.mjs
+!/tools/build-account-client.mjs
+!/tools/test-account-browser.mjs
 !/tools/prepare-pages-artifact.mjs
 !/tools/prepare-pages-artifact.test.cjs
 !/tools/prepare-roster-pages.mjs

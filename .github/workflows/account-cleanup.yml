@@ -1,0 +1,42 @@
+name: Review or clean deleted account markers
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: '검토한 삭제 표식을 실제로 정리 (기본은 dry-run)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: firebase-account-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID }}
+      CLEANUP_APPLY: ${{ inputs.apply }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_FIREBASE_SERVICE_ACCOUNT }}
+      - name: Check expired markers without exposing user IDs
+        shell: bash
+        run: |
+          args=(--project "$FIREBASE_PROJECT_ID")
+          if [[ "$CLEANUP_APPLY" == "true" ]]; then args+=(--apply); fi
+          node tools/account-cleanup.mjs "${args[@]}"

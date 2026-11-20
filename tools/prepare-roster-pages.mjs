@@ -1,9 +1,11 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { buildAccountClient } from './build-account-client.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const output = path.join(root, '.generated/roster-pages');
 const files = new Set([
+  'config/firebase-client.js', 'css/pages/account.css', 'js/account-store.js', 'js/account-sync.mjs', 'js/account-firebase.mjs', 'js/account-ui.mjs',
   'css/toast.css', 'js/toast.js', 'css/common.css', 'config/config.js', 'js/feedback.js', 'css/pages/inventory_checker.css', 'css/pages/roster-preview.css',
   'css/pages/roster-classic.css', 'js/character-identity.js', 'js/search_utils.js',
   'js/summon-classification.js', 'js/roster-model.js', 'js/roster-preview.js', 'js/roster-onboarding.js', 'js/roster-share-image.js', 'images/background.webp', 'images/smile_Ramona.webp',
@@ -21,6 +23,7 @@ for (const entry of await fs.readdir(path.join(root, 'images/growth'), { withFil
   if (entry.isFile()) files.add(`images/growth/${entry.name}`);
 }
 await fs.mkdir(output, { recursive: true });
+await buildAccountClient(root, path.join(output, 'js/firebase-sdk.generated.mjs'));
 for (const file of files) {
   const destination = path.join(output, file);
   await fs.mkdir(path.dirname(destination), { recursive: true });

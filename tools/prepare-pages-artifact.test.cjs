@@ -30,6 +30,10 @@ test('repository 모드는 현재 사이트와 운영 데이터를 안전한 Pag
     assert.equal(await fs.stat(path.join(OUTPUT, 'index.html')).then(() => true), true);
     assert.equal(await fs.stat(path.join(OUTPUT, 'links.html')).then(() => true), true);
     assert.equal(await fs.stat(path.join(OUTPUT, '.data-release.json')).then(() => true), true);
+    const sdk = await fs.readFile(path.join(OUTPUT, 'js/firebase-sdk.generated.mjs'), 'utf8');
+    assert.ok(sdk.length > 10000, 'Firebase SDK is bundled in the deployed artifact');
+    assert.doesNotMatch(sdk, /from ["']firebase\//, 'browser artifact has no unresolved Firebase package imports');
+    assert.match(await fs.readFile(path.join(OUTPUT, 'config/firebase-client.js'), 'utf8'), /enabled:\s*false/);
     assert.equal(await fs.access(path.join(OUTPUT, 'node_modules')).then(() => true, () => false), false);
     assert.equal(await fs.access(path.join(OUTPUT, '.idea')).then(() => true, () => false), false);
     assert.equal(await fs.access(path.join(OUTPUT, 'tools')).then(() => true, () => false), false);

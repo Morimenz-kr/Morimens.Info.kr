@@ -32,6 +32,7 @@ let recentKeys = loadRecentKeys();
 // [2] 데이터 생성 팩토리 함수
 function createEmptyTeam(index) {
     return {
+        id: crypto.randomUUID(),
         name: `TEAM ${ROMAN_NUMS[index]}`,
         chars: [null, null, null, null],
         wheels: [ [null, null], [null, null], [null, null], [null, null] ],
@@ -42,6 +43,7 @@ function createEmptyTeam(index) {
 
 function createEmptyPage(name) {
     return {
+        id: crypto.randomUUID(),
         pageName: name,
         teams: Array.from({ length: MAX_TEAMS }, (_, i) => createEmptyTeam(i))
     };
@@ -71,6 +73,10 @@ let ownedOnlyFilters = { characters: false, wheels: false };
 
 function readOwnedInventory() {
     try {
+        if(window.MorimensAccountStore){
+            const roster=window.MorimensAccountStore.store.read('roster')||{characters:{},wheels:{}};
+            return {characters:new Set(Object.keys(roster.characters).filter(id=>roster.characters[id].owned)),wheels:new Set(Object.keys(roster.wheels).filter(id=>roster.wheels[id].owned)),wheelBreakthroughs:Object.fromEntries(Object.entries(roster.wheels).map(([id,row])=>[id,row.potency]))};
+        }
         const saved = JSON.parse(localStorage.getItem(INVENTORY_STORAGE_KEY));
         return {
             characters: new Set(Array.isArray(saved?.characters) ? saved.characters.map(String) : []),
@@ -236,6 +242,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.querySelector('.builder-container').style.removeProperty('visibility');
     document.querySelector('.builder-container').setAttribute('aria-busy', 'false');
     document.getElementById('builder-load-status')?.remove();
+    window.MorimensAccountStore?.store.subscribe(event=>{
+        if(event.reason==='local'||event.reason==='status')return;
+        try{
+            if(event.kind===null||event.kind==='parties'){
+                if(event.reason==='account'){allPages.splice(0,allPages.length,createEmptyPage('PAGE 1'));currentPageIdx=0;currentTeamIdx=0;}
+                loadFromLocalStorage();
+                document.querySelectorAll('.modal-overlay.show').forEach(el=>closeModal(el.id));
+            }
+            renderAll();
+        }catch(error){showToast(error.message);renderAll();}
+    });
     } catch (error) {
         document.getElementById('builder-load-status').textContent = '편성을 불러오지 못했습니다. 새로고침해주세요.';
         console.error(error); return;
@@ -350,6 +367,12 @@ function assignTagsToKeys() {
 }
 
 function loadFromLocalStorage() {
+    if(window.MorimensAccountStore){
+        const saved=window.MorimensAccountStore.store.read('parties');
+        allPages.splice(0,allPages.length,...(saved?.length?saved.map(normalizeSavedPage):[createEmptyPage('PAGE 1')]));
+        currentPageIdx=Math.min(currentPageIdx,allPages.length-1);currentTeamIdx=Math.min(currentTeamIdx,allPages[currentPageIdx].teams.length-1);
+        return;
+    }
     const saved = localStorage.getItem('morimens_v2_pages');
     if (saved) {
         try {
@@ -378,6 +401,14 @@ function loadFromLocalStorage() {
 }
 
 function saveAllData(silent = false) {
+    if(window.MorimensAccountStore){
+        try{
+            const saved=window.MorimensAccountStore.store.write('parties',allPages);
+            allPages.splice(0,allPages.length,...saved);
+            if(!silent)showToast('이 기기에 저장됨 ✓');
+        }catch(error){showToast(error.message);loadFromLocalStorage();renderAll();}
+        return;
+    }
     localStorage.setItem('morimens_v2_pages', JSON.stringify(allPages));
     if (!silent) showToast('저장됨 ✓');
 }
@@ -1409,6 +1440,7 @@ function renderWheelList() {
 function normalizeSavedPage(savedPage, pageIndex) {
     const page = createEmptyPage(`PAGE ${pageIndex + 1}`);
     if (!savedPage || typeof savedPage !== 'object') return page;
+    if(typeof savedPage.id==='string')page.id=savedPage.id;
 
     page.pageName = typeof savedPage.pageName === 'string' && savedPage.pageName.trim()
         ? savedPage.pageName.trim().slice(0, 15)
@@ -1427,6 +1459,7 @@ function normalizeSavedPage(savedPage, pageIndex) {
 function normalizeSavedTeam(savedTeam, teamIndex) {
     const team = createEmptyTeam(teamIndex);
     if (!savedTeam || typeof savedTeam !== 'object') return team;
+    if(typeof savedTeam.id==='string')team.id=savedTeam.id;
 
     team.name = typeof savedTeam.name === 'string' && savedTeam.name.trim()
         ? savedTeam.name.trim().slice(0, 15)

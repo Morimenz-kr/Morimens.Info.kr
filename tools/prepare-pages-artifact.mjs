@@ -3,6 +3,7 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createReleaseBundle, readDatasets, releaseSummary } from './firebase-data-core.mjs';
 import { validateDzoneContent } from './validate-dzone-content.mjs';
+import { buildAccountClient } from './build-account-client.mjs';
 
 const ROOT_FILES = Object.freeze([
   '.nojekyll',
@@ -97,6 +98,7 @@ export async function preparePagesArtifact(options = {}) {
       );
     }
 
+    await buildAccountClient(rootDirectory, path.join(tempDirectory, 'js/firebase-sdk.generated.mjs'));
     let summary;
     if (dataSource === 'firestore') {
       const firestore = await import('./firebase-data.mjs');

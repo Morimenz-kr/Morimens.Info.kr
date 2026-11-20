@@ -9,6 +9,10 @@ on:
       - 'firestore.rules'
       - 'firestore.indexes.json'
       - 'firebase.json'
+      - 'firebase.account-emulator.json'
+      - 'firestore.account.*'
+      - 'js/account-*'
+      - 'config/firebase-client.js'
       - 'package.json'
       - 'package-lock.json'
       - 'workers/**'
@@ -51,3 +55,6 @@ jobs:
 
       - name: Run Firestore Emulator tests
         run: npm run firebase:emulator-test
+
+      - name: Run account Auth and Firestore Emulator tests
+        run: npm run account:test

@@ -9,6 +9,9 @@
 <script src="js/toast.js?v=20261115-1" defer></script>
 <link rel="stylesheet" href="css/pages/roster-preview.css?v=20261108-owned-share"><link rel="stylesheet" href="css/pages/roster-classic.css?v=20261115-shared-toast">
 <script src="config/config.js" defer></script><script src="js/feedback.js?v=20261108-owned-share" defer></script>
+<link rel="stylesheet" href="css/pages/account.css">
+<script src="config/firebase-client.js" defer></script><script src="js/account-store.js" defer></script>
+<script type="module" src="js/account-ui.mjs"></script>
 <script src="js/character-identity.js" defer></script><script src="js/search_utils.js" defer></script>
 <script src="js/summon-classification.js" defer></script><script src="js/roster-share-image.js?v=20261108-owned-share" defer></script><script src="js/roster-model.js" defer></script><script src="js/roster-preview.js?v=20261115-shared-toast" defer></script>
 <script src="js/roster-onboarding.js?v=20261108-owned-share" defer></script>
@@ -17,6 +20,7 @@
 <main id="main" class="roster-shell">
 <nav class="classic-back" aria-label="페이지 탐색"><a href="index.html" class="back-link">← 돌아가기</a></nav>
 <section class="inventory-shell">
+<section data-account-panel aria-label="계정과 동기화"></section>
 <header class="inventory-summary"><div><div class="inventory-heading"><h1>각성체 / 명륜 보유 현황</h1><button id="roster-help" aria-label="사용 방법 다시 보기" title="사용 방법">?</button></div><p id="account-summary" class="sr-only"></p></div><div class="summary-counts"><span>각성체 <strong id="character-total">0</strong></span><span>명륜 <strong id="wheel-total">0</strong></span></div></header>
 <div class="classic-tabs-row"><nav class="page-tabs" aria-label="보유 현황 메뉴"><button data-tab="characters" aria-current="page">각성체</button><button data-tab="wheels">명륜</button></nav><div class="capture-actions"><label class="share-scope-control" for="share-scope"><span>공유 범위</span><select id="share-scope"><option value="all">전체</option><option value="characters">각성체만</option><option value="wheels">명륜만</option></select></label><button id="copy-image" class="primary-action">이미지 복사</button><button id="preview-image-button">미리보기</button><button id="clear-account">전체 초기화</button></div></div>
 <section id="inventory-panel" aria-label="보유 목록">

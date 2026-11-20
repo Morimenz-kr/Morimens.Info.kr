@@ -20,6 +20,9 @@
     <title>융재금지구역 파티 시뮬레이터</title>
     <link rel="icon" type="image/webp" href="images/smile_Ramona.webp">
 <script src="js/character-identity.js?v=identity-226"></script>
+<link rel="stylesheet" href="css/pages/account.css">
+<script src="config/firebase-client.js" defer></script><script src="js/account-store.js" defer></script>
+<script type="module" src="js/account-ui.mjs"></script>
 </head>
 <body>
 
@@ -28,6 +31,7 @@
     <div class="sidebar" id="sidebar-tabs"></div>
 
     <div class="main-area">
+        <section data-account-panel aria-label="계정과 동기화"></section>
         <div class="top-navigation-bar">
             <div class="back-btn-wrapper">
                 <a href="javascript:void(0);" onclick="goBackToMenu()" class="back-btn">⬅ 홈으로 돌아가기</a>

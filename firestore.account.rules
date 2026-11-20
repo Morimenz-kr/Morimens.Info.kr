@@ -1,0 +1,47 @@
+// Reviewed account Rules candidate. NOT deployed by the production firebase.json.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owner(uid) { return request.auth != null && request.auth.uid == uid; }
+    function profileShape(d) {
+      return d.keys().hasOnly(['schemaVersion','revision','status','gameUid','createdAt','updatedAt','deleteRequestedAt'])
+        && d.keys().hasAll(['schemaVersion','revision','status','gameUid','createdAt','updatedAt'])
+        && d.schemaVersion == 1 && d.revision is int && d.revision >= 1
+        && d.createdAt is timestamp && d.updatedAt == request.time
+        && (d.gameUid == null || (d.gameUid is string && d.gameUid.size() <= 64));
+    }
+    function stateShape(d) {
+      return d.keys().hasAll(['schemaVersion','revision','updatedAt','payloadJson'])
+        && d.keys().hasOnly(['schemaVersion','revision','updatedAt','payloadJson'])
+        && d.schemaVersion == 1 && d.revision is int && d.revision >= 1
+        && d.updatedAt == request.time && d.payloadJson is string
+        && d.payloadJson.size() <= 65536 && d.payloadJson.matches('^[ -~]*$');
+    }
+    function active(uid) { return getAfter(/databases/$(database)/documents/users/$(uid)).data.status == 'active'; }
+    match /users/{uid} {
+      allow get: if owner(uid);
+      allow list, delete: if false;
+      allow create: if owner(uid) && profileShape(request.resource.data)
+        && request.resource.data.status == 'active' && request.resource.data.revision == 1
+        && request.resource.data.createdAt == request.time
+        && !request.resource.data.keys().hasAny(['deleteRequestedAt']);
+      allow update: if owner(uid) && resource.data.status == 'active' && profileShape(request.resource.data)
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.revision == resource.data.revision + 1
+        && ((request.resource.data.status == 'active' && !request.resource.data.keys().hasAny(['deleteRequestedAt']))
+          || (request.resource.data.status == 'deleting' && request.resource.data.gameUid == null
+            && request.resource.data.deleteRequestedAt == request.time));
+      match /state/{kind} {
+        allow get: if owner(uid) && kind in ['roster','parties'];
+        allow list: if false;
+        allow create: if owner(uid) && kind in ['roster','parties'] && active(uid)
+          && stateShape(request.resource.data) && request.resource.data.revision == 1;
+        allow update: if owner(uid) && kind in ['roster','parties'] && active(uid)
+          && stateShape(request.resource.data) && request.resource.data.revision == resource.data.revision + 1;
+        allow delete: if owner(uid) && kind in ['roster','parties']
+          && get(/databases/$(database)/documents/users/$(uid)).data.status == 'deleting';
+      }
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

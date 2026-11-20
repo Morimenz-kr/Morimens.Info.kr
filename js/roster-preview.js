@@ -18,7 +18,7 @@ function notice(message,type='') {
 function commit(account,message) {
     account=M.normalizeDefaults(account,state.limitedIds);
     const linked=['ramona','ramona_timeworn'];const changed=linked.find(id=>account.characters[id]?.owned&&account.characters[id].potency!==state.account.characters[id]?.potency);if(changed)for(const id of linked)if(account.characters[id]?.owned)account.characters[id].potency=account.characters[changed].potency;
-    try { localStorage.setItem(M.KEY,JSON.stringify(account)); }
+    try { if(window.MorimensAccountStore) account=window.MorimensAccountStore.store.write('roster',account); else localStorage.setItem(M.KEY,JSON.stringify(account)); }
     catch { notice('저장 공간이 부족하거나 저장이 차단됐습니다. 변경을 적용하지 않았습니다.'); return false; }
     state.account=account; render(); window.MorimensToast.clear(); return true;
 }
@@ -28,7 +28,7 @@ async function load() {
         const fetchJSON = async path => {const response=await fetch(`${path}?v=${DATA_REVISION}`,{cache:'no-cache'});if(!response.ok)throw Error(path);return response.json();};
         const [chars,wheels,growth,groups] = await Promise.all([fetchJSON('data/character_manifest.json'),fetchJSON('data/wheel_list.json'),fetchJSON('data/character_growth.json'),fetchJSON('data/gachatype.json')]);
         state.chars=chars;state.wheels=wheels.filter(w=>['SSR','SR','R'].includes(w.grade));state.growth=growth.characters;state.groups=groups;state.classification=window.SummonClassification.create(groups);state.limitedIds=[...new Set([...(groups.forgotten||[]),...(groups.celestial||[])])];state.identity=window.CharacterIdentity.create(chars);
-        try { const saved=localStorage.getItem(M.KEY);state.account=saved?M.validate(JSON.parse(saved),chars.map(c=>c.id),state.wheels.map(w=>w.english_name),state.growth).account:M.migrate(JSON.parse(localStorage.getItem(M.LEGACY)||'null')); }
+        try { const saved=window.MorimensAccountStore?window.MorimensAccountStore.store.read('roster'):JSON.parse(localStorage.getItem(M.KEY)||'null');state.account=saved?M.validate(saved,chars.map(c=>c.id),state.wheels.map(w=>w.english_name),state.growth).account:window.MorimensAccountStore?M.empty():M.migrate(JSON.parse(localStorage.getItem(M.LEGACY)||'null')); }
         catch { notice('저장값을 읽지 못했습니다. 원본은 유지했으며 빈 보유 현황으로 열었습니다.'); }
         state.account=M.normalizeDefaults(state.account,state.limitedIds);
         bind();render();document.body.dataset.rosterReady='true';window.dispatchEvent(new Event('roster-ready'));
@@ -339,5 +339,16 @@ async function shareImage(mode){
     }catch(error){const loading=$('share-image-stage')?.querySelector('.share-loading');if(loading)loading.textContent=error.message;$('share-image-stage')?.setAttribute('aria-busy','false');notice(error.message);}
     }finally{state.shareBusy=false;actions.forEach(button=>button.disabled=false);}
 }
+window.MorimensAccountStore?.store.subscribe(event=>{
+    if(event.reason==='local'||event.reason==='status'||!state.chars.length||event.kind&&event.kind!=='roster')return;
+    try {
+        if(event.reason==='account')state.account=M.empty();
+        const saved=window.MorimensAccountStore.store.read('roster');
+        state.account=M.normalizeDefaults(saved?M.validate(saved,state.chars.map(c=>c.id),state.wheels.map(w=>w.english_name),state.growth).account:M.empty(),state.limitedIds);
+        state.editIds=[];state.selected.clear();state.bulk=false;
+        for(const dialog of document.querySelectorAll('dialog[open]:not(.account-dialog)'))dialog.close();
+        render();
+    }catch(error){notice(error.message,'error');}
+});
 load();
 })();
