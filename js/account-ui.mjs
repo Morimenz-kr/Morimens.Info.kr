@@ -4,9 +4,9 @@ import { createFirebaseDriver } from './account-firebase.mjs';
 
 const C = window.MorimensAccountStore, store = C.store;
 const host = document.querySelector('[data-account-panel]');
-if (host) start();
+if (host) mountAccountPanel(host);
 
-async function start() {
+export async function mountAccountPanel(host) {
     host.classList.add('account-panel');
     host.innerHTML = `<div class="account-summary"><strong data-account-name>기기에 저장</strong><span data-account-status role="status" aria-live="polite">로그인하지 않아도 사용할 수 있습니다.</span></div><button type="button" data-account-open>Google로 로그인</button>`;
     const dialog = document.createElement('dialog'); dialog.className = 'account-dialog'; dialog.setAttribute('aria-labelledby', 'account-title');

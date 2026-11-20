@@ -86,6 +86,7 @@ export function selectRows(data, filters = {}) {
     return data.rows.filter(row => {
         const m = targetMember(row, data.characterId);
         return (!filters.wave || String(row.wave) === String(filters.wave)) &&
+            (!filters.owned || row.members.length === 4 && row.members.every(member => filters.owned.has(member.characterId))) &&
             (!filters.difficulty || row.difficulty === filters.difficulty) &&
             (!filters.enlightenment || String(m.enlightenment) === filters.enlightenment) &&
             (!filters.noBorrowed || row.members.every(x => x.borrowed === false)) &&

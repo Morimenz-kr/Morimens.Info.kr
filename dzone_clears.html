@@ -2,52 +2,46 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>융재금구 클리어 조합 찾기</title>
     <script src="config/config.js"></script>
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/pages/info_tools.css">
     <link rel="stylesheet" href="css/pages/character-usage.css">
-    <link rel="stylesheet" href="css/pages/dzone-clears.css">
-    <script type="module" src="js/dzone-clears.js"></script>
+    <link rel="stylesheet" href="css/pages/dzone-clears.css?v=owned-20261121">
+    <link rel="stylesheet" href="css/pages/account.css">
+    <script src="config/firebase-client.js" defer></script>
+    <script src="js/account-store.js" defer></script>
+    <script type="module" src="js/account-ui.mjs"></script>
+    <script type="module" src="js/dzone-clears.js?v=owned-20261121"></script>
 </head>
 <body>
-    <div class="bg-image"></div>
-    <div class="background-overlay"></div>
+    <div class="bg-image"></div><div class="background-overlay"></div>
     <main class="container info-page">
         <nav aria-label="탐색"><a id="clear-back" class="back-link" href="dzone_info.html">융재금구 정보</a></nav>
         <section class="info-shell info-shell--dark character-usage clear-shell">
-            <header class="info-header">
-                <h1>클리어 조합 찾기</h1>
-                <p>함께 쓰고 싶은 각성체를 포함하고, 쓰지 않을 각성체를 제외해 실제 융재금구 클리어 조합을 찾으세요.</p>
-            </header>
-            <form id="clear-filters" hidden>
-                <div class="usage-filters">
-                    <label>금지구역<select name="wave"><option value="">전체</option></select></label>
-                    <label>위험 등급<select name="difficulty"><option value="">전체</option></select></label>
-                </div>
-                <div class="clear-picks">
-                    <section aria-labelledby="clear-include-label">
-                        <label id="clear-include-label" for="clear-include">포함할 각성체 (최대 4명)</label>
-                        <select id="clear-include" name="include" class="clear-select"></select>
-                        <div id="clear-included" class="usage-chips"></div>
+            <header class="clear-heading"><div><p class="usage-eyebrow">융재금구 <span id="clear-season"></span> · 실전 기록</p><h1>내 각성체로 조합 찾기</h1><p>함께 쓸 네 명을 찾고, 실제 클리어 세팅을 확인하세요.</p></div></header>
+            <div class="clear-layout">
+                <form id="clear-filters" class="clear-filter-panel" hidden>
+                    <h2>검색 조건</h2>
+                    <div class="clear-stage-filters"><label>금지구역<select name="wave" class="clear-select"><option value="">전체</option></select></label><label>위험 등급<select name="difficulty" class="clear-select"><option value="">전체</option></select></label></div>
+                    <div class="clear-ownership"><label class="clear-check"><input type="checkbox" name="ownedOnly">보유한 각성체만</label><p id="clear-owned-note" class="usage-caption"></p><a id="clear-edit-roster" href="inventory_checker.html">보유 현황 편집</a></div>
+                    <details class="site-disclosure clear-account"><summary>계정</summary><section data-account-panel aria-label="계정과 동기화"></section></details>
+                    <button class="usage-select clear-reset" id="clear-reset" type="reset">조건 초기화</button>
+                </form>
+                <div class="clear-main">
+                    <section id="clear-selection" hidden aria-labelledby="clear-selection-title">
+                        <div class="clear-section-title"><h2 id="clear-selection-title">함께 쓸 각성체</h2><span id="clear-pick-count" class="usage-muted">0 / 4</span></div><div id="clear-included" class="clear-team-slots"></div>
+                        <div class="clear-excluded"><span class="usage-muted">제외</span><div id="clear-excluded" class="usage-chips"></div></div>
+                        <details id="clear-picker" class="site-disclosure clear-picker"><summary>각성체 선택</summary><div class="clear-picker-tools"><div class="clear-picker-mode" role="group" aria-label="각성체 선택 방식"><button type="button" data-pick-mode="include" aria-pressed="true">포함</button><button type="button" data-pick-mode="exclude" aria-pressed="false">제외</button></div><label class="clear-search-label">각성체 검색<input id="clear-character-search" type="search" placeholder="이름으로 찾기" autocomplete="off"></label></div><p class="usage-caption" id="clear-picker-help">포함할 각성체를 최대 네 명까지 선택하세요.</p><div id="clear-character-grid" class="clear-character-grid"></div></details>
                     </section>
-                    <section aria-labelledby="clear-exclude-label">
-                        <label id="clear-exclude-label" for="clear-exclude">제외할 각성체</label>
-                        <select id="clear-exclude" name="exclude" class="clear-select"></select>
-                        <div id="clear-excluded" class="usage-chips"></div>
-                    </section>
+                    <div class="clear-results-heading"><h2 id="clear-matches-heading">클리어 조합</h2><p id="clear-status" role="status">클리어 기록을 불러오는 중입니다.</p></div>
+                    <details id="clear-coverage" class="site-disclosure clear-coverage" hidden><summary>집계 기준과 수집 범위</summary><p id="clear-source" class="usage-caption"></p><p class="usage-caption">클리어 건수는 승률이나 성능 순위가 아닙니다. 같은 유저의 여러 기록이 포함될 수 있습니다.</p></details>
+                    <button type="button" class="usage-select" id="clear-retry" hidden>다시 불러오기</button>
+                    <section id="clear-matches" aria-labelledby="clear-matches-heading" hidden><div id="clear-results" class="clear-results"></div><button type="button" class="usage-select" id="clear-more" hidden>더 보기</button></section>
                 </div>
-                <button class="usage-select" id="clear-reset" type="reset">조건 초기화</button>
-            </form>
-            <p id="clear-status" class="usage-context" role="status">클리어 기록을 불러오는 중입니다.</p>
-            <button type="button" class="usage-select" id="clear-retry" hidden>다시 불러오기</button>
-            <section id="clear-matches" aria-labelledby="clear-matches-heading" hidden>
-                <h2 id="clear-matches-heading">조건에 맞는 조합</h2>
-                <div id="clear-results" class="usage-cards"></div>
-                <button type="button" class="usage-select" id="clear-more" hidden>더 보기</button>
-            </section>
+            </div>
         </section>
     </main>
 </body>

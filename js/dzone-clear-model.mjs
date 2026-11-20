@@ -29,11 +29,12 @@ export function normalizeClearIndex(input, characterIds) {
     return { schemaVersion: 1, period: input.period, collectedAt: input.collectedAt, coverage: input.coverage, source: input.source.trim(), teams };
 }
 
-export function findClearTeams(data, { include = [], exclude = [], wave = '', difficulty = '' } = {}) {
+export function findClearTeams(data, { include = [], exclude = [], wave = '', difficulty = '', owned = null } = {}) {
     const results = [];
     let total = 0;
     for (const team of data.teams) {
         if (!include.every(id => team.members.includes(id)) || exclude.some(id => team.members.includes(id))) continue;
+        if (owned !== null && !team.members.every(id => owned.has(id))) continue;
         const buckets = team.buckets.filter(bucket => (!wave || String(bucket.wave) === String(wave))
             && (!difficulty || bucket.difficulty === difficulty));
         if (!buckets.length) continue;
@@ -44,6 +45,36 @@ export function findClearTeams(data, { include = [], exclude = [], wave = '', di
     }
     results.sort((a, b) => b.count - a.count || a.key.localeCompare(b.key));
     return { total, teams: results };
+}
+
+export function findClearAlternatives(data, base, filters = {}) {
+    const stages = new Set(base.buckets.map(b => `${b.wave}:${b.difficulty}`));
+    return findClearTeams(data, filters).teams.flatMap(team => {
+        const added = team.members.filter(id => !base.members.includes(id));
+        const removed = base.members.filter(id => !team.members.includes(id));
+        if (added.length !== 1 || removed.length !== 1) return [];
+        const buckets = team.buckets.filter(b => stages.has(`${b.wave}:${b.difficulty}`));
+        if (!buckets.length) return [];
+        return [{ ...team, added: added[0], removed: removed[0], buckets,
+            count: buckets.reduce((sum, b) => sum + b.count, 0),
+            gearCount: buckets.reduce((sum, b) => sum + b.gearCount, 0) }];
+    }).sort((a, b) => b.count - a.count || a.key.localeCompare(b.key));
+}
+
+// Input is one validated Awakener snapshot, never several overlapping perspectives.
+export function indexUsageTeams(rows) {
+    const teams = new Map();
+    for (const row of rows) {
+        if (row.members.length !== 4) continue;
+        const members = row.members.map(m => m.characterId).sort(), key = members.join('|');
+        let team = teams.get(key);
+        if (!team) { team = { members, buckets: new Map() }; teams.set(key, team); }
+        const stage = `${row.wave}:${row.difficulty}`, bucket = team.buckets.get(stage) || { wave: row.wave, difficulty: row.difficulty, count: 0, gearCount: 0 };
+        bucket.count += row.count;
+        if (row.members.every(m => m.wheels !== null && m.covenant !== null)) bucket.gearCount += row.count;
+        team.buckets.set(stage, bucket);
+    }
+    return { teams: [...teams.values()].map(team => ({ members: team.members, buckets: [...team.buckets.values()] })) };
 }
 
 export function clearSettingsHref(team, period, { wave = '', difficulty = '' } = {}) {

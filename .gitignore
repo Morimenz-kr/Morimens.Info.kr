@@ -30,6 +30,7 @@ ui-debug.log
 !/tools/serve-dzone-preview.mjs
 !/tools/dzone-preview.test.cjs
 !/tools/test-dzone-recommendations.mjs
+!/tools/test-dzone-owned.mjs
 !/tools/prepare-pages-artifact.mjs
 !/tools/prepare-pages-artifact.test.cjs
 !/tools/prepare-roster-pages.mjs

@@ -9,6 +9,7 @@
   "scripts": {
     "recommendations:preview": "node tools/serve-dzone-preview.mjs",
     "recommendations:test": "node tools/test-dzone-recommendations.mjs",
+    "recommendations:owned-test": "node tools/test-dzone-owned.mjs",
     "account:build": "node tools/build-account-client.mjs",
     "account:emulators": "firebase emulators:start --only auth,firestore --config firebase.account-emulator.json --project demo-morimens-account",
     "account:test": "firebase emulators:exec --only auth,firestore --config firebase.account-emulator.json --project demo-morimens-account \"node --test tools/firebase-account.test.cjs\"",
