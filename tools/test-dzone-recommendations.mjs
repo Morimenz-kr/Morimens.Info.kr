@@ -26,15 +26,15 @@ try {
         const data = normalizeUsage((await response.json()).data);
         const joint = data.rows.filter(row => wheelKey(targetMember(row, character.id)) && covenantKey(targetMember(row, character.id)));
         await page.goto(url(character.id));
-        await expect(page.locator('.usage-build-list li').first()).toBeVisible({ timeout: 30000 });
+        await expect(page.locator('.usage-featured-build')).toBeVisible({ timeout: 30000 });
         await expect(page.locator('.usage-header h3')).toContainText(character.name);
-        checked.push({ id: character.id, name: character.name, clears: sampleCount(data.rows), joint: sampleCount(joint), builds: await page.locator('.usage-build-list li').count() });
+        checked.push({ id: character.id, name: character.name, clears: sampleCount(data.rows), joint: sampleCount(joint), builds: Math.max(1, await page.locator('[data-choose-build]').count()) });
         if (checked.length % 10 === 0) console.log(`추천 세팅 화면 ${checked.length}/${manifest.length} 확인`);
     }
     if (checked.length) await fs.writeFile(path.join(out, 'characters.json'), JSON.stringify(checked, null, 2));
     await page.goto(url('doll_inferno')); await expect(page.locator('[data-build]').first()).toBeVisible({ timeout: 30000 });
     async function layout(name) {
-        const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, clipped: [...document.querySelectorAll('.usage-build-list button')].some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < 43; }) }));
+        const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, clipped: [...document.querySelectorAll('.usage-recommendations button')].filter(el => el.getClientRects().length).some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < 43; }) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
     for (const width of [320, 390, 767, 768, 769, 1024, 1280]) {

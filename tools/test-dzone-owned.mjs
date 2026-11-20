@@ -5,6 +5,7 @@ import { chromium, expect } from '@playwright/test';
 import { createPreviewServer } from './serve-dzone-preview.mjs';
 import { normalizeClearIndex, findClearTeams, findClearAlternatives, indexUsageTeams } from '../js/dzone-clear-model.mjs';
 import { normalizeUsage, selectRows } from '../js/character-usage-model.mjs';
+import { recommendBuilds } from '../js/usage-recommendations.mjs';
 
 const root = path.resolve(import.meta.dirname, '..'), out = path.join(root, '.generated/clear-ui');
 await fs.mkdir(out, { recursive: true });
@@ -57,21 +58,36 @@ try {
     const primaryId = alternative.members.find(id => baseTeam.members.includes(id));
     const primaryUrl = `${host}/links.html?category=character&id=${primaryId}&period=73&wave=${stage.wave}&difficulty=${stage.difficulty}#usage`;
     const usage = normalizeUsage(JSON.parse(await fs.readFile(path.join(root, `.generated/dzone-recommendations/73/characters/${primaryId}.json`), 'utf8')).data);
-    const primaryIndex = indexUsageTeams(selectRows(usage, { ...stage, owned }));
-    const primaryBase = findClearTeams(primaryIndex).teams.find(t => t.key === baseTeam.key);
-    const primaryAlternatives = findClearAlternatives(primaryIndex, primaryBase, { include: [primaryId] });
-    assert.ok(primaryAlternatives.length);
-    await page.goto(primaryUrl); await expect(page.locator('#usage-owned-only')).toBeVisible({ timeout: 30000 });
-    await page.locator('#usage-owned-only').check(); await page.locator('#usage-tab-teams').click();
-    const primaryCard = page.locator(`.usage-card:has([data-party-settings="${baseTeam.key}"])`);
+    const builds = recommendBuilds(selectRows(usage, stage), primaryId, owned);
+    const candidates = builds.flatMap((build, buildIndex) => { const index = indexUsageTeams(build.ownedRows); return findClearTeams(index).teams.map(base => ({ build, buildIndex, base, alternatives: findClearAlternatives(index, base, { include: [primaryId] }) })); });
+    const example = candidates.find(candidate => candidate.alternatives.length);
+    assert.ok(example, 'an actual recommended build supplies an owned replacement example');
+    const primaryAlternatives = example.alternatives;
+    await page.goto(primaryUrl); await expect(page.locator('.usage-featured-build')).toBeVisible({ timeout: 30000 });
+    await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
+    const order = await page.evaluate(() => [...document.querySelector('.character-usage').children].map(e => e.className));
+    assert.ok(order.indexOf('usage-recommendations') < order.indexOf('usage-my-parties'));
+    assert.ok(order.indexOf('usage-my-parties') < order.findIndex(c => c.includes('usage-statistics')));
+    assert.equal(await page.locator('.usage-recommendations .usage-frequency,.usage-my-parties .usage-frequency').count(), 0);
+    await expect(page.locator('.usage-featured-build')).toHaveAttribute('data-selected-build', builds[0].key);
+    if (example.buildIndex) await page.locator('[data-choose-build]').nth(example.buildIndex).click();
+    await expect(page.locator('.usage-featured-build')).toHaveAttribute('data-selected-build', example.build.key);
+    for (const key of await page.locator('[data-owned-team]').evaluateAll(es => es.map(e => e.dataset.ownedTeam))) assert.ok(key.split('|').every(id => owned.has(id)));
+    await page.locator('.usage-example-options > summary').click();
+    const actualOptions = await page.locator('.usage-example-main [data-example-main]').allTextContents();
+    assert.equal(actualOptions.length, 6);
+    example.build.member.covenant.parts.forEach((part, i) => assert.ok(actualOptions[i].includes(part.main.label)));
+    await page.locator('.usage-example-options > summary').click();
+    const primaryCard = page.locator(`[data-owned-team="${example.base.key}"]`);
     await primaryCard.locator('.usage-team-alternatives > summary').click();
     await expect(primaryCard.locator('[data-usage-alternative]')).toHaveCount(Math.min(5, primaryAlternatives.length));
     const primaryValue = JSON.parse(await primaryCard.locator('[data-usage-alternative]').first().getAttribute('data-usage-alternative'));
     assert.equal(primaryValue[0], primaryAlternatives[0].key); assert.ok(primaryValue[0].split('|').includes(primaryId));
     async function characterLayout(name) {
         const metrics = await page.evaluate(() => ({ overflow: document.documentElement.scrollWidth - innerWidth,
-            clipped: [...document.querySelectorAll('.character-usage button,.character-usage a,.character-usage input,.character-usage select,.character-usage summary')].filter(e => e.getClientRects().length).filter(e => { const r = e.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1; }).map(e => e.outerHTML.slice(0,100)) }));
-        assert.ok(metrics.overflow <= 1 && !metrics.clipped.length, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
+            clipped: [...document.querySelectorAll('.character-usage button,.character-usage a,.character-usage input,.character-usage select,.character-usage summary')].filter(e => e.getClientRects().length).filter(e => { const r = e.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1; }).map(e => e.outerHTML.slice(0,100)),
+            textOverflow: [...document.querySelectorAll('.usage-example-main p,.usage-featured-build')].filter(e => e.getClientRects().length).some(e => e.scrollWidth > e.clientWidth + 1) }));
+        assert.ok(metrics.overflow <= 1 && !metrics.clipped.length && !metrics.textOverflow, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
     for (const width of [320,390,479,480,481,767,768,769,1023,1024,1025,1280]) {
         await page.setViewportSize({ width, height: 900 }); await characterLayout(`awakener-${width}`);
@@ -82,6 +98,12 @@ try {
         await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
     }
     await page.setViewportSize({ width: 844, height: 390 }); await characterLayout('awakener-landscape');
+    await page.locator('.usage-example-options > summary').click();
+    for (const width of [320,390,1280]) {
+        await page.setViewportSize({ width, height: 900 }); await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; }); await characterLayout(`example-zoom200-${width}`);
+        await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
+    }
+    await page.locator('.usage-example-options > summary').click();
     await primaryCard.locator('[data-usage-alternative]').first().click();
     await expect(page.locator('.usage-record').first()).toBeVisible();
     const replacementNames = await page.locator('.usage-record').first().locator('.usage-members').innerText();
@@ -138,11 +160,10 @@ try {
         await expect(page.locator('#clear-owned-note')).toContainText(`계정 기록 · 보유 ${owned.size}명`);
         assert.equal(await page.locator('.clear-team').count(), expected.teams.length);
         await page.goto(primaryUrl.replace('#usage', '&accountEmulator=1#usage'));
-        await expect(page.locator('.usage-owned')).toContainText(`계정 · 보유 ${owned.size}명`, { timeout: 30000 });
-        await page.locator('#usage-owned-only').check();
+        await expect(page.locator('.usage-my-source')).toContainText(`계정 · 보유 ${owned.size}명`, { timeout: 30000 });
         await page.locator('.usage-account > summary').click(); await page.locator('[data-account-open]').click();
         await page.locator('[data-account-logout]').click();
-        await expect(page.locator('.usage-owned')).toContainText(`이 브라우저 · 보유 ${owned.size}명`);
+        await expect(page.locator('.usage-my-source')).toContainText(`이 브라우저 · 보유 ${owned.size}명`);
     }
     assert.deepEqual(errors, []);
     await fs.writeFile(path.join(out, 'owned-results.json'), JSON.stringify({ passed: true, accountEmulatorTested: process.argv.includes('--with-account'), expectedTeams: expected.teams.length, alternative: { removed: expectedAlt[0].removed, added: expectedAlt[0].added, count: expectedAlt[0].count }, layouts, errors }, null, 2));
