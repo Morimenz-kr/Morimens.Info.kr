@@ -5,7 +5,7 @@ import { normalizeUsage, selectRows, distribution, teamKey, wheelKey, covenantKe
 import { usageExtraWheels } from './character-usage-equipment.mjs';
 import { indexUsageTeams, findClearTeams, findClearAlternatives } from './dzone-clear-model.mjs?v=owned-20261121';
 import { mountAccountPanel } from './account-ui.mjs?v=owned-20261121';
-import { recommendBuilds } from './usage-recommendations.mjs?v=first-20261121';
+import { recommendParties } from './usage-recommendations.mjs?v=party-first-20261121';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const percent = value => `${(value * 100).toLocaleString('ko-KR', { maximumFractionDigits: 1 })}%`;
@@ -18,7 +18,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
     const chars = Object.fromEntries(manifest.map(c => [c.id, c]));
     const wheelMap = Object.fromEntries([...wheels, ...usageExtraWheels].map(w => [w.english_name, w]));
     const covMap = Object.fromEntries(covenants.map(c => [c.english_name, c]));
-    let ownedOnly = false, owned = new Set(), ownershipError = '', ownerFingerprint = '';
+    let ownedOnly = false, ownershipChosen = false, owned = new Set(), ownershipError = '', ownerFingerprint = '';
     const store = window.MorimensAccountStore.store;
     const account = document.createElement('details'); account.className = 'site-disclosure usage-account';
     account.innerHTML = '<summary>계정과 보유 기록</summary><section aria-label="계정과 동기화"></section>';
@@ -28,12 +28,13 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         catch { owned = new Set(); ownershipError = '보유 기록을 읽지 못했습니다. 보유 현황을 확인해주세요.'; }
         const fingerprint = store.uid + [...owned].sort().join('|') + ownershipError, changed = ownerFingerprint !== fingerprint;
         ownerFingerprint = fingerprint;
+        if (!ownershipChosen) ownedOnly = owned.size > 0 && !entry.has('team') && !entry.has('record') && entry.get('usageView') !== 'records';
         if (data && changed) { openRow = -1; replaceWave = null; render(); }
     }
     const selectFor = (selection = filters) => selectRows(data, { ...selection, owned: ownedOnly ? owned : null });
     let data = null, periods = [], mode = new URLSearchParams(location.search).get('usageDemo') === '1', error = '', pending = false, requestId = 0;
     const entry = new URLSearchParams(location.search);
-    ownedOnly = entry.get('owned') === '1';
+    ownedOnly = entry.get('owned') === '1'; ownershipChosen = entry.has('owned');
     let filters = Object.fromEntries(['wave', 'difficulty', 'team'].filter(k => entry.get(k)).map(k => [k, entry.get(k)]));
     let tab = entry.get('usageView') === 'records' ? 'records' : 'overview', openRow = -1, period = entry.get('period') || '', shown = 20;
     let publicOnly = true, excludeUsed = false, maxPotential = '', plan = readPlan(), notice = '', replaceWave = null;
@@ -48,7 +49,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         publicOnly = false; excludeUsed = false; maxPotential = '';
     }
     let advancedOpen = false, coverageOpen = false, optionsOpen = false, exampleOptionsOpen = false;
-    let statisticsOpen = tab === 'records' || !!requestedRecord, chosenBuild = '', buildChosenByUser = false, myTeamsShown = 2;
+    let statisticsOpen = tab === 'records' || !!requestedRecord, chosenParty = '';
     let recordPreview = null, previewReturnFocus = '', previewScrollY = 0;
     const clearSearchHref = () => {
         const query = new URLSearchParams({ period: data.period, include: character.id });
@@ -95,31 +96,34 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         </section>`;
     }
     function recommendations(rows) {
-        const builds = recommendBuilds(rows, character.id, owned);
-        const selected = (buildChosenByUser && builds.find(build => build.key === chosenBuild)) || builds[0];
-        chosenBuild = selected?.key || '';
+        const result = recommendParties(rows, character.id);
+        const selected = result.parties.find(party => party.key === chosenParty) || result.parties[0];
+        chosenParty = selected?.key || '';
         const edit = `inventory_checker.html${entry.get('accountEmulator') === '1' ? '?accountEmulator=1' : ''}`;
-        const choices = builds.length > 1 ? `<div class="usage-build-choices" role="group" aria-label="추천 세팅 선택">${builds.map((build, i) => {
-            const [wheel, contract] = JSON.parse(build.key);
-            const items = [...(wheel === '__unequipped__' ? [] : wheel.split('|').map(id => wheelMap[id])), ...contract.split('|').map(part => covMap[part.split(':')[0]])].filter(Boolean);
-            const label = `${wheel === '__unequipped__' ? '명륜 미장착' : wheel.split('|').map(wheelName).join(' + ')} · ${covLabel(contract)}`;
-            return `<button id="usage-choice-${i}" type="button" data-choose-build="${esc(build.key)}" aria-pressed="${build === selected}" aria-label="세팅 ${i + 1}: ${esc(label)}" title="${esc(label)}"><span class="usage-choice-label">세팅 ${i + 1}</span><span class="usage-choice-art" aria-hidden="true">${items.map(item => `<img src="${esc(item.image_path)}" alt="" width="24" height="32" loading="lazy">`).join('')}</span></button>`;
-        }).join('')}</div>` : '';
-        let setting = '<p class="usage-empty">명륜과 비밀계약이 함께 확인된 세팅이 없습니다.</p>';
+        const selection = result.parties.length > 1 ? `<div class="usage-party-choices" role="group" aria-label="대표 클리어 편성 선택">${result.parties.map((party, i) => `<button type="button" id="usage-party-choice-${i}" data-choose-party="${esc(party.key)}" aria-pressed="${party === selected}" aria-label="편성 ${i + 1}: ${esc(party.example.members.map(member => memberName(member.characterId)).join(', '))}"><span class="usage-party-choice-title">편성 ${i + 1} <small>${n(party.count)}건</small></span><span class="usage-party-choice-art" aria-hidden="true">${party.example.members.map(member => `<img src="${esc(chars[member.characterId].image_thumb)}" alt="" width="24" height="24" loading="lazy">`).join('')}</span></button>`).join('')}</div>` : '';
+        let content = `<div class="usage-my-empty"><p>${ownershipError ? esc(ownershipError) : ownedOnly && !owned.size ? '보유 기록이 없습니다. 각성체를 등록하거나 보유 조건을 해제해주세요.' : ownedOnly && !owned.has(character.id) ? `${esc(character.name)}의 보유 여부를 확인하거나 보유 조건을 해제해주세요.` : '현재 조건에서 장비 구성을 확인할 수 있는 클리어 편성이 없습니다. 구역·등급 또는 보유 조건을 바꿔보세요.'}</p><a class="usage-select" href="${edit}">보유 현황 편집</a></div>`;
         if (selected) {
-            const [wheels, contract] = JSON.parse(selected.key);
-            setting = `${choices}<article class="usage-featured-build" data-selected-build="${esc(selected.key)}"><div class="usage-featured-equipment"><div><span class="usage-label">명륜</span><div class="usage-equipment-pair">${wheels === '__unequipped__' ? '<p>명륜 미장착 기록</p>' : wheels.split('|').map(id => detailButton(id, 'wheel')).join('')}</div></div><div><span class="usage-label">비밀계약</span><div class="usage-equipment-pair">${contract.split('|').map(part => { const [id, count] = part.split(':'); return `<div class="usage-featured-contract">${detailButton(id, 'covenant')}<small>${count}세트</small></div>`; }).join('')}</div></div></div>
-                <div class="usage-build-tools"><button type="button" id="usage-example-toggle" class="usage-select" data-toggle-example aria-expanded="${exampleOptionsOpen}" aria-controls="usage-example-options">주옵·부옵 ${exampleOptionsOpen ? '접기' : '보기'}</button><button type="button" id="usage-recommended-record" class="usage-select" data-build="${esc(selected.key)}" data-build-record="${recordKey(selected.example)}">실제 세팅 보기 <span aria-hidden="true">↗</span></button></div>
-                <div class="usage-example-options" id="usage-example-options" ${exampleOptionsOpen ? '' : 'hidden'}><p class="usage-caption">${selected.example.wave}구역 ${difficultyName(selected.example.difficulty)}의 한 클리어에서 가져온 실제 옵션입니다.</p><div class="usage-example-main">${selected.member.covenant.parts.map(part => `<section><h5>${roman[part.slot - 1]}</h5><p data-example-main>${statText(part.main)}</p><p class="usage-muted">부옵: ${part.subs.map(statText).join(' · ') || '없음'}</p></section>`).join('')}</div></div></article>`;
+            const [wheels, contract] = JSON.parse(selected.build.key), example = selected.example;
+            const mains = new Map();
+            for (const part of selected.member.covenant.parts) { const key = JSON.stringify([part.main.id, part.main.value, part.main.unit]); const value = mains.get(key) || { stat: part.main, count: 0 }; value.count++; mains.set(key, value); }
+            const mainSummary = [...mains.values()].map(({ stat, count }) => `${statText(stat)}${count > 1 ? ` ×${count}` : ''}`).join(' · ');
+            content = `${selection}${result.sparse ? '<p class="usage-sparse" role="note">현재 조건은 표본이 적습니다. 아래는 확인된 실전 사례이며, 반복 사용된 대표 편성은 아직 부족합니다.</p>' : ''}<article class="usage-featured-build usage-clear-party" data-selected-party="${esc(selected.key)}" data-selected-build="${esc(selected.build.key)}">
+                <div class="usage-party-lineup usage-members">${example.members.map(member => `<span class="usage-member ${member.characterId === character.id ? 'is-target' : ''}"><img src="${esc(chars[member.characterId].image_thumb)}" alt="" width="56" height="56" loading="lazy"><span>${esc(memberName(member.characterId))}</span><small>${esc(enlightenmentLabel(member.enlightenment))}${member.borrowed ? ' · 지원' : ''}</small></span>`).join('')}</div>
+                <p class="usage-party-evidence">대표 기록 · ${example.wave}구역 ${difficultyName(example.difficulty)}${example.members.some(member => member.borrowed) ? ' · 지원 사용' : ''} · 이 편성 ${n(selected.count)}건</p>
+                <div class="usage-party-equipment-heading"><h5>${esc(character.name)}의 사용 세팅</h5><span>같은 구성 ${n(selected.build.count)} / 장비 확인 ${n(selected.equipmentCount)}건</span></div>
+                <div class="usage-featured-equipment"><div><span class="usage-label">명륜</span><div class="usage-equipment-pair">${wheels === '__unequipped__' ? '<p>명륜 미장착 기록</p>' : wheels.split('|').map(id => detailButton(id, 'wheel')).join('')}</div></div><div><span class="usage-label">비밀계약</span><div class="usage-equipment-pair">${contract.split('|').map(part => { const [id, count] = part.split(':'); return `<div class="usage-featured-contract">${detailButton(id, 'covenant')}<small>${count}세트</small></div>`; }).join('')}</div></div></div>
+                <p class="usage-party-main-summary"><span>대표 기록의 주옵</span>${mainSummary}</p>
+                <div class="usage-build-tools"><button type="button" id="usage-example-toggle" class="usage-select" data-toggle-example aria-expanded="${exampleOptionsOpen}" aria-controls="usage-example-options">부위별 옵션 ${exampleOptionsOpen ? '접기' : '보기'}</button><button type="button" id="usage-recommended-record" class="usage-select" data-preview-party="${esc(selected.key)}" data-preview-record="${recordKey(example)}">파티의 실제 세팅 <span aria-hidden="true">↗</span></button></div>
+                <div class="usage-example-options" id="usage-example-options" ${exampleOptionsOpen ? '' : 'hidden'}><p class="usage-caption">위 ${example.wave}구역 ${difficultyName(example.difficulty)} 기록의 ${esc(character.name)}가 장착한 실제 6부위입니다.</p><div class="usage-example-main">${selected.member.covenant.parts.map(part => `<section><h5>${roman[part.slot - 1]}</h5><p data-example-main>${statText(part.main)}</p><p class="usage-muted">부옵: ${part.subs.map(statText).join(' · ') || '없음'}</p></section>`).join('')}</div></div>
+                <div class="usage-party-record-zones"><span>구역별 기록</span>${[...new Set(selected.rows.map(row => row.wave))].sort().map(wave => `<button type="button" class="usage-zone" id="usage-party-zone-${wave}" data-preview-party="${esc(selected.key)}" data-preview-wave="${wave}" aria-label="${wave}구역의 이 파티 클리어 세팅 보기">${wave}</button>`).join('')}</div>
+                <details class="site-disclosure usage-team-alternatives" data-usage-alternatives="${esc(selected.key)}" data-primary-party><summary>한 명을 바꾼 실전 편성</summary><div data-usage-alt-body></div></details>
+            </article>`;
         }
-        const parties = selected?.ownedTeams || [];
-        const teams = parties.length ? parties.slice(0, myTeamsShown).map(group => `<article class="usage-card usage-card-compact usage-owned-team" data-owned-team="${esc(group.key)}"><div class="usage-members">${group.rows[0].members.map(member => characterArt(member.characterId)).join('')}</div><div class="usage-party-footer"><p class="usage-owned-stages"><span>클리어 구역</span> ${[...new Set(group.rows.map(row => row.wave))].sort().map(wave => `<button type="button" class="usage-zone" id="usage-owned-zone-${esc(encodeURIComponent(group.key))}-${wave}" data-owned-wave="${wave}" data-owned-party="${esc(group.key)}" data-owned-build="${esc(selected.key)}" aria-label="${wave}구역의 이 파티 클리어 세팅 보기">${wave}</button>`).join('')}</p><button type="button" class="usage-select" data-owned-party="${esc(group.key)}" data-owned-build="${esc(selected.key)}" aria-label="이 파티의 세팅 보기">세팅 보기 <span aria-hidden="true">↗</span></button></div><details class="site-disclosure usage-team-alternatives" data-usage-alternatives="${esc(group.key)}" data-owned-build="${esc(selected.key)}"><summary>한 명을 바꾼 실제 조합</summary><div data-usage-alt-body></div></details></article>`).join('')
-            : `<div class="usage-my-empty"><p>${ownershipError ? esc(ownershipError) : !owned.size ? '보유 현황을 등록하면 함께 쓸 수 있는 파티를 보여드립니다.' : !owned.has(character.id) ? `${esc(character.name)}의 보유 여부를 먼저 확인해주세요.` : '현재 세팅과 조건에서 내 보유로 구성할 수 있는 실제 클리어 파티가 없습니다.'}</p><a class="usage-select" href="${edit}">보유 현황 편집</a></div>`;
-        return `<div class="usage-first-layout"><section class="usage-recommendations" aria-labelledby="usage-recommend-title"><div class="usage-section-heading"><h4 id="usage-recommend-title">추천 세팅</h4></div>${setting}</section><section class="usage-my-parties" aria-labelledby="usage-my-title"><div class="usage-section-heading"><h4 id="usage-my-title">내 보유로 가능한 파티${parties.length ? ` <span class="usage-party-count">${n(parties.length)}</span>` : ''}</h4>${owned.size ? `<a href="${edit}">보유 편집</a>` : ''}</div><p class="usage-my-source">${store.uid ? '계정' : '이 브라우저'} · 보유 ${owned.size}명${parties.length ? ' · 선택한 세팅의 클리어 기록' : ''}</p><div class="usage-cards">${teams}</div>${parties.length > myTeamsShown ? `<button type="button" id="usage-more-owned" data-more-owned class="usage-select">내 파티 더 보기 (${Math.min(myTeamsShown, parties.length)}/${parties.length})</button>` : ''}</section></div>`;
+        return `<section class="usage-recommendations" aria-labelledby="usage-recommend-title"><div class="usage-section-heading"><h4 id="usage-recommend-title">대표 클리어 편성</h4><a class="usage-edit-roster" href="${edit}">보유 편집</a></div><p class="usage-my-source">${store.uid ? '계정' : '이 브라우저'} · 보유 ${owned.size}명 · ${result.totalTeams ? `${n(result.totalTeams)}개 실전 편성 중 ${result.parties.length}개 대표 편성` : '선택한 조건의 실제 클리어 기준'}</p>${content}<a class="usage-select usage-all-parties" href="${esc(clearSearchHref())}">이 각성체의 전체 클리어 편성 찾기</a></section>`;
     }
     const conflictText = row => conflicts(row, plan, data.period).map(c => `${c.wave}구역 · ${c.kind === 'character' ? memberName(c.id) : wheelName(c.id)}`).join(' / ');
     function showAlternatives(detail, limit = 5) {
-        const selection = { ...filters, team: '' };
+        const selection = { ...filters, team: '', ...(detail.hasAttribute('data-primary-party') ? { wheels: '', covenant: '' } : {}) };
         const ownBuild = detail.dataset.ownedBuild;
         if (ownBuild) [selection.wheels, selection.covenant] = JSON.parse(ownBuild);
         const index = indexUsageTeams(ownBuild ? selectRows(data, { ...selection, owned }) : selectFor(selection));
@@ -129,7 +133,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         body.innerHTML = `<p class="usage-caption">${esc(character.name)}와 다른 두 명을 유지하고, 같은 구역·등급에서 확인된 기록입니다.</p>`
             + (alternatives.length ? `<ul>${alternatives.slice(0, limit).map((team, index) => {
                 const bucket = [...team.buckets].sort((a, b) => b.count - a.count || a.wave - b.wave)[0];
-                return `<li><div>${chars[team.added] ? `<img src="${esc(chars[team.added].image_thumb)}" alt="" width="40" height="40" loading="lazy">` : ''}<div><p>${esc(memberName(team.removed))} → <strong>${esc(memberName(team.added))}</strong></p>${ownBuild ? '' : `<p class="usage-muted">동일 구역·등급 ${n(team.count)}건</p>`}</div></div><button type="button" class="usage-select" id="usage-alt-${esc(encodeURIComponent(detail.dataset.usageAlternatives))}-${index}-${ownBuild ? 'owned' : 'stat'}" data-usage-alternative="${esc(JSON.stringify([team.key, bucket.wave, bucket.difficulty]))}" ${ownBuild ? `data-owned-build="${esc(ownBuild)}"` : ''}>${bucket.wave}구역 ${difficultyName(bucket.difficulty)} 세팅 보기</button></li>`;
+                return `<li><div>${chars[team.added] ? `<img src="${esc(chars[team.added].image_thumb)}" alt="" width="40" height="40" loading="lazy">` : ''}<div><p>${esc(memberName(team.removed))} → <strong>${esc(memberName(team.added))}</strong></p>${ownBuild ? '' : `<p class="usage-muted">동일 구역·등급 ${n(team.count)}건</p>`}</div></div><button type="button" class="usage-select" id="usage-alt-${esc(encodeURIComponent(detail.dataset.usageAlternatives))}-${index}-${ownBuild ? 'owned' : 'stat'}" data-usage-alternative="${esc(JSON.stringify([team.key, bucket.wave, bucket.difficulty]))}" ${detail.hasAttribute('data-primary-party') ? 'data-primary-alternative' : ''} ${ownBuild ? `data-owned-build="${esc(ownBuild)}"` : ''}>${bucket.wave}구역 ${difficultyName(bucket.difficulty)} 세팅 보기</button></li>`;
             }).join('')}</ul>${alternatives.length > limit ? `<button type="button" class="usage-select" data-usage-alt-more="${limit + 5}">대체 조합 더 보기 (${limit}/${alternatives.length})</button>` : ''}` : '<p class="usage-caption">현재 조건에 맞는 대체 클리어 기록이 없습니다. 보유·세팅·구역 조건을 바꿔보세요.</p>');
     }
     function record(row, index, preview = false) {
@@ -141,7 +145,9 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
     function openPreview(rows, trigger, key) {
         if (!rows.length) return;
         const sorted = [...rows].sort((a, b) => Number(gearKnown(b)) - Number(gearKnown(a)) || b.count - a.count);
-        recordPreview = { rows: sorted, index: Math.max(0, sorted.findIndex(row => recordKey(row) === key)) };
+        const requested = key ? sorted.findIndex(row => recordKey(row) === key) : -1;
+        if (requested > 0) sorted.unshift(sorted.splice(requested, 1)[0]);
+        recordPreview = { rows: sorted, index: 0 };
         previewReturnFocus = trigger.id; previewScrollY = window.scrollY;
         replaceWave = null; notice = '';
         render();
@@ -170,7 +176,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
     }
     function render() {
         const focus = root.contains(document.activeElement) ? document.activeElement.id : '';
-        const expandedAlternatives = [...root.querySelectorAll('[data-usage-alternatives][open]')].map(el => ({ key: el.dataset.usageAlternatives, build: el.dataset.ownedBuild, limit: Math.max(5, el.querySelectorAll('li').length) }));
+        const expandedAlternatives = [...root.querySelectorAll('[data-usage-alternatives][open]')].map(el => ({ key: el.dataset.usageAlternatives, build: el.dataset.ownedBuild, primary: el.hasAttribute('data-primary-party'), limit: Math.max(5, el.querySelectorAll('li').length) }));
         const rows = data ? selectFor() : [], total = sampleCount(rows), allCount = data ? sampleCount(data.rows) : 0;
         const records = data && tab === 'records' ? recordsFor(rows) : [];
         const option = data && (tab === 'overview' || (tab === 'covenants' && optionsOpen)) ? optionStats(rows, character.id) : { total: 0, slots: [] };
@@ -180,10 +186,9 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         const groupingRows = data ? selectFor({ ...filters, ...(keyForTab ? { [keyForTab]: '' } : {}) }) : [];
         const statistics = `<div class="usage-stat-heading"><h4>통계와 클리어 기록</h4><div class="usage-header-actions">${data ? `<a class="usage-select" href="${esc(clearSearchHref())}">조합 검색 화면</a>` : ''}<button type="button" id="usage-refresh" class="usage-select" ${pending ? 'disabled' : ''}>새로고침</button></div></div>
             ${mode ? '<div class="usage-demo-notice" role="note"><strong>예시 화면 · 실제 통계가 아닙니다</strong><p>팀·장비·옵션과 모든 수치는 기능 검토용 가상 데이터입니다.</p><button type="button" id="usage-live" class="usage-select">실제 데이터 화면으로</button></div>' : ''}
-            <div class="usage-filters">${select('wave', '금지구역', [1, 2, 3, 4, 5].map(w => [w, `${w}구역`]), filters.wave)}${select('difficulty', '난이도', [...new Set(data?.rows.map(r => r.difficulty) || [])].sort().map(d => [d, difficultyName(d)]), filters.difficulty)}</div>
             <details class="site-disclosure usage-disclosure" id="usage-advanced" ${advancedOpen ? 'open' : ''}><summary id="usage-advanced-summary">필터 더 보기${filters.enlightenment || filters.noBorrowed ? ' · 적용 중' : ''}</summary><div class="usage-filters">${select('period', '시즌', periods.map(p => [p, `${p}기`]), period)}${select('enlightenment', `${character.name} 잠재력`, [...new Set(data?.rows.map(r => target(r).enlightenment).filter(x => x !== null) || [])].sort((a, b) => a - b).map(v => [v, enlightenmentLabel(v)]), filters.enlightenment)}<label class="usage-checkbox"><input id="usage-noBorrowed" type="checkbox" data-filter="noBorrowed" ${filters.noBorrowed ? 'checked' : ''}>지원 제외</label></div></details>
             <div class="usage-context" role="status">${pending ? '사용 기록을 불러오는 중…' : data ? `${data.period}기 · 클리어 ${n(total)}건 · 기준 ${new Date(data.collectedAt * 1000).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}` : esc(error || '아직 수집된 사용 기록이 없습니다.')}</div>
-            ${data ? `<section class="usage-owned" aria-label="보유 기준 조합 탐색"><label><input id="usage-owned-only" type="checkbox" ${ownedOnly ? 'checked' : ''}>보유한 각성체로만 보기</label><span class="usage-muted">${store.uid ? '계정' : '이 브라우저'} · 보유 ${owned.size}명</span><a href="inventory_checker.html${entry.get('accountEmulator') === '1' ? '?accountEmulator=1' : ''}">보유 현황 편집</a>${ownershipError || ownedOnly && !owned.size ? `<p class="usage-caption">${esc(ownershipError || '보유 기록이 없습니다. 각성체를 등록하거나 보유 조건을 해제해주세요.')}</p>` : ''}</section>` : ''}
+
             ${data ? `<details class="site-disclosure usage-disclosure" id="usage-coverage" ${coverageOpen ? 'open' : ''}><summary id="usage-coverage-summary">집계 정보</summary><p class="usage-caption">수집 ${n(allCount)}건 · ${data.coverage === 'sample' ? '일부 기록' : '공개 클리어 전체'}<br>명륜 확인 ${n(sampleCount(rows.filter(r => target(r).wheels !== null)))} / ${n(total)}건 · 비밀계약 확인 ${n(sampleCount(rows.filter(r => target(r).covenant !== null)))} / ${n(total)}건<br>출처: ${esc(data.source)}<br>같은 유저의 여러 클리어가 포함될 수 있습니다.</p></details>` : ''}
             ${active ? `<div class="usage-chips">${active}<button type="button" class="usage-chip" id="usage-reset" data-reset>필터 초기화</button></div>` : ''}
             ${!data && !pending && !error ? '<div class="usage-empty"><button type="button" id="usage-demo" class="usage-select">가상 데이터로 기능 살펴보기</button></div>' : ''}
@@ -197,11 +202,11 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
             ${tab === 'covenants' ? `<p class="usage-caption">세트 사용률은 전체 클리어 기준이며, 주옵·부옵은 완성도 90% 이상만 집계합니다.</p><div class="usage-cards">${groupList(distribution(groupingRows, r => covenantKey(target(r))), 'covenant', sampleCount(groupingRows))}</div><details class="site-disclosure usage-options" id="usage-options" ${optionsOpen ? 'open' : ''}><summary id="usage-options-summary">주옵·부옵 전체 보기 (완성도 90% 이상)</summary>${optionsOpen ? `<h4>주옵·부옵</h4><p>완성도 90% 이상 ${n(option.total)}건 / 클리어 ${n(total)}건</p>${optionGrid(option)}<p class="usage-caption">부옵은 한 부위에 여러 개 붙으므로 사용률 합계가 100%를 넘을 수 있습니다. 같은 부옵이 중복되면 수치를 합산합니다. 각 부위의 원래 옵션은 ‘클리어 세팅’에서 볼 수 있습니다.</p><button type="button" class="usage-select" data-usage-tab="records">클리어 세팅 보기</button>` : ''}</details>` : ''}
             ${tab === 'records' ? `<p class="usage-caption">같은 클리어에서 사용한 네 명의 세팅입니다. 계약 완성도 90% 미만도 포함합니다.</p><div class="usage-filters"><label class="usage-checkbox"><input id="usage-public-only" type="checkbox" data-record-filter="publicOnly" ${publicOnly ? 'checked' : ''}>네 명 장비 공개</label><label class="usage-checkbox"><input id="usage-exclude-used" type="checkbox" data-record-filter="excludeUsed" ${excludeUsed ? 'checked' : ''}>다른 구역에 담은 각성체·명륜 제외</label><label>파티 잠재력<select id="usage-max-potential" data-record-filter="maxPotential"><option value="">전체</option>${[0,1,2,3].map(v => `<option value="${v}" ${maxPotential === String(v) ? 'selected' : ''}>${v === 0 ? '명함' : v + '돌'} 이하</option>`).join('')}</select></label></div><p class="usage-caption">조건에 맞는 기록 ${n(sampleCount(records))}건 · ${n(records.length)}개 세팅. 잠재력 4단계 이상 또는 미수집 기록은 ‘3돌 이하’에 포함하지 않습니다. 명륜 돌파는 비교할 수 없습니다.</p>${records.length ? records.slice(0, shown).map((row, index) => record(row, index)).join('') + moreButton(records.length) : '<p class="usage-empty">해당하는 세팅이 없습니다. 파티 또는 필터를 바꿔 다른 기록을 확인해주세요.</p>'}` : ''}</div>` : ''}`;
         const recommendationRows = data ? selectFor({ ...filters, team: '', wheels: '', covenant: '' }) : [];
-        const conditions = [filters.wave && `${filters.wave}구역`, filters.difficulty && difficultyName(filters.difficulty), filters.enlightenment && enlightenmentLabel(Number(filters.enlightenment)), filters.noBorrowed && '지원 제외'].filter(Boolean).join(' · ');
+        const primaryControls = data ? `<div class="usage-filters usage-primary-filters">${select('wave', '금지구역', [1,2,3,4,5].map(w => [w, `${w}구역`]), filters.wave)}${select('difficulty', '위험 등급', [...new Set(data.rows.map(row => row.difficulty))].sort().map(value => [value, difficultyName(value)]), filters.difficulty)}<label class="usage-checkbox"><input id="usage-owned-only" type="checkbox" ${ownedOnly ? 'checked' : ''}>보유한 각성체만</label></div>` : '';
         root.innerHTML = `<header class="usage-header usage-first-header"><p class="usage-eyebrow">융재금구${data ? ` ${data.period}기` : ''}</p><span class="usage-muted">실제 클리어에 사용된 명륜·비밀계약</span></header>${mode ? '<p class="usage-demo-notice">예시 화면 · 실제 통계가 아닙니다</p>' : ''}
-            ${data ? `${conditions ? `<div class="usage-applied-context"><span>${esc(conditions)}</span><button type="button" class="usage-select" data-open-statistics>조건 변경</button></div>` : ''}${recommendations(recommendationRows)}${planPanel()}${notice ? `<p class="usage-context" role="status">${esc(notice)}</p>` : ''}<details class="site-disclosure usage-statistics" id="usage-statistics" ${statisticsOpen ? 'open' : ''}><summary id="usage-statistics-summary">통계·필터·클리어 기록 자세히 보기</summary><div class="usage-statistics-body">${statistics}</div></details>` : `<p class="usage-context" role="status">${pending ? '추천 세팅을 불러오는 중입니다…' : esc(error || '아직 수집된 사용 기록이 없습니다.')}</p>${!pending ? '<button type="button" class="usage-select" id="usage-refresh">다시 불러오기</button>' : ''}${!pending && !error ? '<button type="button" id="usage-demo" class="usage-select">가상 데이터로 기능 살펴보기</button>' : ''}`}`;
+            ${data ? `${primaryControls}${recommendations(recommendationRows)}${planPanel()}${notice ? `<p class="usage-context" role="status">${esc(notice)}</p>` : ''}<details class="site-disclosure usage-statistics" id="usage-statistics" ${statisticsOpen ? 'open' : ''}><summary id="usage-statistics-summary">통계·필터·클리어 기록 자세히 보기</summary><div class="usage-statistics-body">${statistics}</div></details>` : `<p class="usage-context" role="status">${pending ? '추천 세팅을 불러오는 중입니다…' : esc(error || '아직 수집된 사용 기록이 없습니다.')}</p>${!pending ? '<button type="button" class="usage-select" id="usage-refresh">다시 불러오기</button>' : ''}${!pending && !error ? '<button type="button" id="usage-demo" class="usage-select">가상 데이터로 기능 살펴보기</button>' : ''}`}`;
         for (const previous of expandedAlternatives) {
-            const detail = [...root.querySelectorAll('[data-usage-alternatives]')].find(el => el.dataset.usageAlternatives === previous.key && el.dataset.ownedBuild === previous.build);
+            const detail = [...root.querySelectorAll('[data-usage-alternatives]')].find(el => el.dataset.usageAlternatives === previous.key && el.dataset.ownedBuild === previous.build && el.hasAttribute('data-primary-party') === previous.primary);
             if (detail) { detail.open = true; showAlternatives(detail, previous.limit); }
         }
         root.insertAdjacentHTML('beforeend', previewDialog());
@@ -256,7 +261,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         if (event.target.id === 'usage-record-dialog') { event.preventDefault(); closePreview(); }
     }, true);
     root.addEventListener('change', event => {
-        if (event.target.id === 'usage-owned-only') { ownedOnly = event.target.checked; shown = 20; openRow = -1; replaceWave = null; render(); return; }
+        if (event.target.id === 'usage-owned-only') { ownershipChosen = true; ownedOnly = event.target.checked; shown = 20; openRow = -1; replaceWave = null; render(); return; }
         if (event.target.dataset.recordFilter) { const key = event.target.dataset.recordFilter; const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value; if (key === 'publicOnly') publicOnly = value; if (key === 'excludeUsed') excludeUsed = value; if (key === 'maxPotential') maxPotential = value; try { localStorage.setItem('morimens_usage_record_filters_v1', JSON.stringify({ publicOnly, excludeUsed, maxPotential })); } catch { /* Filters remain usable without persistence. */ } shown = 20; openRow = -1; replaceWave = null; render(); return; }
         const key = event.target.dataset.filter; if (!key) return; shown = 20; replaceWave = null;
         if (key === 'period') { period = event.target.value; data = null; filters = {}; openRow = -1; load(); }
@@ -267,12 +272,12 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         if (el.hasAttribute('data-close-preview')) closePreview();
         else if (el.dataset.previewStep) { recordPreview.index += Number(el.dataset.previewStep); replaceWave = null; notice = ''; render(); }
         else if (el.hasAttribute('data-toggle-example')) { exampleOptionsOpen = !exampleOptionsOpen; render(); }
-        else if (el.dataset.chooseBuild) { chosenBuild = el.dataset.chooseBuild; buildChosenByUser = true; myTeamsShown = 2; render(); }
-        else if (el.hasAttribute('data-more-owned')) { const previous = myTeamsShown; myTeamsShown += 2; render(); root.querySelectorAll('.usage-party-footer > [data-owned-party]')[previous]?.focus(); }
+        else if (el.dataset.chooseParty) { chosenParty = el.dataset.chooseParty; render(); }
+        else if (el.dataset.previewParty) { openPreview(selectFor({ ...filters, team: el.dataset.previewParty, wheels: '', covenant: '', ...(el.dataset.previewWave ? { wave: el.dataset.previewWave } : {}) }), el, el.dataset.previewRecord); }
         else if (el.hasAttribute('data-open-statistics')) { statisticsOpen = true; render(); root.querySelector('#usage-wave')?.focus(); }
         else if (el.dataset.ownedParty) { const [wheels, covenant] = JSON.parse(el.dataset.ownedBuild); openPreview(selectRows(data, { ...filters, wheels, covenant, team: el.dataset.ownedParty, owned, ...(el.dataset.ownedWave ? { wave: el.dataset.ownedWave } : {}) }), el); }
         else if (el.dataset.usageAltMore) { const detail = el.closest('details'); showAlternatives(detail, Number(el.dataset.usageAltMore)); (detail.querySelector('[data-usage-alt-more]') || detail.querySelector('summary')).focus(); }
-        else if (el.dataset.usageAlternative) { const [team, wave, difficulty] = JSON.parse(el.dataset.usageAlternative); const selection = { ...filters, team, wave: String(wave), difficulty }; if (el.dataset.ownedBuild) { [selection.wheels, selection.covenant] = JSON.parse(el.dataset.ownedBuild); selection.owned = owned; } else selection.owned = ownedOnly ? owned : null; openPreview(selectRows(data, selection), el); }
+        else if (el.dataset.usageAlternative) { const [team, wave, difficulty] = JSON.parse(el.dataset.usageAlternative); const selection = { ...filters, team, wave: String(wave), difficulty, ...(el.hasAttribute('data-primary-alternative') ? { wheels: '', covenant: '' } : {}) }; if (el.dataset.ownedBuild) { [selection.wheels, selection.covenant] = JSON.parse(el.dataset.ownedBuild); selection.owned = owned; } else selection.owned = ownedOnly ? owned : null; openPreview(selectRows(data, selection), el); }
         else if (el.dataset.equipment) { const item = el.dataset.kind === 'wheel' ? wheelMap[el.dataset.equipment] : covMap[el.dataset.equipment]; window.openDictionaryDialog(item, el.dataset.kind === 'wheel' ? 'myeongryun' : 'covenant', el); }
         else if (el.dataset.build) {
             const [wheels, covenant] = JSON.parse(el.dataset.build);

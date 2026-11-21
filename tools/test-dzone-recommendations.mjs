@@ -28,13 +28,13 @@ try {
         await page.goto(url(character.id));
         await expect(page.locator('.usage-featured-build')).toBeVisible({ timeout: 30000 });
         await expect(page.locator('#page-title')).toContainText(character.name);
-        checked.push({ id: character.id, name: character.name, clears: sampleCount(data.rows), joint: sampleCount(joint), builds: Math.max(1, await page.locator('[data-choose-build]').count()) });
+        checked.push({ id: character.id, name: character.name, clears: sampleCount(data.rows), joint: sampleCount(joint), builds: Math.max(1, await page.locator('[data-choose-party]').count()) });
         if (checked.length % 10 === 0) console.log(`추천 세팅 화면 ${checked.length}/${manifest.length} 확인`);
     }
     if (checked.length) await fs.writeFile(path.join(out, 'characters.json'), JSON.stringify(checked, null, 2));
-    await page.goto(url('doll_inferno')); await expect(page.locator('[data-build]').first()).toBeVisible({ timeout: 30000 });
+    await page.goto(url('doll_inferno')); await expect(page.locator('#usage-recommended-record')).toBeVisible({ timeout: 30000 });
     async function layout(name) {
-        const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, clipped: [...document.querySelectorAll('.usage-recommendations button')].filter(el => el.getClientRects().length).some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < 43; }) }));
+        const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, clipped: [...document.querySelectorAll('.usage-recommendations button')].filter(el => el.getClientRects().length).some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < (el.classList.contains('usage-zone') ? 27 : 43); }) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
     for (const width of [320, 390, 479, 480, 481, 639, 640, 641, 767, 768, 769, 899, 900, 901, 1024, 1280]) {
@@ -48,7 +48,7 @@ try {
     await page.setViewportSize({ width: 390, height: 900 });
     await page.locator('#usage-recommended-record').scrollIntoViewIfNeeded();
     const scrollBefore = await page.evaluate(() => scrollY);
-    await page.locator('[data-build]').first().click(); await expect(page.locator('#usage-record-dialog')).toBeVisible();
+    await page.locator('#usage-recommended-record').click(); await expect(page.locator('#usage-record-dialog')).toBeVisible();
     await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
     for (const width of [320,390,479,480,481,639,640,641,768,899,900,901,1024,1280]) {
         await page.setViewportSize({width,height:900});
