@@ -61,6 +61,7 @@ try {
     const primaryRows = selectRows(usage, {...stage,owned});
     const partyIndex = indexUsageTeams(primaryRows);
     await page.goto(primaryUrl); await expect(page.locator('.usage-stat-equipment')).toBeVisible({timeout:30000});
+    await page.locator('#usage-party-picker-summary').click();
     await expect(page.locator('#usage-owned-only')).toBeChecked();
     await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
     await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-party','');
@@ -68,6 +69,7 @@ try {
     let example;
     const contractKeys = await page.locator('#usage-stat-contract-0 option').evaluateAll(es=>es.map(e=>e.value));
     for (const contract of contractKeys) {
+        if(!await page.locator('#usage-stat-contract-0').isVisible()) await page.locator('.usage-stat-other-contracts > summary').click();
         await page.locator('#usage-stat-contract-0').selectOption(contract);
         const keys = await page.locator('[data-choose-party]').evaluateAll(es=>es.map(e=>e.dataset.chooseParty));
         for (const key of keys) {

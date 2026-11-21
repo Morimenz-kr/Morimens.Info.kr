@@ -10,7 +10,7 @@ import { covenantStatistics } from '../js/usage-recommendations.mjs';
 const root = path.resolve(import.meta.dirname, '..'), out = path.join(root, '.generated/recommendations-check');
 await fs.mkdir(out, { recursive: true });
 const manifest = JSON.parse(await fs.readFile(path.join(root, 'data/character_manifest.json'), 'utf8'));
-const server = createPreviewServer(); await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+const server = createPreviewServer(); await new Promise(resolve => server.listen(9382, '127.0.0.1', resolve));
 const base = `http://127.0.0.1:${server.address().port}`;
 let browser, page;
 try {
@@ -40,15 +40,22 @@ try {
     const rate = value => `${(value*100).toLocaleString('ko-KR',{maximumFractionDigits:1})}%`;
     async function assertRates(groups) {
         for(const option of groups[0].options.subs) {
-            const row = page.locator('.usage-stat-substats li').filter({has:page.locator(`[data-stat-option="${option.id}:${option.unit}"]`)});
             const element = page.locator(`.usage-stat-substats [data-stat-option="${option.id}:${option.unit}"] .usage-stat-rate`).first();
             await expect(element).toHaveText(rate(option.rate));
         }
     }
     await expect(page.locator('.usage-stat-equipment').first()).toHaveAttribute('data-stat-group',expectedGroups[0].key);
     await assertRates(expectedGroups);
+    // The full catalogue is secondary, but remains keyboard-accessible and restores clear focus.
+    await expect(page.locator('#usage-stat-contract-0')).not.toBeVisible();
+    await page.locator('.usage-stat-other-contracts > summary').click();
+    await page.locator('#usage-stat-contract-0').selectOption(expectedGroups[3].key);
+    await expect(page.locator('#usage-stat-current')).toBeFocused();
+    await expect(page.locator('.usage-stat-other-contracts')).not.toHaveAttribute('open');
+    await page.locator('[data-stat-preset]').first().click();await assertRates(expectedGroups);
     await expect(page.locator('.usage-recommendations .usage-loadout-part,#usage-example-toggle,[data-preview-wave],.usage-my-source,.usage-party-equipment-heading')).toHaveCount(0);
     // Owning companions changes party suggestions, never the character's equipment statistics.
+    await page.locator('#usage-party-picker-summary').click();
     await page.locator('#usage-owned-only').check();await assertRates(expectedGroups);
     await page.locator('#usage-owned-only').uncheck();
     const party = await page.locator('[data-choose-party]').first().getAttribute('data-choose-party');
@@ -59,14 +66,17 @@ try {
     await assertRates([cohortGroups.find(g=>g.key===selected)]);
     await page.locator('[data-clear-party]').click();await assertRates(expectedGroups);
     await page.locator('#usage-stat-compare').click();
-    await expect(page.locator('.usage-stat-equipment')).toHaveCount(2);
-    await expect(page.locator('.usage-stat-substats li').first().locator('.usage-stat-rate')).toHaveCount(2);
+    await expect(page.locator('[data-stat-group]')).toHaveCount(2);
+    await expect(page.locator('.usage-stat-substats [data-stat-option]').first().locator('.usage-stat-rate')).toHaveCount(2);
     await page.locator('#usage-stat-contract-1').selectOption(expectedGroups[1].key);
+    await page.setViewportSize({width:390,height:900});
+    const nameLines = await page.locator('.usage-stat-comparison-table th[scope=row]').evaluateAll(cells => cells.filter(cell=>['광기 충전 레벨','크리티컬 피해','검은 인장 드롭율'].includes(cell.textContent)).map(cell=>{const range=document.createRange();range.selectNodeContents(cell);return {text:cell.textContent,lines:range.getClientRects().length};}));
+    assert.ok(nameLines.length && nameLines.every(cell=>cell.lines===1),'Korean labels remain readable as complete names: '+JSON.stringify(nameLines));
     async function layout(name) {
         const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, textOverflow: [...document.querySelectorAll('.usage-stat-rates li,.usage-stat-art > span')].filter(el => el.getClientRects().length).some(el => el.scrollWidth > el.clientWidth + 1), clipped: [...document.querySelectorAll('.usage-recommendations button')].filter(el => el.getClientRects().length).some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < (el.classList.contains('usage-zone') ? 27 : 43); }) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped && !metrics.textOverflow, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
-    for (const width of [320, 389, 390, 391, 479, 480, 481, 639, 640, 641, 767, 768, 769, 899, 900, 901, 1024, 1280]) {
+    for (const width of [320, 389, 390, 391, 479, 480, 481, 639, 640, 641, 767, 768, 769, 779, 780, 781, 899, 900, 901, 1024, 1280]) {
         await page.setViewportSize({ width, height: 900 }); await layout(`settings-${width}`);
         if ([320, 390, 1280].includes(width)) await page.screenshot({ path: path.join(out, `settings-${width}.png`), fullPage: true });
     }
@@ -85,6 +95,7 @@ try {
     await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
     await page.setViewportSize({ width: 844, height: 390 }); await layout('settings-landscape');
     await page.setViewportSize({ width: 390, height: 900 });
+    await page.locator('#usage-party-picker-summary').click();
     await page.locator('[data-choose-party]').first().click();
     await page.locator('#usage-stat-records').scrollIntoViewIfNeeded();
     const scrollBefore = await page.evaluate(() => scrollY);
