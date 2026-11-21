@@ -137,15 +137,6 @@
 /* Visual build summary: one equipment group, then complete four-member parties.
    Eremora reference: 14px/20px names, 8px item gaps and 12px internal spacing.
    Our full artwork uses larger 48–56px slots so its details remain recognizable. */
-.link-container.usage-wide { max-width:1080px; }
-/* The page footer already exposes feedback; avoid a duplicate overlay on equipment actions. */
-body:has(.usage-wide) #floating-report-btn { display:none; }
-.usage-wide .category-title { margin-bottom:1rem; padding-bottom:1rem; font-size:1.5rem; gap:.75rem; }
-.usage-wide .title-thumb { width:44px; height:44px; }
-.usage-wide .chrome-tabs-container { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:0; overflow:visible; }
-.usage-wide .chrome-tab { min-width:0; min-height:44px; padding:.5rem .35rem; font-size:.85rem; text-align:center; overflow-wrap:anywhere; }
-body:has(.usage-wide) .links-page-shell > .back-link { min-height:32px; margin-bottom:.75rem; padding:.25rem .5rem; border-color:transparent; background:transparent; font-weight:400; }
-.usage-wide .tab-content:has(.character-usage) { padding-top:1rem; }
 .usage-first-header { align-items:center; flex-direction:row; flex-wrap:wrap; margin:0 0 1rem; gap:.25rem .75rem; }
 .usage-first-header p { margin:0; font-size:.875rem; }
 .usage-first-header .usage-muted { font-size:.875rem; }
