@@ -65,7 +65,7 @@ try {
     const primaryAlternatives = example.alternatives;
     await page.goto(primaryUrl); await expect(page.locator('.usage-featured-build')).toBeVisible({ timeout: 30000 });
     await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
-    const order = await page.evaluate(() => [...document.querySelector('.character-usage').children].map(e => e.className));
+    const order = await page.evaluate(() => [...document.querySelectorAll('.usage-recommendations,.usage-my-parties,.usage-statistics')].map(e => e.className));
     assert.ok(order.indexOf('usage-recommendations') < order.indexOf('usage-my-parties'));
     assert.ok(order.indexOf('usage-my-parties') < order.findIndex(c => c.includes('usage-statistics')));
     assert.equal(await page.locator('.usage-recommendations .usage-frequency,.usage-my-parties .usage-frequency').count(), 0);
@@ -89,7 +89,7 @@ try {
             textOverflow: [...document.querySelectorAll('.usage-example-main p,.usage-featured-build')].filter(e => e.getClientRects().length).some(e => e.scrollWidth > e.clientWidth + 1) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped.length && !metrics.textOverflow, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
-    for (const width of [320,390,479,480,481,767,768,769,1023,1024,1025,1280]) {
+    for (const width of [320,390,479,480,481,767,768,769,899,900,901,1023,1024,1025,1280]) {
         await page.setViewportSize({ width, height: 900 }); await characterLayout(`awakener-${width}`);
         if ([390,1280].includes(width)) await page.screenshot({ path: path.join(out, `awakener-owned-${width}.png`), fullPage: true });
     }
@@ -105,9 +105,18 @@ try {
     }
     await page.locator('.usage-example-options > summary').click();
     await primaryCard.locator('[data-usage-alternative]').first().click();
-    await expect(page.locator('.usage-record').first()).toBeVisible();
-    const replacementNames = await page.locator('.usage-record').first().locator('.usage-members').innerText();
+    await expect(page.locator('#usage-record-dialog')).toBeVisible();
+    await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
+    const replacementNames = await page.locator('#usage-record-dialog .usage-members').innerText();
     for (const id of primaryAlternatives[0].members) assert.ok(replacementNames.includes(chars.get(id).name));
+    await page.keyboard.press('Escape');
+    await expect(page.locator('#usage-record-dialog')).toHaveCount(0);
+    await expect(primaryCard.locator('.usage-team-alternatives')).toHaveAttribute('open');
+    await expect(primaryCard.locator('[data-usage-alternative]').first()).toBeFocused();
+    await primaryCard.locator('.usage-team-alternatives > summary').click();
+    await page.setViewportSize({width:1280,height:900});
+    await page.evaluate(() => scrollTo(0,0));
+    await page.screenshot({path:path.join(out,'compact-desktop.png')});
     await page.goto(url + '&owned=1'); await expect(page.locator('.clear-team').first()).toBeVisible({ timeout: 30000 });
     await page.locator('[data-open-picker]').first().click();
     for (const id of baseTeam.members) { await page.locator('#clear-character-search').fill(chars.get(id).name); await page.locator(`[data-pick="${id}"]`).click(); }
@@ -127,7 +136,7 @@ try {
             short: [...document.querySelectorAll('.clear-team a,.clear-team summary,.clear-character-grid button')].filter(e => e.getClientRects().length).some(e => e.getBoundingClientRect().height < 43) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped.length && !metrics.short, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
-    for (const width of [320,390,479,480,481,767,768,769,1023,1024,1025,1280]) {
+    for (const width of [320,390,479,480,481,767,768,769,899,900,901,1023,1024,1025,1280]) {
         await page.setViewportSize({ width, height: 900 }); await layout(`clears-${width}`);
         if ([320,390,1280].includes(width)) await page.screenshot({ path: path.join(out, `owned-${width}.png`), fullPage: true });
     }
