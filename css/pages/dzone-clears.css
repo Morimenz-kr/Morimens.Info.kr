@@ -142,9 +142,8 @@
 body:has(.usage-wide) #floating-report-btn { display:none; }
 .usage-wide .category-title { margin-bottom:1rem; padding-bottom:1rem; font-size:1.5rem; gap:.75rem; }
 .usage-wide .title-thumb { width:44px; height:44px; }
-.usage-wide .chrome-tabs-container { display:flex; width:100%; padding:0; overflow:visible; }
-.usage-wide .chrome-tab { flex:0 1 auto; min-width:8rem; min-height:44px; margin:0; padding:.65rem .9rem; border:0; border-bottom:2px solid transparent; border-radius:0; background:transparent; font-size:.875rem; line-height:1.4; text-align:center; overflow-wrap:anywhere; }
-.usage-wide .chrome-tab.active { background:transparent; border-color:var(--color-accent); color:var(--color-accent); }
+.usage-wide .chrome-tabs-container { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); padding:0; overflow:visible; }
+.usage-wide .chrome-tab { min-width:0; min-height:44px; padding:.5rem .35rem; font-size:.85rem; text-align:center; overflow-wrap:anywhere; }
 body:has(.usage-wide) .links-page-shell > .back-link { min-height:32px; margin-bottom:.75rem; padding:.25rem .5rem; border-color:transparent; background:transparent; font-weight:400; }
 .usage-wide .tab-content:has(.character-usage) { padding-top:1rem; }
 .usage-first-header { align-items:center; flex-direction:row; flex-wrap:wrap; margin:0 0 1rem; gap:.25rem .75rem; }
@@ -225,7 +224,6 @@ body:has(.usage-wide) .links-page-shell > .back-link { min-height:32px; margin-b
     .usage-owned-team .usage-member img { width:3.5rem; height:3.5rem; }
 }
 @media(max-width:480px) {
-    .usage-wide .chrome-tab { flex:1; min-width:0; padding:.65rem .25rem; font-size:.8125rem; }
     .usage-first-header .usage-muted { font-size:.8125rem; }
     .usage-build-tools > button { flex:1; }
     .usage-first-layout { gap:1.25rem; }

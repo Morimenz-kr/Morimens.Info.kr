@@ -16,8 +16,6 @@ const difficultyName = difficultyLabel;
 export async function mountCharacterUsage(root, { character, manifest, wheels, covenants }) {
     root.className = 'character-usage';
     root.closest('.link-container')?.classList.add('usage-wide');
-    const guideTab = root.closest('.link-container')?.querySelector('[data-tab-target=links]');
-    if (guideTab) guideTab.textContent = '채널 정보글';
     const chars = Object.fromEntries(manifest.map(c => [c.id, c]));
     const wheelMap = Object.fromEntries([...wheels, ...usageExtraWheels].map(w => [w.english_name, w]));
     const covMap = Object.fromEntries(covenants.map(c => [c.english_name, c]));
