@@ -37,7 +37,7 @@ try {
         const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, clipped: [...document.querySelectorAll('.usage-recommendations button')].filter(el => el.getClientRects().length).some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < 43; }) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
-    for (const width of [320, 390, 479, 480, 481, 767, 768, 769, 899, 900, 901, 1024, 1280]) {
+    for (const width of [320, 390, 479, 480, 481, 639, 640, 641, 767, 768, 769, 899, 900, 901, 1024, 1280]) {
         await page.setViewportSize({ width, height: 900 }); await layout(`settings-${width}`);
         if ([320, 390, 1280].includes(width)) await page.screenshot({ path: path.join(out, `settings-${width}.png`), fullPage: true });
     }
@@ -50,7 +50,7 @@ try {
     const scrollBefore = await page.evaluate(() => scrollY);
     await page.locator('[data-build]').first().click(); await expect(page.locator('#usage-record-dialog')).toBeVisible();
     await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
-    for (const width of [320,390,479,480,481,768,899,900,901,1024,1280]) {
+    for (const width of [320,390,479,480,481,639,640,641,768,899,900,901,1024,1280]) {
         await page.setViewportSize({width,height:900});
         const metrics = await page.locator('#usage-record-dialog').evaluate(el => { const r = el.getBoundingClientRect(); return { left:r.left, right:r.right, bottom:r.bottom, height:innerHeight, width:innerWidth, overflow:el.scrollWidth-el.clientWidth }; });
         assert.ok(metrics.left >= 0 && metrics.right <= width + 1 && metrics.bottom <= metrics.height + 1 && metrics.overflow <= 1, JSON.stringify(metrics));

@@ -73,12 +73,26 @@ try {
     if (example.buildIndex) await page.locator('[data-choose-build]').nth(example.buildIndex).click();
     await expect(page.locator('.usage-featured-build')).toHaveAttribute('data-selected-build', example.build.key);
     for (const key of await page.locator('[data-owned-team]').evaluateAll(es => es.map(e => e.dataset.ownedTeam))) assert.ok(key.split('|').every(id => owned.has(id)));
-    await page.locator('.usage-example-options > summary').click();
+    await page.locator('#usage-example-toggle').click();
     const actualOptions = await page.locator('.usage-example-main [data-example-main]').allTextContents();
     assert.equal(actualOptions.length, 6);
     example.build.member.covenant.parts.forEach((part, i) => assert.ok(actualOptions[i].includes(part.main.label)));
-    await page.locator('.usage-example-options > summary').click();
+    await page.locator('#usage-example-toggle').click();
     const primaryCard = page.locator(`[data-owned-team="${example.base.key}"]`);
+    for (const width of [390,1280]) {
+        await page.setViewportSize({width,height:900});
+        await page.evaluate(() => scrollTo(0,0));
+        await page.screenshot({path:path.join(out,`visual-${width}.png`),fullPage:true});
+    }
+    await page.setViewportSize({width:1280,height:900});
+    await expect.poll(() => page.locator('.usage-featured-equipment img,.usage-choice-art img,.usage-owned-team img').evaluateAll(es => es.every(el => el.complete && el.naturalWidth > 0))).toBe(true);
+    const scale = await page.evaluate(() => {
+        const portrait = document.querySelector('.usage-owned-team .usage-member img');
+        const equipment = document.querySelector('.usage-featured-equipment .usage-equipment img');
+        const name = document.querySelector('.usage-owned-team .usage-member');
+        return {portrait:portrait.getBoundingClientRect().width,equipment:equipment.getBoundingClientRect().height,text:parseFloat(getComputedStyle(name).fontSize)};
+    });
+    assert.ok(scale.portrait >= 48 && scale.equipment >= 72 && scale.text >= 14, JSON.stringify(scale));
     await primaryCard.locator('.usage-team-alternatives > summary').click();
     await expect(primaryCard.locator('[data-usage-alternative]')).toHaveCount(Math.min(5, primaryAlternatives.length));
     const primaryValue = JSON.parse(await primaryCard.locator('[data-usage-alternative]').first().getAttribute('data-usage-alternative'));
@@ -89,7 +103,7 @@ try {
             textOverflow: [...document.querySelectorAll('.usage-example-main p,.usage-featured-build')].filter(e => e.getClientRects().length).some(e => e.scrollWidth > e.clientWidth + 1) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped.length && !metrics.textOverflow, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
-    for (const width of [320,390,479,480,481,767,768,769,899,900,901,1023,1024,1025,1280]) {
+    for (const width of [320,390,479,480,481,639,640,641,767,768,769,899,900,901,1023,1024,1025,1280]) {
         await page.setViewportSize({ width, height: 900 }); await characterLayout(`awakener-${width}`);
         if ([390,1280].includes(width)) await page.screenshot({ path: path.join(out, `awakener-owned-${width}.png`), fullPage: true });
     }
@@ -98,12 +112,12 @@ try {
         await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
     }
     await page.setViewportSize({ width: 844, height: 390 }); await characterLayout('awakener-landscape');
-    await page.locator('.usage-example-options > summary').click();
+    await page.locator('#usage-example-toggle').click();
     for (const width of [320,390,1280]) {
         await page.setViewportSize({ width, height: 900 }); await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; }); await characterLayout(`example-zoom200-${width}`);
         await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
     }
-    await page.locator('.usage-example-options > summary').click();
+    await page.locator('#usage-example-toggle').click();
     await primaryCard.locator('[data-usage-alternative]').first().click();
     await expect(page.locator('#usage-record-dialog')).toBeVisible();
     await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
@@ -136,7 +150,7 @@ try {
             short: [...document.querySelectorAll('.clear-team a,.clear-team summary,.clear-character-grid button')].filter(e => e.getClientRects().length).some(e => e.getBoundingClientRect().height < 43) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped.length && !metrics.short, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
-    for (const width of [320,390,479,480,481,767,768,769,899,900,901,1023,1024,1025,1280]) {
+    for (const width of [320,390,479,480,481,639,640,641,767,768,769,899,900,901,1023,1024,1025,1280]) {
         await page.setViewportSize({ width, height: 900 }); await layout(`clears-${width}`);
         if ([320,390,1280].includes(width)) await page.screenshot({ path: path.join(out, `owned-${width}.png`), fullPage: true });
     }
