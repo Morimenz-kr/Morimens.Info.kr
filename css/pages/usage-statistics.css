@@ -1,0 +1,63 @@
+/* Contract-conditioned equipment statistics, using the inventory page's charcoal/gold language. */
+.usage-stat-settings { min-width:0; color:var(--color-text-primary); }
+.usage-stat-equipment-grid { display:grid; gap:1rem; }
+.usage-stat-equipment { min-width:0; padding:1rem; border:1px solid var(--color-border); border-radius:var(--radius-md); background:var(--color-bg-input); }
+.usage-stat-equipment-heading { display:flex; flex-wrap:wrap; align-items:end; justify-content:space-between; gap:.5rem .75rem; }
+.usage-stat-equipment-heading label { display:grid; flex:1 1 10rem; min-width:0; gap:.4rem; color:var(--color-text-muted); font-size:.8125rem; }
+.usage-stat-equipment-heading select { min-width:0; width:100%; min-height:44px; padding:.55rem .65rem; border:1px solid var(--color-border-light); border-radius:var(--radius-sm); color:var(--color-text-primary); background:var(--color-bg-elevated); font:inherit; font-size:.875rem; }
+.usage-stat-text-button { min-height:44px; padding:.5rem .65rem; border:1px solid transparent; border-radius:var(--radius-sm); background:transparent; color:var(--color-text-secondary); font:inherit; font-size:.8125rem; cursor:pointer; }
+.usage-stat-text-button:hover { color:var(--color-accent); background:var(--color-bg-card); }
+.usage-stat-artwork { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:.75rem; align-items:start; margin:1.25rem 0 .25rem; }
+.usage-stat-wheel-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; }
+.usage-stat-art { display:flex; flex-direction:column; gap:.6rem; align-items:center; width:100%; min-width:0; min-height:44px; padding:.25rem; border:1px solid transparent; border-radius:var(--radius-sm); color:var(--color-text-primary); background:transparent; font:inherit; font-size:.875rem; line-height:1.5; text-align:center; cursor:pointer; }
+.usage-stat-art:hover { border-color:var(--color-border-light); background:var(--color-bg-card); }
+.usage-stat-art-frame { position:relative; display:block; width:100%; height:8.5rem; overflow:hidden; }
+.usage-stat-art img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+.usage-stat-art[data-kind=covenant] img { left:50%; right:auto; width:133.333%; max-width:none; transform:translateX(-50%); }
+.usage-stat-art > span { min-width:0; word-break:keep-all; overflow-wrap:anywhere; }
+.usage-stat-art:disabled { cursor:default; }
+.usage-stat-missing-art { display:flex; align-items:center; justify-content:center; min-height:8.5rem; color:var(--color-text-muted); font-size:.75rem; }
+.usage-stat-contract-art { display:grid; gap:.5rem; min-width:0; text-align:center; }
+.usage-stat-contract-art > div { min-width:0; }
+.usage-stat-contract-art small { display:block; color:var(--color-text-muted); font-size:.75rem; }
+.usage-stat-adoption { margin:0; color:var(--color-text-muted); font-size:.8125rem; }
+.usage-stat-adoption strong { color:var(--color-accent); font-weight:600; font-variant-numeric:tabular-nums; }
+.usage-stat-unavailable { grid-column:1/-1; margin:0; align-self:center; color:var(--color-text-muted); font-size:.875rem; }
+.usage-stat-distributions { padding-top:1.25rem; }
+.usage-stat-section { margin:0 0 1.5rem; }
+.usage-stat-section > h5 { margin:0 0 .75rem; color:var(--color-text-primary); font-size:1rem; font-weight:600; }
+.usage-stat-main-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,9rem),1fr)); gap:.75rem; }
+.usage-stat-slot { min-width:0; padding:.75rem; background:var(--color-bg-input); border:1px solid var(--color-border-dark); border-radius:var(--radius-sm); }
+.usage-stat-slot > h6 { margin:0 0 .5rem; color:var(--color-text-muted); font-size:.8125rem; font-weight:500; }
+.usage-stat-rates { list-style:none; margin:0; padding:0; min-width:0; }
+.usage-stat-rates > li,.usage-stat-rate-labels { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:baseline; gap:.5rem; min-width:0; padding:.25rem 0; font-size:.875rem; line-height:1.6; }
+.usage-stat-option-name { min-width:0; color:var(--color-text-secondary); word-break:keep-all; overflow-wrap:anywhere; }
+.usage-stat-rate { min-width:4.5ch; color:var(--color-text-primary); font-variant-numeric:tabular-nums; white-space:nowrap; text-align:right; }
+.usage-stat-rate.is-leading { color:var(--color-accent); }
+.usage-stat-rate-labels { color:var(--color-text-muted); font-size:.6875rem; }
+.usage-stat-rate-labels > span:not(:first-child) { text-align:right; white-space:nowrap; }
+.usage-stat-no-options { margin:0; color:var(--color-text-muted); font-size:.8125rem; line-height:1.6; }
+.usage-stat-more > summary,.usage-stat-slot-details > summary { display:flex; align-items:center; min-height:44px; color:var(--color-text-muted); font-size:.8125rem; cursor:pointer; }
+.usage-stat-more > summary { justify-content:end; margin-top:.125rem; }
+.usage-stat-substats > .usage-stat-rates { padding:.5rem .75rem; border:1px solid var(--color-border-dark); border-radius:var(--radius-sm); background:var(--color-bg-input); }
+.usage-stat-substats > .usage-stat-rates > li { padding:.4rem 0; }
+.usage-stat-substats > .usage-stat-rate-labels { padding-inline:.75rem; }
+.usage-stat-slot-details { margin-top:-.5rem; border-block:1px solid var(--color-border-dark); }
+.usage-stat-slot-details > .usage-stat-main-grid { padding-bottom:.75rem; }
+.usage-stat-basis { margin:1rem 0 0; color:var(--color-text-muted); font-size:.75rem; line-height:1.8; }
+.usage-stat-empty { margin:0; padding:1rem 0; color:var(--color-text-muted); font-size:.875rem; line-height:1.7; }
+.usage-stat-settings :is(button,select,summary):focus-visible { outline:3px solid var(--color-accent); outline-offset:3px; }
+.usage-stat-settings.is-comparing .usage-stat-rates > li,.usage-stat-settings.is-comparing .usage-stat-rate-labels { grid-template-columns:minmax(0,1fr) auto auto; }
+.usage-stat-settings.is-comparing .usage-stat-main-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr)); }
+@media(min-width:640px) {
+    .usage-stat-equipment { padding:1.25rem; }
+    .usage-stat-art-frame { height:11rem; }
+    .usage-stat-art { font-size:.9375rem; }
+    .usage-stat-equipment-heading label { grid-template-columns:auto minmax(0,1fr); align-items:center; flex-basis:12rem; }
+    .usage-stat-main-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,max(9rem,calc((100% - 1.5rem)/3))),1fr)); }
+    .usage-stat-settings.is-comparing .usage-stat-equipment-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .usage-stat-settings.is-comparing .usage-stat-equipment { padding:1rem; }
+    .usage-stat-settings.is-comparing .usage-stat-art-frame { height:8.5rem; }
+    .usage-stat-settings.is-comparing .usage-stat-art { font-size:.8125rem; }
+    .usage-stat-settings.is-comparing .usage-stat-equipment-heading label { display:grid; grid-template-columns:minmax(0,1fr); flex-basis:9rem; }
+}

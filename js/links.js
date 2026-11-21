@@ -1163,7 +1163,7 @@ const initializeLinksPage = async () => {
                 gridContainer.innerHTML = '';
                 const usageRoot = document.createElement('div');
                 gridContainer.before(usageRoot);
-                const { mountCharacterUsage } = await import('./character-usage.js?v=party-first-20261121');
+                const { mountCharacterUsage } = await import('./character-usage.js?v=statistics-20261122');
                 void mountCharacterUsage(usageRoot, { character: charData, manifest, wheels: wheelList, covenants: covList });
                 if (settings) {
                     const manual = document.createElement('details');

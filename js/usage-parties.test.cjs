@@ -24,3 +24,43 @@ test('party clear totals and gear-confirmed totals have separate denominators',a
  const known=row('abcd',8,'verified');const party=recommendParties([unknown,known],'a').parties[0];
  assert.equal(party.count,108);assert.equal(party.equipmentCount,8);assert.equal(party.build.count,8);assert.strictEqual(party.example,known);
 });
+
+test('contract adoption excludes missing contracts, keeps all parties and counts substat presence once per weighted clear',async()=>{
+ const {covenantStatistics}=await import('./usage-recommendations.mjs');
+ const a=row('abcd',4), b=row('aefg',6), low=row('abcd',5), unknown=row('abcd',100);
+ const sub={id:'damage',label:'伤害',unit:'%',value:2};
+ a.members[0].covenant.parts[0].subs=[sub,{...sub,value:3}];
+ a.members[0].covenant.parts[1].subs=[sub];
+ low.members[0].covenant.completion=89;unknown.members[0].covenant=null;
+ const before=JSON.stringify([a,b,low,unknown]);const groups=covenantStatistics([a,b,low,unknown],'a');
+ assert.equal(groups.length,1);assert.equal(groups[0].count,15);assert.equal(groups[0].rate,1);
+ assert.equal(groups[0].options.total,10);assert.equal(groups[0].options.subs[0].count,4);assert.equal(groups[0].options.subs[0].rate,.4);
+ assert.equal(groups[0].options.slots[0].subs[0].rate,.4);assert.equal(groups[0].options.slots[1].subs[0].rate,.4);
+ assert.equal(groups[0].options.slots[2].subs.length,0);assert.equal(JSON.stringify([a,b,low,unknown]),before);
+ assert.equal('mean' in groups[0].options.slots[0].main[0],false);
+});
+
+test('different contracts have their own denominators and missing wheels do not become recommended pairs',async()=>{
+ const {covenantStatistics}=await import('./usage-recommendations.mjs');
+ const a=row('abcd',3), b=row('abcd',7,'different');
+ b.members[0].covenant.parts.forEach(p=>p.setId='other');b.members[0].wheels=null;
+ const [first,second]=covenantStatistics([a,b],'a');
+ assert.equal(first.rate,.7);assert.equal(second.rate,.3);assert.equal(first.options.total,7);assert.equal(second.options.total,3);
+ assert.deepEqual(first.wheelPairs,[]);assert.deepEqual(second.wheelPairs[0].ids,['w']);
+});
+
+test('the displayed wheels are an observed pair rather than the two most popular individual wheels',async()=>{
+ const {covenantStatistics}=await import('./usage-recommendations.mjs');
+ const rows=[['ab',10],['ac',9],['bc',9],['de',11]].map(([pair,count])=>{
+  const r=row('axyz',count);r.members[0].wheels=pair.split('').map(id=>({id,level:15}));return r;
+ });
+ assert.deepEqual(covenantStatistics(rows,'a')[0].wheels,['d','e']);
+});
+
+test('unknown completion never becomes option evidence or zero-percent advice',async()=>{
+ const {covenantStatistics}=await import('./usage-recommendations.mjs');
+ const r=row('abcd',100);r.members[0].covenant.completion=null;
+ const [group]=covenantStatistics([r],'a');
+ assert.equal(group.count,100);assert.equal(group.rate,1);assert.equal(group.options.total,0);
+ assert.deepEqual(group.options.subs,[]);assert.ok(group.options.slots.every(s=>!s.main.length && !s.subs.length));
+});

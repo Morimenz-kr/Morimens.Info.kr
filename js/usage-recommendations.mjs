@@ -1,8 +1,38 @@
-import { distribution, targetMember, wheelKey, covenantKey, teamKey } from './character-usage-model.mjs';
+import { distribution, targetMember, wheelKey, covenantKey, teamKey, optionStats, sampleCount } from './character-usage-model.mjs';
 import { gearKnown } from './usage-plan.mjs';
 
 const stage = row => `${row.wave}:${row.difficulty}`;
 const grade = value => ({ normal: 1, hard: 2, nightmare: 3, madness: 4 }[value] || Number(value));
+
+// Contract statistics describe a population, never a synthesized individual loadout.
+export function covenantStatistics(rows, characterId) {
+    const known = rows.filter(row => targetMember(row, characterId)?.covenant);
+    const knownCount = sampleCount(known);
+    return distribution(known, row => covenantKey(targetMember(row, characterId))).map(group => {
+        const pairs = distribution(group.rows, row => wheelKey(targetMember(row, characterId)));
+        const qualified = group.rows.filter(row => targetMember(row, characterId).covenant.completion >= 90);
+        const options = optionStats(qualified, characterId);
+        const subs = new Map();
+        for (const row of qualified) {
+            const once = new Map();
+            for (const part of targetMember(row, characterId).covenant.parts) {
+                for (const stat of part.subs) once.set(`${stat.id}:${stat.unit}`, stat);
+            }
+            for (const [key, stat] of once) {
+                const entry = subs.get(key) || { id:stat.id, label:stat.label, unit:stat.unit, count:0 };
+                entry.count += row.count; subs.set(key, entry);
+            }
+        }
+        const counts = values => values.map(({id,label,unit,count,rate}) => ({id,label,unit,count,rate}));
+        const wheelPairs = pairs.map(pair => ({ key:pair.key, ids:pair.key === '__unequipped__' ? [] : pair.key.split('|'), count:pair.count, rate:pair.rate }));
+        return { key:group.key, count:group.count, rate:group.rate, knownCount, rows:group.rows,
+            sets:group.key.split('|').map(part => {const [id,count]=part.split(':'); return {id,count:Number(count)};}),
+            wheels:wheelPairs[0]?.ids || [], wheelPairs,
+            options:{ total:options.total, slots:options.slots.map(slot=>({slot:slot.slot,main:counts(slot.main),subs:counts(slot.subs)})),
+                subs:[...subs.values()].map(stat=>({...stat,rate:options.total ? stat.count/options.total : 0})).sort((a,b)=>b.count-a.count || a.id.localeCompare(b.id)) }
+        };
+    });
+}
 
 // Rank complete, observed lineups first. Equipment is selected only inside that lineup.
 export function recommendParties(rows, characterId, { limit = 3, minCount = 3 } = {}) {

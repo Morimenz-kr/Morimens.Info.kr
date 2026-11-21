@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import { chromium, expect } from '@playwright/test';
 import { createPreviewServer } from './serve-dzone-preview.mjs';
 import { normalizeClearIndex, findClearTeams, findClearAlternatives, indexUsageTeams } from '../js/dzone-clear-model.mjs';
-import { normalizeUsage, selectRows } from '../js/character-usage-model.mjs';
-import { recommendParties } from '../js/usage-recommendations.mjs';
+import { normalizeUsage, selectRows, covenantKey, targetMember } from '../js/character-usage-model.mjs';
+import { recommendParties, covenantStatistics } from '../js/usage-recommendations.mjs';
 
 const root = path.resolve(import.meta.dirname, '..'), out = path.join(root, '.generated/clear-ui');
 await fs.mkdir(out, { recursive: true });
@@ -59,100 +59,65 @@ try {
     const primaryUrl = `${host}/links.html?category=character&id=${primaryId}&period=73&wave=${stage.wave}&difficulty=${stage.difficulty}#usage`;
     const usage = normalizeUsage(JSON.parse(await fs.readFile(path.join(root, `.generated/dzone-recommendations/73/characters/${primaryId}.json`), 'utf8')).data);
     const primaryRows = selectRows(usage, {...stage,owned});
-    const parties = recommendParties(primaryRows, primaryId).parties;
     const partyIndex = indexUsageTeams(primaryRows);
-    const candidates = parties.map((party, buildIndex) => { const base = findClearTeams(partyIndex).teams.find(team => team.key === party.key); return {build:party,buildIndex,base,alternatives:findClearAlternatives(partyIndex,base,{include:[primaryId]})}; });
-    const example = candidates.find(candidate => candidate.alternatives.length);
-    assert.ok(example, 'an actual representative party supplies a recorded replacement');
-    const primaryAlternatives = example.alternatives;
-    await page.goto(primaryUrl); await expect(page.locator('.usage-featured-build')).toBeVisible({ timeout: 30000 });
-    await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
-    const order = await page.evaluate(() => [...document.querySelectorAll('.usage-recommendations,.usage-statistics')].map(e=>e.className));
-    assert.ok(order.indexOf('usage-recommendations') < order.findIndex(c=>c.includes('usage-statistics')));
+    await page.goto(primaryUrl); await expect(page.locator('.usage-stat-equipment')).toBeVisible({timeout:30000});
     await expect(page.locator('#usage-owned-only')).toBeChecked();
-    await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-party', parties[0].key);
-    assert.equal(await page.locator('[data-choose-party]').count(),0);
-    if (example.buildIndex) await page.locator('[data-choose-party]').nth(example.buildIndex).click();
-    await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-party',example.build.key);
-    await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-build',example.build.build.key);
-    for (const key of await page.locator('[data-choose-party]').evaluateAll(es=>es.map(e=>e.dataset.chooseParty))) assert.ok(key.split('|').every(id=>owned.has(id)));
-    await page.locator('#usage-example-toggle').click();
-    const actualOptions = await page.locator('.usage-example-main [data-example-main]').allTextContents();
-    assert.equal(actualOptions.length, 6);
-    example.build.member.covenant.parts.forEach((part, i) => assert.ok(actualOptions[i].includes(part.main.label)));
-    await page.locator('#usage-example-toggle').click();
-    const primaryCard = page.locator('.usage-clear-party');
-    for (const width of [390,1280]) {
-        await page.setViewportSize({width,height:900});
-        await page.evaluate(() => scrollTo(0,0));
-        await page.screenshot({path:path.join(out,`visual-${width}.png`),fullPage:true});
-    }
-    await page.setViewportSize({width:1280,height:900});
-    await expect.poll(() => page.locator('.usage-featured-equipment img,.usage-party-choice-art img,.usage-party-lineup img').evaluateAll(es => es.every(el => el.complete && el.naturalWidth > 0))).toBe(true);
-    const scale = await page.evaluate(() => {
-        const portrait = document.querySelector('.usage-party-lineup .usage-member img');
-        const equipment = document.querySelector('.usage-featured-equipment .usage-equipment img');
-        const name = document.querySelector('.usage-party-lineup .usage-member');
-        return {portrait:portrait.getBoundingClientRect().width,equipment:equipment.getBoundingClientRect().height,text:parseFloat(getComputedStyle(name).fontSize)};
-    });
-    assert.ok(scale.portrait >= 48 && scale.equipment >= 72 && scale.text >= 14, JSON.stringify(scale));
-    await primaryCard.locator('.usage-team-alternatives > summary').click();
-    await expect(primaryCard.locator('[data-usage-alternative]')).toHaveCount(Math.min(5, primaryAlternatives.length));
-    const primaryValue = JSON.parse(await primaryCard.locator('[data-usage-alternative]').first().getAttribute('data-usage-alternative'));
-    assert.equal(primaryValue[0], primaryAlternatives[0].key); assert.ok(primaryValue[0].split('|').includes(primaryId));
-    async function characterLayout(name) {
-        const metrics = await page.evaluate(() => ({ overflow: document.documentElement.scrollWidth - innerWidth,
-            clipped: [...document.querySelectorAll('.character-usage button,.character-usage a,.character-usage input,.character-usage select,.character-usage summary')].filter(e => e.getClientRects().length).filter(e => { const r = e.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1; }).map(e => e.outerHTML.slice(0,100)),
-            textOverflow: [...document.querySelectorAll('.usage-example-main p,.usage-featured-build')].filter(e => e.getClientRects().length).some(e => e.scrollWidth > e.clientWidth + 1) }));
-        assert.ok(metrics.overflow <= 1 && !metrics.clipped.length && !metrics.textOverflow, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
-    }
-    for (const width of [320,390,479,480,481,639,640,641,767,768,769,899,900,901,1023,1024,1025,1280]) {
-        await page.setViewportSize({ width, height: 900 }); await characterLayout(`awakener-${width}`);
-        if ([390,1280].includes(width)) await page.screenshot({ path: path.join(out, `awakener-owned-${width}.png`), fullPage: true });
-    }
-    for (const width of [320,390,1280]) {
-        await page.setViewportSize({ width, height: 900 }); await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; }); await characterLayout(`awakener-zoom200-${width}`);
-        await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
-    }
-    await page.setViewportSize({ width: 844, height: 390 }); await characterLayout('awakener-landscape');
-    await page.locator('#usage-example-toggle').click();
-    for (const width of [320,390,1280]) {
-        await page.setViewportSize({ width, height: 900 }); await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; }); await characterLayout(`example-zoom200-${width}`);
-        await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
-    }
-    await page.locator('#usage-example-toggle').click();
-    await primaryCard.locator('[data-usage-alternative]').first().click();
-    await expect(page.locator('#usage-record-dialog')).toBeVisible();
     await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
-    const replacementNames = await page.locator('#usage-record-dialog .usage-members').innerText();
-    for (const id of primaryAlternatives[0].members) assert.ok(replacementNames.includes(chars.get(id).name));
-    await page.keyboard.press('Escape');
-    await expect(page.locator('#usage-record-dialog')).toHaveCount(0);
-    await expect(primaryCard.locator('.usage-team-alternatives')).toHaveAttribute('open');
-    await expect(primaryCard.locator('[data-usage-alternative]').first()).toBeFocused();
+    await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-party','');
+    // Find an actual visible owned party whose same-stage alternatives are known.
+    let example;
+    const contractKeys = await page.locator('#usage-stat-contract-0 option').evaluateAll(es=>es.map(e=>e.value));
+    for (const contract of contractKeys) {
+        await page.locator('#usage-stat-contract-0').selectOption(contract);
+        const keys = await page.locator('[data-choose-party]').evaluateAll(es=>es.map(e=>e.dataset.chooseParty));
+        for (const key of keys) {
+            const base = findClearTeams(partyIndex).teams.find(team=>team.key===key);
+            const alternatives = findClearAlternatives(partyIndex,base,{include:[primaryId]});
+            if(alternatives.length) {example={key,alternatives};break;}
+        }
+        if(example) break;
+    }
+    assert.ok(example,'actual owned party supplies replacements');
+    const primaryAlternatives = example.alternatives;
+    for(const key of await page.locator('[data-choose-party]').evaluateAll(es=>es.map(e=>e.dataset.chooseParty))) assert.ok(key.split('|').every(id=>owned.has(id)));
+    await page.locator(`[data-choose-party="${example.key}"]`).click();
+    await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-party',example.key);
+    const cohort = primaryRows.filter(row=>row.members.map(m=>m.characterId).sort().join('|')===example.key);
+    const expectedStats = covenantStatistics(cohort,primaryId);
+    const selectedKey = await page.locator('#usage-stat-contract-0').inputValue();
+    const selectedStats = expectedStats.find(group=>group.key===selectedKey);
+    assert.ok(selectedStats);
+    for(const stat of selectedStats.options.subs) await expect(page.locator(`.usage-stat-substats [data-stat-option="${stat.id}:${stat.unit}"] .usage-stat-rate`)).toHaveText((stat.rate*100).toLocaleString('ko-KR',{maximumFractionDigits:1})+'%');
+    const primaryCard = page.locator('.usage-clear-party');
     await primaryCard.locator('.usage-team-alternatives > summary').click();
-    await page.setViewportSize({width:1280,height:900});
-    await page.evaluate(() => scrollTo(0,0));
-    await page.screenshot({path:path.join(out,'compact-desktop.png')});
-    // A zone is an action: retain the exact four members and build while limiting every preview to that zone.
-    const allParties = recommendParties(selectRows(usage,{owned}),primaryId).parties;
-    const zoneExample = allParties.map((group,buildIndex)=>({build:group,buildIndex,group,waves:[...new Set(group.rows.map(row=>row.wave))].sort()})).find(item=>item.waves.length>1);
-    assert.ok(zoneExample, 'actual data supplies a party observed in multiple zones');
-    const zoneUrl = new URL(primaryUrl); zoneUrl.searchParams.delete('wave'); zoneUrl.searchParams.delete('difficulty');
-    await page.goto(zoneUrl.href); await expect(page.locator('.usage-featured-build')).toBeVisible({timeout:30000});
-    if (zoneExample.buildIndex) await page.locator('[data-choose-party]').nth(zoneExample.buildIndex).click();
-    const zoneCard = page.locator('.usage-clear-party');
-    for (const wave of zoneExample.waves.slice(0,2)) {
-        const button = zoneCard.locator(`[data-preview-wave="${wave}"]`);
-        await button.focus(); await page.keyboard.press('Enter');
-        await expect(page.locator('#usage-record-dialog')).toBeVisible();
-        await expect(page.locator('#usage-record-dialog .usage-record > p').first()).toContainText(`제${wave}금지구역`);
-        const names = await page.locator('#usage-record-dialog .usage-members').innerText();
-        for (const id of zoneExample.group.key.split('|')) assert.ok(names.includes(chars.get(id).name));
-        if (await page.locator('#usage-preview-next').isEnabled()) { await page.locator('#usage-preview-next').click(); await expect(page.locator('#usage-record-dialog .usage-record > p').first()).toContainText(`제${wave}금지구역`); }
-        await page.keyboard.press('Escape'); await expect(button).toBeFocused();
-        await expect(page.locator('.usage-featured-build')).toHaveAttribute('data-selected-party', zoneExample.build.key);
-        await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
+    await expect(primaryCard.locator('[data-usage-alternative]')).toHaveCount(Math.min(5,primaryAlternatives.length));
+    const replacement = JSON.parse(await primaryCard.locator('[data-usage-alternative]').first().getAttribute('data-usage-alternative'));
+    assert.equal(replacement[0],primaryAlternatives[0].key);
+    async function characterLayout(name) {
+        const metrics = await page.evaluate(()=>({overflow:document.documentElement.scrollWidth-innerWidth,
+            clipped:[...document.querySelectorAll('.character-usage button,.character-usage select,.character-usage summary')].filter(e=>e.getClientRects().length).filter(e=>{const r=e.getBoundingClientRect();return r.left < -1 || r.right > innerWidth+1;}).map(e=>e.outerHTML.slice(0,100))}));
+        assert.ok(metrics.overflow<=1 && !metrics.clipped.length,name+JSON.stringify(metrics));layouts.push({name,...metrics});
+    }
+    for(const width of [320,390,479,480,481,639,640,641,767,768,769,899,900,901,1023,1024,1025,1280]) {
+        await page.setViewportSize({width,height:900});await characterLayout('awakener-'+width);
+        if([390,1280].includes(width)) await page.screenshot({path:path.join(out,`visual-${width}.png`),fullPage:true});
+    }
+    for(const width of [320,390,1280]) {
+        await page.setViewportSize({width,height:900});await page.evaluate(()=>document.documentElement.style.fontSize='200%');await characterLayout('awakener-zoom200-'+width);
+        await page.evaluate(()=>document.documentElement.style.fontSize='');
+    }
+    await page.setViewportSize({width:844,height:390});await characterLayout('awakener-landscape');
+    await primaryCard.locator('[data-usage-alternative]').first().click();await expect(page.locator('#usage-record-dialog')).toBeVisible();
+    const names = await page.locator('.usage-preview-members').innerText();for(const id of primaryAlternatives[0].members) assert.ok(names.includes(chars.get(id).name));
+    await page.keyboard.press('Escape');await expect(primaryCard.locator('[data-usage-alternative]').first()).toBeFocused();
+    const zoneUrl = new URL(primaryUrl);zoneUrl.searchParams.delete('wave');zoneUrl.searchParams.delete('difficulty');
+    await page.goto(zoneUrl.href);await expect(page.locator('.usage-stat-equipment')).toBeVisible({timeout:30000});
+    for(const wave of [1,2]) {
+        await page.locator('#usage-wave').selectOption(String(wave));
+        await expect(page.locator('[data-preview-wave]')).toHaveCount(0);
+        await page.locator('#usage-stat-records').click();await expect(page.locator('#usage-record-dialog')).toBeVisible();
+        assert.ok((await page.locator('#usage-preview-select option').allTextContents()).every(text=>text.includes(`${wave}구역`)));
+        await page.keyboard.press('Escape');await expect(page.locator('#usage-stat-records')).toBeFocused();
     }
     await page.goto(url + '&owned=1'); await expect(page.locator('.clear-team').first()).toBeVisible({ timeout: 30000 });
     await page.locator('[data-open-picker]').first().click();
