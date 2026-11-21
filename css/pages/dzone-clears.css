@@ -186,6 +186,8 @@
 .usage-owned-stages { display:flex; flex-wrap:wrap; align-items:center; gap:.3rem; color:var(--color-text-secondary); font-size:.8125rem; line-height:1.5; margin:0; }
 .usage-owned-stages > span:first-child { margin-inline-end:.25rem; }
 .usage-zone { display:inline-flex; justify-content:center; align-items:center; min-width:1.35rem; min-height:1.35rem; padding:.05rem .25rem; border-radius:3px; background:var(--color-bg-elevated); color:var(--color-text-primary); font-variant-numeric:tabular-nums; }
+.usage-owned-team .usage-zone { min-width:28px; min-height:28px; padding:.15rem .35rem; border:1px solid var(--color-border-light); font:inherit; font-size:.8125rem; cursor:pointer; }
+.usage-owned-team .usage-zone:hover { border-color:var(--color-accent); color:var(--color-accent); }
 .usage-owned-team .usage-select { width:auto; margin:0; min-height:44px; padding:.5rem .75rem; font-size:.875rem; }
 .usage-owned-team .usage-team-alternatives { margin-top:.25rem; }
 .usage-owned-team .usage-team-alternatives > summary { min-height:40px; color:var(--color-text-secondary); font-size:.8125rem; }

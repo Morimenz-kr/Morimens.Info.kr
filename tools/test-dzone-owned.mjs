@@ -131,6 +131,26 @@ try {
     await page.setViewportSize({width:1280,height:900});
     await page.evaluate(() => scrollTo(0,0));
     await page.screenshot({path:path.join(out,'compact-desktop.png')});
+    // A zone is an action: retain the exact four members and build while limiting every preview to that zone.
+    const allBuilds = recommendBuilds(usage.rows, primaryId, owned);
+    const zoneExample = allBuilds.flatMap((build, buildIndex) => build.ownedTeams.slice(0,2).map(group => ({build,buildIndex,group,waves:[...new Set(group.rows.map(row=>row.wave))].sort()}))).find(item=>item.waves.length>1);
+    assert.ok(zoneExample, 'actual data supplies a party observed in multiple zones');
+    const zoneUrl = new URL(primaryUrl); zoneUrl.searchParams.delete('wave'); zoneUrl.searchParams.delete('difficulty');
+    await page.goto(zoneUrl.href); await expect(page.locator('.usage-featured-build')).toBeVisible({timeout:30000});
+    if (zoneExample.buildIndex) await page.locator('[data-choose-build]').nth(zoneExample.buildIndex).click();
+    const zoneCard = page.locator(`[data-owned-team="${zoneExample.group.key}"]`);
+    for (const wave of zoneExample.waves.slice(0,2)) {
+        const button = zoneCard.locator(`[data-owned-wave="${wave}"]`);
+        await button.focus(); await page.keyboard.press('Enter');
+        await expect(page.locator('#usage-record-dialog')).toBeVisible();
+        await expect(page.locator('#usage-record-dialog .usage-record > p').first()).toContainText(`제${wave}금지구역`);
+        const names = await page.locator('#usage-record-dialog .usage-members').innerText();
+        for (const id of zoneExample.group.key.split('|')) assert.ok(names.includes(chars.get(id).name));
+        if (await page.locator('#usage-preview-next').isEnabled()) { await page.locator('#usage-preview-next').click(); await expect(page.locator('#usage-record-dialog .usage-record > p').first()).toContainText(`제${wave}금지구역`); }
+        await page.keyboard.press('Escape'); await expect(button).toBeFocused();
+        await expect(page.locator('.usage-featured-build')).toHaveAttribute('data-selected-build', zoneExample.build.key);
+        await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
+    }
     await page.goto(url + '&owned=1'); await expect(page.locator('.clear-team').first()).toBeVisible({ timeout: 30000 });
     await page.locator('[data-open-picker]').first().click();
     for (const id of baseTeam.members) { await page.locator('#clear-character-search').fill(chars.get(id).name); await page.locator(`[data-pick="${id}"]`).click(); }
