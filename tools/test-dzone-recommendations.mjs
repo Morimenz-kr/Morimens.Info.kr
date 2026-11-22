@@ -39,7 +39,7 @@ try {
     const expectedGroups = covenantStatistics(source.rows,'doll_inferno');
     const rate = value => `${(value*100).toLocaleString('ko-KR',{maximumFractionDigits:1})}%`;
     async function assertRates(groups) {
-        const more=page.locator('.usage-stat-more');
+        const more=page.locator('#usage-stat-sub-options');
         await expect(more).not.toHaveAttribute('open');
         await expect(page.locator('[data-leading-slot]')).toHaveCount(6);
         for(const slot of groups[0].options.slots) {
@@ -55,6 +55,9 @@ try {
         await more.locator('summary').first().click();
     }
     await expect(page.locator('.usage-stat-equipment').first()).toHaveAttribute('data-stat-group',expectedGroups[0].key);
+    await expect(page.locator('.usage-stat-contract-art .usage-stat-option-icon,.usage-stat-more')).toHaveCount(0);
+    await expect(page.locator('#usage-stat-main-options h5 > span').first()).toHaveText('주옵션');
+    await expect(page.locator('#usage-stat-sub-options h5 > span').first()).toHaveText('부옵션');
     await assertRates(expectedGroups);
     // The full catalogue is secondary, but remains keyboard-accessible and restores clear focus.
     await expect(page.locator('#usage-stat-contract-0')).not.toBeVisible();
@@ -72,8 +75,8 @@ try {
     const jointGroups=covenantStatistics(source.rows.filter(row=>row.wave===1 && String(row.difficulty)==='1'),'doll_inferno');
     const jointSelected=await page.locator('#usage-stat-contract-0').inputValue();
     await assertRates([jointGroups.find(group=>group.key===jointSelected)]);
-    await expect(page.locator('.usage-stat-leading-sub .usage-stat-rates > li')).toHaveCount(1);
-    await expect(page.locator('.usage-stat-leading-sub .usage-stat-joint')).toContainText('공동 1순위');
+    await expect(page.locator('.usage-stat-leading-sub .usage-stat-rates > li')).toHaveCount(3);
+    await expect(page.locator('.usage-stat-leading-sub .usage-stat-joint')).toContainText('동률 후보');
     await page.locator('#usage-difficulty-all').click();
     await page.locator('#usage-wave-all').click();
     await page.locator('[data-stat-preset]').first().click();await assertRates(expectedGroups);
@@ -101,8 +104,8 @@ try {
             const heading=section.querySelector('h5').getBoundingClientRect(), list=section.lastElementChild.getBoundingClientRect();
             return {headingTop:heading.top, top:list.top, bottom:list.bottom};
         }));
-        if (panels.length===2 && Math.abs(panels[0].headingTop-panels[1].headingTop)<1) {
-            assert.ok(Math.abs(panels[0].top-panels[1].top)<1 && Math.abs(panels[0].bottom-panels[1].bottom)<1, name+' paired statistic panels align '+JSON.stringify(panels));
+        if (panels.length===2 && await page.locator('.usage-stat-option-disclosure[open]').count()===0 && Math.abs(panels[0].headingTop-panels[1].headingTop)<1) {
+            assert.ok(Math.abs(panels[0].top-panels[1].top)<1, name+' statistic panels start together '+JSON.stringify(panels));
         }
         const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, textOverflow: [...document.querySelectorAll('.usage-stat-rates li,.usage-stat-art > span:not(.usage-stat-art-frame)')].filter(el => el.getClientRects().length).some(el => el.scrollWidth > el.clientWidth + 1), clipped: [...document.querySelectorAll('.usage-recommendations button')].filter(el => el.getClientRects().length).some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < (el.classList.contains('usage-zone') ? 27 : 43); }) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped && !metrics.textOverflow, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
@@ -145,7 +148,10 @@ try {
         if(width===1280) await page.screenshot({path:path.join(out,'single-zoom200-1280.png'),fullPage:true});
         await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
     }
-    await page.locator('.usage-stat-more > summary').click();
+    await page.locator('#usage-stat-main-options > summary').click();
+    await expect(page.locator('[data-leading-slot]').first()).not.toBeVisible();
+    await expect(page.locator('#usage-stat-sub-options')).not.toHaveAttribute('open');
+    await page.locator('#usage-stat-sub-options > summary').click();
     await page.locator('.usage-stat-slot-details > summary').click();
     for(const width of [320,390,639,640,641,768,1024,1280]) {
         await page.setViewportSize({width,height:900});await layout('expanded-'+width);
@@ -154,7 +160,8 @@ try {
         await page.setViewportSize({width,height:900});await page.evaluate(()=>{document.documentElement.style.fontSize='200%';});
         await layout('expanded-zoom200-'+width);await page.evaluate(()=>{document.documentElement.style.fontSize='';});
     }
-    await page.locator('.usage-stat-more > summary').click();
+    await page.locator('#usage-stat-main-options > summary').click();
+    await page.locator('#usage-stat-sub-options > summary').click();
     await page.setViewportSize({ width: 844, height: 390 }); await layout('settings-landscape');
     await page.setViewportSize({ width: 390, height: 900 });
     await page.locator('#usage-party-picker-summary').click();

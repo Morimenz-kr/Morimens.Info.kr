@@ -7,6 +7,7 @@ Write every user-facing response in **Korean**.
 ## UI work
 
 Before implementing, modifying, reviewing, or debugging any user interface, read `docs/responsive-design.md` completely and follow it.
+Also read `docs/ui-design-principles.md` for visual hierarchy, information grouping, and interaction decisions. Apply recorded user preferences within their stated scope.
 
 UI work is not complete until its responsive behavior has been verified as required by that document.
 

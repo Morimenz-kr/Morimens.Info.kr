@@ -89,7 +89,7 @@ try {
     const selectedKey = await page.locator('#usage-stat-contract-0').inputValue();
     const selectedStats = expectedStats.find(group=>group.key===selectedKey);
     assert.ok(selectedStats);
-    for(const stat of selectedStats.options.subs) await expect(page.locator(`.usage-stat-substats [data-stat-option="${stat.id}:${stat.unit}"] .usage-stat-rate`)).toHaveText((stat.rate*100).toLocaleString('ko-KR',{maximumFractionDigits:1})+'%');
+    for(const stat of selectedStats.options.subs) await expect(page.locator(`.usage-stat-substats > .usage-stat-rates [data-stat-option="${stat.id}:${stat.unit}"] .usage-stat-rate`)).toHaveText((stat.rate*100).toLocaleString('ko-KR',{maximumFractionDigits:1})+'%');
     const primaryCard = page.locator('.usage-clear-party');
     await primaryCard.locator('.usage-team-alternatives > summary').click();
     await expect(primaryCard.locator('[data-usage-alternative]')).toHaveCount(Math.min(5,primaryAlternatives.length));
