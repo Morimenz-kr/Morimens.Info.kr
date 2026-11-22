@@ -6,7 +6,7 @@ const percent = value => `${(Math.max(0,Math.min(1,Number(value)||0))*100).toLoc
 const optionKey = option => `${option.id}:${option.unit || ''}`;
 // Same attribute IDs and original assets as covenant-editor.mjs / covenant_simulator.js.
 const iconIds = {18159:'008',18105:'007',18126:'002',18142:'004',22207:'003',18139:'005',18155:'001',18151:'006'};
-const statIcon = option => iconIds[option.id] ? `<img class="usage-stat-option-icon" src="images/keyword-icons/original/ui_battle_white_buff_${iconIds[option.id]}.png" width="24" height="24" alt="">` : '';
+const statIcon = option => iconIds[option.id] ? `<img class="usage-stat-option-icon" src="images/keyword-icons/original/ui_battle_white_buff_${iconIds[option.id]}.png" width="14" height="14" alt="" aria-hidden="true">` : '';
 const leaders = list => { const peak=Math.max(0,...list.map(option=>option.rate)); return list.filter(option=>peak>0 && option.rate===peak); };
 
 /** Contract-conditioned distributions. A row is an adoption rate, never an individual roll. */
@@ -62,7 +62,7 @@ export function renderStatisticalSettings({groups=[],selectedKeys=[],compare=fal
     const leading = list => {const top=leaders(list);return `${rates([top.slice(0,1)])}${top.length>1?`<small class="usage-stat-joint">공동 1순위 · 외 ${top.length-1}종</small>`:''}`;};
     const slotSubs=`<details class="usage-stat-slot-details"><summary>부위별 부옵션</summary>${slotRows('subs')}</details>`;
     const full=`<div class="usage-stat-overview usage-stat-full"><section class="usage-stat-section usage-stat-mainstats"><h5>주옵션</h5>${slotRows('main')}</section><section class="usage-stat-section usage-stat-substats"><h5>부옵션</h5>${rates(selected.map(g=>g.options.subs))}</section></div>${slotSubs}${basis}`;
-    const optionSection = (kind,title,preview,content) => `<section class="usage-stat-section"><details class="usage-stat-option-disclosure" id="usage-stat-${kind}-options"><summary><h5><span>${title}</span><span class="usage-stat-disclosure-action"><span class="usage-stat-action-closed">전체 순위</span><span class="usage-stat-action-open">요약</span><span class="usage-stat-chevron" aria-hidden="true">⌄</span></span></h5></summary><div class="usage-stat-${kind}stats">${content}</div></details><div class="usage-stat-option-preview">${preview}</div></section>`;
+    const optionSection = (kind,title,preview,content) => `<section class="usage-stat-section"><details class="usage-stat-option-disclosure" id="usage-stat-${kind}-options"><summary aria-label="${title} 전체 순위" title="${title} 전체 순위"><h5><span>${title}</span><span class="usage-stat-chevron" aria-hidden="true"></span></h5></summary><div class="usage-stat-${kind}stats">${content}</div></details><div class="usage-stat-option-preview">${preview}</div></section>`;
     const mainPreview=`<ol class="usage-stat-leading-slots">${roman.map((label,index)=>`<li data-leading-slot="${index+1}"><span class="usage-stat-leading-slot">${label}</span><div>${leading(first.options.slots.find(slot=>slot.slot===index+1)?.main||[])}</div></li>`).join('')}</ol>`;
     const subShown=first.options.subs.slice(0,3),subCutoff=subShown.at(-1),subTies=subCutoff?first.options.subs.slice(3).filter(option=>option.rate===subCutoff.rate).length:0;
     const subPreview=`<div class="usage-stat-leading-sub"><div>${rates([subShown])}${subTies?`<small class="usage-stat-joint">동률 후보 ${subTies}종 더 있음</small>`:''}</div></div>`;

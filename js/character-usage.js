@@ -6,7 +6,7 @@ import { usageExtraWheels } from './character-usage-equipment.mjs';
 import { indexUsageTeams, findClearTeams, findClearAlternatives } from './dzone-clear-model.mjs?v=owned-20261121';
 import { mountAccountPanel } from './account-ui.mjs?v=owned-20261121';
 import { recommendParties, covenantStatistics } from './usage-recommendations.mjs?v=statistics-20261122';
-import { renderStatisticalSettings } from './usage-statistics-view.mjs?v=ux-context-20261122';
+import { renderStatisticalSettings } from './usage-statistics-view.mjs?v=ux-controls-20261122';
 import { loadoutDetails, potentialText } from './usage-loadout-view.mjs';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

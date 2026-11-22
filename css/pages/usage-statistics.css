@@ -37,8 +37,8 @@
 .usage-stat-section > h5,.usage-stat-option-disclosure h5 { margin:0 0 .65rem; color:var(--color-text-primary); font-size:1rem; font-weight:600; }
 .usage-stat-rates { list-style:none; margin:0; padding:0; min-width:0; }
 .usage-stat-rates > li { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:baseline; gap:.5rem; min-width:0; padding:.25rem 0; font-size:.875rem; line-height:1.6; }
-.usage-stat-option-name { display:flex; align-items:center; gap:.375rem; min-width:0; color:var(--color-text-secondary); word-break:keep-all; overflow-wrap:anywhere; }
-.usage-stat-option-icon { flex:none; width:1.25rem; height:1.25rem; object-fit:contain; }
+.usage-stat-option-name { display:flex; align-items:center; gap:.25rem; min-width:0; color:var(--color-text-secondary); word-break:keep-all; overflow-wrap:anywhere; }
+.usage-stat-option-icon { flex:none; width:.875rem; height:.875rem; object-fit:contain; }
 .usage-stat-rate { color:var(--color-text-primary); font-variant-numeric:tabular-nums; white-space:nowrap; text-align:right; }
 .usage-stat-rate.is-leading { color:var(--color-accent); }
 .usage-stat-no-options { margin:0; color:var(--color-text-muted); font-size:.8125rem; line-height:1.6; }
@@ -135,15 +135,12 @@ body:has(#tab-content-dictionary.active .character-usage) .floating-report-btn {
 .usage-stat-leading-sub .usage-stat-rates { display:grid; gap:.4rem; }
 .usage-stat-leading-sub .usage-stat-rates > li { grid-template-columns:minmax(0,1fr) auto; padding:.6rem 0; border-bottom:1px solid var(--color-border-dark); }
 .usage-stat-option-disclosure { min-width:0; }
-.usage-stat-option-disclosure > summary { min-height:44px; cursor:pointer; list-style:none; }
+.usage-stat-option-disclosure > summary { width:fit-content; min-height:44px; padding-right:.5rem; cursor:pointer; list-style:none; }
 .usage-stat-option-disclosure > summary::-webkit-details-marker { display:none; }
-.usage-stat-option-disclosure h5 { display:flex; align-items:center; justify-content:space-between; gap:.5rem; min-height:44px; margin:0; }
-.usage-stat-disclosure-action { display:flex; align-items:center; gap:.3rem; flex-shrink:0; font-size:.75rem; color:var(--color-text-muted); font-weight:400; }
-.usage-stat-chevron { font-size:1rem; }
-.usage-stat-option-disclosure > summary:hover .usage-stat-disclosure-action { color:var(--color-accent); }
-.usage-stat-action-open,.usage-stat-option-disclosure[open] .usage-stat-action-closed { display:none; }
-.usage-stat-option-disclosure[open] .usage-stat-action-open { display:inline; }
-.usage-stat-option-disclosure[open] .usage-stat-chevron { transform:rotate(180deg); }
+.usage-stat-option-disclosure h5 { display:flex; align-items:center; gap:.625rem; min-height:44px; margin:0; }
+.usage-stat-chevron { width:.375rem; height:.375rem; margin-top:-.2rem; border:solid currentColor; border-width:0 1.5px 1.5px 0; transform:rotate(45deg); color:var(--color-text-muted); }
+.usage-stat-option-disclosure > summary:hover :is(h5,.usage-stat-chevron) { color:var(--color-accent); }
+.usage-stat-option-disclosure[open] .usage-stat-chevron { margin-top:.2rem; transform:rotate(225deg); }
 .usage-stat-option-disclosure[open] + .usage-stat-option-preview { display:none; }
 .usage-stat-settings:not(.is-comparing) .usage-stat-summary { align-items:start; }
 .usage-stat-option-preview { display:flex; flex-direction:column; min-width:0; margin-top:.35rem; }
