@@ -1,5 +1,5 @@
 /* Recommendation statistics reuse the inventory charcoal surfaces and gold selection. */
-.usage-stat-settings { min-width:0; color:var(--color-text-primary); }
+.usage-stat-settings { min-width:0; color:var(--color-text-primary); container:usage-settings / inline-size; }
 .usage-stat-presets { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.5rem; margin:0 0 .75rem; }
 .usage-stat-presets button { min-width:0; min-height:44px; padding:.6rem .4rem; border:1px solid var(--color-border); border-radius:var(--radius-sm); background:var(--color-bg-input); color:var(--color-text-secondary); font:inherit; text-align:left; cursor:pointer; }
 .usage-stat-presets button[aria-pressed=true] { border-color:var(--color-accent); }
@@ -40,12 +40,12 @@
 .usage-stat-no-options { margin:0; color:var(--color-text-muted); font-size:.8125rem; line-height:1.6; }
 .usage-stat-substats > .usage-stat-rates { padding:.5rem .75rem; border:1px solid var(--color-border-dark); border-radius:var(--radius-sm); background:var(--color-bg-input); }
 .usage-stat-substats > .usage-stat-rates > li { padding:.3rem 0; }
-.usage-stat-main-rows { list-style:none; border:1px solid var(--color-border-dark); border-radius:var(--radius-sm); background:var(--color-bg-input); }
-.usage-stat-main-row { display:grid; grid-template-columns:1.15rem minmax(0,1fr); align-items:start; gap:.5rem; padding:.6rem .65rem; }
+.usage-stat-main-rows { list-style:none; margin:0; padding:0; border:1px solid var(--color-border-dark); border-radius:var(--radius-sm); background:var(--color-bg-input); }
+.usage-stat-main-row { display:grid; grid-template-columns:1.15rem minmax(0,1fr); align-items:center; gap:.5rem; padding:.45rem .65rem; }
 .usage-stat-main-row + .usage-stat-main-row { border-top:1px solid var(--color-border-dark); }
-.usage-stat-main-row > h6 { padding-top:.25rem; font-size:.8125rem; font-weight:500; color:var(--color-text-muted); }
+.usage-stat-main-row > h6 { margin:0; font-size:.8125rem; font-weight:500; color:var(--color-text-muted); }
 .usage-stat-main-row .usage-stat-rates { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,max(8rem,calc((100% - .75rem)/2))),1fr)); gap:.25rem .75rem; }
-.usage-stat-main-row .usage-stat-rates > li { display:grid; grid-template-columns:minmax(0,1fr) auto; max-width:100%; column-gap:.5rem; }
+.usage-stat-main-row .usage-stat-rates > li { display:grid; grid-template-columns:minmax(0,1fr) auto; max-width:100%; column-gap:.5rem; padding:.1rem 0; line-height:1.5; }
 .usage-stat-slot-details { margin-top:1rem; border-block:1px solid var(--color-border-dark); }
 .usage-stat-slot-details > summary { display:flex; align-items:center; min-height:44px; color:var(--color-text-muted); font-size:.8125rem; cursor:pointer; }
 .usage-stat-slot-details > :not(summary) { margin-bottom:.75rem; }
@@ -95,7 +95,6 @@ body:has(#tab-content-dictionary.active .character-usage) .floating-report-btn {
     .usage-stat-art { font-size:.9375rem; }
     .usage-stat-equipment-heading label { grid-template-columns:auto minmax(0,1fr); align-items:center; }
     .usage-stat-compare-controls { grid-template-columns:repeat(2,minmax(0,1fr)); }
-    .usage-stat-overview { grid-template-columns:minmax(0,1fr) minmax(0,1.8fr); gap:1rem; }
     .usage-stat-comparison-contracts .usage-stat-art-frame { height:7.5rem; }
     .usage-stat-shared-wheels { display:flex; align-items:center; gap:.75rem; }
     .usage-stat-shared-wheels > h5 { flex-shrink:0; margin:0; }
@@ -105,6 +104,16 @@ body:has(#tab-content-dictionary.active .character-usage) .floating-report-btn {
     .usage-stat-distinct-art { grid-template-columns:repeat(2,minmax(0,1fr)); }
     .is-comparing .usage-stat-overview { grid-template-columns:minmax(0,1fr); }
 
+}
+
+/* Pair panels only when their actual reading width is sufficient, including at text zoom. */
+@container usage-settings (min-width:40rem) {
+    .usage-stat-settings:not(.is-comparing) .usage-stat-overview { grid-template-columns:minmax(0,1fr) minmax(0,1.8fr); gap:1rem; align-items:stretch; }
+    .usage-stat-settings:not(.is-comparing) .usage-stat-overview > .usage-stat-section { display:flex; flex-direction:column; }
+    .usage-stat-settings:not(.is-comparing) .usage-stat-substats > .usage-stat-rates { display:grid; grid-auto-rows:minmax(min-content,1fr); flex:1; }
+    .usage-stat-settings:not(.is-comparing) .usage-stat-substats > .usage-stat-rates > li { align-items:center; }
+    .usage-stat-settings:not(.is-comparing) .usage-stat-main-rows { display:flex; flex-direction:column; flex:1; }
+    .usage-stat-settings:not(.is-comparing) .usage-stat-main-row { flex:1; }
 }
 
 /* Text zoom can make the numeric columns wider than the option labels. Reflow by content width. */

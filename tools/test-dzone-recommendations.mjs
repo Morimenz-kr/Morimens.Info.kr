@@ -73,6 +73,13 @@ try {
     const nameLines = await page.locator('.usage-stat-comparison-table th[scope=row]').evaluateAll(cells => cells.filter(cell=>['광기 충전 레벨','크리티컬 피해','검은 인장 드롭율'].includes(cell.textContent)).map(cell=>{const range=document.createRange();range.selectNodeContents(cell);return {text:cell.textContent,lines:range.getClientRects().length};}));
     assert.ok(nameLines.length && nameLines.every(cell=>cell.lines===1),'Korean labels remain readable as complete names: '+JSON.stringify(nameLines));
     async function layout(name) {
+        const panels = await page.locator('.usage-stat-settings:not(.is-comparing) .usage-stat-overview > section').evaluateAll(sections => sections.map(section => {
+            const heading=section.querySelector('h5').getBoundingClientRect(), list=section.lastElementChild.getBoundingClientRect();
+            return {headingTop:heading.top, top:list.top, bottom:list.bottom};
+        }));
+        if (panels.length===2 && Math.abs(panels[0].headingTop-panels[1].headingTop)<1) {
+            assert.ok(Math.abs(panels[0].top-panels[1].top)<1 && Math.abs(panels[0].bottom-panels[1].bottom)<1, name+' paired statistic panels align '+JSON.stringify(panels));
+        }
         const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, textOverflow: [...document.querySelectorAll('.usage-stat-rates li,.usage-stat-art > span')].filter(el => el.getClientRects().length).some(el => el.scrollWidth > el.clientWidth + 1), clipped: [...document.querySelectorAll('.usage-recommendations button')].filter(el => el.getClientRects().length).some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < (el.classList.contains('usage-zone') ? 27 : 43); }) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped && !metrics.textOverflow, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
@@ -90,9 +97,30 @@ try {
         await page.setViewportSize({width,height:900});await layout('single-'+width);
         if ([390,1280].includes(width)) await page.screenshot({path:path.join(out,`single-${width}.png`),fullPage:true});
     }
-    await page.setViewportSize({ width: 390, height: 900 });
-    await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; }); await layout('settings-zoom200');
-    await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
+    // Different contracts have different option counts; both panels must still align.
+    for (const width of [390,640,768,1024,1280]) {
+        await page.setViewportSize({width,height:900});
+        for (const preset of [0,1,2]) {
+            await page.locator('[data-stat-preset]').nth(preset).click(); await layout(`balanced-${width}-${preset}`);
+        }
+        if ([390,1280].includes(width)) await page.locator('.usage-stat-overview').screenshot({path:path.join(out,`balanced-${width}.png`)});
+    }
+    await page.locator('[data-stat-preset]').first().click();
+    let below=640,above=1024;
+    while(above-below>1) {
+        const width=Math.floor((below+above)/2);await page.setViewportSize({width,height:900});
+        const inlineWidth=await page.locator('.usage-stat-settings').evaluate(el=>el.getBoundingClientRect().width);
+        if(inlineWidth>=640) above=width;else below=width;
+    }
+    for(const width of [above-1,above,above+1]) {await page.setViewportSize({width,height:900});await layout('panel-boundary-'+width);}
+    for(const width of [320,390,1280]) {
+        await page.setViewportSize({width,height:900});
+        await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; }); await layout('settings-zoom200-'+width);
+        const panels=await page.locator('.usage-stat-overview > section').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().top));
+        assert.ok(panels[1]>panels[0],'enlarged text reflows panels instead of stretching a narrow column');
+        if(width===1280) await page.screenshot({path:path.join(out,'single-zoom200-1280.png'),fullPage:true});
+        await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
+    }
     await page.setViewportSize({ width: 844, height: 390 }); await layout('settings-landscape');
     await page.setViewportSize({ width: 390, height: 900 });
     await page.locator('#usage-party-picker-summary').click();
