@@ -4,8 +4,8 @@ import assert from 'node:assert/strict';
 import { chromium, expect } from '@playwright/test';
 import { createPreviewServer } from './serve-dzone-preview.mjs';
 import { normalizeClearIndex, findClearTeams, findClearAlternatives, indexUsageTeams } from '../js/dzone-clear-model.mjs';
-import { normalizeUsage, selectRows, covenantKey, targetMember } from '../js/character-usage-model.mjs';
-import { recommendParties, covenantStatistics } from '../js/usage-recommendations.mjs';
+import { normalizeUsage, selectRows, covenantKey, wheelKey, targetMember } from '../js/character-usage-model.mjs';
+import { covenantStatistics, equipmentStatistics } from '../js/usage-recommendations.mjs';
 
 const root = path.resolve(import.meta.dirname, '..'), out = path.join(root, '.generated/clear-ui');
 await fs.mkdir(out, { recursive: true });
@@ -67,15 +67,30 @@ try {
     await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-party','');
     // Find an actual visible owned party whose same-stage alternatives are known.
     let example;
-    const contractKeys = await page.locator('#usage-stat-contract-0 option').evaluateAll(es=>es.map(e=>e.value));
-    for (const contract of contractKeys) {
-        if(!await page.locator('#usage-stat-contract-0').isVisible()) await page.locator('.usage-stat-other-contracts > summary').click();
-        await page.locator('#usage-stat-contract-0').selectOption(contract);
-        const keys = await page.locator('[data-choose-party]').evaluateAll(es=>es.map(e=>e.dataset.chooseParty));
-        for (const key of keys) {
-            const base = findClearTeams(partyIndex).teams.find(team=>team.key===key);
-            const alternatives = findClearAlternatives(partyIndex,base,{include:[primaryId]});
-            if(alternatives.length) {example={key,alternatives};break;}
+    async function selectEquipment(pair,contract) {
+        if(await page.locator('#usage-stat-wheel').inputValue() !== pair) {
+            await page.locator('.usage-equipment-catalogue > summary').click();
+            await page.locator('#usage-stat-wheel').selectOption(pair);
+        }
+        if(await page.locator('#usage-stat-contract-0').inputValue() !== contract) {
+            if(!await page.locator('#usage-stat-contract-0').isVisible()) await page.locator('.usage-stat-other-contracts > summary').click();
+            await page.locator('#usage-stat-contract-0').selectOption(contract);
+        }
+    }
+    const observedPairs = [...new Set(primaryRows.filter(row=>targetMember(row,primaryId).wheels?.length===2).map(row=>wheelKey(targetMember(row,primaryId))))];
+    const initialPair = await page.locator('#usage-stat-wheel').inputValue();
+    observedPairs.sort((a,b)=>Number(b===initialPair)-Number(a===initialPair));
+    for (const pair of observedPairs) {
+        const contracts = [...new Set(primaryRows.filter(row=>wheelKey(targetMember(row,primaryId))===pair && targetMember(row,primaryId).covenant).map(row=>covenantKey(targetMember(row,primaryId))))];
+        for(const contract of contracts) {
+            await selectEquipment(pair,contract);
+            const keys = await page.locator('[data-choose-party]').evaluateAll(es=>es.map(e=>e.dataset.chooseParty));
+            for (const key of keys) {
+                const base = findClearTeams(partyIndex).teams.find(team=>team.key===key);
+                const alternatives = findClearAlternatives(partyIndex,base,{include:[primaryId]});
+                if(alternatives.length) {example={key,alternatives};break;}
+            }
+            if(example) break;
         }
         if(example) break;
     }
@@ -85,10 +100,12 @@ try {
     await page.locator(`[data-choose-party="${example.key}"]`).click();
     await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-party',example.key);
     const cohort = primaryRows.filter(row=>row.members.map(m=>m.characterId).sort().join('|')===example.key);
-    const expectedStats = covenantStatistics(cohort,primaryId);
+    const selectedPair = await page.locator('#usage-stat-wheel').inputValue();
+    const expectedStats = covenantStatistics(cohort.filter(row=>wheelKey(targetMember(row,primaryId))===selectedPair),primaryId);
     const selectedKey = await page.locator('#usage-stat-contract-0').inputValue();
     const selectedStats = expectedStats.find(group=>group.key===selectedKey);
     assert.ok(selectedStats);
+    if(selectedStats.options.total) await page.locator('#usage-stat-sub-options > summary').click();
     for(const stat of selectedStats.options.subs) await expect(page.locator(`.usage-stat-substats > .usage-stat-rates [data-stat-option="${stat.id}:${stat.unit}"] .usage-stat-rate`)).toHaveText((stat.rate*100).toLocaleString('ko-KR',{maximumFractionDigits:1})+'%');
     const primaryCard = page.locator('.usage-clear-party');
     await primaryCard.locator('.usage-team-alternatives > summary').click();
@@ -115,8 +132,12 @@ try {
     const zoneUrl = new URL(primaryUrl);zoneUrl.searchParams.delete('wave');zoneUrl.searchParams.delete('difficulty');
     await page.goto(zoneUrl.href);await expect(page.locator('.usage-stat-equipment')).toBeVisible({timeout:30000});
     for(const wave of [1,2]) {
+        if(await page.locator('#usage-statistics').getAttribute('open')===null) await page.locator('#usage-statistics-summary').click();
         await page.locator(`[data-stage-filter="wave"][data-stage-value="${wave}"]`).click();
         await expect(page.locator('[data-preview-wave]')).toHaveCount(0);
+        const observed = equipmentStatistics(selectRows(usage,{wave:String(wave)}),primaryId);
+        assert.ok(observed.optionGroup,'actual zone supplies a joint loadout to inspect');
+        await selectEquipment(observed.selectedWheelKey,observed.selectedCovenantKey);
         await page.locator('#usage-stat-records').click();await expect(page.locator('#usage-record-dialog')).toBeVisible();
         assert.ok((await page.locator('#usage-preview-select option').allTextContents()).every(text=>text.includes(`${wave}구역`)));
         await page.keyboard.press('Escape');await expect(page.locator('#usage-stat-records')).toBeFocused();

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "recommendations:preview": "node tools/serve-dzone-preview.mjs",
-    "recommendations:test": "node tools/test-dzone-recommendations.mjs",
+    "recommendations:test": "node tools/test-character-equipment.mjs",
     "recommendations:owned-test": "node tools/test-dzone-owned.mjs",
     "account:build": "node tools/build-account-client.mjs",
     "account:emulators": "firebase emulators:start --only auth,firestore --config firebase.account-emulator.json --project demo-morimens-account",

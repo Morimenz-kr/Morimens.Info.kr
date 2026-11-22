@@ -10,7 +10,7 @@ const statIcon = option => iconIds[option.id] ? `<img class="usage-stat-option-i
 const leaders = list => { const peak=Math.max(0,...list.map(option=>option.rate)); return list.filter(option=>peak>0 && option.rate===peak); };
 
 /** Contract-conditioned distributions. A row is an adoption rate, never an individual roll. */
-export function renderStatisticalSettings({groups=[],selectedKeys=[],compare=false,wheelMap={},covMap={},wheelName=id=>id,covName=id=>id}) {
+export function renderStatisticalSettings({groups=[],selectedKeys=[],compare=false,wheelGroups=[],selectedWheelKey='',wheelMap={},covMap={},wheelName=id=>id,covName=id=>id}) {
     if (!groups.length) return '<section class="usage-stat-empty"><p>조건에 맞는 비밀계약 기록이 없습니다.</p></section>';
     const first = groups.find(g=>g.key===selectedKeys[0]) || groups[0];
     const second = groups.find(g=>g.key===selectedKeys[1] && g!==first) || groups.find(g=>g!==first);
@@ -30,9 +30,14 @@ export function renderStatisticalSettings({groups=[],selectedKeys=[],compare=fal
     const otherControl = `<details class="usage-stat-other-contracts"><summary>전체 계약</summary>${selector(first,0)}</details>`;
     const sameWheels = comparing && first.wheelPairs[0]?.key && first.wheelPairs[0]?.key===second.wheelPairs[0]?.key;
     const compareContracts = selected.map(g=>`<section data-stat-group="${esc(g.key)}" aria-label="${esc(contractName(g))}">${contractArt(g)}</section>`).join('');
-    const equipment = comparing
+    const legacyEquipment = comparing
         ? `<div class="usage-stat-equipment usage-stat-comparison-equipment"><header class="usage-stat-equipment-heading"><h4>계약 비교</h4>${compareButton}</header><div class="usage-stat-compare-controls">${selected.map(selector).join('')}</div>${sameWheels?`<div class="usage-stat-comparison-contracts">${compareContracts}</div><section class="usage-stat-shared-wheels"><h5>공통 명륜</h5>${wheelArt(first)}</section>`:`<div class="usage-stat-distinct-art">${selected.map(g=>`<section data-stat-group="${esc(g.key)}" aria-label="${esc(contractName(g))}"><div class="usage-stat-artwork">${wheelArt(g)}${contractArt(g)}</div></section>`).join('')}</div>`}</div>`
         : `<section class="usage-stat-equipment" data-stat-group="${esc(first.key)}"><header class="usage-stat-equipment-heading"><h4 id="usage-stat-current" tabindex="-1">${esc(contractName(first))}${groups.indexOf(first)>2?` <small>${percent(first.rate)}</small>`:''}</h4><div class="usage-stat-equipment-actions">${otherControl}${compareButton}</div></header><div class="usage-stat-artwork">${wheelArt(first)}${contractArt(first)}</div></section>`;
+    const chosenWheels=wheelGroups.find(group=>group.key===selectedWheelKey);
+    const rankedContracts=`<div class="usage-equipment-ranks" role="group" aria-label="비밀계약 채용 순위">${groups.slice(0,3).map((group,index)=>`<button type="button" data-stat-preset="${esc(group.key)}" aria-pressed="${group===first}"><span class="usage-equipment-rank">${index+1}</span><span>${esc(contractName(group))}</span><b>${percent(group.rate)}</b></button>`).join('')}</div>`;
+    const rankedWheels=`<div class="usage-equipment-ranks" role="group" aria-label="명륜 조합 채용 순위">${wheelGroups.slice(0,3).map((group,index)=>`<button type="button" data-stat-wheel="${esc(group.key)}" aria-pressed="${group.key===selectedWheelKey}"><span class="usage-equipment-rank">${index+1}</span><span>${group.ids.map(id=>`<span>${esc(wheelName(id))}</span>`).join('')}</span><b>${percent(group.rate)}</b></button>`).join('')}</div>`;
+    const allWheels=`<details class="usage-equipment-catalogue"><summary>전체 조합</summary><label>명륜 조합<select id="usage-stat-wheel" data-stat-wheel-select>${wheelGroups.map(group=>`<option value="${esc(group.key)}" ${group.key===selectedWheelKey?'selected':''}>${esc(group.ids.map(wheelName).join(' + '))} · ${percent(group.rate)}</option>`).join('')}</select></label></details>`;
+    const equipment=comparing?legacyEquipment:`<div class="usage-equipment-sections"><section class="usage-equipment-section" data-equipment-section="wheels"><header><h4 id="usage-stat-wheel-heading" tabindex="-1">명륜</h4>${allWheels}</header>${chosenWheels?wheelArt({wheels:chosenWheels.ids}):'<p class="usage-stat-empty">명륜 두 장이 확인된 기록이 없습니다.</p>'}${rankedWheels}</section><section class="usage-equipment-section usage-stat-equipment" data-equipment-section="covenants" data-stat-group="${esc(first.key)}"><header><h4 id="usage-stat-current" tabindex="-1">비밀계약</h4><div class="usage-stat-equipment-actions">${otherControl}${compareButton}</div></header>${contractArt(first)}${rankedContracts}</section></div>`;
     const totals=selected.map(g=>g.options.total);
     const entries = lists => {
         const maps=lists.map(list=>new Map(list.map(option=>[optionKey(option),option]))), union=new Map();
@@ -67,5 +72,5 @@ export function renderStatisticalSettings({groups=[],selectedKeys=[],compare=fal
     const subShown=first.options.subs.slice(0,3),subCutoff=subShown.at(-1),subTies=subCutoff?first.options.subs.slice(3).filter(option=>option.rate===subCutoff.rate).length:0;
     const subPreview=`<div class="usage-stat-leading-sub"><div>${rates([subShown])}${subTies?`<small class="usage-stat-joint">동률 후보 ${subTies}종 더 있음</small>`:''}</div></div>`;
     const summary=`<div class="usage-stat-overview usage-stat-summary">${optionSection('main','주옵션',mainPreview,slotRows('main'))}${optionSection('sub','부옵션',subPreview,`${rates([first.options.subs])}${slotSubs}`)}</div><div class="usage-stat-details-basis">${basis}</div>`;
-    return `<section class="usage-stat-settings ${comparing?'is-comparing':''}" aria-label="비밀계약별 세팅 통계">${presets}${equipment}<div id="usage-stat-distributions" class="usage-stat-distributions">${hasOptions?comparing?full:summary:`<p class="usage-stat-empty">완성도 90% 이상 기록이 없어 옵션 채용률을 집계할 수 없습니다.</p>`}</div></section>`;
+    return `<section class="usage-stat-settings ${comparing?'is-comparing':''}" aria-label="장비별 세팅 통계">${equipment}<div id="usage-stat-distributions" class="usage-stat-distributions">${hasOptions?comparing?full:summary:`<p class="usage-stat-empty">선택한 명륜 조합과 비밀계약의 옵션 기록이 없습니다.</p>`}</div></section>`;
 }

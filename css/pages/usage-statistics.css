@@ -1,5 +1,24 @@
 /* Recommendation statistics reuse the inventory charcoal surfaces and gold selection. */
 .usage-stat-settings { min-width:0; color:var(--color-text-primary); container:usage-settings / inline-size; }
+.usage-equipment-sections { display:grid; gap:1.5rem; }
+.usage-equipment-section { min-width:0; position:relative; }
+.usage-equipment-section.usage-stat-equipment { padding:0; border:0; background:transparent; }
+.usage-equipment-section > header { display:flex; align-items:center; justify-content:space-between; gap:.5rem; min-height:44px; margin-bottom:.5rem; }
+.usage-equipment-section > header h4 { margin:0; font-size:1rem; font-weight:600; color:var(--color-text-primary); }
+.usage-equipment-section .usage-stat-art > span:not(.usage-stat-art-frame) { min-height:3em; }
+.usage-equipment-ranks { display:grid; margin-top:.75rem; }
+.usage-equipment-ranks > button { display:grid; grid-template-columns:1rem minmax(0,1fr) auto; align-items:center; gap:.5rem; min-width:0; min-height:56px; padding:.5rem .25rem; border:0; border-bottom:1px solid var(--color-border-dark); background:transparent; color:var(--color-text-secondary); font:inherit; font-size:.8125rem; line-height:1.5; text-align:left; cursor:pointer; }
+.usage-equipment-ranks > button > span:nth-child(2) { min-width:0; overflow-wrap:anywhere; word-break:keep-all; }
+.usage-equipment-ranks > button > span:nth-child(2) > span { display:block; }
+.usage-equipment-ranks > button b { font-weight:500; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.usage-equipment-ranks > button[aria-pressed=true] { color:var(--color-accent); border-bottom-color:var(--color-accent); }
+.usage-equipment-ranks > button:hover { color:var(--color-accent); }
+.usage-equipment-rank { color:var(--color-text-muted); font-variant-numeric:tabular-nums; }
+.usage-equipment-catalogue > summary { display:flex; align-items:center; min-height:44px; cursor:pointer; color:var(--color-text-muted); font-size:.8125rem; list-style:none; }
+.usage-equipment-catalogue > summary::-webkit-details-marker { display:none; }
+.usage-equipment-catalogue[open] > label,.usage-equipment-section .usage-stat-other-contracts[open] > label { position:absolute; top:44px; inset-inline:0; display:grid; gap:.5rem; z-index:5; padding:.75rem; border:1px solid var(--color-border); background:var(--color-bg-card); font-size:.8125rem; }
+.usage-equipment-catalogue select,.usage-equipment-section select { min-width:0; width:100%; min-height:44px; background:var(--color-bg-input); color:var(--color-text-primary); border:1px solid var(--color-border); font:inherit; }
+.usage-equipment-section .usage-stat-contract-art:has(> div:nth-child(2)) { grid-template-columns:repeat(2,minmax(0,1fr)); }
 .usage-stat-presets { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.5rem; margin:0 0 .75rem; }
 .usage-stat-presets button { min-width:0; min-height:44px; padding:.6rem .4rem; border:0; border-bottom:2px solid var(--color-border-dark); border-radius:0; background:transparent; color:var(--color-text-secondary); font:inherit; text-align:left; cursor:pointer; }
 .usage-stat-presets button[aria-pressed=true] { border-bottom-color:var(--color-accent); color:var(--color-accent); }
@@ -114,6 +133,7 @@ body:has(#tab-content-dictionary.active .character-usage) .floating-report-btn {
 
 /* Pair panels only when their actual reading width is sufficient, including at text zoom. */
 @container usage-settings (min-width:40rem) {
+    .usage-equipment-sections { grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.5rem; }
     .usage-stat-settings:not(.is-comparing) .usage-stat-overview { grid-template-columns:minmax(0,1.8fr) minmax(0,1fr); gap:1rem; align-items:stretch; }
     .usage-stat-settings:not(.is-comparing) .usage-stat-overview > .usage-stat-section { display:flex; flex-direction:column; }
     .usage-stat-settings:not(.is-comparing) .usage-stat-substats > .usage-stat-rates { display:grid; grid-auto-rows:minmax(min-content,1fr); flex:1; }

@@ -34,6 +34,33 @@ export function covenantStatistics(rows, characterId) {
     });
 }
 
+// Keep global equipment rankings independent; option evidence requires the exact joint selection.
+export function equipmentStatistics(rows, characterId, { wheelKey: selectedWheelKey = '', covenantKey: selectedCovenantKey = '' } = {}) {
+    const pairRows = rows.filter(row => targetMember(row, characterId)?.wheels?.length === 2);
+    const wheelGroups = distribution(pairRows, row => wheelKey(targetMember(row, characterId)))
+        .map(group => ({ key:group.key, ids:group.key.split('|'), count:group.count, rate:group.rate }));
+    const contractGroups = covenantStatistics(rows, characterId);
+    const joints = distribution(pairRows.filter(row => targetMember(row, characterId).covenant), row => {
+        const member = targetMember(row, characterId);
+        return JSON.stringify([wheelKey(member), covenantKey(member)]);
+    });
+    if (!selectedWheelKey && !selectedCovenantKey) {
+        [selectedWheelKey, selectedCovenantKey] = joints.length ? JSON.parse(joints[0].key) : ['', ''];
+    } else if (!selectedWheelKey || !selectedCovenantKey) {
+        const observed = joints.find(group => {
+            const [pair, contract] = JSON.parse(group.key);
+            return (!selectedWheelKey || selectedWheelKey === pair) && (!selectedCovenantKey || selectedCovenantKey === contract);
+        });
+        if (observed) [selectedWheelKey, selectedCovenantKey] = JSON.parse(observed.key);
+    }
+    const jointRows = selectedWheelKey && selectedCovenantKey ? pairRows.filter(row => {
+        const member = targetMember(row, characterId);
+        return wheelKey(member) === selectedWheelKey && covenantKey(member) === selectedCovenantKey;
+    }) : [];
+    const optionGroup = covenantStatistics(jointRows, characterId).find(group => group.key === selectedCovenantKey) || null;
+    return { wheelGroups, contractGroups, selectedWheelKey, selectedCovenantKey, optionGroup, jointRows };
+}
+
 // Rank complete, observed lineups first. Equipment is selected only inside that lineup.
 export function recommendParties(rows, characterId, { limit = 3, minCount = 3 } = {}) {
     const groups = distribution(rows.filter(row => row.members.length === 4 && targetMember(row, characterId)), teamKey);

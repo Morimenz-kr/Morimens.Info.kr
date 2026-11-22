@@ -5,8 +5,8 @@ import { normalizeUsage, selectRows, distribution, teamKey, wheelKey, covenantKe
 import { usageExtraWheels } from './character-usage-equipment.mjs';
 import { indexUsageTeams, findClearTeams, findClearAlternatives } from './dzone-clear-model.mjs?v=owned-20261121';
 import { mountAccountPanel } from './account-ui.mjs?v=owned-20261121';
-import { recommendParties, covenantStatistics } from './usage-recommendations.mjs?v=statistics-20261122';
-import { renderStatisticalSettings } from './usage-statistics-view.mjs?v=ux-controls-20261122';
+import { recommendParties, covenantStatistics, equipmentStatistics } from './usage-recommendations.mjs?v=equipment-20261122';
+import { renderStatisticalSettings } from './usage-statistics-view.mjs?v=equipment-sections-20261122';
 import { loadoutDetails, potentialText } from './usage-loadout-view.mjs';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -52,7 +52,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
     }
     let advancedOpen = false, coverageOpen = false, optionsOpen = false;
     let statisticsOpen = tab === 'records' || !!requestedRecord, chosenParty = '';
-    let statKeys = ['', ''], comparing = false, activeStatistics = [], previewMember = character.id, partyPickerOpen = false;
+    let statKeys = ['', ''], selectedWheelKey = '', comparing = false, activeStatistics = [], previewMember = character.id, partyPickerOpen = false;
     let recordPreview = null, previewReturnFocus = '', previewScrollY = 0;
     const clearSearchHref = () => {
         const query = new URLSearchParams({ period: data.period, include: character.id });
@@ -101,12 +101,18 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
     const loadout = (member, compare = null, optionsControl = '') => loadoutDetails(member, { wheelMap, covMap, wheelName, covName, compare, optionsControl });
     function recommendations(rows) {
         const cohort = chosenParty ? rows.filter(row => teamKey(row) === chosenParty) : rows;
-        activeStatistics = covenantStatistics(cohort, character.id);
+        if(!cohort.some(row=>wheelKey(target(row))===selectedWheelKey)) selectedWheelKey='';
+        if(!cohort.some(row=>covenantKey(target(row))===statKeys[0])) statKeys[0]='';
+        const equipment=equipmentStatistics(cohort,character.id,{wheelKey:selectedWheelKey,covenantKey:statKeys[0]});
+        selectedWheelKey=equipment.selectedWheelKey;statKeys[0]=equipment.selectedCovenantKey;
+        const conditioned=new Map(covenantStatistics(cohort.filter(row=>wheelKey(target(row))===selectedWheelKey),character.id).map(group=>[group.key,group]));
+        const chosenWheels=equipment.wheelGroups.find(group=>group.key===selectedWheelKey);
+        activeStatistics = equipment.contractGroups.map(group=>({...group,wheels:chosenWheels?.ids||[],wheelPairs:chosenWheels?[chosenWheels]:[],options:conditioned.get(group.key)?.options||{total:0,slots:[],subs:[]}}));
         const first = activeStatistics.find(group => group.key === statKeys[0]) || activeStatistics[0];
         const second = activeStatistics.find(group => group.key === statKeys[1] && group !== first) || activeStatistics.find(group => group !== first);
         statKeys = [first?.key || '', second?.key || ''];
-        const statistics = renderStatisticalSettings({ groups: activeStatistics, selectedKeys:statKeys, compare:comparing, wheelMap,covMap,wheelName,covName });
-        const partyRows = rows.filter(row => (!first || covenantKey(target(row)) === first.key) && (!ownedOnly || row.members.every(member => owned.has(member.characterId))));
+        const statistics = renderStatisticalSettings({ groups: activeStatistics, selectedKeys:statKeys, compare:comparing, wheelGroups:equipment.wheelGroups,selectedWheelKey,wheelMap,covMap,wheelName,covName });
+        const partyRows = rows.filter(row => (!first || covenantKey(target(row)) === first.key) && wheelKey(target(row))===selectedWheelKey && (!ownedOnly || row.members.every(member => owned.has(member.characterId))));
         const result = recommendParties(partyRows, character.id);
         if (chosenParty && !result.parties.some(party=>party.key === chosenParty)) {
             const selectedRow = cohort.find(row=>row.members.length === 4 && (!ownedOnly || row.members.every(member=>owned.has(member.characterId))));
@@ -115,7 +121,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         const edit = `inventory_checker.html${entry.get('accountEmulator') === '1' ? '?accountEmulator=1' : ''}`;
         const selectedMembers = chosenParty ? cohort[0]?.members || chosenParty.split('|').map(characterId=>({characterId})) : [];
         const partyScope = `<section class="usage-party-section usage-clear-party usage-party-scope" data-selected-party="${esc(chosenParty)}"><details class="usage-party-picker" id="usage-party-picker" ${partyPickerOpen?'open':''}><summary id="usage-party-picker-summary"><span class="usage-scope-caption">파티 기준</span>${chosenParty?`<span class="usage-scope-members">${selectedMembers.map(m=>`<span><img src="${esc(chars[m.characterId].image_thumb)}" alt="" width="32" height="32"><span>${esc(memberName(m.characterId))}</span></span>`).join('')}</span>`:'<strong>전체 파티</strong>'}<span class="usage-party-change">${chosenParty?'파티 변경':'파티 선택'}</span></summary><div class="usage-party-picker-body"><div class="usage-party-picker-tools"><label class="usage-checkbox"><input id="usage-owned-only" type="checkbox" ${ownedOnly?'checked':''}>보유한 각성체만</label><a class="usage-party-search" href="${esc(clearSearchHref())}">전체 편성 검색</a></div>${result.parties.length?`<div class="usage-party-choices" role="group" aria-label="파티 기준 선택">${result.parties.map((party,i)=>`<button type="button" id="usage-party-choice-${i}" data-choose-party="${esc(party.key)}" aria-pressed="${party.key===chosenParty}" aria-label="${esc(party.example.members.map(m=>memberName(m.characterId)).join(', '))} 파티 통계 보기">${party.example.members.map(m=>`<span><img src="${esc(chars[m.characterId].image_thumb)}" width="48" height="48" alt="" loading="lazy"><span>${esc(memberName(m.characterId))}</span></span>`).join('')}<small>이 파티 통계 보기</small></button>`).join('')}</div>`:`<p class="usage-caption">${esc(ownershipError || (ownedOnly?'보유 조건에 맞는 편성이 없습니다.':'이 계약의 파티 기록이 없습니다.'))}</p>${ownedOnly?`<a class="usage-edit-roster" href="${edit}">보유 편집</a>`:''}`}</div></details>${chosenParty?`<div class="usage-party-scope-actions"><button type="button" class="usage-text-button" data-clear-party>전체 파티 통계</button><details class="site-disclosure usage-team-alternatives" data-usage-alternatives="${esc(chosenParty)}" data-primary-party><summary>대체 편성</summary><div data-usage-alt-body></div></details></div>`:''}</section>`;
-        return `<section class="usage-recommendations">${partyScope}${statistics}${first?`<div class="usage-source-link"><button type="button" class="usage-text-button" id="usage-stat-records" data-covenant-records="${esc(first.key)}">클리어 기록</button></div>`:''}</section>`;
+        return `<section class="usage-recommendations">${statistics}${partyScope}${first && conditioned.has(first.key)?`<div class="usage-source-link"><button type="button" class="usage-text-button" id="usage-stat-records" data-covenant-records="${esc(first.key)}">클리어 기록</button></div>`:''}</section>`;
     }
 
     const conflictText = row => conflicts(row, plan, data.period).map(c => `${c.wave}구역 · ${c.kind === 'character' ? memberName(c.id) : wheelName(c.id)}`).join(' / ');
@@ -207,7 +213,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         const supportingContent = tab === 'records' || entry.get('usageView') === 'records' || entry.has('record') ? statistics : data ? `<p class="usage-caption">${esc(data.source)}<br>${new Date(data.collectedAt*1000).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})} 기준 · ${data.coverage === 'complete' ? '공개 클리어 전체' : '수집된 클리어 기록'}<br>같은 유저의 여러 클리어가 포함될 수 있습니다.</p><div class="usage-filters">${select('period','시즌',periods.map(p=>[p,`${p}기`]),period)}${select('enlightenment','잠재력',[...new Set(data.rows.map(r=>target(r).enlightenment).filter(v=>v!==null))].sort((a,b)=>a-b).map(v=>[v,potentialText(v)]),filters.enlightenment)}<label class="usage-checkbox"><input id="usage-noBorrowed" type="checkbox" data-filter="noBorrowed" ${filters.noBorrowed ? 'checked' : ''}>지원 제외</label></div><button type="button" id="usage-refresh" class="usage-text-button" ${pending ? 'disabled' : ''}>새로고침</button>` : '';
         const primaryControls = data ? `<div class="usage-primary-filters">${stageButtons('wave', '금지구역', [1,2,3,4,5].map(w => [w, String(w)]), filters.wave)}${stageButtons('difficulty', '위험 등급', [...new Set(data.rows.map(row => row.difficulty))].sort().map(value => [value, value === '7' ? '특수' : difficultyName(value)]), filters.difficulty)}</div>` : '';
         root.innerHTML = `${mode ? '<p class="usage-demo-notice">예시 화면 · 실제 통계가 아닙니다</p>' : ''}
-            ${data ? `${primaryControls}${recommendations(recommendationRows)}${planPanel()}${notice ? `<p class="usage-context" role="status">${esc(notice)}</p>` : ''}<details class="site-disclosure usage-statistics" id="usage-statistics" ${statisticsOpen ? 'open' : ''}><summary id="usage-statistics-summary">집계 정보${filters.enlightenment || filters.noBorrowed ? ' · 추가 조건 적용 중' : ''}</summary><div class="usage-statistics-body">${supportingContent}</div></details>` : `<p class="usage-context" role="status">${pending ? '추천 세팅을 불러오는 중입니다…' : esc(error || '아직 수집된 사용 기록이 없습니다.')}</p>${!pending ? '<button type="button" class="usage-select" id="usage-refresh">다시 불러오기</button>' : ''}${!pending && !error ? '<button type="button" id="usage-demo" class="usage-select">가상 데이터로 기능 살펴보기</button>' : ''}`}`;
+            ${data ? `${recommendations(recommendationRows)}${planPanel()}${notice ? `<p class="usage-context" role="status">${esc(notice)}</p>` : ''}<details class="site-disclosure usage-statistics" id="usage-statistics" ${statisticsOpen ? 'open' : ''}><summary id="usage-statistics-summary">집계 정보${filters.enlightenment || filters.noBorrowed ? ' · 추가 조건 적용 중' : ''}</summary><div class="usage-statistics-body">${primaryControls}${supportingContent}</div></details>` : `<p class="usage-context" role="status">${pending ? '추천 세팅을 불러오는 중입니다…' : esc(error || '아직 수집된 사용 기록이 없습니다.')}</p>${!pending ? '<button type="button" class="usage-select" id="usage-refresh">다시 불러오기</button>' : ''}${!pending && !error ? '<button type="button" id="usage-demo" class="usage-select">가상 데이터로 기능 살펴보기</button>' : ''}`}`;
         for (const previous of expandedAlternatives) {
             const detail = [...root.querySelectorAll('[data-usage-alternatives]')].find(el => el.dataset.usageAlternatives === previous.key && el.dataset.ownedBuild === previous.build && el.hasAttribute('data-primary-party') === previous.primary);
             if (detail) { detail.open = true; showAlternatives(detail, previous.limit); }
@@ -265,15 +271,16 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         if (event.target.id === 'usage-record-dialog') { event.preventDefault(); closePreview(); }
     }, true);
     root.addEventListener('pointerdown', event => {
-        const catalogue = root.querySelector('.usage-stat-other-contracts[open]');
+        const catalogue = root.querySelector('.usage-stat-other-contracts[open],.usage-equipment-catalogue[open]');
         if (catalogue && !catalogue.contains(event.target)) catalogue.open = false;
     });
     root.addEventListener('keydown', event => {
         if (event.key !== 'Escape' || recordPreview) return;
-        const catalogue = root.querySelector('.usage-stat-other-contracts[open]');
+        const catalogue = root.querySelector('.usage-stat-other-contracts[open],.usage-equipment-catalogue[open]');
         if (catalogue) { event.preventDefault(); catalogue.open = false; catalogue.querySelector('summary').focus({preventScroll:true}); }
     });
     root.addEventListener('change', event => {
+        if(event.target.hasAttribute('data-stat-wheel-select')) {selectedWheelKey=event.target.value;render();root.querySelector('#usage-stat-wheel-heading')?.focus({preventScroll:true});return;}
         if (event.target.hasAttribute('data-stat-setting-column')) { const column = Number(event.target.dataset.statSettingColumn); if ([0,1].includes(column) && activeStatistics.some(g => g.key === event.target.value)) { statKeys[column] = event.target.value; render(); if (!comparing) root.querySelector('#usage-stat-current')?.focus({preventScroll:true}); } return; }
         if (event.target.hasAttribute('data-preview-select')) { recordPreview.index = Number(event.target.value); replaceWave = null; notice = ''; render(); return; }
         if (event.target.id === 'usage-owned-only') { ownershipChosen = true; ownedOnly = event.target.checked; shown = 20; openRow = -1; replaceWave = null; render(); return; }
@@ -287,10 +294,11 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         if (el.dataset.stageFilter && ['wave', 'difficulty'].includes(el.dataset.stageFilter)) { filters[el.dataset.stageFilter] = el.dataset.stageValue; shown = 20; openRow = -1; replaceWave = null; render(); }
         else if (el.hasAttribute('data-close-preview')) closePreview();
         else if (el.dataset.previewStep) { recordPreview.index += Number(el.dataset.previewStep); replaceWave = null; notice = ''; render(); }
+        else if (el.dataset.statWheel) { selectedWheelKey=el.dataset.statWheel;render();[...root.querySelectorAll('[data-stat-wheel]')].find(button=>button.dataset.statWheel===el.dataset.statWheel)?.focus({preventScroll:true}); }
         else if (el.dataset.statPreset) { statKeys[0] = el.dataset.statPreset; render(); [...root.querySelectorAll('[data-stat-preset]')].find(button=>button.dataset.statPreset===el.dataset.statPreset)?.focus({preventScroll:true}); }
         else if (el.hasAttribute('data-stat-compare')) { comparing = !comparing; render(); }
         else if (el.hasAttribute('data-clear-party')) { chosenParty = ''; partyPickerOpen=false; render(); root.querySelector('#usage-party-picker-summary')?.focus({preventScroll:true}); }
-        else if (el.dataset.covenantRecords) { openPreview(selectRows(data, { ...filters, team:chosenParty, wheels:'', covenant:el.dataset.covenantRecords }),el); }
+        else if (el.dataset.covenantRecords) { openPreview(selectRows(data, { ...filters, team:chosenParty, wheels:selectedWheelKey, covenant:el.dataset.covenantRecords }),el); }
         else if (el.dataset.previewMember) { previewMember = el.dataset.previewMember; render(); }
         else if (el.dataset.chooseParty) { chosenParty = el.dataset.chooseParty; partyPickerOpen=false; render(); root.querySelector('#usage-party-picker-summary')?.focus({preventScroll:true}); }
         else if (el.dataset.previewParty) { openPreview(selectFor({ ...filters, team: el.dataset.previewParty, wheels: '', covenant: '', ...(el.dataset.previewWave ? { wave: el.dataset.previewWave } : {}) }), el, el.dataset.previewRecord); }
