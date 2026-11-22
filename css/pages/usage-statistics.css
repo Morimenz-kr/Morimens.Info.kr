@@ -1,8 +1,9 @@
 /* Recommendation statistics reuse the inventory charcoal surfaces and gold selection. */
 .usage-stat-settings { min-width:0; color:var(--color-text-primary); container:usage-settings / inline-size; }
 .usage-stat-presets { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.5rem; margin:0 0 .75rem; }
-.usage-stat-presets button { min-width:0; min-height:44px; padding:.6rem .4rem; border:1px solid var(--color-border); border-radius:var(--radius-sm); background:var(--color-bg-input); color:var(--color-text-secondary); font:inherit; text-align:left; cursor:pointer; }
-.usage-stat-presets button[aria-pressed=true] { border-color:var(--color-accent); }
+.usage-stat-presets button { min-width:0; min-height:44px; padding:.6rem .4rem; border:0; border-bottom:2px solid var(--color-border-dark); border-radius:0; background:transparent; color:var(--color-text-secondary); font:inherit; text-align:left; cursor:pointer; }
+.usage-stat-presets button[aria-pressed=true] { border-bottom-color:var(--color-accent); color:var(--color-accent); }
+.usage-stat-presets button:hover { color:var(--color-accent); }
 .usage-stat-presets strong { display:block; font-size:.8125rem; font-weight:600; line-height:1.45; word-break:keep-all; overflow-wrap:anywhere; }
 .usage-stat-presets span { display:flex; flex-wrap:wrap; justify-content:space-between; gap:.2rem .35rem; margin-top:.25rem; color:var(--color-text-muted); font-size:.75rem; }
 .usage-stat-presets b { font-weight:500; color:var(--color-accent); font-variant-numeric:tabular-nums; }
@@ -11,11 +12,11 @@
 .usage-stat-equipment-heading label { display:grid; flex:1 1 10rem; min-width:0; gap:.35rem; color:var(--color-text-muted); font-size:.8125rem; }
 .usage-stat-equipment-heading select { min-width:0; width:100%; min-height:44px; padding:.5rem; border:1px solid var(--color-border-light); border-radius:var(--radius-sm); color:var(--color-text-primary); background:var(--color-bg-elevated); font:inherit; font-size:.875rem; }
 .usage-stat-text-button { min-height:44px; padding:.5rem .6rem; border:1px solid transparent; border-radius:var(--radius-sm); background:transparent; color:var(--color-text-secondary); font:inherit; font-size:.8125rem; cursor:pointer; }
-.usage-stat-text-button:hover { color:var(--color-accent); background:var(--color-bg-card); }
+.usage-stat-text-button:hover { color:var(--color-accent); }
 .usage-stat-artwork { display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1.2fr); gap:.75rem; align-items:start; margin:1rem 0 0; }
 .usage-stat-wheel-pair { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.5rem; }
-.usage-stat-art { display:flex; flex-direction:column; gap:.5rem; align-items:center; width:100%; min-width:0; min-height:44px; padding:.25rem; border:1px solid transparent; border-radius:var(--radius-sm); color:var(--color-text-primary); background:transparent; font:inherit; font-size:.875rem; line-height:1.45; text-align:center; cursor:pointer; }
-.usage-stat-art:hover { border-color:var(--color-border-light); background:var(--color-bg-card); }
+.usage-stat-art { display:flex; flex-direction:column; gap:.5rem; align-items:center; width:100%; min-width:0; min-height:44px; padding:.25rem; border:0; border-radius:0; color:var(--color-text-primary); background:transparent; font:inherit; font-size:.875rem; line-height:1.45; text-align:center; cursor:pointer; }
+.usage-stat-art:hover { color:var(--color-accent); }
 .usage-stat-art-frame { position:relative; display:block; width:100%; height:8.5rem; overflow:hidden; }
 .usage-stat-art img { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
 .usage-stat-art[data-kind=covenant] img { left:50%; right:auto; width:133.333%; max-width:none; transform:translateX(-50%); }
@@ -52,13 +53,15 @@
 .usage-stat-basis { margin:.75rem 0 0; color:var(--color-text-muted); font-size:.75rem; line-height:1.7; }
 .usage-stat-empty { margin:0; padding:1rem 0; color:var(--color-text-muted); font-size:.875rem; line-height:1.7; }
 .usage-stat-settings :is(button,select,summary):focus-visible { outline:3px solid var(--color-accent); outline-offset:3px; }
+.usage-stat-settings :is(.usage-stat-art,.usage-stat-presets button):focus-visible { outline:none; }
+.usage-stat-art:focus-visible > span,.usage-stat-presets button:focus-visible strong { color:var(--color-accent); text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:.25em; }
 .usage-stat-equipment-heading { position:relative; }
 .usage-stat-equipment-heading > h4 { flex:1 1 9rem; min-width:0; margin:0; color:var(--color-text-primary); font-size:1rem; line-height:1.5; font-weight:600; word-break:keep-all; overflow-wrap:anywhere; }
 .usage-stat-equipment-heading h4 small { color:var(--color-text-muted); font-size:.8125rem; font-weight:400; }
 .usage-stat-equipment-actions { display:flex; align-items:center; gap:.25rem; }
 .usage-stat-other-contracts > summary { display:flex; align-items:center; min-height:44px; padding:.5rem; color:var(--color-text-muted); font-size:.8125rem; cursor:pointer; list-style:none; }
 .usage-stat-other-contracts > summary::-webkit-details-marker { display:none; }
-.usage-stat-other-contracts > summary:hover,.usage-stat-other-contracts[open] > summary { color:var(--color-accent); background:var(--color-bg-card); border-radius:var(--radius-sm); }
+.usage-stat-other-contracts > summary:hover,.usage-stat-other-contracts[open] > summary { color:var(--color-accent); }
 .usage-stat-other-contracts[open] > label { display:grid; grid-template-columns:minmax(0,1fr); position:absolute; left:0; right:0; top:calc(100% + .35rem); z-index:4; padding:.75rem; border:1px solid var(--color-border-light); border-radius:var(--radius-sm); background:var(--color-bg-card); box-shadow:0 .3rem .8rem #0006; }
 #usage-stat-current:focus-visible { outline:3px solid var(--color-accent); outline-offset:3px; }
 .usage-stat-compare-controls { display:grid; grid-template-columns:minmax(0,1fr); align-items:end; gap:.75rem; margin:.75rem 0 1rem; }
@@ -108,7 +111,7 @@ body:has(#tab-content-dictionary.active .character-usage) .floating-report-btn {
 
 /* Pair panels only when their actual reading width is sufficient, including at text zoom. */
 @container usage-settings (min-width:40rem) {
-    .usage-stat-settings:not(.is-comparing) .usage-stat-overview { grid-template-columns:minmax(0,1fr) minmax(0,1.8fr); gap:1rem; align-items:stretch; }
+    .usage-stat-settings:not(.is-comparing) .usage-stat-overview { grid-template-columns:minmax(0,1.8fr) minmax(0,1fr); gap:1rem; align-items:stretch; }
     .usage-stat-settings:not(.is-comparing) .usage-stat-overview > .usage-stat-section { display:flex; flex-direction:column; }
     .usage-stat-settings:not(.is-comparing) .usage-stat-substats > .usage-stat-rates { display:grid; grid-auto-rows:minmax(min-content,1fr); flex:1; }
     .usage-stat-settings:not(.is-comparing) .usage-stat-substats > .usage-stat-rates > li { align-items:center; }
