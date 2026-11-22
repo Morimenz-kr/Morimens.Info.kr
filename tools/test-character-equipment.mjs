@@ -190,6 +190,3 @@ try {
  await fs.writeFile(path.join(out,process.argv.includes('--flow-only')?'flow-results.json':'results.json'),JSON.stringify({passed:true,checks,layouts,workerRequests,errors,initial:{wheel:wheels[0].key,covenant:top.key}},null,2));
  console.log(`PASS: ${checks.length} semantic flows, ${layouts.length} responsive states, Worker ${workerRequests}`);
 }catch(error){await fs.writeFile(path.join(out,'failure.json'),JSON.stringify({error:error.stack,checks,layouts,workerRequests,errors},null,2));throw error;}finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}
-
-
-
