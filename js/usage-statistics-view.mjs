@@ -4,6 +4,10 @@ const roman = ['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ'];
 const number = value => Number(value || 0).toLocaleString('ko-KR');
 const percent = value => `${(Math.max(0,Math.min(1,Number(value)||0))*100).toLocaleString('ko-KR',{maximumFractionDigits:1})}%`;
 const optionKey = option => `${option.id}:${option.unit || ''}`;
+// Same attribute IDs and original assets as covenant-editor.mjs / covenant_simulator.js.
+const iconIds = {18159:'008',18105:'007',18126:'002',18142:'004',22207:'003',18139:'005',18155:'001',18151:'006'};
+const statIcon = option => iconIds[option.id] ? `<img class="usage-stat-option-icon" src="images/keyword-icons/original/ui_battle_white_buff_${iconIds[option.id]}.png" width="24" height="24" alt="">` : '';
+const leaders = list => { const peak=Math.max(0,...list.map(option=>option.rate)); return list.filter(option=>peak>0 && option.rate===peak); };
 
 /** Contract-conditioned distributions. A row is an adoption rate, never an individual roll. */
 export function renderStatisticalSettings({groups=[],selectedKeys=[],compare=false,wheelMap={},covMap={},wheelName=id=>id,covName=id=>id}) {
@@ -13,12 +17,14 @@ export function renderStatisticalSettings({groups=[],selectedKeys=[],compare=fal
     const selected = compare && second ? [first,second] : [first], comparing=selected.length===2;
     const contractName = group => group.sets.map(set=>`${covName(set.id)} ${set.count}세트`).join(' + ');
     const shortName = group => group.sets.map(set=>covName(set.id)).join(' + ');
-    const imageButton = (id,kind,caption=true) => {
+    const imageButton = (id,kind,caption=true,badges='') => {
         const item = kind==='wheel' ? wheelMap[id] : covMap[id], name=kind==='wheel' ? wheelName(id) : covName(id);
-        return `<button type="button" class="usage-stat-art" data-equipment="${esc(id)}" data-kind="${kind}" aria-label="${esc(name)} 상세" ${item?'':'disabled'}>${item?`<picture class="usage-stat-art-frame"><img src="${esc(item.image_path)}" alt="" width="128" height="192"></picture>`:'<span class="usage-stat-missing-art">이미지 없음</span>'}${caption?`<span>${esc(name)}</span>`:''}</button>`;
+        const art=item?`<img src="${esc(item.image_path)}" alt="" width="${kind==='covenant'?500:128}" height="${kind==='covenant'?400:192}">`:'';
+        return `<button type="button" class="usage-stat-art" data-equipment="${esc(id)}" data-kind="${kind}" aria-label="${esc(name)} 상세" ${item?'':'disabled'}>${item?`<span class="usage-stat-art-frame">${kind==='covenant'?`<span class="usage-stat-covenant-surface">${art}${badges}</span>`:art}</span>`:'<span class="usage-stat-missing-art">이미지 없음</span>'}${caption?`<span>${esc(name)}</span>`:''}</button>`;
     };
     const wheelArt = group => `<div class="usage-stat-wheel-pair">${group.wheels.length ? group.wheels.map(id=>imageButton(id,'wheel')).join('') : `<p class="usage-stat-unavailable">${group.wheelPairs?.[0]?.key==='__unequipped__'?'명륜 미장착':'명륜 미확인'}</p>`}</div>`;
-    const contractArt = group => `<div class="usage-stat-contract-art">${group.sets.map(set=>`<div>${imageButton(set.id,'covenant')}${comparing || group.sets.length>1?`<small>${set.count}세트</small>`:''}</div>`).join('')}</div>`;
+    const slotBadges = group => group.options.slots.map(slot=>{const top=leaders(slot.main);return top.length?`<span class="usage-stat-slot-badge" data-slot-badge="${slot.slot}" aria-hidden="true" title="${roman[slot.slot-1]} · ${top.map(option=>`${option.label} ${percent(option.rate)}`).join(' / ')}">${statIcon(top[0])}</span>`:'';}).join('');
+    const contractArt = group => `<div class="usage-stat-contract-art">${group.sets.map(set=>`<div>${imageButton(set.id,'covenant',true,!comparing && group.sets.length===1?slotBadges(group):'')}${comparing || group.sets.length>1?`<small>${set.count}세트</small>`:''}</div>`).join('')}</div>`;
     const selector = (group,column) => `<label for="usage-stat-contract-${column}"><span>${comparing?(column?'비교 계약':'기준 계약'):'전체 계약 선택'}</span><select name="usageContract${column}" id="usage-stat-contract-${column}" data-stat-setting-column="${column}">${groups.map(g=>`<option value="${esc(g.key)}" ${g===group?'selected':''} ${comparing && g===selected[1-column]?'disabled':''}>${esc(contractName(g))} · ${percent(g.rate)}</option>`).join('')}</select></label>`;
     const compareButton = second ? `<button type="button" id="usage-stat-compare" class="usage-stat-text-button" data-stat-compare aria-pressed="${comparing}" aria-controls="usage-stat-distributions">${comparing?'비교 닫기':'계약 비교'}</button>` : '';
     const presets = !comparing ? `<div class="usage-stat-presets" role="group" aria-label="많이 사용하는 비밀계약">${groups.slice(0,3).map(g=>`<button type="button" data-stat-preset="${esc(g.key)}" aria-pressed="${g===first}"><strong>${esc(shortName(g))}</strong><span>${g.sets.map(set=>`${set.count}세트`).join(' + ')} <b>${percent(g.rate)}</b></span></button>`).join('')}</div>` : '';
@@ -41,17 +47,21 @@ export function renderStatisticalSettings({groups=[],selectedKeys=[],compare=fal
     const rates = lists => {
         const {maps,peaks,ordered}=entries(lists);
         if(!ordered.length) return '<p class="usage-stat-no-options">집계할 옵션이 없습니다.</p>';
-        if(comparing) return `<table class="usage-stat-comparison-table">${tableHeader()}<tbody>${ordered.map(([key,option])=>`<tr data-stat-option="${esc(key)}"><th scope="row">${esc(option.label)}</th>${rateCells(key,maps,peaks,'td')}</tr>`).join('')}</tbody></table>`;
-        return `<ul class="usage-stat-rates">${ordered.map(([key,option])=>`<li data-stat-option="${esc(key)}"><span class="usage-stat-option-name">${esc(option.label)}</span>${rateCells(key,maps,peaks)}</li>`).join('')}</ul>`;
+        if(comparing) return `<table class="usage-stat-comparison-table">${tableHeader()}<tbody>${ordered.map(([key,option])=>`<tr data-stat-option="${esc(key)}"><th scope="row"><span class="usage-stat-option-name">${statIcon(option)}<span>${esc(option.label)}</span></span></th>${rateCells(key,maps,peaks,'td')}</tr>`).join('')}</tbody></table>`;
+        return `<ul class="usage-stat-rates">${ordered.map(([key,option])=>`<li data-stat-option="${esc(key)}"><span class="usage-stat-option-name">${statIcon(option)}<span>${esc(option.label)}</span></span>${rateCells(key,maps,peaks)}</li>`).join('')}</ul>`;
     };
     const slotRows = kind => {
         if(comparing) return `<table class="usage-stat-comparison-table usage-stat-slot-table">${tableHeader(true)}${roman.map((label,index)=>{
             const lists=selected.map(g=>g.options.slots.find(s=>s.slot===index+1)?.[kind]||[]),{maps,peaks,ordered}=entries(lists);
-            return `<tbody aria-label="${label} 부위" data-stat-slot="${index+1}">${ordered.length?ordered.map(([key,option],i)=>`<tr data-stat-option="${esc(key)}">${i===0?`<th scope="rowgroup" rowspan="${ordered.length}" class="usage-stat-slot-heading">${label}</th>`:''}<th scope="row">${esc(option.label)}</th>${rateCells(key,maps,peaks,'td')}</tr>`).join(''):`<tr><th scope="row">${label}</th><td colspan="3">집계할 옵션이 없습니다.</td></tr>`}</tbody>`;
+            return `<tbody aria-label="${label} 부위" data-stat-slot="${index+1}">${ordered.length?ordered.map(([key,option],i)=>`<tr data-stat-option="${esc(key)}">${i===0?`<th scope="rowgroup" rowspan="${ordered.length}" class="usage-stat-slot-heading">${label}</th>`:''}<th scope="row"><span class="usage-stat-option-name">${statIcon(option)}<span>${esc(option.label)}</span></span></th>${rateCells(key,maps,peaks,'td')}</tr>`).join(''):`<tr><th scope="row">${label}</th><td colspan="3">집계할 옵션이 없습니다.</td></tr>`}</tbody>`;
         }).join('')}</table>`;
         return `<ol class="usage-stat-main-rows">${roman.map((label,index)=>`<li class="usage-stat-main-row" data-stat-slot="${index+1}"><h6>${label}</h6>${rates([first.options.slots.find(s=>s.slot===index+1)?.[kind]||[]])}</li>`).join('')}</ol>`;
     };
     const hasOptions=totals.some(n=>n>0);
     const criteria=selected.map(g=>`${shortName(g)} ${number(g.options.total)}건`).join(' · ');
-    return `<section class="usage-stat-settings ${comparing?'is-comparing':''}" aria-label="비밀계약별 세팅 통계">${presets}${equipment}<div id="usage-stat-distributions" class="usage-stat-distributions">${hasOptions?`<div class="usage-stat-overview"><section class="usage-stat-section usage-stat-mainstats"><h5>주옵 채용률</h5>${slotRows('main')}</section><section class="usage-stat-section usage-stat-substats"><h5>부옵 채용률</h5>${rates(selected.map(g=>g.options.subs))}</section></div><details class="usage-stat-slot-details"><summary>부위별 부옵</summary>${slotRows('subs')}</details>`:'<p class="usage-stat-empty">완성도 90% 이상 기록이 없어 옵션 채용률을 집계할 수 없습니다.</p>'}<p class="usage-stat-basis">계약: 확인된 ${number(first.knownCount)}건 기준 · 옵션: 완성도 90% 이상 ${esc(criteria)}<br>부옵은 6부위 중 한 번 이상 채용한 비율입니다.</p></div></section>`;
+    const basis=`<p class="usage-stat-basis">계약: 확인된 ${number(first.knownCount)}건 기준 · 옵션: 완성도 90% 이상 ${esc(criteria)}<br>부옵은 6부위 중 한 번 이상 채용한 비율입니다.</p>`;
+    const leading = list => {const top=leaders(list);return `${rates([top.slice(0,1)])}${top.length>1?`<small class="usage-stat-joint">공동 1순위 · 외 ${top.length-1}종</small>`:''}`;};
+    const full=`<div class="usage-stat-overview usage-stat-full"><section class="usage-stat-section usage-stat-mainstats"><h5>주옵 채용률</h5>${slotRows('main')}</section><section class="usage-stat-section usage-stat-substats"><h5>부옵 채용률</h5>${rates(selected.map(g=>g.options.subs))}</section></div><details class="usage-stat-slot-details"><summary>부위별 부옵</summary>${slotRows('subs')}</details>${basis}`;
+    const summary=`<div class="usage-stat-overview usage-stat-summary"><section class="usage-stat-section"><h5>주옵 1순위</h5><ol class="usage-stat-leading-slots">${roman.map((label,index)=>`<li data-leading-slot="${index+1}"><span class="usage-stat-leading-slot">${label}</span><div>${leading(first.options.slots.find(slot=>slot.slot===index+1)?.main||[])}</div></li>`).join('')}</ol></section><section class="usage-stat-section"><h5>부옵 1순위</h5><div class="usage-stat-leading-sub"><div>${leading(first.options.subs)}</div></div></section></div>`;
+    return `<section class="usage-stat-settings ${comparing?'is-comparing':''}" aria-label="비밀계약별 세팅 통계">${presets}${equipment}<div id="usage-stat-distributions" class="usage-stat-distributions">${hasOptions?comparing?full:`${summary}<details class="usage-stat-more"><summary><span class="usage-stat-more-closed">옵션 분포 더보기</span><span class="usage-stat-more-open">옵션 분포 접기</span></summary>${full}</details>`:`<p class="usage-stat-empty">완성도 90% 이상 기록이 없어 옵션 채용률을 집계할 수 없습니다.</p>`}</div></section>`;
 }

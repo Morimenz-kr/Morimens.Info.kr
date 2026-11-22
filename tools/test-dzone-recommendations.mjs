@@ -39,10 +39,20 @@ try {
     const expectedGroups = covenantStatistics(source.rows,'doll_inferno');
     const rate = value => `${(value*100).toLocaleString('ko-KR',{maximumFractionDigits:1})}%`;
     async function assertRates(groups) {
+        const more=page.locator('.usage-stat-more');
+        await expect(more).not.toHaveAttribute('open');
+        await expect(page.locator('[data-leading-slot]')).toHaveCount(6);
+        for(const slot of groups[0].options.slots) {
+            const top=slot.main[0];
+            if(top) await expect(page.locator(`[data-leading-slot="${slot.slot}"] .usage-stat-rate`).first()).toHaveText(rate(top.rate));
+        }
+        await more.locator('summary').first().click();
         for(const option of groups[0].options.subs) {
             const element = page.locator(`.usage-stat-substats [data-stat-option="${option.id}:${option.unit}"] .usage-stat-rate`).first();
+            await expect(element).toBeVisible();
             await expect(element).toHaveText(rate(option.rate));
         }
+        await more.locator('summary').first().click();
     }
     await expect(page.locator('.usage-stat-equipment').first()).toHaveAttribute('data-stat-group',expectedGroups[0].key);
     await assertRates(expectedGroups);
@@ -52,6 +62,20 @@ try {
     await page.locator('#usage-stat-contract-0').selectOption(expectedGroups[3].key);
     await expect(page.locator('#usage-stat-current')).toBeFocused();
     await expect(page.locator('.usage-stat-other-contracts')).not.toHaveAttribute('open');
+    await page.locator('[data-stat-preset]').first().click();await assertRates(expectedGroups);
+    await page.locator('#usage-wave-1').click();
+    await expect(page.locator('#usage-wave-1')).toHaveAttribute('aria-pressed','true');
+    const waveGroups=covenantStatistics(source.rows.filter(row=>row.wave===1),'doll_inferno');
+    const waveSelected=await page.locator('#usage-stat-contract-0').inputValue();
+    await assertRates([waveGroups.find(group=>group.key===waveSelected)]);
+    await page.locator('#usage-difficulty-1').click();
+    const jointGroups=covenantStatistics(source.rows.filter(row=>row.wave===1 && String(row.difficulty)==='1'),'doll_inferno');
+    const jointSelected=await page.locator('#usage-stat-contract-0').inputValue();
+    await assertRates([jointGroups.find(group=>group.key===jointSelected)]);
+    await expect(page.locator('.usage-stat-leading-sub .usage-stat-rates > li')).toHaveCount(1);
+    await expect(page.locator('.usage-stat-leading-sub .usage-stat-joint')).toContainText('공동 1순위');
+    await page.locator('#usage-difficulty-all').click();
+    await page.locator('#usage-wave-all').click();
     await page.locator('[data-stat-preset]').first().click();await assertRates(expectedGroups);
     await expect(page.locator('.usage-recommendations .usage-loadout-part,#usage-example-toggle,[data-preview-wave],.usage-my-source,.usage-party-equipment-heading')).toHaveCount(0);
     // Owning companions changes party suggestions, never the character's equipment statistics.
@@ -70,17 +94,17 @@ try {
     await expect(page.locator('.usage-stat-substats [data-stat-option]').first().locator('.usage-stat-rate')).toHaveCount(2);
     await page.locator('#usage-stat-contract-1').selectOption(expectedGroups[1].key);
     await page.setViewportSize({width:390,height:900});
-    const nameLines = await page.locator('.usage-stat-comparison-table th[scope=row]').evaluateAll(cells => cells.filter(cell=>['광기 충전 레벨','크리티컬 피해','검은 인장 드롭율'].includes(cell.textContent)).map(cell=>{const range=document.createRange();range.selectNodeContents(cell);return {text:cell.textContent,lines:range.getClientRects().length};}));
+    const nameLines = await page.locator('.usage-stat-comparison-table th[scope=row] .usage-stat-option-name > span').evaluateAll(cells => cells.filter(cell=>['광기 충전 레벨','크리티컬 피해','검은 인장 드롭율'].includes(cell.textContent)).map(cell=>{const range=document.createRange();range.selectNodeContents(cell);return {text:cell.textContent,lines:range.getClientRects().length};}));
     assert.ok(nameLines.length && nameLines.every(cell=>cell.lines===1),'Korean labels remain readable as complete names: '+JSON.stringify(nameLines));
     async function layout(name) {
-        const panels = await page.locator('.usage-stat-settings:not(.is-comparing) .usage-stat-overview > section').evaluateAll(sections => sections.map(section => {
+        const panels = await page.locator('.usage-stat-summary > section').evaluateAll(sections => sections.map(section => {
             const heading=section.querySelector('h5').getBoundingClientRect(), list=section.lastElementChild.getBoundingClientRect();
             return {headingTop:heading.top, top:list.top, bottom:list.bottom};
         }));
         if (panels.length===2 && Math.abs(panels[0].headingTop-panels[1].headingTop)<1) {
             assert.ok(Math.abs(panels[0].top-panels[1].top)<1 && Math.abs(panels[0].bottom-panels[1].bottom)<1, name+' paired statistic panels align '+JSON.stringify(panels));
         }
-        const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, textOverflow: [...document.querySelectorAll('.usage-stat-rates li,.usage-stat-art > span')].filter(el => el.getClientRects().length).some(el => el.scrollWidth > el.clientWidth + 1), clipped: [...document.querySelectorAll('.usage-recommendations button')].filter(el => el.getClientRects().length).some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < (el.classList.contains('usage-zone') ? 27 : 43); }) }));
+        const metrics = await page.evaluate(() => ({ width: innerWidth, overflow: document.documentElement.scrollWidth - innerWidth, textOverflow: [...document.querySelectorAll('.usage-stat-rates li,.usage-stat-art > span:not(.usage-stat-art-frame)')].filter(el => el.getClientRects().length).some(el => el.scrollWidth > el.clientWidth + 1), clipped: [...document.querySelectorAll('.usage-recommendations button')].filter(el => el.getClientRects().length).some(el => { const r = el.getBoundingClientRect(); return r.left < -1 || r.right > innerWidth + 1 || r.height < (el.classList.contains('usage-zone') ? 27 : 43); }) }));
         assert.ok(metrics.overflow <= 1 && !metrics.clipped && !metrics.textOverflow, name + JSON.stringify(metrics)); layouts.push({ name, ...metrics });
     }
     for (const width of [320, 389, 390, 391, 479, 480, 481, 639, 640, 641, 767, 768, 769, 779, 780, 781, 899, 900, 901, 1024, 1280]) {
@@ -103,7 +127,7 @@ try {
         for (const preset of [0,1,2]) {
             await page.locator('[data-stat-preset]').nth(preset).click(); await layout(`balanced-${width}-${preset}`);
         }
-        if ([390,1280].includes(width)) await page.locator('.usage-stat-overview').screenshot({path:path.join(out,`balanced-${width}.png`)});
+        if ([390,1280].includes(width)) await page.locator('.usage-stat-summary').screenshot({path:path.join(out,`balanced-${width}.png`)});
     }
     await page.locator('[data-stat-preset]').first().click();
     let below=640,above=1024;
@@ -116,11 +140,21 @@ try {
     for(const width of [320,390,1280]) {
         await page.setViewportSize({width,height:900});
         await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; }); await layout('settings-zoom200-'+width);
-        const panels=await page.locator('.usage-stat-overview > section').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().top));
+        const panels=await page.locator('.usage-stat-summary > section').evaluateAll(es=>es.map(e=>e.getBoundingClientRect().top));
         assert.ok(panels[1]>panels[0],'enlarged text reflows panels instead of stretching a narrow column');
         if(width===1280) await page.screenshot({path:path.join(out,'single-zoom200-1280.png'),fullPage:true});
         await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
     }
+    await page.locator('.usage-stat-more > summary').click();
+    await page.locator('.usage-stat-slot-details > summary').click();
+    for(const width of [320,390,639,640,641,768,1024,1280]) {
+        await page.setViewportSize({width,height:900});await layout('expanded-'+width);
+    }
+    for(const width of [320,390,1280]) {
+        await page.setViewportSize({width,height:900});await page.evaluate(()=>{document.documentElement.style.fontSize='200%';});
+        await layout('expanded-zoom200-'+width);await page.evaluate(()=>{document.documentElement.style.fontSize='';});
+    }
+    await page.locator('.usage-stat-more > summary').click();
     await page.setViewportSize({ width: 844, height: 390 }); await layout('settings-landscape');
     await page.setViewportSize({ width: 390, height: 900 });
     await page.locator('#usage-party-picker-summary').click();

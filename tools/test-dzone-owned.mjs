@@ -115,7 +115,7 @@ try {
     const zoneUrl = new URL(primaryUrl);zoneUrl.searchParams.delete('wave');zoneUrl.searchParams.delete('difficulty');
     await page.goto(zoneUrl.href);await expect(page.locator('.usage-stat-equipment')).toBeVisible({timeout:30000});
     for(const wave of [1,2]) {
-        await page.locator('#usage-wave').selectOption(String(wave));
+        await page.locator(`[data-stage-filter="wave"][data-stage-value="${wave}"]`).click();
         await expect(page.locator('[data-preview-wave]')).toHaveCount(0);
         await page.locator('#usage-stat-records').click();await expect(page.locator('#usage-record-dialog')).toBeVisible();
         assert.ok((await page.locator('#usage-preview-select option').allTextContents()).every(text=>text.includes(`${wave}구역`)));
