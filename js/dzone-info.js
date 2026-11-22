@@ -220,6 +220,7 @@
     let selectedMechanic = '';
     let mechanicCursor = -1;
     let readUsagePlan = () => null;
+    const showPartyRecommendations = typeof CONFIG !== 'undefined' && CONFIG.CHARACTER_PARTY_RECOMMENDATIONS === true;
     let stageUsageView = 'awakeners';
     let usageCharacterManifest = [];
     const stageUsageCache = new Map();
@@ -1041,7 +1042,7 @@
             <details class="stage-usage" data-stage-usage="${difficulty.stageId}" open>
                 <summary class="stage-usage-header">
                     <div>
-                        <h3>실전 편성 통계</h3>
+                        <h3>${showPartyRecommendations ? '실전 편성 통계' : '각성체 채용률'}</h3>
                         <p data-usage-period>이 스테이지에 등록된 공개 클리어 기록을 집계합니다.</p>
                     </div>
                     <span class="stage-usage-sample">
@@ -1051,11 +1052,11 @@
                     <span class="stage-usage-toggle" aria-hidden="true"></span>
                 </summary>
                 <div class="stage-usage-content">
-                    ${readUsagePlan()?.period === selectedPeriod ? `<p><a class="usage-party-settings" href="party_builder.html?usagePlan=${selectedPeriod}">담은 파티 · ${Object.keys(readUsagePlan().zones).length}/5구역</a></p>` : ''}
-                    <div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
+                    ${showPartyRecommendations && readUsagePlan()?.period === selectedPeriod ? `<p><a class="usage-party-settings" href="party_builder.html?usagePlan=${selectedPeriod}">담은 파티 · ${Object.keys(readUsagePlan().zones).length}/5구역</a></p>` : ''}
+                    ${showPartyRecommendations ? `<div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
                         <button type="button" data-usage-view="awakeners" aria-pressed="${stageUsageView === 'awakeners'}">각성체 채용률</button>
                         <button type="button" data-usage-view="parties" aria-pressed="${stageUsageView === 'parties'}">자주 쓰인 편성</button>
-                    </div>
+                    </div>` : ''}
                     <div class="stage-usage-body" data-usage-body aria-live="polite">
                         <p class="stage-usage-message">공개 기록을 집계하고 있습니다.</p>
                     </div>
@@ -1226,7 +1227,7 @@
         return `<a class="usage-party-settings" href="links.html?${escapeHtml(query.toString())}#usage">세팅 보기</a>`;
     }
     function renderStageUsage(data) {
-        if (stageUsageView === 'parties') {
+        if (showPartyRecommendations && stageUsageView === 'parties') {
             const parties = Array.isArray(data.parties) ? data.parties.slice(0, 10) : [];
             if (!parties.length) return '<p class="stage-usage-message">집계할 공개 편성 기록이 없습니다.</p>';
             return `<ol class="usage-party-list">${parties.map((party, index) => `
@@ -1310,7 +1311,7 @@
             section.querySelector('[data-usage-body]').innerHTML = renderStageUsage(usage);
             section.onclick = event => {
                 const button = event.target.closest('[data-usage-view]');
-                if (!button) return;
+                if (!showPartyRecommendations || !button) return;
                 stageUsageView = button.dataset.usageView;
                 section.querySelectorAll('[data-usage-view]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
                 updateStageUsageMeta(section, usage);
@@ -1620,8 +1621,16 @@
         try {
             await window.DzoneSeason.discover();
             selectedPeriod = window.DzoneSeason.CURRENT_SEASON;
-            readUsagePlan = (await import('./usage-plan.mjs')).readPlan;
-            if (new URLSearchParams(location.search).get('view') === 'parties') stageUsageView = 'parties';
+            const url = new URL(location.href);
+            if (showPartyRecommendations) {
+                readUsagePlan = (await import('./usage-plan.mjs')).readPlan;
+                const searchLinkTemplate = document.getElementById('dzone-clear-link-template');
+                if (searchLinkTemplate) searchLinkTemplate.replaceWith(searchLinkTemplate.content);
+                if (url.searchParams.get('view') === 'parties') stageUsageView = 'parties';
+            } else if (url.searchParams.get('view') === 'parties') {
+                url.searchParams.delete('view');
+                history.replaceState(history.state, '', url);
+            }
             const hashSelection = location.hash.match(/^(?:#season-(\d+)-)?wave-(\d+)(?:-alert-(\d+))?$/);
             if (hashSelection) {
                 if (hashSelection[1]) selectedPeriod = window.DzoneSeason.selectSeason(Number(hashSelection[1])).period;

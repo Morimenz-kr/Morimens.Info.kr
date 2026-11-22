@@ -4,34 +4,33 @@ import { memberDetails, statText } from './character-usage-view.mjs';
 import { normalizeUsage, selectRows, distribution, teamKey, wheelKey, covenantKey, targetMember, sampleCount, optionStats, difficultyLabel, enlightenmentLabel } from './character-usage-model.mjs?v=owned-20261121';
 import { usageExtraWheels } from './character-usage-equipment.mjs';
 import { indexUsageTeams, findClearTeams, findClearAlternatives } from './dzone-clear-model.mjs?v=owned-20261121';
-import { mountAccountPanel } from './account-ui.mjs?v=owned-20261121';
-import { recommendParties, covenantStatistics, equipmentStatistics } from './usage-recommendations.mjs?v=equipment-20261122';
-import { renderStatisticalSettings } from './usage-statistics-view.mjs?v=equipment-sections-20261122';
-import { loadoutDetails, potentialText } from './usage-loadout-view.mjs';
+import './account-store.js';
+import { recommendParties, covenantStatistics, wheelStatistics } from './usage-recommendations.mjs?v=party-cores-20261123';
+import { renderStatisticalSettings } from './usage-statistics-view.mjs?v=equipment-rank-titles-20261122';
+import { loadoutDetails, potentialText } from './usage-loadout-view.mjs?v=equipment-pair-labels-20261122';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const percent = value => `${(value * 100).toLocaleString('ko-KR', { maximumFractionDigits: 1 })}%`;
 const n = value => value.toLocaleString('ko-KR', { maximumFractionDigits: 2 });
 const roman = ['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
 const difficultyName = difficultyLabel;
+const partyCandidatePreviewCount = 2;
+const partyCandidatePageSize = 5;
 
-export async function mountCharacterUsage(root, { character, manifest, wheels, covenants }) {
+export async function mountCharacterUsage(root, { character, manifest, wheels, covenants, showPartyRecommendations = false }) {
     root.className = 'character-usage';
     const chars = Object.fromEntries(manifest.map(c => [c.id, c]));
     const wheelMap = Object.fromEntries([...wheels, ...usageExtraWheels].map(w => [w.english_name, w]));
     const covMap = Object.fromEntries(covenants.map(c => [c.english_name, c]));
     let ownedOnly = false, ownershipChosen = false, owned = new Set(), ownershipError = '', ownerFingerprint = '';
     const store = window.MorimensAccountStore.store;
-    const account = document.createElement('details'); account.className = 'site-disclosure usage-account';
-    account.innerHTML = '<summary>계정과 보유 기록</summary><section aria-label="계정과 동기화"></section>';
-    root.after(account); void mountAccountPanel(account.querySelector('section'));
     function refreshOwned() {
         try { owned = new Set(Object.entries(store.read('roster')?.characters || {}).filter(([id, row]) => row.owned === true && chars[id]).map(([id]) => id)); ownershipError = ''; }
         catch { owned = new Set(); ownershipError = '보유 기록을 읽지 못했습니다. 보유 현황을 확인해주세요.'; }
         const fingerprint = store.uid + [...owned].sort().join('|') + ownershipError, changed = ownerFingerprint !== fingerprint;
         ownerFingerprint = fingerprint;
         if (!ownershipChosen) ownedOnly = owned.size > 0 && !entry.has('team') && !entry.has('record') && entry.get('usageView') !== 'records';
-        if (data && changed) { openRow = -1; replaceWave = null; render(); }
+        if (data && changed) { selectedPartyTeams.clear(); partyCandidateLimits.clear(); openRow = -1; replaceWave = null; render(); }
     }
     const selectFor = (selection = filters) => selectRows(data, { ...selection, owned: ownedOnly ? owned : null });
     let data = null, periods = [], mode = new URLSearchParams(location.search).get('usageDemo') === '1', error = '', pending = false, requestId = 0;
@@ -50,9 +49,11 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
     if (entry.get('recordScope') === 'all' && tab === 'records' && !requestedRecord) {
         publicOnly = false; excludeUsed = false; maxPotential = '';
     }
-    let advancedOpen = false, coverageOpen = false, optionsOpen = false;
-    let statisticsOpen = tab === 'records' || !!requestedRecord, chosenParty = '';
-    let statKeys = ['', ''], selectedWheelKey = '', comparing = false, activeStatistics = [], previewMember = character.id, partyPickerOpen = false;
+    let advancedOpen = false, optionsOpen = false;
+    const equipmentSelection = { wheel: '', covenant: '' };
+    const selectedPartyTeams = new Map();
+    const partyCandidateLimits = new Map();
+    let previewMember = character.id;
     let recordPreview = null, previewReturnFocus = '', previewScrollY = 0;
     const clearSearchHref = () => {
         const query = new URLSearchParams({ period: data.period, include: character.id });
@@ -72,7 +73,13 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         const name = type === 'wheel' ? wheelName(id) : covName(id);
         return `<button type="button" class="usage-equipment" data-equipment="${esc(id)}" data-kind="${type}" ${item ? '' : 'disabled'}>${item ? `<img src="${esc(item.image_path)}" alt="" loading="lazy">` : ''}<span>${esc(name)}</span><span class="usage-muted">상세</span></button>`;
     };
-    const covLabel = key => key.split('|').map(part => { const [id, count] = part.split(':'); return `${covName(id)} ${count}세트`; }).join(' + ');
+    const covLabel = key => {
+        const sets = key.split('|');
+        return sets.map(part => {
+            const [id, count] = part.split(':');
+            return sets.length > 1 ? `${covName(id)} ${count}부위` : covName(id);
+        }).join(' + ');
+    };
     const groupList = (groups, type, denominator, limit = shown, compact = false) => groups.length ? groups.slice(0, limit).map(g => {
         const selected = filters[type] === g.key;
         const names = type === 'team' ? g.rows[0].members.map(m => characterArt(m.characterId)).join('') : type === 'wheels' ? (g.key === '__unequipped__' ? '<p>명륜 미장착</p>' : g.key.split('|').map(id => detailButton(id, 'wheel')).join('')) : `<p>${esc(covLabel(g.key))}</p><div class="usage-equipment-pair">${g.key.split('|').map(p => detailButton(p.split(':')[0], 'covenant')).join('')}</div>`;
@@ -100,33 +107,61 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
     }
     const loadout = (member, compare = null, optionsControl = '') => loadoutDetails(member, { wheelMap, covMap, wheelName, covName, compare, optionsControl });
     function recommendations(rows) {
-        const cohort = chosenParty ? rows.filter(row => teamKey(row) === chosenParty) : rows;
-        if(!cohort.some(row=>wheelKey(target(row))===selectedWheelKey)) selectedWheelKey='';
-        if(!cohort.some(row=>covenantKey(target(row))===statKeys[0])) statKeys[0]='';
-        const equipment=equipmentStatistics(cohort,character.id,{wheelKey:selectedWheelKey,covenantKey:statKeys[0]});
-        selectedWheelKey=equipment.selectedWheelKey;statKeys[0]=equipment.selectedCovenantKey;
-        const conditioned=new Map(covenantStatistics(cohort.filter(row=>wheelKey(target(row))===selectedWheelKey),character.id).map(group=>[group.key,group]));
-        const chosenWheels=equipment.wheelGroups.find(group=>group.key===selectedWheelKey);
-        activeStatistics = equipment.contractGroups.map(group=>({...group,wheels:chosenWheels?.ids||[],wheelPairs:chosenWheels?[chosenWheels]:[],options:conditioned.get(group.key)?.options||{total:0,slots:[],subs:[]}}));
-        const first = activeStatistics.find(group => group.key === statKeys[0]) || activeStatistics[0];
-        const second = activeStatistics.find(group => group.key === statKeys[1] && group !== first) || activeStatistics.find(group => group !== first);
-        statKeys = [first?.key || '', second?.key || ''];
-        const statistics = renderStatisticalSettings({ groups: activeStatistics, selectedKeys:statKeys, compare:comparing, wheelGroups:equipment.wheelGroups,selectedWheelKey,wheelMap,covMap,wheelName,covName });
-        const partyRows = rows.filter(row => (!first || covenantKey(target(row)) === first.key) && wheelKey(target(row))===selectedWheelKey && (!ownedOnly || row.members.every(member => owned.has(member.characterId))));
-        const result = recommendParties(partyRows, character.id);
-        if (chosenParty && !result.parties.some(party=>party.key === chosenParty)) {
-            const selectedRow = cohort.find(row=>row.members.length === 4 && (!ownedOnly || row.members.every(member=>owned.has(member.characterId))));
-            if (selectedRow) result.parties = [{key:chosenParty,example:selectedRow},...result.parties.slice(0,2)];
-        }
+        const statistics = renderStatisticalSettings({
+            contractGroups: covenantStatistics(rows, character.id),
+            wheelGroups: wheelStatistics(rows, character.id),
+            equipmentSelection, wheelMap, covMap, wheelName, covName
+        });
+        return `<section class="usage-recommendations">${statistics}${showPartyRecommendations ? partyRecommendations(rows) : ''}</section>`;
+    }
+
+    function partyRecommendations(rows) {
+        const partyRows = ownedOnly ? rows.filter(row => row.members.every(member => owned.has(member.characterId))) : rows;
+        const parties = recommendParties(partyRows, character.id);
         const edit = `inventory_checker.html${entry.get('accountEmulator') === '1' ? '?accountEmulator=1' : ''}`;
-        const selectedMembers = chosenParty ? cohort[0]?.members || chosenParty.split('|').map(characterId=>({characterId})) : [];
-        const partyScope = `<section class="usage-party-section usage-clear-party usage-party-scope" data-selected-party="${esc(chosenParty)}"><details class="usage-party-picker" id="usage-party-picker" ${partyPickerOpen?'open':''}><summary id="usage-party-picker-summary"><span class="usage-scope-caption">파티 기준</span>${chosenParty?`<span class="usage-scope-members">${selectedMembers.map(m=>`<span><img src="${esc(chars[m.characterId].image_thumb)}" alt="" width="32" height="32"><span>${esc(memberName(m.characterId))}</span></span>`).join('')}</span>`:'<strong>전체 파티</strong>'}<span class="usage-party-change">${chosenParty?'파티 변경':'파티 선택'}</span></summary><div class="usage-party-picker-body"><div class="usage-party-picker-tools"><label class="usage-checkbox"><input id="usage-owned-only" type="checkbox" ${ownedOnly?'checked':''}>보유한 각성체만</label><a class="usage-party-search" href="${esc(clearSearchHref())}">전체 편성 검색</a></div>${result.parties.length?`<div class="usage-party-choices" role="group" aria-label="파티 기준 선택">${result.parties.map((party,i)=>`<button type="button" id="usage-party-choice-${i}" data-choose-party="${esc(party.key)}" aria-pressed="${party.key===chosenParty}" aria-label="${esc(party.example.members.map(m=>memberName(m.characterId)).join(', '))} 파티 통계 보기">${party.example.members.map(m=>`<span><img src="${esc(chars[m.characterId].image_thumb)}" width="48" height="48" alt="" loading="lazy"><span>${esc(memberName(m.characterId))}</span></span>`).join('')}<small>이 파티 통계 보기</small></button>`).join('')}</div>`:`<p class="usage-caption">${esc(ownershipError || (ownedOnly?'보유 조건에 맞는 편성이 없습니다.':'이 계약의 파티 기록이 없습니다.'))}</p>${ownedOnly?`<a class="usage-edit-roster" href="${edit}">보유 편집</a>`:''}`}</div></details>${chosenParty?`<div class="usage-party-scope-actions"><button type="button" class="usage-text-button" data-clear-party>전체 파티 통계</button><details class="site-disclosure usage-team-alternatives" data-usage-alternatives="${esc(chosenParty)}" data-primary-party><summary>대체 편성</summary><div data-usage-alt-body></div></details></div>`:''}</section>`;
-        return `<section class="usage-recommendations">${statistics}${partyScope}${first && conditioned.has(first.key)?`<div class="usage-source-link"><button type="button" class="usage-text-button" id="usage-stat-records" data-covenant-records="${esc(first.key)}">클리어 기록</button></div>`:''}</section>`;
+        const cards = parties.length ? `<ul class="usage-party-cards" role="list">${parties.map(party => {
+            const selected = selectedPartyTeams.get(party.key);
+            const active = party.candidates.find(candidate => candidate.key === selected) ?? party.candidates[0];
+            const limit = partyCandidateLimits.get(party.key) ?? partyCandidatePreviewCount;
+            const visible = party.candidates.slice(0, limit);
+            if (!visible.includes(active)) visible[visible.length - 1] = active;
+            const lineup = [...party.members, active.id];
+            const name = lineup.map(memberName).join(', ');
+            const lineupId = `usage-party-loadouts-${encodeURIComponent(party.key)}`;
+            return `<li class="usage-party-card" id="${lineupId}-card" data-team="${esc(party.key)}">
+                <button type="button" class="usage-party-lineup" id="${lineupId}" data-preview-party="${esc(active.key)}" aria-label="${esc(name)} 파티 장비 보기" aria-haspopup="dialog">
+                    ${lineup.map((id, index) => `<span class="usage-party-slot${index === 3 ? ' usage-party-fourth' : ''}" data-character="${esc(id)}">${chars[id]?.image_thumb
+                        ? `<img src="${esc(chars[id].image_thumb)}" alt="" title="${esc(memberName(id))}" width="56" height="56">`
+                        : esc(memberName(id))}</span>`).join('')}
+                </button>
+                <div class="usage-party-candidates">
+                    <span class="usage-party-candidate-label">네 번째 자리</span>
+                    <ul aria-label="${esc(party.members.map(memberName).join(', '))} 조합의 네 번째 자리">
+                    ${visible.map(candidate => `<li><button type="button" class="usage-party-candidate" id="${lineupId}-${encodeURIComponent(candidate.id)}" data-party-candidate="${esc(candidate.key)}" aria-current="${candidate === active}" aria-haspopup="dialog" title="이 조합의 네 번째 자리 채용률"><span>${esc(memberName(candidate.id))}</span><span class="usage-party-candidate-rate">${percent(candidate.rate)}</span></button></li>`).join('')}
+                    ${party.candidates.length > limit ? `<li><button type="button" class="usage-party-more" data-party-candidate-more aria-label="네 번째 자리 후보 ${party.candidates.length - limit}명 더 보기">+${party.candidates.length - limit}</button></li>` : ''}
+                    ${limit > partyCandidatePreviewCount ? '<li><button type="button" class="usage-party-more" data-party-candidate-collapse>접기</button></li>' : ''}
+                    </ul>
+                </div>
+            </li>`;
+        }).join('')}</ul>` : `<p class="usage-caption">${esc(ownershipError || (ownedOnly ? '보유 조건에 맞는 편성이 없습니다.' : '클리어 파티 기록이 없습니다.'))}</p>${ownedOnly ? `<a class="usage-edit-roster" href="${edit}">보유 편집</a>` : ''}`;
+        return `<section class="usage-party-section usage-clear-party" aria-labelledby="usage-clear-party-title">
+                <header class="usage-party-heading">
+                    <div class="usage-party-title">
+                        <h4 id="usage-clear-party-title">클리어 파티</h4>
+                        ${parties.length ? '<p>썸네일을 눌러 장비 보기</p>' : ''}
+                    </div>
+                    <div class="usage-party-tools">
+                        <label class="usage-checkbox"><input id="usage-owned-only" type="checkbox" ${ownedOnly ? 'checked' : ''}>보유한 각성체만</label>
+                        <a class="usage-party-search" href="${esc(clearSearchHref())}">전체 편성 검색</a>
+                    </div>
+                </header>
+                ${cards}
+            </section>`;
     }
 
     const conflictText = row => conflicts(row, plan, data.period).map(c => `${c.wave}구역 · ${c.kind === 'character' ? memberName(c.id) : wheelName(c.id)}`).join(' / ');
     function showAlternatives(detail, limit = 5) {
-        const selection = { ...filters, team: '', ...(detail.hasAttribute('data-primary-party') ? { wheels: '', covenant: '' } : {}) };
+        const selection = { ...filters, team: '' };
         const ownBuild = detail.dataset.ownedBuild;
         if (ownBuild) [selection.wheels, selection.covenant] = JSON.parse(ownBuild);
         const index = indexUsageTeams(ownBuild ? selectRows(data, { ...selection, owned }) : selectFor(selection));
@@ -136,7 +171,9 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         body.innerHTML = ''
             + (alternatives.length ? `<ul>${alternatives.slice(0, limit).map((team, index) => {
                 const bucket = [...team.buckets].sort((a, b) => b.count - a.count || a.wave - b.wave)[0];
-                return `<li><div>${chars[team.added] ? `<img src="${esc(chars[team.added].image_thumb)}" alt="" width="40" height="40" loading="lazy">` : ''}<div><p>${esc(memberName(team.removed))} → <strong>${esc(memberName(team.added))}</strong></p>${ownBuild ? '' : `<p class="usage-muted">${bucket.wave}구역 · ${difficultyName(bucket.difficulty)}</p>`}</div></div><button type="button" class="usage-select" id="usage-alt-${esc(encodeURIComponent(detail.dataset.usageAlternatives))}-${index}-${ownBuild ? 'owned' : 'stat'}" data-usage-alternative="${esc(JSON.stringify([team.key, bucket.wave, bucket.difficulty]))}" ${detail.hasAttribute('data-primary-party') ? 'data-primary-alternative' : ''} ${ownBuild ? `data-owned-build="${esc(ownBuild)}"` : ''}>세팅</button></li>`;
+                const record = esc(JSON.stringify([team.key, bucket.wave, bucket.difficulty]));
+                const buttonId = `usage-alt-${esc(encodeURIComponent(detail.dataset.usageAlternatives))}-${index}-${ownBuild ? 'owned' : 'stat'}`;
+                return `<li><div>${chars[team.added] ? `<img src="${esc(chars[team.added].image_thumb)}" alt="" width="40" height="40" loading="lazy">` : ''}<div><p>${esc(memberName(team.removed))} → <strong>${esc(memberName(team.added))}</strong></p>${ownBuild ? '' : `<p class="usage-muted">${bucket.wave}구역 · ${difficultyName(bucket.difficulty)}</p>`}</div></div><button type="button" class="usage-select" id="${buttonId}" data-usage-alternative="${record}" ${ownBuild ? `data-owned-build="${esc(ownBuild)}"` : ''}>세팅</button></li>`;
             }).join('')}</ul>${alternatives.length > limit ? `<button type="button" class="usage-select" data-usage-alt-more="${limit + 5}">대체 조합 더 보기 (${limit}/${alternatives.length})</button>` : ''}` : '<p class="usage-caption">현재 조건에 맞는 대체 클리어 기록이 없습니다. 보유·세팅·구역 조건을 바꿔보세요.</p>');
     }
     function record(row, index, preview = false) {
@@ -150,7 +187,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         const sorted = [...rows].sort((a, b) => Number(gearKnown(b)) - Number(gearKnown(a)) || b.count - a.count);
         const requested = key ? sorted.findIndex(row => recordKey(row) === key) : -1;
         if (requested > 0) sorted.unshift(sorted.splice(requested, 1)[0]);
-        recordPreview = { rows: sorted, index: 0 }; previewMember = character.id;
+        recordPreview = { rows: sorted, index: 0, showStage: !trigger.matches('[data-preview-party], [data-party-candidate]') }; previewMember = character.id;
         previewReturnFocus = trigger.id; previewScrollY = window.scrollY;
         replaceWave = null; notice = '';
         render();
@@ -166,7 +203,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         const { rows, index } = recordPreview, row = rows[index];
         const member = row.members.find(m => m.characterId === previewMember) || row.members[0];
         const clash = conflictText(row), complete = gearKnown(row);
-        return `<dialog id="usage-record-dialog" class="usage-record-dialog" aria-labelledby="usage-preview-title"><header class="usage-preview-header"><h4 id="usage-preview-title">파티 장비</h4><button type="button" id="usage-preview-close" class="usage-text-button" data-close-preview autofocus>닫기</button></header><div class="usage-preview-controls"><label for="usage-preview-select">세팅<select id="usage-preview-select" data-preview-select>${rows.map((r,i) => `<option value="${i}" ${i === index ? 'selected' : ''}>${i+1} / ${rows.length} · ${r.wave}구역 ${difficultyName(r.difficulty)} · ${target(r).wheels?.map(w=>wheelName(w.id)).join(' + ') || '명륜 미확인'} · 계약 ${target(r).covenant?.completion == null ? '미확인' : n(target(r).covenant.completion)+'%'} · ${potentialText(target(r).enlightenment)}</option>`).join('')}</select></label><button type="button" class="usage-text-button" data-save-record="${index}" ${!complete || clash ? 'disabled' : ''}>${replaceWave === recordKey(row) ? '교체 확인' : '편성에 담기'}</button></div>
+        return `<dialog id="usage-record-dialog" class="usage-record-dialog" aria-labelledby="usage-preview-title"><header class="usage-preview-header"><h4 id="usage-preview-title">파티 장비</h4><button type="button" id="usage-preview-close" class="usage-text-button" data-close-preview autofocus>닫기</button></header><div class="usage-preview-controls"><label for="usage-preview-select">세팅<select id="usage-preview-select" data-preview-select>${rows.map((r,i) => `<option value="${i}" ${i === index ? 'selected' : ''}>${i+1} / ${rows.length} · ${recordPreview.showStage ? `${r.wave}구역 ${difficultyName(r.difficulty)} · ` : ''}${esc(target(r).wheels?.map(w=>wheelName(w.id)).join(' + ') || '명륜 미확인')} · ${target(r).covenant ? esc(covLabel(covenantKey(target(r)))) : '비밀계약 미확인'} · ${potentialText(target(r).enlightenment)}</option>`).join('')}</select></label><button type="button" class="usage-text-button" data-save-record="${index}" ${!complete || clash ? 'disabled' : ''}>${replaceWave === recordKey(row) ? '교체 확인' : '편성에 담기'}</button></div>
             <div class="usage-preview-members" role="group" aria-label="장비를 볼 각성체">${row.members.map(m => `<button type="button" data-preview-member="${esc(m.characterId)}" aria-pressed="${m === member}"><img src="${esc(chars[m.characterId].image_thumb)}" alt="" width="48" height="48"><span>${esc(memberName(m.characterId))}</span><small>${potentialText(m.enlightenment)}${m.borrowed ? ' · 지원' : ''}</small></button>`).join('')}</div>
             <div class="usage-preview-body">${notice ? `<p class="usage-context" role="status">${esc(notice)}</p>` : ''}${clash ? `<p class="usage-conflict">다른 구역과 중복: ${esc(clash)}</p>` : ''}${loadout(member)}</div><footer class="usage-preview-nav"><button type="button" class="usage-text-button" id="usage-preview-prev" data-preview-step="-1" ${index ? '' : 'disabled'}>이전</button><span>${index+1} / ${rows.length}</span><button type="button" class="usage-text-button" id="usage-preview-next" data-preview-step="1" ${index < rows.length-1 ? '' : 'disabled'}>다음</button></footer></dialog>`;
     }
@@ -183,21 +220,20 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
     }
     function render() {
         const focus = root.contains(document.activeElement) ? document.activeElement.id : '';
-        const expandedAlternatives = [...root.querySelectorAll('[data-usage-alternatives][open]')].map(el => ({ key: el.dataset.usageAlternatives, build: el.dataset.ownedBuild, primary: el.hasAttribute('data-primary-party'), limit: Math.max(5, el.querySelectorAll('li').length) }));
-        const rows = data ? selectFor() : [], total = sampleCount(rows), allCount = data ? sampleCount(data.rows) : 0;
+        const expandedOptions = [...root.querySelectorAll('.usage-stat-option-disclosure[open]')].map(el => el.id);
+        const expandedAlternatives = [...root.querySelectorAll('[data-usage-alternatives][open]')].map(el => ({ key: el.dataset.usageAlternatives, build: el.dataset.ownedBuild, limit: Math.max(5, el.querySelectorAll('[data-usage-alternative]').length) }));
+        const rows = data ? selectFor() : [], total = sampleCount(rows);
         const records = data && tab === 'records' ? recordsFor(rows) : [];
         const option = data && (tab === 'overview' || (tab === 'covenants' && optionsOpen)) ? optionStats(rows, character.id) : { total: 0, slots: [] };
         const select = (id, title, values, current) => `<label for="usage-${id}">${title}<select id="usage-${id}" data-filter="${id}"><option value="">${id === 'period' ? '최신' : '전체'}</option>${values.map(([v, label]) => `<option value="${esc(v)}" ${String(current) === String(v) ? 'selected' : ''}>${esc(label)}</option>`).join('')}</select></label>`;
-        const stageButtons = (id, title, values, current) => `<div id="usage-${id}" class="usage-stage-filter" role="group" aria-label="${title}"><span class="usage-stage-label" aria-hidden="true">${title}</span><div class="usage-stage-options">${[['', '전체'], ...values].map(([value, label]) => `<button type="button" id="usage-${id}-${esc(value || 'all')}" data-stage-filter="${id}" data-stage-value="${esc(value)}" aria-pressed="${String(current || '') === String(value)}">${esc(label)}</button>`).join('')}</div></div>`;
         const active = Object.entries(filters).filter(([, v]) => v).map(([key, value]) => `<button type="button" class="usage-chip" id="usage-remove-${key}" data-remove="${key}">${esc(key === 'team' ? '선택한 파티' : key === 'wheels' ? '선택한 명륜 조합' : key === 'covenant' ? covLabel(value) : key === 'wave' ? `${value}구역` : key === 'difficulty' ? difficultyName(value) : key === 'enlightenment' ? enlightenmentLabel(Number(value)) : '지원 제외')} ×</button>`).join('');
         const keyForTab = { teams: 'team', wheels: 'wheels', covenants: 'covenant' }[tab];
         const groupingRows = data ? selectFor({ ...filters, ...(keyForTab ? { [keyForTab]: '' } : {}) }) : [];
-        const statistics = `<div class="usage-stat-heading"><h4>통계와 클리어 기록</h4><div class="usage-header-actions">${data ? `<a class="usage-select" href="${esc(clearSearchHref())}">조합 검색 화면</a>` : ''}<button type="button" id="usage-refresh" class="usage-select" ${pending ? 'disabled' : ''}>새로고침</button></div></div>
+        const statistics = `<div class="usage-stat-heading"><h4>통계와 클리어 기록</h4><div class="usage-header-actions">${showPartyRecommendations && data ? `<a class="usage-select" href="${esc(clearSearchHref())}">조합 검색 화면</a>` : ''}<button type="button" id="usage-refresh" class="usage-select" ${pending ? 'disabled' : ''}>새로고침</button></div></div>
             ${mode ? '<div class="usage-demo-notice" role="note"><strong>예시 화면 · 실제 통계가 아닙니다</strong><p>팀·장비·옵션과 모든 수치는 기능 검토용 가상 데이터입니다.</p><button type="button" id="usage-live" class="usage-select">실제 데이터 화면으로</button></div>' : ''}
             <details class="site-disclosure usage-disclosure" id="usage-advanced" ${advancedOpen ? 'open' : ''}><summary id="usage-advanced-summary">필터 더 보기${filters.enlightenment || filters.noBorrowed ? ' · 적용 중' : ''}</summary><div class="usage-filters">${select('period', '시즌', periods.map(p => [p, `${p}기`]), period)}${select('enlightenment', `${character.name} 잠재력`, [...new Set(data?.rows.map(r => target(r).enlightenment).filter(x => x !== null) || [])].sort((a, b) => a - b).map(v => [v, enlightenmentLabel(v)]), filters.enlightenment)}<label class="usage-checkbox"><input id="usage-noBorrowed" type="checkbox" data-filter="noBorrowed" ${filters.noBorrowed ? 'checked' : ''}>지원 제외</label></div></details>
             <div class="usage-context" role="status">${pending ? '사용 기록을 불러오는 중…' : data ? `${data.period}기 · 클리어 ${n(total)}건 · 기준 ${new Date(data.collectedAt * 1000).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' })}` : esc(error || '아직 수집된 사용 기록이 없습니다.')}</div>
 
-            ${data ? `<details class="site-disclosure usage-disclosure" id="usage-coverage" ${coverageOpen ? 'open' : ''}><summary id="usage-coverage-summary">집계 정보</summary><p class="usage-caption">수집 ${n(allCount)}건 · ${data.coverage === 'sample' ? '일부 기록' : '공개 클리어 전체'}<br>명륜 확인 ${n(sampleCount(rows.filter(r => target(r).wheels !== null)))} / ${n(total)}건 · 비밀계약 확인 ${n(sampleCount(rows.filter(r => target(r).covenant !== null)))} / ${n(total)}건<br>출처: ${esc(data.source)}<br>같은 유저의 여러 클리어가 포함될 수 있습니다.</p></details>` : ''}
             ${active ? `<div class="usage-chips">${active}<button type="button" class="usage-chip" id="usage-reset" data-reset>필터 초기화</button></div>` : ''}
             ${!data && !pending && !error ? '<div class="usage-empty"><button type="button" id="usage-demo" class="usage-select">가상 데이터로 기능 살펴보기</button></div>' : ''}
             ${data ? `<nav class="usage-tabs" aria-label="사용 현황 보기">${[['overview', '요약'], ['teams', '파티 조합'], ['wheels', '명륜 조합'], ['covenants', '비밀계약'], ['records', '클리어 세팅']].map(([id, label]) => `<button id="usage-tab-${id}" type="button" data-usage-tab="${id}" aria-pressed="${tab === id}">${label}</button>`).join('')}</nav><div class="usage-panel" aria-label="${esc(tab)}">
@@ -207,15 +243,17 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
             }).join('')}<button type="button" id="usage-open-records" class="usage-select" data-usage-tab="records">클리어 세팅 보기</button>` : ''}
             ${tab === 'teams' ? `<p class="usage-caption">클리어 횟수 기준입니다. 같은 유저의 기록도 여러 번 포함됩니다.</p><div class="usage-cards">${groupList(distribution(groupingRows, teamKey), 'team', sampleCount(groupingRows))}</div>` : ''}
             ${tab === 'wheels' ? `<p class="usage-caption">명륜 확인 ${n(sampleCount(groupingRows.filter(r => target(r).wheels)))} / ${n(sampleCount(groupingRows))}건 · 명륜 강화 단계는 ‘클리어 세팅’에서 볼 수 있습니다.</p><div class="usage-cards">${groupList(distribution(groupingRows, r => wheelKey(target(r))), 'wheels', sampleCount(groupingRows))}</div>` : ''}
-            ${tab === 'covenants' ? `<p class="usage-caption">세트 사용률은 전체 클리어 기준이며, 주옵·부옵은 완성도 90% 이상만 집계합니다.</p><div class="usage-cards">${groupList(distribution(groupingRows, r => covenantKey(target(r))), 'covenant', sampleCount(groupingRows))}</div><details class="site-disclosure usage-options" id="usage-options" ${optionsOpen ? 'open' : ''}><summary id="usage-options-summary">주옵·부옵 전체 보기 (완성도 90% 이상)</summary>${optionsOpen ? `<h4>주옵·부옵</h4><p>완성도 90% 이상 ${n(option.total)}건 / 클리어 ${n(total)}건</p>${optionGrid(option)}<p class="usage-caption">부옵은 한 부위에 여러 개 붙으므로 사용률 합계가 100%를 넘을 수 있습니다. 같은 부옵이 중복되면 수치를 합산합니다. 각 부위의 원래 옵션은 ‘클리어 세팅’에서 볼 수 있습니다.</p><button type="button" class="usage-select" data-usage-tab="records">클리어 세팅 보기</button>` : ''}</details>` : ''}
+            ${tab === 'covenants' ? `<p class="usage-caption">비밀계약 사용률은 전체 클리어 기준이며, 주옵·부옵은 완성도 90% 이상만 집계합니다.</p><div class="usage-cards">${groupList(distribution(groupingRows, r => covenantKey(target(r))), 'covenant', sampleCount(groupingRows))}</div><details class="site-disclosure usage-options" id="usage-options" ${optionsOpen ? 'open' : ''}><summary id="usage-options-summary">주옵·부옵 전체 보기 (완성도 90% 이상)</summary>${optionsOpen ? `<h4>주옵·부옵</h4><p>완성도 90% 이상 ${n(option.total)}건 / 클리어 ${n(total)}건</p>${optionGrid(option)}<p class="usage-caption">부옵은 한 부위에 여러 개 붙으므로 사용률 합계가 100%를 넘을 수 있습니다. 같은 부옵이 중복되면 수치를 합산합니다. 각 부위의 원래 옵션은 ‘클리어 세팅’에서 볼 수 있습니다.</p><button type="button" class="usage-select" data-usage-tab="records">클리어 세팅 보기</button>` : ''}</details>` : ''}
             ${tab === 'records' ? `<p class="usage-caption">같은 클리어에서 사용한 네 명의 세팅입니다. 계약 완성도 90% 미만도 포함합니다.</p><div class="usage-filters"><label class="usage-checkbox"><input id="usage-public-only" type="checkbox" data-record-filter="publicOnly" ${publicOnly ? 'checked' : ''}>네 명 장비 공개</label><label class="usage-checkbox"><input id="usage-exclude-used" type="checkbox" data-record-filter="excludeUsed" ${excludeUsed ? 'checked' : ''}>다른 구역에 담은 각성체·명륜 제외</label><label>파티 잠재력<select id="usage-max-potential" data-record-filter="maxPotential"><option value="">전체</option>${[0,1,2,3].map(v => `<option value="${v}" ${maxPotential === String(v) ? 'selected' : ''}>${v === 0 ? '명함' : v + '돌'} 이하</option>`).join('')}</select></label></div><p class="usage-caption">조건에 맞는 기록 ${n(sampleCount(records))}건 · ${n(records.length)}개 세팅. 잠재력 4단계 이상 또는 미수집 기록은 ‘3돌 이하’에 포함하지 않습니다. 명륜 돌파는 비교할 수 없습니다.</p>${records.length ? records.slice(0, shown).map((row, index) => record(row, index)).join('') + moreButton(records.length) : '<p class="usage-empty">해당하는 세팅이 없습니다. 파티 또는 필터를 바꿔 다른 기록을 확인해주세요.</p>'}` : ''}</div>` : ''}`;
         const recommendationRows = data ? selectRows(data, { ...filters, team: '', wheels: '', covenant: '' }) : [];
-        const supportingContent = tab === 'records' || entry.get('usageView') === 'records' || entry.has('record') ? statistics : data ? `<p class="usage-caption">${esc(data.source)}<br>${new Date(data.collectedAt*1000).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})} 기준 · ${data.coverage === 'complete' ? '공개 클리어 전체' : '수집된 클리어 기록'}<br>같은 유저의 여러 클리어가 포함될 수 있습니다.</p><div class="usage-filters">${select('period','시즌',periods.map(p=>[p,`${p}기`]),period)}${select('enlightenment','잠재력',[...new Set(data.rows.map(r=>target(r).enlightenment).filter(v=>v!==null))].sort((a,b)=>a-b).map(v=>[v,potentialText(v)]),filters.enlightenment)}<label class="usage-checkbox"><input id="usage-noBorrowed" type="checkbox" data-filter="noBorrowed" ${filters.noBorrowed ? 'checked' : ''}>지원 제외</label></div><button type="button" id="usage-refresh" class="usage-text-button" ${pending ? 'disabled' : ''}>새로고침</button>` : '';
-        const primaryControls = data ? `<div class="usage-primary-filters">${stageButtons('wave', '금지구역', [1,2,3,4,5].map(w => [w, String(w)]), filters.wave)}${stageButtons('difficulty', '위험 등급', [...new Set(data.rows.map(row => row.difficulty))].sort().map(value => [value, value === '7' ? '특수' : difficultyName(value)]), filters.difficulty)}</div>` : '';
         root.innerHTML = `${mode ? '<p class="usage-demo-notice">예시 화면 · 실제 통계가 아닙니다</p>' : ''}
-            ${data ? `${recommendations(recommendationRows)}${planPanel()}${notice ? `<p class="usage-context" role="status">${esc(notice)}</p>` : ''}<details class="site-disclosure usage-statistics" id="usage-statistics" ${statisticsOpen ? 'open' : ''}><summary id="usage-statistics-summary">집계 정보${filters.enlightenment || filters.noBorrowed ? ' · 추가 조건 적용 중' : ''}</summary><div class="usage-statistics-body">${primaryControls}${supportingContent}</div></details>` : `<p class="usage-context" role="status">${pending ? '추천 세팅을 불러오는 중입니다…' : esc(error || '아직 수집된 사용 기록이 없습니다.')}</p>${!pending ? '<button type="button" class="usage-select" id="usage-refresh">다시 불러오기</button>' : ''}${!pending && !error ? '<button type="button" id="usage-demo" class="usage-select">가상 데이터로 기능 살펴보기</button>' : ''}`}`;
+            ${data ? `${recommendations(recommendationRows)}${planPanel()}${notice ? `<p class="usage-context" role="status">${esc(notice)}</p>` : ''}${tab !== 'overview' || entry.get('usageView') === 'records' || entry.has('record') ? `<section class="usage-statistics" aria-label="클리어 기록">${statistics}</section>` : ''}` : `<p class="usage-context" role="status">${pending ? '추천 세팅을 불러오는 중입니다…' : esc(error || '아직 수집된 사용 기록이 없습니다.')}</p>${!pending ? '<button type="button" class="usage-select" id="usage-refresh">다시 불러오기</button>' : ''}${!pending && !error ? '<button type="button" id="usage-demo" class="usage-select">가상 데이터로 기능 살펴보기</button>' : ''}`}`;
+        for (const id of expandedOptions) {
+            const disclosure = root.querySelector(`#${id}`);
+            if (disclosure) disclosure.open = true;
+        }
         for (const previous of expandedAlternatives) {
-            const detail = [...root.querySelectorAll('[data-usage-alternatives]')].find(el => el.dataset.usageAlternatives === previous.key && el.dataset.ownedBuild === previous.build && el.hasAttribute('data-primary-party') === previous.primary);
+            const detail = [...root.querySelectorAll('[data-usage-alternatives]')].find(el => el.dataset.usageAlternatives === previous.key && el.dataset.ownedBuild === previous.build);
             if (detail) { detail.open = true; showAlternatives(detail, previous.limit); }
         }
         root.insertAdjacentHTML('beforeend', previewDialog());
@@ -225,7 +263,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         if (focus) (root.querySelector(`#${CSS.escape(focus)}`) || root.querySelector(`#usage-tab-${tab}`) || root.querySelector('#usage-plan-summary') || root.querySelector('#usage-refresh'))?.focus({ preventScroll: true });
     }
     async function load() {
-        const serial = ++requestId; pending = true; error = ''; render();
+        const serial = ++requestId; selectedPartyTeams.clear(); partyCandidateLimits.clear(); pending = true; error = ''; render();
         try {
             let payload;
             if (mode) {
@@ -259,59 +297,63 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
     }
     root.addEventListener('toggle', event => {
         if (!event.target.isConnected) return;
-        if (event.target.id === 'usage-party-picker') partyPickerOpen = event.target.open;
-        if (event.target.id === 'usage-statistics') statisticsOpen = event.target.open;
         if (event.target.dataset.usageAlternatives && event.target.open && !event.target.querySelector('[data-usage-alt-body]').childElementCount) showAlternatives(event.target);
         if (event.target.id === 'usage-plan') planOpen = event.target.open;
         if (event.target.id === 'usage-advanced') advancedOpen = event.target.open;
-        if (event.target.id === 'usage-coverage') coverageOpen = event.target.open;
         if (event.target.id === 'usage-options' && optionsOpen !== event.target.open) { optionsOpen = event.target.open; render(); }
     }, true);
     root.addEventListener('cancel', event => {
         if (event.target.id === 'usage-record-dialog') { event.preventDefault(); closePreview(); }
     }, true);
-    root.addEventListener('pointerdown', event => {
-        const catalogue = root.querySelector('.usage-stat-other-contracts[open],.usage-equipment-catalogue[open]');
-        if (catalogue && !catalogue.contains(event.target)) catalogue.open = false;
-    });
-    root.addEventListener('keydown', event => {
-        if (event.key !== 'Escape' || recordPreview) return;
-        const catalogue = root.querySelector('.usage-stat-other-contracts[open],.usage-equipment-catalogue[open]');
-        if (catalogue) { event.preventDefault(); catalogue.open = false; catalogue.querySelector('summary').focus({preventScroll:true}); }
-    });
     root.addEventListener('change', event => {
-        if(event.target.hasAttribute('data-stat-wheel-select')) {selectedWheelKey=event.target.value;render();root.querySelector('#usage-stat-wheel-heading')?.focus({preventScroll:true});return;}
-        if (event.target.hasAttribute('data-stat-setting-column')) { const column = Number(event.target.dataset.statSettingColumn); if ([0,1].includes(column) && activeStatistics.some(g => g.key === event.target.value)) { statKeys[column] = event.target.value; render(); if (!comparing) root.querySelector('#usage-stat-current')?.focus({preventScroll:true}); } return; }
         if (event.target.hasAttribute('data-preview-select')) { recordPreview.index = Number(event.target.value); replaceWave = null; notice = ''; render(); return; }
-        if (event.target.id === 'usage-owned-only') { ownershipChosen = true; ownedOnly = event.target.checked; shown = 20; openRow = -1; replaceWave = null; render(); return; }
+        if (event.target.id === 'usage-owned-only') { ownershipChosen = true; ownedOnly = event.target.checked; selectedPartyTeams.clear(); partyCandidateLimits.clear(); shown = 20; openRow = -1; replaceWave = null; render(); return; }
         if (event.target.dataset.recordFilter) { const key = event.target.dataset.recordFilter; const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value; if (key === 'publicOnly') publicOnly = value; if (key === 'excludeUsed') excludeUsed = value; if (key === 'maxPotential') maxPotential = value; try { localStorage.setItem('morimens_usage_record_filters_v1', JSON.stringify({ publicOnly, excludeUsed, maxPotential })); } catch { /* Filters remain usable without persistence. */ } shown = 20; openRow = -1; replaceWave = null; render(); return; }
-        const key = event.target.dataset.filter; if (!key) return; shown = 20; replaceWave = null;
+        const key = event.target.dataset.filter; if (!key) return; selectedPartyTeams.clear(); partyCandidateLimits.clear(); shown = 20; replaceWave = null;
         if (key === 'period') { period = event.target.value; data = null; filters = {}; openRow = -1; load(); }
         else { filters[key] = event.target.type === 'checkbox' ? event.target.checked : event.target.value; openRow = -1; render(); }
     });
     root.addEventListener('click', event => {
         const el = event.target.closest('button'); if (!el || !root.contains(el)) return;
-        if (el.dataset.stageFilter && ['wave', 'difficulty'].includes(el.dataset.stageFilter)) { filters[el.dataset.stageFilter] = el.dataset.stageValue; shown = 20; openRow = -1; replaceWave = null; render(); }
+        if (el.dataset.rankKind) {
+            if (el.getAttribute('aria-pressed') === 'true') return;
+            equipmentSelection[el.dataset.rankKind] = el.dataset.rankKey;
+            render();
+            root.querySelector(`#${el.id}`)?.focus({ preventScroll: true });
+        }
         else if (el.hasAttribute('data-close-preview')) closePreview();
         else if (el.dataset.previewStep) { recordPreview.index += Number(el.dataset.previewStep); replaceWave = null; notice = ''; render(); }
-        else if (el.dataset.statWheel) { selectedWheelKey=el.dataset.statWheel;render();[...root.querySelectorAll('[data-stat-wheel]')].find(button=>button.dataset.statWheel===el.dataset.statWheel)?.focus({preventScroll:true}); }
-        else if (el.dataset.statPreset) { statKeys[0] = el.dataset.statPreset; render(); [...root.querySelectorAll('[data-stat-preset]')].find(button=>button.dataset.statPreset===el.dataset.statPreset)?.focus({preventScroll:true}); }
-        else if (el.hasAttribute('data-stat-compare')) { comparing = !comparing; render(); }
-        else if (el.hasAttribute('data-clear-party')) { chosenParty = ''; partyPickerOpen=false; render(); root.querySelector('#usage-party-picker-summary')?.focus({preventScroll:true}); }
-        else if (el.dataset.covenantRecords) { openPreview(selectRows(data, { ...filters, team:chosenParty, wheels:selectedWheelKey, covenant:el.dataset.covenantRecords }),el); }
         else if (el.dataset.previewMember) { previewMember = el.dataset.previewMember; render(); }
-        else if (el.dataset.chooseParty) { chosenParty = el.dataset.chooseParty; partyPickerOpen=false; render(); root.querySelector('#usage-party-picker-summary')?.focus({preventScroll:true}); }
-        else if (el.dataset.previewParty) { openPreview(selectFor({ ...filters, team: el.dataset.previewParty, wheels: '', covenant: '', ...(el.dataset.previewWave ? { wave: el.dataset.previewWave } : {}) }), el, el.dataset.previewRecord); }
-        else if (el.hasAttribute('data-open-statistics')) { statisticsOpen = true; render(); root.querySelector('#usage-wave [aria-pressed=true]')?.focus(); }
+        else if (el.matches('[data-party-candidate-more], [data-party-candidate-collapse]')) {
+            const card = el.closest('.usage-party-card');
+            const core = card.dataset.team;
+            const visible = new Set(Array.from(card.querySelectorAll('[data-party-candidate]'), button => button.id));
+            const collapse = el.hasAttribute('data-party-candidate-collapse');
+            if (collapse) partyCandidateLimits.delete(core);
+            else partyCandidateLimits.set(core, (partyCandidateLimits.get(core) ?? partyCandidatePreviewCount) + partyCandidatePageSize);
+            render();
+            const updated = root.querySelector('#' + CSS.escape(card.id));
+            const focus = collapse ? updated.querySelector('[data-party-candidate-more]')
+                : Array.from(updated.querySelectorAll('[data-party-candidate]')).find(button => !visible.has(button.id));
+            focus?.focus();
+        }
+        else if (el.dataset.partyCandidate || el.dataset.previewParty) {
+            const team = el.dataset.partyCandidate || el.dataset.previewParty;
+            const rows = selectFor({ ...filters, wheels: '', covenant: '', team });
+            if (!rows.length) return;
+            if (el.dataset.partyCandidate) selectedPartyTeams.set(el.closest('.usage-party-card').dataset.team, team);
+            const withGear = rows.filter(row => wheelKey(target(row)) && covenantKey(target(row)));
+            openPreview(withGear.length ? withGear : rows, el);
+        }
         else if (el.dataset.ownedParty) { const [wheels, covenant] = JSON.parse(el.dataset.ownedBuild); openPreview(selectRows(data, { ...filters, wheels, covenant, team: el.dataset.ownedParty, owned, ...(el.dataset.ownedWave ? { wave: el.dataset.ownedWave } : {}) }), el); }
         else if (el.dataset.usageAltMore) { const detail = el.closest('details'); showAlternatives(detail, Number(el.dataset.usageAltMore)); (detail.querySelector('[data-usage-alt-more]') || detail.querySelector('summary')).focus(); }
-        else if (el.dataset.usageAlternative) { const [team, wave, difficulty] = JSON.parse(el.dataset.usageAlternative); const selection = { ...filters, team, wave: String(wave), difficulty, ...(el.hasAttribute('data-primary-alternative') ? { wheels: '', covenant: '' } : {}) }; if (el.dataset.ownedBuild) { [selection.wheels, selection.covenant] = JSON.parse(el.dataset.ownedBuild); selection.owned = owned; } else selection.owned = ownedOnly ? owned : null; openPreview(selectRows(data, selection), el); }
+        else if (el.dataset.usageAlternative) { const [team, wave, difficulty] = JSON.parse(el.dataset.usageAlternative); const selection = { ...filters, team, wave: String(wave), difficulty }; if (el.dataset.ownedBuild) { [selection.wheels, selection.covenant] = JSON.parse(el.dataset.ownedBuild); selection.owned = owned; } else selection.owned = ownedOnly ? owned : null; openPreview(selectRows(data, selection), el); }
         else if (el.dataset.equipment) { const item = el.dataset.kind === 'wheel' ? wheelMap[el.dataset.equipment] : covMap[el.dataset.equipment]; window.openDictionaryDialog(item, el.dataset.kind === 'wheel' ? 'myeongryun' : 'covenant', el); }
         else if (el.dataset.build) {
             const [wheels, covenant] = JSON.parse(el.dataset.build);
             openPreview(selectFor({ ...filters, wheels, covenant, ...(el.dataset.buildRecord ? { team: '' } : {}) }), el, el.dataset.buildRecord);
         }
-        else if (el.dataset.partySettings) { filters.team = el.dataset.partySettings; tab = 'records'; statisticsOpen = true; shown = 20; publicOnly = true; const matches = recordsFor(selectFor()); openRow = matches.length ? 0 : -1; render(); root.querySelector('#usage-record-0')?.focus(); }
+        else if (el.dataset.partySettings) { filters.team = el.dataset.partySettings; tab = 'records'; shown = 20; publicOnly = true; const matches = recordsFor(selectFor()); openRow = matches.length ? 0 : -1; render(); root.querySelector('#usage-record-0')?.focus(); }
         else if (el.hasAttribute('data-save-record')) {
             plan = readPlan();
             const rows = recordPreview?.rows || recordsFor(selectFor()), index = Number(el.dataset.saveRecord), row = rows[index];
@@ -324,10 +366,10 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
         else if (el.dataset.removeZone) { removePlan(el.dataset.removeZone); plan = readPlan(); notice = ''; render(); }
         else if (el.hasAttribute('data-more')) { shown += 20; render(); }
         else if (el.hasAttribute('data-open-options')) { tab = 'covenants'; optionsOpen = true; shown = 20; openRow = -1; render(); const summary = root.querySelector('#usage-options-summary'); summary?.focus(); summary?.scrollIntoView({ block: 'start' }); }
-        else if (el.dataset.usageTab) { tab = el.dataset.usageTab; statisticsOpen = true; shown = 20; openRow = -1; render(); }
+        else if (el.dataset.usageTab) { tab = el.dataset.usageTab; shown = 20; openRow = -1; render(); }
         else if (el.dataset.select) { const k = el.dataset.select; shown = 20; filters[k] = filters[k] === el.dataset.value ? '' : el.dataset.value; openRow = -1; render(); }
-        else if (el.dataset.remove) { delete filters[el.dataset.remove]; shown = 20; render(); }
-        else if (el.hasAttribute('data-reset')) { filters = {}; shown = 20; openRow = -1; replaceWave = null; render(); }
+        else if (el.dataset.remove) { delete filters[el.dataset.remove]; selectedPartyTeams.clear(); partyCandidateLimits.clear(); shown = 20; render(); }
+        else if (el.hasAttribute('data-reset')) { filters = {}; selectedPartyTeams.clear(); partyCandidateLimits.clear(); shown = 20; openRow = -1; replaceWave = null; render(); }
         else if (el.hasAttribute('data-record')) { const i = Number(el.dataset.record); openRow = openRow === i ? -1 : i; render(); }
         else if (el.id === 'usage-demo' || el.id === 'usage-live') { mode = el.id === 'usage-demo'; data = null; period = ''; filters = {}; const url = new URL(location.href); if (mode) url.searchParams.set('usageDemo', '1'); else url.searchParams.delete('usageDemo'); history.replaceState(null, '', url); load(); }
         else if (el.id === 'usage-refresh') load();

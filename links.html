@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="css/pages/account.css">
     <script>
         CONFIG.VERSION = 'v1.3.39-vivian';
-        CONFIG.ASSET_REVISION = 'equipment-sections-20261122';
+        CONFIG.ASSET_REVISION = 'usage-party-ui-deferred-20261123';
         if (location.hostname.endsWith('.morimens-info-qa.pages.dev')) {
             CONFIG.CHARACTER_USAGE_ENDPOINT_URL = 'https://morimens-character-usage-qa.khj613401.workers.dev';
         }
@@ -44,10 +44,13 @@
 <script src="js/character-identity.js?v=identity-226"></script>
 </head>
 
-<body>
+<body data-native-report-dialog>
 
 <div class="container links-page-shell">
-    <a href="#" id="links-back-link" class="back-link">⬅ 뒤로가기</a>
+    <div class="links-page-tools">
+        <a href="#" id="links-back-link" class="back-link">⬅ 뒤로가기</a>
+        <button type="button" id="floating-report-btn" class="floating-report-btn" aria-label="버그 신고" title="버그 신고">🚨</button>
+    </div>
 
     <div class="link-container">
         <h2 id="page-title" class="category-title">데이터 로딩 중...</h2>
@@ -106,8 +109,5 @@
 </div>
 <script>loadJS('js/summon-classification.js');loadJS('js/links.js');</script>
 
-<button id="floating-report-btn" class="floating-report-btn" title="버그 신고">
-    🚨
-</button>
 </body>
 </html>

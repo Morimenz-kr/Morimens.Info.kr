@@ -11,6 +11,7 @@ const CONFIG = {
 
     // 공개 융재금구 편성 통계 API. UI는 유지하고 데이터 출처만 Worker로 분리합니다.
     DZONE_USAGE_ENDPOINT_URL: 'https://carriepigeon.khj613401.workers.dev',
+    CHARACTER_PARTY_RECOMMENDATIONS: false,
 
     // Google Analytics 4 측정 ID (웹 페이지에 공개되는 식별자)
     GA_MEASUREMENT_ID: 'G-8WVRT702E7'

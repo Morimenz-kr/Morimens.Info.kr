@@ -15,7 +15,7 @@ export function publicSnapshot(payload, period, characterId) {
     return JSON.stringify({ data: characterId ? compactUsage(data) : data, periods: [data.period] });
 }
 
-export function createPreviewServer(root = ROOT) {
+export function createPreviewServer(root = ROOT, { showPartyRecommendations = false } = {}) {
     const cache = new Map();
     return http.createServer(async (request, response) => {
         try {
@@ -38,6 +38,10 @@ export function createPreviewServer(root = ROOT) {
                 const filename = path.resolve(root, relative);
                 if (!filename.startsWith(root + path.sep)) throw Error('not public');
                 bytes = await fs.readFile(filename);
+                if (showPartyRecommendations && ['links.html', 'dzone_info.html', 'dzone_clears.html'].includes(relative)) {
+                    bytes = bytes.toString('utf8').replace(/<script src="config\/config\.js(?:\?[^"]*)?"><\/script>/,
+                        '$&\n    <script>CONFIG.CHARACTER_PARTY_RECOMMENDATIONS = true;</script>');
+                }
             }
             response.writeHead(200, { 'Content-Type': (mime[path.extname(relative)] || 'application/octet-stream') + (/\.(html|m?js|css|json|svg)$/.test(relative) ? '; charset=utf-8' : ''), 'Cache-Control': 'no-store' }); response.end(bytes);
         } catch { response.writeHead(404); response.end('Not found'); }
@@ -47,5 +51,5 @@ export function createPreviewServer(root = ROOT) {
 if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
     const server = createPreviewServer();
     server.on('error', error => { console.error(error.message); process.exitCode = 1; });
-    server.listen(9357, '127.0.0.1', () => console.log('융재 추천 세팅: http://127.0.0.1:9357/dzone_clears.html?period=73'));
+    server.listen(9357, '127.0.0.1', () => console.log('융재금구 정보: http://127.0.0.1:9357/dzone_info.html'));
 }

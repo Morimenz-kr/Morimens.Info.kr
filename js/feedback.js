@@ -5,7 +5,7 @@
         let modal = document.getElementById(REPORT_MODAL_ID);
         if (modal) return modal;
 
-        const nativeDialog = document.body.hasAttribute('data-roster-only') || document.body.classList.contains('classic-roster');
+        const nativeDialog = document.body.hasAttribute('data-native-report-dialog') || document.body.hasAttribute('data-roster-only') || document.body.classList.contains('classic-roster');
         document.body.insertAdjacentHTML('beforeend', `
 <${nativeDialog ? 'dialog' : 'div'} id="report-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
     <div class="modal-content report-modal-content">

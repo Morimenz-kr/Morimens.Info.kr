@@ -3,20 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>융재금구 클리어 조합 찾기</title>
+    <title>융재금구 정보</title>
     <script src="config/config.js"></script>
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/pages/info_tools.css">
     <link rel="stylesheet" href="css/pages/character-usage.css">
     <link rel="stylesheet" href="css/pages/dzone-clears.css?v=owned-20261121">
-    <link rel="stylesheet" href="css/pages/account.css">
+    <link rel="stylesheet" href="css/pages/account.css?v=account-ui-hidden-20261123">
     <script src="config/firebase-client.js" defer></script>
     <script src="js/account-store.js" defer></script>
-    <script type="module" src="js/account-ui.mjs"></script>
-    <script type="module" src="js/dzone-clears.js?v=owned-20261121"></script>
+    <script type="module">
+        if (CONFIG.CHARACTER_PARTY_RECOMMENDATIONS === true) {
+            document.title = '융재금구 클리어 조합 찾기';
+            const search = document.getElementById('clear-search-template');
+            search.replaceWith(search.content);
+            await import('./js/account-ui.mjs?v=account-ui-hidden-20261123');
+            await import('./js/dzone-clears.js?v=account-ui-hidden-20261123');
+        } else {
+            const query = new URLSearchParams(location.search);
+            const destination = new URL('dzone_info.html', location.href);
+            const period = query.get('period') ?? '';
+            const wave = query.get('wave') ?? '';
+            const difficulty = query.get('difficulty') ?? '';
+            const season = /^[1-9]\d{0,3}$/.test(period) ? 'season-' + period + '-' : '';
+            if (season || wave || difficulty) {
+                destination.hash = season + 'wave-' + (/^[1-5]$/.test(wave) ? wave : '1')
+                    + (/^[1-7]$/.test(difficulty) ? '-alert-' + difficulty : '');
+            }
+            location.replace(destination);
+        }
+    </script>
 </head>
 <body>
+    <template id="clear-search-template">
     <div class="bg-image"></div><div class="background-overlay"></div>
     <main class="container info-page">
         <nav aria-label="탐색"><a id="clear-back" class="back-link" href="dzone_info.html">융재금구 정보</a></nav>
@@ -27,7 +47,7 @@
                     <h2>검색 조건</h2>
                     <div class="clear-stage-filters"><label>금지구역<select name="wave" class="clear-select"><option value="">전체</option></select></label><label>위험 등급<select name="difficulty" class="clear-select"><option value="">전체</option></select></label></div>
                     <div class="clear-ownership"><label class="clear-check"><input type="checkbox" name="ownedOnly">보유한 각성체만</label><p id="clear-owned-note" class="usage-caption"></p><a id="clear-edit-roster" href="inventory_checker.html">보유 현황 편집</a></div>
-                    <details class="site-disclosure clear-account"><summary>계정</summary><section data-account-panel aria-label="계정과 동기화"></section></details>
+                    <section data-account-panel aria-label="계정과 동기화" hidden></section>
                     <button class="usage-select clear-reset" id="clear-reset" type="reset">조건 초기화</button>
                 </form>
                 <div class="clear-main">
@@ -44,5 +64,6 @@
             </div>
         </section>
     </main>
+    </template>
 </body>
 </html>

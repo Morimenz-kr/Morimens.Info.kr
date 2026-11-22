@@ -417,7 +417,7 @@ function openDictionaryDialog(item, category, trigger, mainStats = [], subStats 
     }
     else if (item.description) appendDictionaryDialogSection(content, '효과', item.description, { rich: true });
     if (item.set_effect_3) appendDictionaryDialogSection(content, '3세트 효과', item.set_effect_3, { rich: true });
-    if (item.set_effect_6) appendDictionaryDialogSection(content, '6세트 효과', item.set_effect_6, { rich: true });
+    if (item.set_effect_6) appendDictionaryDialogSection(content, trigger?.closest('.character-usage') ? '전체 부위 효과' : '6세트 효과', item.set_effect_6, { rich: true });
     if (item.source) appendDictionaryDialogSection(content, '획득처', item.source, { muted: true });
     if (mainStats.length > 0) appendDictionaryDialogSection(content, '추천 주옵', mainStats.map((stat, index) => `${['Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'][index] || index + 1} ${stat}`).join('\n'), { muted: true });
     if (subStats.length > 0) appendDictionaryDialogSection(content, '추천 부옵', subStats.join(', '), { muted: true });
@@ -1150,10 +1150,8 @@ const initializeLinksPage = async () => {
                     baseStats: characterEffectsDB[charId]?.baseStats
                 });
             }
-            // (생략: 추천 세팅 렌더링 로직은 기존과 동일)
             const gridContainer = document.getElementById('dictionary-grid');
             const filterPanel = document.getElementById('dictionary-filter-panel');
-            const settings = settingsDB[charId] || settingsDB[charData.name];
             if (filterPanel) {
                 filterPanel.classList.remove('show');
                 filterPanel.innerHTML = '';
@@ -1163,134 +1161,12 @@ const initializeLinksPage = async () => {
                 gridContainer.innerHTML = '';
                 const usageRoot = document.createElement('div');
                 gridContainer.before(usageRoot);
-                const { mountCharacterUsage } = await import('./character-usage.js?v=equipment-sections-20261122');
-                void mountCharacterUsage(usageRoot, { character: charData, manifest, wheels: wheelList, covenants: covList });
-                if (settings) {
-                    const manual = document.createElement('details');
-                    manual.className = 'site-disclosure usage-options';
-                    const summary = document.createElement('summary');
-                    summary.textContent = '공략 추천 세팅 (수동 자료)';
-                    gridContainer.before(manual);
-                    manual.append(summary, gridContainer);
-                    const settingsList = Array.isArray(settings) ? settings : [settings];
-                    settingsList.forEach((setInfo, idx) => {
-                        const getWheel = (id) => window.wheelMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
-                        const getCov = (id) => window.covMap[id] || { korean_name: "정보 없음", image_path: "images/placeholder.png" };
-                        const ssrWheelId = setInfo.myeongryun_ssr?.main_id;
-                        const srWheelId = setInfo.myeongryun_sr?.main_id;
-                        const ssrWheel = getWheel(ssrWheelId);
-                        const srWheel = getWheel(srWheelId);
-                        const covenantMainId = setInfo.covenant?.main_id;
-                        const mainCov = getCov(covenantMainId);
-                        const mainCovStats = encodeTooltipMainStats(setInfo.covenant?.main_stats);
-                        const covenantSubStats = encodeTooltipMainStats(setInfo.covenant?.sub_stats);
-                        const renderSubLink = (type, list, charId, idx) => {
-                            const label = type === 'covenant' ? '대체 비밀계약' : '대체 명륜';
-                            if (list && list.length > 0) return `<div class="sub-link" data-sub-modal-type="${type}" data-character-id="${charId}" data-setting-index="${idx}">${label}</div>`;
-                            return `<div class="sub-link disabled">대체 정보 없음</div>`;
-                        };
-                        const wheelRecommendation = findWheelRecommendation(charId, setInfo);
-                        const wheelDisplay = wheelRecommendation
-                            ? buildWheelDisplayItems(wheelRecommendation)
-                            : null;
-                        const wheelPairClass = wheelDisplay?.length === 1
-                            ? 'wheel-pair wheel-pair-single'
-                            : 'wheel-pair';
-                        const secondWheelSlotClass = wheelDisplay && !wheelDisplay[1]
-                            ? 'equip-slot equip-slot-empty'
-                            : 'equip-slot';
-                        const renderWheelDisplay = item => {
-                            if (!item) return '';
-                            const label = item.tier === 'substitute' ? '대체' : '';
-                            const labelMarkup = label
-                                ? `<div class="equip-label">${label}</div>`
-                                : '<div class="equip-label equip-label-spacer" aria-hidden="true">추천 명륜</div>';
-                            const action = '<div class="sub-link sub-link-spacer" aria-hidden="true">보기</div>';
-                            if (item.kind === 'stat') {
-                                return `
-                                    ${labelMarkup}
-                                    <button type="button" class="equip-recommendation-trigger" data-sub-modal-type="wheel-options" data-character-id="${charId}" data-setting-index="${idx}" aria-label="${item.value} 추천 명륜 보기">
-                                        <span class="equip-stat-card"><span class="equip-stat-value">${item.value}</span></span>
-                                        <span class="equip-name-label">${item.value}</span>
-                                    </button>
-                                    ${action}`;
-                            }
-                            const wheel = getWheel(item.value);
-                            return `
-                                ${labelMarkup}
-                                <button type="button" class="equip-recommendation-trigger" data-tooltip-kind="wheel" data-tooltip-id="${item.value}" aria-label="${wheel.korean_name} 상세 정보">
-                                    <img src="${wheel.image_path}" class="equip-img-myeongryun" alt="" onerror="this.src='images/placeholder.png';">
-                                    <span class="equip-name-label">${wheel.korean_name}</span>
-                                </button>
-                                ${action}`;
-                        };
-                        gridContainer.innerHTML += `
-                            <div class="recommend-box">
-                                <div class="recommend-left">
-                                    <img src="${charData.image_thumb}" class="recommend-thumb" onerror="this.src='images/smile_Ramona.webp';">
-                                    <div class="recommend-role">${formatRecommendationSettingName(setInfo.settingName)}</div>
-                                    <div class="recommend-step">${setInfo.recommendStep} 추천</div>
-                                </div>
-                                <div class="recommend-right">
-                                    <div class="${wheelPairClass}">
-                                        <div class="wheel-pair-heading">추천 명륜</div>
-                                        <div class="equip-slot">
-                                            ${wheelDisplay ? renderWheelDisplay(wheelDisplay[0], 0) : `
-                                                <div class="equip-label equip-label-spacer" aria-hidden="true">추천 명륜</div>
-                                                <button type="button" class="equip-recommendation-trigger" data-tooltip-kind="wheel" data-tooltip-id="${ssrWheelId}" aria-label="${ssrWheel.korean_name} 상세 정보">
-                                                    <img src="${ssrWheel.image_path}" class="equip-img-myeongryun" alt="" onerror="this.src='images/placeholder.png';">
-                                                    <span class="equip-name-label">${ssrWheel.korean_name}</span>
-                                                </button>
-                                                <div class="sub-link sub-link-spacer" aria-hidden="true">보기</div>
-                                            `}
-                                        </div>
-                                        <div class="${secondWheelSlotClass}">
-                                            ${wheelDisplay ? renderWheelDisplay(wheelDisplay[1], 1) : `
-                                                <div class="equip-label equip-label-spacer" aria-hidden="true">추천 명륜</div>
-                                                <button type="button" class="equip-recommendation-trigger" data-tooltip-kind="wheel" data-tooltip-id="${srWheelId}" aria-label="${srWheel.korean_name} 상세 정보">
-                                                    <img src="${srWheel.image_path}" class="equip-img-myeongryun" alt="" onerror="this.src='images/placeholder.png';">
-                                                    <span class="equip-name-label">${srWheel.korean_name}</span>
-                                                </button>
-                                                <div class="sub-link sub-link-spacer" aria-hidden="true">보기</div>
-                                            `}
-                                        </div>
-                                        <button type="button" class="wheel-options-link" data-sub-modal-type="wheel-options" data-character-id="${charId}" data-setting-index="${idx}">명륜 선택지 보기</button>
-                                    </div>
-                                    <div class="equip-slot">
-                                        <div class="equip-label">추천 비밀계약</div>
-                                        ${covenantMainId ? `
-                                            <button type="button" class="equip-recommendation-trigger" data-tooltip-kind="covenant" data-tooltip-id="${covenantMainId}" data-tooltip-main-stats="${mainCovStats}" data-tooltip-sub-stats="${covenantSubStats}" aria-label="${mainCov.korean_name} 상세 정보">
-                                                <img src="${mainCov.image_path}" class="equip-img-covenant" alt="" onerror="this.src='images/placeholder.png';">
-                                                <span class="equip-name-label">${mainCov.korean_name}</span>
-                                            </button>
-                                            ${renderSubLink('covenant', setInfo.covenant.substitutes, charId, idx)}
-                                        ` : `
-                                            <div class="equip-recommendation-static">
-                                                <div class="equip-covenant-free">자유</div>
-                                                <div class="equip-name-label">자유 선택</div>
-                                            </div>
-                                            <div class="sub-link" data-sub-modal-type="covenant-free" data-character-id="${charId}" data-setting-index="${idx}">선택 조건 보기</div>
-                                        `}
-                                    </div>
-                                </div>
-                            </div>`;
-                    });
-                    gridContainer.querySelectorAll('.wheel-options-link').forEach(link => {
-                        link.textContent = '\uBA85\uB95C \uC120\uD0DD\uC9C0';
-                    });
-                    gridContainer.querySelectorAll('.wheel-pair-heading').forEach(heading => {
-                        heading.textContent = '\uCD94\uCC9C \uBA85\uB95C';
-                    });
-                    gridContainer.querySelectorAll('.wheel-pair .equip-label').forEach(label => {
-                        if (label.textContent.trim() === '\uB300\uCCB4') {
-                            label.textContent = '';
-                            label.setAttribute('aria-hidden', 'true');
-                        }
-                    });
-                    bindDynamicTooltips(gridContainer);
-                } else {
-                    gridContainer.hidden = true;
-                }
+                const { mountCharacterUsage } = await import('./character-usage.js?v=usage-party-ui-deferred-20261123');
+                void mountCharacterUsage(usageRoot, {
+                    character: charData, manifest, wheels: wheelList, covenants: covList,
+                    showPartyRecommendations: CONFIG.CHARACTER_PARTY_RECOMMENDATIONS === true
+                });
+                gridContainer.hidden = true;
             }
             switchTab(new URLSearchParams(location.search).has('usageDemo') || location.hash === '#usage' ? 'dictionary' : 'character-effects');
         }

@@ -1,8 +1,25 @@
 import { distribution, targetMember, wheelKey, covenantKey, teamKey, optionStats, sampleCount } from './character-usage-model.mjs';
-import { gearKnown } from './usage-plan.mjs';
+function countSubstatLine(counts, stat, weight) {
+    const key = `${stat.id}:${stat.unit}`;
+    const entry = counts.get(key) || { id: stat.id, label: stat.label, unit: stat.unit, count: 0 };
+    entry.count += weight;
+    counts.set(key, entry);
+}
 
-const stage = row => `${row.wave}:${row.difficulty}`;
-const grade = value => ({ normal: 1, hard: 2, nightmare: 3, madness: 4 }[value] || Number(value));
+function substatShares(counts) {
+    const entries = [...counts.values()].sort((a, b) => b.count - a.count || a.id.localeCompare(b.id) || a.unit.localeCompare(b.unit));
+    const total = entries.reduce((sum, entry) => sum + entry.count, 0);
+    if (!total) return [];
+    const shares = entries.map(entry => {
+        const scaledCount = entry.count * 1000;
+        return { ...entry, rate: entry.count / total, percentTenths: Math.floor(scaledCount / total), remainder: scaledCount % total };
+    });
+    // Assign remaining tenths to the largest remainders so the displayed list sums to 100%.
+    const remaining = 1000 - shares.reduce((sum, entry) => sum + entry.percentTenths, 0);
+    const byRemainder = [...shares].sort((a, b) => b.remainder - a.remainder);
+    for (const entry of byRemainder.slice(0, remaining)) entry.percentTenths++;
+    return shares.map(({ remainder, ...entry }) => entry);
+}
 
 // Contract statistics describe a population, never a synthesized individual loadout.
 export function covenantStatistics(rows, characterId) {
@@ -13,14 +30,13 @@ export function covenantStatistics(rows, characterId) {
         const qualified = group.rows.filter(row => targetMember(row, characterId).covenant.completion >= 90);
         const options = optionStats(qualified, characterId);
         const subs = new Map();
+        const slotSubs = Array.from({ length: 6 }, () => new Map());
         for (const row of qualified) {
-            const once = new Map();
             for (const part of targetMember(row, characterId).covenant.parts) {
-                for (const stat of part.subs) once.set(`${stat.id}:${stat.unit}`, stat);
-            }
-            for (const [key, stat] of once) {
-                const entry = subs.get(key) || { id:stat.id, label:stat.label, unit:stat.unit, count:0 };
-                entry.count += row.count; subs.set(key, entry);
+                for (const stat of part.subs) {
+                    countSubstatLine(subs, stat, row.count);
+                    countSubstatLine(slotSubs[part.slot - 1], stat, row.count);
+                }
             }
         }
         const counts = values => values.map(({id,label,unit,count,rate}) => ({id,label,unit,count,rate}));
@@ -28,17 +44,25 @@ export function covenantStatistics(rows, characterId) {
         return { key:group.key, count:group.count, rate:group.rate, knownCount, rows:group.rows,
             sets:group.key.split('|').map(part => {const [id,count]=part.split(':'); return {id,count:Number(count)};}),
             wheels:wheelPairs[0]?.ids || [], wheelPairs,
-            options:{ total:options.total, slots:options.slots.map(slot=>({slot:slot.slot,main:counts(slot.main),subs:counts(slot.subs)})),
-                subs:[...subs.values()].map(stat=>({...stat,rate:options.total ? stat.count/options.total : 0})).sort((a,b)=>b.count-a.count || a.id.localeCompare(b.id)) }
+            options:{ total:options.total, slots:options.slots.map(slot=>({slot:slot.slot,main:counts(slot.main),subs:substatShares(slotSubs[slot.slot-1])})),
+                subs:substatShares(subs) }
         };
     });
 }
 
-// Keep global equipment rankings independent; option evidence requires the exact joint selection.
+function wheelPairGroups(pairRows, characterId) {
+    return distribution(pairRows, row => wheelKey(targetMember(row, characterId)))
+        .map(group => ({ key:group.key, ids:group.key.split('|'), count:group.count, rate:group.rate }));
+}
+
+export function wheelStatistics(rows, characterId) {
+    return wheelPairGroups(rows.filter(row => targetMember(row, characterId)?.wheels?.length === 2), characterId);
+}
+
+// Exact equipment matches are useful for inspecting joint records.
 export function equipmentStatistics(rows, characterId, { wheelKey: selectedWheelKey = '', covenantKey: selectedCovenantKey = '' } = {}) {
     const pairRows = rows.filter(row => targetMember(row, characterId)?.wheels?.length === 2);
-    const wheelGroups = distribution(pairRows, row => wheelKey(targetMember(row, characterId)))
-        .map(group => ({ key:group.key, ids:group.key.split('|'), count:group.count, rate:group.rate }));
+    const wheelGroups = wheelPairGroups(pairRows, characterId);
     const contractGroups = covenantStatistics(rows, characterId);
     const joints = distribution(pairRows.filter(row => targetMember(row, characterId).covenant), row => {
         const member = targetMember(row, characterId);
@@ -61,36 +85,35 @@ export function equipmentStatistics(rows, characterId, { wheelKey: selectedWheel
     return { wheelGroups, contractGroups, selectedWheelKey, selectedCovenantKey, optionGroup, jointRows };
 }
 
-// Rank complete, observed lineups first. Equipment is selected only inside that lineup.
-export function recommendParties(rows, characterId, { limit = 3, minCount = 3 } = {}) {
-    const groups = distribution(rows.filter(row => row.members.length === 4 && targetMember(row, characterId)), teamKey);
-    const candidates = groups.map(group => {
-        const builds = distribution(group.rows, row => {
-            const member = targetMember(row, characterId), wheels = wheelKey(member), covenant = covenantKey(member);
-            return wheels && covenant ? JSON.stringify([wheels, covenant]) : '';
-        });
-        if (!builds.length) return null;
-        const build = builds[0];
-        const example = [...build.rows].sort((a, b) => Number(gearKnown(b)) - Number(gearKnown(a))
-            || grade(b.difficulty) - grade(a.difficulty)
-            || (targetMember(b, characterId).covenant.completion ?? -1) - (targetMember(a, characterId).covenant.completion ?? -1)
-            || b.count - a.count || a.wave - b.wave)[0];
-        return { ...group, build, equipmentCount: builds.reduce((sum, item) => sum + item.count, 0), example, member: targetMember(example, characterId), sparse: group.count < minCount };
-    }).filter(Boolean);
-    const supported = candidates.filter(group => !group.sparse);
-    const pool = supported.length ? supported : candidates;
-    const parties = [];
-    for (const group of pool) {
-        const similar = parties.some(other => {
-            const overlap = group.key.split('|').filter(id => other.key.split('|').includes(id)).length;
-            const stages = new Set(other.rows.map(stage));
-            return overlap === 3 && group.rows.some(row => stages.has(stage(row)));
-        });
-        if (similar) continue;
-        parties.push(group);
-        if (parties.length >= limit) break;
+// Count unique observed four-member teams inside each core containing the featured Awakener.
+export function recommendParties(rows, characterId, { limit = 3 } = {}) {
+    const teams = distribution(rows.filter(row => row.members.length === 4 && targetMember(row, characterId)), teamKey);
+    const cores = new Map();
+    for (const team of teams) {
+        const teammates = team.key.split('|').filter(id => id !== characterId);
+        if (teammates.length !== 3 || new Set(teammates).size !== 3) continue;
+        for (const fourth of teammates) {
+            const members = [characterId, ...teammates.filter(id => id !== fourth)];
+            const key = members.join('|');
+            const core = cores.get(key) || { key, members, count: 0, candidates: [] };
+            core.count += team.count;
+            core.candidates.push({ key: team.key, id: fourth, count: team.count });
+            cores.set(key, core);
+        }
     }
-    return { parties, totalTeams: groups.length, totalCount: groups.reduce((sum, group) => sum + group.count, 0), sparse: !!parties.length && !supported.length };
+    const ranked = [...cores.values()].sort((a, b) => b.count - a.count || a.key.localeCompare(b.key));
+    const flexible = ranked.filter(core => core.candidates.length > 1);
+    const covered = new Set(flexible.flatMap(core => core.candidates.map(candidate => candidate.key)));
+    const standalone = ranked.filter(core => {
+        const [candidate] = core.candidates;
+        if (core.candidates.length !== 1 || covered.has(candidate.key)) return false;
+        covered.add(candidate.key);
+        return true;
+    });
+    return [...flexible, ...standalone].slice(0, limit).map(core => ({
+        ...core,
+        candidates: core.candidates.map(candidate => ({ ...candidate, rate: candidate.count / core.count }))
+    }));
 }
 
 export function recommendBuilds(rows, characterId, owned) {

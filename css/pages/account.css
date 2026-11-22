@@ -1,4 +1,5 @@
 .account-panel{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-block:1rem;padding:1rem;border:1px solid #ffffff30;border-radius:.75rem;background:#171b24;color:#f0f1f5;min-inline-size:0}
+.account-panel[hidden]{display:none}
 .account-summary{display:grid;gap:.3rem;flex:1 1 14rem;min-inline-size:0;overflow-wrap:anywhere}
 .account-summary span{font-size:.875rem;color:#c6cbd6}
 .account-panel button,.account-dialog button{min-block-size:2.75rem;padding:.6rem 1rem;border:1px solid #ffffff4a;border-radius:.5rem;background:#2c3446;color:#fff;font:inherit;cursor:pointer;white-space:normal;overflow-wrap:anywhere}

@@ -3,9 +3,9 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { chromium, expect } from '@playwright/test';
 import { createPreviewServer } from './serve-dzone-preview.mjs';
-import { normalizeClearIndex, findClearTeams, findClearAlternatives, indexUsageTeams } from '../js/dzone-clear-model.mjs';
-import { normalizeUsage, selectRows, covenantKey, wheelKey, targetMember } from '../js/character-usage-model.mjs';
-import { covenantStatistics, equipmentStatistics } from '../js/usage-recommendations.mjs';
+import { normalizeClearIndex, findClearTeams, findClearAlternatives } from '../js/dzone-clear-model.mjs';
+import { normalizeUsage, selectRows, covenantKey, wheelKey, targetMember, teamKey, distribution } from '../js/character-usage-model.mjs';
+import { covenantStatistics } from '../js/usage-recommendations.mjs';
 
 const root = path.resolve(import.meta.dirname, '..'), out = path.join(root, '.generated/clear-ui');
 await fs.mkdir(out, { recursive: true });
@@ -20,7 +20,7 @@ const alternative = findClearAlternatives(data, baseTeam, stage)[0];
 assert.ok(alternative, 'actual season snapshot must supply a replacement example');
 const owned = new Set([...baseTeam.members, ...alternative.members]);
 const roster = { version: 1, characters: Object.fromEntries([...owned].map(id => [id, { owned: true, potency: 0, talents: {}, skills: {} }])), wheels: {}, presets: [] };
-const server = createPreviewServer(); await new Promise(resolve => server.listen(9361, '127.0.0.1', resolve));
+const server = createPreviewServer(root, { showPartyRecommendations: true }); await new Promise(resolve => server.listen(9361, '127.0.0.1', resolve));
 const host = 'http://127.0.0.1:9361', url = `${host}/dzone_clears.html?period=73&wave=${stage.wave}&difficulty=${stage.difficulty}`;
 let browser, page; const layouts = [], errors = [];
 try {
@@ -32,6 +32,8 @@ try {
     page = await context.newPage(); page.on('pageerror', e => errors.push(e.message));
     await page.goto(url); await expect(page.locator('.clear-team').first()).toBeVisible({ timeout: 30000 });
     await expect(page.locator('#clear-owned-note')).toContainText(`보유 ${owned.size}명`);
+    await expect(page.locator('[data-account-panel]')).toBeHidden();
+    await expect(page.locator('.account-dialog')).toBeHidden();
     const allAlternatives = findClearAlternatives(data, baseTeam, stage);
     if (allAlternatives.length > 5) {
         const panel = page.locator(`.clear-team[data-team="${baseTeam.key}"] .clear-alternatives`);
@@ -59,59 +61,44 @@ try {
     const primaryUrl = `${host}/links.html?category=character&id=${primaryId}&period=73&wave=${stage.wave}&difficulty=${stage.difficulty}#usage`;
     const usage = normalizeUsage(JSON.parse(await fs.readFile(path.join(root, `.generated/dzone-recommendations/73/characters/${primaryId}.json`), 'utf8')).data);
     const primaryRows = selectRows(usage, {...stage,owned});
-    const partyIndex = indexUsageTeams(primaryRows);
     await page.goto(primaryUrl); await expect(page.locator('.usage-stat-equipment')).toBeVisible({timeout:30000});
-    await page.locator('#usage-party-picker-summary').click();
     await expect(page.locator('#usage-owned-only')).toBeChecked();
-    await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
-    await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-party','');
-    // Find an actual visible owned party whose same-stage alternatives are known.
-    let example;
-    async function selectEquipment(pair,contract) {
-        if(await page.locator('#usage-stat-wheel').inputValue() !== pair) {
-            await page.locator('.usage-equipment-catalogue > summary').click();
-            await page.locator('#usage-stat-wheel').selectOption(pair);
-        }
-        if(await page.locator('#usage-stat-contract-0').inputValue() !== contract) {
-            if(!await page.locator('#usage-stat-contract-0').isVisible()) await page.locator('.usage-stat-other-contracts > summary').click();
-            await page.locator('#usage-stat-contract-0').selectOption(contract);
-        }
+    await expect(page.locator('#usage-statistics,.usage-account')).toHaveCount(0);
+    const choices = await page.locator('.usage-party-card').evaluateAll(es=>es.map(e=>e.dataset.team));
+    assert.ok(choices.length,'owned parties are available');
+    assert.ok(choices.every(key => key.split('|').every(id => owned.has(id))));
+    const cores = choices.map(key => ({
+        key,
+        members: key.split('|'),
+        lineups: distribution(primaryRows.filter(row => key.split('|').every(id => row.members.some(member => member.characterId === id))), teamKey)
+    }));
+    assert.ok(cores.every(core => core.members.length === 3 && core.members.includes(primaryId)));
+    const example = cores.find(core => core.lineups.length > 1);
+    assert.ok(example, 'actual owned core supplies multiple fourth slots');
+    const topContract = covenantStatistics(selectRows(usage,stage),primaryId)[0];
+    if(topContract.options.total) await page.locator('#usage-stat-sub-options > summary').click();
+    for(const stat of topContract.options.subs) await expect(page.locator(`.usage-stat-substats > .usage-stat-rates [data-stat-option="${stat.id}:${stat.unit}"] .usage-stat-rate`)).toHaveText((stat.percentTenths/10).toLocaleString('ko-KR',{maximumFractionDigits:1})+'%');
+    const primaryCard = page.locator(`.usage-party-card[data-team="${example.key}"]`);
+    const candidates = primaryCard.locator('[data-party-candidate]');
+    await expect(candidates).toHaveCount(2);
+    for (const [index, entry] of example.lineups.slice(0, 2).entries()) {
+        await expect(candidates.nth(index)).toHaveAttribute('data-party-candidate', entry.key);
+        await expect(candidates.nth(index).locator('.usage-party-candidate-rate')).toHaveText((entry.rate * 100).toLocaleString('ko-KR', { maximumFractionDigits: 1 }) + '%');
     }
-    const observedPairs = [...new Set(primaryRows.filter(row=>targetMember(row,primaryId).wheels?.length===2).map(row=>wheelKey(targetMember(row,primaryId))))];
-    const initialPair = await page.locator('#usage-stat-wheel').inputValue();
-    observedPairs.sort((a,b)=>Number(b===initialPair)-Number(a===initialPair));
-    for (const pair of observedPairs) {
-        const contracts = [...new Set(primaryRows.filter(row=>wheelKey(targetMember(row,primaryId))===pair && targetMember(row,primaryId).covenant).map(row=>covenantKey(targetMember(row,primaryId))))];
-        for(const contract of contracts) {
-            await selectEquipment(pair,contract);
-            const keys = await page.locator('[data-choose-party]').evaluateAll(es=>es.map(e=>e.dataset.chooseParty));
-            for (const key of keys) {
-                const base = findClearTeams(partyIndex).teams.find(team=>team.key===key);
-                const alternatives = findClearAlternatives(partyIndex,base,{include:[primaryId]});
-                if(alternatives.length) {example={key,alternatives};break;}
-            }
-            if(example) break;
-        }
-        if(example) break;
-    }
-    assert.ok(example,'actual owned party supplies replacements');
-    const primaryAlternatives = example.alternatives;
-    for(const key of await page.locator('[data-choose-party]').evaluateAll(es=>es.map(e=>e.dataset.chooseParty))) assert.ok(key.split('|').every(id=>owned.has(id)));
-    await page.locator(`[data-choose-party="${example.key}"]`).click();
-    await expect(page.locator('.usage-clear-party')).toHaveAttribute('data-selected-party',example.key);
-    const cohort = primaryRows.filter(row=>row.members.map(m=>m.characterId).sort().join('|')===example.key);
-    const selectedPair = await page.locator('#usage-stat-wheel').inputValue();
-    const expectedStats = covenantStatistics(cohort.filter(row=>wheelKey(targetMember(row,primaryId))===selectedPair),primaryId);
-    const selectedKey = await page.locator('#usage-stat-contract-0').inputValue();
-    const selectedStats = expectedStats.find(group=>group.key===selectedKey);
-    assert.ok(selectedStats);
-    if(selectedStats.options.total) await page.locator('#usage-stat-sub-options > summary').click();
-    for(const stat of selectedStats.options.subs) await expect(page.locator(`.usage-stat-substats > .usage-stat-rates [data-stat-option="${stat.id}:${stat.unit}"] .usage-stat-rate`)).toHaveText((stat.rate*100).toLocaleString('ko-KR',{maximumFractionDigits:1})+'%');
-    const primaryCard = page.locator('.usage-clear-party');
-    await primaryCard.locator('.usage-team-alternatives > summary').click();
-    await expect(primaryCard.locator('[data-usage-alternative]')).toHaveCount(Math.min(5,primaryAlternatives.length));
-    const replacement = JSON.parse(await primaryCard.locator('[data-usage-alternative]').first().getAttribute('data-usage-alternative'));
-    assert.equal(replacement[0],primaryAlternatives[0].key);
+    await expect(primaryCard).not.toContainText(/\d구역|난이도/);
+    const lineup = primaryCard.locator('[data-preview-party]');
+    const slotIds = () => lineup.locator('[data-character]').evaluateAll(es=>es.map(e=>e.dataset.character));
+    const originalSlots = await slotIds();
+    const alternate = example.lineups[1];
+    const fourth = alternate.key.split('|').find(id => !example.members.includes(id));
+    await candidates.nth(1).click();
+    await expect(page.locator('#usage-record-dialog')).toBeVisible();
+    await expect(page.locator('#usage-preview-select')).not.toContainText(/\d구역|난이도/);
+    const names = await page.locator('.usage-preview-members').innerText();
+    for (const id of alternate.key.split('|')) assert.ok(names.includes(chars.get(id).name));
+    await page.keyboard.press('Escape');
+    await expect(candidates.nth(1)).toBeFocused();
+    assert.deepEqual(await slotIds(), [...originalSlots.slice(0, 3), fourth]);
     async function characterLayout(name) {
         const metrics = await page.evaluate(()=>({overflow:document.documentElement.scrollWidth-innerWidth,
             clipped:[...document.querySelectorAll('.character-usage button,.character-usage select,.character-usage summary')].filter(e=>e.getClientRects().length).filter(e=>{const r=e.getBoundingClientRect();return r.left < -1 || r.right > innerWidth+1;}).map(e=>e.outerHTML.slice(0,100))}));
@@ -126,21 +113,26 @@ try {
         await page.evaluate(()=>document.documentElement.style.fontSize='');
     }
     await page.setViewportSize({width:844,height:390});await characterLayout('awakener-landscape');
-    await primaryCard.locator('[data-usage-alternative]').first().click();await expect(page.locator('#usage-record-dialog')).toBeVisible();
-    const names = await page.locator('.usage-preview-members').innerText();for(const id of primaryAlternatives[0].members) assert.ok(names.includes(chars.get(id).name));
-    await page.keyboard.press('Escape');await expect(primaryCard.locator('[data-usage-alternative]').first()).toBeFocused();
+    await lineup.click();
+    await expect(page.locator('#usage-record-dialog')).toBeVisible();
+    await expect(page.locator('#usage-preview-select')).not.toContainText(/\d구역|난이도/);
+    await page.keyboard.press('Escape');
+    await expect(lineup).toBeFocused();
     const zoneUrl = new URL(primaryUrl);zoneUrl.searchParams.delete('wave');zoneUrl.searchParams.delete('difficulty');
-    await page.goto(zoneUrl.href);await expect(page.locator('.usage-stat-equipment')).toBeVisible({timeout:30000});
     for(const wave of [1,2]) {
-        if(await page.locator('#usage-statistics').getAttribute('open')===null) await page.locator('#usage-statistics-summary').click();
-        await page.locator(`[data-stage-filter="wave"][data-stage-value="${wave}"]`).click();
+        zoneUrl.searchParams.set('wave',String(wave));
+        await page.goto(zoneUrl.href);await expect(page.locator('.usage-stat-equipment')).toBeVisible({timeout:30000});
         await expect(page.locator('[data-preview-wave]')).toHaveCount(0);
-        const observed = equipmentStatistics(selectRows(usage,{wave:String(wave)}),primaryId);
-        assert.ok(observed.optionGroup,'actual zone supplies a joint loadout to inspect');
-        await selectEquipment(observed.selectedWheelKey,observed.selectedCovenantKey);
-        await page.locator('#usage-stat-records').click();await expect(page.locator('#usage-record-dialog')).toBeVisible();
-        assert.ok((await page.locator('#usage-preview-select option').allTextContents()).every(text=>text.includes(`${wave}구역`)));
-        await page.keyboard.press('Escape');await expect(page.locator('#usage-stat-records')).toBeFocused();
+        const loadouts = page.locator('[data-preview-party]').first();
+        const team = await loadouts.getAttribute('data-preview-party');
+        const records = selectRows(usage,{wave:String(wave),team,owned}).filter(row=>{
+            const member=targetMember(row,primaryId);
+            return wheelKey(member)&&covenantKey(member);
+        });
+        await loadouts.click();await expect(page.locator('#usage-record-dialog')).toBeVisible();
+        await expect(page.locator('#usage-preview-select option')).toHaveCount(records.length);
+        await expect(page.locator('#usage-preview-select')).not.toContainText(/\d구역|난이도/);
+        await page.keyboard.press('Escape');await expect(loadouts).toBeFocused();
     }
     await page.goto(url + '&owned=1'); await expect(page.locator('.clear-team').first()).toBeVisible({ timeout: 30000 });
     await page.locator('[data-open-picker]').first().click();
@@ -183,7 +175,6 @@ try {
         await peer.evaluate(roster => localStorage.setItem('morimens_roster_preview_v1', JSON.stringify(roster)), roster);
         await page.goto(url + '&owned=1&accountEmulator=1');
         await expect(page.locator('#clear-owned-note')).toContainText(`보유 ${owned.size}명`);
-        await page.locator('.clear-account > summary').click();
         await expect(page.locator('[data-account-open]')).toBeEnabled({ timeout: 30000 }); await page.locator('[data-account-open]').click();
         await page.locator('[data-account-test] [name=email]').fill(`clear-owned-${Date.now()}@example.test`);
         await page.locator('[data-account-test] [name=password]').fill('local-clear-test');
@@ -191,13 +182,13 @@ try {
         await expect(page.locator('[data-account-import-options]')).toBeVisible({ timeout: 30000 });
         await page.locator('[data-import-mode=replace]').click();
         await expect(page.locator('[data-account-import-options]')).toBeHidden({ timeout: 30000 });
-        await expect(page.locator('#clear-owned-note')).toContainText(`계정 기록 · 보유 ${owned.size}명`);
+        await expect(page.locator('#clear-owned-note')).toHaveText(`보유 ${owned.size}명`);
         assert.equal(await page.locator('.clear-team').count(), expected.teams.length);
         await page.goto(primaryUrl.replace('#usage', '&accountEmulator=1#usage'));
-        await expect(page.locator('.usage-my-source')).toContainText(`계정 · 보유 ${owned.size}명`, { timeout: 30000 });
-        await page.locator('.usage-account > summary').click(); await page.locator('[data-account-open]').click();
+        await expect(page.locator('.usage-account')).toHaveCount(0);
+        await page.goto(url + '&owned=1&accountEmulator=1');
+        await page.locator('[data-account-open]').click();
         await page.locator('[data-account-logout]').click();
-        await expect(page.locator('.usage-my-source')).toContainText(`이 브라우저 · 보유 ${owned.size}명`);
     }
     assert.deepEqual(errors, []);
     await fs.writeFile(path.join(out, 'owned-results.json'), JSON.stringify({ passed: true, accountEmulatorTested: process.argv.includes('--with-account'), expectedTeams: expected.teams.length, alternative: { removed: expectedAlt[0].removed, added: expectedAlt[0].added, count: expectedAlt[0].count }, layouts, errors }, null, 2));

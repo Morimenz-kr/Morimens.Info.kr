@@ -25,8 +25,8 @@ test('option adoption is conditioned on both selected wheels and contract and ke
     const rows=fixture(),result=equipmentStatistics(rows,'target',{wheelKey:'a|b',covenantKey:'x:6'});
     assert.deepEqual(result.jointRows,[rows[0],rows[1]]);
     assert.equal(result.optionGroup.count,13);assert.equal(result.optionGroup.options.total,8);
-    assert.deepEqual(result.optionGroup.options.subs.map(s=>[s.id,s.count,s.rate]),[['damage',8,1]]);
-    assert.equal(result.optionGroup.options.slots[0].subs[0].count,8);
+    assert.deepEqual(result.optionGroup.options.subs.map(s=>[s.id,s.count,s.rate]),[['damage',24,1]]);
+    assert.equal(result.optionGroup.options.slots[0].subs[0].count,16);
     assert.equal(result.optionGroup.options.subs.some(s=>['critical','low','shield','speed'].includes(s.id)),false);
     assert.deepEqual(result.optionGroup.wheels,['a','b']);
 });

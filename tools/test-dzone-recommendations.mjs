@@ -3,14 +3,14 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import { chromium, expect } from '@playwright/test';
 import { createPreviewServer } from './serve-dzone-preview.mjs';
-import { normalizeUsage, sampleCount, wheelKey, covenantKey, targetMember, teamKey } from '../js/character-usage-model.mjs';
+import { normalizeUsage, sampleCount, wheelKey, covenantKey, targetMember } from '../js/character-usage-model.mjs';
 
 import { covenantStatistics } from '../js/usage-recommendations.mjs';
 
 const root = path.resolve(import.meta.dirname, '..'), out = path.join(root, '.generated/recommendations-check');
 await fs.mkdir(out, { recursive: true });
 const manifest = JSON.parse(await fs.readFile(path.join(root, 'data/character_manifest.json'), 'utf8'));
-const server = createPreviewServer(); await new Promise(resolve => server.listen(9382, '127.0.0.1', resolve));
+const server = createPreviewServer(root, { showPartyRecommendations: true }); await new Promise(resolve => server.listen(9382, '127.0.0.1', resolve));
 const base = `http://127.0.0.1:${server.address().port}`;
 let browser, page;
 try {
@@ -30,11 +30,11 @@ try {
         await page.goto(url(character.id));
         await expect(page.locator('.usage-stat-equipment')).toBeVisible({ timeout: 30000 });
         await expect(page.locator('#page-title')).toContainText(character.name);
-        checked.push({ id: character.id, name: character.name, clears: sampleCount(data.rows), joint: sampleCount(joint), builds: Math.max(1, await page.locator('[data-choose-party]').count()) });
+        checked.push({ id: character.id, name: character.name, clears: sampleCount(data.rows), joint: sampleCount(joint), builds: await page.locator('[data-preview-party]').count() });
         if (checked.length % 10 === 0) console.log(`추천 세팅 화면 ${checked.length}/${manifest.length} 확인`);
     }
     if (checked.length) await fs.writeFile(path.join(out, 'characters.json'), JSON.stringify(checked, null, 2));
-    await page.goto(url('doll_inferno')); await expect(page.locator('#usage-stat-records')).toBeVisible({ timeout:30000 });
+    await page.goto(url('doll_inferno')); await expect(page.locator('.usage-stat-settings')).toBeVisible({ timeout:30000 });
     const source = normalizeUsage((await (await fetch(`${base}/data/dzone-meta/73/characters/doll_inferno.json`)).json()).data);
     const expectedGroups = covenantStatistics(source.rows,'doll_inferno');
     const rate = value => `${(value*100).toLocaleString('ko-KR',{maximumFractionDigits:1})}%`;
@@ -50,55 +50,20 @@ try {
         for(const option of groups[0].options.subs) {
             const element = page.locator(`.usage-stat-substats [data-stat-option="${option.id}:${option.unit}"] .usage-stat-rate`).first();
             await expect(element).toBeVisible();
-            await expect(element).toHaveText(rate(option.rate));
+            await expect(element).toHaveText(rate(option.percentTenths/1000));
         }
         await more.locator('summary').first().click();
     }
-    await expect(page.locator('.usage-stat-equipment').first()).toHaveAttribute('data-stat-group',expectedGroups[0].key);
+    await expect(page.locator('[data-equipment-section=covenants] [data-rank-key]').first()).toHaveAttribute('data-rank-key',expectedGroups[0].key);
     await expect(page.locator('.usage-stat-contract-art .usage-stat-option-icon,.usage-stat-more')).toHaveCount(0);
-    await expect(page.locator('#usage-stat-main-options h5 > span').first()).toHaveText('주옵션');
-    await expect(page.locator('#usage-stat-sub-options h5 > span').first()).toHaveText('부옵션');
+    await expect(page.locator('#usage-stat-main-options h5 > span').first()).toHaveText('주옵션 채용률');
+    await expect(page.locator('#usage-stat-sub-options h5 > span').first()).toHaveText('부옵션 채용률');
     await assertRates(expectedGroups);
-    // The full catalogue is secondary, but remains keyboard-accessible and restores clear focus.
-    await expect(page.locator('#usage-stat-contract-0')).not.toBeVisible();
-    await page.locator('.usage-stat-other-contracts > summary').click();
-    await page.locator('#usage-stat-contract-0').selectOption(expectedGroups[3].key);
-    await expect(page.locator('#usage-stat-current')).toBeFocused();
-    await expect(page.locator('.usage-stat-other-contracts')).not.toHaveAttribute('open');
-    await page.locator('[data-stat-preset]').first().click();await assertRates(expectedGroups);
-    await page.locator('#usage-wave-1').click();
-    await expect(page.locator('#usage-wave-1')).toHaveAttribute('aria-pressed','true');
-    const waveGroups=covenantStatistics(source.rows.filter(row=>row.wave===1),'doll_inferno');
-    const waveSelected=await page.locator('#usage-stat-contract-0').inputValue();
-    await assertRates([waveGroups.find(group=>group.key===waveSelected)]);
-    await page.locator('#usage-difficulty-1').click();
-    const jointGroups=covenantStatistics(source.rows.filter(row=>row.wave===1 && String(row.difficulty)==='1'),'doll_inferno');
-    const jointSelected=await page.locator('#usage-stat-contract-0').inputValue();
-    await assertRates([jointGroups.find(group=>group.key===jointSelected)]);
-    await expect(page.locator('.usage-stat-leading-sub .usage-stat-rates > li')).toHaveCount(3);
-    await expect(page.locator('.usage-stat-leading-sub .usage-stat-joint')).toContainText('동률 후보');
-    await page.locator('#usage-difficulty-all').click();
-    await page.locator('#usage-wave-all').click();
-    await page.locator('[data-stat-preset]').first().click();await assertRates(expectedGroups);
-    await expect(page.locator('.usage-recommendations .usage-loadout-part,#usage-example-toggle,[data-preview-wave],.usage-my-source,.usage-party-equipment-heading')).toHaveCount(0);
-    // Owning companions changes party suggestions, never the character's equipment statistics.
-    await page.locator('#usage-party-picker-summary').click();
-    await page.locator('#usage-owned-only').check();await assertRates(expectedGroups);
+    await expect(page.locator('.usage-stat-settings')).not.toContainText(/전체 조합|전체 계약|계약 비교/);
+    await expect(page.locator('.usage-recommendations .usage-loadout-part')).toHaveCount(0);
+    await page.locator('#usage-owned-only').check();
+    await assertRates(expectedGroups);
     await page.locator('#usage-owned-only').uncheck();
-    const party = await page.locator('[data-choose-party]').first().getAttribute('data-choose-party');
-    await page.locator('[data-choose-party]').first().click();
-    const cohort = source.rows.filter(row=>teamKey(row)===party);
-    const cohortGroups = covenantStatistics(cohort,'doll_inferno');
-    const selected = await page.locator('#usage-stat-contract-0').inputValue();
-    await assertRates([cohortGroups.find(g=>g.key===selected)]);
-    await page.locator('[data-clear-party]').click();await assertRates(expectedGroups);
-    await page.locator('#usage-stat-compare').click();
-    await expect(page.locator('[data-stat-group]')).toHaveCount(2);
-    await expect(page.locator('.usage-stat-substats [data-stat-option]').first().locator('.usage-stat-rate')).toHaveCount(2);
-    await page.locator('#usage-stat-contract-1').selectOption(expectedGroups[1].key);
-    await page.setViewportSize({width:390,height:900});
-    const nameLines = await page.locator('.usage-stat-comparison-table th[scope=row] .usage-stat-option-name > span').evaluateAll(cells => cells.filter(cell=>['광기 충전 레벨','크리티컬 피해','검은 인장 드롭율'].includes(cell.textContent)).map(cell=>{const range=document.createRange();range.selectNodeContents(cell);return {text:cell.textContent,lines:range.getClientRects().length};}));
-    assert.ok(nameLines.length && nameLines.every(cell=>cell.lines===1),'Korean labels remain readable as complete names: '+JSON.stringify(nameLines));
     async function layout(name) {
         const panels = await page.locator('.usage-stat-summary > section').evaluateAll(sections => sections.map(section => {
             const heading=section.querySelector('h5').getBoundingClientRect(), list=section.lastElementChild.getBoundingClientRect();
@@ -114,25 +79,6 @@ try {
         await page.setViewportSize({ width, height: 900 }); await layout(`settings-${width}`);
         if ([320, 390, 1280].includes(width)) await page.screenshot({ path: path.join(out, `settings-${width}.png`), fullPage: true });
     }
-    for (const width of [320,390,1280]) {
-        await page.setViewportSize({width,height:900});
-        await page.evaluate(() => { document.documentElement.style.fontSize = '200%'; }); await layout('compare-zoom200-'+width);
-        await page.evaluate(() => { document.documentElement.style.fontSize = ''; });
-    }
-    await page.locator('#usage-stat-compare').click();
-    for (const width of [320,389,390,391,639,640,641,768,1024,1280]) {
-        await page.setViewportSize({width,height:900});await layout('single-'+width);
-        if ([390,1280].includes(width)) await page.screenshot({path:path.join(out,`single-${width}.png`),fullPage:true});
-    }
-    // Different contracts have different option counts; both panels must still align.
-    for (const width of [390,640,768,1024,1280]) {
-        await page.setViewportSize({width,height:900});
-        for (const preset of [0,1,2]) {
-            await page.locator('[data-stat-preset]').nth(preset).click(); await layout(`balanced-${width}-${preset}`);
-        }
-        if ([390,1280].includes(width)) await page.locator('.usage-stat-summary').screenshot({path:path.join(out,`balanced-${width}.png`)});
-    }
-    await page.locator('[data-stat-preset]').first().click();
     let below=640,above=1024;
     while(above-below>1) {
         const width=Math.floor((below+above)/2);await page.setViewportSize({width,height:900});
@@ -164,12 +110,11 @@ try {
     await page.locator('#usage-stat-sub-options > summary').click();
     await page.setViewportSize({ width: 844, height: 390 }); await layout('settings-landscape');
     await page.setViewportSize({ width: 390, height: 900 });
-    await page.locator('#usage-party-picker-summary').click();
-    await page.locator('[data-choose-party]').first().click();
-    await page.locator('#usage-stat-records').scrollIntoViewIfNeeded();
+    const loadouts=page.locator('[data-preview-party]').first();
+    await loadouts.scrollIntoViewIfNeeded();
     const scrollBefore = await page.evaluate(() => scrollY);
-    await page.locator('#usage-stat-records').click(); await expect(page.locator('#usage-record-dialog')).toBeVisible();
-    await expect(page.locator('#usage-statistics')).not.toHaveAttribute('open');
+    await loadouts.click(); await expect(page.locator('#usage-record-dialog')).toBeVisible();
+    await expect(page.locator('.usage-statistics')).toHaveCount(0);
     await page.locator('[data-preview-member]').nth(1).click();
     await expect(page.locator('.usage-preview-body .usage-loadout-part')).toHaveCount(6);
     for (const width of [320,390,479,480,481,639,640,641,768,899,900,901,1024,1280]) {
@@ -189,8 +134,8 @@ try {
     if (await page.locator('#usage-preview-next').isEnabled()) { await page.locator('#usage-preview-next').click(); await expect(page.locator('.usage-preview-nav > span')).toContainText('2 /'); await page.locator('#usage-preview-prev').click(); }
     await page.keyboard.press('Escape'); await expect(page.locator('#usage-record-dialog')).toHaveCount(0);
     assert.ok(Math.abs(await page.evaluate(() => scrollY) - scrollBefore) < 2, 'closing preserves page scroll');
-    await expect(page.locator('#usage-stat-records')).toBeFocused();
-    await page.locator('#usage-stat-records').click();
+    await expect(loadouts).toBeFocused();
+    await loadouts.click();
     await page.locator('#usage-record-dialog [data-save-record]:enabled').click();
     await expect(page.locator('#usage-record-dialog [role=status]')).toContainText('담았습니다');
     await page.locator('#usage-preview-close').click();

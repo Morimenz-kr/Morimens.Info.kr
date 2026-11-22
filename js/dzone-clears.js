@@ -16,7 +16,7 @@ function readOwned() {
         const roster = accountStore()?.read('roster');
         owned = new Set(Object.entries(roster?.characters || {}).filter(([id, row]) => row.owned === true && chars.has(id)).map(([id]) => id)); rosterError = '';
     } catch { owned = new Set(); rosterError = '보유 기록을 읽지 못했습니다. 보유 현황을 확인해주세요.'; }
-    $('clear-owned-note').textContent = rosterError || `${accountStore()?.uid ? '계정 기록' : '이 브라우저 기록'} · 보유 ${owned.size}명`;
+    $('clear-owned-note').textContent = rosterError || `보유 ${owned.size}명`;
 }
 function filters() {
     return { wave: form.elements.wave.value, difficulty: form.elements.difficulty.value, include: [...choice.include], exclude: [...choice.exclude], owned: form.elements.ownedOnly.checked ? owned : null };

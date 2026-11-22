@@ -25,7 +25,11 @@ export async function mountAccountPanel(host) {
     const button = host.querySelector('[data-account-open]');
     let driver, sync, user = null, busy = false, importData = null, returnFocus;
     const labels = { guest: '기기에 저장', loading: '계정 기록 확인 중', pending: '기기 저장됨 · 동기화 대기', saving: '동기화 중', saved: '동기화 완료', error: '동기화 확인 필요', conflict: '수정 충돌 확인 필요', deleting: '계정 삭제 진행 중' };
-    function open() { returnFocus = document.activeElement; if (!dialog.open) dialog.showModal(); }
+    function open() {
+        if (host.hidden || dialog.open) return;
+        returnFocus = document.activeElement;
+        dialog.showModal();
+    }
     dialog.addEventListener('close', () => { returnFocus?.focus(); });
     function message(text) { q('[data-account-message]').textContent = text; }
     function render(event = { state: 'guest' }) {
@@ -91,6 +95,7 @@ export async function mountAccountPanel(host) {
     let settings = window.MORIMENS_FIREBASE;
     if (['localhost', '127.0.0.1', '[::1]'].includes(location.hostname) && new URLSearchParams(location.search).get('accountEmulator') === '1') {
         settings = { enabled: true, emulators: true, config: { projectId: 'demo-morimens-account', apiKey: 'demo-key', authDomain: 'demo-morimens-account.firebaseapp.com', appId: 'demo-account-app' } };
+        host.hidden = false;
     }
     render(); button.disabled = true;
     if (!settings?.enabled) {
