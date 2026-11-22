@@ -90,3 +90,18 @@ test('현재 시즌이 정상이어도 73기 미리보기 아이콘이 누락되
   await fs.writeFile(file, JSON.stringify(preview));
   assert.deepEqual(await validateDzoneSnapshots(directory), ['dzone_current.json', 'dzone_season73.json']);
 });
+
+test('배포 검증은 툴팁 내부의 대상 삭제와 링크를 색상 텍스트로 바꾼 결과를 차단한다', async () => {
+  const { validateDzoneContent } = await import('./validate-dzone-content.mjs');
+  const parent = 'kw_0000000000000001', child = 'kw_0000000000000002';
+  const doc = { contentAudit: { diagnostics: [], presentationAudit: { issues: [], expectedTooltipReferences: { [parent]: [child] } } }, waves: [], keywordGlossary: {
+    [parent]: { name: '독날', source: { type: 'State', id: 94730 }, description: '중독 부여.', richDescription: `<game-text:<${child}:중독> 부여.>` },
+    [child]: { name: '중독', source: { type: 'State', id: 3068 }, description: '턴 종료 시 피해.' }
+  } };
+  assert.doesNotThrow(() => validateDzoneContent(doc));
+  const deleted = structuredClone(doc);
+  delete deleted.keywordGlossary[child];
+  assert.throws(() => validateDzoneContent(deleted), /Missing D-Zone reference/);
+  doc.keywordGlossary[parent].richDescription = '<game-text:<fmt_af6bb0:중독> 부여.>';
+  assert.throws(() => validateDzoneContent(doc), /Missing D-Zone tooltip link/);
+});

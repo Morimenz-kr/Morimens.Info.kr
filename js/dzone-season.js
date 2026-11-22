@@ -5,8 +5,8 @@
 })(
   typeof window === "undefined" ? globalThis : window,
   function createSeasonApi() {
-    const BUILT_SEASON = 73;
-    const archives = [68, 69, 70, 71, 72, 73];
+    const BUILT_SEASON = 74;
+    const archives = [68, 69, 70, 71, 72, 73, 74];
     let current = BUILT_SEASON,
       metadata = new Map();
     function validate(row) {

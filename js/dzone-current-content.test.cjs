@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
-const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_current.json'), 'utf8'));
+const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season73.json'), 'utf8'));
 
 test('72기는 160버전 원본의 7개 위험 등급과 35개 독립 스테이지를 포함한다', () => {
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season72.json'), 'utf8'));
@@ -19,7 +19,7 @@ test('72기는 160버전 원본의 7개 위험 등급과 35개 독립 스테이�
     assert.equal(new Set(ids).size, 35);
 });
 
-test('정식 현재 시즌은 검수된 73기이며 35개 스테이지를 포함한다', () => {
+test('73기 보관본은 검수된 데이터이며 35개 스테이지를 포함한다', () => {
     assert.equal(data.period, 73);
     assert.equal(data.source.resourceVersion, 22);
     assert.equal(data.source.branchName, 'Z1G_2026_11_OB');
