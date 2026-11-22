@@ -84,3 +84,6 @@ ui-debug.log
 
 !/tools/test-shared-toast.mjs
 !/tools/test-covenant-empty-picker.mjs
+
+!/tools/scheduled-season74-release.mjs
+!/tools/scheduled-season74-release.test.cjs
