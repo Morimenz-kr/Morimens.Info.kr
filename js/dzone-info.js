@@ -568,7 +568,13 @@
                 item.source?.type === 'State' && item.source.id === 140727 && item.name === '허기');
             return entry ? String(markup).replace('허기', `<${entry[0]}:허기>`) : markup;
         };
-        const stateItems = (stats?.phaseStateEffects?.[String(transition.phaseIndex)] || transition.addedStates || [])
+        const phaseStates = stats?.phaseStateEffects?.[String(transition.phaseIndex)] || transition.addedStates || [];
+        if (transition.compactStateEffects) {
+            for (const state of phaseStates.filter(state => state.visible && transition.extraStateIds?.includes(state.id))) {
+                effects.push(dynamicMarkup(`<game-text:<${state.keyword}:${state.name}> 획득>`));
+            }
+        }
+        const stateItems = (transition.compactStateEffects ? [] : phaseStates)
             .map(state => transition.displayStateReplacements?.[String(state.id)] || state)
             .filter(state => state.visible && (state.name || state.descriptionTemplate))
             .map(state => `<li>${state.icon ? `<img src="${escapeHtml(state.icon)}" alt="" width="22" height="22" loading="lazy" decoding="async">` : ''}<span><b>${escapeHtml(state.name || '효과')}</b>${state.descriptionTemplate ? ` — ${dynamicMarkup(stateKeywordMarkup(state, state.richDescription || state.richDescriptionTemplate || state.descriptionTemplate))}` : ''}</span></li>`)

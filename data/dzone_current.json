@@ -64114,7 +64114,7 @@
               "typeLabel": "특수 행동",
               "target": "FrontEnemy",
               "targetLabel": "전방 각성체",
-              "descriptionTemplate": "가시 시종 4명을 소환한다. 모든 카드에 융식 채묵을 부여한다. 쇠약 [Arg1]스택, 중독 [Arg2]스택, 출혈을 [Arg3]스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
+              "descriptionTemplate": "가시 시종 4명을 소환한다. 모든 카드에 융식 채묵을 부여한다. 힘 감소 [Arg1]스택, 중독 [Arg2]스택, 출혈을 [Arg3]스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
               "para": "BattleDefForce*0.02,BattleAtkForce*0.1,BattleAtkForce*0.5",
               "expressions": [
                 "BattleDefForce*0.02",
@@ -64519,7 +64519,11 @@
                   "richDescriptionTemplate": "<game-text:대기 특수 효과>"
                 }
               ],
-              "createdCards": []
+              "createdCards": [],
+              "extraStateIds": [
+                46441
+              ],
+              "compactStateEffects": true
             }
           ],
           "intentionCycles": []
@@ -66153,8 +66157,8 @@
                       }
                     }
                   ],
-                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 24스택, 중독 37스택, 출혈을 183스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 24스택, <kw_99d1750e00ab1844:중독> 37스택, <kw_89022b54ab3401ea:출혈>을 183스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 24스택, 중독 37스택, 출혈을 183스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_2f2e699926bee142:힘 감소> 24스택, <kw_99d1750e00ab1844:중독> 37스택, <kw_89022b54ab3401ea:출혈>을 183스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                 },
                 "54446": {
                   "args": [
@@ -66321,8 +66325,8 @@
                         }
                       }
                     ],
-                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 24스택, 중독 37스택, 출혈을 183스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 24스택, <kw_99d1750e00ab1844:중독> 37스택, <kw_89022b54ab3401ea:출혈>을 183스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 24스택, 중독 37스택, 출혈을 183스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_2f2e699926bee142:힘 감소> 24스택, <kw_99d1750e00ab1844:중독> 37스택, <kw_89022b54ab3401ea:출혈>을 183스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                   },
                   "54446": {
                     "args": [
@@ -66424,7 +66428,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
                     "richDescription": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
-                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다."
+                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+                    "keyword": "kw_490f7f617622e84f"
                   },
                   {
                     "id": 2619,
@@ -66436,7 +66441,8 @@
                     "initialLayerExpression": "BattleDefForce*0.02",
                     "richDescriptionTemplate": "<game-text:이번 전투 내에서 주는 능동 피해가 스택 수pt 감소한다.>",
                     "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 24pt 감소한다.>",
-                    "description": "이번 전투 내에서 주는 능동 피해가 24pt 감소한다."
+                    "description": "이번 전투 내에서 주는 능동 피해가 24pt 감소한다.",
+                    "keyword": "kw_2f2e699926bee142"
                   },
                   {
                     "id": 3068,
@@ -66448,7 +66454,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.1",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 의 <kw_b471627df9842710:순수 피해>를 받음.>",
                     "richDescription": "<game-text:턴 종료 후, 37 의 <kw_b471627df9842710:순수 피해>를 받음.>",
-                    "description": "턴 종료 후, 37 의 순수 피해를 받음."
+                    "description": "턴 종료 후, 37 의 순수 피해를 받음.",
+                    "keyword": "kw_99d1750e00ab1844"
                   },
                   {
                     "id": 2840,
@@ -66460,7 +66467,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.5",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
                     "richDescription": "<game-text:턴 종료 후, 183 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
-                    "description": "턴 종료 후, 183 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다."
+                    "description": "턴 종료 후, 183 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.",
+                    "keyword": "kw_89022b54ab3401ea"
                   },
                   {
                     "id": 44763,
@@ -66484,7 +66492,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
                     "richDescription": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
-                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다."
+                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다.",
+                    "keyword": "kw_da9ceaf6da074ff6"
                   },
                   {
                     "id": 3469,
@@ -66496,7 +66505,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
                     "richDescription": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
-                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소."
+                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.",
+                    "keyword": "kw_53828b272c5bc040"
                   },
                   {
                     "id": 2564,
@@ -66508,7 +66518,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
                     "richDescription": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
-                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다."
+                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.",
+                    "keyword": "kw_76f1a8a7a7a4102f"
                   },
                   {
                     "id": 2934,
@@ -66520,7 +66531,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
                     "richDescription": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
-                    "description": "받는 능동 및 촉수 피해가 50 % 증가."
+                    "description": "받는 능동 및 촉수 피해가 50 % 증가.",
+                    "keyword": "kw_84a9eea1f1cd7067"
                   },
                   {
                     "id": 49623,
@@ -66532,7 +66544,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
                     "richDescription": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
-                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다."
+                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.",
+                    "keyword": "kw_5fd0e4b9906c6dc6"
                   },
                   {
                     "id": 140657,
@@ -66544,7 +66557,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
                     "richDescription": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
-                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다."
+                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.",
+                    "keyword": "kw_cd8779428cef79a3"
                   },
                   {
                     "id": 140651,
@@ -69320,8 +69334,8 @@
                       }
                     }
                   ],
-                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 67스택, 중독 67스택, 출혈을 335스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 67스택, <kw_01a2172522125fa6:중독> 67스택, <kw_178f87102f9a442c:출혈>을 335스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 67스택, 중독 67스택, 출혈을 335스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_ddf4b21dd4ac225c:힘 감소> 67스택, <kw_01a2172522125fa6:중독> 67스택, <kw_178f87102f9a442c:출혈>을 335스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                 },
                 "54446": {
                   "args": [
@@ -69488,8 +69502,8 @@
                         }
                       }
                     ],
-                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 67스택, 중독 67스택, 출혈을 335스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 67스택, <kw_01a2172522125fa6:중독> 67스택, <kw_178f87102f9a442c:출혈>을 335스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 67스택, 중독 67스택, 출혈을 335스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_ddf4b21dd4ac225c:힘 감소> 67스택, <kw_01a2172522125fa6:중독> 67스택, <kw_178f87102f9a442c:출혈>을 335스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                   },
                   "54446": {
                     "args": [
@@ -69591,7 +69605,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
                     "richDescription": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
-                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다."
+                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+                    "keyword": "kw_490f7f617622e84f"
                   },
                   {
                     "id": 2619,
@@ -69603,7 +69618,8 @@
                     "initialLayerExpression": "BattleDefForce*0.02",
                     "richDescriptionTemplate": "<game-text:이번 전투 내에서 주는 능동 피해가 스택 수pt 감소한다.>",
                     "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 67pt 감소한다.>",
-                    "description": "이번 전투 내에서 주는 능동 피해가 67pt 감소한다."
+                    "description": "이번 전투 내에서 주는 능동 피해가 67pt 감소한다.",
+                    "keyword": "kw_ddf4b21dd4ac225c"
                   },
                   {
                     "id": 3068,
@@ -69615,7 +69631,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.1",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 의 <kw_b471627df9842710:순수 피해>를 받음.>",
                     "richDescription": "<game-text:턴 종료 후, 67 의 <kw_b471627df9842710:순수 피해>를 받음.>",
-                    "description": "턴 종료 후, 67 의 순수 피해를 받음."
+                    "description": "턴 종료 후, 67 의 순수 피해를 받음.",
+                    "keyword": "kw_01a2172522125fa6"
                   },
                   {
                     "id": 2840,
@@ -69627,7 +69644,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.5",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
                     "richDescription": "<game-text:턴 종료 후, 335 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
-                    "description": "턴 종료 후, 335 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다."
+                    "description": "턴 종료 후, 335 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.",
+                    "keyword": "kw_178f87102f9a442c"
                   },
                   {
                     "id": 44763,
@@ -69651,7 +69669,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
                     "richDescription": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
-                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다."
+                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다.",
+                    "keyword": "kw_da9ceaf6da074ff6"
                   },
                   {
                     "id": 3469,
@@ -69663,7 +69682,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
                     "richDescription": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
-                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소."
+                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.",
+                    "keyword": "kw_53828b272c5bc040"
                   },
                   {
                     "id": 2564,
@@ -69675,7 +69695,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
                     "richDescription": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
-                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다."
+                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.",
+                    "keyword": "kw_76f1a8a7a7a4102f"
                   },
                   {
                     "id": 2934,
@@ -69687,7 +69708,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
                     "richDescription": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
-                    "description": "받는 능동 및 촉수 피해가 50 % 증가."
+                    "description": "받는 능동 및 촉수 피해가 50 % 증가.",
+                    "keyword": "kw_84a9eea1f1cd7067"
                   },
                   {
                     "id": 49623,
@@ -69699,7 +69721,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
                     "richDescription": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
-                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다."
+                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.",
+                    "keyword": "kw_5fd0e4b9906c6dc6"
                   },
                   {
                     "id": 140657,
@@ -69711,7 +69734,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
                     "richDescription": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
-                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다."
+                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.",
+                    "keyword": "kw_cd8779428cef79a3"
                   },
                   {
                     "id": 140651,
@@ -72487,8 +72511,8 @@
                       }
                     }
                   ],
-                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 169스택, 중독 117스택, 출혈을 581스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 169스택, <kw_79cf435253fe4834:중독> 117스택, <kw_6b1e174f827a1e2b:출혈>을 581스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 169스택, 중독 117스택, 출혈을 581스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_7d9345637fe8db4f:힘 감소> 169스택, <kw_79cf435253fe4834:중독> 117스택, <kw_6b1e174f827a1e2b:출혈>을 581스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                 },
                 "54446": {
                   "args": [
@@ -72655,8 +72679,8 @@
                         }
                       }
                     ],
-                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 169스택, 중독 117스택, 출혈을 581스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 169스택, <kw_79cf435253fe4834:중독> 117스택, <kw_6b1e174f827a1e2b:출혈>을 581스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 169스택, 중독 117스택, 출혈을 581스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_7d9345637fe8db4f:힘 감소> 169스택, <kw_79cf435253fe4834:중독> 117스택, <kw_6b1e174f827a1e2b:출혈>을 581스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                   },
                   "54446": {
                     "args": [
@@ -72758,7 +72782,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
                     "richDescription": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
-                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다."
+                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+                    "keyword": "kw_490f7f617622e84f"
                   },
                   {
                     "id": 2619,
@@ -72770,7 +72795,8 @@
                     "initialLayerExpression": "BattleDefForce*0.02",
                     "richDescriptionTemplate": "<game-text:이번 전투 내에서 주는 능동 피해가 스택 수pt 감소한다.>",
                     "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 169pt 감소한다.>",
-                    "description": "이번 전투 내에서 주는 능동 피해가 169pt 감소한다."
+                    "description": "이번 전투 내에서 주는 능동 피해가 169pt 감소한다.",
+                    "keyword": "kw_7d9345637fe8db4f"
                   },
                   {
                     "id": 3068,
@@ -72782,7 +72808,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.1",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 의 <kw_b471627df9842710:순수 피해>를 받음.>",
                     "richDescription": "<game-text:턴 종료 후, 117 의 <kw_b471627df9842710:순수 피해>를 받음.>",
-                    "description": "턴 종료 후, 117 의 순수 피해를 받음."
+                    "description": "턴 종료 후, 117 의 순수 피해를 받음.",
+                    "keyword": "kw_79cf435253fe4834"
                   },
                   {
                     "id": 2840,
@@ -72794,7 +72821,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.5",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
                     "richDescription": "<game-text:턴 종료 후, 581 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
-                    "description": "턴 종료 후, 581 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다."
+                    "description": "턴 종료 후, 581 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.",
+                    "keyword": "kw_6b1e174f827a1e2b"
                   },
                   {
                     "id": 44763,
@@ -72818,7 +72846,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
                     "richDescription": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
-                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다."
+                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다.",
+                    "keyword": "kw_da9ceaf6da074ff6"
                   },
                   {
                     "id": 3469,
@@ -72830,7 +72859,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
                     "richDescription": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
-                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소."
+                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.",
+                    "keyword": "kw_53828b272c5bc040"
                   },
                   {
                     "id": 2564,
@@ -72842,7 +72872,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
                     "richDescription": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
-                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다."
+                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.",
+                    "keyword": "kw_76f1a8a7a7a4102f"
                   },
                   {
                     "id": 2934,
@@ -72854,7 +72885,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
                     "richDescription": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
-                    "description": "받는 능동 및 촉수 피해가 50 % 증가."
+                    "description": "받는 능동 및 촉수 피해가 50 % 증가.",
+                    "keyword": "kw_84a9eea1f1cd7067"
                   },
                   {
                     "id": 49623,
@@ -72866,7 +72898,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
                     "richDescription": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
-                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다."
+                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.",
+                    "keyword": "kw_5fd0e4b9906c6dc6"
                   },
                   {
                     "id": 140657,
@@ -72878,7 +72911,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
                     "richDescription": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
-                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다."
+                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.",
+                    "keyword": "kw_cd8779428cef79a3"
                   },
                   {
                     "id": 140651,
@@ -75654,8 +75688,8 @@
                       }
                     }
                   ],
-                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 398스택, 중독 180스택, 출혈을 897스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 398스택, <kw_a3412e89a8debaa8:중독> 180스택, <kw_60493eb52294720a:출혈>을 897스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 398스택, 중독 180스택, 출혈을 897스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_c9f410ba81f97459:힘 감소> 398스택, <kw_a3412e89a8debaa8:중독> 180스택, <kw_60493eb52294720a:출혈>을 897스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                 },
                 "54446": {
                   "args": [
@@ -75822,8 +75856,8 @@
                         }
                       }
                     ],
-                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 398스택, 중독 180스택, 출혈을 897스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 398스택, <kw_a3412e89a8debaa8:중독> 180스택, <kw_60493eb52294720a:출혈>을 897스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 398스택, 중독 180스택, 출혈을 897스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_c9f410ba81f97459:힘 감소> 398스택, <kw_a3412e89a8debaa8:중독> 180스택, <kw_60493eb52294720a:출혈>을 897스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                   },
                   "54446": {
                     "args": [
@@ -75925,7 +75959,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
                     "richDescription": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
-                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다."
+                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+                    "keyword": "kw_490f7f617622e84f"
                   },
                   {
                     "id": 2619,
@@ -75937,7 +75972,8 @@
                     "initialLayerExpression": "BattleDefForce*0.02",
                     "richDescriptionTemplate": "<game-text:이번 전투 내에서 주는 능동 피해가 스택 수pt 감소한다.>",
                     "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 398pt 감소한다.>",
-                    "description": "이번 전투 내에서 주는 능동 피해가 398pt 감소한다."
+                    "description": "이번 전투 내에서 주는 능동 피해가 398pt 감소한다.",
+                    "keyword": "kw_c9f410ba81f97459"
                   },
                   {
                     "id": 3068,
@@ -75949,7 +75985,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.1",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 의 <kw_b471627df9842710:순수 피해>를 받음.>",
                     "richDescription": "<game-text:턴 종료 후, 180 의 <kw_b471627df9842710:순수 피해>를 받음.>",
-                    "description": "턴 종료 후, 180 의 순수 피해를 받음."
+                    "description": "턴 종료 후, 180 의 순수 피해를 받음.",
+                    "keyword": "kw_a3412e89a8debaa8"
                   },
                   {
                     "id": 2840,
@@ -75961,7 +75998,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.5",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
                     "richDescription": "<game-text:턴 종료 후, 897 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
-                    "description": "턴 종료 후, 897 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다."
+                    "description": "턴 종료 후, 897 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.",
+                    "keyword": "kw_60493eb52294720a"
                   },
                   {
                     "id": 44763,
@@ -75985,7 +76023,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
                     "richDescription": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
-                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다."
+                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다.",
+                    "keyword": "kw_da9ceaf6da074ff6"
                   },
                   {
                     "id": 3469,
@@ -75997,7 +76036,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
                     "richDescription": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
-                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소."
+                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.",
+                    "keyword": "kw_53828b272c5bc040"
                   },
                   {
                     "id": 2564,
@@ -76009,7 +76049,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
                     "richDescription": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
-                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다."
+                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.",
+                    "keyword": "kw_76f1a8a7a7a4102f"
                   },
                   {
                     "id": 2934,
@@ -76021,7 +76062,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
                     "richDescription": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
-                    "description": "받는 능동 및 촉수 피해가 50 % 증가."
+                    "description": "받는 능동 및 촉수 피해가 50 % 증가.",
+                    "keyword": "kw_84a9eea1f1cd7067"
                   },
                   {
                     "id": 49623,
@@ -76033,7 +76075,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
                     "richDescription": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
-                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다."
+                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.",
+                    "keyword": "kw_5fd0e4b9906c6dc6"
                   },
                   {
                     "id": 140657,
@@ -76045,7 +76088,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
                     "richDescription": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
-                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다."
+                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.",
+                    "keyword": "kw_cd8779428cef79a3"
                   },
                   {
                     "id": 140651,
@@ -78821,8 +78865,8 @@
                       }
                     }
                   ],
-                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 926스택, 중독 230스택, 출혈을 1,148스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 926스택, <kw_8f26954ef6949964:중독> 230스택, <kw_f13494830704b01e:출혈>을 1,148스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 926스택, 중독 230스택, 출혈을 1,148스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_164ce1122b8b46c8:힘 감소> 926스택, <kw_8f26954ef6949964:중독> 230스택, <kw_f13494830704b01e:출혈>을 1,148스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                 },
                 "54446": {
                   "args": [
@@ -78989,8 +79033,8 @@
                         }
                       }
                     ],
-                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 926스택, 중독 230스택, 출혈을 1,148스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 926스택, <kw_8f26954ef6949964:중독> 230스택, <kw_f13494830704b01e:출혈>을 1,148스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 926스택, 중독 230스택, 출혈을 1,148스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_164ce1122b8b46c8:힘 감소> 926스택, <kw_8f26954ef6949964:중독> 230스택, <kw_f13494830704b01e:출혈>을 1,148스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                   },
                   "54446": {
                     "args": [
@@ -79092,7 +79136,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
                     "richDescription": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
-                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다."
+                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+                    "keyword": "kw_490f7f617622e84f"
                   },
                   {
                     "id": 2619,
@@ -79104,7 +79149,8 @@
                     "initialLayerExpression": "BattleDefForce*0.02",
                     "richDescriptionTemplate": "<game-text:이번 전투 내에서 주는 능동 피해가 스택 수pt 감소한다.>",
                     "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 926pt 감소한다.>",
-                    "description": "이번 전투 내에서 주는 능동 피해가 926pt 감소한다."
+                    "description": "이번 전투 내에서 주는 능동 피해가 926pt 감소한다.",
+                    "keyword": "kw_164ce1122b8b46c8"
                   },
                   {
                     "id": 3068,
@@ -79116,7 +79162,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.1",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 의 <kw_b471627df9842710:순수 피해>를 받음.>",
                     "richDescription": "<game-text:턴 종료 후, 230 의 <kw_b471627df9842710:순수 피해>를 받음.>",
-                    "description": "턴 종료 후, 230 의 순수 피해를 받음."
+                    "description": "턴 종료 후, 230 의 순수 피해를 받음.",
+                    "keyword": "kw_8f26954ef6949964"
                   },
                   {
                     "id": 2840,
@@ -79128,7 +79175,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.5",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
                     "richDescription": "<game-text:턴 종료 후, 1,148 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
-                    "description": "턴 종료 후, 1,148 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다."
+                    "description": "턴 종료 후, 1,148 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.",
+                    "keyword": "kw_f13494830704b01e"
                   },
                   {
                     "id": 44763,
@@ -79152,7 +79200,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
                     "richDescription": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
-                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다."
+                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다.",
+                    "keyword": "kw_da9ceaf6da074ff6"
                   },
                   {
                     "id": 3469,
@@ -79164,7 +79213,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
                     "richDescription": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
-                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소."
+                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.",
+                    "keyword": "kw_53828b272c5bc040"
                   },
                   {
                     "id": 2564,
@@ -79176,7 +79226,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
                     "richDescription": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
-                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다."
+                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.",
+                    "keyword": "kw_76f1a8a7a7a4102f"
                   },
                   {
                     "id": 2934,
@@ -79188,7 +79239,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
                     "richDescription": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
-                    "description": "받는 능동 및 촉수 피해가 50 % 증가."
+                    "description": "받는 능동 및 촉수 피해가 50 % 증가.",
+                    "keyword": "kw_84a9eea1f1cd7067"
                   },
                   {
                     "id": 49623,
@@ -79200,7 +79252,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
                     "richDescription": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
-                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다."
+                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.",
+                    "keyword": "kw_5fd0e4b9906c6dc6"
                   },
                   {
                     "id": 140657,
@@ -79212,7 +79265,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
                     "richDescription": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
-                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다."
+                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.",
+                    "keyword": "kw_cd8779428cef79a3"
                   },
                   {
                     "id": 140651,
@@ -81988,8 +82042,8 @@
                       }
                     }
                   ],
-                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 1,086스택, 중독 277스택, 출혈을 1,382스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 1,086스택, <kw_457837651cb85a0f:중독> 277스택, <kw_ee87ab05ae2ef35c:출혈>을 1,382스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 1,086스택, 중독 277스택, 출혈을 1,382스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_f694e1fd0942b469:힘 감소> 1,086스택, <kw_457837651cb85a0f:중독> 277스택, <kw_ee87ab05ae2ef35c:출혈>을 1,382스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                 },
                 "54446": {
                   "args": [
@@ -82156,8 +82210,8 @@
                         }
                       }
                     ],
-                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 1,086스택, 중독 277스택, 출혈을 1,382스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 1,086스택, <kw_457837651cb85a0f:중독> 277스택, <kw_ee87ab05ae2ef35c:출혈>을 1,382스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 1,086스택, 중독 277스택, 출혈을 1,382스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_f694e1fd0942b469:힘 감소> 1,086스택, <kw_457837651cb85a0f:중독> 277스택, <kw_ee87ab05ae2ef35c:출혈>을 1,382스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                   },
                   "54446": {
                     "args": [
@@ -82259,7 +82313,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
                     "richDescription": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
-                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다."
+                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+                    "keyword": "kw_490f7f617622e84f"
                   },
                   {
                     "id": 2619,
@@ -82271,7 +82326,8 @@
                     "initialLayerExpression": "BattleDefForce*0.02",
                     "richDescriptionTemplate": "<game-text:이번 전투 내에서 주는 능동 피해가 스택 수pt 감소한다.>",
                     "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 1,086pt 감소한다.>",
-                    "description": "이번 전투 내에서 주는 능동 피해가 1,086pt 감소한다."
+                    "description": "이번 전투 내에서 주는 능동 피해가 1,086pt 감소한다.",
+                    "keyword": "kw_f694e1fd0942b469"
                   },
                   {
                     "id": 3068,
@@ -82283,7 +82339,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.1",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 의 <kw_b471627df9842710:순수 피해>를 받음.>",
                     "richDescription": "<game-text:턴 종료 후, 277 의 <kw_b471627df9842710:순수 피해>를 받음.>",
-                    "description": "턴 종료 후, 277 의 순수 피해를 받음."
+                    "description": "턴 종료 후, 277 의 순수 피해를 받음.",
+                    "keyword": "kw_457837651cb85a0f"
                   },
                   {
                     "id": 2840,
@@ -82295,7 +82352,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.5",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
                     "richDescription": "<game-text:턴 종료 후, 1,382 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
-                    "description": "턴 종료 후, 1,382 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다."
+                    "description": "턴 종료 후, 1,382 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.",
+                    "keyword": "kw_ee87ab05ae2ef35c"
                   },
                   {
                     "id": 44763,
@@ -82319,7 +82377,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
                     "richDescription": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
-                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다."
+                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다.",
+                    "keyword": "kw_da9ceaf6da074ff6"
                   },
                   {
                     "id": 3469,
@@ -82331,7 +82390,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
                     "richDescription": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
-                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소."
+                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.",
+                    "keyword": "kw_53828b272c5bc040"
                   },
                   {
                     "id": 2564,
@@ -82343,7 +82403,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
                     "richDescription": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
-                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다."
+                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.",
+                    "keyword": "kw_76f1a8a7a7a4102f"
                   },
                   {
                     "id": 2934,
@@ -82355,7 +82416,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
                     "richDescription": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
-                    "description": "받는 능동 및 촉수 피해가 50 % 증가."
+                    "description": "받는 능동 및 촉수 피해가 50 % 증가.",
+                    "keyword": "kw_84a9eea1f1cd7067"
                   },
                   {
                     "id": 49623,
@@ -82367,7 +82429,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
                     "richDescription": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
-                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다."
+                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.",
+                    "keyword": "kw_5fd0e4b9906c6dc6"
                   },
                   {
                     "id": 140657,
@@ -82379,7 +82442,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
                     "richDescription": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
-                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다."
+                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.",
+                    "keyword": "kw_cd8779428cef79a3"
                   },
                   {
                     "id": 140651,
@@ -85155,8 +85219,8 @@
                       }
                     }
                   ],
-                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 1,249스택, 중독 332스택, 출혈을 1,659스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 1,249스택, <kw_6f53cccf5b3b71be:중독> 332스택, <kw_601b4a323f8d841c:출혈>을 1,659스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                  "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 1,249스택, 중독 332스택, 출혈을 1,659스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                  "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_8494fc2e8223be6d:힘 감소> 1,249스택, <kw_6f53cccf5b3b71be:중독> 332스택, <kw_601b4a323f8d841c:출혈>을 1,659스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                 },
                 "54446": {
                   "args": [
@@ -85323,8 +85387,8 @@
                         }
                       }
                     ],
-                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 쇠약 1,249스택, 중독 332스택, 출혈을 1,659스택 부여한다. 또한 99턴간 실명, 허약, 취약, 취약, 중상을 부여한다.",
-                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. 쇠약 1,249스택, <kw_6f53cccf5b3b71be:중독> 332스택, <kw_601b4a323f8d841c:출혈>을 1,659스택 부여한다. 또한 99턴간 <kw_8864d2c2e37e4704:실명>, <kw_53828b272c5bc040:허약>, <kw_025939ebe2cfa704:취약>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
+                    "description": "가시 시종 4명을 소환한다. 모든 카드에 인지 착란(융식 채묵)을 부여한다. 힘 감소 1,249스택, 중독 332스택, 출혈을 1,659스택 부여한다. 또한 99턴간 실명, 허약, 손상, 취약, 중상을 부여한다.",
+                    "richDescription": "<game-text:가시 시종 4명을 소환한다. 모든 카드에 <kw_cd8779428cef79a3:인지 착란(융식 채묵)>을 부여한다. <kw_8494fc2e8223be6d:힘 감소> 1,249스택, <kw_6f53cccf5b3b71be:중독> 332스택, <kw_601b4a323f8d841c:출혈>을 1,659스택 부여한다. 또한 99턴간 <kw_da9ceaf6da074ff6:실명>, <kw_53828b272c5bc040:허약>, <kw_76f1a8a7a7a4102f:손상>, <kw_84a9eea1f1cd7067:취약>, <kw_5fd0e4b9906c6dc6:중상>을 부여한다.>"
                   },
                   "54446": {
                     "args": [
@@ -85426,7 +85490,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
                     "richDescription": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
-                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다."
+                    "description": "관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+                    "keyword": "kw_490f7f617622e84f"
                   },
                   {
                     "id": 2619,
@@ -85438,7 +85503,8 @@
                     "initialLayerExpression": "BattleDefForce*0.02",
                     "richDescriptionTemplate": "<game-text:이번 전투 내에서 주는 능동 피해가 스택 수pt 감소한다.>",
                     "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 1,249pt 감소한다.>",
-                    "description": "이번 전투 내에서 주는 능동 피해가 1,249pt 감소한다."
+                    "description": "이번 전투 내에서 주는 능동 피해가 1,249pt 감소한다.",
+                    "keyword": "kw_8494fc2e8223be6d"
                   },
                   {
                     "id": 3068,
@@ -85450,7 +85516,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.1",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 의 <kw_b471627df9842710:순수 피해>를 받음.>",
                     "richDescription": "<game-text:턴 종료 후, 332 의 <kw_b471627df9842710:순수 피해>를 받음.>",
-                    "description": "턴 종료 후, 332 의 순수 피해를 받음."
+                    "description": "턴 종료 후, 332 의 순수 피해를 받음.",
+                    "keyword": "kw_6f53cccf5b3b71be"
                   },
                   {
                     "id": 2840,
@@ -85462,7 +85529,8 @@
                     "initialLayerExpression": "BattleAtkForce*0.5",
                     "richDescriptionTemplate": "<game-text:턴 종료 후, 스택 수 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
                     "richDescription": "<game-text:턴 종료 후, 1,659 포인트의 <kw_b471627df9842710:순수 피해>를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.>",
-                    "description": "턴 종료 후, 1,659 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다."
+                    "description": "턴 종료 후, 1,659 포인트의 순수 피해를 받고 (100 − 용혈 스택 수 × 50)% 스택을 제거합니다. HP 회복 시 회복량의 2배에 해당하는 출혈 스택을 제거합니다.",
+                    "keyword": "kw_601b4a323f8d841c"
                   },
                   {
                     "id": 44763,
@@ -85486,7 +85554,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
                     "richDescription": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
-                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다."
+                    "description": "모든 각성체의 치명타 피해 수치가 절반으로 감소한다.",
+                    "keyword": "kw_da9ceaf6da074ff6"
                   },
                   {
                     "id": 3469,
@@ -85498,7 +85567,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
                     "richDescription": "<game-text:가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.>",
-                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소."
+                    "description": "가하는 능동 및 촉수 피해가 (25 + 추가 보정 스택 수) % 감소.",
+                    "keyword": "kw_53828b272c5bc040"
                   },
                   {
                     "id": 2564,
@@ -85510,7 +85580,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
                     "richDescription": "<game-text:획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.>",
-                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다."
+                    "description": "획득하는 모든 실드가 (25 + 추가 보정 스택 수)% 감소한다.",
+                    "keyword": "kw_76f1a8a7a7a4102f"
                   },
                   {
                     "id": 2934,
@@ -85522,7 +85593,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
                     "richDescription": "<game-text:받는 능동 및 촉수 피해가 50 % 증가.>",
-                    "description": "받는 능동 및 촉수 피해가 50 % 증가."
+                    "description": "받는 능동 및 촉수 피해가 50 % 증가.",
+                    "keyword": "kw_84a9eea1f1cd7067"
                   },
                   {
                     "id": 49623,
@@ -85534,7 +85606,8 @@
                     "initialLayerExpression": "99",
                     "richDescriptionTemplate": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
                     "richDescription": "<game-text:받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.>",
-                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다."
+                    "description": "받는 HP 회복량이 (25 + 추가 보정 스택 수)% 감소한다. 턴 종료 시 1스택이 제거된다.",
+                    "keyword": "kw_5fd0e4b9906c6dc6"
                   },
                   {
                     "id": 140657,
@@ -85546,7 +85619,8 @@
                     "initialLayerExpression": "1",
                     "richDescriptionTemplate": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
                     "richDescription": "<game-text:이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.>",
-                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다."
+                    "description": "이 카드는 융식으로 가려져 텍스트를 확인할 수 없으며, 행동력 소모가 10% 확률로 -2, 25% 확률로 -1, 30% 확률로 변동 없음, 25% 확률로 +1, 10% 확률로 +2가 됩니다. 사용하거나 버린 후 이 상태를 제거합니다.",
+                    "keyword": "kw_cd8779428cef79a3"
                   },
                   {
                     "id": 140651,
@@ -90785,12 +90859,102 @@
       "icon": "images/keyword-icons/inline/battle_card_buff_021.png",
       "color": "#71aa86",
       "richDescription": "<game-text:이번 턴 내에 주는 피해가 151pt 증가한다.>"
+    },
+    "kw_490f7f617622e84f": {
+      "name": "피해 면역",
+      "description": "상태 효과 | 피해 면역\n\n관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.",
+      "richDescription": "<game-text:관통 피해가 아닌 피해에 면역되며, 턴 시작 후 제거됩니다.>",
+      "source": {
+        "type": "State",
+        "id": 46441
+      },
+      "icon": "images/keyword-icons/original/icons_buff_058.png"
+    },
+    "kw_2f2e699926bee142": {
+      "name": "힘 감소",
+      "description": "상태 효과 | 힘 감소\n\n이번 전투 내에서 주는 능동 피해가 24pt 감소한다.",
+      "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 24pt 감소한다.>",
+      "source": {
+        "type": "State",
+        "id": 2619
+      },
+      "icon": "images/keyword-icons/original/icons_buff_037.png"
+    },
+    "kw_da9ceaf6da074ff6": {
+      "name": "실명",
+      "description": "상태 효과 | 실명\n\n모든 각성체의 치명타 피해 수치가 절반으로 감소한다.",
+      "richDescription": "<game-text:모든 각성체의 치명타 피해 수치가 절반으로 감소한다.>",
+      "source": {
+        "type": "State",
+        "id": 45148
+      },
+      "icon": "images/keyword-icons/original/icons_buff_074.png"
+    },
+    "kw_ddf4b21dd4ac225c": {
+      "name": "힘 감소",
+      "description": "상태 효과 | 힘 감소\n\n이번 전투 내에서 주는 능동 피해가 67pt 감소한다.",
+      "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 67pt 감소한다.>",
+      "source": {
+        "type": "State",
+        "id": 2619
+      },
+      "icon": "images/keyword-icons/original/icons_buff_037.png"
+    },
+    "kw_7d9345637fe8db4f": {
+      "name": "힘 감소",
+      "description": "상태 효과 | 힘 감소\n\n이번 전투 내에서 주는 능동 피해가 169pt 감소한다.",
+      "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 169pt 감소한다.>",
+      "source": {
+        "type": "State",
+        "id": 2619
+      },
+      "icon": "images/keyword-icons/original/icons_buff_037.png"
+    },
+    "kw_c9f410ba81f97459": {
+      "name": "힘 감소",
+      "description": "상태 효과 | 힘 감소\n\n이번 전투 내에서 주는 능동 피해가 398pt 감소한다.",
+      "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 398pt 감소한다.>",
+      "source": {
+        "type": "State",
+        "id": 2619
+      },
+      "icon": "images/keyword-icons/original/icons_buff_037.png"
+    },
+    "kw_164ce1122b8b46c8": {
+      "name": "힘 감소",
+      "description": "상태 효과 | 힘 감소\n\n이번 전투 내에서 주는 능동 피해가 926pt 감소한다.",
+      "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 926pt 감소한다.>",
+      "source": {
+        "type": "State",
+        "id": 2619
+      },
+      "icon": "images/keyword-icons/original/icons_buff_037.png"
+    },
+    "kw_f694e1fd0942b469": {
+      "name": "힘 감소",
+      "description": "상태 효과 | 힘 감소\n\n이번 전투 내에서 주는 능동 피해가 1,086pt 감소한다.",
+      "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 1,086pt 감소한다.>",
+      "source": {
+        "type": "State",
+        "id": 2619
+      },
+      "icon": "images/keyword-icons/original/icons_buff_037.png"
+    },
+    "kw_8494fc2e8223be6d": {
+      "name": "힘 감소",
+      "description": "상태 효과 | 힘 감소\n\n이번 전투 내에서 주는 능동 피해가 1,249pt 감소한다.",
+      "richDescription": "<game-text:이번 전투 내에서 주는 능동 피해가 1,249pt 감소한다.>",
+      "source": {
+        "type": "State",
+        "id": 2619
+      },
+      "icon": "images/keyword-icons/original/icons_buff_037.png"
     }
   },
   "contentAudit": {
     "schemaVersion": 1,
     "keywordVersion": 23,
-    "glossaryCount": 290,
+    "glossaryCount": 299,
     "diagnostics": [],
     "warnings": [
       {
@@ -90809,7 +90973,8 @@
       "Skill:140766",
       "Skill:140767",
       "State:140727",
-      "State:141468"
+      "State:141468",
+      "Skill:54445"
     ],
     "presentationAudit": {
       "counts": {
@@ -91911,6 +92076,30 @@
         "game-reference-graph.mjs": "f837d2898bb24a36442d5a8c17cb68cdbf9a1b328a3876eaae5c197dbc14b835",
         "audit-dzone-presentation.mjs": "3ad414e8fa3f053ab28810e62803f885af88af246081364a81617a3748ba7bc8"
       }
-    }
+    },
+    "targetedRegenerations": [
+      {
+        "skillId": 54445,
+        "generator": "morimens-data-extractor/regenerate-phase-skill",
+        "sourceSnapshot": "res154 (Skill/Cmd identity and current published phase-state arguments verified)",
+        "files": {
+          "regenerate-phase-skill.mjs": "ba6d9c8160278ac30e78ec8fb77bab89e22f74f5ee65c96e29937374c724c339",
+          "dzone-content.mjs": "38ad18677b4bdb7bff012bcb99272472257ea9d14503de4d8a70b231ef2a7ca4"
+        },
+        "diagnostics": [],
+        "descriptions": 14,
+        "generatedKeys": [
+          "kw_490f7f617622e84f",
+          "kw_2f2e699926bee142",
+          "kw_da9ceaf6da074ff6",
+          "kw_ddf4b21dd4ac225c",
+          "kw_7d9345637fe8db4f",
+          "kw_c9f410ba81f97459",
+          "kw_164ce1122b8b46c8",
+          "kw_f694e1fd0942b469",
+          "kw_8494fc2e8223be6d"
+        ]
+      }
+    ]
   }
 }

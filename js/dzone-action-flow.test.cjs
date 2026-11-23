@@ -87,3 +87,31 @@ test('각성 효과는 공통 비율 템플릿 대신 선택 난이도의 계산
     assert.match(html,/HP 2,000까지 회복/);
     assert.doesNotMatch(html,/공격력의 3%/);
 });
+
+test('74기 5파 전환은 손상·취약을 구분하고 세부 상태 목록 대신 툴팁을 제공한다', () => {
+    const ctx = context();
+    ctx.dynamicMarkup = String;
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/dzone_season74.json')));
+    const wave = data.waves.find(wave => wave.wave === 5);
+    const monster = wave.monsters.find(monster => monster.tid === 52080);
+    const transition = monster.phaseTransitions.find(transition => transition.phaseIndex === 2);
+    for (const alert of wave.alerts) {
+        const stats = alert.monsters.find(monster => monster.tid === 52080);
+        const resolved = stats.phaseResolvedSkills['2']['54445'];
+        const links = [...resolved.richDescription.matchAll(/<(kw_[a-f0-9]{16}):([^<>]+)>/g)];
+        assert.equal(links.filter(([, key]) => data.keywordGlossary[key].source.id === 2564).length, 1);
+        assert.equal(links.filter(([, key]) => data.keywordGlossary[key].source.id === 2934).length, 1);
+        assert.match(resolved.description, /실명, 허약, 손상, 취약, 중상/);
+        assert.match(resolved.description, /힘 감소/);
+        for (const state of stats.phaseStateEffects['2'].filter(state => state.visible)) {
+            assert.equal(data.keywordGlossary[state.keyword].source.id, state.id);
+            assert.ok(data.keywordGlossary[state.keyword].description);
+        }
+        const html = ctx.renderPhaseTransition(monster, transition, stats);
+        assert.doesNotMatch(html, /phase-transition-states| — /);
+        assert.match(html, /<kw_[a-f0-9]{16}:피해 면역> 획득/);
+        assert.match(html, /소환한다/);
+        assert.match(html, /99턴간/);
+        for (const arg of resolved.args) assert.ok(html.includes(arg.value.display.toLocaleString('ko-KR')));
+    }
+});
