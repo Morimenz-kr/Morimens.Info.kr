@@ -1048,7 +1048,7 @@
             <details class="stage-usage" data-stage-usage="${difficulty.stageId}" open>
                 <summary class="stage-usage-header">
                     <div>
-                        <h3>${showPartyRecommendations ? '실전 편성 통계' : '각성체 채용률'}</h3>
+                        <h3>실전 편성 통계</h3>
                         <p data-usage-period>이 스테이지에 등록된 공개 클리어 기록을 집계합니다.</p>
                     </div>
                     <span class="stage-usage-sample">
@@ -1059,10 +1059,10 @@
                 </summary>
                 <div class="stage-usage-content">
                     ${showPartyRecommendations && readUsagePlan()?.period === selectedPeriod ? `<p><a class="usage-party-settings" href="party_builder.html?usagePlan=${selectedPeriod}">담은 파티 · ${Object.keys(readUsagePlan().zones).length}/5구역</a></p>` : ''}
-                    ${showPartyRecommendations ? `<div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
+                    <div class="stage-usage-tabs" role="group" aria-label="실전 편성 통계 보기">
                         <button type="button" data-usage-view="awakeners" aria-pressed="${stageUsageView === 'awakeners'}">각성체 채용률</button>
                         <button type="button" data-usage-view="parties" aria-pressed="${stageUsageView === 'parties'}">자주 쓰인 편성</button>
-                    </div>` : ''}
+                    </div>
                     <div class="stage-usage-body" data-usage-body aria-live="polite">
                         <p class="stage-usage-message">공개 기록을 집계하고 있습니다.</p>
                     </div>
@@ -1226,21 +1226,15 @@
         updated.textContent = `최근 집계 ${dateTime.format(metadata.fetchedAt * 1000)}`;
     }
 
-    function partySettingsLink(party) {
-        const characters = (party.awakeners || []).map(a => usageCharacterManifest.find(c => Number(c.client_id) === Number(a.tid)));
-        if (characters.length !== 4 || characters.some(c => !c)) return '<span class="stage-usage-message">세팅 연결 정보 없음</span>';
-        const query = new URLSearchParams({ category: 'character', id: characters[0].id, period: selectedPeriod, wave: selectedWave, difficulty: selectedAlert, team: characters.map(c => c.id).sort().join('|'), usageView: 'records' });
-        return `<a class="usage-party-settings" href="links.html?${escapeHtml(query.toString())}#usage">세팅 보기</a>`;
-    }
     function renderStageUsage(data) {
-        if (showPartyRecommendations && stageUsageView === 'parties') {
+        if (stageUsageView === 'parties') {
             const parties = Array.isArray(data.parties) ? data.parties.slice(0, 10) : [];
             if (!parties.length) return '<p class="stage-usage-message">집계할 공개 편성 기록이 없습니다.</p>';
             return `<ol class="usage-party-list">${parties.map((party, index) => `
                 <li>
                     <span class="usage-rank">${index + 1}</span>
                     <span class="usage-party-members">${(party.awakeners || []).map(item => usageAwakener(item, true)).join('')}</span>
-                    <span class="usage-result"><strong>${usagePercent(party.rate)}</strong><small>${number.format(party.count)}회</small>${partySettingsLink(party)}</span>
+                    <span class="usage-result"><strong>${usagePercent(party.rate)}</strong><small>${number.format(party.count)}회</small></span>
                 </li>`).join('')}</ol>`;
         }
         const awakeners = Array.isArray(data.awakeners) ? data.awakeners.slice(0, 12) : [];
@@ -1317,7 +1311,7 @@
             section.querySelector('[data-usage-body]').innerHTML = renderStageUsage(usage);
             section.onclick = event => {
                 const button = event.target.closest('[data-usage-view]');
-                if (!showPartyRecommendations || !button) return;
+                if (!button) return;
                 stageUsageView = button.dataset.usageView;
                 section.querySelectorAll('[data-usage-view]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
                 updateStageUsageMeta(section, usage);
@@ -1632,11 +1626,8 @@
                 readUsagePlan = (await import('./usage-plan.mjs')).readPlan;
                 const searchLinkTemplate = document.getElementById('dzone-clear-link-template');
                 if (searchLinkTemplate) searchLinkTemplate.replaceWith(searchLinkTemplate.content);
-                if (url.searchParams.get('view') === 'parties') stageUsageView = 'parties';
-            } else if (url.searchParams.get('view') === 'parties') {
-                url.searchParams.delete('view');
-                history.replaceState(history.state, '', url);
             }
+            if (url.searchParams.get('view') === 'parties') stageUsageView = 'parties';
             const hashSelection = location.hash.match(/^(?:#season-(\d+)-)?wave-(\d+)(?:-alert-(\d+))?$/);
             if (hashSelection) {
                 if (hashSelection[1]) selectedPeriod = window.DzoneSeason.selectSeason(Number(hashSelection[1])).period;
