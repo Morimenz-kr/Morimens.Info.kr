@@ -5,6 +5,8 @@ on:
     paths:
       - 'data/**'
       - 'tools/firebase-*.mjs'
+      - 'tools/*dzone*recommendations*'
+      - 'tools/build-dzone-clear-snapshots.mjs'
       - 'tools/*.test.cjs'
       - 'firestore.rules'
       - 'firestore.indexes.json'

@@ -8,15 +8,17 @@ import { normalizeClearIndex } from '../js/dzone-clear-model.mjs';
 const [archiveDirectory, catalogDirectory] = process.argv.slice(2);
 const period = Number(process.argv[4] || 73);
 const perStage = Number(process.argv[5] || 0);
+const seasonPath = process.argv[6]; // Server-confirmed metadata; no future combat archive required.
 if (!archiveDirectory || !catalogDirectory || !Number.isInteger(period) || period < 70 || period > 9999 || !Number.isSafeInteger(perStage) || perStage < 0) {
     throw new Error('node tools/build-dzone-clear-snapshots.mjs <review-archive-dir> <private-catalog-dir> [period] [sample-per-stage]');
 }
 const root = path.join(import.meta.dirname, '..');
 const read = async file => JSON.parse(await fs.readFile(file, 'utf8'));
-const dataFiles = ['character_manifest', 'wheel_list', 'covenant_list', 'covenant_parts', 'covenant_editor', `dzone_season${period}`];
+const dataFiles = ['character_manifest', 'wheel_list', 'covenant_list', 'covenant_parts', 'covenant_editor'];
 const catalogs = ['game-build-content', 'game-wheel-index', 'game-attribute-index'];
 const [manifest, wheels, covenants, parts, editor, season, build, wheelIndex, attributes, verifiedWheelMap] = await Promise.all([
     ...dataFiles.map(name => read(path.join(root, 'data', name + '.json'))),
+    read(seasonPath || path.join(root, 'data', `dzone_season${period}.json`)),
     ...catalogs.map(name => read(path.join(catalogDirectory, name + '.json'))),
     read(path.join(root, 'scarecrow/runtime/site-equipment-map.json'))
 ]);
@@ -154,6 +156,7 @@ for (const wave of season.waves) {
 }
 
 if (!diagnostics.fullGearClears) throw new Error('No season clears with full equipment passed validation');
+if (diagnostics.invalid) throw new Error('Invalid review records; retaining the previous published recommendations');
 const meta = { period, collectedAt: capturedAt, coverage: 'sample', source: '융재금구 공개 클리어 상세 수집분' };
 const clearIndex = normalizeClearIndex({ ...meta, schemaVersion: 1, teams: [...teams.values()].map(t => ({ members: t.members, buckets: Object.values(t.buckets) })) }, new Set(characterIds.values()));
 const byCharacter = new Map();
@@ -169,4 +172,7 @@ for (const [characterId, rows] of byCharacter) {
     await fs.writeFile(path.join(out, 'characters', characterId + '.json'), JSON.stringify({ data: compactUsage(snapshot), periods: [period] }));
 }
 await fs.writeFile(path.join(out, 'teams.json'), JSON.stringify({ data: clearIndex }));
+// Written last: publication must not enumerate stale files from a previous build.
+await fs.writeFile(path.join(out, 'publication.json'), JSON.stringify({ schemaVersion: 1, period,
+    collectedAt: capturedAt, records: diagnostics.matchedClears, characters: [...byCharacter.keys()].sort() }));
 console.log(JSON.stringify({ ...diagnostics, period, characters: byCharacter.size, teams: teams.size, collectedAt: capturedAt }, null, 2));
