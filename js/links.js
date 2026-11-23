@@ -1161,10 +1161,9 @@ const initializeLinksPage = async () => {
                 gridContainer.innerHTML = '';
                 const usageRoot = document.createElement('div');
                 gridContainer.before(usageRoot);
-                const { mountCharacterUsage } = await import('./character-usage.js?v=guide-breakthroughs-20261123');
+                const { mountCharacterUsage } = await import('./character-usage.js?v=equipment-only-20261123');
                 void mountCharacterUsage(usageRoot, {
                     character: charData, manifest, wheels: wheelList, covenants: covList,
-                    guideSettings: settingsDB[charId],
                     showPartyRecommendations: CONFIG.CHARACTER_PARTY_RECOMMENDATIONS === true
                 });
                 gridContainer.hidden = true;
