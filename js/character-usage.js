@@ -8,6 +8,7 @@ import './account-store.js';
 import { recommendParties, covenantStatistics, wheelStatistics } from './usage-recommendations.mjs?v=party-cores-20261123';
 import { renderStatisticalSettings } from './usage-statistics-view.mjs?v=equipment-rank-titles-20261122';
 import { loadoutDetails, potentialText } from './usage-loadout-view.mjs?v=equipment-pair-labels-20261122';
+import { renderGuideBreakthroughs } from './usage-breakthroughs.mjs';
 
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const percent = value => `${(value * 100).toLocaleString('ko-KR', { maximumFractionDigits: 1 })}%`;
@@ -17,7 +18,7 @@ const difficultyName = difficultyLabel;
 const partyCandidatePreviewCount = 2;
 const partyCandidatePageSize = 5;
 
-export async function mountCharacterUsage(root, { character, manifest, wheels, covenants, showPartyRecommendations = false }) {
+export async function mountCharacterUsage(root, { character, manifest, wheels, covenants, guideSettings, showPartyRecommendations = false }) {
     root.className = 'character-usage';
     const chars = Object.fromEntries(manifest.map(c => [c.id, c]));
     const wheelMap = Object.fromEntries([...wheels, ...usageExtraWheels].map(w => [w.english_name, w]));
@@ -247,6 +248,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
             ${tab === 'records' ? `<p class="usage-caption">같은 클리어에서 사용한 네 명의 세팅입니다. 계약 완성도 90% 미만도 포함합니다.</p><div class="usage-filters"><label class="usage-checkbox"><input id="usage-public-only" type="checkbox" data-record-filter="publicOnly" ${publicOnly ? 'checked' : ''}>네 명 장비 공개</label><label class="usage-checkbox"><input id="usage-exclude-used" type="checkbox" data-record-filter="excludeUsed" ${excludeUsed ? 'checked' : ''}>다른 구역에 담은 각성체·명륜 제외</label><label>파티 잠재력<select id="usage-max-potential" data-record-filter="maxPotential"><option value="">전체</option>${[0,1,2,3].map(v => `<option value="${v}" ${maxPotential === String(v) ? 'selected' : ''}>${v === 0 ? '명함' : v + '돌'} 이하</option>`).join('')}</select></label></div><p class="usage-caption">조건에 맞는 기록 ${n(sampleCount(records))}건 · ${n(records.length)}개 세팅. 잠재력 4단계 이상 또는 미수집 기록은 ‘3돌 이하’에 포함하지 않습니다. 명륜 돌파는 비교할 수 없습니다.</p>${records.length ? records.slice(0, shown).map((row, index) => record(row, index)).join('') + moreButton(records.length) : '<p class="usage-empty">해당하는 세팅이 없습니다. 파티 또는 필터를 바꿔 다른 기록을 확인해주세요.</p>'}` : ''}</div>` : ''}`;
         const recommendationRows = data ? selectRows(data, { ...filters, team: '', wheels: '', covenant: '' }) : [];
         root.innerHTML = `${mode ? '<p class="usage-demo-notice">예시 화면 · 실제 통계가 아닙니다</p>' : ''}
+            ${renderGuideBreakthroughs(guideSettings)}
             ${data ? `${recommendations(recommendationRows)}${planPanel()}${notice ? `<p class="usage-context" role="status">${esc(notice)}</p>` : ''}${tab !== 'overview' || entry.get('usageView') === 'records' || entry.has('record') ? `<section class="usage-statistics" aria-label="클리어 기록">${statistics}</section>` : ''}` : `<p class="usage-context" role="status">${pending ? '추천 세팅을 불러오는 중입니다…' : esc(error || '아직 수집된 사용 기록이 없습니다.')}</p>${!pending ? '<button type="button" class="usage-select" id="usage-refresh">다시 불러오기</button>' : ''}${!pending && !error ? '<button type="button" id="usage-demo" class="usage-select">가상 데이터로 기능 살펴보기</button>' : ''}`}`;
         for (const id of expandedOptions) {
             const disclosure = root.querySelector(`#${id}`);
