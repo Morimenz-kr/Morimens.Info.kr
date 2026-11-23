@@ -1164,9 +1164,10 @@ test('파티 추천을 꺼도 기존 실전 편성 기록과 파티 탭은 표�
         usageAwakener: item => `<span>${item.name}</span>`, usagePercent: rate => `${rate * 100}%`,
         number:new Intl.NumberFormat('ko-KR')
     });
-    vm.runInContext(source.slice(source.indexOf('    function partySettingsLink('), source.indexOf('    async function loadStageUsage(')),context);
+    vm.runInContext(source.slice(source.indexOf('    function renderStageUsage('), source.indexOf('    async function loadStageUsage(')),context);
     const html = context.renderStageUsage({parties:[{count:5,rate:0.5,awakeners:[{name:'A'},{name:'B'},{name:'C'},{name:'D'}]}]});
     assert.match(html,/usage-party-list/);
+    assert.doesNotMatch(html,/세팅 보기|usage-party-settings|usageView=records|세팅 연결 정보 없음/);
     assert.match(html,/<span>A<\/span>.*<span>D<\/span>/s);
     const shell = source.slice(source.indexOf('    function renderStageUsageShell('),source.indexOf('    function renderMap('));
     assert.doesNotMatch(shell,/showPartyRecommendations \? `<div class="stage-usage-tabs/);

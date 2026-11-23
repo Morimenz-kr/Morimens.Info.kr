@@ -1226,12 +1226,6 @@
         updated.textContent = `최근 집계 ${dateTime.format(metadata.fetchedAt * 1000)}`;
     }
 
-    function partySettingsLink(party) {
-        const characters = (party.awakeners || []).map(a => usageCharacterManifest.find(c => Number(c.client_id) === Number(a.tid)));
-        if (characters.length !== 4 || characters.some(c => !c)) return '<span class="stage-usage-message">세팅 연결 정보 없음</span>';
-        const query = new URLSearchParams({ category: 'character', id: characters[0].id, period: selectedPeriod, wave: selectedWave, difficulty: selectedAlert, team: characters.map(c => c.id).sort().join('|'), usageView: 'records' });
-        return `<a class="usage-party-settings" href="links.html?${escapeHtml(query.toString())}#usage">세팅 보기</a>`;
-    }
     function renderStageUsage(data) {
         if (stageUsageView === 'parties') {
             const parties = Array.isArray(data.parties) ? data.parties.slice(0, 10) : [];
@@ -1240,7 +1234,7 @@
                 <li>
                     <span class="usage-rank">${index + 1}</span>
                     <span class="usage-party-members">${(party.awakeners || []).map(item => usageAwakener(item, true)).join('')}</span>
-                    <span class="usage-result"><strong>${usagePercent(party.rate)}</strong><small>${number.format(party.count)}회</small>${partySettingsLink(party)}</span>
+                    <span class="usage-result"><strong>${usagePercent(party.rate)}</strong><small>${number.format(party.count)}회</small></span>
                 </li>`).join('')}</ol>`;
         }
         const awakeners = Array.isArray(data.awakeners) ? data.awakeners.slice(0, 12) : [];
