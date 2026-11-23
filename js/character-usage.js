@@ -112,7 +112,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
             wheelGroups: wheelStatistics(rows, character.id),
             equipmentSelection, wheelMap, covMap, wheelName, covName
         });
-        return `<section class="usage-recommendations">${statistics}${showPartyRecommendations ? partyRecommendations(rows) : ''}</section>`;
+        return `<section class="usage-recommendations">${statistics}${partyRecommendations(rows)}</section>`;
     }
 
     function partyRecommendations(rows) {
@@ -152,7 +152,7 @@ export async function mountCharacterUsage(root, { character, manifest, wheels, c
                     </div>
                     <div class="usage-party-tools">
                         <label class="usage-checkbox"><input id="usage-owned-only" type="checkbox" ${ownedOnly ? 'checked' : ''}>보유한 각성체만</label>
-                        <a class="usage-party-search" href="${esc(clearSearchHref())}">전체 편성 검색</a>
+                        ${showPartyRecommendations ? `<a class="usage-party-search" href="${esc(clearSearchHref())}">전체 편성 검색</a>` : ''}
                     </div>
                 </header>
                 ${cards}

@@ -1158,6 +1158,22 @@ test('선택한 스테이지의 공개 기록을 채용률과 편성 조합으�
     assert.match(css, /\.usage-awakener--compact > span:last-child\s*\{[^}]*word-break:\s*keep-all/);
 });
 
+test('파티 추천을 꺼도 기존 실전 편성 기록과 파티 탭은 표시한다', () => {
+    const context = vm.createContext({
+        showPartyRecommendations: false, stageUsageView:'parties', usageCharacterManifest:[],
+        usageAwakener: item => `<span>${item.name}</span>`, usagePercent: rate => `${rate * 100}%`,
+        number:new Intl.NumberFormat('ko-KR')
+    });
+    vm.runInContext(source.slice(source.indexOf('    function partySettingsLink('), source.indexOf('    async function loadStageUsage(')),context);
+    const html = context.renderStageUsage({parties:[{count:5,rate:0.5,awakeners:[{name:'A'},{name:'B'},{name:'C'},{name:'D'}]}]});
+    assert.match(html,/usage-party-list/);
+    assert.match(html,/<span>A<\/span>.*<span>D<\/span>/s);
+    const shell = source.slice(source.indexOf('    function renderStageUsageShell('),source.indexOf('    function renderMap('));
+    assert.doesNotMatch(shell,/showPartyRecommendations \? `<div class="stage-usage-tabs/);
+    const characterSource = fs.readFileSync(path.join(__dirname,'character-usage.js'),'utf8');
+    assert.match(characterSource,/\$\{statistics\}\$\{partyRecommendations\(rows\)\}/);
+});
+
 test('실전 통계는 채용률과 편성만 표시하고 전체 집계의 스테이지 대체 데이터를 유지한다', () => {
     assert.match(source, /stageUsageView = 'awakeners'/);
     assert.doesNotMatch(source, /data-usage-view="constraints"|renderStageConstraints|usage-constraint-table/);
