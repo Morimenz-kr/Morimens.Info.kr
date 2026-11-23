@@ -1171,7 +1171,7 @@ test('파티 추천을 꺼도 기존 실전 편성 기록과 파티 탭은 표�
     const shell = source.slice(source.indexOf('    function renderStageUsageShell('),source.indexOf('    function renderMap('));
     assert.doesNotMatch(shell,/showPartyRecommendations \? `<div class="stage-usage-tabs/);
     const characterSource = fs.readFileSync(path.join(__dirname,'character-usage.js'),'utf8');
-    assert.match(characterSource,/\$\{statistics\}\$\{partyRecommendations\(rows\)\}/);
+    assert.match(characterSource,/\$\{statistics\}\$\{showPartyRecommendations \? partyRecommendations\(rows\) : ''\}/);
 });
 
 test('실전 통계는 채용률과 편성만 표시하고 전체 집계의 스테이지 대체 데이터를 유지한다', () => {
